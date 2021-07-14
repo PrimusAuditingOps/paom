@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="customergroups_view_form" model="ir.ui.view">
+        <field name="name">customergroups.group.view.form</field>
+        <field name="model">customergroups.group</field>
+        <field name="arch" type="xml">
+            <form string="Group Form">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page string="Customers">
+                            <field name="customer_ids" widget="many2many">
+                                <tree string="Registered Customers">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="customergroups_group_view_tree" model="ir.ui.view">
+        <field name="name">customergroups.group.view.tree</field>
+        <field name="model">customergroups.group</field>
+        <field name="arch" type="xml">
+            <tree string="Customer Groups Tree">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="customergroups_action" model="ir.actions.act_window">
+        <field name="name">Groups</field>
+        <field name="res_model">customergroups.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Group
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="customergroups_sale"
+            name="Groups"
+            parent="sale.sale_order_menu"
+            action="customergroups_action"
+            sequence="8"/>
+
+</odoo>

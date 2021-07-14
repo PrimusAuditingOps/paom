@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="res_partner_view_form_referencias" model="ir.ui.view">
+        <field name="name">res.partner.inherit.referencias</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="category_id" position="after">
+                    <field name="ctm_ref_bank_pesos"/>
+                    <field name="ctm_ref_bank_dolares"/>
+                </field>
+            </field>
+    </record>
+</odoo>

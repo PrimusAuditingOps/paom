@@ -1,0 +1,10 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+organization_manager,organization manager,model_servicereferralagreement_organization,catalog_manager_sa_ra_group,1,1,1,1
+organization_read,organization read,model_servicereferralagreement_organization,purchase.group_purchase_user,1,0,0,0
+registrynumber_manager,registry manager,model_servicereferralagreement_registrynumber,catalog_manager_sa_ra_group,1,1,1,1
+registrynumber_read,registry read,model_servicereferralagreement_registrynumber,purchase.group_purchase_user,1,0,0,0
+scheme_manager,scheme manager,model_servicereferralagreement_scheme,catalog_manager_sa_ra_group,1,1,1,1
+scheme_read,scheme read,model_servicereferralagreement_scheme,purchase.group_purchase_user,1,0,0,0
+auditproducts_manager,audit products manager,model_servicereferralagreement_auditproducts,catalog_manager_sa_ra_group,1,1,1,1
+auditproducts_read,audit products read,model_servicereferralagreement_auditproducts,purchase.group_purchase_user,1,0,0,0
+servicereferralagreement_agenda_read,coordinator can see auditor's agenda,model_servicereferralagreement_agenda,auditor_agenda_group,1,0,0,0

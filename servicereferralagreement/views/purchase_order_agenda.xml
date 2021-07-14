@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    
+    <record id="servicereferralagreement_view_auditor_calendar" model="ir.ui.view">
+        <field name="name">servicereferralagreement_view_auditor_calendar</field>
+        <field name="model">servicereferralagreement.agenda</field>
+        <field name="arch" type="xml">
+            <calendar string="Auditor Calendar" date_start="service_start_date" date_stop="service_end_date" 
+             color="partner_id" quick_add="False" mode="month" all_day="all_day"> 
+                <field name="order_id"/>
+                <field name="partner_id" filters="1"/>
+                <field name="partner_ref"/>
+                <field name="coordinator_id"/>
+            </calendar>
+        </field>
+    </record>
+    
+
+    <record id="servicereferralagreement_agenda_action" model="ir.actions.act_window">
+        <field name="name">Auditor Agenda</field>
+        <field name="res_model">servicereferralagreement.agenda</field>
+        <field name="view_mode">calendar</field>
+    </record>
+
+    <menuitem id="servicereferralagreement_agenda"
+            name="Auditor Agenda"
+            parent="purchase.menu_procurement_management"
+            action="servicereferralagreement_agenda_action"
+            sequence="20"/>
+
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="account_move_view_tree" model="ir.ui.view">
+        <field name="name">account.move.inherit.romotor</field>
+        <field name="model">account.move</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="invoice_partner_display_name" position="after">
+                    <field name="promotor_name"/>
+                    <field name="detail_of_operations" optional="hide"/>
+                    <field name="cp_promotor_pay" sum="Total" optional="hide"/>
+                    <field name="currency_id" optional="hide"/>
+                </field>
+            </field>
+    </record>
+    
+</odoo>

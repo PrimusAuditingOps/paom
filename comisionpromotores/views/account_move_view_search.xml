@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_move_search_inherit_promotor" model="ir.ui.view">
+        <field name="name">account.move.search.inherit.promotor</field>
+        <field name="model">account.move</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_user_id']" position="after">
+                <field name="promotor_name" string="Promotor"/>
+            </xpath>
+            <xpath expr="//filter[@name='duedate']" position="after">
+                <separator/>
+                <filter string="Promotor" name="promotor_name" context="{'group_by':'promotor_name'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

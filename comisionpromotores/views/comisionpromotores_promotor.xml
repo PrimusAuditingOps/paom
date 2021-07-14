@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="comisionpromotores_view_form" model="ir.ui.view">
+        <field name="name">comisionpromotores.promotor.view.form</field>
+        <field name="model">comisionpromotores.promotor</field>
+        <field name="arch" type="xml">
+            <form string="Promoter Form">
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="porcentaje"/>
+                    </group>
+                    <notebook>
+                        <page string="Customer">
+                            <field name="cliente_id" widget="many2many">
+                                <tree string="Registered Customers">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="comisionpromotores_promotores_view_tree" model="ir.ui.view">
+        <field name="name">comisionpromotores.promotores.view.tree</field>
+        <field name="model">comisionpromotores.promotor</field>
+        <field name="arch" type="xml">
+            <tree string="Promoter Tree">
+                <field name="name"/>
+                <field name="porcentaje"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="comisionpromotores_action" model="ir.actions.act_window">
+        <field name="name">Promoter</field>
+        <field name="res_model">comisionpromotores.promotor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Promoter
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="adviser_sale"
+            name="Promoters"
+            parent="sale.sale_order_menu"
+            action="comisionpromotores_action"
+            sequence="7"/>
+
+</odoo>

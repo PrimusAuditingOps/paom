@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_report_inherit_organization_registrynumber" inherit_id= "sale.report_saleorder_document">
+        <xpath expr="//td[@name='td_name']" position="inside">
+            <t t-if="line.organization_id or line.registrynumber_id">
+                <p>
+                    <b><span t-field="line.organization_id.name" t-options="{'widget': 'text'}"/>
+                    <span> - </span>
+                    <span t-field="line.registrynumber_id.name" t-options="{'widget': 'text'}"/></b>
+                </p>
+            </t>
+        </xpath>
+    </template>
+</odoo>

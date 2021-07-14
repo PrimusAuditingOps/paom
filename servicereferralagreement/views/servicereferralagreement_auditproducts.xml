@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="servicereferralagreement_auditproducts_view_form" model="ir.ui.view">
+        <field name="name">servicereferralagreement.auditproducts.view.form</field>
+        <field name="model">servicereferralagreement.auditproducts</field>
+        <field name="arch" type="xml">
+            <form string="Registry Audit products">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="servicereferralagreement_auditproducts_view_tree" model="ir.ui.view">
+        <field name="name">servicereferralagreement.auditproducts.view.tree</field>
+        <field name="model">servicereferralagreement.auditproducts</field>
+        <field name="arch" type="xml">
+            <tree string="Registry audit products">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="auditproducts_action" model="ir.actions.act_window">
+        <field name="name">Audit products</field>
+        <field name="res_model">servicereferralagreement.auditproducts</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Audit products
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="auditproducts_purchase"
+            name="Audit products"
+            parent="servicereferralagreement.purchase_catalog_custom_menu"
+            action="auditproducts_action"
+            sequence="4"/>
+
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="purchase_order_sale_view_form" model="ir.ui.view">
+        <field name="name">purchase.order.inherit.sale.relation</field>
+        <field name="model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_ref" position="after">
+                <field name="sale_order_id"/>
+                <field name="coordinator_id"/>
+            </field>
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                <field name="organization_id" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="hide"/>
+                <field name="registrynumber_id" domain="[('organization_id', '=', organization_id)]" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="hide"/>
+                <field name="service_start_date" optional="hide"/>
+                <field name="service_end_date" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

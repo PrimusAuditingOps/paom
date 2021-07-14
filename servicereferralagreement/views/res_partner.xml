@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="res_partner_organization_view_form" model="ir.ui.view">
+        <field name="name">res.partner.inherit.organization</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <page name="sales_purchases" position="after">
+                     <page string="Organizations">
+                            <field name="organization_ids" widget="many2many">
+                                <tree string="Registered Organizations">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                </page>
+                <field name="category_id" position="after">
+                    <field name="supplier_rank" invisible="1"/>
+                    <field name="vendor_service_percentage" groups="servicereferralagreement.commission_suppplier_group" attrs="{'invisible':[('supplier_rank', '=', 0)]}" options='{"type": "number", "format": false}'/>
+                </field>
+            </field>
+    </record>
+</odoo>

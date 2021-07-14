@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="account_invoice_organization_report_inherit" inherit_id= "account.report_invoice_document">
+        <xpath expr="//td[@name='account_invoice_line_name']" position="inside">
+            
+            <t t-set="registrynumber" t-value= "-1"/>
+            <t t-set="organization" t-value= "-1"/>
+            <t t-foreach="line.sale_line_ids.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="lineorg">
+                <t t-if="not lineorg.organization_id.id == organization or not lineorg.registrynumber_id.id == registrynumber">
+                    <t t-set="organization" t-value= "lineorg.organization_id.id"/>
+                    <t t-set="registrynumber" t-value= "lineorg.registrynumber_id.id"/>
+                    <br/>
+                    <b><span t-field="lineorg.organization_id.name" t-options="{'widget': 'text'}"/>
+                    <span> - </span>
+                    <span t-field="lineorg.registrynumber_id.name" t-options="{'widget': 'text'}"/></b> 
+                </t>
+            </t>
+            
+              
+        </xpath>
+    </template>
+</odoo>

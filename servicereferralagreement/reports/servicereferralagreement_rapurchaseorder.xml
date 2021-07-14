@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report id="report_rapurchaseorder" model="purchase.order" 
+    string="Referral agreement" 
+    name="servicereferralagreement.report_rapurchaseorder_view" 
+    file="servicereferralagreement.report_ra" 
+    report_type="qweb-pdf" 
+    print_report_name= "'RA - %s - %s' % (object.name,object.partner_id.name)"/>
+    <template id="report_rapurchaseorder_view">
+        <t t-set="printra" t-value= "0"/>
+        <t t-foreach="docs" t-as="doc">
+            <t t-set="organization" t-value= "-1"/>
+            <t t-set="registrynumber" t-value= "-1"/>
+            <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="line">
+                <t t-if="line.product_id and line.registrynumber_id.id">
+                    <t t-if="not line.organization_id.id == organization or not line.registrynumber_id.id == registrynumber">
+                        <t t-set="organization" t-value= "line.organization_id.id"/>
+                        <t t-set="registrynumber" t-value= "line.registrynumber_id.id"/>
+                        <t t-call="web.html_container">
+                            <div t-attf-class="article o_report_layout_boxed" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id">
+                                <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS' or line.registrynumber_id.scheme_id.name == 'NOP'" t-call="servicereferralagreement.custom_header_footer_ra_gfs"/>
+                                <t t-if="not line.registrynumber_id.scheme_id.name == 'PrimusGFS'" t-call="servicereferralagreement.custom_header_footer_ra_general"/>
+                                <div class="page">
+                                    <t t-set="printra" t-value= "1"/>
+                                    <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS' or line.registrynumber_id.scheme_id.name == 'NOP'">
+                                        <h2 style="text-align:center;font-weight:Bold;" >ACUERDO DE 
+                                        SERVICIOS DE PRIMUS AUDITING OPERATIONS MÉXICO, S. DE R.L. DE C.V. 
+                                        PARA AUDITORES SUBCONTRATADOS</h2>
+                                    </t>
+                                    <p style="text-align:justify; font-size:18px">
+                                        A través de éste medio <b><span t-field="doc.partner_id"/></b> 
+                                        con RFC <b><span t-field="doc.partner_id.vat"/></b>, 
+                                        con domicilio en <b>
+                                        <span t-field="doc.partner_id.street"/>, 
+                                        <span t-field="doc.partner_id.state_id"/>, 
+                                        <span t-field="doc.partner_id.country_id"/>, 
+                                        C.P. <span t-field="doc.partner_id.zip"/>,</b> 
+                                        se compromete con Primus Auditing Operations México, S. de R.L. de C.V. y comprueba 
+                                        que cuenta con los conocimientos técnicos y especializados para realizar el servicio 
+                                        de auditorías especificadas a continuación:
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <b>Nombre de la Organización: </b>
+                                        <span t-field="line.organization_id"/>
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <b>Contacto Teléfono:</b>
+                                        <span t-field="line.registrynumber_id.phone"/>
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <b>Domicilio Físico:</b>
+                                        <span t-field="line.organization_id.address"/>, 
+                                        <span t-field="line.organization_id.city"/>, 
+                                        <span t-field="line.organization_id.state_id"/>, 
+                                        <span t-field="line.organization_id.country_id"/>
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <b>Cliente de Facturación:</b>
+                                        <span t-field="line.sra_customer_id"/>
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <span style="font-weight:Bold;">Domicilio Fiscal:</span>
+                                        <span t-field="line.sra_customer_id.street"/>, 
+                                        <span t-field="line.sra_customer_id.state_id"/>, 
+                                        <span t-field="line.sra_customer_id.country_id"/>, 
+                                        C.P. <span t-field="line.sra_customer_id.zip"/>
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <b>Número de Registro: </b>
+                                        <span t-field="line.registrynumber_id"/>
+                                        
+                                    </p>
+                                    
+                                    <p style="text-align:left; font-size:18px">
+                                        <b>Esquema: </b>
+                                        <span t-field="line.registrynumber_id.scheme_id.name"/>
+                                    </p>
+                                
+                                    <p style="text-align:left; font-size:18px">
+                                        <span style="font-weight:Bold;">TIPO DE SERVICIO:</span>
+                                    </p>
+                                    <t t-set="sumtotal" t-value= "0.00"/>
+                                    <table style="width:100%">
+                                        <tr style="background-color: black; color:white;">
+                                            <th>Servicios</th>
+                                            <th>Cantidad</th>
+                                            <th>Tarifa</th>
+                                        </tr>
+                                        <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="serviceline">
+                                            <t t-if="serviceline.registrynumber_id.id == registrynumber and serviceline.organization_id.id == organization">
+                                                <tr>
+                                                    <td><span t-field="serviceline.name"/></td>
+                                                    <td><span t-field="serviceline.product_uom_qty"/></td>
+                                                    <td><span t-field="serviceline.price_subtotal"/></td>
+                                                </tr>
+                                                <t t-set="sumtotal" t-value="sumtotal+serviceline.price_subtotal"/>
+                                            </t>
+                                        </t>
+                                    </table>
+                                    <p>
+                                        <br/>
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <b>FECHA DEL SERVICIO: 
+                                        <span t-field="line.service_start_date"/> - 
+                                        <span t-field="line.service_end_date"/></b>
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <b>IMPORTE TOTAL DEL SERVICIO 
+                                        $<span t-esc="'%.2f'% sumtotal"/>
+                                        M.N. (Menos retenciones).</b>
+                                    </p>
+                                    <div style="page-break-after: always;">
+                                    </div>
+                                    <p style="text-align:justify; font-size:18px">
+                                        <u><b>Gastos:</b></u> De llegar a un acuerdo, 
+                                        Primus Auditing Operations México, S. de R.L. de C.V. 
+                                        reembolsará al auditor los gastos ocasionados por la prestación del servicio 
+                                        estrictamente indispensables de acuerdo a la LISR <b>vigente</b>, (excepto en acuerdos 
+                                        específicos para Costco). <u><b>Para que surta efecto su reembolso, el auditor subcontratado 
+                                        deberá de realizar los gastos a su propia Razón Social y posteriormente hacer una 
+                                        factura por el total de los gastos a nombre de Primus Auditing Operations México, S. 
+                                        de R.L. de C.V., domicilio Calle Millet número 109, Colonia Eucalipto Vallarta, CP 45020, 
+                                        Zapopan, Jalisco. RFC: PAO‑150424‑J6A, anexando formato relación de viáticos y 
+                                        documentación soporte.</b></u> A través de éste acuerdo el auditor se obliga con 
+                                        Primus Auditing Operations México, S. de R.L. de C.V. a verificar con el 
+                                        coordinador de auditorías, la calendarización de trabajos cuando se le proporcionen 
+                                        instrucciones especiales. 
+                                        <br/>
+                                        <br/>
+                                    </p>
+                                    <p style="text-align:justify; font-size:18px">
+                                        <u><b>Entrega de Resultados de Auditoria:</b></u> El Auditor 
+                                        acuerda por medio de éste documento tomar en cuenta la 
+                                        siguiente cláusula de penalización: Primus Auditing Operations 
+                                        México, S. de R.L de C.V. está contractualmente obligado a 
+                                        entregar la información de la auditoria a sus clientes a más 
+                                        tardar el décimo día natural después 
+                                        de haber sido realizada la misma, <u><b>por lo tanto, 
+                                        los resultados de la auditoria deben ser entregados a Primus 
+                                        Auditing Operations México, S. de R.L. de C.V. a más tardar a los 
+                                        días mencionados en éste párrafo.</b></u> Si en el evento, el reporte de 
+                                        auditoría no es entregado a Primus Auditing Operations México, S. 
+                                        de R.L. de C.V. de acuerdo a lo anterior, la sanción será 
+                                        determinada a una tasa del 5% sobre la cantidad que aparece en el 
+                                        presente acuerdo con Primus Auditing Operations México, S. de R.L. 
+                                        de C.V. por cada día de retraso; hasta que el reporte sea entregado 
+                                        a Primus Auditing Operations México, S. de R.L. de C.V. 
+                                        (Esto excluye reportes rechazados por el Sistema de Aseguramiento 
+                                        de Calidad de Auditorías). 
+                                    </p>
+                                    <p style="text-align:justify; font-size:18px">
+                                        Ejemplo: Un contrato en el que el pago original sea $1,000, la 
+                                        sanción sería de $50 menos por día sobre la cantidad que se le 
+                                        iba a pagar al auditor. Primus Auditing Operations México, 
+                                        S. de R.L. de C.V. considerará en un futuro utilizar los servicios 
+                                        del auditor debido a la entrega tardía de resultados.
+                                    </p>
+                                    <p style="text-align:justify; font-size:18px">
+                                        <u><b>Propiedad de la Información:</b></u> La información que se ingrese a la 
+                                        base de datos de Primus Auditing Operations México, S. de R.L. 
+                                        de C.V. será propiedad de 
+                                        <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
+                                            JS Audit Group, Inc.,
+                                        </t>
+                                         <t t-if="not line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
+                                            Primus Auditing Operations México, S. de R.L. de C.V.,
+                                        </t> 
+                                        para ser usada 
+                                        en preparación de comparaciones específicas, estadísticas, de 
+                                        reportes genéricos, presentaciones y otros materiales. 
+                                        <u><b>Queda estrictamente prohibido que el auditor haga cualquier 
+                                        tipo de uso de la información para beneficios futuros y/o en 
+                                        contra de la Compañía.</b></u> 
+                                    </p>
+                                    <p style="text-align:justify; font-size:18px">
+                                        El auditor declara que en la ejecución del servicio contratado, 
+                                        no existe ninguna subordinación o dependencia laboral entre 
+                                        Primus Auditing Operations México, S. de R.L. de C.V. y el 
+                                        prestador de servicios.
+                                        <u><b>NOTA: </b></u> Primus Auditing Operations México, S. de R.L.  de C.V. 
+                                        cobrará y enviará al cliente el resultado de la auditoría. 
+                                        <span t-field="doc.partner_id"/> cobrará a Primus Auditing Operations México, 
+                                        S. de R.L. de C.V. por sus servicios en éste acuerdo. 
+                                    </p>
+                                    <p style="text-align:left; font-size:18px">
+                                        <span style="font-weight:Bold;">FECHA </span>
+                                        <span t-field="line.referral_date"/>
+                                    </p>
+                                    <p>
+                                        <br/>
+                                        <br/>
+                                    </p>
+
+                                    <table style="width:100%; border:0px;">
+                                        <tr>
+                                            <td style="border:0px; background-color:white; text-align:center;">
+                                                <p style="text-align:center; font-size:18px">
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <span>__________________________________</span> 
+                                                    <br/>
+                                                    <span t-field="doc.partner_id"/>
+                                                    <br/>
+                                                    <span style="font-weight:Bold;">Auditor</span>
+                                                </p>
+                                            </td>
+                                            <td style="border:0px; background-color:white; text-align:center;">
+                                                <p t-if="doc.coordinator_id.sign_signature" style="text-align:center; font-size:18px">
+                                                    <br/>
+                                                    <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.coordinator_id.sign_signature)"/>
+                                                    <br/>
+                                                    <span>__________________________________</span> 
+                                                    <br/>
+                                                    <span t-field="doc.coordinator_id"/>
+                                                    <br/>
+                                                    <span style="font-weight:Bold;">Coordinador de Auditoría</span>
+                                                </p>
+                                                <p t-if="not doc.coordinator_id.sign_signature" style="text-align:center; font-size:18px">
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    <span>__________________________________</span> 
+                                                    <br/>
+                                                    <span t-field="doc.coordinator_id"/>
+                                                    <br/>
+                                                    <span style="font-weight:Bold;">Coordinador de Auditoría</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </t>
+        <t t-if="printra == 0">
+            <t t-call="web.html_container">
+                <div t-attf-class="article o_report_layout_boxed" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id">
+                    <div class="page">
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="custom_header_footer_nop">
+        <div t-attf-class="header">
+            <div class="row mb8">
+                <div class="col-6">
+                    <img src="/servicereferralagreement/static/src/img/logo.png" style="width:250px; height:100px" alt="Logo"/>
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="footer o_boxed_footer">
+            <div class="text-center">
+                <ul class="list-inline">
+                    <li class="list-inline-item">Primus Auditing Ops Confidential Document</li>
+                    <li class="list-inline-item">Org-T0230usa</li>
+                    <li class="list-inline-item">Rev. 0 08/07/2018</li>
+                </ul>
+                <div t-if="report_type == 'pdf'">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
