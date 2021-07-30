@@ -15,12 +15,27 @@
         </field>
     </record>
     
+    <record id="servicereferralagreement_agenda_search" model="ir.ui.view">
+        <field name="name">Search Agenda</field>
+        <field name="model">servicereferralagreement.agenda</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="partner_ref"/>
+                <field name="coordinator_id"/>
+                <filter string="Active Audits" name="state" domain="[('state','!=','cancel')]" />
+            </search>
+        </field>
+    </record>
+
 
     <record id="servicereferralagreement_agenda_action" model="ir.actions.act_window">
         <field name="name">Auditor Agenda</field>
         <field name="res_model">servicereferralagreement.agenda</field>
         <field name="view_mode">calendar</field>
+        <field name="context">{"search_default_state":1}</field>
     </record>
+    
 
     <menuitem id="servicereferralagreement_agenda"
             name="Auditor Agenda"

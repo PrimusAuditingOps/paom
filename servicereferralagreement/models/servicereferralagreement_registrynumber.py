@@ -27,6 +27,10 @@ class ServicereferralagreementRegistryNumber(models.Model):
     audit_scope = fields.Char(
         string="Audit scope",
     )
+    audit_duration = fields.Char(
+        string="Audit duration",
+    )
+
     client_requirements = fields.Char(
         string="Client requirements",
     )

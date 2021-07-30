@@ -31,9 +31,9 @@
                                 <div class="page">
                                     <t t-set="printsa" t-value= "1"/>
                                     <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
-                                        <h2>ACUERDO DE 
-                                        SERVICIOS DE PRIMUS AUDITING OPERATIONS PARA AUDITORÍA 
-                                        PRIMUSGFS</h2>
+                                        <h1>ACUERDO DE 
+                                        SERVICIOS DE PRIMUS AUDITING OPERATIONS <br/>PARA AUDITORÍA 
+                                        PRIMUSGFS</h1>
 
                                         <p>
                                         Por favor firme y regrese este acuerdo de servicios 
@@ -61,29 +61,29 @@
                                                 <p style="text-align:left;"><b>Número de Registro: </b><span t-field="line.registrynumber_id"/></p></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2" style="border:0px; background-color:white;">
+                                                <td colspan="2" style="border:0px; background-color:white; width:40%;">
                                                 <p style="text-align:left;"><b>País de Facturación: </b>México</p></td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:60%;">
                                                 <p style="text-align:left;"><b>Versión: </b><span t-field="line.registrynumber_id.scheme_id.version"/></p></td>
                                                 
                                             </tr>
                                             <tr>
-                                                <td colspan="2" style="border:0px; background-color:white;">
+                                                <td colspan="2" style="border:0px; background-color:white; width:50%;">
                                                 <p style="text-align:left;"><b>Correo de Contrato: </b><span t-field="line.registrynumber_id.contract_email"/></p></td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p style="text-align:left;"><b>Telefono: </b><span t-field="line.registrynumber_id.phone"/></p></td>
                                                 
                                             </tr>
                                             <tr>
-                                                <td colspan="2" style="border:0px; background-color:white;">
+                                                <td colspan="2" style="border:0px; background-color:white; width:50%;">
                                                 <p style="text-align:left;"><b>Correo de Facturación: </b><span t-field="doc.partner_id.email"/></p></td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p style="text-align:left;"><b>Fecha Tentativa: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
                                                 
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0.00"/>
-                                        <table style="width:100%">
+                                        <t t-set="sumtotal" t-value= "0"/>
+                                        <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
                                                 <th>Cantidad</th>
@@ -102,13 +102,13 @@
                                             <tr>
                                                 <td></td>
                                                 <td style="text-align:right"><b>Total Estimado:</b></td>
-                                                <td style="text-align:right">$<span t-esc="'%.2f'% sumtotal"/></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
                                             </tr>
                                         </table>
                                         <div style="page-break-after: always;">
                                         </div>
                                         <h4>
-                                        Servicios otorgados por Primus Auditing Operations
+                                        <i>Servicios otorgados por Primus Auditing Operations</i>
                                         </h4>
                                         <p>
                                         Gastos estimados de viaje: Los honorarios de viaje son estimados 
@@ -384,12 +384,10 @@
                                             excluye cualquier gasto relacionado con viaje o trabajo 
                                             que se haya realizado al momento de la cancelación.
                                         </p>
-                                        <div style="page-break-after: always;">
-                                        </div>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
-                                                    <p t-if="line.coordinator_id.sign_signature" style="font-size:18px">
+                                                <td width="50%" style="border:0px; background-color:white;">
+                                                    <p t-if="line.coordinator_id.sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
@@ -403,11 +401,13 @@
                                                         <br/>
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
-                                                    <p t-if="not line.coordinator_id.sign_signature" style="font-size:18px">
+                                                    <p t-if="not line.coordinator_id.sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
                                                         JS Audit Group, Inc., una corporación de California</b>
+                                                        <br/>
+                                                        <br/>
                                                         <br/>
                                                         <br/>
                                                         <br/>
@@ -420,8 +420,8 @@
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
-                                                    <p style="font-size:18px">
+                                                <td width="50%" style="border:0px; background-color:white;">
+                                                    <p>
                                                         <b>"PARTE CONTRATANTE"
                                                         <br/>
                                                         <br/>
@@ -431,19 +431,21 @@
                                                         <br/>
                                                         <br/>
                                                         <br/>
+                                                        <br/>
+                                                        <br/>
                                                         Firmado por: 
                                                         <br/>
                                                         Posición:
                                                         <br/>
-                                                        Fecha: <span t-field="line.service_date"/>
+                                                        Fecha:
                                                     </p>
                                                 </td>
                                             </tr>
                                         </table>
                                         <div style="page-break-after: always;">
                                         </div>
-                                        <h4 style="text-align:center; font-weight:Bold;">Addendum A</h4>
-                                        <h4 style="text-align:center; font-weight:Bold;">ACUERDO DE CERTIFICACIÓN Y SUBLICENCIA ADICIONAL</h4>
+                                        <h1 style="text-align:center; font-weight:Bold;">Addendum A</h1>
+                                        <h1 style="text-align:center; font-weight:Bold;">ACUERDO DE CERTIFICACIÓN Y SUBLICENCIA ADICIONAL</h1>
                                         <p>
                                             Este addendum ("Anexo A") es una adición, que a través de 
                                             la presente se incorpora al Acuerdo de Sub-licencia y 
@@ -508,8 +510,8 @@
                                         </p>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                               <td style="border:0px; background-color:white;">
-                                                    <p t-if="line.coordinator_id.sign_signature" style="font-size:18px">
+                                               <td  width="50%" style="border:0px; background-color:white;">
+                                                    <p t-if="line.coordinator_id.sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
@@ -523,11 +525,13 @@
                                                         <br/>
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
-                                                    <p t-if="not line.coordinator_id.sign_signature" style="font-size:18px">
+                                                    <p t-if="not line.coordinator_id.sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
                                                         JS Audit Group, Inc., una corporación de California</b>
+                                                        <br/>
+                                                        <br/>
                                                         <br/>
                                                         <br/>
                                                         <br/>
@@ -540,8 +544,8 @@
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
-                                                    <p style="font-size:18px">
+                                                <td  width="50%" style="border:0px; background-color:white;">
+                                                    <p>
                                                         <b>"PARTE CONTRATANTE"
                                                         <br/>
                                                         <br/>
@@ -551,11 +555,13 @@
                                                         <br/>
                                                         <br/>
                                                         <br/>
+                                                        <br/>
+                                                        <br/>
                                                         Firmado por: 
                                                         <br/>
                                                         Posición:
                                                         <br/>
-                                                        Fecha: <span t-field="line.service_date"/>
+                                                        Fecha:
                                                     </p>
                                                 </td>
                                             </tr>
@@ -629,7 +635,7 @@
                                                         </li>
                                                         <li>
                                                         Que recibió el <a target="_blank" href="https://www.globalgap.org/.content/.galleries/documents/150302_GG_Sublicense-and-Certification-Agreement_V4_en_es.pdf">Acuerdo de Sublicencia y Certificación 
-                                                        GLOBALG.A.P.</a> y el <a target="_blank" href="https://paomx.com/docs/181210_Foodplus_CP_Privacy-Notice_V1_es.pdf">Aviso de Privacidad de GLOBALG.A.P.</a> por
+                                                        GLOBALG.A.P.</a> y el <br/><a target="_blank" href="https://paomx.com/docs/181210_Foodplus_CP_Privacy-Notice_V1_es.pdf">Aviso de Privacidad de GLOBALG.A.P.</a> por
                                                         parte de <b>"PAOMX"</b> y que comprende el alcance de estos documentos.
                                                         </li>
                                                         <li>
@@ -696,14 +702,15 @@
                                         acuerdo pactan las Partes, a favor de "PAOMX" por sus 
                                         servicios profesionales y a cargo de "El Cliente" son las 
                                         siguientes cantidades:
-                                        <br/>
+                                        <div style="page-break-after: always;">
+                                        </div>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                                <td style="border:0px; background-color:white;"><p><b>Fecha de Auditoría: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
-                                                <td style="border:0px; background-color:white;"><p><b>Tipo de Auditoría: </b><span t-field="line.registrynumber_id.type_of_audit"/></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;"><p><b>Fecha de Auditoría: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;"><p><b>Tipo de Auditoría: </b><span t-field="line.registrynumber_id.type_of_audit"/></p></td>
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0.00"/>
+                                        <t t-set="sumtotal" t-value= "0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
@@ -723,15 +730,16 @@
                                             <tr>
                                                 <td/>
                                                 <td style="text-align:right"><b>Total del servicio (sin IVA):</b></td>
-                                                <td style="text-align:right">$<span t-esc="'%.2f'% sumtotal"/></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
                                             </tr>
                                         </table>
-                                        
                                         <br/>
-                                        <b>NOTA:</b> Estas son solo estimaciones y podrían cambiar en función 
-                                        de los cargos reales que pudieran generarse el día de la evaluación. 
-                                        Un cargo por cancelación se aplicará por la cancelación de auditoría 
-                                        dentro de los 15 días siguientes a la fecha de la auditoría programada.
+                                        <p>
+                                            <b>NOTA:</b> Estas son solo estimaciones y podrían cambiar en función 
+                                            de los cargos reales que pudieran generarse el día de la evaluación. 
+                                            Un cargo por cancelación se aplicará por la cancelación de auditoría 
+                                            dentro de los 15 días siguientes a la fecha de la auditoría programada.
+                                        </p>
                                         </p>
                                         <div style="page-break-after: always;">
                                         </div>
@@ -1067,11 +1075,11 @@
                                         </p>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                     <p>
                                                         <b>Por "PAOMX"</b> 
                                                         <br/>
-                                                        <img class="img img-responsive" style="width:150px; height:80px;" src="/servicereferralagreement/static/src/img/firmajl.png"/>
+                                                        <img class="img img-responsive" style="width:160px; height:90px;" src="/servicereferralagreement/static/src/img/firmajl.png"/>
                                                         <br/>
                                                         __________________________________
                                                         <br/>
@@ -1082,9 +1090,11 @@
                                                         </b>
                                                     </p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                     <p>
                                                         <b>Por "El Cliente"</b> 
+                                                        <br/>
+                                                        <br/>
                                                         <br/>
                                                         <br/>
                                                         <br/>
@@ -1107,7 +1117,7 @@
                                         parte, <b>PRIMUS AUDITING OPERATIONS MÉXICO S DE RL DE CV</b>, 
                                         a quien en lo sucesivo y para los efectos de este acuerdo se 
                                         le denominará <b>"PAOMX"</b> y, por la otra parte; 
-                                        <b><u><span t-field="doc.partner_id"/></u></b>, 
+                                        <b><u><span t-field="line.organization_id"/></u></b>, 
                                         en lo sucesivo referido como <b>"El Cliente"</b>, y en su conjunto 
                                         como las "Partes", al amparo de las siguientes declaraciones y 
                                         clausulas.
@@ -1152,12 +1162,12 @@
                                                     <b>"El Cliente" declara por conducto de su representante/por su propio derecho:</b>
                                                     <ul>
                                                         <li>
-                                                        Tener como Registro Federal de Causantes <b><u><span t-field="doc.partner_id.vat"/></u></b>;
+                                                        Tener como Registro Federal de Causantes <b><u><span t-field="line.organization_id.rfc"/></u></b>;
                                                         <br/>
-                                                        tener su domicilio en: <b><u><span t-field="doc.partner_id.street"/>, 
-                                                        <span t-field="doc.partner_id.state_id"/>, 
-                                                        <span t-field="doc.partner_id.country_id"/>, 
-                                                        C.P. <span t-field="doc.partner_id.zip"/></u></b> 
+                                                        tener su domicilio en: <b><u><span t-field="line.organization_id.address"/>, 
+                                                        <span t-field="line.organization_id.city"/>, 
+                                                        <span t-field="line.organization_id.state_id"/>, 
+                                                        <span t-field="line.organization_id.country_id"/></u></b> 
                                                         </li>
                                                         <li>
                                                         Tener plena capacidad legal para obligarse en los términos de 
@@ -1242,27 +1252,28 @@
                                         acuerdo pactan las Partes, a favor de <b>"PAOMX"</b> por sus 
                                         servicios profesionales y a cargo de <b>"El Cliente"</b> son las 
                                         siguientes cantidades:
-                                        <br/>
+                                        <div style="page-break-after: always;">
+                                        </div>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                     <p style="text-align:left;"><b>Número de Registro: </b><span t-field="line.registrynumber_id"/>
                                                     </p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                     <p style="text-align:left;"><b>Alcance de Auditoría: </b><span t-field="line.registrynumber_id.audit_scope"/></p>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p>
                                                 <b>Fecha acordada del servicio: </b> <span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p>
                                                 <b>Tipo de Inspección: </b> <span t-field="line.registrynumber_id.type_of_audit"/></p></td>
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0.00"/>
+                                        <t t-set="sumtotal" t-value= "0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
@@ -1282,14 +1293,16 @@
                                             <tr>
                                                 <td></td>
                                                 <td style="text-align:right"><b>Costo Total:</b></td>
-                                                <td style="text-align:right">$<span t-esc="'%.2f'% sumtotal"/></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
                                             </tr>
                                         </table>
                                         <br/>
-                                        <b>NOTA:</b> Estas son solo estimaciones y podrían cambiar en función de los 
-                                        cargos reales. Un cargo por cancelación se aplicará por la cancelación de 
-                                        auditoría dentro de los 15 días siguientes a la fecha de la auditoría 
-                                        programada.
+                                        <p>
+                                            <b>NOTA:</b> Estas son solo estimaciones y podrían cambiar en función de los 
+                                            cargos reales. Un cargo por cancelación se aplicará por la cancelación de 
+                                            auditoría dentro de los 15 días siguientes a la fecha de la auditoría 
+                                            programada.
+                                        </p>
                                         </p>
                                         <div style="page-break-after: always;">
                                         </div>
@@ -1605,11 +1618,11 @@
                                         </p>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                     <p>
                                                         <b>Por "PAOMX"</b> 
                                                         <br/>
-                                                        <img class="img img-responsive" style="width:150px; height:80px;" src="/servicereferralagreement/static/src/img/firmajl.png"/>
+                                                        <img class="img img-responsive" style="width:160px; height:90px;" src="/servicereferralagreement/static/src/img/firmajl.png"/>
                                                         <br/>
                                                         __________________________________
                                                         <br/>
@@ -1620,9 +1633,11 @@
                                                         </b>
                                                     </p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                     <p>
                                                         <b>Por "El Cliente"</b> 
+                                                        <br/>
+                                                        <br/>
                                                         <br/>
                                                         <br/>
                                                         <br/>
@@ -1712,14 +1727,14 @@
                                                 </td>
                                                 <td style="width:50%; border:0px; background-color:white;">
                                                     <p style="text-align:left;"><b>Duración de la auditoría: </b>
-                                                    <span t-field="line.service_days"/> Días</p>
+                                                    <span t-field="line.registrynumber_id.audit_duration"/></p>
                                                 </td>
                                             </tr>
                                         </table>
                                         <p style="text-align:left;">
                                             <b>Fecha(s) acordada(s): </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/>
                                         </p>
-                                        <t t-set="sumtotal" t-value= "0.00"/>
+                                        <t t-set="sumtotal" t-value= "0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
@@ -1739,13 +1754,13 @@
                                             <tr>
                                                 <td></td>
                                                 <td style="text-align:right"><b>Costo Total:</b></td>
-                                                <td style="text-align:right">$<span t-esc="'%.2f'% sumtotal"/></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
                                             </tr>
                                         </table>
                                         <div style="page-break-after: always;">
                                         </div>
                                         <h4>
-                                        Servicios otorgados por Primus Auditing Operations
+                                        <i>Servicios otorgados por Primus Auditing Operations</i>
                                         </h4>
                                         <h4>
                                         Esto no es una factura.
@@ -1991,31 +2006,29 @@
                                         Fecha: <span t-field="line.service_date"/>
                                         </p>
                                         </p>
-                                        <div style="page-break-after: always;">
-                                        </div>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                                <td style="border:0px; background-color:white;">"PRIMUS AUDITING OPS"</td>
-                                                <td style="border:0px; background-color:white;">"PARTE CONTRATANTE"</td>
+                                                <td style="border:0px; background-color:white; width:50%;">"PRIMUS AUDITING OPS"</td>
+                                                <td style="border:0px; background-color:white; width:50%;">"PARTE CONTRATANTE"</td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p>
                                                 <b>JS Audit Group, Inc., una corporación de California</b></p></td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p><b><span t-field="line.organization_id"/></b></p></td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
-                                                  <p t-if="line.coordinator_id.sign_signature" style="font-size:18px">
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                  <p t-if="line.coordinator_id.sign_signature" style="font-size:16px">
                                                     <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.sign_signature)"/>
                                                   </p>
-                                                  <p t-if="not line.coordinator_id.sign_signature" style="font-size:18px">
+                                                  <p t-if="not line.coordinator_id.sign_signature" style="font-size:16px">
                                                     <br/>
                                                     <br/>
                                                   </p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                     <p>
                                                         <br/>
                                                         <br/>
@@ -2023,32 +2036,32 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p><b>Firma: </b><span t-field="line.coordinator_id"/></p></td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p><b>Firma: </b></p></td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
-                                                    <p>
-                                                      <b>Coordinador de auditorías</b>
-                                                    </p>
-                                                  </td>
-                                                  <td style="border:0px; background-color:white;">
-                                                  <p style="text-align:left; font-size:18px"/>
-                                                  </td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p>
+                                                    <b>Coordinador de auditorías</b>
+                                                </p>
+                                                </td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p style="text-align:left; font-size:16px"/>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p><b>Fecha: </b><span t-field="line.service_date"/></p></td>
-                                                <td style="border:0px; background-color:white;">
-                                                <p><b>Fecha: </b><span t-field="line.service_date"/></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p><b>Fecha: </b></p></td>
                                             </tr>
                                         </table>
                                     </t>
                                     <t t-if="line.registrynumber_id.scheme_id.name == 'NOP'">
                                         <h2>
-                                        PRIMUS AUDITING OPERATIONS ORGANIC CERTIFICATION PROGRAM SERVICES AGREEMENT
+                                        PRIMUS AUDITING OPERATIONS <br/>ORGANIC CERTIFICATION PROGRAM <br/>SERVICES AGREEMENT
                                         </h2>
                                         <p>
                                         Please sign and return this services agreement within 24 hours of receipt. 
@@ -2084,10 +2097,10 @@
                                                 <td style="width:50%; border:0px; background-color:white;">
                                                 <p style="text-align:left;"><b>Invoice E-mail: </b><span t-field="doc.partner_id.email"/></p></td>
                                                 <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>Agreed Date: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
+                                                <p style="text-align:left;"><b>Agreed Date: </b><span t-field="line.service_start_date_nop"/> - <span t-field="line.service_end_date_nop"/></p></td>
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0.00"/>
+                                        <t t-set="sumtotal" t-value= "0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Services</th>
@@ -2107,13 +2120,13 @@
                                             <tr>
                                                 <td></td>
                                                 <td style="text-align:right"><b>Total Services:</b></td>
-                                                <td style="text-align:right">$<span t-esc="'%.2f'% sumtotal"/></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal"  t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}" /></td>
                                             </tr>
                                         </table>
                                         <div style="page-break-after: always;">
                                         </div>
                                         <h4>
-                                        Services to be delivered by Primus Auditing Operations
+                                        <i>Services to be delivered by Primus Auditing Operations</i>
                                         </h4>
                                         <p>
                                         Estimated Travel Expenses: − Travel expenses are estimated 
@@ -2152,51 +2165,49 @@
                                         <br/>
                                         <br/>
                                         </p>
-                                        <div style="page-break-after: always;">
-                                        </div>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                                <td style="border:0px; background-color:white;">"PRIMUS AUDITING OPERATIONS"</td>
-                                                <td style="border:0px; background-color:white;">"CUSTOMER"</td>
+                                                <td style="border:0px; background-color:white; width:50%;">"PRIMUS AUDITING OPERATIONS"</td>
+                                                <td style="border:0px; background-color:white; width:50%;">"CUSTOMER"</td>
                                             </tr>
                                             
                                             <tr>
-                                              <td style="border:0px; background-color:white;">
-                                                	<p t-if="line.coordinator_id.sign_signature" style="font-size:18px">
+                                              <td style="border:0px; background-color:white; width:50%;">
+                                                	<p t-if="line.coordinator_id.sign_signature" style="font-size:16px">
                                                 		<img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.sign_signature)"/>
                                                 	</p>
-                                                	<p t-if="not line.coordinator_id.sign_signature" style="font-size:18px">
+                                                	<p t-if="not line.coordinator_id.sign_signature" style="font-size:16px">
                                                 		<br/>
                                                 		<br/>
                                                 	</p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
-                                                	<p style="font-size:18px">
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                	<p style="font-size:16px">
                                                 		<br/>
                                                 		<br/>
                                                 	</p>
                                               </td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
-                                                <p t-if="line.coordinator_id" style="text-align:left; font-size:18px"><b>By: <u><span t-field="line.coordinator_id"/></u></b></p>
-                                                <p t-if="not line.coordinator_id" style="text-align:left; font-size:18px"><b>By:_____________________________ </b></p>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p t-if="line.coordinator_id" style="text-align:left; font-size:16px"><b>By: <u><span t-field="line.coordinator_id"/></u></b></p>
+                                                <p t-if="not line.coordinator_id" style="text-align:left; font-size:16px"><b>By:_____________________________ </b></p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p><b>By:_____________________________ </b></p></td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p>
                                                 <b>Audit Coordinator</b></p></td>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p></p></td>
                                             </tr>
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p><b>Date: </b><span t-field="line.service_date_nop"/></p></td>
-                                                <td style="border:0px; background-color:white;">
-                                                <p><b>Date: </b><span t-field="line.service_date_nop"/></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p><b>Date: </b></p></td>
                                             </tr>
                                         </table>
                                         <p>
@@ -2231,17 +2242,19 @@
                                                 <td style="width:50%; border:0px; background-color:white;">
                                                 <p style="text-align:left;"><b>SO #: </b><span t-field="doc.name"/></p></td>
                                                 <td style="width:50%; border:0px; background-color:white;">
-                                                    <p style="text-align:left;"><b>RFC #: </b>
-                                                    <span t-field="doc.partner_id.vat"/></p>
+                                                    <p style="text-align:left;"><b>Número de Registro: </b><span t-field="line.registrynumber_id"/></p>
                                                 </td>
                                                 
                                             </tr>
                                             <tr>
                                                 <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>País de Facturación: </b>México</p></td>
+                                                <p style="text-align:left;"><b>RFC #: </b>
+                                                    <span t-field="doc.partner_id.vat"/></p>
+                                                </td>
                                                 <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"></p></td>
-                                                
+                                                <p style="text-align:left;"><b>País de Facturación: </b>México</p>
+                                                </td>
+            
                                             </tr>
                                             <tr>
                                                 <td style="width:50%; border:0px; background-color:white;">
@@ -2258,7 +2271,7 @@
                                                 
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0.00"/>
+                                        <t t-set="sumtotal" t-value= "0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
@@ -2278,13 +2291,13 @@
                                             <tr>
                                                 <td></td>
                                                 <td style="text-align:right"><b>Total Estimado:</b></td>
-                                                <td style="text-align:right">$<span t-esc="'%.2f'% sumtotal"/></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
                                             </tr>
                                         </table>
                                         <div style="page-break-after: always;">
                                         </div>
                                         <h4>
-                                        Servicios otorgados por Primus Auditing Operations
+                                        <i>Servicios otorgados por Primus Auditing Operations</i>
                                         </h4>
                                         <p>
                                         Gastos estimados de viaje: Los honorarios de viaje son estimados y 
@@ -2404,8 +2417,8 @@
                                         </p>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                                <td style="border:0px; background-color:white;">
-                                                    <p t-if="line.coordinator_id.sign_signature" style="font-size:18px">
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                    <p t-if="line.coordinator_id.sign_signature" style="font-size:16px">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
@@ -2419,11 +2432,13 @@
                                                         <br/>
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
-                                                    <p t-if="not line.coordinator_id.sign_signature" style="font-size:18px">
+                                                    <p t-if="not line.coordinator_id.sign_signature" style="font-size:16px">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
                                                         JS Audit Group, Inc., una corporación de California</b>
+                                                        <br/>
+                                                        <br/>
                                                         <br/>
                                                         <br/>
                                                         <br/>
@@ -2436,8 +2451,8 @@
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
                                                 </td>
-                                                <td style="border:0px; background-color:white;">
-                                                    <p style="font-size:18px">
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                    <p style="font-size:16px">
                                                         <b>"PARTE CONTRATANTE"
                                                         <br/>
                                                         <br/>
@@ -2447,10 +2462,12 @@
                                                         <br/>
                                                         <br/>
                                                         <br/>
+                                                        <br/>
+                                                        <br/>
                                                         Firmado por: 
                                                         <br/>
                                                         <br/>
-                                                        Fecha: <span t-field="line.service_date"/>
+                                                        Fecha: 
                                                     </p>
                                                 </td>
                                             </tr>

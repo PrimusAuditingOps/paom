@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from odoo import fields, models, api
 from logging import Logger, getLogger
+import dateutil.parser
 
 _logger = getLogger(__name__)
 class SaleOrderLineInherit(models.Model):
@@ -11,16 +12,30 @@ class SaleOrderLineInherit(models.Model):
     def _generate_service_date(self):
         for rec in self:
             if rec.service_start_date:
-                rec.service_date = rec.service_start_date + timedelta(days=-1)
+                if  rec.service_start_date > datetime.today().date():
+                    rec.service_date = datetime.today()
+                else:
+                    rec.service_date = rec.service_start_date + timedelta(days=-1)
             else:
                 rec.service_date = datetime.today()
+    def _generate_service_start_date_nop(self):
+        for rec in self:
+            if rec.service_start_date:
+                rec.service_start_date_nop = datetime.strftime(rec.service_start_date, "%m/%d/%Y")
+    def _generate_service_end_date_nop(self):
+        for rec in self:
+            if rec.service_end_date:
+               rec.service_end_date_nop = datetime.strftime(rec.service_end_date, "%m/%d/%Y")
     def _generate_service_date_nop(self):
         for rec in self:
             datenop = None
             if rec.service_start_date:
-                datenop = rec.service_start_date + timedelta(days=-1)
+                if  rec.service_start_date > datetime.today().date():
+                    datenop = datetime.today()
+                else:
+                    datenop = rec.service_start_date + timedelta(days=-1)
             else:
-                rec.service_date_nop = ""
+                datenop = datetime.today()
             if datenop:
                 rec.service_date_nop = datetime.strftime(datenop, "%m/%d/%Y")
     def _generate_service_date_string(self):
@@ -31,22 +46,26 @@ class SaleOrderLineInherit(models.Model):
         dateservice = None
         for rec in self:
             if rec.service_start_date:
-                dateservice = rec.service_start_date + timedelta(days=-1)
-                day = dateservice.day
-                month = months[dateservice.month - 1]
-                year = dateservice.year
-                rec.service_date_string = "{0} de {1} del {2}".format(day, month, year)
+                if  rec.service_start_date > datetime.today().date():
+                    dateservice = datetime.today()
+                else:
+                    dateservice = rec.service_start_date + timedelta(days=-1)
             else:
-                rec.service_date_string = ""
+                dateservice = datetime.today()
+                
+            day = dateservice.day
+            month = months[dateservice.month - 1]
+            year = dateservice.year
+            rec.service_date_string = "{0} de {1} del {2}".format(day, month, year)
 
-    def _generate_service_days(self):
+    '''def _generate_service_days(self):
          for rec in self:
             if rec.service_start_date and rec.service_end_date:
                 rec.service_days = (rec.service_end_date - rec.service_start_date).days
                 if rec.service_days == 0:
                     rec.service_days = 1
             else:
-                rec.service_days = 0
+                rec.service_days = 0'''
     organization_id = fields.Many2one(
         comodel_name='servicereferralagreement.organization',
         string='Organization',
@@ -83,9 +102,15 @@ class SaleOrderLineInherit(models.Model):
     service_date_nop = fields.Text(
         compute= _generate_service_date_nop,
     )
-    service_days = fields.Integer(
-        compute= _generate_service_days,
+    service_start_date_nop = fields.Text(
+        compute= _generate_service_start_date_nop,
     )
+    service_end_date_nop = fields.Text(
+        compute= _generate_service_end_date_nop,
+    )
+    '''service_days = fields.Integer(
+        compute= _generate_service_days,
+    )'''
     update_number = fields.Integer(
         default= 0,
     )
@@ -123,11 +148,16 @@ class SaleOrderLineInherit(models.Model):
         cont = 0
         for orderline in self:
             cont = 1
-            if orderline.service_start_date:
-                if orderline.service_start_date > orderline.service_end_date:
+            if orderline.service_end_date:
+                
+                if orderline.service_start_date:
+                    if orderline.service_start_date > orderline.service_end_date:
+                        orderline.service_start_date = orderline.service_end_date
+                else:
                     orderline.service_start_date = orderline.service_end_date
             else:
-                orderline.service_start_date = orderline.service_end_date
+                orderline.service_start_date = None
+                
             for line in orderline.order_id.order_line:
                 if line.product_id:
                     if orderline.registrynumber_id.id == line.registrynumber_id.id and orderline.organization_id.id == line.organization_id.id:
@@ -138,11 +168,15 @@ class SaleOrderLineInherit(models.Model):
         cont = 0
         for orderline in self:
             cont = 1
-            if orderline.service_end_date:
-                if orderline.service_end_date < orderline.service_start_date:
+            if orderline.service_start_date:
+                if orderline.service_end_date:
+                    if orderline.service_end_date < orderline.service_start_date:
+                        orderline.service_end_date = orderline.service_start_date
+                else:
                     orderline.service_end_date = orderline.service_start_date
             else:
-                orderline.service_end_date = orderline.service_start_date
+                orderline.service_end_date = None
+
             for line in orderline.order_id.order_line:
                 if line.product_id:
                     if orderline.registrynumber_id.id == line.registrynumber_id.id and orderline.organization_id.id == line.organization_id.id:

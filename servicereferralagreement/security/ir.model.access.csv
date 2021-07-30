@@ -6,5 +6,8 @@ registrynumber_read,registry read,model_servicereferralagreement_registrynumber,
 scheme_manager,scheme manager,model_servicereferralagreement_scheme,catalog_manager_sa_ra_group,1,1,1,1
 scheme_read,scheme read,model_servicereferralagreement_scheme,purchase.group_purchase_user,1,0,0,0
 auditproducts_manager,audit products manager,model_servicereferralagreement_auditproducts,catalog_manager_sa_ra_group,1,1,1,1
-auditproducts_read,audit products read,model_servicereferralagreement_auditproducts,purchase.group_purchase_user,1,0,0,0
+auditproducts_read_purchase,audit products read,model_servicereferralagreement_auditproducts,purchase.group_purchase_user,1,0,0,0
+auditproducts_read_sale,audit products read,model_servicereferralagreement_auditproducts,sales_team.group_sale_salesman,1,0,0,0
 servicereferralagreement_agenda_read,coordinator can see auditor's agenda,model_servicereferralagreement_agenda,auditor_agenda_group,1,0,0,0
+auditorexchangerate_manager,auditor exchange rate manager,model_servicereferralagreement_auditorexchangerate,account.group_account_manager,1,1,1,1
+auditorexchangerate_read,auditor exchange rate read,model_servicereferralagreement_auditorexchangerate,purchase.group_purchase_user,1,0,0,0

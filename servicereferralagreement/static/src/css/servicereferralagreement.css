@@ -1,19 +1,41 @@
+@font-face{
+   font-family: 'Times New Roman';
+   font-style: normal;
+   src:url('/servicereferralagreement/static/src/fonts/times-new-roman-14.ttf') format('truetype');
+}
 .page p, ul
 {   
    text-align:justify; 
-   font-size: 18px;
+   font-size: 16px;
+   line-height: 1.15;
+   color: black;
+   font-family: 'Times New Roman';
 }
 .page table tr td
 {
    border:0px; 
    background-color:white;
+   font-family: 'Times New Roman'; 
+   font-size: 16px; color: black;
 }
 .page table
 {
    width:100%; 
 }
-.page h3, h2, h4
+.page h3, h2, h1
 {
+   font-size: 26px;
    text-align:center;
    font-weight:Bold;
+   font-family: 'Times New Roman';
+   color: black;
 }
+.page h4
+{
+   font-size: 18px;
+   text-align:center;
+   font-weight:Bold;
+   font-family: 'Times New Roman';
+   color: black;
+}
+

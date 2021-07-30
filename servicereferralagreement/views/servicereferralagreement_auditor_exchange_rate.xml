@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="servicereferralagreement_auditor_exchange_rate_view_form" model="ir.ui.view">
+        <field name="name">servicereferralagreement.auditor.exchange.rate.view.form</field>
+        <field name="model">servicereferralagreement.auditorexchangerate</field>
+        <field name="arch" type="xml">
+            <form string="Registry auditor exchange rate">
+                <sheet>
+                    <group col="4">
+                        <field name="currency_id"/>
+                        <field name="exchange_rate"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="servicereferralagreement_auditor_exchange_rate_view_tree" model="ir.ui.view">
+        <field name="name">servicereferralagreement.auditor.exchange.rate.view.tree</field>
+        <field name="model">servicereferralagreement.auditorexchangerate</field>
+        <field name="arch" type="xml">
+            <tree string="Registry auditor exchange rate">
+                <field name="currency_id"/>
+                <field name="exchange_rate"/>
+            </tree>
+        </field>
+    </record>
+    <record id="auditor_exchange_rate_action" model="ir.actions.act_window">
+        <field name="name">Auditor exchange rate</field>
+        <field name="res_model">servicereferralagreement.auditorexchangerate</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Auditor Exchange Rate
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="auditor_exchange_rate_account"
+            name="Exchange rate auditor payment"
+            parent="account.account_account_menu"
+            action="auditor_exchange_rate_action"
+            sequence="12"/>
+
+</odoo>
