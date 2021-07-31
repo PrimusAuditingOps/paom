@@ -15,6 +15,9 @@ class ServicereferralagreementRegistryNumber(models.Model):
         ondelete='restrict',
         required=True,
     )
+    version_scheme = fields.Char(
+        related="scheme_id.version",
+    )
     organization_id = fields.Many2one(
         comodel_name='servicereferralagreement.organization',
         string='Organization',

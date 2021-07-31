@@ -2,7 +2,6 @@ from odoo import fields, models, api
 class ServicereferralagreementScheme(models.Model):
     _name = 'servicereferralagreement.scheme'
     _description = 'Modelo para manejar el catalogo de esquemas'
-    _rec_name = 'display_name_scheme'
     _sql_constraints = [
         ('uc_name_version',
          'UNIQUE(name,version)',
@@ -21,9 +20,4 @@ class ServicereferralagreementScheme(models.Model):
     version = fields.Char(
         string="Version",
         help="Enter Version",
-    )
-    display_name_scheme = fields.Text(
-        string="Display name",
-        compute=_get_name,
-        readonly=True,
     )
