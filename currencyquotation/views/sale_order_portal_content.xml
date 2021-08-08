@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_order_portal_content_inherit_currency" inherit_id= "sale.sale_order_portal_content">
+        <xpath expr="//div/section[@id='details']/table/tbody/t[@t-foreach='sale_order.order_line']" position="after">
+            <tr class="bg-200 font-weight-bold o_line_section">
+                <td colspan="99" name="td_currency_label"><strong>ALL PRICES SHOWN IN </strong><strong><span t-field="sale_order.pricelist_id.currency_id.currency_unit_label"/></strong></td>
+            </tr>
+        </xpath>
+        <xpath expr="//div/div[@id='informations']/div/div[@class='col-lg-6']/address" position="after">
+            <t t-if="sale_order.partner_invoice_id.vat">
+                <strong>VAT: </strong><span t-field="sale_order.partner_invoice_id.vat"/>
+            </t>              
+        </xpath>
+    </template>
+</odoo>

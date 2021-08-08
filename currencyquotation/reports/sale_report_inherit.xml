@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_report_currency_inherit" inherit_id= "sale.report_saleorder_document">       
+        <xpath expr="//table/tbody/t[@t-foreach='doc.order_line']" position="after">
+            <tr class="bg-200 font-weight-bold o_line_section">
+                <td colspan="99" name="td_currency_label"><strong>ALL PRICES SHOWN IN<![CDATA[&nbsp;]]></strong><strong><span style="font-weight: bold;" t-field="doc.pricelist_id.currency_id.currency_unit_label"/></strong></td>
+            </tr>
+        </xpath>
+    </template>
+</odoo>
