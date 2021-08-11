@@ -9,13 +9,7 @@ class PurchaseOrderLine(models.Model):
 
     def _generate_referral_date(self):
         for rec in self:
-            if rec.service_start_date:
-                if rec.service_start_date > datetime.today().date():
-                    rec.referral_date = datetime.today()
-                else:
-                    rec.referral_date = rec.service_start_date + timedelta(days=-1)
-            else:
-                rec.referral_date = datetime.today()
+            rec.referral_date = datetime.today()
 
     organization_id = fields.Many2one(
         comodel_name = 'servicereferralagreement.organization', 

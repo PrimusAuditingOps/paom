@@ -6,18 +6,12 @@ import dateutil.parser
 _logger = getLogger(__name__)
 class SaleOrderLineInherit(models.Model):
     _inherit = 'sale.order.line'
-    _description = 'Se modifica modelo para agregarle la organizacion y la operacion al servicio de auditoria'
+    _description = 'Linea de pedido de venta'
 
     
     def _generate_service_date(self):
         for rec in self:
-            if rec.service_start_date:
-                if  rec.service_start_date > datetime.today().date():
-                    rec.service_date = datetime.today()
-                else:
-                    rec.service_date = rec.service_start_date + timedelta(days=-1)
-            else:
-                rec.service_date = datetime.today()
+            rec.service_date = datetime.today()
     def _generate_service_start_date_nop(self):
         for rec in self:
             if rec.service_start_date:
@@ -27,45 +21,23 @@ class SaleOrderLineInherit(models.Model):
             if rec.service_end_date:
                rec.service_end_date_nop = datetime.strftime(rec.service_end_date, "%m/%d/%Y")
     def _generate_service_date_nop(self):
+        datenop = None
         for rec in self:
-            datenop = None
-            if rec.service_start_date:
-                if  rec.service_start_date > datetime.today().date():
-                    datenop = datetime.today()
-                else:
-                    datenop = rec.service_start_date + timedelta(days=-1)
-            else:
-                datenop = datetime.today()
-            if datenop:
-                rec.service_date_nop = datetime.strftime(datenop, "%m/%d/%Y")
+            datenop = datetime.today()
+            rec.service_date_nop = datetime.strftime(datenop, "%m/%d/%Y")
     def _generate_service_date_string(self):
-        months = ("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+        months = ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
         day = None
         month = None
         year = None
         dateservice = None
         for rec in self:
-            if rec.service_start_date:
-                if  rec.service_start_date > datetime.today().date():
-                    dateservice = datetime.today()
-                else:
-                    dateservice = rec.service_start_date + timedelta(days=-1)
-            else:
-                dateservice = datetime.today()
-                
+            dateservice = datetime.today()
             day = dateservice.day
             month = months[dateservice.month - 1]
             year = dateservice.year
             rec.service_date_string = "{0} de {1} del {2}".format(day, month, year)
 
-    '''def _generate_service_days(self):
-         for rec in self:
-            if rec.service_start_date and rec.service_end_date:
-                rec.service_days = (rec.service_end_date - rec.service_start_date).days
-                if rec.service_days == 0:
-                    rec.service_days = 1
-            else:
-                rec.service_days = 0'''
     organization_id = fields.Many2one(
         comodel_name='servicereferralagreement.organization',
         string='Organization',
@@ -108,16 +80,12 @@ class SaleOrderLineInherit(models.Model):
     service_end_date_nop = fields.Text(
         compute= _generate_service_end_date_nop,
     )
-    '''service_days = fields.Integer(
-        compute= _generate_service_days,
-    )'''
     update_number = fields.Integer(
         default= 0,
     )
     update_number_coordinator = fields.Integer(
         default= 0,
     )
-    
     @api.onchange('organization_id')
     def _cancel_selection_registrynumber(self):
         #organization = -1
