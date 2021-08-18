@@ -55,30 +55,30 @@
                                             <tr>
                                                 <td style="border:0px; background-color:white; width:20%;">
                                                 <p style="text-align:left;"><b>SO #: </b><span t-field="doc.name"/></p></td>
-                                                <td style="border:0px; background-color:white; width:40%;">
+                                                <td style="border:0px; background-color:white; width:30%;">
                                                 <p style="text-align:left;"><b>RFC #: </b><span t-field="doc.partner_id.vat"/></p></td>
-                                                <td style="border:0px; background-color:white; width:40%;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p style="text-align:left;"><b>Número de Registro: </b><span t-field="line.registrynumber_id"/></p></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2" style="border:0px; background-color:white; width:40%;">
+                                                <td colspan="2" style="border:0px; background-color:white; width:50%;">
                                                 <p style="text-align:left;"><b>País de Facturación: </b>México</p></td>
-                                                <td style="border:0px; background-color:white; width:60%;">
+                                                <td style="border:0px; background-color:white; width:50%;">
                                                 <p style="text-align:left;"><b>Versión: </b><span t-field="line.registrynumber_id.scheme_id.version"/></p></td>
                                                 
                                             </tr>
                                             <tr>
-                                                <td colspan="2" style="border:0px; background-color:white; width:50%;">
-                                                <p style="text-align:left;"><b>Correo de Contrato: </b><span t-field="line.registrynumber_id.contract_email"/></p></td>
-                                                <td style="border:0px; background-color:white; width:50%;">
-                                                <p style="text-align:left;"><b>Telefono: </b><span t-field="line.registrynumber_id.phone"/></p></td>
+                                                <td colspan="2" style="border:0px; background-color:white; width:50%;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Correo de Contrato: </b><span t-field="line.registrynumber_id.contract_email"/></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Telefono: </b><span t-field="line.registrynumber_id.phone"/></p></td>
                                                 
                                             </tr>
                                             <tr>
-                                                <td colspan="2" style="border:0px; background-color:white; width:50%;">
-                                                <p style="text-align:left;"><b>Correo de Facturación: </b><span t-field="doc.partner_id.email"/></p></td>
-                                                <td style="border:0px; background-color:white; width:50%;">
-                                                <p style="text-align:left;"><b>Fecha Tentativa: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
+                                                <td colspan="2" style="border:0px; background-color:white; width:50%;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Correo de Facturación: </b><span t-field="doc.partner_id.email"/></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Fecha Tentativa: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
                                                 
                                             </tr>
                                         </table>
@@ -1671,14 +1671,18 @@
                                         Servicio es firmado y enviado tarde. Todos los costos 
                                         estimados son calculados en dólar estadounidense.
                                         </p>
-                                        <p style="text-align:left;">
-                                            <b>Nombre de la Organización: </b>
-                                            <span t-field="line.organization_id"/>
-                                            <br/>
-                                            <b>Nombre de Organización de Facturación: </b>
-                                            <span t-field="doc.partner_id"/>
-                                        </p>
                                         <table style="width:100%; border:0px;">
+                                            <tr>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Nombre de la Organización: </b>
+                                                    <span t-field="line.organization_id"/></p>
+                                                </td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Nombre de Organización de Facturación: </b>
+                                                    <span t-field="doc.partner_id"/>
+                                                    </p>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td style="width:50%; border:0px; background-color:white;">
                                                     <p style="text-align:left;"><b>RFC de la Organización: </b>
@@ -1694,39 +1698,39 @@
                                                     <p style="text-align:left;"><b>RFC de Facturación: </b>
                                                     <span t-field="doc.partner_id.vat"/></p>
                                                 </td>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                    <p style="text-align:left;"><b>Alcance de Auditoría: </b>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Alcance de Auditoría: </b>
                                                     <span t-field="line.registrynumber_id.audit_scope"/></p>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                    <p style="text-align:left;"><b>Correo de Contacto: </b>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Correo de Contacto: </b>
                                                     <span t-field="line.registrynumber_id.contract_email"/></p>
                                                 </td>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                    <p style="text-align:left;"><b>Tipo de auditoría: </b>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Tipo de auditoría: </b>
                                                     <span t-field="line.registrynumber_id.type_of_audit"/>
                                                     </p>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                    <p style="text-align:left;"><b>Correo de Facturación: </b>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Correo de Facturación: </b>
                                                     <span t-field="doc.partner_id.email"/></p>
                                                 </td>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                    <p style="text-align:left;"><b>Requisitos del cliente: </b>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Requisitos del cliente: </b>
                                                     <span t-field="line.registrynumber_id.client_requirements"/></p>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                    <p style="text-align:left;"><b>Teléfono: </b>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Teléfono: </b>
                                                     <span t-field="line.registrynumber_id.phone"/></p>
                                                 </td>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                    <p style="text-align:left;"><b>Duración de la auditoría: </b>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                    <p style="text-align:left;max-width:400px;"><b>Duración de la auditoría: </b>
                                                     <span t-field="line.registrynumber_id.audit_duration"/></p>
                                                 </td>
                                             </tr>
@@ -1874,7 +1878,7 @@
                                         Cliente reconoce, comprende y acepta al firmar este Acuerdo.
                                         <br/>
                                         <br/>
-                                        En el caso de que se requiera una nueva visita in situ para verificar 
+                                        En el caso de que se requiera una nueva visita <u><i>in situ</i></u> para verificar 
                                         las acciones correctivas reportadas en la reunión de cierre de la 
                                         auditoría correspondiente, el Cliente se compromete a pagar por 
                                         adelantado todos los costos relacionados con dicha visita, es decir, 
@@ -1885,11 +1889,16 @@
                                         <br/>
                                         El cliente además acepta:
                                         <br/>
-                                        <ul>
+                                        <ul style= "list-style-type: lower-latin">
                                             <li>
                                                 El cliente debe entregar el cuestionario de autoevaluación 
                                                 (SAQ) al menos 15 días antes de la fecha de la visita/auditoría 
-                                                in situ.
+                                                in situ. Asimismo, deberá proporcionar los números de registro ZC 
+                                                y ZS a Primus Auditing Ops al menos 5 dias antes de la auditoria, 
+                                                de lo contrario la auditoria será reprogramada y el pago por viáticos 
+                                                queda sujeto a que el auditor asignado haya realizado algún gasto previo 
+                                                a la cancelación ya sea por el cliente o por falta de registro en la 
+                                                plataforma de Sedex.
                                             </li>
                                             <li>
                                                 El cliente es responsable de gestionar toda la logística necesaria 
@@ -1929,7 +1938,7 @@
                                                 El cliente se compromete a dar total acceso al auditor a la operación, los documentos 
                                                 y el personal auditados correspondientes durante la visita in situ para realizar 
                                                 la auditoría SMETA.
-                                                <ul>
+                                                <ul style= "list-style-type: lower-roman">
                                                     <li>
                                                         Si un auditor no tiene acceso total, el auditor generará una alerta en todos 
                                                         los casos. Si el auditor puede ingresar al sitio, pero no puede acceder a la 
@@ -1945,28 +1954,26 @@
                                         </ul>
                                         </p>
                                         <p>
-                                        <b>8. CERTIFICACIÓN DE PRODUCTO.</b> El Cliente debe cumplir con los 
+                                        <b>8. RESULTADOS DE AUDITORÍA.</b> El Cliente debe cumplir con los 
                                         siguiente:
-                                        <ul>
-                                            <li>El cliente se compromete a cumplir siempre con los requisitos de certificación.</li>
+                                        <ul style= "list-style-type: lower-latin">
+                                            <li>El cliente se compromete a cumplir siempre con los requisitos de la metodología.</li>
                                             <li>El cliente deberá cumplir mediante la implementación de los cambios apropiados 
                                             cuando se comuniquen a través de Primus Auditing Ops al cliente.</li>
-                                            <li>Además, el cliente acepta que, si la certificación se aplica a la producción en curso, 
-                                            el producto certificado continúa cumpliendo con los requisitos del producto.</li>
                                         </ul>
                                         </p>
                                         <p>
-                                        El cliente reconoce que no puede hacer afirmaciones con respecto a la certificación 
-                                        que sean inconsistentes con el alcance de la auditoría realizada. Además, el cliente 
-                                        no puede usar la certificación de producto de una manera engañosa o no autorizada, 
-                                        o de una manera que dañe la reputación de Primus Auditing Ops. Además, el cliente 
-                                        reconoce que, si la certificación se suspende, cancela o revoca, el cliente debe 
-                                        dejar de publicitar cualquier material en referencia a dicha certificación y devolver 
-                                        los documentos de certificación.
+                                            El cliente reconoce que no puede hacer afirmaciones con respecto a los resultados de auditoría 
+                                            que sean inconsistentes con el alcance de la auditoría realizada. Además, el cliente no puede 
+                                            usar los resultados auditoría de una manera engañosa o no autorizada, o de una manera que dañe 
+                                            la reputación de Primus Auditing Ops.<br/>Además, el cliente reconoce que, los tiempos para cierre 
+                                            de No conformidades deberán ser discutidos durante el cierre de auditoría con el auditor para 
+                                            que queden establecidos en el reporte de acciones Correctivas CAPR.
+                                        <br/>
                                         <br/>
                                         <br/>
                                         <b>9. TÉRMINOS Y CONDICIONES.</b>  
-                                        <ul>
+                                        <ul style= "list-style-type: lower-latin">
                                             <li>
                                                 <b>Terminación por causa justificada.</b> Este Acuerdo de servicio será indefinido y 
                                                 finalizará en el momento de la expiración de la Certificación del Cliente. 
@@ -1989,7 +1996,6 @@
                                             </li>
                                         </ul>
                                         <br/>
-                                        <br/>
                                         </p>
                                         <p>
                                         <b>10. FACTURACIÓN.</b> Se puede cobrar una tarifa administrativa de cancelación de 
@@ -2000,7 +2006,7 @@
                                         <br/>
                                         <br/>
                                         <b>11. LOGO y URN.</b> El uso del logos de miembro de Sedex se encuentra en el sitio web 
-                                        (www.sedex.com) en la sección Sedex Ambassador toolkit. El cliente no debe hacer un 
+                                        (www.sedex.com) en la sección <u>Sedex Ambassador toolkit.</u> El cliente no debe hacer un 
                                         mal uso del informe SMETA, CAPR y / o URN.
                                         <p>
                                         Fecha: <span t-field="line.service_date"/>
@@ -2088,14 +2094,14 @@
                                                 <p style="text-align:left;"><b>Billed In: </b>México</p></td>
                                             </tr>
                                             <tr>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>Contract E-mail:</b><span t-field="line.registrynumber_id.contract_email"/></p></td>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>Phone #: </b><span t-field="line.registrynumber_id.phone"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Contract E-mail:</b><span t-field="line.registrynumber_id.contract_email"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Phone #: </b><span t-field="line.registrynumber_id.phone"/></p></td>
                                             </tr>
                                             <tr>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>Invoice E-mail: </b><span t-field="doc.partner_id.email"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Invoice E-mail: </b><span t-field="doc.partner_id.email"/></p></td>
                                                 <td style="width:50%; border:0px; background-color:white;">
                                                 <p style="text-align:left;"><b>Agreed Date: </b><span t-field="line.service_start_date_nop"/> - <span t-field="line.service_end_date_nop"/></p></td>
                                             </tr>
@@ -2257,17 +2263,17 @@
             
                                             </tr>
                                             <tr>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>Correo de Contrato: </b><span t-field="line.registrynumber_id.contract_email"/></p></td>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>Telefono: </b><span t-field="line.registrynumber_id.phone"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Correo de Contrato: </b><span t-field="line.registrynumber_id.contract_email"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Telefono: </b><span t-field="line.registrynumber_id.phone"/></p></td>
                                                 
                                             </tr>
                                             <tr>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>Correo de Facturación: </b><span t-field="doc.partner_id.email"/></p></td>
-                                                <td style="width:50%; border:0px; background-color:white;">
-                                                <p style="text-align:left;"><b>Fecha Tentativa: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Correo de Facturación: </b><span t-field="doc.partner_id.email"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Fecha Tentativa: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
                                                 
                                             </tr>
                                         </table>
