@@ -18,8 +18,8 @@ class Partner(models.Model):
         string='Organizations',
     )
 
-    vendor_service_percentage = fields.Integer(
-        default = 0,
+    vendor_service_percentage = fields.Float(
+        default = 0.00,
         required = True,
         string= "Vendor service percentage",
     )
