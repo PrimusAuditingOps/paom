@@ -7,6 +7,21 @@ _logger = getLogger(__name__)
 class PurchaseOrderLine(models.Model):
     _inherit='purchase.order.line'
 
+    @api.depends('price_subtotal', 'taxes_id')
+    def _generate_subtotal(self):
+        for line in self:
+            sumasubtotaliva = 0.0
+            subtotaliva = 0.0
+            for lineiva in line.taxes_id:
+                if lineiva.amount > 0:
+                    sumasubtotaliva += line.price_subtotal * lineiva.amount / 100 
+
+            subtotaliva = line.price_subtotal + sumasubtotaliva
+
+            line.update({
+                'sra_subtotal_iva': subtotaliva,
+            })
+
     def _generate_referral_date(self):
         for rec in self:
             rec.referral_date = datetime.today()
@@ -44,7 +59,10 @@ class PurchaseOrderLine(models.Model):
         'purchase_order_line_id', 'sale_order_line_id',
         string='Sales Order Lines', readonly=True, copy=False)
     
-     
+    sra_subtotal_iva = fields.Monetary(
+        compute= _generate_subtotal,
+        string="Subtotal Iva",
+    )
 
     @api.onchange('service_end_date')
     def _change_end_date(self):

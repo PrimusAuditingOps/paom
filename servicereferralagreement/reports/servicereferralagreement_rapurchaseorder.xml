@@ -94,9 +94,9 @@
                                                 <tr>
                                                     <td><span t-field="serviceline.name"/></td>
                                                     <td style="text-align:right"><span t-field="serviceline.product_uom_qty"/></td>
-                                                    <td style="text-align:right"><span t-field="serviceline.price_subtotal"/></td>
+                                                    <td style="text-align:right"><span t-field="serviceline.sra_subtotal_iva"/></td>
                                                 </tr>
-                                                <t t-set="sumtotal" t-value="sumtotal+serviceline.price_subtotal"/>
+                                                <t t-set="sumtotal" t-value="sumtotal+serviceline.sra_subtotal_iva"/>
                                             </t>
                                         </t>
                                     </table>

@@ -41,7 +41,7 @@ class PurchaseOrder(models.Model):
     @api.onchange('sale_order_id')
     def onchange_sale_order_id(self):
         purchase_line = []
-        percentagevendor = 0
+        percentagevendor = 0.00
         priceunit = 0.0
         domain = []
         qty = 0
