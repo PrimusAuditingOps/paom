@@ -14,11 +14,15 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Audit Percentages" groups="servicereferralagreement.commission_suppplier_group">
+                          <field name="audit_fee_percentages_ids" widget="many2many">
+                              <tree string="Registered percentages">
+                                  <field name="audit_fees_id"/>
+                                  <field name="audit_percentage"/>
+                              </tree>
+                          </field>
+                        </page>
                 </page>
-                <field name="category_id" position="after">
-                    <field name="supplier_rank" invisible="1"/>
-                    <field name="vendor_service_percentage" groups="servicereferralagreement.commission_suppplier_group" attrs="{'invisible':[('supplier_rank', '=', 0)]}" options='{"type": "number", "format": false}'/>
-                </field>
             </field>
     </record>
 </odoo>

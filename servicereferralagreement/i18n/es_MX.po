@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0-20210104\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-09 23:07+0000\n"
-"PO-Revision-Date: 2021-08-09 23:07+0000\n"
+"POT-Creation-Date: 2021-09-02 16:14+0000\n"
+"PO-Revision-Date: 2021-09-02 16:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -138,7 +138,7 @@ msgid ""
 "                                        <br/>\n"
 "                                        <br/>\n"
 "                                        <b>11. LOGO y URN.</b> El uso del logos de miembro de Sedex se encuentra en el sitio web \n"
-"                                        (www.sedex.com) en la sección Sedex Ambassador toolkit. El cliente no debe hacer un \n"
+"                                        (www.sedex.com) en la sección <u>Sedex Ambassador toolkit.</u> El cliente no debe hacer un \n"
 "                                        mal uso del informe SMETA, CAPR y / o URN."
 msgstr ""
 
@@ -254,7 +254,7 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid ""
-"<b>8. CERTIFICACIÓN DE PRODUCTO.</b> El Cliente debe cumplir con los \n"
+"<b>8. RESULTADOS DE AUDITORÍA.</b> El Cliente debe cumplir con los \n"
 "                                        siguiente:"
 msgstr ""
 
@@ -466,6 +466,11 @@ msgid ""
 "                                            cargos reales. Un cargo por cancelación se aplicará por la cancelación de \n"
 "                                            auditoría dentro de los 15 días siguientes a la fecha de la auditoría \n"
 "                                            programada."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
+msgid "<b>Nombre de Organización de Facturación: </b>"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1221,13 +1226,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid ""
 "<br/>\n"
-"                                            <b>Nombre de Organización de Facturación: </b>"
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
-msgid ""
-"<br/>\n"
 "                                            <br/>\n"
 "                                            *Un costo administrativo adicional de $200.00 por \n"
 "                                            cancelación y reprogramación podría ser aplicado a las \n"
@@ -1266,23 +1264,46 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
 msgid ""
 "<u><b>Entrega de Resultados de Auditoria:</b></u> El Auditor \n"
-"                                        acuerda por medio de éste documento tomar en cuenta la \n"
-"                                        siguiente cláusula de penalización: Primus Auditing Operations \n"
-"                                        México, S. de R.L de C.V. está contractualmente obligado a \n"
-"                                        entregar la información de la auditoria a sus clientes a más \n"
-"                                        tardar el décimo día natural después \n"
-"                                        de haber sido realizada la misma, <u><b>por lo tanto, \n"
-"                                        los resultados de la auditoria deben ser entregados a Primus \n"
-"                                        Auditing Operations México, S. de R.L. de C.V. a más tardar a los \n"
-"                                        días mencionados en éste párrafo.</b></u> Si en el evento, el reporte de \n"
-"                                        auditoría no es entregado a Primus Auditing Operations México, S. \n"
-"                                        de R.L. de C.V. de acuerdo a lo anterior, la sanción será \n"
-"                                        determinada a una tasa del 5% sobre la cantidad que aparece en el \n"
-"                                        presente acuerdo con Primus Auditing Operations México, S. de R.L. \n"
-"                                        de C.V. por cada día de retraso; hasta que el reporte sea entregado \n"
-"                                        a Primus Auditing Operations México, S. de R.L. de C.V. \n"
-"                                        (Esto excluye reportes rechazados por el Sistema de Aseguramiento \n"
-"                                        de Calidad de Auditorías)."
+"                                            acuerda por medio de éste documento tomar en cuenta la \n"
+"                                            siguiente cláusula de penalización: Primus Auditing Operations \n"
+"                                            México, S. de R.L de C.V. está contractualmente obligado a \n"
+"                                            entregar la información de la auditoria a sus clientes a más \n"
+"                                            tardar el décimo día natural después \n"
+"                                            de haber sido realizada la misma, <u><b>por lo tanto, \n"
+"                                            los resultados de la auditoria deben ser entregados a Primus \n"
+"                                            Auditing Operations México, S. de R.L. de C.V. a más tardar a los \n"
+"                                            días mencionados en éste párrafo.</b></u> Si en el evento, el reporte de \n"
+"                                            auditoría no es entregado a Primus Auditing Operations México, S. \n"
+"                                            de R.L. de C.V. de acuerdo a lo anterior, la sanción será \n"
+"                                            determinada a una tasa del 10% sobre la cantidad que aparece en el \n"
+"                                            presente acuerdo con Primus Auditing Operations México, S. de R.L. \n"
+"                                            de C.V. por cada día de retraso; hasta que el reporte sea entregado \n"
+"                                            a Primus Auditing Operations México, S. de R.L. de C.V. \n"
+"                                            (Esto excluye reportes rechazados por el Sistema de Aseguramiento \n"
+"                                            de Calidad de Auditorías)."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
+msgid ""
+"<u><b>Entrega de Resultados de Auditoria:</b></u> El Auditor \n"
+"                                            acuerda por medio de éste documento tomar en cuenta la \n"
+"                                            siguiente cláusula de penalización: Primus Auditing Operations \n"
+"                                            México, S. de R.L de C.V. está contractualmente obligado a \n"
+"                                            entregar la información de la auditoria a sus clientes a más \n"
+"                                            tardar el décimo día natural después \n"
+"                                            de haber sido realizada la misma, <u><b>por lo tanto, \n"
+"                                            los resultados de la auditoria deben ser entregados a Primus \n"
+"                                            Auditing Operations México, S. de R.L. de C.V. a más tardar a los \n"
+"                                            días mencionados en éste párrafo.</b></u> Si en el evento, el reporte de \n"
+"                                            auditoría no es entregado a Primus Auditing Operations México, S. \n"
+"                                            de R.L. de C.V. de acuerdo a lo anterior, la sanción será \n"
+"                                            determinada a una tasa del 5% sobre la cantidad que aparece en el \n"
+"                                            presente acuerdo con Primus Auditing Operations México, S. de R.L. \n"
+"                                            de C.V. por cada día de retraso; hasta que el reporte sea entregado \n"
+"                                            a Primus Auditing Operations México, S. de R.L. de C.V. \n"
+"                                            (Esto excluye reportes rechazados por el Sistema de Aseguramiento \n"
+"                                            de Calidad de Auditorías)."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1396,13 +1417,6 @@ msgstr "Dirección"
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid ""
-"Además, el cliente acepta que, si la certificación se aplica a la producción en curso, \n"
-"                                            el producto certificado continúa cumpliendo con los requisitos del producto."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
-msgid ""
 "Adicionalmente el Cliente está de acuerdo con que la \n"
 "                                            certificación de la producción en curso se extiende al \n"
 "                                            producto obtenido de ella y este debe cumplir con los \n"
@@ -1428,6 +1442,11 @@ msgid "Audit Fee ("
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.res_partner_organization_view_form
+msgid "Audit Percentages"
+msgstr "Porcentaje de Auditoría"
+
+#. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order_line__audit_products
 msgid "Audit Products"
 msgstr "Producto Auditado"
@@ -1438,12 +1457,18 @@ msgid "Audit duration"
 msgstr "Duración de auditoria"
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__audit_percentage
+msgid "Audit percentage"
+msgstr "Porcentaje de Auditoría"
+
+#. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__name
 msgid "Audit product"
 msgstr "Producto auditado"
 
 #. module: servicereferralagreement
 #: model:ir.actions.act_window,name:servicereferralagreement.auditproducts_action
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order_line__sra_sale_line_product_audit_ids
 #: model:ir.ui.menu,name:servicereferralagreement.auditproducts_purchase
 msgid "Audit products"
 msgstr "Productos Auditados"
@@ -1452,6 +1477,20 @@ msgstr "Productos Auditados"
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber__audit_scope
 msgid "Audit scope"
 msgstr "Alcance de la Auditoría"
+
+#. module: servicereferralagreement
+#: model:ir.actions.act_window,name:servicereferralagreement.audit_type_action
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order__audit_fee_id
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__name
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__audit_fees_id
+#: model:ir.ui.menu,name:servicereferralagreement.audit_type_purchase
+msgid "Audit type"
+msgstr "Tipo de Auditoría"
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_audit_type_view_tree
+msgid "Audit type Tree"
+msgstr "Vista de lista Tipo de Auditoría"
 
 #. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__partner_id
@@ -1599,20 +1638,34 @@ msgid "Create first Scheme"
 msgstr "Crea tu primer Esquema"
 
 #. module: servicereferralagreement
+#: model_terms:ir.actions.act_window,help:servicereferralagreement.audit_type_action
+msgid "Create first audit type"
+msgstr "Crea tu primer tipo de auditoría"
+
+#. module: servicereferralagreement
+#: model_terms:ir.actions.act_window,help:servicereferralagreement.percentage_type_audit_action
+msgid "Create first percentage by type of audit"
+msgstr "Crea tu primer porcentaje por tipo de auditoría"
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_entity__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_organization__create_uid
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_scheme__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_entity__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_organization__create_date
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_scheme__create_date
 msgid "Created on"
@@ -1646,10 +1699,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order_line__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__display_name
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_entity__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_organization__display_name
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_scheme__display_name
 msgid "Display Name"
@@ -1675,7 +1730,17 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
 msgid ""
 "Ejemplo: Un contrato en el que el pago original sea $1,000, la \n"
-"                                        sanción sería de $50 menos por día sobre la cantidad que se le \n"
+"                                            sanción sería de $50 menos por día sobre la cantidad que se le \n"
+"                                            iba a pagar al auditor. Primus Auditing Operations México, \n"
+"                                            S. de R.L. de C.V. considerará en un futuro utilizar los servicios \n"
+"                                            del auditor debido a la entrega tardía de resultados."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
+msgid ""
+"Ejemplo: Un contrato en el que el pago original sea $1,000, la \n"
+"                                        sanción sería de $100 menos por día sobre la cantidad que se le \n"
 "                                        iba a pagar al auditor. Primus Auditing Operations México, \n"
 "                                        S. de R.L. de C.V. considerará en un futuro utilizar los servicios \n"
 "                                        del auditor debido a la entrega tardía de resultados."
@@ -1772,7 +1837,12 @@ msgstr ""
 msgid ""
 "El cliente debe entregar el cuestionario de autoevaluación \n"
 "                                                (SAQ) al menos 15 días antes de la fecha de la visita/auditoría \n"
-"                                                in situ."
+"                                                in situ. Asimismo, deberá proporcionar los números de registro ZC \n"
+"                                                y ZS a Primus Auditing Ops al menos 5 dias antes de la auditoria, \n"
+"                                                de lo contrario la auditoria será reprogramada y el pago por viáticos \n"
+"                                                queda sujeto a que el auditor asignado haya realizado algún gasto previo \n"
+"                                                a la cancelación ya sea por el cliente o por falta de registro en la \n"
+"                                                plataforma de Sedex."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1800,13 +1870,13 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid ""
-"El cliente reconoce que no puede hacer afirmaciones con respecto a la certificación \n"
-"                                        que sean inconsistentes con el alcance de la auditoría realizada. Además, el cliente \n"
-"                                        no puede usar la certificación de producto de una manera engañosa o no autorizada, \n"
-"                                        o de una manera que dañe la reputación de Primus Auditing Ops. Además, el cliente \n"
-"                                        reconoce que, si la certificación se suspende, cancela o revoca, el cliente debe \n"
-"                                        dejar de publicitar cualquier material en referencia a dicha certificación y devolver \n"
-"                                        los documentos de certificación.\n"
+"El cliente reconoce que no puede hacer afirmaciones con respecto a los resultados de auditoría \n"
+"                                            que sean inconsistentes con el alcance de la auditoría realizada. Además, el cliente no puede \n"
+"                                            usar los resultados auditoría de una manera engañosa o no autorizada, o de una manera que dañe \n"
+"                                            la reputación de Primus Auditing Ops.<br/>Además, el cliente reconoce que, los tiempos para cierre \n"
+"                                            de No conformidades deberán ser discutidos durante el cierre de auditoría con el auditor para \n"
+"                                            que queden establecidos en el reporte de acciones Correctivas CAPR.\n"
+"                                        <br/>\n"
 "                                        <br/>\n"
 "                                        <br/>\n"
 "                                        <b>9. TÉRMINOS Y CONDICIONES.</b>"
@@ -1823,8 +1893,8 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid ""
-"El cliente se compromete a cumplir siempre con los requisitos de "
-"certificación."
+"El cliente se compromete a cumplir siempre con los requisitos de la "
+"metodología."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -2404,7 +2474,7 @@ msgid ""
 "                                        Cliente reconoce, comprende y acepta al firmar este Acuerdo.\n"
 "                                        <br/>\n"
 "                                        <br/>\n"
-"                                        En el caso de que se requiera una nueva visita in situ para verificar \n"
+"                                        En el caso de que se requiera una nueva visita <u><i>in situ</i></u> para verificar \n"
 "                                        las acciones correctivas reportadas en la reunión de cierre de la \n"
 "                                        auditoría correspondiente, el Cliente se compromete a pagar por \n"
 "                                        adelantado todos los costos relacionados con dicha visita, es decir, \n"
@@ -2548,10 +2618,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order_line__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__id
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_entity__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_organization__id
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_scheme__id
 msgid "ID"
@@ -2617,30 +2689,36 @@ msgstr ""
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order____last_update
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order_line____last_update
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda____last_update
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees____last_update
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate____last_update
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts____last_update
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_entity____last_update
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_organization____last_update
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee____last_update
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber____last_update
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_scheme____last_update
 msgid "Last Modified on"
 msgstr "Última modificación el"
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_entity__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_organization__write_uid
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_scheme__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_entity__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_organization__write_date
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_scheme__write_date
 msgid "Last Updated on"
@@ -2776,6 +2854,17 @@ msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.actions.act_window,name:servicereferralagreement.percentage_type_audit_action
+#: model:ir.ui.menu,name:servicereferralagreement.percentage_type_audit_purchase
+msgid "Percentage by type of audit"
+msgstr "Porcentaje por tipo de auditoría"
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_percentage_of_audit_fee_view_tree
+msgid "Percentage by type of audit Tree"
+msgstr "Lista de Porcentaje por tipo de auditoría"
+
+#. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_registrynumber__phone
 msgid "Phone"
 msgstr "Telefono"
@@ -2825,6 +2914,11 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order_line__sra_sale_line_price_unit
+msgid "Price unit"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
 msgid "Primus Auditing Operations México, S. de R.L. de C.V.,"
 msgstr ""
@@ -2833,9 +2927,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_gfs
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_nop
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_ra_gfs
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_standard
 msgid "Primus Auditing Ops Confidential Document"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta
+msgid "PrimusAuditingOps Documento Confidencial"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -2994,7 +3092,7 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta
-msgid "R.1   9/04/2020"
+msgid "R.2   08/10/2021"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -3043,6 +3141,11 @@ msgid "Registered Purchase Orders"
 msgstr "Registro de Ordenes de Compra"
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.res_partner_organization_view_form
+msgid "Registered percentages"
+msgstr "Registrar porcentajes"
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_organization_view_form
 msgid "Registration Number"
 msgstr "Numero de Registro"
@@ -3056,6 +3159,11 @@ msgstr "Registro de productos auditados"
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_auditproducts_view_tree
 msgid "Registry audit products"
 msgstr "Registro de productos auditados"
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_audit_type_view_form
+msgid "Registry audit type"
+msgstr "Registre un tipo de auditoría"
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_auditor_exchange_rate_view_form
@@ -3082,6 +3190,11 @@ msgstr "Numeros de Registros Formulario"
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_registrynumber_view_tree
 msgid "Registry number Tree"
 msgstr "Numeros de Registros árbol"
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_percentage_type_audit_view_form
+msgid "Registry percentage by type of audit"
+msgstr "Registrar Porcentaje por tipo de auditoría"
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.servicereferralagreement_scheme_view_form
@@ -3174,6 +3287,12 @@ msgstr "Esquemas"
 msgid ""
 "Se vuelva públicamente conocida, sin la intervención indebida de las Partes."
 msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,help:servicereferralagreement.field_purchase_order__audit_fee_id
+#: model:ir.model.fields,help:servicereferralagreement.field_servicereferralagreement_percentageofauditfee__audit_fees_id
+msgid "Select Audit type"
+msgstr "Seleccione un tipo de auditoría"
 
 #. module: servicereferralagreement
 #: model:ir.model.fields,help:servicereferralagreement.field_servicereferralagreement_entity__country_id
@@ -3315,6 +3434,11 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order_line__sra_subtotal_iva
+msgid "Subtotal Iva"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
 msgid "Tarifa"
 msgstr ""
@@ -3340,6 +3464,16 @@ msgid ""
 "Tener plena capacidad legal para obligarse en los términos de \n"
 "                                                        este instrumento."
 msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.constraint,message:servicereferralagreement.constraint_servicereferralagreement_auditfees_uc_audit_fee_name
+msgid "There is already a audit type with this name"
+msgstr "Ya existe un tipo de auditoría con este nombre"
+
+#. module: servicereferralagreement
+#: model:ir.model.constraint,message:servicereferralagreement.constraint_servicereferralagreement_percentageofauditfee_uc_percentage_audit_fee
+msgid "There is already a audit type with this percentage"
+msgstr "Ya existe un tipo de auditoría con este porcentaje"
 
 #. module: servicereferralagreement
 #: model:ir.model.constraint,message:servicereferralagreement.constraint_servicereferralagreement_organization_uc_name_organization
@@ -3390,6 +3524,17 @@ msgid "Version"
 msgstr "Versión"
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_res_partner__audit_fee_percentages_ids
+#: model:ir.model.fields,field_description:servicereferralagreement.field_res_users__audit_fee_percentages_ids
+msgid "audit fee percentages"
+msgstr "Porcentajes de tipos de auditorías"
+
+#. module: servicereferralagreement
+#: model:ir.model,name:servicereferralagreement.model_servicereferralagreement_auditfees
+msgid "auditfees"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid ""
 "bajo los lineamientos de la Ley de Productos Orgánicos \n"
@@ -3438,6 +3583,11 @@ msgid ""
 "                                        <u><b>Queda estrictamente prohibido que el auditor haga cualquier \n"
 "                                        tipo de uso de la información para beneficios futuros y/o en \n"
 "                                        contra de la Compañía.</b></u>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model,name:servicereferralagreement.model_servicereferralagreement_percentageofauditfee
+msgid "percentageofauditfee"
 msgstr ""
 
 #. module: servicereferralagreement

@@ -19,12 +19,30 @@ class PurchaseOrder(models.Model):
         if organization_list:
             dominio = [('id', 'in', organization_list)]
         return dominio
-    
+
+    def _get_audit_type_id(self):
+        dominio = [('id', '=', -1)]
+        audit_type_list = []
+        for rec in self:
+            for recaudittype in rec.partner_id.audit_fee_id:
+                audit_type_list.append(recaudittype.audit_fees_id.id)
+                _logger.error(recaudittype.audit_fees_id.id)
+        if audit_type_list:
+            dominio = [('id', 'in', audit_type_list)]
+        return dominio
+
+    audit_fee_id = fields.Many2one(
+        comodel_name = 'servicereferralagreement.auditfees', 
+        string='Audit type', 
+        help='Select Audit type', 
+        ondelete='restrict',
+    )
     sale_order_id = fields.Many2one(
         comodel_name='sale.order',
         string='Sale Order',
         ondelete='set null',
-    )    
+    )
+        
     coordinator_id = fields.Many2one(
         string="Coordinator",
         comodel_name='res.users',
@@ -38,6 +56,24 @@ class PurchaseOrder(models.Model):
             if rec.sale_order_id:
                 rec.order_line = None
                 rec.sale_order_id = None
+    @api.onchange('audit_fee_id')
+    def _onchange_audit_fee_id(self):
+        for rec in self:
+            percentagevendor = 0.00
+            if rec.partner_id and rec.audit_fee_id and rec.sale_order_id:
+                for recorderline in rec.order_line:
+                    for fee in rec.partner_id.audit_fee_percentages_ids:
+                        if  fee.audit_fees_id.id == rec.audit_fee_id.id:
+                            percentagevendor = fee.audit_percentage
+                    priceunit = round((recorderline.sra_sale_line_price_unit * percentagevendor) / 100,2)
+                    if rec.currency_id:
+                        if not rec.currency_id == rec.sale_order_id.pricelist_id.currency_id:
+                            domain = [('currency_id','=',rec.currency_id.id)]
+                            recexchangerateauditor = self.env['servicereferralagreement.auditorexchangerate'].search(domain)
+                            for recrate in recexchangerateauditor:
+                                priceunit = recrate.exchange_rate * priceunit
+                    recorderline.price_unit = priceunit
+
     @api.onchange('sale_order_id')
     def onchange_sale_order_id(self):
         purchase_line = []
@@ -119,7 +155,10 @@ class PurchaseOrder(models.Model):
                                     dateplanned = recpurchase.date_order
                             
                             if recpurchase.partner_id:
-                                percentagevendor = recpurchase.partner_id.vendor_service_percentage
+                                if recpurchase.audit_fee_id:
+                                    for fee in recpurchase.partner_id.audit_fee_percentages_ids:
+                                        if  fee.audit_fees_id.id == recpurchase.audit_fee_id.id:
+                                            percentagevendor = fee.audit_percentage
                             
                             if percentagevendor and percentagevendor > 0:
                                 priceunit = round((line.price_unit * percentagevendor) / 100,2)

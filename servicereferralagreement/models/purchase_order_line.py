@@ -57,8 +57,17 @@ class PurchaseOrderLine(models.Model):
         'sale.order.line',
         'sale_order_line_purchase_line_rel',
         'purchase_order_line_id', 'sale_order_line_id',
-        string='Sales Order Lines', readonly=True, copy=False)
+        string='Sales Order Lines')
     
+
+    sra_sale_line_product_audit_ids = fields.Many2many(
+        related="sra_sale_line_ids.audit_products",
+        string="Audit products",
+    )
+    sra_sale_line_price_unit = fields.Float(
+        related="sra_sale_line_ids.price_unit",
+        string="Price unit",
+    )
     sra_subtotal_iva = fields.Monetary(
         compute= _generate_subtotal,
         string="Subtotal Iva",

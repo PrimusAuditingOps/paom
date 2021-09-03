@@ -12,3 +12,5 @@ from . import purchase_order_line
 from . import product_template
 from . import servicereferralagreement_agenda
 from . import servicereferralagreement_auditor_exchange_rate
+from . import servicereferralagreement_audit_fees
+from . import servicereferralagreement_percentage_of_audit_fee

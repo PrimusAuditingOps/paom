@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 from logging import getLogger
 
 _logger = getLogger(__name__)
@@ -11,6 +11,7 @@ class Partner(models.Model):
         inverse_name='customer_id',
         string='Organizations',
     )"""
+
     organization_ids = fields.Many2many(
         'servicereferralagreement.organization',
         'servicereferralagreement_organization_res_partner_rel',
@@ -24,6 +25,26 @@ class Partner(models.Model):
         string= "Vendor service percentage",
     )
     
-            
+    audit_fee_percentages_ids = fields.Many2many(
+        'servicereferralagreement.percentageofauditfee',
+        'servicereferralagreement_percentageofauditfee_res_partner_rel',
+        'res_partner_id', 'servicereferralagreement_percentageofauditfee_id',
+        string='audit fee percentages',
+        required = True,
+    )
+
+    @api.onchange('audit_fee_percentages_ids')
+    def _change_audit_fee(self):
+        for rec in self:
+            list_remove_elements = []
+            list_exist_fees = []
+            for fees in rec.audit_fee_percentages_ids:        
+                if fees.audit_fees_id.name not in list_exist_fees:
+                    list_exist_fees.append(fees.audit_fees_id.name)
+                else:
+                    list_remove_elements.append(fees._origin.id)
+                    rec.audit_fee_percentages_ids = [(2, fees._origin.id, 0)]
+
+
     
     

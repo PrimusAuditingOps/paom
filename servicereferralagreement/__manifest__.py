@@ -38,7 +38,9 @@
         'views/servicereferralagreement_auditproducts.xml',
         'views/product_template.xml',
         'views/purchase_order_agenda.xml',
-        'views/servicereferralagreement_auditor_exchange_rate.xml'
+        'views/servicereferralagreement_auditor_exchange_rate.xml',
+        'views/servicereferralagreement_percentage_of_audit_fee.xml',
+        'views/servicereferralagreement_audit_type.xml'
     ],
     'css': [
         'static/src/css/servicereferralagreement.css',
