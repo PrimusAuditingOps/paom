@@ -10,6 +10,7 @@
     'data': [
         # security
         # data
+        'data/ref_bank_sequence.xml',
         # demo
         # reports
         # views

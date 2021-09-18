@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="sign_send_request_view_templates_inherit_form" model="ir.ui.view">
+            <field name="name">sign.send.request.view.templates.inherit.form</field>
+            <field name="model">sign.send.request</field>
+            <field name="inherit_id" ref="sign.sign_send_request_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[1]" position="inside">
+                    <field name="st_mail_template_id" options="{'no_create':True, 'create_edit': false,'no_open': True}"/>
+                    <field name="st_reminder_days" options='{"type": "number", "format": false}'/>
+                </xpath>
+                <xpath expr="//group[1]" position="after">
+                    <field name="st_attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
