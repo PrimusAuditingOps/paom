@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="attachment_invoice_view_tree" model="ir.ui.view">
+        <field name="name">attachment.invoice.view.tree</field>
+        <field name="model">ir.attachment</field>
+        <field name="arch" type="xml">
+            <tree string="Attachment Invoice">
+                <field name="name"/>
+                <field name="type"/>
+                <field name="file_size"/>
+                <field name="mimetype"/>
+                <field name="create_uid"/>
+                <field name="create_date"/>
+            </tree>
+        
+        </field>
+    </record>
+    
+    <record id="view_attachment_download_search" model="ir.ui.view">
+        <field name="name">view.attachment.download.search</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_search"/>
+        <field name="arch" type="xml">
+            <filter name="owner" position="before">
+                <filter string="PDF files" name="mimetype" domain="[('mimetype','ilike','pdf')]" />
+            </filter>
+        </field>
+    </record>
+
+
+    <record id="attachment_invoice_action" model="ir.actions.act_window">
+        <field name="name">Attachments</field>
+        <field name="res_model">ir.attachment</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('res_model', '=', 'account.move')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">attachment view
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="attachement_invoice_account"
+            name="Downloading invoice attachments"
+            parent="account.menu_finance_receivables"
+            action="attachment_invoice_action"
+            sequence="120"/>
+
+</odoo>
