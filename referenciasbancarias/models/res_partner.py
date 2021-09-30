@@ -22,21 +22,20 @@ class Partner(models.Model):
     @api.model
     def create(self, vals):
         seq = 0
-        _logger.error("entro create")
-        if (not self.ctm_ref_bank_pesos or not self.ctm_ref_bank_dolares) and vals.get('company_type') == 'company':
+        if (not self.ctm_ref_bank_pesos or not self.ctm_ref_bank_dolares) and (self.company_type == 'company' or vals.get('company_type') == 'company'):
             seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
             vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
             vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
         result = super(Partner, self).create(vals)
         return result
-
+    
     def write(self, vals):
         seq = 0
-        _logger.error("entro write")
-        if (not self.ctm_ref_bank_pesos or not self.ctm_ref_bank_dolares) and vals.get('company_type') == 'company':
-            seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
-            vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
-            vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
+        for rec in self:
+            if (not rec.ctm_ref_bank_pesos or not rec.ctm_ref_bank_dolares) and (vals.get('company_type') == 'company' or rec.company_type == 'company'):
+                seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
+                vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
+                vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
         result = super(Partner, self).write(vals)
         return result
 
