@@ -49,6 +49,7 @@ class PurchaseOrderLine(models.Model):
     )
     update_number = fields.Integer(
         default= 0,
+        copy=False,
     )
     sra_customer_id = fields.Many2one(
        related="order_id.sale_order_id.partner_id",
@@ -90,8 +91,9 @@ class PurchaseOrderLine(models.Model):
             for line in orderline.order_id.order_line:
                 if line.product_id:
                     if orderline.registrynumber_id.id == line.registrynumber_id.id and orderline.organization_id.id == line.organization_id.id:
-                        cont += line.update_number    
-            orderline.update_number = cont
+                        if line.update_number and line.update_number > cont:
+                            cont = line.update_number  
+            orderline.update_number = cont + 1
 
             purchaseorders = ""
             suma = 0
@@ -151,9 +153,10 @@ class PurchaseOrderLine(models.Model):
                 
             for line in orderline.order_id.order_line:
                 if line.product_id:
-                    if orderline.registrynumber_id.id == line.registrynumber_id.id and orderline.organization_id.id == line.organization_id.id:
-                        cont += line.update_number    
-            orderline.update_number = cont
+                    if orderline.registrynumber_id.id == line.registrynumber_id.id and orderline.organization_id.id == line.organization_id.id:  
+                        if line.update_number and line.update_number > cont:
+                            cont = line.update_number
+            orderline.update_number = cont + 1
 
             purchaseorders = ""
             suma = 0

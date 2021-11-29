@@ -18,7 +18,7 @@
                           <field name="audit_fee_percentages_ids" widget="many2many">
                               <tree string="Registered percentages">
                                   <field name="audit_fees_id"/>
-                                  <field name="audit_percentage"/>
+                                  <field name="audit_percentage" digits="[12,3]"/>
                               </tree>
                           </field>
                         </page>

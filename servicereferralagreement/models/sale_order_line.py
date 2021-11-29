@@ -82,9 +82,11 @@ class SaleOrderLineInherit(models.Model):
     )
     update_number = fields.Integer(
         default= 0,
+        copy=False,
     )
     update_number_coordinator = fields.Integer(
         default= 0,
+        copy=False,
     )
     @api.onchange('organization_id')
     def _cancel_selection_registrynumber(self):
@@ -129,8 +131,9 @@ class SaleOrderLineInherit(models.Model):
             for line in orderline.order_id.order_line:
                 if line.product_id:
                     if orderline.registrynumber_id.id == line.registrynumber_id.id and orderline.organization_id.id == line.organization_id.id:
-                        cont += line.update_number    
-            orderline.update_number = cont
+                        if line.update_number and line.update_number > cont:
+                            cont = line.update_number
+            orderline.update_number = cont +1
     @api.onchange('service_start_date')
     def _change_start_date(self):
         cont = 0
@@ -148,8 +151,9 @@ class SaleOrderLineInherit(models.Model):
             for line in orderline.order_id.order_line:
                 if line.product_id:
                     if orderline.registrynumber_id.id == line.registrynumber_id.id and orderline.organization_id.id == line.organization_id.id:
-                        cont += line.update_number    
-            orderline.update_number = cont
+                        if line.update_number and line.update_number > cont:
+                            cont = line.update_number     
+            orderline.update_number = cont + 1
 
     @api.onchange('coordinator_id')
     def _change_coordinator(self):
@@ -159,5 +163,6 @@ class SaleOrderLineInherit(models.Model):
             for line in orderline.order_id.order_line:
                 if line.product_id:
                     if orderline.registrynumber_id.id == line.registrynumber_id.id and orderline.organization_id.id == line.organization_id.id:
-                        cont += line.update_number_coordinator    
-            orderline.update_number_coordinator = cont
+                        if line.update_number_coordinator and line.update_number_coordinator > cont:
+                            cont = line.update_number_coordinator  
+            orderline.update_number_coordinator = cont + 1

@@ -19,6 +19,7 @@ class ServicereferralagreementPercentageOfAuditFee(models.Model):
     )
     audit_percentage  = fields.Float(
         default = 0.00,
+        digits=(12,3),
         required = True,
         string= "Audit percentage",
     )
