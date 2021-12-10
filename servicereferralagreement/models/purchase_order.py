@@ -123,6 +123,7 @@ class PurchaseOrder(models.Model):
                     if line.product_template_id.can_be_commissionable:
                         add= True
                         ind = 0 
+                        cantproduct = line.product_uom_qty
                         for lis in listdic:
                             nr = 0
                             idpro = 0
@@ -135,12 +136,12 @@ class PurchaseOrder(models.Model):
                                 if k == 'qty':
                                     qty = v
                             if nr == line.registrynumber_id.id and idpro == line.product_id.id:
-                                if line.product_uom_qty <= qty:
+                                if cantproduct <= qty:
                                     add = False
-                                    listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': qty - line.product_uom_qty}
+                                    listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': qty - cantproduct}
                                 else:
                                     add = True
-                                    line.product_uom_qty = line.product_uom_qty - qty
+                                    cantproduct = cantproduct - qty
                                     listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': 0}
                                 break
                             ind= ind + 1
@@ -172,8 +173,8 @@ class PurchaseOrder(models.Model):
                             data = {
                                 'name': line.name,
                                 'price_unit': priceunit,
-                                'product_uom_qty': line.product_uom_qty,
-                                'product_qty': line.product_uom_qty,
+                                'product_uom_qty': cantproduct,
+                                'product_qty': cantproduct,
                                 'product_id': line.product_id.id,
                                 'product_uom': line.product_uom.id,
                                 'date_planned': dateplanned,
