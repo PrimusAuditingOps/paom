@@ -9,6 +9,8 @@
             <field name="payment_term_id" position="after">
              <field name="enable_organization_ids" invisible="1"/>
              <field name="coordinator_id"/>
+             <field name="registration_number_order_lines_ids" invisible="1"/>
+             <field name="registration_number_print" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('id', 'in', registration_number_order_lines_ids )]"/>
             </field>
 
             <page name="other_information" position="after">

@@ -13,6 +13,7 @@
             <t t-set="registrynumber" t-value= "-1"/>
             <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="line">
                 <t t-if="line.product_id and line.registrynumber_id.id">
+                    <t t-if="doc.registration_number_print.id == line.registrynumber_id.id or not doc.registration_number_print.id">
                     <t t-if="not line.organization_id.id == organization or not line.registrynumber_id.id == registrynumber">
                         <t t-set="organization" t-value= "line.organization_id.id"/>
                         <t t-set="registrynumber" t-value= "line.registrynumber_id.id"/>
@@ -914,7 +915,17 @@
                                         resultado del objeto del presente acuerdo.
                                         <br/>
                                         <br/>
-                                        Asimismo, las Partes reconocen expresamente estar advertidas y enteradas del 
+                                        <t t-if="line.registrynumber_id.scheme_id.version == '5.4-1-GFS'">
+                                        Las Partes (en caso de aplicar) están de acuerdo en el uso de las tecnologías 
+                                        de la información y comunicación para la realización de la inspección de acuerdo 
+                                        con las medidas y reglamentos de seguridad de la información y protección de datos. 
+                                        En referencia a lo establecido por IAF Documento Mandatorio para el Uso de Tecnologías 
+                                        de la Información y Comunicación (TIC) para propósitos de auditoria/assessment y/o del 
+                                        Módulo Fuera del Sitio.
+                                        <br/>
+                                        <br/>
+                                        </t>
+                                        Asi mismo, las Partes reconocen expresamente estar advertidas y enteradas del 
                                         carácter confidencial de la información a que se refiere la presente cláusula 
                                         y acuerdo, motivo por el cual se obligan a lo dispuesto por lo artículos 
                                         aplicables de la Ley de Propiedad Industrial, incluyendo de manera enunciativa 
@@ -1473,7 +1484,7 @@
                                         resultado del objeto del presente acuerdo.
                                         <br/>
                                         <br/>
-                                        Asimismo, las Partes reconocen expresamente estar advertidas y enteradas del 
+                                        Asi mismo, las Partes reconocen expresamente estar advertidas y enteradas del 
                                         carácter confidencial de la información a que se refiere la presente cláusula 
                                         y acuerdo, motivo por el cual se obligan a lo dispuesto por lo artículos 
                                         aplicables de la Ley de Propiedad Industrial, incluyendo de manera enunciativa 
@@ -2485,6 +2496,8 @@
                     </t>
                     <t t-set="organization" t-value= "line.organization_id.id"/>
                     <t t-set="registrynumber" t-value= "line.registrynumber_id.id"/>
+                    </t>
+                
                 </t>    
             </t>
         </t>

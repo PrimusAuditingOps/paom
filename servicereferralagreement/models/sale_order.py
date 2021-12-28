@@ -22,6 +22,28 @@ class SaleOrder(models.Model):
         index=True,
         domain = [('share','=',False)],
     )
+    registration_number_order_lines_ids = fields.Many2many(
+        comodel_name='servicereferralagreement.registrynumber', 
+        compute='_get_registration_number', 
+        string='Registration number order lines',
+        readonly=True,
+    )   
+    def _get_registration_number(self):
+        rn = []
+        for rec in self:
+            for orderline in rec.order_line:
+                if orderline.registrynumber_id.id not in rn:
+                    rn.append(orderline.registrynumber_id.id)
+            
+            rec.registration_number_order_lines_ids = rn
+    
+    registration_number_print = fields.Many2one(
+        string="Document to print",
+        comodel_name='servicereferralagreement.registrynumber',
+        ondelete='set null',
+        index=True,
+    )
+    
     @api.onchange('coordinator_id')
     def _change_coordinator(self):
         for rec in self:
@@ -56,3 +78,5 @@ class SaleOrder(models.Model):
                     rec.update({'coordinator_id': coordinator})
                 organization = rec.organization_id.id
                 registrynumber = rec.registrynumber_id.id
+    
+    
