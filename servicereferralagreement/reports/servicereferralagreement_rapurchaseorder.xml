@@ -245,9 +245,9 @@
                                                 </p>
                                             </td>
                                             <td width="50%" style="border:0px; background-color:white; text-align:center;">
-                                                <p t-if="doc.coordinator_id.sign_signature" style="text-align:center;">
+                                                <p t-if="doc.coordinator_id.employee_id.es_sign_signature" style="text-align:center;">
                                                     <br/>
-                                                    <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.coordinator_id.sign_signature)"/>
+                                                    <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.coordinator_id.employee_id.es_sign_signature)"/>
                                                     <br/>
                                                     <span>__________________________________</span> 
                                                     <br/>
@@ -255,7 +255,7 @@
                                                     <br/>
                                                     <span style="font-weight:Bold;">Coordinador de Auditoría</span>
                                                 </p>
-                                                <p t-if="not doc.coordinator_id.sign_signature" style="text-align:center;">
+                                                <p t-if="not doc.coordinator_id.employee_id.es_sign_signature" style="text-align:center;">
                                                     <br/>
                                                     <br/>
                                                     <br/>

@@ -388,13 +388,13 @@
                                         <table style="width:100%; border:0px;">
                                             <tr>
                                                 <td width="50%" style="border:0px; background-color:white;">
-                                                    <p t-if="line.coordinator_id.sign_signature">
+                                                    <p t-if="line.coordinator_id.employee_id.es_sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
                                                         JS Audit Group, Inc., una corporación de California</b>
                                                         <br/>
-                                                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.sign_signature)"/>
+                                                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
                                                         <br/>
                                                         Firmado por: <span t-field="line.coordinator_id"/>
                                                         <br/>
@@ -402,7 +402,7 @@
                                                         <br/>
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
-                                                    <p t-if="not line.coordinator_id.sign_signature">
+                                                    <p t-if="not line.coordinator_id.employee_id.es_sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
@@ -512,13 +512,13 @@
                                         <table style="width:100%; border:0px;">
                                             <tr>
                                                <td  width="50%" style="border:0px; background-color:white;">
-                                                    <p t-if="line.coordinator_id.sign_signature">
+                                                    <p t-if="line.coordinator_id.employee_id.es_sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
                                                         JS Audit Group, Inc., una corporación de California</b>
                                                         <br/>
-                                                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.sign_signature)"/>
+                                                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
                                                         <br/>
                                                         Firmado por: <span t-field="line.coordinator_id"/>
                                                         <br/>
@@ -526,7 +526,7 @@
                                                         <br/>
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
-                                                    <p t-if="not line.coordinator_id.sign_signature">
+                                                    <p t-if="not line.coordinator_id.employee_id.es_sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
@@ -2037,10 +2037,10 @@
                                             </tr>
                                             <tr>
                                                 <td style="border:0px; background-color:white; width:50%;">
-                                                  <p t-if="line.coordinator_id.sign_signature" style="font-size:16px">
-                                                    <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.sign_signature)"/>
+                                                  <p t-if="line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
+                                                    <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
                                                   </p>
-                                                  <p t-if="not line.coordinator_id.sign_signature" style="font-size:16px">
+                                                  <p t-if="not line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
                                                     <br/>
                                                     <br/>
                                                   </p>
@@ -2190,10 +2190,10 @@
                                             
                                             <tr>
                                               <td style="border:0px; background-color:white; width:50%;">
-                                                	<p t-if="line.coordinator_id.sign_signature" style="font-size:16px">
-                                                		<img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.sign_signature)"/>
+                                                	<p t-if="line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
+                                                		<img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
                                                 	</p>
-                                                	<p t-if="not line.coordinator_id.sign_signature" style="font-size:16px">
+                                                	<p t-if="not line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
                                                 		<br/>
                                                 		<br/>
                                                 	</p>
@@ -2435,13 +2435,13 @@
                                         <table style="width:100%; border:0px;">
                                             <tr>
                                                 <td style="border:0px; background-color:white; width:50%;">
-                                                    <p t-if="line.coordinator_id.sign_signature" style="font-size:16px">
+                                                    <p t-if="line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
                                                         JS Audit Group, Inc., una corporación de California</b>
                                                         <br/>
-                                                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.sign_signature)"/>
+                                                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
                                                         <br/>
                                                         Firmado por: <span t-field="line.coordinator_id"/>
                                                         <br/>
@@ -2449,7 +2449,7 @@
                                                         <br/>
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
-                                                    <p t-if="not line.coordinator_id.sign_signature" style="font-size:16px">
+                                                    <p t-if="not line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
                                                         <br/>
