@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+suppliertaxes_read,suppliertaxes read,model_suppliertaxes_supplier_taxes,purchase.group_purchase_user,1,0,0,0
+suppliertaxes_internal_user_read,suppliertaxes internal user read,model_suppliertaxes_supplier_taxes,base.group_user,1,0,0,0
+suppliertaxes_manager,suppliertaxes manager,model_suppliertaxes_supplier_taxes,suppplier_taxes,1,1,1,1
