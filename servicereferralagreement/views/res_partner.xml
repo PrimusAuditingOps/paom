@@ -7,9 +7,9 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <page name="sales_purchases" position="after">
-                     <page string="Organizations">
+                        <page string="Organizations">
                             <field name="organization_ids" widget="many2many">
-                                <tree string="Registered Organizations">
+                                <tree string="Registered Organizations" create="false" edit="false">
                                     <field name="name"/>
                                 </tree>
                             </field>

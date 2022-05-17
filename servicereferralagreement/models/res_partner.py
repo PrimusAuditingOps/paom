@@ -24,7 +24,7 @@ class Partner(models.Model):
         required = True,
         string= "Vendor service percentage",
     )
-    
+
     audit_fee_percentages_ids = fields.Many2many(
         'servicereferralagreement.percentageofauditfee',
         'servicereferralagreement_percentageofauditfee_res_partner_rel',
@@ -32,7 +32,6 @@ class Partner(models.Model):
         string='audit fee percentages',
         required = True,
     )
-
     @api.onchange('audit_fee_percentages_ids')
     def _change_audit_fee(self):
         for rec in self:

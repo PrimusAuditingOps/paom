@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="purchase_order_confirmation_view_form" model="ir.ui.view">
+        <field name="name">purchase.order.confirmation.view.form</field>
+        <field name="model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="date_order" position="before">
+                <field name="ac_is_an_auditor" invisible="1"/>
+                <button title="Mostrar seguidores" name="show_audit_state_history" type="object"
+                class="o_FollowerListMenu_buttonFollowers btn btn-link" attrs="{'invisible':[('ac_is_an_auditor', '=', False)]}">
+                <i class="fa fa-history"></i><span>View audit status history</span></button>        
+                <field name="ac_audit_status" attrs="{'invisible':[('ac_is_an_auditor', '=', False)]}"/>
+                <field name="ac_request_travel_expenses" attrs="{'invisible':[('ac_is_an_auditor', '=', False)]}"/>
+                
+            </field>
+                  
+            <xpath expr="//button[@name='button_done']" position="after">  
+              <button name="create_audit_state" class="oe_highlight" type="object" string="Change audit status" attrs="{'invisible':[('ac_is_an_auditor', '=', False)]}"/>        
+            </xpath> 
+            <xpath expr="/form/sheet/div[@name='button_box']/button[@name='action_view_invoice']" position="before">
+                <div class="alert alert-warning" attrs="{'invisible':['|',('ac_is_an_auditor', '=', False),('ac_audit_confirmation_status', '!=', '0')]}" style="width: 200px; margin: 0px;" role="alertdialog">
+                    <p style="text-align:center; color:black">
+                    <label for="ac_audit_confirmation_status"/>
+                    <field name="ac_audit_confirmation_status" readonly="1"/>
+                    </p>
+                </div>
+                <div class="alert alert-info" attrs="{'invisible':['|',('ac_is_an_auditor', '=', False),('ac_audit_confirmation_status', '!=', '1')]}" style="width: 200px; margin: 0px;" role="alertdialog">
+                    <p style="text-align:center; color:black">
+                    <label for="ac_audit_confirmation_status"/>
+                    <field name="ac_audit_confirmation_status" readonly="1"/>
+                    </p>
+                </div>
+                <div class="alert alert-danger" attrs="{'invisible':['|',('ac_is_an_auditor', '=', False),('ac_audit_confirmation_status', '!=', '2')]}" style="width: 200px; margin: 0px;" role="alertdialog">
+                    <p style="text-align:center; color:black">
+                    <label for="ac_audit_confirmation_status"/>
+                    <field name="ac_audit_confirmation_status" readonly="1"/>
+                    </p>
+                </div>
+                <div class="alert alert-success" attrs="{'invisible':['|',('ac_is_an_auditor', '=', False),('ac_audit_confirmation_status', '!=', '3')]}" style="width: 200px; margin: 0px;" role="alertdialog">
+                    <p style="text-align:center; color:black">
+                    <label for="ac_audit_confirmation_status"/>
+                    <field name="ac_audit_confirmation_status" readonly="1"/>
+                    </p>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

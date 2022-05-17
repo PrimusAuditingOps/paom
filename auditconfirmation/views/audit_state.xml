@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="purchase_audit_state_history_view_form" model="ir.ui.view">
+        <field name="name">purchase.audit.state.history.form</field>
+        <field name="model">auditconfirmation.auditstate.history</field>
+        <field name="arch" type="xml">
+            <form string="Audit Status">
+                <group class="oe_title">
+                    <field name="audit_state" options="{'no_quick_create': True, 'no_create_edit' : True}" />
+                    <field name="comments"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="purchase_audit_state_history_view_tree" model="ir.ui.view">
+        <field name="name">purchase.audit.state.history.view.tree</field>
+        <field name="model">auditconfirmation.auditstate.history</field>
+        <field name="arch" type="xml">
+            <tree string="Audit status History" create="false" edit="false">
+                <field name="audit_state"/>
+                <field name="comments"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="audit_state_view_form" model="ir.ui.view">
+        <field name="name">audit.state.view.form</field>
+        <field name="model">auditconfirmation.auditstate</field>
+        <field name="arch" type="xml">
+            <form string="Registry Audit status">
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="color" widget="color_picker"/>
+                        <field name="show_in_portal"/>                        
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="audit_state_view_tree" model="ir.ui.view">
+        <field name="name">audit.state.view.tree</field>
+        <field name="model">auditconfirmation.auditstate</field>
+        <field name="arch" type="xml">
+            <tree string="Audit Status">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+                <field name="show_in_portal"/>  
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="audit_state_action" model="ir.actions.act_window">
+        <field name="name">Audit Status</field>
+        <field name="res_model">auditconfirmation.auditstate</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Audit Status
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="audit_state_purchase"
+            name="Audit Status"
+            parent="servicereferralagreement.purchase_catalog_custom_menu"
+            action="audit_state_action"
+            sequence="9" 
+            groups="purchase.group_purchase_user"/>
+</odoo>

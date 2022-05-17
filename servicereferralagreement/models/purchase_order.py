@@ -26,11 +26,14 @@ class PurchaseOrder(models.Model):
         for rec in self:
             for recaudittype in rec.partner_id.audit_fee_id:
                 audit_type_list.append(recaudittype.audit_fees_id.id)
-                _logger.error(recaudittype.audit_fees_id.id)
         if audit_type_list:
             dominio = [('id', 'in', audit_type_list)]
         return dominio
 
+    @api.model
+    def _default_country(self):
+        return self.env['res.country'].search(['|',('name','=','Mexico'),('name','=','México')], limit=1)
+    
     audit_fee_id = fields.Many2one(
         comodel_name = 'servicereferralagreement.auditfees', 
         string='Audit type', 
@@ -50,6 +53,40 @@ class PurchaseOrder(models.Model):
         index=True,
         domain = [('share','=',False)],
     )
+    audit_country_id = fields.Many2one(
+        comodel_name = 'res.country', 
+        string='Audit Country', 
+        help='Select Country', 
+        ondelete='restrict',
+        default = _default_country
+    )  
+    audit_state_id = fields.Many2one(
+        comodel_name = "res.country.state", 
+        string='Audit State', 
+        help='Select State', 
+        ondelete='restrict',
+        domain=[('country_id', '=', -1)],
+    )
+    audit_city_id = fields.Many2one(
+        comodel_name = "res.city", 
+        string='Audit City', 
+        help='Select City', 
+        ondelete='restrict',
+        domain=[('state_id', '=', -1)],
+    )
+    sra_audit_signature = fields.Binary(
+        string="Audit Signature", 
+        copy=False,
+    )
+    sra_audit_signature_name = fields.Char(
+        string="Auditor's signature name", 
+        copy=False,
+    )
+    sra_audit_signature_date = fields.Date(
+        string="Auditor's signature date", 
+        copy=False,
+    )
+
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         for rec in self:

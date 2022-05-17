@@ -6,11 +6,15 @@
         <field name="model">servicereferralagreement.agenda</field>
         <field name="arch" type="xml">
             <calendar string="Auditor Calendar" date_start="service_start_date" date_stop="service_end_date" 
-             color="partner_id" quick_add="False" mode="month" all_day="all_day"> 
+             color="color" quick_add="False" hide_time="True" hide_date="True" mode="month" all_day="all_day"> 
+                <field name="audit_status"/>
                 <field name="order_id"/>
-                <field name="partner_id" filters="1"/>
-                <field name="partner_ref"/>
+                <field name="state_id"/>
+                <field name="city_id"/>
                 <field name="coordinator_id"/>
+                <field name="customer_group_id"/>
+                <field name="promotor_id"/>
+                <field name="products"/>
             </calendar>
         </field>
     </record>
@@ -23,6 +27,10 @@
                 <field name="partner_id"/>
                 <field name="partner_ref"/>
                 <field name="coordinator_id"/>
+                <field name="customer_id"/>
+                <field name="shadow_id"/>
+                <field name="assessment_id"/>
+                
                 <filter string="Active Audits" name="state" domain="[('state','!=','cancel')]" />
             </search>
         </field>

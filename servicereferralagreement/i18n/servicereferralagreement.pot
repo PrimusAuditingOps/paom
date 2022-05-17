@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20210104\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-27 19:27+0000\n"
-"PO-Revision-Date: 2021-12-27 19:27+0000\n"
+"POT-Creation-Date: 2022-05-02 15:46+0000\n"
+"PO-Revision-Date: 2022-05-02 15:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid ""
-"<b>11. FACTURACIÓN.</b> El Cliente está de acuerdo con \n"
+"<b>12. FACTURACIÓN.</b> El Cliente está de acuerdo con \n"
 "                                            emitir el pago a Primus Auditing Ops dentro de los 30 días \n"
 "                                            después de recibida la factura.\n"
 "                                            <br/>\n"
@@ -679,14 +679,15 @@ msgid ""
 "                                        generarse mismos que les serán informados previamente por \"PAOMX\".\n"
 "                                        <br/>\n"
 "                                        <br/>\n"
-"                                        <b>DÉCIMA TERCERA. -EVALUACIONES DE VIGILANCIA. - \"El Cliente\"</b> se obliga \n"
-"                                        a recibir evaluaciones de vigilancia no anunciadas en caso de que \n"
-"                                        resulte seleccionado. <b>\"PAOMX\"</b> lleva a cabo evaluaciones de vigilancia \n"
-"                                        no anunciadas al menos al 10% de los titulares de certificados bajo la \n"
-"                                        Opción 1 sin SGC (en caso de tener que realizarse, se le comunicará \n"
-"                                        dicha evaluación con un plazo máximo de 48 horas de antelación). Para \n"
-"                                        éstas evaluaciones \"El Cliente\" gestionará los arreglos pertinentes \n"
-"                                        conforme lo estipulado en la Cláusula DÉCIMA del presente acuerdo. \n"
+"                                        <b>DÉCIMA TERCERA. -EVALUACIONES NO ANUNCIADAS. - \"El Cliente\"</b> \n"
+"                                        se obliga a recibir evaluaciones no anunciadas en caso de que resulte seleccionado. \n"
+"                                        <b>\"PAOMX\"</b> lleva a cabo evaluaciones no anunciadas SIN PREVIO AVISO al menos al \n"
+"                                        10% de los titulares de certificados bajo la Opción 1 sin SGC. Para éstas evaluaciones, \n"
+"                                        <b>\"El Cliente\"</b> gestionará los arreglos pertinentes conforme a lo estipulado en la Cláusula \n"
+"                                        DÉCIMA del presente acuerdo. <b>\"PAOMX\"</b> podrá emitir una suspensión de los productos \n"
+"                                        certificados si \"El Cliente\" rechaza la realización de una evaluación no anunciada. \n"
+"                                        <b>\"El Cliente\"</b> se obliga bajo los términos de este instrumento a cubrir los gastos \n"
+"                                        en los que <b>\"PAOMX\"</b> incurra por concepto de evaluaciones no atendidas. \n"
 "                                        <br/>\n"
 "                                        <br/>\n"
 "                                        <b>DÉCIMA CUARTA. -ALERTAS SANITARIAS. - \"El Cliente\"</b> se obliga a notificar \n"
@@ -1442,6 +1443,22 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__assessment_id
+msgid "Assessment"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order__audit_city_id
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__city_id
+msgid "Audit City"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order__audit_country_id
+msgid "Audit Country"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid "Audit Fee ("
 msgstr ""
@@ -1454,6 +1471,17 @@ msgstr ""
 #. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order_line__audit_products
 msgid "Audit Products"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order__sra_audit_signature
+msgid "Audit Signature"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order__audit_state_id
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__state_id
+msgid "Audit State"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1484,6 +1512,11 @@ msgid "Audit scope"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__audit_status
+msgid "Audit status"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model:ir.actions.act_window,name:servicereferralagreement.audit_type_action
 #: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order__audit_fee_id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__name
@@ -1506,7 +1539,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:servicereferralagreement.servicereferralagreement_agenda_action
 #: model:ir.model,name:servicereferralagreement.model_servicereferralagreement_agenda
 #: model:ir.ui.menu,name:servicereferralagreement.servicereferralagreement_agenda
-#: model_terms:ir.actions.act_window,help:servicereferralagreement.servicereferralagreement_agenda_action
 msgid "Auditor Agenda"
 msgstr ""
 
@@ -1528,6 +1560,11 @@ msgstr ""
 #. module: servicereferralagreement
 #: model:ir.actions.act_window,name:servicereferralagreement.auditor_exchange_rate_action
 msgid "Auditor exchange rate"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order__sra_audit_signature_name
+msgid "Auditor's signature name"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1688,12 +1725,20 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order_line__sra_customer_id
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__customer_id
 msgid "Customer"
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid "DECLARACIONES"
+msgstr ""
+
+#. module: servicereferralagreement
+#: code:addons/servicereferralagreement/models/servicereferralagreement_agenda.py:0
+#: model:ir.model.fields.selection,name:servicereferralagreement.selection__servicereferralagreement_agenda__state__dayoff
+#, python-format
+msgid "Day Off"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1723,6 +1768,16 @@ msgstr ""
 #. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order__registration_number_print
 msgid "Document to print"
+msgstr ""
+
+#. module: servicereferralagreement
+#: code:addons/servicereferralagreement/models/purchase_order.py:0
+#: code:addons/servicereferralagreement/models/purchase_order_line.py:0
+#: code:addons/servicereferralagreement/models/purchase_order_line.py:0
+#, python-format
+msgid ""
+"EL proveedor contiene servicios asignados para la fecha seleccionada en los "
+"siguientes pedidos de compra: {0}"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1805,7 +1860,25 @@ msgid ""
 "                                        legales relacionadas con la inocuidad alimentaria.\n"
 "                                        <br/>\n"
 "                                        <br/>\n"
-"                                        <b>9. CUMPLIMIENTO Y MARCAS DE CONFORMIDAD, ADDENDUM \"A\".</b>  \n"
+"                                        <b>9. AUDITORIAS NO ANUNCIADAS.</b>\n"
+"                                        GFSI ahora requiere que los auditados se sometan a una auditoría \n"
+"                                        sin previo aviso de forma periódica. Por la presente, el Cliente \n"
+"                                        declara que reconoce, comprende y acepta que de conformidad con \n"
+"                                        los requisitos de GFSI y las Regulaciones Generales de PrimusGFS, \n"
+"                                        el Cliente está obligado a cooperar con el requisito de auditoría \n"
+"                                        no anunciada como se describe en las Regulaciones Generales de PrimusGFS. \n"
+"                                        Si el Cliente ha seleccionado, o es seleccionado por Primus Auditing Ops, \n"
+"                                        para someterse a una auditoría no anunciada, el Cliente reconoce que debe \n"
+"                                        estar en producción y ser capaz de acomodar la(s) auditoria(s) en cualquier \n"
+"                                        fecha no declarada como fechas restringidas. Si el Cliente no permite que el \n"
+"                                        auditor en el sitio realice la auditoría, o si no cumple con el proceso de \n"
+"                                        certificación, se cancelará la auditoría y se le facturará al Cliente, y \n"
+"                                        reconoce que será responsable ante Primus Auditing Ops de pagar una cantidad \n"
+"                                        equivalente a $200.00 USD. Esta tarifa de cancelación excluye cualquier gasto \n"
+"                                        adicional relacionado con el viaje y trabajo si se incurre.\n"
+"                                        <br/>\n"
+"                                        <br/>\n"
+"                                        <b>10. CUMPLIMIENTO Y MARCAS DE CONFORMIDAD, ADDENDUM \"A\".</b>  \n"
 "                                        El cliente debe cumplir con todos los requisitos que se pueden \n"
 "                                        prescribir en el esquema de certificación en relación con el uso \n"
 "                                        de marcas de conformidad, y en la información relacionada con la \n"
@@ -1835,7 +1908,7 @@ msgid ""
 "                                        de inmediato. \n"
 "                                        <br/>\n"
 "                                        <br/>\n"
-"                                        <b>10. PLAZO Y TERMINACIÓN</b>\n"
+"                                        <b>11. PLAZO Y TERMINACIÓN</b>\n"
 "                                        <br/>"
 msgstr ""
 
@@ -1930,6 +2003,14 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: code:addons/servicereferralagreement/models/purchase_order.py:0
+#, python-format
+msgid ""
+"El pedido de venta {0} no tiene productos disponibles para relacionar con la"
+" orden de compra."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_ra_general
 msgid "Elaborado Por: D. Suárez"
 msgstr ""
@@ -1942,10 +2023,14 @@ msgid "Elaborado Por: M. Salmerón"
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_ggap
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_lpo
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_ra_general
 msgid "Emisión: 05 Ago. 2021"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_ggap
+msgid "Emisión: 16 Marzo 2022"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -2626,6 +2711,11 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__customer_group_id
+msgid "Group"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_product_template__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order_line__id
@@ -2965,6 +3055,16 @@ msgid "Product Template"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__products
+msgid "Products"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__promotor_id
+msgid "Promotor"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model:ir.model,name:servicereferralagreement.model_purchase_order
 #: model:ir.model.fields,field_description:servicereferralagreement.field_sale_order__purchase_order_id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__order_id
@@ -3241,9 +3341,13 @@ msgid "Rev. 0 08/07/2018"
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_gfs
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_standard
 msgid "Rev. 0 08/10/2021"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_gfs
+msgid "Rev. 1 03/25/2022"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -3275,7 +3379,7 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_ggap
-msgid "Revisión: 05"
+msgid "Revisión: 06"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -3323,6 +3427,12 @@ msgid "Select Audit type"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,help:servicereferralagreement.field_purchase_order__audit_city_id
+msgid "Select City"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,help:servicereferralagreement.field_purchase_order__audit_country_id
 #: model:ir.model.fields,help:servicereferralagreement.field_servicereferralagreement_entity__country_id
 #: model:ir.model.fields,help:servicereferralagreement.field_servicereferralagreement_organization__country_id
 msgid "Select Country"
@@ -3334,6 +3444,7 @@ msgid "Select Organization"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,help:servicereferralagreement.field_purchase_order__audit_state_id
 #: model:ir.model.fields,help:servicereferralagreement.field_servicereferralagreement_entity__state_id
 #: model:ir.model.fields,help:servicereferralagreement.field_servicereferralagreement_organization__state_id
 msgid "Select State"
@@ -3425,6 +3536,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid "Servicios"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__shadow_id
+msgid "Shadow"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -3593,6 +3709,11 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__color
+msgid "color"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
 msgid "con RFC"
 msgstr ""
@@ -3600,6 +3721,11 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid "en la Ciudad de Zapopán, Jalisco, México."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__combination
+msgid "name"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -3646,4 +3772,14 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_saleorder_view
 msgid "y el <br/>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: code:addons/servicereferralagreement/models/purchase_order.py:0
+#: code:addons/servicereferralagreement/models/purchase_order_line.py:0
+#: code:addons/servicereferralagreement/models/purchase_order_line.py:0
+#, python-format
+msgid ""
+"{0}\n"
+" {1} {2} {3} to {4}"
 msgstr ""

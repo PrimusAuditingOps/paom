@@ -229,7 +229,17 @@
                                     <table style="width:100%; border:0px;">
                                         <tr>
                                             <td width="50%" style="border:0px; background-color:white; text-align:center;">
-                                                <p style="text-align:center;">
+                                                <p t-if="doc.sra_audit_signature" style="text-align:center;">
+                                                    <br/>
+                                                    <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.sra_audit_signature)"/>
+                                                    <br/>
+                                                    <span>__________________________________</span> 
+                                                    <br/>
+                                                    <span t-field="doc.partner_id"/>
+                                                    <br/>
+                                                    <span style="font-weight:Bold;">Auditor</span>
+                                                </p>
+                                                <p t-if="not doc.sra_audit_signature" style="text-align:center;">
                                                     <br/>
                                                     <br/>
                                                     <br/>

@@ -1,0 +1,318 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* auditconfirmation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-16 23:08+0000\n"
+"PO-Revision-Date: 2022-05-16 23:08+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: auditconfirmation
+#: code:addons/auditconfirmation/controllers/main.py:0
+#, python-format
+msgid "%s has accepted the audit and signed the Referral Agreement"
+msgstr "%s ha aceptado la auditoría y firmado el Referral Agreement"
+
+#. module: auditconfirmation
+#: code:addons/auditconfirmation/controllers/main.py:0
+#, python-format
+msgid "%s has rejected the audit. Reason: %s"
+msgstr "%s ha declinado la auditoría. Motivo: %s"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.purchase_order_confirmation_view_form
+msgid "<i class=\"fa fa-history\"/><span>View audit status history</span>"
+msgstr ""
+"<i class=\"fa fa-history\"/><span>Ver historial de estatus de "
+"auditoría</span>"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_confirmation_external_page_view
+msgid ""
+"<span>Agree to the fee and service conditions stipulated in the Referral "
+"Agreement.</span>"
+msgstr ""
+"<span>Estar de acuerdo con el honorario y las condiciones del servicio "
+"estipuladas en el Referral Agreement.</span>"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_confirmation_external_page_view
+msgid ""
+"<span>By signing this proposal, you agree to the following terms:</span>"
+msgstr "Al firmar esta propuesta, acepto los siguientes términos:"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,help:auditconfirmation.field_auditconfirmation_purchaseconfirmation__ac_access_token
+msgid "Access token to set the audit confirmation of the value"
+msgstr ""
+
+#. module: auditconfirmation
+#: code:addons/auditconfirmation/controllers/main.py:0
+#, python-format
+msgid ""
+"After agreeing and signing, you will be prompted to enter travel expenses."
+msgstr "Después de aceptar y firmar, debera capturar viáticos."
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__ac_audit_confirmation_status
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order__ac_audit_confirmation_status
+msgid "Audit Availability Confirmation Status"
+msgstr "Estatus de confirmación de disponibilidad de auditoría"
+
+#. module: auditconfirmation
+#: model:ir.model,name:auditconfirmation.model_auditconfirmation_auditstate_history
+msgid "Audit State history"
+msgstr "Estatus de auditoría historial"
+
+#. module: auditconfirmation
+#: code:addons/auditconfirmation/models/purchase_order_inherit.py:0
+#: model:ir.actions.act_window,name:auditconfirmation.audit_state_action
+#: model:ir.model,name:auditconfirmation.model_auditconfirmation_auditstate
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order_line__ac_audit_status
+#: model:ir.ui.menu,name:auditconfirmation.audit_state_purchase
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_state_view_tree
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.purchase_audit_state_history_view_form
+#, python-format
+msgid "Audit Status"
+msgstr "Estatus de auditoría"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__audit_state
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order__ac_audit_status
+msgid "Audit status"
+msgstr "Estatus de auditoría"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.purchase_audit_state_history_view_tree
+msgid "Audit status History"
+msgstr "Estatus de auditoría historial"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.purchase_order_confirmation_view_form
+msgid "Change audit status"
+msgstr "Cambiar estatus de auditoría"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__color
+msgid "Color"
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__comments
+msgid "Comments"
+msgstr "Comentarios"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__ac_consumed
+msgid "Confirmation consumed"
+msgstr "Confirmacion consumida"
+
+#. module: auditconfirmation
+#: model:ir.model.fields.selection,name:auditconfirmation.selection__auditconfirmation_purchaseconfirmation__ac_audit_confirmation_status__1
+#: model:ir.model.fields.selection,name:auditconfirmation.selection__purchase_order__ac_audit_confirmation_status__1
+msgid "Confirmed"
+msgstr "Confirmada"
+
+#. module: auditconfirmation
+#: model_terms:ir.actions.act_window,help:auditconfirmation.audit_state_action
+msgid "Create first Audit Status"
+msgstr "Crea tu primer estatus de auditoría"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__create_uid
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__create_uid
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__create_date
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__create_date
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model.fields.selection,name:auditconfirmation.selection__auditconfirmation_purchaseconfirmation__ac_audit_confirmation_status__2
+#: model:ir.model.fields.selection,name:auditconfirmation.selection__purchase_order__ac_audit_confirmation_status__2
+msgid "Denied"
+msgstr "Declinada"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__display_name
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__display_name
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__display_name
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order_line__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__id
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__id
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__id
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order__id
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model.fields,help:auditconfirmation.field_auditconfirmation_purchaseconfirmation__ac_id_purchase
+msgid "Identifier of the purchase"
+msgstr ""
+
+#. module: auditconfirmation
+#: code:addons/auditconfirmation/controllers/main.py:0
+#: code:addons/auditconfirmation/controllers/main.py:0
+#: code:addons/auditconfirmation/controllers/main.py:0
+#, python-format
+msgid "Invalid order."
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order__ac_is_an_auditor
+msgid "Is an auditor"
+msgstr "Es auditor"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate____last_update
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history____last_update
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation____last_update
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order_line____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__write_uid
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__write_uid
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__write_date
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__write_date
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.purchase_order_confirmation_view_form
+msgid "Mostrar seguidores"
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model.fields.selection,name:auditconfirmation.selection__auditconfirmation_purchaseconfirmation__ac_audit_confirmation_status__0
+#: model:ir.model.fields.selection,name:auditconfirmation.selection__purchase_order__ac_audit_confirmation_status__0
+msgid "Not Confirmed"
+msgstr "No confirmada"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_rejected_external_page_view
+msgid "Please add the reason why you rejected the audit:"
+msgstr "Por favor capture el motivo por el cual no acepto la auditoría:"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_confirmation_travel_expenses_external_page_view
+msgid "Please add your detailed travel expenses:"
+msgstr "Por favor capture el detalle de viáticos:"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__ac_id_purchase
+msgid "Purchase ID"
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model,name:auditconfirmation.model_purchase_order
+msgid "Purchase Order"
+msgstr "Orden de compra"
+
+#. module: auditconfirmation
+#: model:ir.model,name:auditconfirmation.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea de pedido de compra"
+
+#. module: auditconfirmation
+#: model:ir.model,name:auditconfirmation.model_auditconfirmation_purchaseconfirmation
+msgid "Purchase confirmation"
+msgstr "Confirmacion de compra"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate_history__purchase_order_id
+msgid "Purchase order"
+msgstr "Order de compra"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,help:auditconfirmation.field_auditconfirmation_purchaseconfirmation__ac_audit_confirmation_status
+#: model:ir.model.fields,help:auditconfirmation.field_purchase_order__ac_audit_confirmation_status
+msgid "Refers to the status of the audit confirmation."
+msgstr ""
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_state_view_form
+msgid "Registry Audit status"
+msgstr "Estatus de auditoría registro"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_purchase_order__ac_request_travel_expenses
+msgid "Request travel expenses"
+msgstr "Solicitar viáticos"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__ac_access_token
+msgid "Security Token"
+msgstr ""
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__show_in_portal
+msgid "Show in portal"
+msgstr "Mostrar en portal"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_auditstate__name
+msgid "Status"
+msgstr "Estatus"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_confirmation_travel_expenses_external_page_view
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_rejected_external_page_view
+msgid "Submit"
+msgstr "Enviar"
+
+#. module: auditconfirmation
+#: model:ir.model.fields.selection,name:auditconfirmation.selection__auditconfirmation_purchaseconfirmation__ac_audit_confirmation_status__3
+#: model:ir.model.fields.selection,name:auditconfirmation.selection__purchase_order__ac_audit_confirmation_status__3
+msgid "Tentatively confirmed"
+msgstr "Confirmada Tentativamente"
+
+#. module: auditconfirmation
+#: model_terms:ir.ui.view,arch_db:auditconfirmation.audit_message_external_page_view
+msgid "Thank you, we appreciate your response!"
+msgstr "Gracias, apreciamos su respuesta!"
+
+#. module: auditconfirmation
+#: code:addons/auditconfirmation/controllers/main.py:0
+#: code:addons/auditconfirmation/controllers/main.py:0
+#, python-format
+msgid "The auditor has accepted the audit."
+msgstr "El auditor ha aceptado la auditoría."
+
+#. module: auditconfirmation
+#: code:addons/auditconfirmation/controllers/main.py:0
+#, python-format
+msgid "Travel Expenses: %s"
+msgstr "Viáticos: %s"
+
+#. module: auditconfirmation
+#: model:ir.model.fields,field_description:auditconfirmation.field_auditconfirmation_purchaseconfirmation__ac_consumed_travel_expenses
+msgid "Travel expenses consumed"
+msgstr "Viáticos consumidos"

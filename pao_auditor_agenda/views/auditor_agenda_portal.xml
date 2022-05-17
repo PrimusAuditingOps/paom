@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Assets -->
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Auditor Agenda">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/pao_auditor_agenda/static/src/scss/website_auditor_calendar.scss" t-ignore="true"/>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_auditor_agenda" name="Show Auditor Agenda" customize_show="True" inherit_id="portal.portal_my_home" priority="80">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="isanauditor == True">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">Agenda</t>
+                    <t t-set="url" t-value="'/calendar/auditordates'"/>
+                    <t t-set="placeholder_count" t-value="0"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+
+    <template id="auditor_calendar" name="Website Auditor Calendar: Auditor Calendars">
+        <t t-call="website.layout">
+            <form class="o_website_appoinment_form w-md-100" t-attf-action="/calendar/auditordates" type="post">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="container">
+                            <div class="row justify-content-center" style="margin: 1em;">
+                                <div class="col-3">
+                                    <button type="button" class="btn btn-primary position-relative" disabled="disabled" style="background-color:#e9ecef; color:black">
+                                        <b><span>Día no laboral</span></b>
+                                    </button>
+                                </div>
+                                <div t-foreach="statusid" t-as="status" class="col-3">
+                                    <button type="button" class="btn btn-primary position-relative" disabled="disabled" t-attf-style="#{status['color']}">
+                                        <b><span t-esc="status['id']"/></b>
+
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            <span t-esc="status['value']"/>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin: 1em;">
+                            <div class="col-md-6" style="margin: auto;">
+                                <label for="start">Start date:</label>
+                                <input type="date" id="startdate" t-att-value = "date" name="startdate"/>
+                                <button type="submit" class="btn btn-primary">View Audit <span class="fa fa-arrow-right"/></button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <div id="wrap" class="o_website_calendar">
+                    <div class="oe_structure container mb128">
+                        <div class="row">
+                            <div t-foreach="slots" t-as="month" class="col-lg-6">
+                                <h3 t-esc="month['month']"/>
+                                <table class="table">
+                                    <tr class="active">
+                                        <th class="text-center">Mon</th>
+                                        <th class="text-center">Tue</th>
+                                        <th class="text-center">Wed</th>
+                                        <th class="text-center">Thu</th>
+                                        <th class="text-center">Fri</th>
+                                        <th class="text-center">Sat</th>
+                                        <th class="text-center">Sun</th>
+                                    </tr>
+                                    <tr t-foreach="month['weeks']" t-as="weeks" class="o_calendar_days">
+                                        <t t-foreach="weeks" t-as="day">
+                                            <td t-attf-class="text-center#{day['slots'] and ' o_day dropdown' or ''} #{day['weekend_cls']} #{day['today_cls']}" t-attf-title="#{day['today_cls'] and 'Today' or ''}">
+                                                <t t-if="day['slots']">
+                                                    <div class="dropdown-toggle o_slots_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <strong>
+                                                        <span t-esc="day['day'].day"/>
+                                                    </strong>
+                                                    </div>
+                                                    <div class="dropdown-menu" role="menu">
+                                                        <t t-foreach="day['slots']" t-as="slot">
+                                                            <a t-if='slot' role="menuitem" t-attf-href="#{slot['url_ra']}" t-attf-style="#{slot['color']}" class="dropdown-item" t-esc="slot['hours']"/>
+                                                        </t>
+                                                    </div>
+                                                </t>
+                                                <t t-if="not day['slots']">
+                                                    <div t-esc="day['day'].day" t-att-class="day['mute_cls']"/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <!--to fix bootstrap md height add empty tr so now each month has 6 weeks row -->
+                                    <tr t-if="len(month['weeks']) == 5" class="o_calendar_days"/>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </t>
+        <!--<p>
+            Time displayed in <strong t-esc="timezone"/> timezone
+        </p>-->
+    </template>
+
+</odoo>

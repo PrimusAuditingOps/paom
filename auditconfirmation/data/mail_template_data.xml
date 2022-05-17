@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_audit_availability_confirm" model="mail.template">
+            <field name="name">Purchase order: Confirmación de disponibilidad de auditoría</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="subject">Confirmación de disponibilidad ${object.sale_order_id.partner_id.name or ''}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html" type="html">
+                <table style="padding-top:16px;background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #000000; width: 100%; border-collapse:separate;" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td align="center">
+                                <table style="padding:16px;background-color: white; color: #000000; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <!-- HEADER -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+                                                <table style="min-width:590px;background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="middle">
+                                                                <span style="font-size:10px;">
+                                                                </span>
+                                                                <br/>
+                                                                <span style="font-size:20px;">
+                                                                    <b>Confirmación de Disponibilidad</b>
+                                                                </span>
+                                                                <br/>
+                                                            </td>
+                                                            <td valign="middle" align="right">
+                                                                <img src="/logo.png" style="padding:0px;margin: 0px; height: auto; width: 80px;" alt="logo"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" style="text-align:center;">
+                                                                <hr style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;" width="100%"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- CONTENT -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+
+                                                <table style="min-width:590px;background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top">
+                                                                <div>
+                                                                    Estimado ${object.partner_id.name},<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
+                                                                </div>
+                                                                <div style="display:table;">
+                                                                    <div style="display:table-header-group;">
+                                                                        <div style="display:table-row;">
+                                                                            <div style="display:table-cell;">
+                                                                                <font class="text-black"></font>
+                                                                            </div>
+                                                                            <div style="display:table-cell;">
+                                                                                <font class="text-black"></font>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            
+                                                                    % for line in object.order_line:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Organización - </b>${line.organization_id.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Servicio - </b>${line.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Cantidad - </b>${line.product_qty or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Fecha inicio - </b>${line.service_start_date or 'N/A'}
+                                                                                <b>Fecha fin - </b>${line.service_end_date or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                    <br/>
+                                                                    </div>
+                                                                    % endfor
+                                                                    <div style="display:table-row;">
+                                                                        <br/>
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Estado de auditoría - 
+                                                                                </b>${object.audit_state_id.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Ciudad de auditoría - 
+                                                                                </b>${object.audit_city_id.name  or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % if object.shadow_id:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
+                                                                                </b>${object.shadow_id.name  or ''}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % endif
+                                                                    % if object.assessment_id:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
+                                                                                </b>${object.assessment_id.name  or ''}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % endif
+                                                                </div>
+                                                                <br/>
+                                                                <p style="padding:0px;">
+                                                                    <font class="text-black"><b>Honorarios: </b></font>
+                                                                    <font style="color:rgb(255, 0, 0);">Ver Referral Agreement adjunto.</font>
+                                                                    <br/><br/>
+                                                                    <font style="color:rgb(255, 0, 0);">"Al aceptar esta confirmación, usted confirma que 
+                                                                    está de acuerdo con el honorario y acepta las condiciones del servicio estipuladas en 
+                                                                    el Referral Agreement"</font>
+                                                                    <br/>
+                                                                    <br/>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <br/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="margin:16px 0px 16px 0px;">
+                                                                    % set access_token = object.get_confirmation_access_token()
+                                                                    <br/>
+                                                                    <a href="/confirm/${access_token}/1" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                        Aceptar
+                                                                    </a>
+                                                                    <a href="/confirm/${access_token}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                        Declinar
+                                                                    </a>
+                                                                    <br/><br/>
+                                                                    Si acepta la realización del servicio, seleccione “Aceptar” y 
+                                                                    proporcione un estimado de viáticos en caso de requerirse.
+                                                                    <br/><br/>
+                                                                    Si no cuenta con disponibilidad para este servicio seleccione el botón "Declinar" y 
+                                                                    agregue un comentario breve con los motivos por los cuales no cuenta con disponibilidad.
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr>
+                                                            <td style="text-align:center;">
+                                                                <hr style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;" width="100%"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- FOOTER -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+                                                <table style="min-width:590px;background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- POWERED BY -->
+                        <tr>
+                            <td style="min-width:590px;" align="center">
+                                <table style="min-width:590px;background-color: #F1F1F1; color: #000000; padding: 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;font-size: 13px;">
+
+                                            <br/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            
+            </field>
+            <field name="report_template" ref="servicereferralagreement.report_rapurchaseorder"/>
+            <field name="report_name">RA - ${object.name} - ${object.partner_id.name}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+        </record>
+
+        <record id="email_template_extern_audit_availability_confirm" model="mail.template">
+            <field name="name">Purchase order: Confirmación de disponibilidad de auditoría externa</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="subject">Confirmación de disponibilidad</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html" type="html">
+                <table style="padding-top:16px;background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #000000; width: 100%; border-collapse:separate;" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td align="center">
+                                <table style="padding:16px;background-color: white; color: #000000; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <!-- HEADER -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+                                                <table style="min-width:590px;background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="middle">
+                                                                <span style="font-size:10px;"></span><br/><span style="font-size:20px;"><b>Confirmación de Disponibilidad</b></span><br/></td>
+                                                            <td valign="middle" align="right">
+                                                                <img src="/logo.png" style="padding:0px;margin: 0px; height: auto; width: 80px;" alt="logo"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" style="text-align:center;">
+                                                                <hr style="border-top-style:solid;background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;" width="100%"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- CONTENT -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+
+                                                <table style="min-width:590px;background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top">
+                                                                <div>
+                                                                    Estimado ${object.partner_id.name},<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
+                                                                </div>
+                                                                <div style="display:table;">
+                                                                    <div style="display:table-header-group;">
+                                                                        <div style="display:table-row;">
+                                                                            <div style="display:table-cell;">
+                                                                                <font class="text-black"></font>
+                                                                            </div>
+                                                                            <div style="display:table-cell;">
+                                                                                <font class="text-black"></font>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            
+                                                                    % for line in object.order_line:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Organización - </b>${line.organization_id.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Servicio - </b>${line.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Cantidad - </b>${line.product_qty or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Fecha inicio - </b>${line.service_start_date or 'N/A'}
+                                                                                <b>Fecha fin - </b>${line.service_end_date or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                    <br/>
+                                                                    </div>
+                                                                    % endfor
+                                                                    <div style="display:table-row;">
+                                                                        <br/>
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Estado de auditoría - 
+                                                                                </b>${object.audit_state_id.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Ciudad de auditoría - 
+                                                                                </b>${object.audit_city_id.name  or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % if object.shadow_id:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
+                                                                                </b>${object.shadow_id.name  or ''}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % endif
+                                                                    % if object.assessment_id:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
+                                                                                </b>${object.assessment_id.name  or ''}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % endif
+                                                                </div>
+                                                                <br/>
+                                                                <p style="padding:0px;">
+                                                                    <font class="text-black"><b>Honorarios Tentativos: </b></font>
+                                                                    ${format_amount(object.amount_total, object.currency_id)}
+                                                                    <br/>
+                                                                    <br/>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="margin:16px 0px 16px 0px;">
+                                                                    % set access_token = object.get_confirmation_access_token()
+                                                                    <br/>
+                                                                    <a href="/confirm/external/audit/${access_token}/1" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                        Aceptar
+                                                                    </a>
+                                                                    <a href="/confirm/${access_token}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                        Declinar
+                                                                    </a>
+                                                                    <br/><br/>
+                                                                    Si acepta la realización del servicio, seleccione “Aceptar” y 
+                                                                    proporcione un estimado de viáticos en caso de requerirse.
+                                                                    <br/><br/>
+                                                                    Si no cuenta con disponibilidad para este servicio seleccione el botón "Declinar" y 
+                                                                    agregue un comentario breve con los motivos por los cuales no cuenta con disponibilidad.
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr>
+                                                            <td style="text-align:center;">
+                                                                <hr style="border-top-style:solid;background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;" width="100%"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- FOOTER -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+                                                <table style="min-width:590px;background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- POWERED BY -->
+                        <tr>
+                            <td style="min-width:590px;" align="center">
+                                <table style="min-width:590px;background-color: #F1F1F1; color: #000000; padding: 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;font-size: 13px;">
+
+                                            <br/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </field>
+            <field name="lang">${object.partner_id.lang}</field>
+        </record>
+
+        <record id="email_template_audit_availability_tentatively_confirmed" model="mail.template">
+            <field name="name">Purchase order: Confirmación de disponibilidad de auditoría tentativa</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="subject">Confirmación de disponibilidad auditoría tentativa</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html" type="html">
+                <table style="padding-top:16px;background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #000000; width: 100%; border-collapse:separate;" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td align="center">
+                                <table style="padding:16px;background-color: white; color: #000000; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <!-- HEADER -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+                                                <table style="min-width:590px;background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="middle">
+                                                                <span style="font-size:10px;"></span><br/><span style="font-size:20px;"><b>Confirmación de Disponibilidad</b></span><br/></td>
+                                                            <td valign="middle" align="right">
+                                                                <img src="/logo.png" style="padding:0px;margin: 0px; height: auto; width: 80px;" alt="logo"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" style="text-align:center;">
+                                                                <hr style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;" width="100%"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- CONTENT -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+
+                                                <table style="min-width:590px;background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td valign="top">
+                                                                <div>
+                                                                    Estimado ${object.partner_id.name},<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
+                                                                </div>
+                                                                <div style="display:table;">
+                                                                    <div style="display:table-header-group;">
+                                                                        <div style="display:table-row;">
+                                                                            <div style="display:table-cell;">
+                                                                                <font class="text-black"></font>
+                                                                            </div>
+                                                                            <div style="display:table-cell;">
+                                                                                <font class="text-black"></font>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            
+                                                                    % for line in object.order_line:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Organización - </b>${line.organization_id.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Servicio - </b>${line.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Cantidad - </b>${line.product_qty or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b>Fecha inicio - </b>${line.service_start_date or 'N/A'}
+                                                                                <b>Fecha fin - </b>${line.service_end_date or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                    <br/>
+                                                                    </div>
+                                                                    % endfor
+                                                                    <div style="display:table-row;">
+                                                                        <br/>
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Estado de auditoría - 
+                                                                                </b>${object.audit_state_id.name or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Ciudad de auditoría - 
+                                                                                </b>${object.audit_city_id.name  or 'N/A'}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % if object.shadow_id:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
+                                                                                </b>${object.shadow_id.name  or ''}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % endif
+                                                                    % if object.assessment_id:
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black">
+                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
+                                                                                </b>${object.assessment_id.name  or ''}
+                                                                            </div>
+                                                                        </font>
+                                                                    </div>
+                                                                    % endif
+                                                                </div>
+                                                                <br/>
+                                                                
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="margin:16px 0px 16px 0px;">
+                                                                    % set access_token = object.get_confirmation_access_token()
+                                                                    <br/>
+                                                                    <a href="/confirm/tentatively/audit/${access_token}/3" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                        Aceptar
+                                                                    </a>
+                                                                    <a href="/confirm/${access_token}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                        Declinar
+                                                                    </a>
+                                                                    <br/><br/>
+                                                                    Si acepta la realización del servicio, seleccione “Aceptar” y 
+                                                                    proporcione un estimado de viáticos en caso de requerirse.
+                                                                    <br/><br/>
+                                                                    Si no cuenta con disponibilidad para este servicio seleccione el botón "Declinar" y 
+                                                                    agregue un comentario breve con los motivos por los cuales no cuenta con disponibilidad.
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr>
+                                                            <td style="text-align:center;">
+                                                                <hr style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;" width="100%"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- FOOTER -->
+                                        <tr>
+                                            <td style="min-width:590px;" align="center">
+                                                <table style="min-width:590px;background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody>
+
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- POWERED BY -->
+                        <tr>
+                            <td style="min-width:590px;" align="center">
+                                <table style="min-width:590px;background-color: #F1F1F1; color: #000000; padding: 8px; border-collapse:separate;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;font-size: 13px;">
+
+                                            <br/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </field>
+            <field name="lang">${object.partner_id.lang}</field>
+        </record>
+    </data>
+</odoo>

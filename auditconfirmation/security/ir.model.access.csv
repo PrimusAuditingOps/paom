@@ -1,0 +1,9 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+auditconfirmationpurchase_manager,audit confirmation purchase,model_auditconfirmation_purchaseconfirmation,purchase.group_purchase_user,1,1,1,1
+auditstatepurchase_manager,audit state purchase,model_auditconfirmation_auditstate,purchase.group_purchase_user,1,1,1,1
+auditstatehistorypurchase_manager,audit state history purchase,model_auditconfirmation_auditstate_history,purchase.group_purchase_user,1,1,1,1
+auditconfirmation_employee_public_read,read portal user,hr.model_hr_employee_public,base.group_portal,1,0,0,0
+auditconfirmation_employee_read,read portal user,hr.model_hr_employee,base.group_portal,1,0,0,0
+auditconfirmation_account_tax_read,read portal user,account.model_account_tax,base.group_portal,1,0,0,0
+auditconfirmation_schemes_read,read portal user,servicereferralagreement.model_servicereferralagreement_scheme,base.group_portal,1,0,0,0
+auditconfirmation_registrynumber_read,read portal user,servicereferralagreement.model_servicereferralagreement_registrynumber,base.group_portal,1,0,0,0

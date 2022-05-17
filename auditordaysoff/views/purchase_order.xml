@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="purchase_order_assessment_view_form" model="ir.ui.view">
+        <field name="name">purchase.order.assessment.view.form</field>
+        <field name="model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <field name="ado_is_auditor" invisible="1"/>
+                <field name="ado_is_external_audit" attrs="{'invisible':[('ado_is_auditor', '=', False)]}"/>
+            </field>
+            <field name="origin" position="after">
+                <field name="shadow_id" attrs="{'invisible':[('ado_is_auditor', '=', False)]}" domain="[('id', '!=', partner_id),('id', '!=', assessment_id),('ado_is_auditor','=',True)]" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                <field name="assessment_id" attrs="{'invisible':[('ado_is_auditor', '=', False)]}" domain="[('id', '!=', partner_id),('id', '!=', shadow_id),('ado_is_auditor','=',True)]" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+            </field>
+           
+
+            <xpath expr="//button[@id='bid_confirm']" position="attributes">            
+              <attribute name="attrs">{'invisible':['|',('ado_is_external_audit','=',True)]}</attribute>        
+            </xpath>
+            <xpath expr="//button[@id='draft_confirm']" position="attributes">            
+              <attribute name="attrs">{'invisible':['|',('ado_is_external_audit','=',True)]}</attribute>        
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

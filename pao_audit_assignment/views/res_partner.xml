@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="res_partner_inherit_aa_product_view_form" model="ir.ui.view">
+        <field name="name">res.partner.inherit.aaproduct.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                
+                <page name="sales_purchases" position="after">
+                    <field name="ado_is_auditor" invisible="1"/>
+                    <page string="Approved products" attrs="{'invisible':[('ado_is_auditor', '=', False)]}">
+                        <field name="aa_product_ids" widget="many2many" domain="[('purchase_ok', '=', True)]">
+                            <tree string="Registered Approved products" create="false" edit="false">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+            </field>
+    </record>
+</odoo>

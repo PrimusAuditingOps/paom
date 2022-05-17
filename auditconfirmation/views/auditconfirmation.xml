@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <!-- External page : thanks message -->
+        <template id="audit_message_external_page_view" name="Audit Confirmation Message">
+            <t t-call="web.frontend_layout">
+                <div class="container pt-5">
+                    <div class="text-center mt-5 pt-5">
+                        <h3 class="d-inline">Thank you, we appreciate your response!</h3>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="audit_confirmation_external_page_view" name="Audit confirmation">
+            <t t-call="web.frontend_layout">
+                <div class="col-md-12">
+                    <div class="oe_structure container mb128">
+                        <div class="col-md-6" style="margin: auto;">
+                            <input type="hidden" name="prueba1" t-att-value="urlconfirm"/>
+                            <br/>
+                            <p>
+                                <span>By signing this proposal, you agree to the following terms:</span>
+                                <ul>
+                                    <li><span>Agree to the fee and service conditions stipulated in the Referral Agreement.</span></li>
+                                </ul>
+                            </p>
+                            <p>
+                                <b><span style="font-size:13px; color:#ff890d;" t-esc="notice"/></b>
+                            </p>
+                            <t t-call="portal.signature_form">
+                                <t t-set="call_url" t-value="urlconfirm"/>
+                                <t t-set="default_name" t-value="signname"/>
+                                <t t-set="font_color" t-value="'darkblue'"/>
+                            </t>
+                        </div>                                 
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="audit_confirmation_travel_expenses_external_page_view" name="Audit confirmation travel expenses">
+            <t t-call="web.frontend_layout">
+                <div class="col-md-12" style="top:20px;">
+                    <div class="oe_structure container mb128">
+                        <!--<div class="col-md-6" style="margin: auto;">
+                            <label for="travelexpenses">Please add your detailed travel expenses:</label>
+                            <input type="hidden" name="prueba" t-att-value="id"/>
+                            <textarea class="form-control" id="travelexpenses" name="travelexpenses" rows="4"></textarea>
+
+                        </div>-->  
+                        <form id="travelexpensesform" method="POST" t-attf-action="/travel/expenses/audit" class="col-md-6" style="margin: auto;">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="order_id" t-att-value="order"/>
+                                    <input type="hidden" name="access_token" t-att-value="accesstoken"/>
+                                    <label for="travelexpenses">Please add your detailed travel expenses:</label>
+                                    <textarea class="form-control" id="travelexpenses" name="travelexpenses" rows="4"></textarea>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>                         
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+
+        <template id="audit_rejected_external_page_view" name="Audit rejected">
+            <t t-call="web.frontend_layout">
+                <div class="col-md-12" style="top:20px;">
+                    <div class="oe_structure container mb128">
+                        <form id="auditrejectedform" method="POST" t-attf-action="#{urlrejected}" class="col-md-6" style="margin: auto;">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="test" t-att-value="urlrejected"/>
+                                    <label for="travelexpenses">Please add the reason why you rejected the audit:</label>
+                                    <textarea class="form-control" id="reason" name="reason" rows="4"></textarea>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>                         
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+
+</odoo>
