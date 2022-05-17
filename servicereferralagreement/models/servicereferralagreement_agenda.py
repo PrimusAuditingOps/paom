@@ -68,7 +68,7 @@ class ServiceReferralAgreementAgenda(models.Model):
     @api.depends('audit_status')
     def _get_color(self):
         for rec in self:
-            if rec.audit_status.color > 0:
+            if rec.audit_status.id > 0:
                 rec.color = rec.audit_status.color
             else: 
                 rec.color = 8
