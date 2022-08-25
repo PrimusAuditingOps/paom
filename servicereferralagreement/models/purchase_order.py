@@ -86,13 +86,35 @@ class PurchaseOrder(models.Model):
         string="Auditor's signature date", 
         copy=False,
     )
+    registration_number_order_lines_ids = fields.Many2many(
+        comodel_name='servicereferralagreement.registrynumber', 
+        compute='_get_registration_number', 
+        string='Registration number order lines',
+        readonly=True,
+    )   
+    def _get_registration_number(self):
+        rn = []
+        for rec in self:
+            for orderline in rec.order_line:
+                if orderline.registrynumber_id.id not in rn:
+                    rn.append(orderline.registrynumber_id.id)
+            
+            rec.registration_number_order_lines_ids = rn
+    
+    registration_number_print = fields.Many2one(
+        string="Document to print",
+        comodel_name='servicereferralagreement.registrynumber',
+        ondelete='set null',
+        index=True,
+    )
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         for rec in self:
-            if rec.sale_order_id:
+            if rec.sale_order_id and rec.audit_fee_id:
                 rec.order_line = None
                 rec.sale_order_id = None
+                rec.audit_fee_id = None
     @api.onchange('audit_fee_id')
     def _onchange_audit_fee_id(self):
         for rec in self:

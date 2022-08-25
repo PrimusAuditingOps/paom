@@ -16,7 +16,7 @@
                     </group>
                     <notebook>
                         <page string="Registration Number">
-                            <field name="registry_number_id" widget="many2many">
+                            <field name="registry_number_id" widget="many2many" context="{'default_organization_id': id}">
                                 <tree string="Registered Number">
                                     <field name="name"/>
                                     <field name="scheme_id"/>

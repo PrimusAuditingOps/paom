@@ -35,7 +35,8 @@
                     <group col="4">
                         <field name="name"/>
                         <field name="color" widget="color_picker"/>
-                        <field name="show_in_portal"/>                        
+                        <field name="show_in_portal"/>   
+                        <field name="default_status"/>                     
                     </group>
                 </sheet>
             </form>
@@ -50,6 +51,7 @@
                 <field name="name"/>
                 <field name="color" widget="color_picker"/>
                 <field name="show_in_portal"/>  
+                <field name="default_status"/> 
             </tree>
         </field>
     </record>

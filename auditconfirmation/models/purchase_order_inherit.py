@@ -30,11 +30,17 @@ class PurchaseOrderInherit(models.Model):
         #compute=_get_audit_confirmation_status,
         help="Refers to the status of the audit confirmation.")
 
+    def _get_default_audit_status(self):
+        domain = [("default_status","=",True)]
+        return self.env['auditconfirmation.auditstate'].search(domain, limit=1).id
     ac_audit_status = fields.Many2one(
         string="Audit status",
         comodel_name='auditconfirmation.auditstate',
         readonly = True,
+        default = _get_default_audit_status,
     )
+    
+
 
     @api.depends('partner_id')
     def _get_is_an_auditor(self):

@@ -20,3 +20,15 @@ class AuditorState(models.Model):
          required=True,
          default = 0,
     )
+    default_status = fields.Boolean(
+        string= "Default status",
+        default= False,
+    )
+    @api.constrains('default_status')
+    def _validate_default_status(self):
+        for rec in self:
+            if rec.default_status == True:
+                domain = [("id","<>",rec.id),("default_status","=", True)] if rec.id else [("default_status","=", True)]
+                recstatus = self.env["auditconfirmation.auditstate"].search(domain, limit=1)
+                for status in recstatus:
+                    raise ValidationError(_("A default audit status is already assigned."))

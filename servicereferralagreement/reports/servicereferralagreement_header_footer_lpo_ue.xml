@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="custom_header_footer_lpo_ue">
+        <div t-attf-class="header">
+            <div class="row mb8">
+                <div class="col-2">
+                    <img src="/servicereferralagreement/static/src/img/logo.png" style="width:150px; height:60px" alt="Logo"/>
+                </div>
+                <div class="col-10 text-center" style="display: flex; align-items: center;font-family: 'Times New Roman'; font-size: 14px;">
+                    <br/>
+                    <h3><b>FAN 13- ACUERDO DE SERVICIOS DE CERTIFICACIÓN LPO-UE/ CERTIFICATION SERVICES AGREEMENT LPO-EU</b></h3>
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="footer o_boxed_footer">
+            <div class="text-center" style="font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                <ul class="list-inline">
+                    <li class="list-inline-item">Elaborado Por: M. Salmerón</li>
+                    <li class="list-inline-item">Revisado Por: A. Torres </li>
+                    <li class="list-inline-item">Aprobado Por: J. Ledezma</li>
+                </ul>
+                <ul class="list-inline">
+                    <li class="list-inline-item">Edición Original: 09 Oct. 2018</li>
+                    <li class="list-inline-item">Revisión: 05</li>
+                    <li class="list-inline-item">Emisión: 08 Ago. 2022</li>
+                </ul>
+                <div t-if="report_type == 'pdf'">
+                    Página: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
