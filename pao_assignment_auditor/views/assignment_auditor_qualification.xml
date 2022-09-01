@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    
+    <record id="assignment_auditor_qualification_tree" model="ir.ui.view">
+        <field name="name">assignment.auditor.qualification.tree</field>
+        <field name="model">paoassignmentauditor.auditor.qualification</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Assignment Auditor Calification" create="false">
+                <field name="position"/>
+                <field name="auditor_id"/>
+                <field name="scheme_qualification"/>
+                <field name="localization_qualification"/>
+                <field name="audit_qty_qualification"/>
+                <field name="audit_honorarium_qualification"/>
+                <field name="qualification"/>
+                <button name="assign_auditor" type="object" string="Assign" class="oe_highlight"/>
+            </tree>
+        </field>
+    </record>   
+
+    <record id="assignment_auditor_qualification_action" model="ir.actions.act_window">
+        <field name="name">Assignment Auditor Qualification</field>
+        <field name="res_model">paoassignmentauditor.auditor.qualification</field>
+        <field name="view_mode">tree</field>
+        <field name="target">new</field>
+    </record> 
+
+</odoo>

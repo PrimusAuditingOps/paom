@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="assignment_auditor_configuration_view_form" model="ir.ui.view">
+        <field name="name">assignment.auditor.configuration.form</field>
+        <field name="model">paoassignmentauditor.configuration.audit.quantity</field>
+        <field name="arch" type="xml">
+            <form string="Assignment Auditor Configuration">
+                <sheet>
+                    <div class="content-group">
+                        <div class="mt16">
+                            <field name="option" class="o_light_label" widget="radio"/>
+                            <field name="id" invisible="1"/>
+                        </div>
+                        <group attrs="{'invisible':[('option', '!=', 'trimester'),('option', '!=', 'season'),('option', '!=', 'auditor')]}">
+                            <group>
+                                <field name="season_start_month"/>
+                            </group>
+                            <group>
+                                <field name="season_end_month"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible':[('option', '!=', 'season')]}">
+                            <group>
+                                <field name="audit_quantity"/>
+                            </group>
+                        </group>
+                        
+                        <group attrs="{'invisible':[('option', '!=', 'trimester')]}">
+                            <group>
+                                <field name="first_month_audit_quantity"/>
+                                <field name="third_month_audit_quantity"/>
+                            </group>
+                            <group>
+                                <field name="second_month_audit_quantity"/>
+                                <field name="fourth_month_audit_quantity"/>
+                            </group>
+                        </group>
+                        
+                    </div>
+                    <notebook>
+                        <page string="Audits quantity per month" name="audits_quantity" attrs="{'invisible':[('option', '!=', 'month')]}">
+                            <field name="audits_quantity_per_month_ids" widget="many2many" context="{'default_configuration_id': id}">
+                                <tree string="Audits quantity per month">
+                                    <field name="month"/>
+                                    <field name="audit_quantity"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="assignment_auditor_configuration_view_tree" model="ir.ui.view">
+        <field name="name">assignment.auditor.configuration.tree</field>
+        <field name="model">paoassignmentauditor.configuration.audit.quantity</field>
+        <field name="arch" type="xml">
+            <tree string="Auditor Assignment Configuration">
+                <field name="option"/>
+            </tree>
+        </field>
+    </record>
+    
+
+    <record id="assignment_auditor_configuration_action" model="ir.actions.act_window">
+        <field name="name">Audit quantity setting</field>
+        <field name="res_model">paoassignmentauditor.configuration.audit.quantity</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first configuration
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="assignment_auditor_configuration_purchase"
+            name="Audit Quantity Setting"
+            parent="purchase.menu_purchase_config"
+            action="assignment_auditor_configuration_action"
+            sequence="10"/>
+
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="assignment_auditor_weighting_view_form" model="ir.ui.view">
+        <field name="name">assignment.auditor.weighting.form</field>
+        <field name="model">paoassignmentauditor.weighting</field>
+        <field name="arch" type="xml">
+            <form string="Assignment Auditor Weighting Form">
+                <sheet>
+                    <group col="2">
+                        <field name="scheme_ranking"/>
+                    </group>
+                    <group col="2">
+                        <field name="location"/>
+                    </group>
+                    <group col="2">
+                        <field name="audit_quantity_target"/>
+                    </group>
+                    <group col="2">
+                        <field name="audit_honorarium_target"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="assignment_auditor_weighting_view_tree" model="ir.ui.view">
+        <field name="name">assignment.auditor.weighting.tree</field>
+        <field name="model">paoassignmentauditor.weighting</field>
+        <field name="arch" type="xml">
+            <tree string="Auditor Assignment Weighting Tree">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="assignment_auditor_weighting_action" model="ir.actions.act_window">
+        <field name="name">Assignment Auditor Weighting</field>
+        <field name="res_model">paoassignmentauditor.weighting</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first assignment auditor weighting
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="assignment_auditor_weighting_purchase"
+            name="Assignment Auditor Weighting"
+            parent="purchase.menu_purchase_config"
+            action="assignment_auditor_weighting_action"
+            sequence="8"/>
+
+</odoo>

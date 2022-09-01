@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="purchase_order_assignment_auditor_view_form" model="ir.ui.view">
+        <field name="name">purchase.order.assignment.auditor.view.form</field>
+        <field name="model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <group name="purchase_location" position="after">
+                    <group name="Assignment">
+                         <field name="assigned_auditor_id" class="oe_read_only"/> 
+                         <field name="assigned_auditor_position" class="oe_read_only"/> 
+                         <field name="assigned_auditor_qualification" class="oe_read_only"/>    
+                    </group>
+            </group>
+            <field name="partner_id" position="before">
+                <widget name='popup_assignment_auditor' button_name="search_auditors" 
+                title="Search Auditors"/>
+                
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="assignment_auditor_configuration_audit_honorarium_view_form" model="ir.ui.view">
+        <field name="name">assignment.auditor.configuration.audit.honorarium.form</field>
+        <field name="model">paoassignmentauditor.configuration.audit.honorarium</field>
+        <field name="arch" type="xml">
+            <form string="Assignment Auditor Audit honorarium Setting">
+                <sheet>
+                    <div class="content-group">
+                        <div class="mt16">
+                            <field name="option" class="o_light_label" widget="radio"/>
+                        </div>
+                        <group attrs="{'invisible':[('option', '!=', 'trimester'),('option', '!=', 'season'),('option', '!=', 'auditor')]}">
+                            <group>
+                                <field name="season_start_month"/>
+                            </group>
+                            <group>
+                                <field name="season_end_month"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible':[('option', '!=', 'season')]}">
+                            <group>
+                                <field name="audit_honorarium_total"/>
+                            </group>
+                            <group>
+                                <field name="currency_id"/>
+                            </group>
+                        </group>
+                        
+                        <group attrs="{'invisible':[('option', '!=', 'trimester')]}">
+                           
+                            <group>
+                                <field name="first_month_audit_honorarium"/>
+                                <field name="third_month_audit_honorarium"/>
+                            </group>
+                            <group>
+                                <field name="second_month_audit_honorarium"/>
+                                <field name="fourth_month_audit_honorarium"/>
+                            </group>
+                            <group>
+                                <field name="currency_id"/>
+                            </group>
+                        </group>
+                        
+                    </div>
+                    <notebook>
+                        <page string="Audits honorarium per month" name="audits_honorarium" attrs="{'invisible':[('option', '!=', 'month')]}">
+                            <field name="audits_honorarium_per_month_ids" widget="many2many" context="{'default_configuration_id': id}">
+                                <tree string="Audits honorarium per month">
+                                    <field name="month"/>
+                                    <field name="audit_honorarium_total"/>
+                                    <field name="currency_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="assignment_auditor_configuration_audit_honorarium_view_tree" model="ir.ui.view">
+        <field name="name">assignment.auditor.configuration.audit.honorarium.tree</field>
+        <field name="model">paoassignmentauditor.configuration.audit.honorarium</field>
+        <field name="arch" type="xml">
+            <tree string="Auditor Assignment Audit honorarium Setting">
+                <field name="option"/>
+            </tree>
+        </field>
+    </record>
+    
+
+    <record id="assignment_auditor_configuration_audit_honorarium_action" model="ir.actions.act_window">
+        <field name="name">Audit honorarium setting</field>
+        <field name="res_model">paoassignmentauditor.configuration.audit.honorarium</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first audit honorarium setting
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="assignment_auditor_audit_honorarium_configuration_purchase"
+            name="Audit honorarium Setting"
+            parent="purchase.menu_purchase_config"
+            action="assignment_auditor_configuration_audit_honorarium_action"
+            sequence="9"/>
+
+</odoo>
