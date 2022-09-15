@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Assets -->
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Promotor portal manager">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/pao_promoter_portal_manager/static/src/scss/promoter_portal_manager.scss" t-ignore="true"/>
+        </xpath>
+    </template>
+    <template id="portal_my_home_external_implementers" name="Show External Implementers" customize_show="True" inherit_id="portal.portal_my_home" priority="81">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="isanauditor == False">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">External Implementers</t>
+                    <t t-set="url" t-value="'/external-implementers'"/>
+                    <t t-set="placeholder_count" t-value="0"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <record id="menu_external_implementers" model="website.menu">
+            <field name="name">External Implementers</field>
+            <field name="url">/external-implementers</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">20</field>
+    </record>
+
+    <template id="promoter_profiles" name="External Implementers">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_title pt32 pb32 o_colored_level undefined" data-vcss="001" data-snippet="s_title"
+                    data-name="Title" style="position: relative; background-color: rgb(255, 255, 255) !important;"
+                    data-oe-shape-data="{'shape':'web_editor/Origins/05','colors':{'c3':'rgba(222, 222, 221, 0.43)'},'flip':[]}">
+                    <div class="o_we_shape o_web_editor_Origins_05"
+                        style="background-image: url('/web_editor/shape/web_editor/Origins/05.svg?c3=rgba(222%2C%20222%2C%20221%2C%200.43)'); background-color: rgba(242, 244, 240, 0.03) !important;" />
+                    <div class="s_allow_columns container">
+                        <h1 style="text-align: center;">
+                            <b>External Implementers</b>
+                            <br />
+                            <a href="#" class="btn btn-lg btn-primary mb-2">Disclaimer</a>
+                        </h1>
+                    </div>
+                </section>
+                <section class="s_media_list bg-200 pt32 pb32 o_colored_level" data-vcss="001" data-snippet="s_media_list"
+                    data-name="Media List">
+                    <div class="container">
+                        <div class="row s_nb_column_fixed s_col_no_bgcolor">
+                            <div t-foreach="implementerdata" t-as="data" class="col-lg-12 s_media_list_item pt16 pb16" data-name="Media item">
+                                <div class="row s_col_no_resize s_col_no_bgcolor no-gutters o_cc o_cc1 o_colored_level shadow align-items-center">
+                                    <div class="align-self-stretch s_media_list_img_wrapper col-lg-4">
+                                        <img t-attf-src="data:image/png;base64,#{data['profileimage']}"
+                                            class="s_media_list_img h-100 w-100" alt="" loading="lazy" data-original-title=""
+                                            title="" aria-describedby="tooltip770058" style="" data-original-id="91987"
+                                            data-mimetype="image/jpeg" data-resize-width="510" data-quality="100" />
+                                    </div>
+                                    <div class="s_media_list_body col-lg-8">
+                                        <b><h1 t-esc="data['name']"/></b>
+                                        <h3>
+                                            <i>
+                                                <b>
+                                                    <font style="font-size: 18px;">Work Zones: </font>
+                                                </b>
+                                                <br/>
+                                            </i>
+                                        </h3> 
+                                        <span t-foreach="data['workzone']" t-as="workzone" class="badge o_animable s_badge text-white" data-name="Badge" data-snippet="s_badge"
+                                            style="background-color: rgb(107, 173, 222) !important; font-size: 11px;">
+                                            
+                                            <span t-esc="workzone"/>
+                                        
+                                        </span>
+                                        <br/>
+                                        <h3>
+                                            <i>
+                                                <b>
+                                                    <font style="font-size: 18px;">Certification programs:</font>
+                                                </b>
+                                            </i>
+                                        </h3>
+                                        
+                                        <span t-foreach="data['programs']" t-as="program" class="badge o_animable s_badge text-white pao_group_size" data-name="Badge" data-snippet="s_badge" 
+                                        style="background-color: rgb(255, 255, 255) !important;">
+                                            <t t-if="program['img']">
+                                                <img
+                                                    class="img-fluid o_not-animable o_we_custom_image"
+                                                    t-attf-src="data:image/png;base64,#{program['img']}"
+                                                    loading="lazy" style="max-width: 150px !important; max-height: 100px !important;" data-original-id="91857"
+                                                    data-mimetype="image/png"
+                                                    data-resize-width="128" />
+                                            </t>
+                                            <t t-if="not program['img']">
+                                                 <span class="badge o_animable s_badge text-white" 
+                                                 data-snippet="s_badge" 
+                                                 style="background-color: rgb(16, 138, 81) !important; font-size: 16px;"
+                                                  t-esc="program['group']"/>
+                                        
+                                            </t>
+                                        </span>
+                                        
+                                        <p style="text-align: justify;" t-esc="data['profiledescription']" />
+                                        <div class="row s_col_no_resize s_col_no_bgcolor no-gutters o_cc o_cc1 o_colored_level shadow align-items-center">
+                                            <div class="s_media_list_body col-lg-8">
+                                                <p>
+                                                    <b>
+                                                        <font style="font-size: 18px;">CONTACT:</font>
+                                                    </b>
+                                                </p>
+                                                <div class="s_share_pao text-left" data-name="Share">
+                                                    <t t-if="data['email']">
+                                                        <a t-attf-href="#{data['email']}" class="s_share_email ">
+                                                            <i class="fa fa-envelope rounded-circle shadow-sm" 
+                                                            data-original-title="" title="" aria-describedby="tooltip20849" />
+                                                        </a>
+                                                    </t>
+                                                    <t t-if="data['whatsapp']">    
+                                                      <a t-attf-href="#{data['whatsapp']}" class="s_share_email"
+                                                            data-original-title="" title="" aria-describedby="tooltip594389"
+                                                            target="_blank"><i class="fa fa-whatsapp rounded-circle shadow-sm"
+                                                                data-original-title="" title=""
+                                                                aria-describedby="tooltip938679" />
+                                                        </a>
+                                                    </t>
+                                                    
+                                                    <i class="fa fa-phone rounded-circle shadow-sm" data-original-title="" title=""
+                                                    aria-describedby="tooltip20849" />
+                                                    <b><font style="font-size: 18px;" t-esc="data['telephone']"/></b>
+                                                </div>
+                                            </div>
+                                            <div class="s_media_list_body col-lg-4"><a t-attf-href="#{data['id']}"
+                                                    class="mb-2 btn btn-primary" data-original-title="" title=""
+                                                    aria-describedby="tooltip891730">View more about the implementer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="promoter_profiles_detail" name="External Implementers">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <a href="/external-implementers" class="btn-flotante btn-primary">
+                    <span style="font-size: 18px;" class="fa fa-mail-reply-all"></span>
+                </a>
+                <section class="s_text_image o_colored_level pb0 pt24" data-snippet="s_image_text" data-name="Image - Text"
+                    style="position: relative;"
+                    data-oe-shape-data="{'shape':'web_editor/Origins/13','flip':[]}">
+                    <div class="o_we_shape o_web_editor_Origins_13" />
+                    <div class="container">
+                        <div class="row align-items-stretch">
+                            <div class="o_colored_level shadow col-lg-6 pb0 pt16" >
+                                <img t-attf-src="data:image/png;base64,#{data['image']}"
+                                    class="img img-fluid mx-auto" alt="" loading="lazy" data-mimetype="image/png" data-resize-width="690" />
+                                    <t t-if="data['company']">
+                                        <h2 style="text-align:center; font-weight:Bold;" t-esc="data['company']"/>
+                                    </t>
+                            </div>
+                            <div class="o_colored_level pt32 pb0 col-lg-5 offset-lg-1">
+                                <b>
+                                    <h2 t-esc="data['name']"/>
+                                </b>
+                                <br/>
+                                
+                                <p style="margin-bottom: 0.11in; line-height: 108%">
+                                    <i>
+                                        <font style="font-size: 14px;" t-esc="data['profession']"/>
+                                    </i>
+                                </p>
+                                <h2>
+                                    <style type="text/css">
+                                        p {
+                                            margin-bottom: 0.1in;
+                                            direction: ltr;
+                                            line-height: 115%;
+                                            text-align: left;
+                                            orphans: 2;
+                                            widows: 2;
+                                            background: transparent
+                                        }
+                                    </style>
+                                </h2>
+                                <div class="s_hr text-left pt16 pb0" data-snippet="s_hr" data-name="Separator">
+                                    <hr class="w-100 mx-auto"
+                                        style="border-top-width: 1px; border-top-style: solid; border-top-color: rgba(0, 0, 0, 0) !important;" />
+                                </div>
+                                <p>
+                                    <b>
+                                        <font style="font-size: 18px;">CONTACT:</font>
+                                    </b>
+                                </p>
+                                <p>
+                                    <span class="fa fa-phone" style="font-size: 18px;" />
+                                    <font style="font-size: 18px;" t-esc="data['telephone']"/>
+                                    <br />
+                                    <span class="fa fa-envelope-o" style="font-size: 18px;" />
+                                    <font style="font-size: 18px;" aria-describedby="tooltip857293" t-esc="data['email']"/>
+                                    <br/>
+                                </p>
+                                <div class="s_share_pao text-left" data-name="Share">
+                                    <t t-if="data['emailurl']">
+                                        <a t-attf-href="#{data['emailurl']}"  class="s_share_email ">
+                                            <i class="fa fa-envelope rounded-circle shadow-sm"/>
+                                        </a>
+                                    </t>
+                                    <t t-if="data['website']">
+                                        <a t-attf-href="#{data['website']}" target="_blank" class="s_share_email ">
+                                            <i class="fa fa-globe rounded-circle shadow-sm"/>
+                                        </a>
+                                    </t>
+                                    <t t-if="data['whatsapp']">
+                                        <a t-attf-href="#{data['whatsapp']}" target="_blank" class="s_share_whatsapp ">
+                                            <i class="fa fa-whatsapp rounded-circle shadow-sm" />
+                                        </a>
+                                    </t>
+                                    <t t-if="data['facebook']">
+                                        <a t-attf-href="#{data['facebook']}" target="_blank" class="s_share_facebook ">
+                                            <i class="fa fa-facebook rounded-circle shadow-sm"/>
+                                        </a>
+                                    </t>
+                                    <t t-if="data['instagram']">
+                                        <a t-attf-href="#{data['instagram']}" target="_blank" class="s_share_instagram">
+                                            <i class="fa fa-instagram rounded-circle shadow-sm"/>
+                                        </a>
+                                    </t>
+                                    <t t-if="data['linkedin']">
+                                        <a t-attf-href="#{data['linkedin']}" class="s_share_linkedin ">
+                                            <i class="fa fa-linkedin rounded-circle shadow-sm"/>
+                                        </a>
+                                    </t>
+                                </div>
+                                <p>
+                                    <br/>
+                                </p>
+                                <p>
+                                    <b>
+                                        <i>Work zones: </i>
+                                    </b>
+                                    <br />
+                                    <span t-foreach="data['workzone']" t-as="workzone" class="badge o_animable s_badge text-white" 
+                                    data-name="Badge" data-snippet="s_badge" style="background-color: rgb(107, 173, 222) !important; font-size: 11px;">
+                                        
+                                        <span t-esc="workzone"/>
+                                                
+                                    </span>
+                                </p>
+                                <p>
+                                    <br />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-if="data['services']">
+                    <section class="s_title o_colored_level pb0 pt56" data-vcss="001" data-snippet="s_title" data-name="Title"
+                        data-oe-shape-data="{'shape':'web_editor/Origins/04','flip':[]}"
+                        style="position: relative;">
+                        <div class="o_we_shape" />
+                        <div class="s_allow_columns container">
+                            <h1 style="text-align: center;">
+                                <b>
+                                    <font style="font-size: 62px;">Services</font>
+                                </b>
+                            </h1>
+                        </div>
+                    </section>
+                    
+
+                   <section class="s_faq_collapse pt32 pb32 o_colored_level" data-snippet="s_faq_collapse" data-name="Accordion">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4" t-foreach="data['services']" t-as="service">
+                                    <div t-attf-id="#{service['accordionid']}" class="accordion" role="tablist">
+                                        <div class="card bg-white" style="border-bottom-style:solid !important; border-bottom-width:1px; border-bottom-color: rgba(0, 0, 0, 0.125);" data-name="Item">
+                                            
+                                            <a href="#" role="tab" data-toggle="collapse" aria-expanded="true"
+                                                class="card-header o_default_snippet_text collapsed"
+                                                t-attf-data-target="##{service['panelid']}"><span t-esc="service['group']" /></a>
+                                            <div class="collapse" role="tabpanel" t-attf-parent="##{service['accordionid']}"
+                                                t-attf-id="#{service['panelid']}">
+                                                <div class="card-body">
+                                                    <p class="card-text o_default_snippet_text" t-foreach="service['service']" t-as="serv" >
+                                                        <span t-esc="serv" />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </t>
+                <section class="o_animating o_colored_level s_text_block pb40 pt32" data-snippet="s_text_block" data-name="Text">
+                    <div class="s_allow_columns container">
+                        <!--aqui va el about-->
+                        <h1 style="text-align: left;">
+                        <b>About <span t-raw="data['name']"/></b>
+                        </h1>
+                        <span t-raw="data['about']"/>
+                    </div>
+                </section>
+                <section class="s_timeline pt24 pb48 o_colored_level" data-snippet="s_timeline" data-name="Timeline">
+                    <div class="s_timeline_line container">
+                        <div t-foreach="data['historyblock']" t-as="history" t-attf-class="s_timeline_row d-block d-md-flex #{history['reverse']}" data-name="Row">
+                            <div class="s_timeline_date">
+                                <b><span class="bg-white" t-esc="history['year']"/></b>
+                            </div>
+                            <div class="s_timeline_content d-flex">
+                                <div class="s_timeline_card s_card card bg-white w-100" data-name="Card" data-snippet="s_card">
+                                    <div class="card-body">
+                                        <p class="card-text" style="text-align: justify; " t-esc="history['text']" />
+                                    </div>
+                                </div>
+                                <i class="fa fa-1x bg-secondary rounded-circle s_timeline_icon fa-trophy" data-original-title=""
+                                    title="" aria-describedby="tooltip803776"></i>
+                            </div>
+                            <div class="s_timeline_content"></div>
+                        </div>
+                    </div>
+                </section>
+                <t t-if="data['carousel']">
+                    <section
+                        class="s_image_gallery o_colored_level s_image_gallery_show_indicators s_image_gallery_indicators_dots o_animating pt0 pb0 o_slideshow"
+                        data-vcss="001" data-columns="3" style="overflow: hidden; height: 666px;" data-snippet="s_image_gallery"
+                        data-name="Image Gallery">
+                        <div class="container">
+                            <div id="slideshow_1658270551947" class="carousel slide" data-ride="carousel" data-interval="2000"
+                                style="margin: 0 12px;">
+                                <div class="carousel-inner" style="padding: 0;">
+                                    <div t-foreach="data['carousel']" t-as="carouselimage" t-attf-class="carousel-item #{carouselimage['active']}" >
+                                        <img class="img img-fluid d-block" t-attf-src="data:image/png;base64,#{carouselimage['img']}"
+                                            alt="" data-name="Image" data-index="0" loading="lazy" data-original-title=""
+                                            title="" aria-describedby="tooltip45393" data-original-id="92019"
+                                            data-original-src="/web/image/92019-ecd667ec/IMG_2557%20-%20Jorge%20S.jpg"
+                                            data-mimetype="image/jpeg" data-resize-width="803" />
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev o_we_no_overlay" href="#slideshow_1658270551947" data-slide="prev"
+                                    aria-label="Anterior" title="Anterior">
+                                    <span class="fa fa-chevron-left fa-2x text-white" />
+                                    <span class="sr-only">Anterior</span>
+                                </a>
+                                <a class="carousel-control-next o_we_no_overlay" href="#slideshow_1658270551947" data-slide="next"
+                                    aria-label="Siguiente" title="Siguiente">
+                                    <span class="fa fa-chevron-right fa-2x text-white" data-original-title="" title=""
+                                        aria-describedby="tooltip909310" />
+                                    <span class="sr-only">Siguiente</span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

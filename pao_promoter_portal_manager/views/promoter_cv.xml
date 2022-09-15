@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_promoter_cv_view_form" model="ir.ui.view">
+        <field name="name">pao.promoter.cv.view.form</field>
+        <field name="model">pao.promoter.cv</field>
+        <field name="arch" type="xml">
+            <form string="Promoter CV">
+                <sheet>
+                    <group col="2">
+                        <field name="website_published"/>
+                        <field name="name"/>
+                        <field name="company_name"/>
+                    </group>
+                    <group col="4">
+                        <field name="profile_image" widget="image" class="oe_avatar"/>
+                        <field name="company_image" widget="image" class="oe_avatar"/>
+                        <field name="profession"/>
+                        <field name="telephone"/>
+                        <field name="email"/>
+                        <field name="work_zone_ids" widget="many2many_tags"/>
+                        <field name="whatsapp" placeholder="Enter the region and Whatsapp number"/>
+                        <field name="facebook" placeholder="Enter URL"/>
+                        <field name="instagram" placeholder="Enter URL"/>
+                        <field name="linkedin" placeholder="Enter URL"/>
+                        <field name="website" placeholder="Enter URL"/>
+                    </group>
+                    <group col="2">
+                        <field name="promotor_description"/>
+                    </group>
+                    <group col="2">
+                        <field name="about_html" widget="html" options="{'style-inline': true}"/>
+                    </group>
+                    <notebook>
+                         <page string="Services">
+                            <field name="service_ids" widget="many2many" context="{'default_promotor_cv_id': id}">
+                                <tree string="Add Services">
+                                    <field name="name"/>
+                                    <field name="service_group_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Carousel Images">
+                            <field name="carousel_image_ids" widget="many2many" domain="[('promotor_cv_id','=', id)]" context="{'default_promotor_cv_id': id}">
+                                <tree string="Add Carousel Images">
+                                    <field name="image" widget="image" class="oe_avatar"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="History">
+                            <field name="history_block_ids" widget="many2many" domain="[('promotor_cv_id','=', id)]" context="{'default_promotor_cv_id': id}">
+                                <tree string="Add History">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="history_text"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                    </notebook>
+
+
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="pao_promoter_history_block_view_form" model="ir.ui.view">
+        <field name="name">pao.promoter.history.block.view.form</field>
+        <field name="model">pao.promoter.history.block</field>
+        <field name="arch" type="xml">
+            <form string="Promoter CV">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                        <field name="history_text"/>
+                    </group>                   
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_promoter_history_block_view_tree" model="ir.ui.view">
+        <field name="name">pao.promoter.history.block.view.tree</field>
+        <field name="model">pao.promoter.history.block</field>
+        <field name="arch" type="xml">
+            <tree string="Promoter CV">
+                <field name="name"/>
+                <field name="history_text"/>
+            </tree>
+        </field>
+    </record>
+
+    
+
+    <record id="pao_promoter_images_view_form" model="ir.ui.view">
+        <field name="name">pao.promoter.images.view.form</field>
+        <field name="model">pao.promotors.images</field>
+        <field name="arch" type="xml">
+            <form string="Promoter images">
+                <sheet>
+                    <group col="2">
+                        <field name="image" widget="image" class="oe_avatar"/>
+                    </group>                   
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <record id="pao_promoter_service_view_tree" model="ir.ui.view">
+        <field name="name">pao.promoter.service.view.tree</field>
+        <field name="model">pao.promoter.service</field>
+        <field name="arch" type="xml">
+            <tree string="Services">
+                <field name="name"/>
+                <field name="service_group_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_promoter_images_view_tree" model="ir.ui.view">
+        <field name="name">pao.promoter.images.view.tree</field>
+        <field name="model">pao.promotors.images</field>
+        <field name="arch" type="xml">
+            <tree string="Promoter images">
+                <field name="image" widget="image" options="{'size': [0, 50]}"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <record id="pao_promoter_service_groups_view_form" model="ir.ui.view">
+        <field name="name">pao.promoter.service.groups.view.form</field>
+        <field name="model">pao.promoter.service.groups</field>
+        <field name="arch" type="xml">
+            <form string="Promoter service groups">
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                    </group>                   
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_promoter_cv_view_tree" model="ir.ui.view">
+        <field name="name">pao.promoter.cv.view.tree</field>
+        <field name="model">pao.promoter.cv</field>
+        <field name="arch" type="xml">
+            <tree string="Promoter CV">
+                <field name="name"/>
+                <field name="company_name"/>
+                <field name="email"/>
+                <field name="telephone"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_promotor_cv_action" model="ir.actions.act_window">
+        <field name="name">Promoter CV</field>
+        <field name="res_model">pao.promoter.cv</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Promoter CV
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="promotor_cv_sale"
+            name="Promotor CV"
+            parent="sale.sale_order_menu"
+            action="pao_promotor_cv_action"
+            sequence="10"/>
+
+</odoo>
