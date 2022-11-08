@@ -52,7 +52,7 @@ class WebsiteAuditorCalendar(http.Controller):
         for rec_order in result_order:
             order_id_partner.append(rec_order.order_id.id)
         
-        domain = [('ac_id_purchase','in',order_id_partner),('ac_audit_confirmation_status','=','1')]
+        domain = [('ac_id_purchase','in',order_id_partner),('ac_audit_confirmation_status','in',['1','3'])]        
         result_confirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search(
             domain
         )
