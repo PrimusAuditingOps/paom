@@ -8,4 +8,4 @@ class AccountMove(models.Model):
     
     pao_sage_folio = fields.Char(
         string = 'folio SAGE',
-    )
+    )  
