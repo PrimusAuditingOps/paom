@@ -15,7 +15,7 @@
                     <t t-set="title">Agenda</t>
                     <t t-set="url" t-value="'/calendar/auditordates'"/>
                     <t t-set="placeholder_count" t-value="0"/>
-                </t>
+                </t> 
             </t>
         </xpath>
     </template>
@@ -70,7 +70,11 @@
                                     </tr>
                                     <tr t-foreach="month['weeks']" t-as="weeks" class="o_calendar_days">
                                         <t t-foreach="weeks" t-as="day">
-                                            <td t-attf-class="text-center#{day['slots'] and ' o_day dropdown' or ''} #{day['weekend_cls']} #{day['today_cls']}" t-attf-title="#{day['today_cls'] and 'Today' or ''}">
+                                             <!-- t-attf-class if there are day[slots], then the class type value will be "o_day dropdown", else "" ( "condition" and "first value" or "second value") --> 
+                                             <!-- t-attf-title stands for Tooltips -->
+                                            <td t-attf-class="text-center#{day['slots'] and ' o_day dropdown' or ''} #{day['weekend_cls'] and ' o_weekend' or ''} #{day['today_cls']}" t-attf-title="#{day['today_cls'] and 'Today' or ''} #{day['weekend_cls'] and 'Día no laboral' or ''}">
+                                                
+                                                <!--If there are audits on this day, they'll show up as list of elements -->
                                                 <t t-if="day['slots']">
                                                     <div class="dropdown-toggle o_slots_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <strong>
@@ -83,7 +87,25 @@
                                                         </t>
                                                     </div>
                                                 </t>
-                                                <t t-if="not day['slots']">
+                                                <!--If this is a No labor day, a message with the description will be displayed -->
+                                                <t t-if="day['weekend_cls'] and (not(day['mute_cls']))">
+                                                    <div class="dropdown-toggle o_slots_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <strong>
+                                                        <span t-esc="day['day'].day"/>
+                                                    </strong>
+                                                    </div>
+                                                    <div class="dropdown-menu" role="menu">
+                                                        <t t-foreach="day['weekend_cls']" t-as="slot">
+                                                            <div t-attf-style="background-color:#e9ecef;">
+                                                                <span t-if='slot' t-attf-style="#{slot['color']}" t-esc="slot['name']"/>
+                                                                <br />
+                                                                <span t-if='slot' t-attf-style="#{slot['color']}" t-esc="slot['comments']"/>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                </t>
+                                
+                                                <t t-if="not (day['slots'] or day['weekend_cls'])">
                                                     <div t-esc="day['day'].day" t-att-class="day['mute_cls']"/>
                                                 </t>
                                             </td>
