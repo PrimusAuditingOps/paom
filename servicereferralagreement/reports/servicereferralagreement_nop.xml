@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_nop">
+         <div>
+            <h2>
+                                        PRIMUS AUDITING OPERATIONS <br/>ORGANIC CERTIFICATION PROGRAM <br/>SERVICES AGREEMENT
+                                        </h2>
+                                        <p>
+                                        Please sign and return this services agreement within 24 hours of receipt. 
+                                        Primus Auditing Operations is not responsible for changes to estimated costs 
+                                        or any additional costs incurred when Service Agreements are returned late. 
+                                        All estimates are calculated in U.S. dollars.
+                                        </p>
+                                        <p style="text-align:left;">
+                                            <b>Organization Name ("Customer"): </b>
+                                            <span t-field="line.organization_id"/>
+                                            <br/>
+                                            <b>Billing Customer: </b>
+                                            <span t-field="doc.partner_id"/>
+                                        </p>
+                                        <table style="width:100%; border:0px;">
+                                            <tr>
+                                                <td style="width:50%; border:0px; background-color:white;">
+                                                <p style="text-align:left;"><b>RFC#: </b><span t-field="doc.partner_id.vat"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;">
+                                                <p style="text-align:left;"><b>Registration Number: </b><span t-field="line.registrynumber_id"/></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="border:0px; background-color:white;">
+                                                <p style="text-align:left;"><b>Billed In: </b>México</p></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Contract E-mail:</b><span t-field="line.registrynumber_id.contract_email"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Phone #: </b><span t-field="line.registrynumber_id.phone"/></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Invoice E-mail: </b><span t-field="doc.partner_id.email"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;">
+                                                <p style="text-align:left;"><b>Agreed Date: </b><span t-field="line.service_start_date_nop"/> - <span t-field="line.service_end_date_nop"/></p></td>
+                                            </tr>
+                                        </table>
+                                        <t t-set="sumtotal" t-value= "0"/>
+                                        <table style="width:100%">
+                                            <tr style="background-color: black; color:white;">
+                                                <th>Services</th>
+                                                <th>Quantity</th>
+                                                <th>Audit Fee (<span t-field="doc.pricelist_id.currency_id"/>)</th>
+                                            </tr>
+                                            <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="serviceline">
+                                                <t t-if="serviceline.registrynumber_id.id == registrynumber and serviceline.organization_id.id == organization">
+                                                    <tr>
+                                                        <td><span t-field="serviceline.name"/></td>
+                                                        <td style="text-align:right"><span t-field="serviceline.product_uom_qty"/></td>
+                                                        <td style="text-align:right"><span t-field="serviceline.price_subtotal"/></td>
+                                                    </tr>
+                                                    <t t-set="sumtotal" t-value="sumtotal+serviceline.price_subtotal"/>
+                                                </t>
+                                            </t>
+                                            <tr>
+                                                <td></td>
+                                                <td style="text-align:right"><b>Total Services:</b></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal"  t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}" /></td>
+                                            </tr>
+                                        </table>
+                                        <div style="page-break-after: always;">
+                                        </div>
+                                        <h4>
+                                        <i>Services to be delivered by Primus Auditing Operations</i>
+                                        </h4>
+                                        <p>
+                                        Estimated Travel Expenses: − Travel expenses are estimated 
+                                        and are subject to change based on actual travel expenses incurred.
+                                        <br/>
+                                        <br/>
+                                        Travel expenses are on a direct reimbursement basis and 
+                                        include all expenses for transportation, accommodation and meals.
+                                        Whenever possible trips are combined with other business and expenses 
+                                        are divided to reduce the total cost for all of our customers.
+                                        <br/>
+                                        <br/>
+                                        <b>1. BILLING.</b> The Customer agrees to pay Primus Auditing 
+                                        Operations within 30 days of billing.
+                                        <br/>
+                                        <br/>
+                                        <b>2. AUDIT AND SURVEILLANCE.</b> Customer agrees and acknowledges free access 
+                                        is required to be made for scheduled audit, as well as possible random unannounced 
+                                        surveillance pursuant to NOP requirements, of customer’s operation including but 
+                                        not limited to: examination of documentation, records, and access to the equipment, 
+                                        location(s), area(s), personnel, and full physical inspection of customer’s subcontractors. 
+                                        Customer agrees to allow observers from Primus Auditing Operations and/or varying 
+                                        governing bodies if customer’s inspection or certification is randomly selected for 
+                                        surveillance for quality assurance purposes. Customer further agrees to grant free 
+                                        access in order to verify continued compliance with certification. Customer acknowledges 
+                                        complaints related to compliance must be documented, and subsequent investigation of 
+                                        complaints is mandatory. Documentation of complaints and investigation may be subject 
+                                        to inspection during audit or surveillance or at the request of Primus Auditing Ops 
+                                        Confidential Document Org-T0230usa Page 1 of 2 Rev. 0 08/07/2018Primus Auditing Operations 
+                                        at any time. Customer acknowledges action must be taken in regards to complaints or 
+                                        deficiencies found in products that affect certification requirements with accompanying 
+                                        documentation of actions taken. Customer acknowledges that its failure to fully comply with 
+                                        this section, either during the time of audit or any other time during the certification 
+                                        period, is a material breach of this agreement and can result in Customer’s certification 
+                                        being revoked without further notification.
+                                        <br/>
+                                        <br/>
+                                        </p>
+                                        <table style="width:100%; border:0px;">
+                                            <tr>
+                                                <td style="border:0px; background-color:white; width:50%;">"PRIMUS AUDITING OPERATIONS"</td>
+                                                <td style="border:0px; background-color:white; width:50%;">"CUSTOMER"</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                              <td style="border:0px; background-color:white; width:50%;">
+                                                	<p t-if="line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
+                                                		<img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
+                                                	</p>
+                                                	<p t-if="not line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
+                                                		<br/>
+                                                		<br/>
+                                                	</p>
+                                                </td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                	<p style="font-size:16px">
+                                                		<br/>
+                                                		<br/>
+                                                	</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p t-if="line.coordinator_id" style="text-align:left; font-size:16px"><b>By: <u><span t-field="line.coordinator_id"/></u></b></p>
+                                                <p t-if="not line.coordinator_id" style="text-align:left; font-size:16px"><b>By:_____________________________ </b></p>
+                                                </td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p><b>By:_____________________________ </b></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p>
+                                                <b>Audit Coordinator</b></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p><b>Date: </b><span t-field="line.service_date_nop"/></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                <p><b>Date: </b></p></td>
+                                            </tr>
+                                        </table>
+                                        <p>
+                                        A cancellation assessment fee may be charged for any inspection cancelled 1-7 days 
+                                        from scheduled inspection date. The operation will be charged 30% of the assessment fee if 
+                                        cancelled 1-7 days from the scheduled inspection date and the full assessment fee if 
+                                        cancelled the day of inspection. This fee excludes any additional expenses related to 
+                                        travel and labor if incurred.
+                                        </p>
+        
+        </div> 
+    </template>
+
+</odoo>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_standard">
+         <div>
+            <h2>ACUERDO DE 
+                                        SERVICIOS DE PRIMUS AUDITING OPERATIONS</h2>
+
+                                        <p>
+                                        Por favor firme y regrese este acuerdo de servicios dentro de 24 hr. 
+                                        después de recibido. JS Audit Group, Inc., dba Primus Auditing Operations 
+                                        ("Primus Auditing Ops") no se hace responsable por los cambios en los costos 
+                                        estimados o cualquier otro costo adicional asociado al retorno del acuerdo de 
+                                        servicios fuera del plazo estipulado. Todos los estimados son calculados en 
+                                        dolares Estadounidenses.
+                                        </p>
+                                        <p style="text-align:left;">
+                                            <b>Nombre de la Organización("Cliente"): </b>
+                                            <span t-field="line.organization_id"/>
+                                            <br/>
+                                            <b>Cliente de Facturación: </b>
+                                            <span t-field="doc.partner_id"/>
+                                        </p>
+                                        <table style="width:100%; border:0px;">
+                                            <tr>
+                                                <td style="width:50%; border:0px; background-color:white;">
+                                                <p style="text-align:left;"><b>SO #: </b><span t-field="doc.name"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;">
+                                                    <p style="text-align:left;"><b>Número de Registro: </b><span t-field="line.registrynumber_id"/></p>
+                                                </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td style="width:50%; border:0px; background-color:white;">
+                                                <p style="text-align:left;"><b>RFC #: </b>
+                                                    <span t-field="doc.partner_id.vat"/></p>
+                                                </td>
+                                                <td style="width:50%; border:0px; background-color:white;">
+                                                <p style="text-align:left;"><b>País de Facturación: </b>México</p>
+                                                </td>
+            
+                                            </tr>
+                                            <tr>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Correo de Contrato: </b><span t-field="line.registrynumber_id.contract_email"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Telefono: </b><span t-field="line.registrynumber_id.phone"/></p></td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Correo de Facturación: </b><span t-field="doc.partner_id.email"/></p></td>
+                                                <td style="width:50%; border:0px; background-color:white;max-width:400px;">
+                                                <p style="text-align:left;max-width:400px;"><b>Fecha Tentativa: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
+                                                
+                                            </tr>
+                                        </table>
+                                        <t t-set="sumtotal" t-value= "0"/>
+                                        <table style="width:100%">
+                                            <tr style="background-color: black; color:white;">
+                                                <th>Servicios</th>
+                                                <th>Cantidad</th>
+                                                <th>Tarifa de Auditoría (<span t-field="doc.pricelist_id.currency_id"/>)</th>
+                                            </tr>
+                                            <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="serviceline">
+                                                <t t-if="serviceline.registrynumber_id.id == registrynumber and serviceline.organization_id.id == organization">
+                                                    <tr>
+                                                        <td><span t-field="serviceline.name"/></td>
+                                                        <td style="text-align:right"><span t-field="serviceline.product_uom_qty"/></td>
+                                                        <td style="text-align:right"><span t-field="serviceline.price_subtotal"/></td>
+                                                    </tr>
+                                                    <t t-set="sumtotal" t-value="sumtotal+serviceline.price_subtotal"/>
+                                                </t>
+                                            </t>
+                                            <tr>
+                                                <td></td>
+                                                <td style="text-align:right"><b>Total Estimado:</b></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
+                                            </tr>
+                                        </table>
+                                        <div style="page-break-after: always;">
+                                        </div>
+                                        <h4>
+                                        <i>Servicios otorgados por Primus Auditing Operations</i>
+                                        </h4>
+                                        <p>
+                                        Gastos estimados de viaje: Los honorarios de viaje son estimados y 
+                                        están sujetos a cambios basados en los costos de viaje reales incurridos
+                                        <br/>
+                                        Los gastos de viaje son directamente reembolsados e incluyen todos los gastos 
+                                        de transporte, alojamiento y comida. Cada vez que es posible dichos viajes son 
+                                        combinados con visitas a otros clientes y los gastos son divididos entre todos 
+                                        para reducir el costo total para cada uno de ellos.
+                                        <br/>
+                                        <br/>
+                                        <b>1.ENTREGA.</b> Nótese que tanto los reportes de auditoría, como los certificados 
+                                        son enviados electrónicamente vía email. Copias en papel están disponibles.
+                                        <br/>
+                                        <br/>
+                                        <b>2.PROPIEDAD DE LA INFORMACIÓN.</b> Todos los datos cargados al sistema de Primus 
+                                        Auditing Ops se convierten en propiedad de JS Audit Group, Inc., para la preparación 
+                                        de comparaciones estadísticas específicas y el uso genérico de reportes, 
+                                        presentaciones y otros materiales.
+                                        <br/>
+                                        <br/>
+                                        <b>3.INDEMNIZACIÓN Y MANTENER INDEMNE.</b> El cliente reconoce y está de 
+                                        acuerdo en indemnizar, defender y mantener Operaciones de auditoría, 
+                                        Primus Auditing Ops, Primus Group Inc. y Sistemas Azzule la responsabilidad 
+                                        de cualquier reclamación, demanda, pérdida, responsabilidad, costos, gastos, 
+                                        obligaciones y daños y perjuicios de cualquier tipo y naturaleza, conocidos 
+                                        y desconocidos, incluyendo honorarios legales razonables relacionados con 
+                                        los productos básicos y las operaciones del cliente, independientemente de 
+                                        la causa o naturaleza de la responsabilidad.
+                                        <br/>
+                                        <br/>
+                                        <b>4.RESPONSABILIDAD LIMITADA.</b> Por este medio se le comunica al cliente 
+                                        que se libera a Primus Auditing Ops y Primus Group, Inc. y sus respectivos 
+                                        afiliados, de cualquier pérdida o responsabilidad sufrida por el Cliente, 
+                                        como se define a continuación, como consecuencia de los servicios prestados 
+                                        en virtud del presente Acuerdo. Dicha liberación incluirá cualquier daño real, 
+                                        accidentales, consecuentes u otros, más allá de las cantidades pagadas a Primus 
+                                        Auditing Ops por la auditoría realizada y / o facilitado por Primus Auditing Ops. 
+                                        El Cliente reconoce y acepta que la responsabilidad de Primus Auditing Ops se 
+                                        limita únicamente al trabajo de auditoría realizado por élla, y las partes 
+                                        reconocen expresamente que Primus Auditing Ops no es responsable de los productos 
+                                        básicos de los clientes, su seguridad, o calidad.
+                                        <br/>
+                                        <br/>
+                                        <b>5.LEY APLICABLE /LUGAR.</b> 
+                                        Este Acuerdo se regirá e interpretará de acuerdo con las leyes del Estado 
+                                        de California. En el caso de que sea necesario para instituir cualquier 
+                                        acción para hacer cumplir cualquier derecho otorgado en el presente 
+                                        documento o para corregir cualquier supuesto incumplimiento del mismo, 
+                                        entonces el lugar exclusivo para dicha acción deberá residir con el Superior 
+                                        aplicable o Tribunal Municipal ubicado en Santa Maria, California.
+                                        <br/>
+                                        <br/>
+                                        </p>
+                                        <p>
+                                        <b>6.CUMPLIMIENTO DE ADMINISTRACIÓN DE LA AGENCIA.</b> 
+                                        El cliente reconoce expresamente que Primus Auditing Ops y sus 
+                                        auditores no son una agencia de gobierno, y no establece los 
+                                        estándares de la industria para la seguridad o protocolo. 
+                                        El cliente también reconoce que Primus Auditing Ops proporciona 
+                                        resultados de las auditorías y no hace ninguna representación o 
+                                        garantía con respecto a la calidad de los productos del cliente, 
+                                        instalaciones, campos, métodos, u otros sujetos auditados, o si se 
+                                        cumple con las normas de regulación.
+                                        <br/>
+                                        <br/>
+                                        <b>7.DERECHO DE REFERENCIA.</b> 
+                                        El Cliente reconoce que Primus Auditing Ops contrata o podría contratar 
+                                        los servicios de auditores para atender a sus clientes. Debido a que 
+                                        los auditores contratados están dedicados a sus propios negocios de 
+                                        contratación independientes y no son empleados de Primus Auditing Ops, 
+                                        Primus Auditing Ops no contratará un seguro (de responsabilidad profesional, 
+                                        compensación de trabajadores, responsabilidad general, auto, etc.) para el 
+                                        auditor y sus empleados. Los auditores contratados están de acuerdo mediante 
+                                        un acuerdo de referencia a obtener cobertura de seguro propia y presentar una 
+                                        copia de este certificado a Primus Auditing Ops. Por otra parte, en aquellos 
+                                        casos en los que se haga uso de un auditor contratado, Primus Auditing Ops 
+                                        estará actuando en la sola capacidad de contratista independiente y cualquier 
+                                        información o datos recibidos serán transmitidos únicamente entre las partes, 
+                                        por lo que no hay juicio, representaciones o garantías independientes en cuanto 
+                                        a los hechos, observaciones o inferencias hechas con relación al mismo.
+                                        <br/>
+                                        <br/>
+                                        <b>8.DURACIÓN Y TERMINACIÓN.</b> Este Acuerdo será válido durante toda la duración 
+                                        de la Certificación del Cliente y finalizará en el momento de la expiración de 
+                                        la Certificación. Siempre que las representaciones y garantías, y las obligaciones 
+                                        en curso continúen más allá de la terminación de este Acuerdo.
+                                        <ul>
+                                            <li><b>Terminación por causa.</b> Si cualquiera de las partes no cumple con 
+                                            algún término o condición de este Acuerdo, dicha falla constituirá una 
+                                            violación de este Acuerdo. La Parte infractora tendrá 10 días del 
+                                            calendario desde el momento de la recepción de la notificación por 
+                                            escrito de dicho incumplimiento, para remediar dicho incumplimiento. 
+                                            Si después de 10 días, la parte infractora no ha subsanado la infracción, 
+                                            la parte no infractora puede rescindir este acuerdo sin más obligaciones.</li>
+                                            <li><b>Terminación voluntaria.</b> Cualquiera de las partes puede rescindir 
+                                            voluntariamente este acuerdo con un aviso por escrito de quince días a la otra 
+                                            parte. Si el Cliente rescinde este Acuerdo, cualquier certificación otorgada por 
+                                            Primus Auditing Ops al Cliente terminará de inmediato.</li>
+                                            <li><b>Terminación por parte del cliente después de la revisión de documentación 
+                                            de escritorio.</b> Si el Cliente anula voluntariamente este Acuerdo (como se 
+                                            indica en la Sección anterior), después de que Primus Auditing Ops haya 
+                                            comenzado la parte de la Revisión de escritorio de la Auditoría, el Cliente 
+                                            reconoce y acepta que será responsable de pagar a Primus Auditing Ops, una 
+                                            cantidad igual a UN TERCIO (1/3) de la Tarifa indicada en el cuadro "Tarifa 
+                                            de auditoría / Servicios totales" en la página 1 del Acuerdo. 
+                                            El incumplimiento por parte del Cliente es considerado una violación material 
+                                            de este Acuerdo por parte del Cliente.</li>
+                                        </ul>
+                                        </p>
+                                        <p>
+                                            <b>9.FACTURACIÓN.</b> El Cliente está de acuerdo con emitir 
+                                            el pago a Primus Auditing Ops dentro de los 30 días después 
+                                            de recibida la factura.
+                                            <br/>
+                                            <br/>
+                                        </p>
+                                        <table style="width:100%; border:0px;">
+                                            <tr>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                    <p t-if="line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
+                                                        <b>"PRIMUS AUDITING OPS"
+                                                        <br/>
+                                                        <br/>
+                                                        JS Audit Group, Inc., una corporación de California</b>
+                                                        <br/>
+                                                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
+                                                        <br/>
+                                                        Firmado por: <span t-field="line.coordinator_id"/>
+                                                        <br/>
+                                                        Coordinador de auditorías
+                                                        <br/>
+                                                        Fecha: <span t-field="line.service_date"/>
+                                                    </p>
+                                                    <p t-if="not line.coordinator_id.employee_id.es_sign_signature" style="font-size:16px">
+                                                        <b>"PRIMUS AUDITING OPS"
+                                                        <br/>
+                                                        <br/>
+                                                        JS Audit Group, Inc., una corporación de California</b>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        Firmado por: 
+                                                        <br/>
+                                                        Coordinador de auditorías
+                                                        <br/>
+                                                        Fecha: <span t-field="line.service_date"/>
+                                                    </p>
+                                                </td>
+                                                <td style="border:0px; background-color:white; width:50%;">
+                                                    <p style="font-size:16px">
+                                                        <b>"PARTE CONTRATANTE"
+                                                        <br/>
+                                                        <br/>
+                                                        <span t-field="doc.partner_id"/></b>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        Firmado por: 
+                                                        <br/>
+                                                        <br/>
+                                                        Fecha: 
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+        
+        </div> 
+    </template>
+
+</odoo>
