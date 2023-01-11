@@ -202,15 +202,16 @@ class webAuditorAssignment(http.Controller):
         if len(auditor_ids) > 0:
 
             for dates in datelist:
+                
                 sql = """
-                    SELECT DISTINCT partner_id AS id FROM 
-                    purchase_order_line 
-                    WHERE partner_id IN %(partner_ids)s AND state != 'cancel' 
-                    AND order_id <> %(order_id)s AND 
-                    ((service_start_date >= %(star_date)s AND service_start_date <= %(end_date)s) OR
-                    (service_end_date <= %(star_date)s AND service_end_date >= %(end_date)s) OR
-                    (service_start_date <= %(star_date)s AND service_end_date >= %(star_date)s) OR
-                    (service_start_date <= %(end_date)s AND service_end_date >= %(end_date)s))
+                    SELECT DISTINCT pol.partner_id as id, po.shadow_id as shadow, po.assessment_id as assessment FROM 
+                    purchase_order_line as pol inner join purchase_order as po on po.id = pol.order_id
+                    WHERE (pol.partner_id IN %(partner_ids)s OR po.shadow_id IN %(partner_ids)s OR po.assessment_id IN %(partner_ids)s) AND pol.state != 'cancel' 
+                    AND pol.order_id <> %(order_id)s AND po.id <> %(order_id)s AND 
+                    ((pol.service_start_date >= %(star_date)s AND pol.service_start_date <= %(end_date)s) OR
+                    (pol.service_end_date <= %(star_date)s AND pol.service_end_date >= %(end_date)s) OR
+                    (pol.service_start_date <= %(star_date)s AND pol.service_end_date >= %(star_date)s) OR
+                    (pol.service_start_date <= %(end_date)s AND pol.service_end_date >= %(end_date)s))
                 """
                 params = {
                     'partner_ids': tuple(auditor_ids),
@@ -221,7 +222,8 @@ class webAuditorAssignment(http.Controller):
                 request.env.cr.execute(sql, params)
                 result = request.env.cr.dictfetchall()
                 auditors_not_available_list += [r['id'] for r in result if r['id'] not in auditors_not_available_list]
-
+                auditors_not_available_list += [r['shadow'] for r in result if r['shadow'] not in auditors_not_available_list]
+                auditors_not_available_list += [r['assessment'] for r in result if r['assessment'] not in auditors_not_available_list]
 
                 sql = """
                     SELECT DISTINCT auditor_id AS id FROM 
