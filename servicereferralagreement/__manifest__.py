@@ -15,6 +15,7 @@
         # data
         # demo
         # reports
+        'reports/servicereferralagreement_sustentabilidad.xml',
         'reports/servicereferralagreement_haccp.xml',
         'reports/servicereferralagreement_nop_lpo.xml',
         'reports/servicereferralagreement_standard.xml',
@@ -22,6 +23,7 @@
         'reports/servicereferralagreement_smeta.xml',
         'reports/servicereferralagreement_ggap.xml',
         'reports/servicereferralagreement_gfs.xml',
+        'reports/servicereferralagreement_header_footer_sustentabilidad.xml',
         'reports/servicereferralagreement_header_footer_gfs.xml',
         'reports/servicereferralagreement_header_footer_ggap.xml',
         'reports/servicereferralagreement_header_footer_nop.xml',

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name':'Pao Digital Services Catalog',
+    'name':'PAO Digital Services Catalog',
     'version':'1.0',
     'author':'Abrahan Barrios',
     'category':'',

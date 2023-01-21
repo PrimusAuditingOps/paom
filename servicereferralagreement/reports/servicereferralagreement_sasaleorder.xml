@@ -28,6 +28,7 @@
                                 <t t-if="line.registrynumber_id.scheme_id.name == 'Primus Standard GAP' or line.registrynumber_id.scheme_id.name == 'Primus Standard GMP'" t-call="servicereferralagreement.custom_header_footer_standard"/>
                                 <t t-if="line.registrynumber_id.scheme_id.name == 'LPO-UE'" t-call="servicereferralagreement.custom_header_footer_lpo_ue"/>
                                 <t t-if="line.registrynumber_id.scheme_id.name == 'HACCP'" t-call="servicereferralagreement.custom_header_footer_haccp"/>
+                                <t t-if="line.registrynumber_id.scheme_id.name == 'Sustentabilidad'" t-call="servicereferralagreement.custom_header_footer_sustentabilidad"/>
                                 <xpath expr="//head" position="attributes">
                                     <link rel='stylesheet' href="/servicereferralagreement/static/src/css/servicereferralagreement.css"/>
                                 </xpath>
@@ -46,6 +47,8 @@
                                     <t t-if="line.registrynumber_id.scheme_id.name == 'Primus Standard GAP' or line.registrynumber_id.scheme_id.name == 'Primus Standard GMP'" t-call="servicereferralagreement.sa_standard"/>
                                         
                                     <t t-if="line.registrynumber_id.scheme_id.name == 'HACCP'" t-call="servicereferralagreement.sa_haccp"/>
+
+                                    <t t-if="line.registrynumber_id.scheme_id.name == 'Sustentabilidad'" t-call="servicereferralagreement.sa_sustentabilidad"/>
                                 
                                     <t t-if="line.registrynumber_id.scheme_id.name == 'LPO-UE'" t-call="servicereferralagreement.report_sa_lpo_ue" />
                                     
