@@ -449,14 +449,17 @@ class webAuditorAssignment(http.Controller):
             total_audit = 0
             recpartner = request.env['res.partner'].browse(auditor)
             total_audit = recpartner.paa_audit_quantity
-            count = 0
-            qualification = 0.00
-            for season_date in season_dates_list:
-                season_end_date = season_date + relativedelta(years=1)
-                qualification += self._get_calification_audit_quantity( products_ids, order_id, auditor, total_audit, season_date, season_end_date, weighting)
-                count += 1
-            qualification = qualification / count if count > 0 and qualification > 0 else weighting
-            auditor_audit_quantity_target_list.append({'id': auditor,'qualification': qualification})
+            if total_audit > 0:
+                count = 0
+                qualification = 0.00
+                for season_date in season_dates_list:
+                    season_end_date = season_date + relativedelta(years=1)
+                    qualification += self._get_calification_audit_quantity( products_ids, order_id, auditor, total_audit, season_date, season_end_date, weighting)
+                    count += 1
+                qualification = qualification / count if count > 0 and qualification > 0 else 0
+                auditor_audit_quantity_target_list.append({'id': auditor,'qualification': qualification})
+            else:
+                auditor_audit_quantity_target_list.append({'id': auditor,'qualification': 0})
         return auditor_audit_quantity_target_list
     
     def _get_audits_quantity_per_month(self,auditors_list, weighting, date_list, months_list,order_id):
@@ -477,7 +480,7 @@ class webAuditorAssignment(http.Controller):
                 audit_quantity_total = 0
                 qualification+= self._get_calification_audit_quantity(products_ids, order_id, auditor, total_audit, season_start_date, season_end_date, weighting)
                 count += 1
-            qualification = qualification / count if count > 0 and qualification > 0 else weighting
+            qualification = qualification / count if count > 0 and qualification > 0 else 0
             auditor_audit_quantity_target_list.append({'id': auditor,'qualification': qualification})
         
         return auditor_audit_quantity_target_list
@@ -531,7 +534,7 @@ class webAuditorAssignment(http.Controller):
                 total_audit = season_date_qty['quantity']
                 qualification += self._get_calification_audit_quantity(products_ids, order_id, auditor, total_audit, trimester_start_date, trimester_end_date, weighting)
                 count += 1 
-            qualification =  qualification / count if count > 0 and qualification > 0 else weighting
+            qualification =  qualification / count if count > 0 and qualification > 0 else 0
             auditor_audit_quantity_target_list.append({'id': auditor,'qualification': qualification})
         
         return auditor_audit_quantity_target_list
@@ -560,7 +563,7 @@ class webAuditorAssignment(http.Controller):
                 audit_quantity_total = 0
                 qualification += self._get_calification_audit_quantity(products_ids, order_id, auditor, total_audit, season_start_date, season_end_date, weighting)
                 count += 1                
-            qualification = qualification / count if count > 0 and qualification > 0 else 0 if count > 0 and qualification <= 0 else  weighting
+            qualification = qualification / count if count > 0 and qualification > 0 else 0 if count > 0 and qualification <= 0 else  0
             auditor_audit_quantity_target_list.append({'id': auditor,'qualification': qualification})
         
         return auditor_audit_quantity_target_list
