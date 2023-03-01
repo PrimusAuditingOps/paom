@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        
+        <record id="cron_sa_request_reminder" forcecreate='True' model="ir.cron">
+            <field name="name">SA Signature reminders</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model_id" ref="pao_sign_sa.model_pao_sign_sa_agreements_sent"/>
+            <field name="state">code</field>
+            <field name="code">model._send_sa_signature_reminders()</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_smeta_scheme">
+        <div id="portal_smeta_content" t-attf-class="#{'card pb-5' if not print else ''}">
+            <div id="introduction" class="#{'pb-2 pt-3 card-header' if not print else ''}" style="text-align: center;">
+                    <h3><b>PRIMUS AUDITING OPERATIONS<br/>ACUERDO DE SERVICIO</b></h3>
+            </div>
+            <div class="card-body">
+                <p>
+                    Por favor firme y reenvíe este Acuerdo de Servicio dentro de las 24 horas después de su recepción. JS Audit Group, Inc., 
+                    dba Primus Auditing Operations ("Primus Auditing Ops") no se hace responsable por cambios en los costos estimados o 
+                    cualquier costo adicional añadido cuando este Acuerdo de Servicio es firmado y enviado tarde. Todos los costos estimados 
+                    son calculados en dólar estadounidense.
+                </p>
+               
+
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Nombre de la Organización: </b><span t-field="serviceagreement.organization_name"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Nombre de Organización de Facturación: </b><span t-field="serviceagreement.customer_name"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>RFC de la Organización: </b><span t-field="serviceagreement.organization_vat"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Número de Registro: </b><span t-field="serviceagreement.name"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>RFC de Facturación: </b><span t-field="serviceagreement.customer_vat"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Alcance de Auditoría: </b><span t-field="serviceagreement.audit_scope"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Correo de Contacto: </b><span t-field="serviceagreement.contract_email"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Tipo de auditoría: </b><span t-field="serviceagreement.audit_type"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Correo de Facturación: </b><span t-field="serviceagreement.invoice_email"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Requisitos del cliente: </b><span t-field="serviceagreement.client_requirements"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Teléfono: </b><span t-field="serviceagreement.phone"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Duración de la auditoría: </b><span t-field="serviceagreement.audit_duration"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p style="text-align:left;"><b>Fecha(s) acordada(s): </b><span t-field="serviceagreement.start_date"/> - <span t-field="serviceagreement.end_date"/></p>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead class="thead-dark" style="text-align:center">
+                        <tr>
+                        <th scope="col">Servicios</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Tarifa de Auditoría (<span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id.name"/>)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <tr t-foreach="serviceagreement.services_ids" t-as="service">
+                            <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal"/>
+                            <td><span t-field="service.name"/></td>
+                            <td style="text-align:right;"><span t-field="service.product_uom_qty"/></td>
+                            <td style="text-align:right;"> <span t-field="service.price_subtotal"/></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right;" colspan="2" esc="row">Costo Total (sin IVA)</th>
+                            <th style="text-align:right;" colspan="1" scope="row">
+                                <strong class="mr16">
+                                     <span t-esc="current_subtotal"
+                                    t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                </strong>   
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="page-break-after: always;">
+                </div>
+                <div style="text-align: center;">
+                    <h4>
+                        <b><em>Servicios otorgados por Primus Auditing Operations</em></b>
+                    </h4>
+                    <br/>
+                    <h4>
+                        <b>Esto no es una factura.</b>
+                    </h4>
+                </div>
+                <p>
+                    Gastos de viaje estimados: - Los gastos de viaje se 
+                    estiman y están sujetos a cambios en función de los 
+                    gastos de los viajes reales realizados. Los gastos de 
+                    viaje se reembolsan directamente e incluyen todos los 
+                    gastos de transporte, alojamiento y comidas. Siempre que 
+                    sea posible, los viajes se combinan con otros negocios y 
+                    los gastos se dividen para reducir los costos totales para 
+                    todos nuestros clientes. 
+                </p>
+                <p>
+                    <b>1. ENTREGA.</b> Los informes de auditoría y los 
+                    certificados se comparten a través de la Plataforma SEDEX.
+                </p>
+                <p>
+                    <b>2. TRANSFERENCIA DE DATOS A EXTERIORES.</b> Es posible 
+                    que se requiera que Primus Auditing Ops envíe información 
+                    obtenida durante la auditoría a Intercambio de datos 
+                    éticos de proveedores (SEDEX) y/o a la Asociación de 
+                    Auditores Profesionales de Cumplimiento Social (APSCA) 
+                    para su uso autorizado. Al firmar este Acuerdo, 
+                    el Cliente reconoce que dicha información puede ser 
+                    proporcionada a la SEDEX y / o APSCA correspondiente, y 
+                    consiente a la transferencia de dicha información.
+                </p>
+                <p>
+                    <b>3. LIMITACIÓN DE RESPONSABILIDAD.</b> Por la presente, 
+                    el Cliente libera a Primus Auditing Ops, sus empleados, 
+                    gerentes, directores, agentes y afiliados, de cualquier 
+                    pérdida o responsabilidad del Cliente, como resultado de 
+                    los servicios prestados bajo este Acuerdo. Dicha liberación 
+                    incluirá cualquier daño real, incidental, consecuente o de otro 
+                    tipo que van más allá de las cantidades pagadas a Primus Auditing 
+                    Ops por las auditorías realizada(s) y/o facilitada(s) por Primus 
+                    Auditing Ops. Además, el Cliente reconoce y acepta que la 
+                    responsabilidad de Primus Auditing Ops se limita únicamente al 
+                    trabajo de auditoría que realiza, y las partes reconocen expresamente 
+                    que Primus Auditing Ops no es responsable de los productos básicos 
+                    del Cliente, su seguridad o calidad.
+                </p>
+                <p>
+                    <b>4. LEY APLICABLE.</b> Este Acuerdo se regirá e interpretará 
+                    de acuerdo con las leyes del Estado de California. En el caso de 
+                    que sea necesario iniciar cualquier acción para hacer cumplir 
+                    cualquier derecho otorgado en este documento o para reparar 
+                    cualquier presunto incumplimiento del mismo, entonces el lugar 
+                    exclusivo para tal acción será el Tribunal Superior correspondiente 
+                    ubicado en Santa María, California.
+                </p>
+                <p>
+                    <b>5. DESLINDAMIENTO DE RESPONSABILIDADES.</b> El Cliente reconoce 
+                    que Primus Auditing Ops está o puede contratar los servicios de 
+                    auditoría realizados para el Cliente. Debido a que un auditor 
+                    subcontratado se dedica a su propio negocio de contratación 
+                    independiente y no es un empleado de Primus Auditing Ops, si 
+                    Primus Auditing Ops deriva la auditoría a un subcontratista, 
+                    este no obtendrá seguro (responsabilidad profesional, compensación 
+                    de trabajadores, responsabilidad civil, automóvil, etc.) para el 
+                    auditor o sus empleados. Los auditores subcontratados acuerdan 
+                    mediante un acuerdo de responsabilidades separado, obtener su propia 
+                    cobertura de seguro y proporcionar una copia del certificado de seguro 
+                    a Primus Auditing Ops. Además, en aquellos casos en los que se 
+                    subcontrata a un auditor, Primus Auditing Ops actuará en la capacidad 
+                    exclusiva de contratista y cualquier información o datos recibidos se 
+                    transmitirán simplemente entre las partes, sin emitir juicios, 
+                    representaciones o garantías independientes en cuanto a los hechos, 
+                    observaciones o inferencias realizadas en relación con los mismos.
+                </p>
+                <p>
+                    <b>6. AUDITORÍA Y VIGILANCIA.</b> El cliente acepta y reconoce 
+                    que se requiere libre acceso para cualquier auditoría programada, 
+                    así como posibles verificaciones aleatorias de aseguramiento de calidad 
+                    (según los requisitos del esquema de auditoría) de la operación del cliente, 
+                    que incluyen, entre otros: revisión de documentación, registros y acceso 
+                    a los equipos, ubicación (es), área (s), personal e inspección física 
+                    completa de los subcontratistas del Cliente. El cliente acepta permitir 
+                    la asistencia de observadores de Primus Auditing Ops y/o de diferentes 
+                    órganos de gobierno si la auditoría o certificación del cliente se 
+                    selecciona al azar para la vigilancia con fines de aseguramiento de 
+                    calidad. El cliente también acepta otorgar el libre acceso para 
+                    verificar el cumplimiento continuo de la certificación. El cliente 
+                    reconoce que las quejas relacionadas con el cumplimiento deben estar 
+                    documentadas y que la investigación posterior de las quejas es posible 
+                    y, en algunos casos, puede ser obligatoria. La documentación de las 
+                    quejas y su investigación pueden estar sujetas a inspección durante 
+                    la auditoría o la vigilancia o a solicitud de Primus Auditing Ops 
+                    en cualquier momento. El Cliente reconoce que su incumplimiento 
+                    de esta sección, ya sea durante el tiempo de la auditoría o en 
+                    cualquier otro momento durante el período de certificación, es un 
+                    incumplimiento a este acuerdo y puede resultar en la revocación de 
+                    la certificación del Cliente sin notificación previa. El Cliente 
+                    comprende y acepta realizar auditorías de seguimiento cuando las 
+                    acciones correctivas no se puedan verificar en una revisión de 
+                    escritorio, por ejemplo, en el caso de incumplimientos críticos.
+                </p>
+                <p>
+                    <b>7. OBLIGACIONES DEL CLIENTE.</b> El Cliente se compromete a 
+                    cumplir con los puntos citados en la auditoría SMETA, bajo el 
+                    Código Base de la Iniciativa de Comercio Ético (ETI), así como 
+                    las leyes locales aplicables. Cualquier desviación detectada 
+                    durante la auditoría será reportada e indicada durante la reunión 
+                    de cierre y en el documento correspondiente (CARP), para lo cual 
+                    el Cliente deberá tomar acciones correctivas para subsanar la 
+                    desviación, y es responsable de enviarlas mediante la plataforma 
+                    de Acciones correctivas del Cliente en SEDEX, el envío de estas 
+                    acciones es responsabilidad exclusiva del Cliente, a lo cual el 
+                    Cliente reconoce, comprende y acepta al firmar este Acuerdo.
+                </p>
+                <p>
+                    En el caso de que se requiera una nueva visita <u><i>in situ</i></u> para verificar 
+                    las acciones correctivas reportadas en la reunión de cierre de la 
+                    auditoría correspondiente, el Cliente se compromete a pagar por 
+                    adelantado todos los costos relacionados con dicha visita, es decir, 
+                    los gastos de viaje, gastos de traslados, gastos de auditor y gastos 
+                    administrativos. Primus Auditing Operations, para este propósito, 
+                    enviará una cotización individual para esta actividad.
+                </p>
+                <p>
+                    El cliente además acepta:
+                    <br/>
+                    <ul style= "list-style-type: lower-latin">
+                        <li>
+                            El cliente debe entregar el cuestionario de autoevaluación 
+                            (SAQ) al menos 15 días antes de la fecha de la visita/auditoría 
+                            in situ. Asimismo, deberá proporcionar los números de registro ZC 
+                            y ZS a Primus Auditing Ops al menos 5 dias antes de la auditoria, 
+                            de lo contrario la auditoria será reprogramada y el pago por viáticos 
+                            queda sujeto a que el auditor asignado haya realizado algún gasto previo 
+                            a la cancelación ya sea por el cliente o por falta de registro en la 
+                            plataforma de Sedex.
+                        </li>
+                        <li>
+                            El cliente es responsable de gestionar toda la logística necesaria 
+                            para llevar a cabo la auditoría y evaluación por parte de representantes 
+                            de Primus Auditing Ops, que incluye acceso a registros, documentación, 
+                            instalaciones y todo lo que sea necesario para verificar el cumplimiento 
+                            de la normativa y requisitos conforme a SMETA. El Cliente es responsable 
+                            del cumplimiento de SMETA y los lineamientos del Código Base de la Iniciativa 
+                            de Comercio Ético (ETI), se compromete a realizar todas las actividades 
+                            necesarias para mantener el cumplimiento después de la auditoría, así como 
+                            la implementación de medidas consistentes con la mejora continua de acuerdo 
+                            con las condiciones reflejadas en el Informe de Auditoría.
+                        </li>
+                        <li>
+                            El cliente se compromete a informar a Primus Auditing Ops de cualquier 
+                            cambio en la operación que pueda afectar la capacidad del cliente para 
+                            cumplir con los requisitos de auditoría o que genere un cambio significativo 
+                            en la forma en que el cliente realiza sus actividades.
+                        </li>
+                        <li>
+                            El cliente acepta aplicar las acciones correctivas dentro del período de 
+                            tiempo acordado durante la reunión de cierre con el auditor. En caso de que 
+                            no pueda aplicar las acciones correctivas, presentará la situación por escrito 
+                            tanto a Primus Auditing Ops como al auditor.
+                        </li>
+                        <li>
+                            El cliente se compromete a actuar de buena fe e informar a Primus Auditing 
+                            Operations por escrito de cualquier cambio significativo que contravenga las 
+                            disposiciones del Código Base de la Iniciativa de Comercio Ético (ETI) evaluado.
+                        </li>
+                        <li>
+                            El cliente acepta tener representantes de la alta dirección, gerentes responsables 
+                            de funciones clave (por ejemplo, recursos humanos y producción) y representantes 
+                            de sindicatos/trabajadores en el momento de la auditoría in situ.
+                        </li>
+                        <li>
+                            El cliente se compromete a dar total acceso al auditor a la operación, los documentos 
+                            y el personal auditados correspondientes durante la visita in situ para realizar 
+                            la auditoría SMETA.
+                            <ul style= "list-style-type: lower-roman">
+                                <li>
+                                    Si un auditor no tiene acceso total, el auditor generará una alerta en todos 
+                                    los casos. Si el auditor puede ingresar al sitio, pero no puede acceder a la 
+                                    información necesaria, deberá generar una alerta y un incumplimiento.
+                                </li>
+                                <li>
+                                    Si un auditor tiene acceso parcial a instalación/información, el auditor 
+                                    continuará con la auditoría, pero generará un incumplimiento con una descripción 
+                                    detallada del(los) problema(s).
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    <b>8. RESULTADOS DE AUDITORÍA.</b> El Cliente debe cumplir con los 
+                    siguiente:
+                    <ul style= "list-style-type: lower-latin">
+                        <li>El cliente se compromete a cumplir siempre con los requisitos de la metodología.</li>
+                        <li>El cliente deberá cumplir mediante la implementación de los cambios apropiados 
+                        cuando se comuniquen a través de Primus Auditing Ops al cliente.</li>
+                    </ul>
+                </p>
+                <p>
+                    El cliente reconoce que no puede hacer afirmaciones con respecto a los resultados de auditoría 
+                    que sean inconsistentes con el alcance de la auditoría realizada. Además, el cliente no puede 
+                    usar los resultados auditoría de una manera engañosa o no autorizada, o de una manera que dañe 
+                    la reputación de Primus Auditing Ops.<br/>Además, el cliente reconoce que, los tiempos para cierre 
+                    de No conformidades deberán ser discutidos durante el cierre de auditoría con el auditor para 
+                    que queden establecidos en el reporte de acciones Correctivas CAPR.
+                </p>
+                <p>
+                    <b>9. TÉRMINOS Y CONDICIONES.</b>  
+                    <ul style= "list-style-type: lower-latin">
+                        <li>
+                            <b>Terminación por causa justificada.</b> Este Acuerdo de servicio será indefinido y 
+                            finalizará en el momento de la expiración de la Certificación del Cliente. 
+                            Si cualquiera de las partes no cumple con algún término o condición de este 
+                            Acuerdo, dicho incumplimiento se considerará una violación de este Acuerdo. 
+                            La parte infractora tendrá 10 días calendario para subsanar dicha infracción 
+                            a partir del momento en que reciba la notificación por escrito de la otra parte. 
+                            Si después de 10 días, la parte infractora no ha subsanado el incumplimiento, 
+                            la parte no infractora puede rescindir este Acuerdo sin más obligaciones. 
+                            La disposición de notificación de 10 días y la rescisión no se aplica a la 
+                            violación del uso de la Marca Registrada, como se describe en la Sección 11 de 
+                            este documento, donde el tiempo de reparación tras la notificación será de 15 días.
+                        </li>
+                        <li>
+                            <b>Terminación voluntaria.</b> Cualquiera de las partes puede rescindir voluntariamente 
+                            a este Acuerdo mediante notificación por escrito con quince días de antelación a 
+                            la otra parte. Si cualquiera de las partes rescinde a este Acuerdo, todas las 
+                            certificaciones otorgadas por Primus Audit Ops al Cliente después de dicha rescisión 
+                            no serán válidas.
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    <b>10. FACTURACIÓN.</b> Se puede cobrar una tarifa administrativa de cancelación de 
+                    $ 200.00 por cualquier cancelación de auditoría dentro de los 21 días posteriores a 
+                    la fecha de auditoría programada. Esta tarifa de cancelación excluye cualquier gasto 
+                    adicional relacionado con el viaje y la mano de obra si se incurre en él. El Cliente 
+                    acepta pagar a Primus Auditing Ops dentro de los 30 días posteriores a la facturación.
+                    <br/>
+                    <br/>
+                    <b>11. LOGO y URN.</b> El uso del logos de miembro de Sedex se encuentra en el sitio web 
+                    (www.sedex.com) en la sección <u>Sedex Ambassador toolkit.</u> El cliente no debe hacer un 
+                    mal uso del informe SMETA, CAPR y / o URN.
+                    <p>
+                    Fecha: <span t-field="serviceagreement.sign_sa_agreements_id.document_date" widget="date"/>
+                    </p>
+                </p>
+
+
+
+               
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            "PRIMUS AUDITING OPS"
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            "PARTE CONTRATANTE"
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>JS Audit Group, Inc., una corporación de California</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b><span t-field="serviceagreement.organization_name"/></b>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <img  t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
+                    </div>
+                    <div class="col-6">
+                        <img class="img img-responsive" style="width:327px; heigth:327px;"  t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Firma: </b><span t-field="serviceagreement.coordinator_id.name"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Firma: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name" t-if="serviceagreement.sign_sa_agreements_id.signer_name"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Coordinador de auditorías</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b><span t-field="serviceagreement.sign_sa_agreements_id.position"/></b>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                           <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date" t-if="serviceagreement.sign_sa_agreements_id.signature_date"/>
+                        </p>
+                    </div>  
+                </div>
+
+               
+                <div style="text-align: center;" t-if="print == False">
+                    <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
+                    <ul class="list-inline" style="text-align: center;">
+                        <li class="list-inline-item">PrimusAuditingOps Documento Confidencial</li>
+                        <li class="list-inline-item">SCL-011s</li>
+                        <li class="list-inline-item">R.2   08/10/2021</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </template>
+</odoo>

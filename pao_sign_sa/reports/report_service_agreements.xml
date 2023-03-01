@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report id="report_service_agreements" model="pao.sign.sa.agreements.sent" 
+    string="Service Agreement" 
+    name="pao_sign_sa.report_service_agreements_view" 
+    file="pao_sign_sa.report_service_agreements" 
+    report_type="qweb-pdf" 
+    print_report_name= "'SA'"/>
+    <template id="report_service_agreements_view">
+        <t t-set="values" t-value="values.with_context(lang='es_MX')"/>
+        <t t-call="web.html_container">
+            <div t-attf-class="article o_report_layout_boxed">
+                <xpath expr="//head" position="attributes">
+                    <link rel='stylesheet' href="/pao_sign_sa/static/src/css/sa.css"/>
+                </xpath>
+               
+                    <t t-set="values" t-value="values.with_context(lang='es_MX')"/>
+                    <t t-if="values.scheme == 'PrimusGFS'">
+                        <t t-call="pao_sign_sa.sa_header_footer_gfs"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_pgfs_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'GLOBALG.A.P.'">
+                        <t t-call="pao_sign_sa.sa_header_footer_ggap"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_globalgap_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'NOP'">
+                        <t t-set="values" t-value="values.with_context(lang='en_US')"/>
+                        <t t-call="pao_sign_sa.sa_header_footer_nop"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_nop_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'SMETA'">
+                        <t t-call="pao_sign_sa.sa_header_footer_smeta"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_smeta_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'NOP-LPO' or values.scheme == 'LPO'">
+                        <t t-call="pao_sign_sa.sa_header_footer_nop_lpo"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_nop_lpo_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'Primus Standard GAP' or values.scheme == 'Primus Standard GMP'">
+                        <t t-call="pao_sign_sa.sa_header_footer_standard"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_primus_standar_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'LPO-UE'">
+                        <t t-call="pao_sign_sa.sa_header_footer_lpo_ue"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_lpo_ue_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'HACCP'">
+                        <t t-call="pao_sign_sa.sa_header_footer_haccp"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_haccp_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>      
+                    <t t-if="values.scheme == 'Sustentabilidad'">
+                        <t t-call="pao_sign_sa.sa_header_footer_sustentabilidad"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_sustentabilidad_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>      
+
+
+                                     
+            </div>
+        </t>
+    </template>
+</odoo>

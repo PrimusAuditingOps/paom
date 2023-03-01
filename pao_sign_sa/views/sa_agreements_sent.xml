@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_sign_sa_agreements_sent_view_form" model="ir.ui.view">
+        <field name="name">pao.sign.sa.agreements.sent.view.form</field>
+        <field name="model">pao.sign.sa.agreements.sent</field>
+        <field name="arch" type="xml">
+            <form string="Agreements Form">
+                <header>
+                    <field name="document_status" invisible="1"/>
+                    <button name="action_resend" type="object" string="Resend" attrs="{'invisible': [('document_status', 'in', ['sign', 'cancel'])]}"/>
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('document_status', 'in', ['sign', 'cancel'])]}"/>
+                </header>
+                <sheet>
+                    <group col="2">
+                        <field name="signer_id"/>
+                        <field name="registration_numbers_ids" widget="many2many_tags"/>
+                        <field name="document_status"/>
+                        
+                    </group>
+                    <div>
+                            <b><span class="oe_inline">Mail Status: </span></b>
+                            <field name="mail_state" nolabel="1" class="oe_inline"/>
+                    </div>
+                    <notebook>
+                        <page string="Attachments">
+                            <field name="attachment_ids" widget="many2many">
+                                <tree string="Documents">
+                                    <field name="name" invisible="1"/>
+                                    <field name="datas" filename="name" widget="binary" string="SA"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pao_sign_sa_agreements_sent_view_tree" model="ir.ui.view">
+        <field name="name">pao.sign.sa.agreements.sent.view.tree</field>
+        <field name="model">pao.sign.sa.agreements.sent</field>
+        <field name="arch" type="xml">
+            <tree string="Service Agreements Tree">
+                <field name="title"/>
+                <field name="document_status" decoration-success="document_status == 'sign'" decoration-warning="document_status == 'exception'" decoration-info="document_status == 'sent'" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+    <record id="service_agreement_action" model="ir.actions.act_window">
+        <field name="name">Service Agreements</field>
+        <field name="res_model">pao.sign.sa.agreements.sent</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create Service Agreement
+            </p>
+        </field>
+    </record>
+</odoo>

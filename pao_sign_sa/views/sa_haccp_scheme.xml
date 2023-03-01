@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_haccp_scheme">
+        <div id="portal_sa_haccp_content" t-attf-class="#{'card pb-5' if not print else ''}">
+            <div id="introduction" class="pb-2 pt-3 card-header bg-white" style="text-align: center;" t-if="print == False">
+                    <h3><b>ACUERDO ESTÁNDAR DE SERVICIOS DE AUDITORÍA COMPLEMENTARIOS</b></h3>
+            </div>
+            <div class="card-body">
+                <p>
+                    Acuerdo de Servicios Estándar para auditorías PAOMx que celebran, 
+                    <b>Primus Auditing Operations México, S. de R.L. de C.V.</b>
+                    a quien en lo sucesivo en términos de prestador de servicios y 
+                    para los efectos de este acuerdo se le denominará <b>"PAOMx"</b> y, por la otra parte; 
+                    <b><u><span t-field="serviceagreement.organization_name"/></u></b>, 
+                    en lo sucesivo referido como <b>"El Cliente"</b>, y en su conjunto 
+                    como las "Partes", al amparo de las siguientes declaraciones y 
+                    clausulas.
+                </p>
+                <h4 style="text-align:center;font-weight:Bold;" >
+                    DECLARACIONES
+                </h4>
+                <p>
+                    <ul>
+                        <li>
+                            <b>PAOMX declara por conducto de su representante:</b>
+                            <ul>
+                                <li>
+                                    Ser una persona moral constituida de conformidad 
+                                    con las leyes del país, tener como Registro Federal 
+                                    de Causantes PAO150424J6A; tener su domicilio en Calle 
+                                    Millet 109 Col. Eucalipto Vallarta C.P. 45020, Zapopan, 
+                                    Jalisco.
+                                </li>
+                                <li>
+                                Que acredita la constitución de su sociedad con el testimonio 
+                                de la escritura pública No. 7,383 fechada el 24 de abril de 
+                                2015 otorgada III. ante la fe del Fernando A. Gallo Pérez 
+                                notario público 23 de Guadalajara, Jalisco.
+                                </li>
+                                <li>
+                                Que su representante legal acredita sus facultades por medio 
+                                de la escritura pública No. 7,646 de fecha 1 de agosto del 
+                                2016 otorgada ante la fe de Fernando A. Gallo Pérez notario 
+                                público 23 de Guadalajara, Jalisco.
+                                </li>
+                                <li>
+                                Que cuenta con la acreditación vigente emitida por la Entidad 
+                                Mexicana de Acreditación y las respectivas aprobaciones otorgadas 
+                                por las entidades correspondientes para operar como organismo de 
+                                certificación de producto en los términos de la Ley Federal de 
+                                Metrología y Normalización.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>“EL CLIENTE" declara por conducto de su representante:</b>
+                            <ul>
+                                <li>
+                                Tener como Registro Federal de contribuyentes: <b><u><span t-field="serviceagreement.organization_vat"/></u></b>;
+                                <br/>
+                                Tener su domicilio en: <b><u><span t-field="serviceagreement.organization_address"/>, 
+                                <span t-field="serviceagreement.organization_city"/>, 
+                                <span t-field="serviceagreement.organization_state"/>, 
+                                <span t-field="serviceagreement.organization_country"/></u></b> 
+                                </li>
+                                <li>
+                                Tener plena capacidad legal para obligarse en los términos de 
+                                este instrumento.
+                                </li>
+                                <li>
+                                Que conoce los servicios profesionales y la forma que los 
+                                presta <b>"PAOMx"</b> y que requiere de dichos servicios.
+                                </li>
+                                <li>
+                                Que el hecho de pagar las tarifas correspondientes o firmar este 
+                                acuerdo, no garantiza obtener un dictamen de auditoría (aprobatoria) 
+                                por parte de  <b>"PAOMx"</b>.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>“LAS PARTES” declaran ("PAOMx" y “EL CLIENTE"):</b>
+                            <ul>
+                                <li>
+                                Que para todos los efectos legales a que haya lugar, <b>“LAS PARTES”</b> 
+                                están de acuerdo en otorgarle completa vinculación y plena validez 
+                                la firma del presente contrato a través de la firma electrónica que 
+                                se utilice solamente a través del software <b>ODOO</b>. Que, cumpliendo 
+                                con los requisitos de dicho software, haría las veces de una firma 
+                                autógrafa.
+                                </li>
+                                <li>
+                                Que a la firma del presente acuerdo no ha habido error, dolor, 
+                                violencia, mala fe o cualquier otro vicio del consentimiento 
+                                que lo pudiera invalidar, así que, en beneficio recíproco, 
+                                renuncian a los derechos que pudieran otorgarles los artículos 
+                                1,882, 2,228, 2,230 y demás relativos del Código Civil Federal.
+                                </li>
+                                <li>
+                                Que es su deseo celebrar el presente acuerdo, obligándose en sus 
+                                términos y condiciones, estableciendo para tal efecto las siguientes:
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+                <div style="page-break-after: always;">
+                </div>
+                <h4 style="text-align:center;font-weight:Bold;" >
+                    CLAUSULAS
+                </h4>
+                <p>
+                    <b>PRIMERA- HONORARIOS. -</b> Los honorarios que de común acuerdo 
+                    pactan <b>"LAS PARTES"</b>, a favor de <b>"PAOMx"</b> por sus servicios profesionales 
+                    y a cargo de <b>"EL CLIENTE"</b> son las siguientes cantidades:
+                </p>
+                <table class="table">
+                    <thead class="thead-dark" style="text-align:center">
+                        <tr>
+                        <th scope="col">Servicios</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Tarifa de Auditoría (<span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id.name"/>)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <tr t-foreach="serviceagreement.services_ids" t-as="service">
+                            <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal"/>
+                            <td><span t-field="service.name"/></td>
+                            <td style="text-align:right;"><span t-field="service.product_uom_qty"/></td>
+                            <td style="text-align:right;"> <span t-field="service.price_subtotal"/></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right;" colspan="2" esc="row">Total del servicio (sin IVA):</th>
+                            <th style="text-align:right;" colspan="1" scope="row">
+                                <strong class="mr16">
+                                    <span t-esc="current_subtotal"
+                                    t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                </strong>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    <b>Nota: "PAOMx"</b> no se hace responsable por los cambios en los costos 
+                    estimados o cualquier otro costo adicional asociado al retorno del acuerdo 
+                    de servicios fuera del plazo estipulado. Todos los estimados son calculados 
+                    en dólares estadounidenses.
+                </p>
+                <div style="page-break-after: always;">
+                </div>
+                <p>
+                    <b>SEGUNDA- SERVICIOS- “EL CLIENTE"</b> tiene derecho a recibir a su entera 
+                    satisfacción el o los servicios acordados bajo este instrumento, con la 
+                    documentación correspondiente que le deberá proporcionar <b>“PAOMx”</b>, por el 
+                    servicio contratado.
+                </p>
+                <p>
+                    <b>TERCERA- CARGOS- “EL CLIENTE"</b> Se obliga a pagar los honorarios a <b>“PAOMx”</b>, 
+                    incluyendo los cargos por cancelación de auditoría, los gastos por concepto de 
+                    alojamiento, alimentación y desplazamiento en que incurra <b>“PAOMx”</b> y cualquier 
+                    costo adicional en la cuenta del trabajo que se tenga que repetir o que se 
+                    demore como resultado de información tardía, incorrecta, incompleta, falla en 
+                    las pruebas o falta de cooperación de <b>“EL CLIENTE"</b>. Aun cuando se ha acordado 
+                    un precio establecido o máximo <b>“PAOMx”</b> tiene derecho de hacer cargos extra por los 
+                    conceptos adicionales que pudieran resultar.
+                </p>
+                <p>
+                    <b>CUARTA- PRECIO - “PAOMx”</b> se obliga a mantener inalterables los precios 
+                    de los servicios indicados en la cláusula PRIMERA durante la vigencia de 
+                    este acuerdo siempre y cuando se conserven las características de la organización 
+                    a auditar (información del alcance de auditoría registrado en el documento 
+                    Solicitud Estándar de Servicio de Auditoría). En caso de que dichas 
+                    características varíen, <b>“EL CLIENTE"</b> deberá comunicárselo a <b>“PAOMx”</b>, 
+                    con el fin de generar un nuevo acuerdo de servicios.
+                </p>
+                <p>
+                    <b>QUINTA-INFORME DE CAMBIOS - “EL CLIENTE"</b> se obliga a informar sin demora los 
+                    cambios en las características de la organización que puedan afectar a su capacidad 
+                    para continuar cumpliendo con los requisitos de la evaluación y dictamen de auditoría, 
+                    los cuales pueden incluir: la condición legal, comercial, de organización o de 
+                    propiedad, la estructura de la Organización, cambios en el producto o en el método 
+                    de producción, modificaciones en las instalaciones y ubicaciones dentro del alcance 
+                    de auditoría.
+                </p>
+                <p>
+                    <b>SEXTA- ACCESO A PAOMx- “EL CLIENTE"</b> se obliga a facilitar los medios 
+                    necesarios para la realización de la auditoría/inspección, incluyendo el acceso 
+                    a los documentos, registros, instalaciones, oficinas, áreas de almacenamiento 
+                    de producto y al personal operativo para los propósitos de la evaluación; 
+                    sin costo para <b>“PAOMx”</b>. Adicionalmente, cuando le sea requerido por <b>“PAOMx”</b>, 
+                    permitirá la participación de observadores y auditoría/inspección física 
+                    completa de las instalaciones de los subcontratistas que intervengan en la 
+                    producción y manipulación del producto. <b>“EL CLIENTE"</b> deberá asegurarse que el 
+                    subcontratista permita, previa solicitud, el libre acceso que se estipula 
+                    en esta Cláusula.
+                </p>
+                <p>
+                    <b>SÉPTIMA- ALERTAS SANTIRARIAS - “EL CLIENTE"</b> se obliga a notificar oportunamente 
+                    a <b>"PAOMx"</b> cuando esté implicado en una alerta sanitaria o recuperación de producto 
+                    contaminado (máximo dentro de los siguientes 3 días de presentarse) y las acciones 
+                    correctivas realizadas.
+                </p>
+                <p>
+                    <b>OCTAVA - USO DE DICTAMEN - El “CLIENTE" </b>se obliga a hacer referencia a su dictamen 
+                    de auditoría, el logotipo de Primus Auditing Operations, El <b>"CLIENTE"</b> se abstendrá de 
+                    realizar o utilizar declaraciones relacionadas con su dictamen de auditoría que puedan 
+                    ser consideradas engañosas o no autorizadas por <b>"PAOMx"</b>.
+                </p>
+                <p>
+                    <b>NOVENA-RESPONSABILIDAD DE PAOMx -"PAOMx" </b>es responsable de, y conservar 
+                    la autoridad en las decisiones concernientes al dictamen de auditoría, incluyendo 
+                    las de otorgar, mantener, renovar, ampliar, reducir, suspender el dictamen de 
+                    auditoría. 
+                </p>
+                <p>
+                    <b>DÉCIMA-RESPONSABILIDAD LIMITAD -</b> sPor este medio se le comunica al 
+                    cliente que se libera a <b>“PAOMx”</b> y sus respectivos afiliados, de cualquier 
+                    pérdida o responsabilidad sufrida por el Cliente, como se define a 
+                    continuación, como consecuencia de los servicios prestados en virtud del 
+                    presente Acuerdo. Dicha liberación incluirá cualquier daño real, 
+                    accidentales, consecuentes u otros, más allá de las cantidades pagadas 
+                    a <b>“PAOMx”</b> por la auditoría realizada y / o facilitada por <b>“PAOMx”. “EL CLIENTE"</b> 
+                    reconoce y acepta que la responsabilidad de <b>“PAOMx”</b> se limita únicamente 
+                    al trabajo de auditoría realizado por él, y las partes reconocen expresamente 
+                    que <b>“PAOMx”</b> no es responsable de los productos básicos del cliente, su 
+                    seguridad, o calidad.
+                </p>
+                <p>
+                    <b>DÉCIMA PRIMERA-JURISDICCIÓN- </b>Que para el caso de controversia o 
+                    interpretación de este acuerdo se someterán a la legislación aplicable 
+                    de los Estados Unidos Mexicanos y a la jurisdicción y competencia de 
+                    los Tribunales del Primer Partido Judicial ubicados en Zapopan, Jalisco, 
+                    renunciando expresamente al fuero que pudiera corresponderles por razón 
+                    de su domicilio actual o futuro.
+                </p>
+                <p>
+                    <b>DÉCIMA SEGUNDA- TÉRMINOS Y CONDICIONES DE PAGO DE AUDITORÍA. “EL CLIENTE”</b> 
+                    se obliga a cubrir el costo total del servicio previo a la fecha pactada para 
+                    la realización del servicio. <b>“PAOMx”</b> se reserva el derecho de reprogramar 
+                    el servicio en caso de incumplimiento con esta cláusula. <b>“EL CLIENTE”</b> se 
+                    obliga a cubrir una penalización de $200.00 USD más IVA en caso de 
+                    cancelación, reprogramación o al tercer cambio de fecha de auditorías, 
+                    así como, el costo total del servicio incluyendo los gastos de viaje 
+                    incurridos por el auditor en caso de cancelación o reprogramación en 
+                    sitio.
+                </p>
+                <p>
+                    <b>DÉCIMA TERCERA-CONFIDENCIALIDAD -  “LAS PARTES”</b> convienen que 
+                    toda la información y los datos que ambas se entreguen al amparo del 
+                    presente acuerdo, será considerada como información confidencial, 
+                    <b>“LAS PARTES”</b> se obligan a salvaguardar dicha información confidencial 
+                    y no usarla ni darla a conocer a ningún tercero, salvo estar en el 
+                    caso que alguna autoridad sanitaria, administrativa o judicial que, 
+                    por disposición normativa, auditoría o requerimiento expreso lo 
+                    solicite y para lo cual será notificada la otra Parte cuando 
+                    corresponda. La presente obligación prevalecerá aún después de cumplido, 
+                    terminado o rescindido el presente instrumento durante los siguientes 
+                    5 años posteriores a la terminación del presente acuerdo de prestación 
+                    de servicios y su incumplimiento dará lugar a la reclamación por la 
+                    parte afectada de daños y perjuicios. 
+                </p>
+                <p>
+                    Ambas Partes acuerdan que para efectos del presente acuerdo se entiende 
+                    como información confidencial (en lo sucesivo Información Confidencial), 
+                    toda información comercial, industrial, financiera, técnica o de 
+                    cualquier índole, propiedad de las Partes contratantes, así como 
+                    cualquier otra información sobre sus productos, mejoras y actividades 
+                    industriales, profesionales, comerciales, técnicas y de desarrollo, 
+                    contenida en documentos, en medios magnéticos o electrónicos, discos 
+                    ópticos, películas, micropelículas u otros medios similares, a la que 
+                    ningún tercero podría tener acceso en el curso ordinario de las operaciones, 
+                    y de lo cual las Partes tengan o hayan tenido conocimiento, como resultado 
+                    del objeto del presente acuerdo.
+                </p>
+                <p>
+                    <b>DÉCIMA CUARTA- CUMPLIMIENTO DE TIEMPOS- “PAOMx”</b> se compromete a emitir 
+                    los entregables finales del proceso de evaluación en un plazo no mayor a 
+                    10 días laborales.
+                </p>
+                <p>
+                    <b>DÉCIMA QUINTA. -VIGENCIA. -</b> El presente Acuerdo de Servicios 
+                    estará vigente a partir de la firma del mismo y tendrá una duración 
+                    mínima de un año. Concluida la vigencia del presente, no podrá haber
+                    prórroga automática por el simple transcurso del tiempo y terminará 
+                    sin necesidad de darse aviso entre las partes y/o necesidad de 
+                    resolución judicial. Para el caso de que "El Cliente", tuviera 
+                    necesidad de contar nuevamente con los servicios de <b>"PAOMx"</b> se 
+                    requerirá la celebración de un nuevo Acuerdo. 
+                </p>
+                <p>
+                    <b>DÉCIMA SEXTA. -TERMINACIÓN ANTICIPADA. - </b>El presente Acuerdo de 
+                    Servicios podrá darse por terminado anticipadamente a voluntad de los 
+                    firmantes, únicamente con previo acuerdo por escrito de ambas partes, 
+                    apercibidos que, de no realizarse dicho acuerdo, los daños y perjuicios 
+                    que se pudieran causar a alguna de las partes, serán a cargo de quien 
+                    dé motivo a la rescisión del presente acuerdo, mismos que serán 
+                    cuantificados a juicio de peritos. 
+                </p>
+                <p>
+                    <b>DÉCIMA SÉPTIMA. -CESIÓN. - "El Cliente" </b>se obliga a no ceder 
+                    los derechos y obligaciones del presente acuerdo, a ningún tercero 
+                    ya sea persona física o moral. 
+                </p>
+                <p>
+                    <b>DÉCIMA OCTAVA. -INCUMPLIMIENTO DE OBLIGACIONES. -</b> El incumplimiento 
+                    de cualquiera de las obligaciones contenidas en el presente acuerdo por 
+                    cualquiera de las partes, dará lugar a la parte afectada a dar por 
+                    terminado el presente acuerdo y al pago, sin necesidad de declaración 
+                    judicial, de una indemnización del 30% treinta por ciento del valor 
+                    del total la contraprestación pactada además del pago de daños y 
+                    perjuicios si los hubiera.
+                </p>
+                <p>
+                    <b>DÉCIMA NOVENA. -RECONOCIMIENTO CONTRACTUAL. -</b> Ambas partes reconocen 
+                    que este acuerdo y los documentos mencionados en el presente instrumento 
+                    constituyen el acuerdo total con relación al objeto del presente instrumento. 
+                    En virtud de lo anterior, dejan sin efecto cualquier otra negociación, 
+                    obligación, acuerdo, convenio o comunicación, sea verbal o escrita que hayan 
+                    llevado a cabo con anterioridad a la fecha del presente acuerdo. 
+                </p>
+                <p>
+                    <b>VIGÉSIMA. -DOMICILIO Y NOTIFICACIONES. -  “LAS PARTES” </b>
+                    señalan como sus domicilios los establecidos en este acuerdo. Los avisos 
+                    o notificaciones deberán ser por escrito y se considerarán debidamente 
+                    practicados si se entregan en persona o por correo certificado con acuse 
+                    de recibo en dichas direcciones, debiéndose dirigir a las personas que 
+                    las partes autoricen para tal efecto. 
+                </p>
+                <p>
+                    Las Partes en el presente acuerdo se obligan a notificarse recíprocamente 
+                    de cualquier cambio en los domicilios antes señalados, en el entendido 
+                    que de no recibir comunicación alguna que informe la circunstancia anterior, 
+                    cualquier notificación o aviso practicado en dichos domicilios se entenderá 
+                    válidamente realizado, sufriendo plenamente todos sus efectos jurídicos. 
+                </p>
+                <p>
+                    Enteradas las partes de su contenido y fuerza legal, lo firman de conformidad, por duplicado 
+                    el <b><u><span t-field="serviceagreement.sign_sa_agreements_id.date_complete_spanish"/></u></b> en la Ciudad de Zapopán, Jalisco, México.
+                </p>
+
+
+
+
+
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Por "PAOMX"</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Por "El Cliente"</b>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:160px; height:90px;" src="/pao_sign_sa/static/src/img/firmajl.png"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:327px; heigth:327px;"  t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Javier Ledezma Pichardo</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Nombre y Firma</b>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Representante Legal</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Representante Legal</b>
+                        </p>
+                    </div>  
+                </div>
+
+                <div style="text-align: center;" t-if="print == False">
+                    <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
+                    <ul class="list-inline" style="text-align: center;">
+                        <li class="list-inline-item">Elaborado Por: M. Salmerón</li>
+                        <li class="list-inline-item">Revisado Por: A. Torres </li>
+                        <li class="list-inline-item">Aprobado Por: J. Ledezma</li>
+                    </ul>
+                    <ul class="list-inline" style="text-align: center;">
+                        <li class="list-inline-item">Edición Original: 28 Sep. 2022</li>
+                        <li class="list-inline-item">Revisión: 00</li>
+                        <li class="list-inline-item">Emisión: 28 Sep. 2022</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </template>
+</odoo>

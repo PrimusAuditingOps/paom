@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_sa_globalgap" model="mail.template">
+            <field name="name">GLOBALG.A.P.</field>
+            <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>
+            <field name="subject">Solicitud de firma</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                    Estimado cliente:<br/><br/>
+                    Gracias por elegir a Primus Auditing Operations como su Organismo de Certificación.<br/><br/>
+
+                    Para confirmar su auditoría GLOBALG.A.P. se requiere la firma del Acuerdo de Servicios adjunto:<br/><br/>
+                    <b>FAN-05: CONTRATO DE SERVICIOS DE CERTIFICACIÓN</b><br/><br/>
+
+                    Este documento incluye el alcance de la auditoría, costos y cláusulas contractuales para la prestación del
+                    servicio solicitado. Es necesario contar con el Acuerdo de Servicios firmado <u>con 7 días de anticipación</u> a
+                    la fecha programada para el servicio.<br/><br/>
+
+                    Para preguntas o inquietudes con respecto a su proceso de programación, comuníquese con el Departamento de
+                    Operaciones de Auditoría por correo electrónico a <a href="mailto:auditmx@pao-mx.com">auditmx@pao-mx.com</a><br/><br/>
+
+                    Para revisar la documentación del esquema GLOBALG.A.P., haga click <a href="https://www.globalgap.org/es/documents/" target="_blank">aquí</a>.<br/><br/>
+
+                    Para obtener información adicional del Comprador, consulte en nuestra página web el Programa de Compradores
+                    <a href="https://primusauditingops.com/index.php/es/services-2/buyer-programs" target="_blank">aquí.</a><br/><br/>
+
+                    En caso de requerir asistencia técnica, comuníquese con el Departamento de Calidad GLOBALG.A.P. por correo
+                    electrónico
+                    a <a href="mailto:globalgapmx@pao-mx.com">globalgapmx@pao-mx.com</a><br/><br/><br/>
+
+                    Saludos cordiales<br/><br/>
+
+                    Primus Auditing Operations<br/><br/><br/>
+
+                    NOTA: Antes de firmar el documento, por favor, revise y confirme que todos sus datos estén correctos.<br/><br/>
+
+                    <u><em>En caso de no contar con este documento firmado previo a la fecha de auditoría, Primus Auditing Operations se 
+                        reserva el derecho de reprogramar el servicio con previo aviso.</em></u>
+                </p>         
+            </field>
+        </record>
+        <record id="email_template_sa_primusgfs" model="mail.template">
+            <field name="name">PRIMUSGFS</field>
+            <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>
+            <field name="subject">Solicitud de firma</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                    Estimado cliente:<br/><br/>
+                    Gracias por elegir a Primus Auditing Operations como su Organismo de Certificación. <br/><br/>
+
+                    Para confirmar su auditoría PrimusGFS, se requiere la firma del Acuerdo de Servicios adjunto.<br/><br/>
+
+                    Este documento incluye el alcance de la auditoría, costos y cláusulas contractuales para la prestación 
+                    del servicio solicitado. Es necesario contar con el Acuerdo de Servicios firmado <u>con 7 días de anticipación</u> a 
+                    la fecha programada para el servicio.<br/><br/>
+
+                    Para preguntas o inquietudes con respecto a su proceso de programación, comuníquese con el Departamento de
+                    Operaciones de Auditoría por correo electrónico a <a href="mailto:auditmx@pao-mx.com">auditmx@pao-mx.com</a><br/><br/>
+
+                    Para revisar la documentación del esquema PrimusGFS, haga click <a href="https://primusgfs.com/pgfs-v3-2/" target="_blank">aquí</a>.<br/><br/>
+
+                    Para obtener información adicional del Comprador, consulte en nuestra página web el Programa de Compradores
+                    <a href="https://primusauditingops.com/index.php/es/services-2/buyer-programs" target="_blank">aquí.</a><br/><br/>
+                            
+                    En caso de requerir asistencia técnica, comuníquese con el Departamento de Calidad PrimusGFS por correo electrónico 
+                    a <a href="mailto:calidadmx@pao-mx.com">calidadmx@pao-mx.com</a><br/><br/><br/>
+
+                    Saludos cordiales<br/><br/>
+
+                    Primus Auditing Operations<br/><br/><br/>
+
+                    NOTA: Antes de firmar el documento, por favor, revise y confirme que todos sus datos estén correctos.<br/><br/>
+
+                    <u><em>En caso de no contar con este documento firmado previo a la fecha de auditoría, Primus Auditing Operations se 
+                        reserva el derecho de reprogramar el servicio con previo aviso.</em></u>
+                </p>         
+            </field>
+        </record>
+
+        <record id="email_template_sa_standard" model="mail.template">
+            <field name="name">PRIMUS STANDARD</field>
+            <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>
+            <field name="subject">Solicitud de firma</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                    Estimado cliente:<br/><br/>
+                    Gracias por elegir a Primus Auditing Operations como su Organismo de Certificación. <br/><br/>
+
+                    Para confirmar su auditoría Primus Standard, se requiere la firma del Acuerdo de Servicios adjunto.<br/><br/>
+
+                    Este documento incluye el alcance de la auditoría, costos y cláusulas contractuales para la prestación 
+                    del servicio solicitado. Es necesario contar con el Acuerdo de Servicios firmado <u>con 7 días de anticipación</u> a 
+                    la fecha programada para el servicio.<br/><br/>
+
+                    Para preguntas o inquietudes con respecto a su proceso de programación, comuníquese con el Departamento de
+                    Operaciones de Auditoría por correo electrónico a <a href="mailto:auditmx@pao-mx.com">auditmx@pao-mx.com</a><br/><br/>
+
+                    Para revisar la documentación del esquema Primus Standard, haga click <a href="hhttps://azzule.com/primusstandardaudits/" target="_blank">aquí</a>.<br/><br/>
+
+                    Para obtener información adicional del Comprador, consulte en nuestra página web el Programa de Compradores
+                    <a href="https://primusauditingops.com/index.php/es/services-2/buyer-programs" target="_blank">aquí.</a><br/><br/>
+                            
+                    En caso de requerir asistencia técnica, comuníquese con el Departamento de Calidad PrimusGFS por correo electrónico 
+                    a <a href="mailto:calidadmx@pao-mx.com">calidadmx@pao-mx.com</a><br/><br/><br/>
+
+                    Saludos cordiales<br/><br/>
+
+                    Primus Auditing Operations<br/><br/><br/>
+
+                    NOTA: Antes de firmar el documento, por favor, revise y confirme que todos sus datos estén correctos.<br/><br/>
+
+                    <u><em>En caso de no contar con este documento firmado previo a la fecha de auditoría, Primus Auditing Operations se 
+                        reserva el derecho de reprogramar el servicio con previo aviso.</em></u>
+                </p>         
+            </field>
+        </record>
+        <record id="email_template_sa_organico" model="mail.template">
+            <field name="name">ORGÁNICO</field>
+            <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>
+            <field name="subject">Solicitud de firma</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                    Estimado cliente:<br/><br/>
+                    Gracias por elegir a Primus Auditing Operations como su Organismo de Certificación. <br/><br/>
+
+                    Para confirmar su auditoría Primus Standard, se requiere la firma del Acuerdo de Servicios adjunto.<br/><br/>
+
+                    Este documento incluye el alcance de la auditoría, costos y cláusulas contractuales para la prestación 
+                    del servicio solicitado. Es necesario contar con el Acuerdo de Servicios firmado <u>con 7 días de anticipación</u> a 
+                    la fecha programada para el servicio.<br/><br/>
+
+                    Para preguntas o inquietudes con respecto a su proceso de programación, comuníquese con el Departamento de
+                    Operaciones de Auditoría por correo electrónico a <a href="mailto:organicosmx@pao-mx.com">organicosmx@pao-mx.com</a><br/><br/>
+
+                    Saludos cordiales<br/><br/>
+
+                    Primus Auditing Operations<br/><br/><br/>
+
+                    <u><em>NOTA: El costo del servicio de certificación ya se encuentra cubierto</em></u>
+                </p>         
+            </field>
+        </record>
+        <record id="email_template_sa_smeta" model="mail.template">
+            <field name="name">SMETA</field>
+            <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>
+            <field name="subject">Solicitud de firma</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                    Estimado cliente:<br/><br/>
+                    Gracias por elegir a Primus Auditing Operations para llevar a cabo su auditoría de responsabilidad 
+                    social SMETA (Auditoría de comercio Ético a Miembros Sedex. <br/><br/>
+
+                    Hemos adjuntado el Acuerdo de Servicio de Primus Auditing Ops., para continuar con su proceso de 
+                    auditoría por favor firme el Acuerdo de Servicio adjunto lo antes posible.<br/><br/>
+
+                    Cabe mencionar que es muy importante la firma del documento ya que si no se envía a tiempo se estará 
+                    reprogramando la auditoría o en caso de que la auditoría ya se haya hecho el certificado se detendrá.<br/><br/>
+
+                    Para preguntas o inquietudes con respecto a su proceso de programación y asistencia técnica, comuníquese 
+                    con el departamento de Responsabilidad Social y Sustentabilidad por correo electrónico a <a href="mailto:calidad.rs_s@pao-mx.com">calidad.rs_s@pao-mx.com</a><br/><br/>
+
+                    Saludos cordiales<br/><br/>
+
+                    Primus Auditing Operations<br/><br/><br/>
+                </p>         
+            </field>
+        </record>
+        <record id="email_template_sa_sustentabilidad" model="mail.template">
+            <field name="name">SUSTENTABILIDAD</field>
+            <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>
+            <field name="subject">Solicitud de firma</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                    Estimado cliente:<br/><br/>
+                    Gracias por elegir a Primus Auditing Operations para llevar a cabo su auditoría para 
+                    el Estándar de Sustentabilidad. <br/><br/>
+
+                    Hemos adjuntado el Acuerdo de Servicio de Primus Auditing Ops., para continuar con su 
+                    proceso de auditoría anual por favor firme el Acuerdo de Servicio adjunto lo antes posible, 
+                    este acuerdo corresponde al servicio de auditoría en el año actual, para mantener su estatus 
+                    de Certificación activo es necesario realizar las auditorías documentales al mes 12 y mes 24, 
+                    posteriores a la auditoría inicial, de las cuáles se generará la cotización de servicios específico.<br/><br/>
+
+                    Cabe mencionar que es muy importante la firma del documento ya que si no se envía a tiempo se estará 
+                    reprogramando la auditoría o en caso de que la auditoría ya se haya hecho el certificado se detendrá.<br/><br/>
+
+                    Para preguntas o inquietudes con respecto a su proceso de programación y asistencia técnica, comuníquese 
+                    con el departamento de Responsabilidad Social y Sustentabilidad por correo electrónico a <a href="mailto:calidad.rs_s@pao-mx.com">calidad.rs_s@pao-mx.com</a><br/><br/>
+
+                    Saludos cordiales<br/><br/>
+
+                    Primus Auditing Operations<br/><br/><br/>
+                </p>         
+            </field>
+        </record>
+        <record id="email_template_sa_generica" model="mail.template">
+            <field name="name">Plantilla Genérica</field>
+            <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>
+            <field name="subject">Solicitud de firma</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                    Estimado cliente:<br/><br/>
+                    Gracias por elegir a Primus Auditing Operations como su Organismo de Certificación. <br/><br/>
+
+                    Para confirmar su auditoría, se requiere la firma del Acuerdo de Servicios adjunto. <br/><br/>
+                    Este documento incluye el alcance de la auditoría, costos y cláusulas contractuales para la prestación 
+                    del servicio solicitado. Es necesario contar con el Acuerdo de Servicios firmado <u>con 7 días de</u> 
+                    anticipación a la fecha programada para el servicio.<br/><br/>
+
+                    Para preguntas o inquietudes con respecto a su proceso de programación, comuníquese con el Departamento 
+                    de Operaciones de Auditoría por correo electrónico a <a href="mailto:auditmx@pao-mx.com">auditmx@pao-mx.com</a><br/><br/>
+
+                    Para revisar la documentación de los servicios, haga click 
+                    <a href="https://primusauditingops.com/es/servicios/" target="_blank">aquí</a>.<br/><br/>
+
+                    Para obtener información adicional del Comprador, consulte en nuestra página web el Programa de 
+                    Compradores <a href="https://primusauditingops.com/buyer-programs/" target="_blank">aquí</a>.<br/><br/>
+
+                    Saludos cordiales<br/><br/>
+
+                    Primus Auditing Operations<br/><br/><br/>
+                    NOTA: Antes de firmar el documento, por favor, revise y confirme que todos sus datos estén correctos.<br/><br/>
+                    <u>En caso de no contar con este documento firmado previo a la fecha de auditoría, Primus Auditing Operations 
+                    se reserva el derecho de reprogramar el servicio con previo aviso.</u>
+                </p>         
+            </field>
+        </record>
+    </data>
+</odoo>

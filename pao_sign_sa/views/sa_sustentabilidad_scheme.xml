@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_sustentabilidad_scheme">
+        <div id="portal_sa_sustentabilidad_content" t-attf-class="#{'card pb-5' if not print else ''}">
+            <div id="introduction" class="#{'pb-2 pt-3 card-header' if not print else ''}" style="text-align: center;">
+                <h3><b>PRIMUS AUDITING OPERATIONS ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD</b></h3>
+            </div>
+            <div class="card-body">
+                    <p>
+                        Por favor firme y regrese este acuerdo de servicios dentro de 24 hrs. después de recibido. JS Audit
+                        Group,
+                        Inc., dba Primus Auditing
+                        Operations (“Primus Auditing Ops”) no se hace responsable por los cambios en los costos estimados o
+                        cualquier otro costo adicional
+                        asociado al retorno del acuerdo de servicios fuera del plazo estipulado. Todas los estimados son
+                        calculadas
+                        en dólares estadounidenses.
+
+                    </p>
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="text-align:left;"><b>Nombre de la Organización("Cliente"): </b>
+                                <span t-field="serviceagreement.organization_name" />
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="text-align:left;"><b>Cliente de Facturación: </b>
+                                <span t-field="serviceagreement.customer_name" />
+                            </p>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+
+                        <div class="col-3">
+                            <p style="text-align:left;"><b>RFC #: </b><span t-field="serviceagreement.customer_vat" /></p>
+                        </div>
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>Número de Registro: </b><span t-field="serviceagreement.name" />
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <p style="text-align:left;"><b>País de Facturación: </b>México</p>
+                        </div>
+                    </div>
+                <br />
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;max-width:400px;"><b>Correo de Contrato: </b><span
+                                t-field="serviceagreement.contract_email" /></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;max-width:400px;"><b>Telefono: </b><span
+                                t-field="serviceagreement.phone" /></p>
+                    </div>
+
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;max-width:400px;"><b>Correo de Facturación: </b><span
+                                t-field="serviceagreement.invoice_email" /></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;max-width:400px;"><b>Fecha Tentativa: </b><span
+                                t-field="serviceagreement.start_date" /> - <span t-field="serviceagreement.end_date" /></p>
+                    </div>
+                </div>
+
+                <br />
+
+                <table class="table">
+                    <thead class="thead-dark" style="text-align:center">
+                        <tr>
+                            <th scope="col">Servicios</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Tarifa de Auditoría (<span
+                                    t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id.name" />)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="current_subtotal" t-value="0" />
+                        <tr t-foreach="serviceagreement.services_ids" t-as="service">
+                            <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal" />
+                            <td><span t-field="service.name" /></td>
+                            <td style="text-align:right;"><span t-field="service.product_uom_qty" /></td>
+                            <td style="text-align:right;"> <span t-field="service.price_subtotal" /></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right;" colspan="2" esc="row">Total Estimado</th>
+                            <th style="text-align:right;" colspan="1" scope="row">
+                            <strong class="mr16">
+                                 <span t-esc="current_subtotal"
+                                t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                            </strong>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="page-break-after: always;">
+                </div>
+                <p>
+                <h4 style="text-align:center">
+                    <b><em>Servicios otorgados por Primus Auditing Operations</em></b>
+                </h4>
+                Gastos estimados de viaje: Los honorarios de viaje son estimados
+                y están sujetos a cambios basados en los costos de viaje reales
+                incurridos.
+                <br />
+                Los gastos de viaje son directamente reembolsados e incluyen todos
+                los gastos de transporte, alojamiento y comidas. Cada vez que es
+                posible dichos viajes son combinados con visitas a otros clientes
+                y los gastos son divididos entre todos para reducir el costo total
+                para cada uno de ellos.
+                </p>
+                <p>
+                    <b>1. SERVICIOS Y ENTREGA.</b> Primus Auditing Ops llevará a cabo
+                    una inspección y auditoría de las operaciones del Cliente para el
+                    esquema estándar de sostenibilidad del grupo de alimentos sostenibles
+                    y de conformidad con las Regulaciones generales del estándar de
+                    sostenibilidad, utilizando un auditor aprobado o contratado por Primus
+                    Auditing Ops. Dentro de los 15 días posteriores a la inspección de la
+                    operación, Primus Auditing Ops proporcionará los resultados de la
+                    Inspección y Auditoría al Cliente, indicando dónde el Cliente puede o
+                    debe realizar acciones correctivas. El Cliente tendrá treinta (30) días
+                    calendario posteriores a la fecha de la inspección para enviar las
+                    acciones correctivas aplicables a PAO utilizando el Software de Auditoría
+                    Azzule. Si el Cliente no presenta acciones correctivas dentro de esa
+                    ventana de 30 días, la auditoría se considera cerrada y no habrá
+                    posibilidad de modificar el nivel de cumplimiento del Cliente.
+                    <br />
+                    <br />
+                    <b>Una vez que el Cliente obtenga la certificación bajo</b> el estándar
+                    de Sustentabilidad TM y sus reglamentaciones generales, Primus Auditing
+                    Ops emitirá al Cliente un certificado que indique el cumplimiento del
+                    Cliente con la auditoría del estándar de Sustentabilidad TM. La certificación
+                    es válida por un período de tres años a partir de la fecha de certificación.
+                    Tenga en cuenta que los informes de auditoría y los certificados se envían
+                    electrónicamente al Cliente por correo electrónico y Primus Auditing Ops los
+                    cargará directamente en la base de datos de Azzule Systems. Las copias
+                    impresas están disponibles a pedido del Cliente.
+                </p>
+                <p>
+                    <b>2. PROPIEDAD DE LA INFORMACIÓN.</b> El cliente reconoce y acepta que
+                    todos los datos enviados por Primus Auditing Ops a la base de datos de
+                    Primus Auditing Ops y/o la base de datos de Azzule Systems se convierte
+                    en propiedad única y exclusiva de Azzule Systems ("Azzule"). Azzule puede
+                    usar los datos del Cliente para crear conjuntos de datos anónimos. Los
+                    conjuntos de datos no están asociados con ningún Cliente individual. Azzule
+                    no compartirá información personal o identificable con otros terceros sin
+                    el consentimiento del Cliente. Azzule se reserva el derecho de utilizar los
+                    datos para preparar análisis, comparaciones estadísticas específicas, uso
+                    genérico en informes, presentaciones y otros materiales.
+                </p>
+                <p>
+                    <b>3. IDENTIFICACION Y DESLINDE DE RESPONSABILIDAD.</b> El Cliente reconoce
+                    y acepta que indemnizará, defenderá y eximirá de responsabilidad a Primus
+                    Auditing Ops, Sustainable Food Group y Azzule Systems de toda reclamacion,
+                    demanda, pérdida, responsabilidad, costo, gasto, obligacion y daño de todo
+                    tipo y naturaleza, conocido y desconocido, incluidos los honorarios legales
+                    razonables asociados con los productos básicos y las operaciones del Cliente,
+                    independientemente de la causa o la naturaleza de la responsabilidad.
+                </p>
+                <p>
+                    <b>4. SUBLICENCIA DE ESTANDAR DE SUSTENTABILIDAD TM MARCA REGISTRADA Y NOMBRE.</b>
+                    Tras la ejecución de esteAcuerdo y el Anexo "A" adjunto, y después de que el
+                    Cliente reciba la Certificación para su(s) operación(es), se otorga al Cliente
+                    una sublicencia revocable e intransferible para usar el "Sustainability StandardTM"
+                    y el logotipo que lo acompaña (colectivamente "Sustainability StandardTM"). marca
+                    registrada”) de manera consistente con los términos en el Anexo “A” adjunto y las
+                    Regulaciones Generales de Sustainability StandardTM de Sustainable Food Group. El
+                    incumplimiento por parte del Cliente de los requisitos que se encuentran en el Anexo
+                    "A" y las Regulaciones Generales puede resultar en la suspensión y/o revocación del
+                    uso de la Marca Registrada del Estándar de Sustentabilidad, y potencialmente anular
+                    el acuerdo, todo como se describe en el mismo.
+                </p>
+                <p>
+                    <b>5. CONFIDENCIALIDAD.</b>
+                    Durante la vigencia de este Acuerdo, el Cliente y Primus Auditing Ops entrarán en
+                    contacto y se familiarizarán con cierta información sobre las prácticas comerciales,
+                    la documentación interna y otra información considerada confidencial por cada parte.
+                    Primus Auditing Ops mantendrá confidencial dicha información confidencial sobre el
+                    Cliente y no la divulgará a terceros fuera de Primus Auditing Ops, Sustainable Food
+                    Group, Azzule Systems y cualquier otra parte a la que el Cliente solicite que se
+                    divulgue dicha información. Cualquier y toda la información proporcionada a Sustainable
+                    Food Group por parte de Primus Auditing Ops se mantendrá confidencial con la
+                    excepción del nombre de la empresa de la parte contratada, que Sustaintable food
+                    Group se reserva el derecho de publicar en el sitio web de Sustainability Standard.
+                    Del mismo modo, el Cliente acepta mantener confidencial la información sobre Primus
+                    Auditing Ops y Sustainable Food Group, que se entere durante el proceso de auditoría,
+                    confidencial y no discutirá ni divulgará dicha información a ninguna parte que no sea Primus
+                    Auditing Ops y/o Sustainable Food Group. El cliente también acepta no copiar, reproducir,
+                    divulgar ni publicar ninguna información confidencial
+                    que encuentre durante la duración de la Certificación.
+                </p>
+                <p>
+                    <b>6. RESPONSABILIDAD LIMITADA.</b>
+                    Por la presente, el Cliente libera a Primus Auditing Ops, Azzule Systems,
+                    sus respectivas filiales, incluidos, entre otros, empleados, funcionarios,
+                    directores, accionistas, de cualquier pérdida o responsabilidad sufrida
+                    por el Cliente, como se define a continuación, como resultado de los
+                    servicios prestados en virtud de este Acuerdo. Dicha liberación incluirá
+                    cualquier daño real, incidental, consecuente o de otro tipo más allá de
+                    los montos pagados a Primus Auditing Ops por la auditoría realizada y/o
+                    facilitada por Primus Auditing Ops. Además, el Cliente reconoce y acepta
+                    que la responsabilidad de Primus Auditing Ops se limita únicamente al
+                    trabajo de auditoría realizado por él, y las partes reconocen expresamente
+                    que Primus Auditing Ops no es responsable de los productos, la seguridad o
+                    la calidad del Cliente. Además, el Cliente libera y exime a Sustainable
+                    Food Group de toda responsabilidad por los servicios prestados en virtud
+                    de este Acuerdo.
+                </p>
+                <p>
+                    <b>7. LEY APLICABLE/ LUGAR.</b>
+                    Este Acuerdo se regirá e interpretará de acuerdo con las leyes del Estado de
+                    California. En el caso de que sea necesario instituir cualquier acción para
+                    hacer cumplir cualquier derecho otorgado en el presente documento o para
+                    corregir cualquier supuesto incumplimiento del mismo, el lugar exclusivo
+                    para dicha acción deberá residirá en el Tribunal Superior o Municipal
+                    aplicable ubicado en Santa Maria, California.
+                </p>
+                <p>
+                    <b>8. CUMPLIMIENTO DE LA AGENCIA GUBERNAMENTAL.</b> El cliente reconoce
+                    expresamente que Primus Auditing Ops y sus auditores no son una agencia
+                    rectora y no establecen los estándares de la industria para la seguridad
+                    o el protocolo. El Cliente también reconoce que Primus Auditing Ops
+                    proporciona los resultados de las auditorías y no representa ni garantiza
+                    la calidad de los productos, las instalaciones, los campos, los métodos
+                    u otros temas auditados del Cliente, o si cumple con las normas reglamentarias.
+                </p>
+                <p>
+                    <b>9. DERECHO DE REFERENCIA.</b> El Cliente reconoce que Primus Auditing Ops es, o puede, contratar los
+                    servicios de auditoría realizados para el Cliente. Debido a que un auditor
+                    contratado se dedica a su propio negocio de contratación independiente y
+                    no es un empleado de Primus Auditing Ops, Primus Auditing Ops no obtendrá
+                    un seguro (responsabilidad profesional, compensación de trabajadores,
+                    responsabilidad general, automóvil, etc.) para el auditor. o sus empleados.
+                    Los auditores contratados acuerdan mediante un acuerdo de referencia por
+                    separado obtener su propia cobertura de seguro y proporcionar una copia
+                    del certificado de seguro a Primus Auditing Ops. Además, en aquellos casos en
+                    los que se contrate a un auditor, Primus Auditing Ops actuará en calidad
+                    exclusiva de contratista independiente y cualquier información o datos
+                    recibidos se transmitirán meramente entre las partes, sin emitir juicios,
+                    representaciones o garantías independientes en cuanto a la hechos, observaciones
+                    o inferencias realizadas en relación con los mismos. El uso del logotipo debe
+                    ser coherente con las Regulaciones Generales de Sustainable Food Group, y el
+                    Cliente debe obtener permiso para usar las marcas y las marcas mismas de
+                    Sustainable Food Group.
+                </p>
+                <p>
+                    <b>10. DURACION Y TERMINO.</b>
+                    Este Acuerdo será válido durante la duración de la Certificación del Cliente
+                    y finalizará en el momento del vencimiento de la Certificación. Siempre que
+                    las representaciones y garantías, y las obligaciones en curso continuarán
+                    más allá de la terminación de este Acuerdo.
+                <ul type="a">
+                    <li>
+                        <b>Terminacion por causa.</b> Si cualquiera de las partes no
+                        cumple con cualquier término o condición de este Acuerdo, dicho
+                        incumplimiento constituirá un incumplimiento de este Acuerdo por
+                        parte de esa parte. La Parte infractora tendrá 10 días naturales
+                        a partir de la fecha de recepción de la notificación por
+                        escrito de dicho incumplimiento, para subsanar dicho incumplimiento.
+                        Si después de 10 días, la parte incumplidora no ha subsanado el
+                        incumplimiento, la parte no incumplidora podrá rescindir este
+                        acuerdo sin más obligaciones.
+                    </li>
+                    <li>
+                        <b>Terminacion voluntaria.</b> Cualquiera de las partes puede
+                        rescindir voluntariamente este acuerdo mediante notificación
+                        por escrito de quince días a la otra parte. Si el Cliente
+                        rescinde este Acuerdo, cualquier certificación otorgada por
+                        Primus Auditing Ops al Cliente se rescindirá de inmediato.
+                    </li>
+                    <li>
+                        <b>Terminación por parte del cliente después de la parte de
+                            revisión de escritorio.</b> Si el Cliente rescinde voluntariamente
+                        este Acuerdo de conformidad con la Sección 10.b. anterior,
+                        pero después de que Primus Auditing Ops haya comenzado la
+                        parte de revisión de escritorio de la auditoría, el Cliente
+                        reconoce y acepta que será responsable y pagará a Primus Auditing
+                        Ops, una cantidad equivalente a UN TERCIO (1/3) de la Tarifa de
+                        auditoría indicada en el cuadro "Tarifa de auditoría/Servicios
+                        totales" en la página 1 de este Acuerdo. El hecho de que el Cliente
+                        no lo haga es un incumplimiento sustancial de este Acuerdo por
+                        parte del Cliente.
+                    </li>
+
+                </ul>
+                </p>
+                <p>
+                    <b>11 PAGO Y CANCELACIONES.</b>
+                    El Cliente acepta pagar Primus Auditing Ops dentro de los 30 días
+                    posteriores a la facturación. Todos los servicios prestados por
+                    Primus Auditing Ops se proporcionan de forma no reembolsable. El
+                    cliente reconoce que Primus Auditing Ops hará todo lo posible para
+                    garantizar que todas las facturas se emitan correctamente. Sin embargo,
+                    si el Cliente observa cualquier posible error, el Cliente acepta
+                    notificar a nuestro Departamento de Facturación dentro de los 10 días
+                    posteriores a la emisión de la factura errónea.
+                </p>
+                <p>
+                    <b>12. MODIFICACIONES.</b> te Acuerdo, junto con el apéndice "A" adjunto, constituye la totalidad
+                    del Acuerdo con respecto al tema contenido en este documento. Ninguna
+                    enmienda o extensión de este Acuerdo será vinculante para ninguna de
+                    las partes a menos que se realice por escrito y esté firmada por ambas
+                    partes.
+                </p>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>"PRIMUS AUDITING OPS"</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>"PARTE CONTRATANTE"</b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>JS Audit Group, Inc., una corporación de California</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.partner_id.name" /></b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}"
+                                t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)"
+                                t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature" />
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:327px; heigth:327px;"
+                                t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)"
+                                t-if="serviceagreement.sign_sa_agreements_id.signature" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Firmado por: </b><span t-field="serviceagreement.coordinator_id.name" />
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Firmado por: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name"
+                                t-if="serviceagreement.sign_sa_agreements_id.signer_name" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Coordinador de auditorías</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Posición: </b><span t-field="serviceagreement.sign_sa_agreements_id.position" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Fecha: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date" />
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date"
+                                t-if="serviceagreement.sign_sa_agreements_id.signature_date" />
+                        </p>
+                    </div>
+                </div>
+                <div style="page-break-after: always;">
+                </div>
+                <div style="text-align: center;">
+                    <h4 style="text-align:center; font-weight:Bold;">ANEXO A</h4>
+                    <h4 style="text-align:center; font-weight:Bold;">Para</h4>
+                    <h4 style="text-align:center; font-weight:Bold;">ACUERDO DE SERVICIOS DE AUDITORÍA DE
+                        SOSTENIBILIDAD DE PRIMUS AUDITING OPERATIONS</h4>
+                    <h4 style="text-align:center; font-weight:Bold;">PROCESO DE CERTIFICACIÓN Y ANEXO AL ACUERDO
+                        DE SUBLICENCIA</h4>
+                </div>
+
+                <p>
+                    Este anexo ("Anexo A") es una adición y los términos aquí
+                    incorporados al Acuerdo de Servicios de Auditoría de Sostenibilidad
+                    de Primus Auditing Operations por y entre Primus Auditing Ops y el
+                    Cliente (el "Acuerdo").
+                    <br />
+                    <br />
+                    <b>Marcas de conformidad</b>
+                    <br />
+                    <br />
+                    IPM Institute of North America, Inc., dba Sustainable Food Group
+                    es el propietario legal de la marca comercial y el nombre "Sustainability
+                    StandardTM" y el logotipo que la acompaña (colectivamente, "Sustainability
+                    Standard marca registrada").
+                </p>
+                <p>
+                    Al Cliente se le otorga una sublicencia no exclusiva y
+                    revocable para el uso de la Marca comercial estándar de
+                    sostenibilidad en las siguientes condiciones, todas las
+                    cuales la Parte contratante reconoce y acepta:
+                </p>
+
+                <p>
+                <ul type="1">
+                    <li>
+                        El cliente solo puede usar la marca y/o el logotipo cuando existe
+                        un certificado Sustainability StandardTM válido vinculado a esa
+                        organización y una clara referencia a las operaciones certificadas.
+                        El logotipo solo se puede utilizar para fines de marketing y comunicaciones
+                        de empresa a empresa (comunicados de prensa, publicaciones en redes sociales,
+                        sitios web, etc.), siempre que se especifique la operación y el cultivo certificado.
+                    </li>
+                    <br />
+                    <li>
+                        El uso de la marca comercial Sustainability Standard no aparecerá en el
+                        producto ni en el empaque del consumidor, ni se utilizará en el punto de
+                        venta en conexión directa con productos individuales.
+                    </li>
+                    <br />
+                    <li>
+                        El Cliente, como operación certificada, solo utilizará la Marca
+                        comercial estándar de sostenibilidad de manera consistente con
+                        el alcance registrado de su certificación. Las operaciones y/o
+                        productos no incluidos en el alcance registrado de operaciones
+                        certificadas no están certificados y el Cliente tiene prohibido
+                        usar el Logotipo de cualquier manera que indique o implique lo
+                        contrario:
+                        <ul type="a">
+                            <br />
+                            <li>Esto requiere que el Cliente esté al día en el pago de todas
+                                las tarifas por el Cliente a Primus Auditing Ops y
+                                Sustainable Food Group.</li>
+                            <br />
+                        </ul>
+                    </li>
+                    <li>
+                        La marca comercial Sustainability Standard debe obtenerse de
+                        Primus Auditing Operations para garantizar la conformidad
+                        con el color y formato corporativos exactos, y solo puede
+                        usarse de manera consistente con los requisitos de Sustainability
+                        StandardTM.
+                    </li>
+                    <br />
+                    <li>El cliente deberá colaborar en todo momento con Sustainable
+                        Food Group y sus agentes (incluido Primus Auditing Ops)
+                        para permitir un acceso razonable para verificar el cumplimiento
+                        de estos requisitos.
+                    </li>
+                    <br />
+                    <li>Sustainable Food Group o Primus Auditing Ops pueden suspender
+                        la sublicencia del Cliente para el uso de la marca comercial
+                        Sustainability Standard si, a criterio exclusivo de Sustainable
+                        Food Group o Primus Auditing Ops, determina que:
+                        <ul type="a">
+                            <br />
+                            <li>El cliente no cumple con las reglas.</li>
+                            <li>El cliente no cumple con los requisitos de recertificación.</li>
+                            <li>El cliente usa el logotipo de una manera que va en detrimento
+                                de Sustainable Food Group o Sustainability StandardTM.</li>
+                            <li>El Cliente no corrige los problemas o las condiciones que
+                                llevaron a la suspensión del uso de la Marca comercial
+                                estándar de sostenibilidad por parte del Cliente dentro
+                                de los 15 días posteriores a la notificación de la
+                                infracción y la suspensión.</li>
+                            <li>La operación certificada del cliente cesa operaciones o se
+                                declara en bancarrota.</li>
+                            <li>Tras la notificación por escrito al Cliente de dicha
+                                suspensión o revocación, el Cliente acepta dejar de usar
+                                inmediatamente la Marca comercial Sustainability Standard
+                                y dejar de usar materiales promocionales, sitios web o
+                                comunicaciones en los que se publique la Marca comercial
+                                Sustainability Standard.</li>
+                        </ul>
+                    </li>
+                    <br />
+                    <li>Además de la suspensión o revocación del uso de la Marca comercial
+                        estándar de sostenibilidad como se describe en la Sección 6.d. anterior,
+                        una violación del uso de la marca comercial Sustainability Standard,
+                        como se describe en el presente y en las Regulaciones generales del
+                        estándar de sustentabilidad de Sustainability Food Group, constituirá un
+                        incumplimiento del Acuerdo por parte del Cliente. En caso de que el Cliente,
+                        sus empleados o funcionarios utilicen indebidamente la Marca registrada
+                        de Sustainability Standard sin el consentimiento de Primus Auditing Ops o
+                        Sustainable Food Group, el Cliente tendrá quince (15) días calendario, a
+                        partir de la notificación por escrito de Primus Auditing Ops o el Esquema.
+                        Propietario del uso indebido, para curar el uso indebido. Si el Cliente
+                        no soluciona el uso indebido, Primus Auditing Ops puede anular el Acuerdo,
+                        y la certificación del Cliente y los documentos asociados a la misma serán
+                        revocados de inmediato.
+                    </li>
+                </ul>
+                </p>
+                <p>
+                    Nada de lo aquí dispuesto se interpretará como una exención de las
+                    partes de sus respectivas obligaciones en virtud del Acuerdo.
+                    <br />
+                    <br />
+                </p>
+
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>"PRIMUS AUDITING OPS"</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>"PARTE CONTRATANTE"</b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>JS Audit Group, Inc., una corporación de California</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.partner_id.name" /></b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}"
+                                t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)"
+                                t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature" />
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:327px; heigth:327px;"
+                                t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)"
+                                t-if="serviceagreement.sign_sa_agreements_id.signature" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Firmado por: </b><span t-field="serviceagreement.coordinator_id.name" />
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Firmado por: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name"
+                                t-if="serviceagreement.sign_sa_agreements_id.signer_name" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Coordinador de auditorías</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Posición: </b><span t-field="serviceagreement.sign_sa_agreements_id.position" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.document_date"
+                                widget="date" />
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date"
+                                t-if="serviceagreement.sign_sa_agreements_id.signature_date" />
+                        </p>
+                    </div>
+                </div>
+
+                <div style="text-align: center;" t-if="print == False">
+                    <hr class="mt-0 mb-1" style="border-top: 1px solid" />
+                    <ul class="list-inline" style="text-align: center;">
+                        <li class="list-inline-item">Primus Auditing Ops Documento Confidencial</li>
+                        <li class="list-inline-item">Cert-008-1s</li>
+                        <li class="list-inline-item">Rev.0 11/1/2022</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

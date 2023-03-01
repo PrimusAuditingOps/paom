@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="sa_header_footer_nop_lpo">
+        <div t-attf-class="header">
+                <div class="row mb8">
+                <div class="col-2">
+                    <img src="/pao_sign_sa/static/src/img/logo.png" style="width:120px; height:50px" alt="Logo"/>
+                </div>
+                <div class="col-10 text-center" style="display: flex; align-items: center;font-family: 'Times New Roman'; font-size: 14px;">
+                    <br/>
+                    <h3><b>FAN-13 ACUERDO DE SERVICIOS DE CERTIFICACIÓN LPO</b></h3>
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="footer o_boxed_footer">
+            <div class="text-center" style="font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                <ul class="list-inline">
+                    <li class="list-inline-item">Elaborado Por: M. Salmerón</li>
+                    <li class="list-inline-item">Revisado Por: C. García</li>
+                    <li class="list-inline-item">Aprobado Por: J. Ledezma</li>
+                </ul>
+                <ul class="list-inline">
+                    <li class="list-inline-item">Edición Original: 09 Oct. 2018</li>
+                    <li class="list-inline-item">Revisión: 04</li>
+                    <li class="list-inline-item">Emisión: Ago. 2021</li>
+                </ul>
+                <div t-if="report_type == 'pdf'">
+                    Página: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
