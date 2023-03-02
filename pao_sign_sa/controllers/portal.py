@@ -36,7 +36,7 @@ class CustomerPortal(portal.CustomerPortal):
         for rn_sa in sa_sudo.registration_number_to_sign_ids:
             
 
-            filename = "%s.%s" % (rn_sa.name, "pdf")
+            filename = "%s-%s.%s" % (rn_sa.name,rn_sa.organization_name, "pdf")
             pdf = request.env.ref('pao_sign_sa.report_service_agreements').sudo()._render_qweb_pdf([sa_id], data= {"values": rn_sa, "print": True})[0]
             attachment = request.env['ir.attachment'].sudo().create({
                     'name': filename,
