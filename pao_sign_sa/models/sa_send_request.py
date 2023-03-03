@@ -109,7 +109,7 @@ class SASendRequest(models.TransientModel):
                 if not rn.type_of_audit: 
                     msg=_("Please enter a type of audit for the registration number ")
                     raise ValidationError(msg + rn.name)
-            if rn.scheme_id.name in ["NOP-LPO", "LPO-UE"]:
+            if rn.scheme_id.name in ["LPO-UE"]:
                 if not rn.audit_scope: 
                     msg=_("Please enter an audit scope for the registration number ")
                     raise ValidationError(msg + rn.name)
