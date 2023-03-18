@@ -1,0 +1,103 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_auditor_audits_progress
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-09 16:17+0000\n"
+"PO-Revision-Date: 2023-03-09 16:17+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_auditor_audits_progress
+#: model:res.groups,name:pao_auditor_audits_progress.group_auditor_progress_viewer
+msgid "view auditor progress"
+msgstr "Visualizar progreso de auditor"
+
+#. module: pao_auditor_audits_progress
+#: model_terms:ir.ui.view,arch_db:pao_auditor_audits_progress.res_partner_pao_auditor_audits_progress_view_form
+msgid "<span class=\"oe_inline\"> Audits goal : </span>"
+msgstr "<span class=\"oe_inline\"> Meta de auditorías actual: </span>"
+
+#. module: pao_auditor_audits_progress
+#: model_terms:ir.ui.view,arch_db:pao_auditor_audits_progress.res_partner_pao_auditor_audits_progress_view_form
+msgid "<span class=\"oe_inline\"> Confirmed audits : </span>"
+msgstr "<span class=\"oe_inline\"> Auditorías confirmadas : </span>"
+
+#. module: pao_auditor_audits_progress
+#: model_terms:ir.ui.view,arch_db:pao_auditor_audits_progress.res_partner_pao_auditor_audits_progress_view_form
+msgid "<span class=\"oe_inline\"> Period type : </span>"
+msgstr "<span class=\"oe_inline\"> Tipo de periodo : </span>"
+
+#. module: pao_auditor_audits_progress
+#: model_terms:ir.ui.view,arch_db:pao_auditor_audits_progress.res_partner_pao_auditor_audits_progress_view_form
+msgid "<span class=\"oe_inline\"> Progress : </span>"
+msgstr "<span class=\"oe_inline\"> Progreso : </span>"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_partner__audits_goal
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_users__audits_goal
+msgid "Audits goal"
+msgstr "Meta de auditorías"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_partner__audits_done
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_users__audits_done
+msgid "Confirmed audits"
+msgstr "Auditorías confirmadas"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model,name:pao_auditor_audits_progress.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nombre en pantalla"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_purchase_order_line__po_ac_audit_confirmation_status
+msgid "Estatus de confirmación de disponibilidad de auditoría"
+msgstr ""
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_purchase_order_line____last_update
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_partner__period_type
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_users__period_type
+msgid "Period type"
+msgstr "Tipo de periodo"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_partner__progress_bar
+#: model:ir.model.fields,field_description:pao_auditor_audits_progress.field_res_users__progress_bar
+msgid "Progress"
+msgstr "Progreso"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model,name:pao_auditor_audits_progress.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea de orden de compra"
+
+#. module: pao_auditor_audits_progress
+#: model:ir.model.fields,help:pao_auditor_audits_progress.field_purchase_order_line__po_ac_audit_confirmation_status
+msgid "Refers to the status of the audit confirmation."
+msgstr ""
