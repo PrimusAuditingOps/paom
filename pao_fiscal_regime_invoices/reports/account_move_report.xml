@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="account_invoice_cuenta_report_fiscal_regime" inherit_id= "account.report_invoice_document">
+        <xpath expr="/t/t/t[@t-set='address']" position="inside">
+           <div t-if="o.partner_id.l10n_mx_edi_fiscal_regime" class="mt16">
+                        <t>Fiscal regime: </t><span t-field="o.partner_id.l10n_mx_edi_fiscal_regime"/></div>
+        </xpath>
+    </template>
+</odoo>
