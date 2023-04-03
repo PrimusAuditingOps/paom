@@ -6,8 +6,8 @@ from logging import getLogger
 
 _logger = getLogger(__name__)
 
-class ServiceReferralAgreementAgenda(models.Model):
-    _name = "servicereferralagreement.agenda"
+class PaoOperationsAgenda(models.Model):
+    _name = "pao.operations.agenda"
     _description = "Auditor Agenda"
     _auto = False
     _rec_name = 'combination'
@@ -39,18 +39,14 @@ class ServiceReferralAgreementAgenda(models.Model):
         ('cancel', 'Cancelled'),
         ('dayoff', 'Day Off')
     ], 'Status', readonly=True)
-    """
     audit_status = fields.Many2one(
         string="Audit status",
         comodel_name='auditconfirmation.auditstate',
         readonly = True,
     )
-    
     color = fields.Integer(string="color", compute="_get_color")
-    
     customer_group_id = fields.Text(string="Group", readonly=True)
     promotor_id = fields.Text(string="Promotor", readonly=True)
-    """
     customer_id = fields.Many2one('res.partner', 'Customer', readonly=True)
     combination = fields.Char(string='name', compute='_compute_fields_combination')
     shadow_id = fields.Many2one('res.partner', 'Shadow', readonly=True)
@@ -58,15 +54,6 @@ class ServiceReferralAgreementAgenda(models.Model):
     state_id = fields.Many2one(comodel_name = "res.country.state", string='Audit State', readonly=True)
     city_id = fields.Many2one(comodel_name = "res.city", string='Audit City', readonly=True)
 
-    """
-    @api.depends('order_id')
-    def _get_audit_state(self):
-        for rec in self:
-            if rec.order_id:
-                domain = [('purchase_order_id','=',rec.order_id.id)]
-                result = self.env['auditconfirmation.auditstate.history'].search(domain, order="create_date desc", limit=1)
-                
-                rec.audit_states = result.audit_state.id if result.audit_state else None
    
 
     @api.depends('audit_status')
@@ -77,7 +64,7 @@ class ServiceReferralAgreementAgenda(models.Model):
             else: 
                 rec.color = 8
 
-    """
+
     @api.depends('customer_id', 'partner_id')
     def _compute_fields_combination(self):
         for rec in self:
@@ -186,6 +173,9 @@ class ServiceReferralAgreementAgenda(models.Model):
             a.coordinator_id,
             a.all_day,
             a.state,
+            a.audit_status, 
+            a.customer_group_id, 
+            a.promotor_id,
             a.customer_id,
             a.shadow_id,
             a.assessment_id,
@@ -202,6 +192,9 @@ class ServiceReferralAgreementAgenda(models.Model):
             po.coordinator_id as coordinator_id,
             true as all_day,
             po.state as state,
+            po.ac_audit_status as audit_status,
+            cg.name as customer_group_id,
+            cpromotor.name as promotor_id,
             so.partner_id as customer_id,
             po.shadow_id as shadow_id,
             po.assessment_id as assessment_id,
@@ -213,6 +206,8 @@ class ServiceReferralAgreementAgenda(models.Model):
                 inner join res_partner partner on po.partner_id = partner.id 
                 left join sale_order so on so.id = po.sale_order_id 
                 left join res_partner partnerso on partnerso.id = so.partner_id 
+                left join customergroups_group cg on partnerso.cgg_group_id = cg.id 
+                left join comisionpromotores_promotor cpromotor on partnerso.promotor_id = cpromotor.id
             GROUP BY
             po.partner_id,
             po.partner_ref,
@@ -222,6 +217,9 @@ class ServiceReferralAgreementAgenda(models.Model):
             po.coordinator_id,
             all_day,
             po.state, 
+            cg.name,
+            po.ac_audit_status, 
+            cpromotor.name,
             so.partner_id,
             po.shadow_id,
             po.assessment_id,
@@ -237,6 +235,9 @@ class ServiceReferralAgreementAgenda(models.Model):
             0 as coordinator_id,
             true as all_day,
             'dayoff' as state,
+            0 as audit_status,
+            '' as customer_group_id,
+            '' as promotor_id,
             0 as customer_id,
             0 as shadow_id,
             0 as assessment_id,
@@ -252,7 +253,10 @@ class ServiceReferralAgreementAgenda(models.Model):
             service_end_date,
             coordinator_id,
             all_day,
-            state, 
+            state,
+            audit_status, 
+            customer_group_id, 
+            promotor_id,
             customer_id,
             shadow_id,
             assessment_id,

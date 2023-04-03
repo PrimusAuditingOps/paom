@@ -32,7 +32,11 @@ class PurchaseOrderInherit(models.Model):
 
     def _get_default_audit_status(self):
         domain = [("default_status","=",True)]
-        return self.env['auditconfirmation.auditstate'].search(domain, limit=1).id
+        state = self.env['auditconfirmation.auditstate'].search(domain, limit=1).id
+        if not state:
+            state = 0
+
+        return state
     ac_audit_status = fields.Many2one(
         string="Audit status",
         comodel_name='auditconfirmation.auditstate',

@@ -14,13 +14,13 @@
                 <field name="registration_number_print" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('id', 'in', registration_number_order_lines_ids )]"/>
             
             </field>
-            <group name="invoice_info" position="after">
+            <!--<group name="invoice_info" position="after">
                 <group name="purchase_location">
                     <field name="audit_country_id" options="{'no_quick_create': True, 'no_create_edit' : True}" attrs="{'required': [('ac_is_an_auditor','=',True)]}"/>
                     <field name="audit_state_id"  options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('country_id', '=', audit_country_id)]" attrs="{'required': [('ac_is_an_auditor','=',True)]}"/>
                     <field name="audit_city_id"  options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('state_id', '=', audit_state_id)]" attrs="{'required': [('ac_is_an_auditor','=',True)]}"/>
                 </group>
-            </group>
+            </group>-->
             <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
                 <field name="sra_sale_line_product_audit_ids" widget="many2many_tags" optional="show"/>
                 <field name="organization_id" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="hide"/>

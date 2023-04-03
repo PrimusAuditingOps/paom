@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     
-    <record id="servicereferralagreement_view_auditor_calendar" model="ir.ui.view">
-        <field name="name">servicereferralagreement_view_auditor_calendar</field>
-        <field name="model">servicereferralagreement.agenda</field>
+    <record id="pao_operations_agenda_view_calendar" model="ir.ui.view">
+        <field name="name">pao.operations.agenda.view.calendar</field>
+        <field name="model">pao.operations.agenda</field>
         <field name="arch" type="xml">
             <calendar string="Auditor Calendar" date_start="service_start_date" date_stop="service_end_date" 
-              quick_add="False" hide_time="True" hide_date="True" mode="month" all_day="all_day"> 
+             color="color" quick_add="False" hide_time="True" hide_date="True" mode="month" all_day="all_day"> 
+                <field name="audit_status"/>
                 <field name="order_id"/>
                 <field name="state_id"/>
                 <field name="city_id"/>
                 <field name="coordinator_id"/>
+                <field name="customer_group_id"/>
+                <field name="promotor_id"/>
                 <field name="products"/>
             </calendar>
         </field>
     </record>
     
-    <record id="servicereferralagreement_agenda_search" model="ir.ui.view">
+    <record id="pao_operations_agenda_search" model="ir.ui.view">
         <field name="name">Search Agenda</field>
-        <field name="model">servicereferralagreement.agenda</field>
+        <field name="model">pao.operations.agenda</field>
         <field name="arch" type="xml">
             <search>
                 <field name="partner_id"/>
@@ -34,13 +37,18 @@
     </record>
 
 
-    <record id="servicereferralagreement_agenda_action" model="ir.actions.act_window">
+    <record id="pao_operations_agenda_action" model="ir.actions.act_window">
         <field name="name">Auditor Agenda</field>
-        <field name="res_model">servicereferralagreement.agenda</field>
+        <field name="res_model">pao.operations.agenda</field>
         <field name="view_mode">calendar</field>
         <field name="context">{"search_default_state":1}</field>
     </record>
     
 
-   
+    <menuitem id="pao_operations_agenda_menu"
+            name="Auditor Agenda"
+            parent="purchase.menu_procurement_management"
+            action="pao_operations_agenda_action"
+            sequence="21"/>
+
 </odoo>

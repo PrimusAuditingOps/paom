@@ -7,7 +7,7 @@
            
             <form string="Auditor's days off Form">
                 <sheet>
-                    <group col="6">
+                    <group col="2">
                         <field name="name"/>
                     </group>
                     <group col="6">
@@ -15,7 +15,7 @@
                         <field name="start_date" widget="daterange" options="{'related_end_date': 'end_date'}"/>
                         <field name="end_date" widget="daterange" options="{'related_start_date': 'start_date'}"/>
                     </group>
-                    <group col="6">
+                    <group col="2">
                         <field name="comments"/>
                     </group>
                 </sheet>
@@ -60,7 +60,7 @@
 
     <menuitem id="auditordaysoff_purchase"
             name="Auditor's days off"
-            parent="servicereferralagreement.purchase_catalog_custom_menu"
+            parent="pao_catalog_menu.purchase_pao_catalog_menu"
             action="auditordaysoff_action"
             sequence="7"/>
 

@@ -6,6 +6,14 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
+            <group name="invoice_info" position="after">
+                <group name="purchase_location">
+                    <fleid name="paa_is_auditor" invisible="1"/>
+                    <field name="audit_country_id" options="{'no_quick_create': True, 'no_create_edit' : True}" attrs="{'required': [('ac_is_an_auditor','=',True)]}"/>
+                    <field name="audit_state_id"  options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('country_id', '=', audit_country_id)]" attrs="{'required': [('ac_is_an_auditor','=',True)]}"/>
+                    <field name="audit_city_id"  options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('state_id', '=', audit_state_id)]" attrs="{'required': [('ac_is_an_auditor','=',True)]}"/>
+                </group>
+            </group>
             <group name="purchase_location" position="after">
                     <group name="Assignment">
                          <field name="assigned_auditor_id" class="oe_read_only"/> 

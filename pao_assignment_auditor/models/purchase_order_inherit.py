@@ -24,6 +24,10 @@ class PurchaseOrderInherit(models.Model):
         default = 0.00,
         string = "Qual Reference",
     ) 
+    paa_is_auditor = fields.Boolean(
+        related='partner_id.ado_is_auditor',
+    )
+
     @api.onchange('assigned_auditor_id')
     def onchange_assigned_auditor_id(self):
         for rec in self:

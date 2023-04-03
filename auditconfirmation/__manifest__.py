@@ -5,7 +5,7 @@
     'author': 'samuel castro',
     'category': '',
     'website': 'https://paomx.com',
-    'depends': ['base','purchase','portal'
+    'depends': ['base','purchase','portal','servicereferralagreement'
     ],
     'data': [
         # security
