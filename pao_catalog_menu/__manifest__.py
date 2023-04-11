@@ -16,3 +16,4 @@
         'views/pao_catalog_menu.xml',
     ],
 }
+ 
