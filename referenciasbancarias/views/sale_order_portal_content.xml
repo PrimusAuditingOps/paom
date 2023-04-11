@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="sale_order_portal_content_inherit_subtotal" inherit_id= "sale.sale_order_portal_content">
-        <xpath expr="//div/section[@id='details']/table/tbody/t[@t-foreach='sale_order.order_line']/t/tr[@class='is-subtotal text-right']" position="replace">
-        </xpath>
+        <!--<xpath expr="//div/section[@id='details']/table/tbody/t[@t-foreach='sale_order.order_line']/t/tr[@class='is-subtotal text-right']" position="replace">
+        </xpath>-->
         <xpath expr="//div/section[@id='terms']" position="before">
             <section id="cuentabancaria" name="Bancos">
                 <table class="table">

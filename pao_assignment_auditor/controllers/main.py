@@ -303,7 +303,12 @@ class webAuditorAssignment(http.Controller):
                         else:
                             point_2 = (auditor.partner_latitude, auditor.partner_longitude)
                         
-                        distance = self._get_point_distances(point_1,point_2)
+                        
+                        if point_1 == point_2:
+                            distance = 15
+                        else:
+                            distance = self._get_point_distances(point_1,point_2)
+
                         if distance <= 15:
                             distance = 15
                         localization_list.append(distance)
