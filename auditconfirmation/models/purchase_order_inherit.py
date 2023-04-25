@@ -57,7 +57,7 @@ class PurchaseOrderInherit(models.Model):
     )
     ac_request_travel_expenses = fields.Boolean(
         string = "Request travel expenses",
-        default=False,
+        default=True,
     )
 
     def get_confirmation_access_token(self):

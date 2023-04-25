@@ -52,7 +52,7 @@ class ConfirmPurchase(CustomerPortal):
         purchaseconfirmation.write({'ac_audit_confirmation_status': '1', 'ac_consumed': True})
         purchase.write({'ac_audit_confirmation_status': '1'})
         access_token = purchase._portal_ensure_token()
-        if purchase.ac_request_travel_expenses:   
+        if purchase.ac_request_travel_expenses and not purchaseconfirmation.ac_consumed_travel_expenses:   
             pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(purchase.id)
         else:
             pageredirect = "/response/message"
@@ -76,11 +76,12 @@ class ConfirmPurchase(CustomerPortal):
         purchaseconfirmation.write({'ac_audit_confirmation_status': '3', 'ac_consumed': True})
         purchase.write({'ac_audit_confirmation_status': '3'})
         access_token = purchase._portal_ensure_token()
-        if purchase.ac_request_travel_expenses:   
+    
+        if purchase.ac_request_travel_expenses and not purchaseconfirmation.ac_consumed_travel_expenses:   
             pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(purchase.id)
         else:
             pageredirect = "/response/message"
-         
+        
         _message_post_helper(
             'purchase.order', purchase.id, _('The auditor has accepted the audit.'),
             attachments=[],
@@ -127,7 +128,7 @@ class ConfirmPurchase(CustomerPortal):
         
         purchaseconfirmation.write({'ac_audit_confirmation_status': '1', 'ac_consumed': True})
         order_sudo.write({'ac_audit_confirmation_status': '1', 'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date': today})
-        if order_sudo.ac_request_travel_expenses:
+        if order_sudo.ac_request_travel_expenses and not purchaseconfirmation.ac_consumed_travel_expenses:
             pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(id)
         else:
             pageredirect = "/response/message"
