@@ -1,36 +1,27 @@
-# Copyright (C) 2021 Open Source Integrators
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import _, models
-from odoo.exceptions import UserError
+
+from odoo import models
 
 
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
 
-    # Replace core reconcile function to support reversal of suspense line during
-    # reconcilation process
+    # replace core reconcile function to support reversal of suspense line during reconcilation process
     def reconcile(self, lines_vals_list, to_check=False):
-        """
-        Perform a reconciliation on the current account.bank.statement.line with some
+        """Perform a reconciliation on the current account.bank.statement.line with some
         counterpart account.move.line.
-        If the statement line entry is not fully balanced after the reconciliation, an
-        open balance will be created using the partner.
+        If the statement line entry is not fully balanced after the reconciliation, an open balance will be created
+        using the partner.
 
         :param lines_vals_list: A list of python dictionary containing:
             'id':               Optional id of an existing account.move.line.
-                                For each line having an 'id', a new line will be created
-                                in the current statement line.
-            'balance':          Optional amount to consider during the reconciliation.
-                                If a foreign currency is set on the counterpart line in
-                                the same foreign currency as the statement line, then
-                                this amount is considered as the amount in foreign
-                                currency.
-                                If not specified, the full balance is taken.
+                                For each line having an 'id', a new line will be created in the current statement line.
+            'balance':          Optional amount to consider during the reconciliation. If a foreign currency is set on the
+                                counterpart line in the same foreign currency as the statement line, then this amount is
+                                considered as the amount in foreign currency. If not specified, the full balance is taken.
                                 This value must be provided if 'id' is not.
-            **kwargs:           Custom values to be set on the newly created
-                                account.move.line.
-        :param to_check:        Mark the current statement line as "to_check"
-                                (see field for more details).
+            **kwargs:           Custom values to be set on the newly created account.move.line.
+        :param to_check:        Mark the current statement line as "to_check" (see field for more details).
         """
         self.ensure_one()
         liquidity_lines, suspense_lines, other_lines = self._seek_for_lines()
@@ -39,28 +30,29 @@ class AccountBankStatementLine(models.Model):
             lines_vals_list
         )
 
-        # Manage res.partner.bank
+        # ==== Manage res.partner.bank ====
+
         if self.account_number and self.partner_id and not self.partner_bank_id:
             self.partner_bank_id = self._find_or_create_bank_account()
-        # Check open balance
+
+        # ==== Check open balance ====
 
         if open_balance_vals:
             if not open_balance_vals.get("partner_id"):
                 raise UserError(
                     _(
-                        "Unable to create an open balance for a statement line without"
-                        " a partner set."
+                        "Unable to create an open balance for a statement line without a partner set."
                     )
                 )
             if not open_balance_vals.get("account_id"):
                 raise UserError(
                     _(
-                        "Unable to create an open balance for a statement line because"
-                        " the receivable / payable accounts are missing on the partner."
+                        "Unable to create an open balance for a statement line because the receivable "
+                        "/ payable accounts are missing on the partner."
                     )
                 )
 
-        # Create & reconcile payments
+        # ==== Create & reconcile payments ====
         # When reconciling to a receivable/payable account, create an payment on the fly.
 
         pay_reconciliation_overview = [
@@ -88,7 +80,8 @@ class AccountBankStatementLine(models.Model):
                     == reconciliation_vals["counterpart_line"].account_id
                 ).reconcile()
 
-        # Create & reconcile lines on the bank statement line
+        # ==== Create & reconcile lines on the bank statement line ====
+
         to_create_commands = [(0, 0, open_balance_vals)] if open_balance_vals else []
 
         # OSI - cannot delete journal item
@@ -101,11 +94,14 @@ class AccountBankStatementLine(models.Model):
             skip_account_move_synchronization=True,
             force_delete=True,
         ).write(
-            {"line_ids": to_delete_commands + to_create_commands, "to_check": to_check}
+            {
+                "line_ids": to_delete_commands + to_create_commands,
+                "to_check": to_check,
+            }
         )
 
-        # Create a new JE to cancel suspense line and reconcile suspense account /
-        # outstanding account
+        # create a new JE to cancel suspense line and reconcile suspense account / outstanding account
+        move_id = False
         suspense_vals_list = False
         if suspense_lines:
             suspense_vals_list = suspense_lines._prepare_move_line_vals()
@@ -134,17 +130,16 @@ class AccountBankStatementLine(models.Model):
                 "journal_id": self.journal_id.id,
                 "move_type": "entry",
                 "line_ids": counterpart_lines,
-                "date": self.date,
             }
 
-            # Create new move that will reverse suspense account
+            # create new move that will reverse suspense account
             new_move = self.env["account.move"].create(move_vals)
             new_move.post()
             new_suspense_line = new_move.line_ids.filtered(
                 lambda line: line.account_id in accounts
             )
 
-            # Reconcile suspense line to close out the statement line
+            # reconcile suspense line to close out the statement line
             (suspense_lines + new_suspense_line).reconcile()
             accounts = (
                 self.journal_id.payment_debit_account_id,
@@ -154,7 +149,7 @@ class AccountBankStatementLine(models.Model):
                 lambda line: line.account_id in accounts
             )
 
-            # Get counterpart line on the stmt reconcile move
+            # get counterpart line on the stmt reconcile move
             if not len(new_lines):
                 new_lines = new_move.line_ids - new_suspense_line
         else:
@@ -175,18 +170,18 @@ class AccountBankStatementLine(models.Model):
                 counterpart_line = reconciliation_vals["counterpart_line"]
             else:
                 continue
-            counterpart_line.move_id.statement_line_id = self.id
+
             (line + counterpart_line).reconcile()
 
         # Assign partner if needed (for example, when reconciling a statement
         # line with no partner, with an invoice; assign the partner of this invoice)
         if not self.partner_id:
-            rec_overview_partners = {
+            rec_overview_partners = set(
                 overview["counterpart_line"].partner_id.id
                 for overview in reconciliation_overview
                 if overview.get("counterpart_line")
                 and overview["counterpart_line"].partner_id
-            }
+            )
             if len(rec_overview_partners) == 1:
                 self.line_ids.write({"partner_id": rec_overview_partners.pop()})
 
@@ -194,47 +189,33 @@ class AccountBankStatementLine(models.Model):
         self.move_id.line_ids.analytic_line_ids.unlink()
         self.move_id.line_ids.create_analytic_lines()
 
-    def _undo_reconciliation(self):
-        # Identify the reconciliations that need to be adjusted
-        rec1 = self.line_ids.mapped("matched_debit_ids")
-        rec2 = rec1.debit_move_id.move_id.line_ids.mapped("matched_debit_ids")
-        rec3 = self.line_ids.mapped("matched_credit_ids")
-        rec4 = rec3.debit_move_id.move_id.line_ids.mapped("matched_credit_ids")
-
-        other_move = rec1.debit_move_id.move_id.line_ids.mapped("move_id")
-
-        reconcile_move_lines = (
-            (rec1 + rec2 + rec3 + rec4).mapped("full_reconcile_id").reconciled_line_ids
-        )
-        # Unreconcile the suspense lines and outstanding payment/receipt lines
-        reconcile_move_lines.remove_move_reconcile()
-
-        # Cancel the suspense line journal created during reconcile process
-        if other_move:
-            reversing_move = other_move._reverse_moves(cancel=True)
-            reversing_move.ref = "Reverting reconciliation of %s" % self.name
-            # When reversing, Odoo generates partial reconciliations because there are
-            # extra counterpart lines.
-            # Only the last one is full, because there is no more extra lines.
-            for reconciliation in other_move.line_ids.mapped(
-                "matched_debit_ids"
-            ).filtered(lambda x: x.full_reconcile_id.id is False):
-                rec_lines = reconciliation.debit_move_id + reconciliation.credit_move_id
-                reconciliation.unlink()
-                rec_lines.reconcile()
-
-    # Replace core unreconcile function to support reversal of suspense line during
-    # statement line revert reconciliation
+    # replace core unreconcile function to support reversal of suspense line during statement line revert reconciliation
     def button_undo_reconciliation(self):
-        """
-        Undo the reconciliation made on the statement line and reset their journal
-         items to their original states.
+        """Undo the reconciliation mades on the statement line and reset their journal items
+        to their original states.
         """
         # OSI - begin
-        self._undo_reconciliation()
+        # identify the reconciliations that need to be adjusted
+        rec1 = self.line_ids.mapped("matched_debit_ids")
+        rec2 = self.line_ids.mapped(
+            "matched_debit_ids"
+        ).debit_move_id.move_id.line_ids.mapped("matched_debit_ids")
+        rec3 = self.line_ids.mapped("matched_credit_ids")
+        rec4 = self.line_ids.mapped(
+            "matched_credit_ids"
+        ).debit_move_id.move_id.line_ids.mapped("matched_debit_ids")
+        other_move = self.line_ids.mapped(
+            "matched_debit_ids"
+        ).debit_move_id.move_id.line_ids.mapped("move_id")
+
+        # unreconcile the suspense lines and outstanding payment/receipt lines
+        (rec1 + rec2 + rec3 + rec4).unlink()
+
+        # cancel the suspense line journal created during reconcile process
+        if len(other_move):
+            other_move._reverse_moves(cancel=True)
         # OSI - end
 
-        # self.line_ids.remove_move_reconcile()
         self.payment_ids.unlink()
 
         for st_line in self:
@@ -249,7 +230,7 @@ class AccountBankStatementLine(models.Model):
                 }
             )
 
-    # Core odoo method replaced for SOX compliance
+    # core odoo method replaced for SOX compliance
     def unlink(self):
         # OVERRIDE to unlink the inherited account.move (move_id field) as well.
         moves = self.with_context(force_delete=True).mapped("move_id")
