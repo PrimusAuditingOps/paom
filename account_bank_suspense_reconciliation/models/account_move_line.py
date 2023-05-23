@@ -1,5 +1,3 @@
-# Copyright (C) 2021 Open Source Integrators
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import api, models
 
 
@@ -9,6 +7,7 @@ class AccountMoveLine(models.Model):
     @api.model
     def _prepare_move_line_vals(self):
         self.ensure_one()
+
         return {
             "name": self.ref,
             "move_id": False,
