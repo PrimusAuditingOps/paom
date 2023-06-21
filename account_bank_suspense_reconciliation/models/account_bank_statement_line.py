@@ -130,6 +130,7 @@ class AccountBankStatementLine(models.Model):
                 "journal_id": self.journal_id.id,
                 "move_type": "entry",
                 "line_ids": counterpart_lines,
+                "date": self.date,
             }
 
             # create new move that will reverse suspense account
