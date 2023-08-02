@@ -41,16 +41,17 @@ class SaleOrderLineInherit(models.Model):
     organization_id = fields.Many2one(
         comodel_name='servicereferralagreement.organization',
         string='Organization',
-        ondelete='set null',
+        ondelete='restrict',
     )
     registrynumber_id = fields.Many2one(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registry number',
-        ondelete='set null',
+        ondelete='restrict',
         domain = [('organization_id.id', '=', organization_id)]
     )
     audit_products = fields.Many2many(
         comodel_name='servicereferralagreement.auditproducts',
+        ondelete='restrict',
     )
     service_start_date = fields.Date(
         string="Service start date",
