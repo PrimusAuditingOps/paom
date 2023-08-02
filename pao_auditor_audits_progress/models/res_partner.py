@@ -16,9 +16,12 @@ class RestPartnerInherit(models.Model):
 
     @api.depends("paa_audit_quantity")
     def _compute_audits_number(self):
-       
+        
         for rec in self:
-            if rec.ado_is_auditor:
+            
+            configuration = self.env['paoassignmentauditor.configuration.audit.quantity'].search([])
+            
+            if rec.ado_is_auditor and len(configuration) > 0:
 
                 period =self._get_start_and_end_period_dates()
                 start_date=datetime.strptime(period[0], '%Y-%m-%d').date()
@@ -44,8 +47,9 @@ class RestPartnerInherit(models.Model):
     def _compute_audits_progress_bar(self):
         
         for u in self:
+            configuration = self.env['paoassignmentauditor.configuration.audit.quantity'].search([])
             
-            if u.ado_is_auditor:
+            if u.ado_is_auditor and len(configuration) > 0:
                 
                 period =self._get_start_and_end_period_dates()
                 start_date=datetime.strptime(period[0], '%Y-%m-%d').date()
@@ -77,7 +81,9 @@ class RestPartnerInherit(models.Model):
     def _compute_period_type(self):
         
         for rec in self:
-            if rec.ado_is_auditor:
+            configuration = self.env['paoassignmentauditor.configuration.audit.quantity'].search([])           
+            
+            if rec.ado_is_auditor and len(configuration) > 0:
                 period_type = rec._get_start_and_end_period_dates()
                 start_date = period_type[0]
                 end_date = period_type[1]
@@ -90,7 +96,9 @@ class RestPartnerInherit(models.Model):
     def _compute_audits_number_goal(self):
         
         for rec in self:
-            if rec.ado_is_auditor:
+            configuration = self.env['paoassignmentauditor.configuration.audit.quantity'].search([])
+            
+            if rec.ado_is_auditor and len(configuration) > 0:
                 rec.audits_goal = rec._get_audits_number_goal()
             else:
                 rec.audits_goal = 0
@@ -176,7 +184,6 @@ class RestPartnerInherit(models.Model):
 
         diaInicial = 1
         diaFinal = self.number_of_days_in_month(anioFinal, mesFinal)
-
         start_date = str(anioInicial)+"-"+str(mesInicial)+"-"+str(diaInicial)
         end_date = str(anioFinal)+"-"+str(mesFinal)+"-"+str(diaFinal)
         return [start_date, end_date, tipoPeriodo]
