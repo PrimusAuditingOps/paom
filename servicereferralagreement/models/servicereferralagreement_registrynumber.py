@@ -1,4 +1,6 @@
 from odoo import fields, models, api
+from odoo.exceptions import ValidationError
+
 class ServicereferralagreementRegistryNumber(models.Model):
     _name = 'servicereferralagreement.registrynumber'
     _description = 'Modelo para manejar el catalogo de numero de registro de las organizaciones'
@@ -43,3 +45,13 @@ class ServicereferralagreementRegistryNumber(models.Model):
     phone = fields.Text(
         string="Phone",
     )
+
+    @api.constrains('name')
+    def _action_prevent_registry_number_duplication(self):
+         
+        for rec in self:
+            registry_numbers= rec.env['servicereferralagreement.registrynumber'].search([('name','=',rec.name),('id','!=',rec.id)])
+            if registry_numbers:
+                raise ValidationError("¡This registry number already exists in the database!. Please add a different one.")
+            
+        return True

@@ -15,8 +15,8 @@
                         <field name="audit_scope"/> 
                         <field name="audit_duration"/>
                         <field name="client_requirements"/>
-                        <field name="contract_email"/>
-                        <field name="phone"/>
+                        <field name="contract_email" attrs="{'required':True}"/>
+                        <field name="phone" attrs="{'required':True}"/>
                     </group>
                 </sheet>
             </form>
