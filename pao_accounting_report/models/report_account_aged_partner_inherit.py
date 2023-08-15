@@ -106,6 +106,7 @@ class ReportAccountAgedPartnerInherit(models.AbstractModel):
         }
         return self.env.cr.mogrify(query, params).decode(self.env.cr.connection.encoding)
 
+
     @api.model
     def _get_column_details(self, options):
         return [
