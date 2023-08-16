@@ -9,7 +9,6 @@ _logger = getLogger(__name__)
 class ReportAccountAgedPartnerInherit(models.AbstractModel):
     _inherit='account.aged.partner'
 
-    invoice_date = fields.Date(string='Inv. Date')
 
     @api.model
     def _get_sql(self):
@@ -31,7 +30,6 @@ class ReportAccountAgedPartnerInherit(models.AbstractModel):
                 account_move_line.payment_id AS payment_id,
                 COALESCE(account_move_line.date_maturity, account_move_line.date) AS report_date,
                 account_move_line.expected_pay_date AS expected_pay_date,
-                move.invoice_date AS invoice_date,
                 move.move_type AS move_type,
                 move.name AS move_name,
                 journal.code AS journal_code,
@@ -115,7 +113,6 @@ class ReportAccountAgedPartnerInherit(models.AbstractModel):
             self._field_column('journal_code', name="Journal"),
             self._field_column('account_name', name="Account"),
             self._field_column('expected_pay_date'),
-            self._field_column('invoice_date'),
             self._field_column('period0', name=_("As of: %s") % format_date(self.env, options['date']['date_to'])),
             self._field_column('period1', sortable=True),
             self._field_column('period2', sortable=True),
