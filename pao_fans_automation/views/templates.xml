@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <template id="index">
+            <t t-call="website.layout">
+                <t t-set="title">Applications</t>
+                <div class="oe_structure">
+                    <div class="container">
+                        <t t-foreach="applications" t-as="application">
+                            <p>
+                                <a t-attf-href="/application_controller/{{slug(application)}}">
+                                    <t t-esc="application.plNumber"/>
+                                </a>
+                                <t t-esc="application.version"/>
+                            </p>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="applications">
+            <t t-call="website.layout">
+                <t t-set="title">Application</t>
+                <div class="oe_structure">
+                    <div class="container">
+                        <h1> Application # <t t-esc="application.plNumber"/>
+                        </h1>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+
+
+</odoo>
