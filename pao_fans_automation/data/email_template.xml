@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_line_email_template" model="mail.template">
+        <field name="name">First email template for audits</field>
+        <field name="model_id" ref="sale.model_sale_order_line"/>
+        <field name="subject">Email Subject</field>
+        <field name="email_from">${object.create_uid.partner_id.id}</field>
+        <field name="partner_to">${object.product_template_id.contract_email}</field>
+        <field name="email_from">${object.create_uid.partner_id.id}</field>
+        <field name="auto_delete" eval="True"/>
+        <!--<field name="lang">${object.partner_id.lang}</field>-->
+        <field name="body_html" type="xml">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Registry Number</th>
+                </tr>
+                <tr>
+                    <td>${object.organization_id.name}</td>
+                    <td>${object.registrynumber_id.name}</td>
+                </tr>
+            </table>
+        </field>
+    </record>
+
+</odoo>
