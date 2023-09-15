@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20220609\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-23 15:05+0000\n"
-"PO-Revision-Date: 2022-08-23 15:05+0000\n"
+"POT-Creation-Date: 2023-09-12 21:47+0000\n"
+"PO-Revision-Date: 2023-09-12 21:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -298,6 +298,16 @@ msgid "Currency"
 msgstr "Moneda"
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__day_color
+msgid "Day color"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__day_without_audits
+msgid "Days without audits"
+msgstr "Días sin auditoría"
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditshonorariumpermonth__month__12
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditsquantitypermonth__month__12
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_honorarium__season_end_month__12
@@ -385,6 +395,11 @@ msgstr "Auditor referencia"
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_product_category__paa_is_an_audit
 msgid "Is a category of audits"
 msgstr "Es una categoría de auditorías"
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order__paa_is_auditor
+msgid "Is an auditor"
+msgstr "Es un auditor"
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditshonorariumpermonth__month__01
@@ -549,7 +564,7 @@ msgstr "Posición"
 #. module: pao_assignment_auditor
 #: model:ir.model,name:pao_assignment_auditor.model_product_category
 msgid "Product Category"
-msgstr "Categoría de productos"
+msgstr "Categoría de producto"
 
 #. module: pao_assignment_auditor
 #: model:ir.model,name:pao_assignment_auditor.model_purchase_order

@@ -82,6 +82,8 @@ class webAuditorAssignment(http.Controller):
                         qualification += r['qualification']
                         honorarium = round(r['qualification'],4)
                         break
+                    
+                    days = self._get_days_without_audits(auditor)
 
                     value = request.env['paoassignmentauditor.auditor.qualification'].sudo().create(
                         {
@@ -92,6 +94,8 @@ class webAuditorAssignment(http.Controller):
                             'audit_honorarium_qualification': honorarium,
                             'qualification': qualification,
                             'ref_user_id': user_id,
+                            'day_without_audits': days,
+                            'day_color': "blue" if days >= 22 and days <= 35 else "yellow" if days >= 36 and days <= 45 else "red" if days > 45 else "",
                         }
                     )
                     
@@ -101,7 +105,56 @@ class webAuditorAssignment(http.Controller):
             'user_id': user_id
         }
         
-    
+    def _get_days_without_audits(self, auditor_id):
+        requested_tz = pytz.timezone('America/Mexico_City')
+        today = requested_tz.fromutc(datetime.datetime.utcnow())
+        days = 0
+        sql = """
+            SELECT b.service_end_date as lastdate FROM 
+            purchase_order AS a INNER JOIN purchase_order_line AS b ON a.id = b.order_id 
+            WHERE a.partner_id = %(partner_id)s AND a.state != 'cancel' AND 
+            b.service_end_date < %(today)s ORDER BY b.service_end_date DESC LIMIT 1
+        """
+        params = {
+            'partner_id': auditor_id,
+            'today': today,
+        }
+        request.env.cr.execute(sql, params)
+        result = request.env.cr.dictfetchall()
+        
+        for last_service_date in result:
+            diference = datetime.date(today.year, today.month, today.day) - last_service_date["lastdate"]
+            days = int(diference.days)
+            sql = """
+                SELECT  CASE 
+                WHEN start_date < %(star_date)s THEN %(star_date)s 
+                ELSE start_date END AS startdate, 
+                case 
+                WHEN end_date > %(end_date)s THEN %(end_date)s 
+                ELSE end_date END AS enddate 
+                FROM 
+                auditordaysoff_days 
+                WHERE auditor_id = %(partner_id)s AND 
+                ((start_date >= %(star_date)s AND start_date <= %(end_date)s) OR
+                (end_date <= %(star_date)s AND end_date >= %(end_date)s) OR
+                (start_date <= %(star_date)s AND end_date >= %(star_date)s) OR
+                (start_date <= %(end_date)s AND end_date >= %(end_date)s))
+            """
+            params = {
+                'partner_id': auditor_id,
+                'star_date': last_service_date["lastdate"],
+                'end_date': datetime.date(today.year, today.month, today.day),
+            }
+            request.env.cr.execute(sql, params)
+            result_date = request.env.cr.dictfetchall()
+            for rd in result_date:
+                days_off = rd["enddate"] - rd["startdate"]
+                lessday = days_off.days + 1
+                days -= lessday
+        
+        return days
+
+
     def _get_weighting(self):
 
         recweighting = request.env['paoassignmentauditor.weighting'].search([], limit=1)

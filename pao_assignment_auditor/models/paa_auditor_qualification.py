@@ -61,6 +61,14 @@ class PaaAuditorQualification(models.Model):
         default = 0.00,
         string = "Qual Reference",
     ) 
+    day_without_audits = fields.Integer(
+        string="Days without audits",
+        default = 0,
+    ) 
+    day_color = fields.Char(
+        string="Day color",
+        defauult= "",
+    ) 
 
     def _get_position(self):
         
