@@ -16,10 +16,14 @@ class SaleOrderLineInherit(models.Model):
         for rec in self:
             if rec.service_start_date:
                 rec.service_start_date_nop = datetime.strftime(rec.service_start_date, "%m/%d/%Y")
+            else: 
+                rec.service_start_date_nop = None
     def _generate_service_end_date_nop(self):
         for rec in self:
             if rec.service_end_date:
                rec.service_end_date_nop = datetime.strftime(rec.service_end_date, "%m/%d/%Y")
+            else: 
+                rec.service_end_date_nop = None
     def _generate_service_date_nop(self):
         datenop = None
         for rec in self:

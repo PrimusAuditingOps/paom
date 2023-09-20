@@ -37,8 +37,8 @@
                                 <li>
                                     Ser una persona moral constituida de conformidad con las leyes 
                                     del país, tener como Registro Federal de Causantes PAO150424J6A; 
-                                    tener su domicilio en Calle Millet 109 Col. Eucalipto Vallarta 
-                                    C.P. 45020, Zapopan, Jalisco.
+                                    tener su domicilio en Avenida Lázaro Cárdenas Número Exterior 
+                                    3478 Colonia Chapalita, Guadalajara Jalisco, C.P. 44500.
                                 </li>
                                 <li>
                                     Que acredita la constitución de su sociedad con el testimonio de 
@@ -72,8 +72,8 @@
                                 <li>
                                     To be a legal entity constituted in accordance with the laws of 
                                     the country, to have as Federal Taxpayer Registry PAO150424J6A; 
-                                    located at Calle Millet 109 Col. Eucalyptus Vallarta C.P. 45020, 
-                                    Zapopan, Jalisco.
+                                    located at 3478 Avenue Lázaro Cárdenas Colonia Chapalita, Zip code 44500,
+                                    Guadalajara, Jalisco.
                                 </li>
                                 <li>
                                     That it accredits the incorporation of its company with the testimony 
@@ -269,14 +269,14 @@
             </div>
         </div>
         <div class="row">
-            <t t-set="productArray" t-value="[]" />
-            <t t-set="productos" t-value="''" />
+            <t t-set="productArray" t-value="[]"/>
+            <t t-set="productos" t-value="''"/>
             <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="servicelinep">
                 <t t-if="servicelinep.registrynumber_id.id == registrynumber and servicelinep.organization_id.id == organization">
                     <t t-foreach="servicelinep.audit_products" t-as="pline">
                         <t t-if="not pline.name in productArray">
-                            <t t-set="productArray" t-value="productArray+[pline.name]" />
-                            <t t-set="productos" t-value="productos+pline.name+', '" />
+                            <t t-set="productArray" t-value="productArray+[pline.name]"/>
+                            <t t-set="productos" t-value="productos+pline.name+', '"/>
                         </t>
                     </t>
                 </t>
@@ -343,7 +343,7 @@
         <div class="row">
             <div class="col-12" style="border: 1px solid black;">
                 <br/>
-                <t t-set="sumtotal" t-value= "0"/>
+                <t t-set="sumtotal" t-value="0"/>
                 <table style="width:100%">
                     <tr style="background-color: black; color:white;">
                         <th>Servicios/Services</th>
@@ -361,9 +361,9 @@
                         </t>
                     </t>
                     <tr>
-                        <td></td>
+                        <td/>
                         <td style="text-align:right"><b>Costo Total/Total Cost:</b></td>
-                        <td style="text-align:right"><span t-esc="sumtotal"  t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}" /></td>
+                        <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
                     </tr>
                 </table>
                 <br/> 

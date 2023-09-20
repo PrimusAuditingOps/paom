@@ -16,7 +16,7 @@
                     como las "Partes", al amparo de las siguientes declaraciones y 
                     clausulas.
                 </p>
-                <h4 style="text-align:center;font-weight:Bold;" >
+                <h4 style="text-align:center;font-weight:Bold;">
                     DECLARACIONES
                 </h4>
                 <p>
@@ -27,9 +27,9 @@
                                 <li>
                                     Ser una persona moral constituida de conformidad 
                                     con las leyes del país, tener como Registro Federal 
-                                    de Causantes PAO150424J6A; tener su domicilio en Calle 
-                                    Millet 109 Col. Eucalipto Vallarta C.P. 45020, Zapopan, 
-                                    Jalisco.
+                                    de Causantes PAO150424J6A; tener su domicilio en Avenida 
+                                    Lázaro Cárdenas Número Exterior 3478 Colonia Chapalita, 
+                                    Guadalajara Jalisco, C.P. 44500.
                                 </li>
                                 <li>
                                 Que acredita la constitución de su sociedad con el testimonio 
@@ -173,8 +173,7 @@
                             <th style="text-align:right;" colspan="2" esc="row">Costo Total (sin IVA)</th>
                             <th style="text-align:right;" colspan="1" scope="row">
                                 <strong class="mr16">
-                                    <span t-esc="current_subtotal"
-                                    t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                    <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
                                 </strong>
                             </th>
                         </tr>
@@ -522,7 +521,7 @@
                     </div>
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <img class="img img-responsive" style="width:327px; heigth:327px;"  t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
                         </p>
                     </div>  
                 </div>
@@ -555,13 +554,13 @@
                     <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
                     <ul class="list-inline" style="text-align: center;">
                         <li class="list-inline-item">Elaborado Por: M. Salmerón</li>
-                        <li class="list-inline-item">Revisado Por: C. García</li>
+                        <li class="list-inline-item">Revisado Por: A. Torres</li>
                         <li class="list-inline-item">Aprobado Por: J. Ledezma</li>
                     </ul>
                     <ul class="list-inline" style="text-align: center;">
                         <li class="list-inline-item">Edición Original: 09 Oct. 2018</li>
-                        <li class="list-inline-item">Revisión: 04</li>
-                        <li class="list-inline-item">Emisión: Ago. 2021</li>
+                        <li class="list-inline-item">Revisión: 05</li>
+                        <li class="list-inline-item">Emisión: 27 Jun. 2023</li>
                     </ul>
                 </div>
                 

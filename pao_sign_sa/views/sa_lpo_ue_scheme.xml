@@ -42,8 +42,8 @@
                                         <li>
                                             Ser una persona moral constituida de conformidad con las leyes 
                                             del país, tener como Registro Federal de Causantes PAO150424J6A; 
-                                            tener su domicilio en Calle Millet 109 Col. Eucalipto Vallarta 
-                                            C.P. 45020, Zapopan, Jalisco.
+                                            tener su domicilio en Avenida Lázaro Cárdenas Número Exterior 
+                                            3478 Colonia Chapalita, Guadalajara Jalisco, C.P. 44500.
                                         </li>
                                         <li>
                                             Que acredita la constitución de su sociedad con el testimonio de 
@@ -77,8 +77,8 @@
                                         <li>
                                             To be a legal entity constituted in accordance with the laws of 
                                             the country, to have as Federal Taxpayer Registry PAO150424J6A; 
-                                            located at Calle Millet 109 Col. Eucalyptus Vallarta C.P. 45020, 
-                                            Zapopan, Jalisco.
+                                            located at 3478 Avenue Lázaro Cárdenas Colonia Chapalita, Zip code 
+                                            44500, Guadalajara, Jalisco.
                                         </li>
                                         <li>
                                             That it accredits the incorporation of its company with the testimony 
@@ -360,8 +360,7 @@
                                         <th style="text-align:right;" colspan="2" esc="row">Costo Total/Total Cost:</th>
                                         <th style="text-align:right;" colspan="1" scope="row">
                                             <strong class="mr16">
-                                                <span t-esc="current_subtotal"
-                                                t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                                <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
                                             </strong>
                                         </th>
                                     </tr>                    
@@ -1144,7 +1143,7 @@
                     </div>
                     <div class="col-6">
                         <p style="text-align:center;">
-                           <img class="img img-responsive" style="width:327px; heigth:327px;"  t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                           <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
                         </p>
                     </div>  
                 </div>
@@ -1181,8 +1180,8 @@
                     </ul>
                     <ul class="list-inline" style="text-align: center;">
                         <li class="list-inline-item">Edición Original: 09 Oct. 2018</li>
-                        <li class="list-inline-item">Revisión: 05</li>
-                        <li class="list-inline-item">Emisión: 08 Ago. 2022</li>
+                        <li class="list-inline-item">Revisión: 01</li>
+                        <li class="list-inline-item">Emisión: 27 Jun. 2023</li>
                     </ul>
                 </div>
             </div>

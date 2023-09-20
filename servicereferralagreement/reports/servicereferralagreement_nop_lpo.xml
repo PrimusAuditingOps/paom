@@ -23,9 +23,9 @@
                                                         <li>
                                                             Ser una persona moral constituida de conformidad 
                                                             con las leyes del país, tener como Registro Federal 
-                                                            de Causantes PAO150424J6A; tener su domicilio en Calle 
-                                                            Millet 109 Col. Eucalipto Vallarta C.P. 45020, Zapopan, 
-                                                            Jalisco.
+                                                            de Causantes PAO150424J6A; tener su domicilio en Avenida 
+                                                            Lázaro Cárdenas Número Exterior 3478 Colonia Chapalita, 
+                                                            Guadalajara Jalisco, C.P. 44500.
                                                         </li>
                                                         <li>
                                                         Que acredita la constitución de su sociedad con el testimonio 
@@ -114,14 +114,14 @@
                                         CLAUSULAS
                                         </h3>
                                         </p>
-                                        <t t-set="productArray" t-value="[]" />
-                                        <t t-set="productos" t-value="''" />
+                                        <t t-set="productArray" t-value="[]"/>
+                                        <t t-set="productos" t-value="''"/>
                                         <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="servicelinep">
                                             <t t-if="servicelinep.registrynumber_id.id == registrynumber and servicelinep.organization_id.id == organization">
                                                 <t t-foreach="servicelinep.audit_products" t-as="pline">
                                                     <t t-if="not pline.name in productArray">
-                                                        <t t-set="productArray" t-value="productArray+[pline.name]" />
-                                                        <t t-set="productos" t-value="productos+pline.name+', '" />
+                                                        <t t-set="productArray" t-value="productArray+[pline.name]"/>
+                                                        <t t-set="productos" t-value="productos+pline.name+', '"/>
                                                     </t>
                                                 </t>
                                             </t>
@@ -163,7 +163,7 @@
                                                 <b>Tipo de Inspección: </b> <span t-field="line.registrynumber_id.type_of_audit"/></p></td>
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0"/>
+                                        <t t-set="sumtotal" t-value="0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
@@ -544,7 +544,7 @@
                                             </tr>
                                         </table>
         
-        </div> 
+        </div>
     </template>
 
 </odoo>
