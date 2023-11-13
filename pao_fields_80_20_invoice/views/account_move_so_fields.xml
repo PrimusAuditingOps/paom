@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_invoice_tree_so_fields" model="ir.ui.view">
+        <field name="name">account.invoice.tree.so.fields</field>
+        <field name="model">account.move</field>
+        <field name="priority">20</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date_due']" position="after">
+                <field name="pao_so_date" optional="hide"/>
+                <field name="pao_so_salesman" optional="hide"/>
+                <field name="pao_so_team_id" optional="hide"/>
+                <field name="pao_so_categories" widget="many2many_tags" optional="hide"/>
+                <field name="pao_so_schemes" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
