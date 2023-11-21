@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_sa_pivot" model="ir.ui.view">
+         <field name="name">sa.report.pivot</field>
+         <field name="model">sa.report</field>
+         <field name="arch" type="xml">
+             <pivot string="SA Report" disable_linking="True" sample="1">
+                 <field name="coordinator_id" type="row"/>
+                 <field name="organization" type="row"/>
+                 <field name="service_registry_number" type="row"/>
+                 <field name="service_start_date" type="row"/>
+                 <field name="quantity" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+
+    <!-- <record id="view_order_product_graph" model="ir.ui.view">
+         <field name="name">sale.report.graph</field>
+         <field name="model">sale.report</field>
+         <field name="arch" type="xml">
+             <graph string="Sales Analysis" type="line" sample="1" disable_linking="1">
+                 <field name="date" type="row" interval="day"/>
+                 <field name="price_subtotal" type="measure"/>
+             </graph>
+         </field>
+    </record> -->
+
+    <record id="pao_action_order_sa_report" model="ir.actions.act_window">
+        <field name="name">SA Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sa.report</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id"></field>
+        <field name="help">This report performs analysis on your Service Agreements sales orders. Check your Sales Agreements and sort it by different group criteria (coordinator, organization, service start date, service end date, etc.).</field>
+    </record>
+
+</odoo>
