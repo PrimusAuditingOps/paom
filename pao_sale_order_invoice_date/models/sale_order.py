@@ -8,8 +8,8 @@ class SaleOrder(models.Model):
     @api.depends('invoice_ids.invoice_date')
     def _compute_invoice(self):
         for order in self:
-            first_invoice = ""
+            first_invoice = None
             for invoice in order.invoice_ids.filtered_domain([('state', '=', 'posted')]):
-                    if first_invoice == "" or invoice.invoice_date < first_invoice:
+                    if not first_invoice or invoice.invoice_date < first_invoice:
                         first_invoice = invoice.invoice_date
             order.pao_invoice_date = first_invoice
