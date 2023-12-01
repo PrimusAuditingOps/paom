@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="sa_nop">
-         <div>
+        <div>
             <h2>
                                         PRIMUS AUDITING OPERATIONS <br/>ORGANIC CERTIFICATION PROGRAM <br/>SERVICES AGREEMENT
                                         </h2>
@@ -42,7 +42,7 @@
                                                 <p style="text-align:left;"><b>Agreed Date: </b><span t-field="line.service_start_date_nop"/> - <span t-field="line.service_end_date_nop"/></p></td>
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0"/>
+                                        <t t-set="sumtotal" t-value="0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Services</th>
@@ -60,9 +60,9 @@
                                                 </t>
                                             </t>
                                             <tr>
-                                                <td></td>
+                                                <td/>
                                                 <td style="text-align:right"><b>Total Services:</b></td>
-                                                <td style="text-align:right"><span t-esc="sumtotal"  t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}" /></td>
+                                                <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
                                             </tr>
                                         </table>
                                         <div style="page-break-after: always;">
@@ -143,7 +143,7 @@
                                                 <p>
                                                 <b>Audit Coordinator</b></p></td>
                                                 <td style="border:0px; background-color:white; width:50%;">
-                                                <p></p></td>
+                                                <p/></td>
                                             </tr>
                                             <tr>
                                                 <td style="border:0px; background-color:white; width:50%;">
@@ -160,7 +160,7 @@
                                         travel and labor if incurred.
                                         </p>
         
-        </div> 
+        </div>
     </template>
 
 </odoo>

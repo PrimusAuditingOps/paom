@@ -87,7 +87,15 @@
                                 <t t-set="serviceagreement" t-value="values"/>
                             </t>
                         </div>
-                    </t>      
+                    </t>
+                    <t t-if="values.scheme == 'Add-GLOBALG.A.P.'">
+                        <t t-call="pao_sign_sa.sa_header_footer_add_ggap"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_add_globalgap_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>     
 
 
                                      

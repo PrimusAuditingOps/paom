@@ -1,0 +1,213 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_invoice_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-24 18:04+0000\n"
+"PO-Revision-Date: 2023-11-24 18:04+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__state__cancel
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__category_id
+msgid "Category"
+msgstr "Categoría"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__client_id
+msgid "Client ID"
+msgstr "ID Cliente"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__currency_id
+msgid "Currency"
+msgstr "Divisa"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__state__draft
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__fiscal_folio
+msgid "Fiscal Folio"
+msgstr "Folio Fiscal"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,help:pao_invoice_report.field_invoice_report__fiscal_folio
+msgid "Folio in electronic invoice, is returned by SAT when send to stamp."
+msgstr ""
+"Folio en facturación electrónica, es devuelto por SAT cuando se envía a "
+"firmar."
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__group
+msgid "Group"
+msgstr "Grupo"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__id
+msgid "ID"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__in_payment
+msgid "In Payment"
+msgstr "En proceso de pago"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__invoice_id
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__invoice_date
+msgid "Invoice Date"
+msgstr "Fecha de factura"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__invoice_date_due
+msgid "Invoice Date Due"
+msgstr "Fecha de vencimiento"
+
+#. module: pao_invoice_report
+#: model:ir.actions.act_window,name:pao_invoice_report.pao_action_invoice_report
+msgid "Invoice Report"
+msgstr "Reporte de factura"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__invoice_number
+msgid "Invoice number"
+msgstr "Número de factura"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__invoice_partner_name
+msgid "Invoice partner name"
+msgstr "Nombre de partner a mostrar"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__invoice_salesperson
+msgid "Invoice salesperson"
+msgstr "Vendedor factura"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__invoicing_legacy
+msgid "Invoicing App Legacy"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.ui.menu,name:pao_invoice_report.menu_item_invoice_report
+msgid "Invoicing Report"
+msgstr "Reporte de facturación"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__mxn_subtotal
+msgid "MXN Subtotal"
+msgstr "Subtotal MXN"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__not_paid
+msgid "Not Paid"
+msgstr "Sin pagar"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__origin
+msgid "Origin"
+msgstr "Origen"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__paid
+msgid "Paid"
+msgstr "Pagado"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__partial
+msgid "Partially Paid"
+msgstr "Pagado parcialmente"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__payment_state
+msgid "Payment Status"
+msgstr "Estado de pago"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__state__posted
+msgid "Posted"
+msgstr "Publicado"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__price_subtotal
+msgid "Price Subtotal"
+msgstr "Subtotal"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__product
+msgid "Product"
+msgstr "Producto"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__promoter
+msgid "Promoter"
+msgstr "Promotor"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__quantity
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__quotation_salesperson
+msgid "Quotation salesperson"
+msgstr "Vendedor cotización"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__reversed
+msgid "Reversed"
+msgstr "Revertido"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__sales_team
+msgid "Sales Team"
+msgstr "Equipo de ventas"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__scheme_id
+msgid "Scheme"
+msgstr "Esquema"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__state
+msgid "Status"
+msgstr "Estado"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__usd_subtotal
+msgid "USD Subtotal"
+msgstr "Subtotal USD"
+
+#. module: pao_invoice_report
+#: model:ir.model,name:pao_invoice_report.model_invoice_report
+msgid "invoice.report"
+msgstr ""

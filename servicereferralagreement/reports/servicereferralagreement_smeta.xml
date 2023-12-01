@@ -85,7 +85,7 @@
                                         <p style="text-align:left;">
                                             <b>Fecha(s) acordada(s): </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/>
                                         </p>
-                                        <t t-set="sumtotal" t-value= "0"/>
+                                        <t t-set="sumtotal" t-value="0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
@@ -103,7 +103,7 @@
                                                 </t>
                                             </t>
                                             <tr>
-                                                <td></td>
+                                                <td/>
                                                 <td style="text-align:right"><b>Costo Total:</b></td>
                                                 <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
                                             </tr>
@@ -169,12 +169,12 @@
                                         <b>5. DESLINDAMIENTO DE RESPONSABILIDADES.</b> El Cliente reconoce 
                                         que Primus Auditing Ops está o puede contratar los servicios de 
                                         auditoría realizados para el Cliente. Debido a que un auditor 
-                                        subcontratado se dedica a su propio negocio de contratación 
+                                        independiente se dedica a su propio negocio de contratación 
                                         independiente y no es un empleado de Primus Auditing Ops, si 
-                                        Primus Auditing Ops deriva la auditoría a un subcontratista, 
+                                        Primus Auditing Ops deriva la auditoría a un independiente, 
                                         este no obtendrá seguro (responsabilidad profesional, compensación 
                                         de trabajadores, responsabilidad civil, automóvil, etc.) para el 
-                                        auditor o sus empleados. Los auditores subcontratados acuerdan 
+                                        auditor o sus empleados. Los auditores independientes acuerdan 
                                         mediante un acuerdo de responsabilidades separado, obtener su propia 
                                         cobertura de seguro y proporcionar una copia del certificado de seguro 
                                         a Primus Auditing Ops. Además, en aquellos casos en los que se 
@@ -236,7 +236,7 @@
                                         <br/>
                                         El cliente además acepta:
                                         <br/>
-                                        <ul style= "list-style-type: lower-latin">
+                                        <ul style="list-style-type: lower-latin">
                                             <li>
                                                 El cliente debe entregar el cuestionario de autoevaluación 
                                                 (SAQ) al menos 15 días antes de la fecha de la visita/auditoría 
@@ -285,7 +285,7 @@
                                                 El cliente se compromete a dar total acceso al auditor a la operación, los documentos 
                                                 y el personal auditados correspondientes durante la visita in situ para realizar 
                                                 la auditoría SMETA.
-                                                <ul style= "list-style-type: lower-roman">
+                                                <ul style="list-style-type: lower-roman">
                                                     <li>
                                                         Si un auditor no tiene acceso total, el auditor generará una alerta en todos 
                                                         los casos. Si el auditor puede ingresar al sitio, pero no puede acceder a la 
@@ -303,7 +303,7 @@
                                         <p>
                                         <b>8. RESULTADOS DE AUDITORÍA.</b> El Cliente debe cumplir con los 
                                         siguiente:
-                                        <ul style= "list-style-type: lower-latin">
+                                        <ul style="list-style-type: lower-latin">
                                             <li>El cliente se compromete a cumplir siempre con los requisitos de la metodología.</li>
                                             <li>El cliente deberá cumplir mediante la implementación de los cambios apropiados 
                                             cuando se comuniquen a través de Primus Auditing Ops al cliente.</li>
@@ -320,7 +320,7 @@
                                         <br/>
                                         <br/>
                                         <b>9. TÉRMINOS Y CONDICIONES.</b>  
-                                        <ul style= "list-style-type: lower-latin">
+                                        <ul style="list-style-type: lower-latin">
                                             <li>
                                                 <b>Terminación por causa justificada.</b> Este Acuerdo de servicio será indefinido y 
                                                 finalizará en el momento de la expiración de la Certificación del Cliente. 

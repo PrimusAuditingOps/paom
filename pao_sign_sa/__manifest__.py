@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'PAO SIGN SA',
-    'version': '1.0',
+    'version': '1.1',
     'author': 'samuel castro',
     'category': '',
     'website': 'https://paomx.com',
@@ -26,6 +26,7 @@
         'reports/sa_header_footer_haccp.xml',
         'reports/sa_header_footer_lpo_ue.xml',
         'reports/sa_header_footer_sustentabilidad.xml',
+        'reports/sa_header_footer_add_ggap.xml',
         
         # views
         'views/sa_portal_template.xml',
@@ -41,6 +42,7 @@
         'views/sale_order.xml',
         'views/sa_agreements_sent.xml',
         'views/sa_sustentabilidad_scheme.xml',
+        'views/sa_add_globalgap_scheme.xml',
     ],
     'assets': {
         'web.assets_frontend': [

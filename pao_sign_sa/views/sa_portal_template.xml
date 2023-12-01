@@ -125,6 +125,11 @@
                                 <t t-set="serviceagreement" t-value="rn"/>
                             </t>
                         </t>
+                        <t t-if="rn.scheme == 'Add-GLOBALG.A.P.'">
+                            <t t-call="pao_sign_sa.sa_add_globalgap_scheme">
+                                <t t-set="serviceagreement" t-value="rn"/>
+                            </t>
+                        </t>
                         <t t-set="flag" t-value="1"/>            
                     </div>
                    

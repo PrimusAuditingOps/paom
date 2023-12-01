@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="sa_ggap">
-         <div>
+          <div>
             <p>
                                         Acuerdo de Servicios de Certificación que celebran, por una 
                                         parte, <b>PRIMUS AUDITING OPERATIONS MÉXICO S DE RL DE CV</b>, 
@@ -12,7 +12,7 @@
                                         como las "Partes", al amparo de las siguientes declaraciones y 
                                         clausulas.
                                         </p>
-                                        <h3 style="text-align:center;font-weight:Bold;" >
+                                        <h3 style="text-align:center;font-weight:Bold;">
                                         DECLARACIONES
                                         </h3>
                                         <p>
@@ -109,7 +109,7 @@
                                                     </ul>
                                                 </li>
                                             </ul>
-                                        <h3 style="text-align:center;font-weight:Bold;" >
+                                        <h3 style="text-align:center;font-weight:Bold;">
                                         CLAUSULAS
                                         </h3>
                                         </p>
@@ -133,7 +133,7 @@
                                                 <td style="border:0px; background-color:white; width:50%;"><p><b>Tipo de Auditoría: </b><span t-field="line.registrynumber_id.type_of_audit"/></p></td>
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0"/>
+                                        <t t-set="sumtotal" t-value="0"/>
                                         <table style="width:100%">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
@@ -412,7 +412,7 @@
                                         Registrada, el GGN, el GLN, el Número CoC o el Logotipo Código QR. El presente Acuerdo se cancelará automáticamente, sin previa notificación, sí:
                                         </p>
                                         <p>
-                                        <ul style= "list-style-type: lower-latin">
+                                        <ul style="list-style-type: lower-latin">
                                             <li>Se cancela la Marca Registrada, el GGN, LGN, Número CoC o el Logotipo Código QR, y/o</li>
                                             <li>Se cancela el Acuerdo de Licencia y Certificación suscrito entre <b>“PAOMX”</b> y GLOBALG.A.P.</li>
                                         </ul>
@@ -455,43 +455,43 @@
                                         el <b><u><span t-field="line.service_date_string"/></u></b> en la Ciudad de Guadalajara, Jalisco, México.
 
                                         </p>
-                                        <table style="width:100%; border:0px;">
-                                            <tr>
-                                                <td style="border:0px; background-color:white; width:50%;">
-                                                    <p>
-                                                        <b>Por "PAOMX"</b> 
-                                                        <br/>
-                                                        <img class="img img-responsive" style="width:160px; height:90px;" src="/servicereferralagreement/static/src/img/firmajl.png"/>
-                                                        <br/>
-                                                        __________________________________
-                                                        <br/>
-                                                        <b>
-                                                        Javier Ledezma Pichardo
-                                                        <br/>
-                                                        Representante Legal
-                                                        </b>
-                                                    </p>
-                                                </td>
-                                                <td style="border:0px; background-color:white; width:50%;">
-                                                    <p>
-                                                        <b>Por "El Cliente"</b> 
-                                                        <br/>
-                                                        <br/>
-                                                        <br/>
-                                                        <br/>
-                                                        <br/>
-                                                        <br/>
-                                                        __________________________________
-                                                        <br/>
-                                                        <b>
-                                                        Nombre y Firma
-                                                        <br/>
-                                                        Representante Legal
-                                                        </b>
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
+            <table style="width:100%; border:0px;">
+                <tr>
+                    <td style="border:0px; background-color:white; width:50%;">
+                        <p>
+                            <b>Por "PAOMX"</b> 
+                            <br/>
+                            <img class="img img-responsive" style="width:160px; height:90px;" src="/servicereferralagreement/static/src/img/firmajl.png"/>
+                            <br/>
+                            __________________________________
+                            <br/>
+                            <b>
+                            Javier Ledezma Pichardo
+                            <br/>
+                            Representante Legal
+                            </b>
+                        </p>
+                    </td>
+                    <td style="border:0px; background-color:white; width:50%;">
+                        <p>
+                            <b>Por "El Cliente"</b> 
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            __________________________________
+                            <br/>
+                            <b>
+                            Nombre y Firma
+                            <br/>
+                            Representante Legal
+                            </b>
+                        </p>
+                    </td>
+                </tr>
+            </table>
         
         </div> 
     </template>

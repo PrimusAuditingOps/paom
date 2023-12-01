@@ -20,81 +20,75 @@
                     <div class="row">
                         <div class="col-12">
                             <p style="text-align:left;"><b>Nombre de la Organización("Cliente"): </b>
-                                <span t-field="serviceagreement.organization_name" />
+                                <span t-field="serviceagreement.organization_name"/>
                             </p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <p style="text-align:left;"><b>Cliente de Facturación: </b>
-                                <span t-field="serviceagreement.customer_name" />
+                                <span t-field="serviceagreement.customer_name"/>
                             </p>
                         </div>
                     </div>
-                    <br />
+                    <br/>
                     <div class="row">
 
                         <div class="col-3">
-                            <p style="text-align:left;"><b>RFC #: </b><span t-field="serviceagreement.customer_vat" /></p>
+                            <p style="text-align:left;"><b>RFC #: </b><span t-field="serviceagreement.customer_vat"/></p>
                         </div>
                         <div class="col-6">
-                            <p style="text-align:left;"><b>Número de Registro: </b><span t-field="serviceagreement.name" />
+                            <p style="text-align:left;"><b>Número de Registro: </b><span t-field="serviceagreement.name"/>
                             </p>
                         </div>
                         <div class="col-3">
                             <p style="text-align:left;"><b>País de Facturación: </b>México</p>
                         </div>
                     </div>
-                <br />
+                <br/>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:left;max-width:400px;"><b>Correo de Contrato: </b><span
-                                t-field="serviceagreement.contract_email" /></p>
+                        <p style="text-align:left;max-width:400px;"><b>Correo de Contrato: </b><span t-field="serviceagreement.contract_email"/></p>
                     </div>
                     <div class="col-6">
-                        <p style="text-align:left;max-width:400px;"><b>Telefono: </b><span
-                                t-field="serviceagreement.phone" /></p>
+                        <p style="text-align:left;max-width:400px;"><b>Telefono: </b><span t-field="serviceagreement.phone"/></p>
                     </div>
 
                 </div>
 
-                <br />
+                <br/>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:left;max-width:400px;"><b>Correo de Facturación: </b><span
-                                t-field="serviceagreement.invoice_email" /></p>
+                        <p style="text-align:left;max-width:400px;"><b>Correo de Facturación: </b><span t-field="serviceagreement.invoice_email"/></p>
                     </div>
                     <div class="col-6">
-                        <p style="text-align:left;max-width:400px;"><b>Fecha Tentativa: </b><span
-                                t-field="serviceagreement.start_date" /> - <span t-field="serviceagreement.end_date" /></p>
+                        <p style="text-align:left;max-width:400px;"><b>Fecha Tentativa: </b><span t-field="serviceagreement.start_date"/> - <span t-field="serviceagreement.end_date"/></p>
                     </div>
                 </div>
 
-                <br />
+                <br/>
 
                 <table class="table">
                     <thead class="thead-dark" style="text-align:center">
                         <tr>
                             <th scope="col">Servicios</th>
                             <th scope="col">Cantidad</th>
-                            <th scope="col">Tarifa de Auditoría (<span
-                                    t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id.name" />)</th>
+                            <th scope="col">Tarifa de Auditoría (<span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id.name"/>)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <t t-set="current_subtotal" t-value="0" />
+                        <t t-set="current_subtotal" t-value="0"/>
                         <tr t-foreach="serviceagreement.services_ids" t-as="service">
-                            <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal" />
-                            <td><span t-field="service.name" /></td>
-                            <td style="text-align:right;"><span t-field="service.product_uom_qty" /></td>
-                            <td style="text-align:right;"> <span t-field="service.price_subtotal" /></td>
+                            <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal"/>
+                            <td><span t-field="service.name"/></td>
+                            <td style="text-align:right;"><span t-field="service.product_uom_qty"/></td>
+                            <td style="text-align:right;"> <span t-field="service.price_subtotal"/></td>
                         </tr>
                         <tr>
                             <th style="text-align:right;" colspan="2" esc="row">Total Estimado</th>
                             <th style="text-align:right;" colspan="1" scope="row">
                             <strong class="mr16">
-                                 <span t-esc="current_subtotal"
-                                t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                 <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
                             </strong>
                             </th>
                         </tr>
@@ -111,7 +105,7 @@
                     Gastos estimados de viaje: Los honorarios de viaje son estimados
                     y están sujetos a cambios basados en los costos de viaje reales
                     incurridos.
-                    <br />
+                    <br/>
                     Los gastos de viaje son directamente reembolsados e incluyen todos
                     los gastos de transporte, alojamiento y comidas. Cada vez que es
                     posible dichos viajes son combinados con visitas a otros clientes
@@ -133,8 +127,8 @@
                     Azzule. Si el Cliente no presenta acciones correctivas dentro de esa
                     ventana de 30 días, la auditoría se considera cerrada y no habrá
                     posibilidad de modificar el nivel de cumplimiento del Cliente.
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <b>Una vez que el Cliente obtenga la certificación bajo</b> el estándar
                     de Sustentabilidad TM y sus reglamentaciones generales, Primus Auditing
                     Ops emitirá al Cliente un certificado que indique el cumplimiento del
@@ -236,11 +230,11 @@
                 <p>
                     <b>9. DERECHO DE REFERENCIA.</b> El Cliente reconoce que Primus Auditing Ops es, o puede, contratar los
                     servicios de auditoría realizados para el Cliente. Debido a que un auditor
-                    contratado se dedica a su propio negocio de contratación independiente y
+                    independiente se dedica a su propio negocio de contratación independiente y
                     no es un empleado de Primus Auditing Ops, Primus Auditing Ops no obtendrá
                     un seguro (responsabilidad profesional, compensación de trabajadores,
                     responsabilidad general, automóvil, etc.) para el auditor. o sus empleados.
-                    Los auditores contratados acuerdan mediante un acuerdo de referencia por
+                    Los auditores independientes acuerdan mediante un acuerdo de referencia por
                     separado obtener su propia cobertura de seguro y proporcionar una copia
                     del certificado de seguro a Primus Auditing Ops. Además, en aquellos casos en
                     los que se contrate a un auditor, Primus Auditing Ops actuará en calidad
@@ -331,36 +325,31 @@
                     </div>
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.partner_id.name" /></b>
+                            <b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.partner_id.name"/></b>
                         </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}"
-                                t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)"
-                                t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature" />
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
                         </p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <img class="img img-responsive" style="width:327px; heigth:327px;"
-                                t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)"
-                                t-if="serviceagreement.sign_sa_agreements_id.signature" />
+                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
                         </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Firmado por: </b><span t-field="serviceagreement.coordinator_id.name" />
+                            <b>Firmado por: </b><span t-field="serviceagreement.coordinator_id.name"/>
                         </p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Firmado por: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name"
-                                t-if="serviceagreement.sign_sa_agreements_id.signer_name" />
+                            <b>Firmado por: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name" t-if="serviceagreement.sign_sa_agreements_id.signer_name"/>
                         </p>
                     </div>
                 </div>
@@ -372,20 +361,19 @@
                     </div>
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Posición: </b><span t-field="serviceagreement.sign_sa_agreements_id.position" />
+                            <b>Posición: </b><span t-field="serviceagreement.sign_sa_agreements_id.position"/>
                         </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Fecha: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date" />
+                            <b>Fecha: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
                         </p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date"
-                                t-if="serviceagreement.sign_sa_agreements_id.signature_date" />
+                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date" t-if="serviceagreement.sign_sa_agreements_id.signature_date"/>
                         </p>
                     </div>
                 </div>
@@ -405,11 +393,11 @@
                     incorporados al Acuerdo de Servicios de Auditoría de Sostenibilidad
                     de Primus Auditing Operations por y entre Primus Auditing Ops y el
                     Cliente (el "Acuerdo").
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <b>Marcas de conformidad</b>
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     IPM Institute of North America, Inc., dba Sustainable Food Group
                     es el propietario legal de la marca comercial y el nombre "Sustainability
                     StandardTM" y el logotipo que la acompaña (colectivamente, "Sustainability
@@ -432,13 +420,13 @@
                         de empresa a empresa (comunicados de prensa, publicaciones en redes sociales,
                         sitios web, etc.), siempre que se especifique la operación y el cultivo certificado.
                     </li>
-                    <br />
+                    <br/>
                     <li>
                         El uso de la marca comercial Sustainability Standard no aparecerá en el
                         producto ni en el empaque del consumidor, ni se utilizará en el punto de
                         venta en conexión directa con productos individuales.
                     </li>
-                    <br />
+                    <br/>
                     <li>
                         El Cliente, como operación certificada, solo utilizará la Marca
                         comercial estándar de sostenibilidad de manera consistente con
@@ -448,11 +436,11 @@
                         usar el Logotipo de cualquier manera que indique o implique lo
                         contrario:
                         <ul type="a">
-                            <br />
+                            <br/>
                             <li>Esto requiere que el Cliente esté al día en el pago de todas
                                 las tarifas por el Cliente a Primus Auditing Ops y
                                 Sustainable Food Group.</li>
-                            <br />
+                            <br/>
                         </ul>
                     </li>
                     <li>
@@ -462,19 +450,19 @@
                         usarse de manera consistente con los requisitos de Sustainability
                         StandardTM.
                     </li>
-                    <br />
+                    <br/>
                     <li>El cliente deberá colaborar en todo momento con Sustainable
                         Food Group y sus agentes (incluido Primus Auditing Ops)
                         para permitir un acceso razonable para verificar el cumplimiento
                         de estos requisitos.
                     </li>
-                    <br />
+                    <br/>
                     <li>Sustainable Food Group o Primus Auditing Ops pueden suspender
                         la sublicencia del Cliente para el uso de la marca comercial
                         Sustainability Standard si, a criterio exclusivo de Sustainable
                         Food Group o Primus Auditing Ops, determina que:
                         <ul type="a">
-                            <br />
+                            <br/>
                             <li>El cliente no cumple con las reglas.</li>
                             <li>El cliente no cumple con los requisitos de recertificación.</li>
                             <li>El cliente usa el logotipo de una manera que va en detrimento
@@ -494,7 +482,7 @@
                                 Sustainability Standard.</li>
                         </ul>
                     </li>
-                    <br />
+                    <br/>
                     <li>Además de la suspensión o revocación del uso de la Marca comercial
                         estándar de sostenibilidad como se describe en la Sección 6.d. anterior,
                         una violación del uso de la marca comercial Sustainability Standard,
@@ -515,8 +503,8 @@
                 <p>
                     Nada de lo aquí dispuesto se interpretará como una exención de las
                     partes de sus respectivas obligaciones en virtud del Acuerdo.
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                 </p>
 
                 <div class="row">
@@ -539,36 +527,31 @@
                     </div>
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.partner_id.name" /></b>
+                            <b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.partner_id.name"/></b>
                         </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}"
-                                t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)"
-                                t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature" />
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
                         </p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <img class="img img-responsive" style="width:327px; heigth:327px;"
-                                t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)"
-                                t-if="serviceagreement.sign_sa_agreements_id.signature" />
+                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
                         </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Firmado por: </b><span t-field="serviceagreement.coordinator_id.name" />
+                            <b>Firmado por: </b><span t-field="serviceagreement.coordinator_id.name"/>
                         </p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Firmado por: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name"
-                                t-if="serviceagreement.sign_sa_agreements_id.signer_name" />
+                            <b>Firmado por: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name" t-if="serviceagreement.sign_sa_agreements_id.signer_name"/>
                         </p>
                     </div>
                 </div>
@@ -580,31 +563,29 @@
                     </div>
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Posición: </b><span t-field="serviceagreement.sign_sa_agreements_id.position" />
+                            <b>Posición: </b><span t-field="serviceagreement.sign_sa_agreements_id.position"/>
                         </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.document_date"
-                                widget="date" />
+                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.document_date" widget="date"/>
                         </p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date"
-                                t-if="serviceagreement.sign_sa_agreements_id.signature_date" />
+                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date" t-if="serviceagreement.sign_sa_agreements_id.signature_date"/>
                         </p>
                     </div>
                 </div>
 
                 <div style="text-align: center;" t-if="print == False">
-                    <hr class="mt-0 mb-1" style="border-top: 1px solid" />
+                    <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
                     <ul class="list-inline" style="text-align: center;">
                         <li class="list-inline-item">Primus Auditing Ops Documento Confidencial</li>
                         <li class="list-inline-item">Cert-008-1s</li>
-                        <li class="list-inline-item">Rev.0 11/1/2022</li>
+                        <li class="list-inline-item">Rev.1 10/02/2023</li>
                     </ul>
                 </div>
             </div>

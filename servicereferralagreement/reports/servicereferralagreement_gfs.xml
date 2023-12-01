@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="sa_gfs">
-         <div>
+        <div>
             <h1>ACUERDO DE 
                                         SERVICIOS DE PRIMUS AUDITING OPERATIONS <br/>PARA AUDITORÍA 
                                         PRIMUSGFS</h1>
@@ -53,7 +53,7 @@
                                                 
                                             </tr>
                                         </table>
-                                        <t t-set="sumtotal" t-value= "0"/>
+                                        <t t-set="sumtotal" t-value="0"/>
                                         <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
                                             <tr style="background-color: black; color:white;">
                                                 <th>Servicios</th>
@@ -164,16 +164,16 @@
                                         El Cliente reconoce que Primus 
                                         Auditing Ops contrata o podría contratar los servicios de 
                                         auditores para atender a sus clientes. Debido a que los 
-                                        auditores contratados están dedicados a sus propios negocios de 
+                                        auditores independientes están dedicados a sus propios negocios de 
                                         contratación independientes y no son empleados de Primus 
                                         Auditing Ops, Primus Auditing Ops no contratara un seguro (de 
                                         responsabilidad profesional, compensación de trabajadores, 
                                         responsabilidad general, auto, etc.) para el auditor y sus 
-                                        empleados. Los auditores contratados están de acuerdo mediante 
+                                        empleados. Los auditores independientes están de acuerdo mediante 
                                         un acuerdo de referencia a obtener cobertura de seguro propia y 
                                         presentar una copia de este certificado a Primus Auditing Ops. 
                                         Por otra parte, en aquellos casos en los que se haga uso de un 
-                                        auditor contratado, Primus Auditing Ops estará actuando en la 
+                                        auditor independiente, Primus Auditing Ops estará actuando en la 
                                         sola capacidad de contratista independiente y cualquier 
                                         información o datos recibidos serán transmitidos únicamente 
                                         entre las partes, sin emitir juicios, representaciones 
@@ -499,7 +499,7 @@
                                         </p>
                                         <table style="width:100%; border:0px;">
                                             <tr>
-                                               <td  width="50%" style="border:0px; background-color:white;">
+                                               <td width="50%" style="border:0px; background-color:white;">
                                                     <p t-if="line.coordinator_id.employee_id.es_sign_signature">
                                                         <b>"PRIMUS AUDITING OPS"
                                                         <br/>
@@ -533,7 +533,7 @@
                                                         Fecha: <span t-field="line.service_date"/>
                                                     </p>
                                                 </td>
-                                                <td  width="50%" style="border:0px; background-color:white;">
+                                                <td width="50%" style="border:0px; background-color:white;">
                                                     <p>
                                                         <b>"PARTE CONTRATANTE"
                                                         <br/>

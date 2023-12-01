@@ -6,6 +6,9 @@
                 <div class="col-6">
                     <img src="/pao_sign_sa/static/src/img/logo.png" style="width:230px; height:60px" alt="Logo"/>
                 </div>
+                <div class="col-6" style="text-align:right;">
+                    <p>2811 Airpark Drive<br/>Santa Maria, CA 93455<br/>805.623.5563</p>
+                </div>
             </div>
         </div>
         <div t-attf-class="footer o_boxed_footer">
@@ -13,7 +16,7 @@
                 <ul class="list-inline">
                     <li class="list-inline-item">Primus Auditing Ops Documento Confidencial</li>
                     <li class="list-inline-item">Cert-008-1s</li>
-                    <li class="list-inline-item">Rev.0 11/1/2022</li>
+                    <li class="list-inline-item">Rev.1 10/02/2023</li>
                 </ul>
                 <div t-if="report_type == 'pdf'">
                     Página: <span class="page"/> / <span class="topage"/>

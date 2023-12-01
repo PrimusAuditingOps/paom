@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_add_globalgap_scheme">
+        <div id="portal_sa_globalgap_content" t-attf-class="#{'card pb-5' if not print else ''}">
+            <div id="introduction" class="pb-2 pt-3 card-header bg-white" style="text-align: center;" t-if="print == False">
+                <h3>
+                    <b>A1. ACUERDO DE CARGOS COMPLEMENTARIOS</b>
+                </h3>
+            </div>
+            <div class="card-body">
+                <p>
+                    Acuerdo de Cargos Complementarios que celebran, por una 
+                    parte, <b>PRIMUS AUDITING OPERATIONS MÉXICO S DE RL DE CV</b>, 
+                    a quien en lo sucesivo y para los efectos de este acuerdo se 
+                    le denominará <b>"PAOMX"</b> y, por la otra parte; 
+                    <b><u><span t-field="serviceagreement.organization_name"/></u></b>, 
+                    en lo sucesivo referido como <b>"El Cliente"</b>, y en su conjunto 
+                    como las <b>"Partes"</b>, al amparo de las siguientes declaraciones y 
+                    cláusulas.
+                </p>
+                <p>
+                    Los cargos adicionales del presente acuerdo se derivan de modificaciones 
+                    y/o servicios adicionales identificados durante la evaluación del estándar 
+                    correspondiente respecto a la solicitud inicial de los servicios. Dichos 
+                    cargos adicionales no se encuentran considerados en el 
+                    <b>Acuerdo de Servicios de Certificación (FAN-05)</b> GLOBALG.A.P. celebrado 
+                    por las <b>"Partes"</b> durante la solicitud inicial del servicio. 
+                    <b>"El Cliente"</b> se obliga a cubrir los cargos correspondientes conforme a 
+                    las siguientes cláusulas:
+                </p>
+                <h4 style="text-align:center;font-weight:Bold;">
+                    CLÁUSULAS
+                </h4>
+                <p>
+                    <b>PRIMERA. -HONORARIOS. -</b> Los honorarios que de común acuerdo pactan las Partes, a favor de <b>"PAOMX"</b> por sus servicios 
+                    profesionales y a cargo de <b>"El Cliente"</b> son las siguientes cantidades, las cuales corresponden a un cargo adicional a lo ya 
+                    enunciado en el <b>Acuerdo de Servicios de Certificación (FAN-05)</b> y las cuales deberán ser cubiertas en un plazo no mayor a 5 
+                    días hábiles siguientes a la emisión del presente acuerdo:
+                </p>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Fecha de Auditoría: </b><span t-field="serviceagreement.start_date"/> - <span t-field="serviceagreement.end_date"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Número de registro: </b><span t-field="serviceagreement.name"/></p>
+                    </div>
+                </div>
+                <br/>
+                <table class="table">
+                    <thead class="thead-dark" style="text-align:center">
+                        <tr>
+                            <th scope="col">Servicios</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Tarifa(<span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id.name"/>)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <tr t-foreach="serviceagreement.services_ids" t-as="service">
+                            <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal"/>
+                            <td>
+                                <span t-field="service.name"/>
+                            </td>
+                            <td style="text-align:right;">
+                                <span t-field="service.product_uom_qty"/>
+                            </td>
+                            <td style="text-align:right;">
+                                <span t-field="service.price_subtotal"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right;" colspan="2" esc="row">Total del servicio (sin IVA)</th>
+                            <th style="text-align:right;" colspan="1" scope="row">
+                                <strong class="mr16">
+                                    <span t-esc="current_subtotal" 
+                                    t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                </strong>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    <b>SEGUNDA. -VIGENCIA. -</b> El presente <b>Acuerdo de Cargos Complementarios (A1)</b> estará vigente a partir de la firma del mismo, 
+                    en conjunto con lo ya estipulado en el <b>Acuerdo de Servicios de Certificación (FAN-05)</b> y tendrá la misma vigencia de conformidad 
+                    a la ahí señalada.
+                </p>
+                <p>
+                    <b>TERCERA. -INCUMPLIMIENTO DE OBLIGACIONES</b> El incumplimiento de cualquiera de las obligaciones contenidas en el presente acuerdo 
+                    por cualquiera de las partes, dará lugar a la parte afectada a dar por terminado el <b>Acuerdo de Servicios de Certificación (FAN-05)</b> 
+                    y el presente acuerdo, sin necesidad de declaración judicial, indemnización o reembolso de los pagos previos realizados por <b>“El Cliente”</b> 
+                    por concepto de la prestación del servicio. En caso de incumplimiento de este acuerdo, se podrán tomar las medidas necesarias que 
+                    <b>“PAOMx"</b> considere pertinentes dentro del marco normativo y regulatorio aplicable.
+                </p>
+                <div style="page-break-after: always;">
+                </div>
+                <p>
+                    <b>CUARTA. -DOMICILIO Y NOTIFICACIONES. - “Las Partes”</b> señalan como sus domicilios los establecidos en el 
+                    <b>Acuerdo de Servicios de Certificación (FAN-05)</b>. Los avisos o notificaciones deberán ser por escrito y se considerarán 
+                    debidamente practicados si se entregan en persona o por correo certificado con acuse de recibo en dichas direcciones, debiéndose 
+                    dirigir a las personas que las partes autoricen para tal efecto.
+                </p>
+                <p>
+                    Las Partes en el presente acuerdo se obligan a notificarse recíprocamente de cualquier cambio en los domicilios antes señalados, en el 
+                    entendido que de no recibir comunicación alguna que informe la circunstancia anterior, cualquier notificación o aviso practicado en 
+                    dichos domicilios se entenderá válidamente realizado, sufriendo plenamente todos sus efectos jurídicos.
+                </p>
+                <p>
+                    Enteradas las partes de su contenido y fuerza legal, lo firman de conformidad, por duplicado el 
+                    <b><u><span t-field="serviceagreement.sign_sa_agreements_id.date_complete_spanish"/></u></b> 
+                    en la Ciudad de Guadalajara, Jalisco, México.
+                </p>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Por "PAOMX"</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Por "El Cliente"</b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:160px; height:90px;" src="/pao_sign_sa/static/src/img/firmajl.png"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width: 327px; heigth: 327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="pt-1 mx-4" style="text-align:center; border: none;border-top: 1px solid black;">
+                            <b>Javier Ledezma Pichardo</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p class="pt-1 mx-4" style="text-align:center; border: none;border-top: 1px solid black;">
+                            <b>Nombre y Firma</b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Representante Legal</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>Representante Legal</b>
+                        </p>
+                    </div>
+                </div>
+
+
+                <div style="text-align: center !important;" t-if="print == False">
+                    <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
+                    <ul class="list-inline" style="text-align: center !important;">
+                        <li class="list-inline-item">Elaborado Por: F. Valencia</li>
+                        <li class="list-inline-item">Revisado Por: L. Muñoz</li>
+                        <li class="list-inline-item">Aprobado Por: J. Ledezma</li>
+                    </ul>
+                    <ul class="list-inline" style="text-align: center !important;">
+                        <li class="list-inline-item">Edición Original: 16 Nov. 2023</li>
+                        <li class="list-inline-item">Revisión: 00</li>
+                        <li class="list-inline-item">Emisión: 27 Jun. 2023</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </template>
+</odoo>

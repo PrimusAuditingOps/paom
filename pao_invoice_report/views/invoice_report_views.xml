@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_invoice_tree" model="ir.ui.view">
+        <field name="name">invoice.report.tree</field>
+        <field name="model">invoice.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="invoice_number"/>
+                <field name="client_id"/>
+                <field name="group"/>
+                <field name="promoter"/>
+                <field name="product"/>
+                <field name="quantity"/>
+                <field name="usd_subtotal"/>
+                <field name="mxn_subtotal"/>
+                <field name="invoice_partner_name"/>
+                <field name="fiscal_folio"/>
+                <field name="invoice_date"/>
+                <field name="invoice_date_due"/>
+                <field name="invoice_salesperson"/>
+                <field name="sales_team"/>
+                <field name="category_id"/>
+                <field name="scheme_id"/>
+                <field name="origin"/>
+                <field name="quotation_salesperson"/>
+                <!-- <field name="amount_untaxed"/>
+                <field name="amount_total"/> -->
+                <field name="state"/>
+                <field name="payment_state"/>
+                <!-- <field name="usd_net"/>
+                <field name="usd_total"/>
+                <field name="mxn_net"/>
+                <field name="mxn_total"/> -->
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_action_invoice_report" model="ir.actions.act_window">
+        <field name="name">Invoice Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">invoice.report</field>
+        <field name="view_mode">tree</field>
+        <!-- <field name="view_id"></field> -->
+        <!-- <field name="help">This report performs analysis on your Service Agreements sales orders. Check your Sales Agreements and sort it by different group criteria (coordinator, organization, service start date, service end date, etc.).</field> -->
+    </record>
+
+</odoo>

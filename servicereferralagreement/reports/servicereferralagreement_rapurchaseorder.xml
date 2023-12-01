@@ -29,7 +29,7 @@
                                         <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS' or line.registrynumber_id.scheme_id.name == 'SMETA' or line.registrynumber_id.scheme_id.name == 'NOP' or line.registrynumber_id.scheme_id.name == 'Primus Standard GAP' or line.registrynumber_id.scheme_id.name == 'Primus Standard GMP'">
                                             <h2 style="text-align:center;font-weight:Bold;">ACUERDO DE 
                                             SERVICIOS DE PRIMUS AUDITING OPERATIONS MÉXICO, S. DE R.L. DE C.V. 
-                                            PARA AUDITORES SUBCONTRATADOS</h2>
+                                            PARA AUDITORES INDEPENDIENTES</h2>
                                         </t>
                                         <p style="text-align:justify;">
                                             A través de éste medio <b><span t-field="doc.partner_id"/></b> 
@@ -112,7 +112,7 @@
                                         <p style="text-align:left;">
                                             <b>IMPORTE TOTAL DEL SERVICIO 
                                             <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
-                                            M.N. (Menos retenciones).</b>
+                                            M.N. (Menos impuestos).</b>
                                         </p>
                                         <div style="page-break-after: always;">
                                         </div>
@@ -121,7 +121,7 @@
                                             Primus Auditing Operations México, S. de R.L. de C.V. 
                                             reembolsará al auditor los gastos ocasionados por la prestación del servicio 
                                             estrictamente indispensables de acuerdo a la LISR <b>vigente</b>, (excepto en acuerdos 
-                                            específicos para Costco). <u><b>Para que surta efecto su reembolso, el auditor subcontratado 
+                                            específicos para Costco). <u><b>Para que surta efecto su reembolso, el auditor independiente 
                                             deberá de realizar los gastos a su propia Razón Social y posteriormente hacer una 
                                             factura por el total de los gastos a nombre de Primus Auditing Operations México, S. 
                                             de R.L. de C.V., domicilio Avenida Lázaro Cárdenas Número Exterior 3478 Colonia Chapalita, 
@@ -176,7 +176,7 @@
                                                 días mencionados en éste párrafo.</b></u> Si en el evento, el reporte de 
                                                 auditoría no es entregado a Primus Auditing Operations México, S. 
                                                 de R.L. de C.V. de acuerdo a lo anterior, la sanción será 
-                                                determinada a una tasa del 5% sobre la cantidad que aparece en el 
+                                                determinada a una tasa del 10% sobre la cantidad que aparece en el 
                                                 presente acuerdo con Primus Auditing Operations México, S. de R.L. 
                                                 de C.V. por cada día de retraso; hasta que el reporte sea entregado 
                                                 a Primus Auditing Operations México, S. de R.L. de C.V. 
@@ -185,7 +185,7 @@
                                             </p>
                                             <p style="text-align:justify;">
                                                 Ejemplo: Un contrato en el que el pago original sea $1,000, la 
-                                                sanción sería de $50 menos por día sobre la cantidad que se le 
+                                                sanción sería de $100 menos por día sobre la cantidad que se le 
                                                 iba a pagar al auditor. Primus Auditing Operations México, 
                                                 S. de R.L. de C.V. considerará en un futuro utilizar los servicios 
                                                 del auditor debido a la entrega tardía de resultados.
@@ -209,7 +209,7 @@
                                             contra de la Compañía.</b></u> 
                                         </p>
                                         <p style="text-align:justify;">
-                                            El auditor declara que en la ejecución del servicio contratado, 
+                                            El auditor declara que en la ejecución del servicio independiente, 
                                             no existe ninguna subordinación o dependencia laboral entre 
                                             Primus Auditing Operations México, S. de R.L. de C.V. y el 
                                             prestador de servicios.

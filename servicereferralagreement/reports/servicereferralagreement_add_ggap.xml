@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_add_ggap">
+        <div>
+            <p>
+                Acuerdo de Cargos Complementarios que celebran, por una 
+                parte, <b>PRIMUS AUDITING OPERATIONS MÉXICO S DE RL DE CV</b>, 
+                a quien en lo sucesivo y para los efectos de este acuerdo se 
+                le denominará <b>"PAOMX"</b> y, por la otra parte; 
+                <b><u><span t-field="line.organization_id"/></u></b>, 
+                en lo sucesivo referido como <b>"El Cliente"</b>, y en su conjunto 
+                como las <b>"Partes"</b>, al amparo de las siguientes declaraciones y 
+                cláusulas.
+            </p>
+            <p>
+                Los cargos adicionales del presente acuerdo se derivan de modificaciones 
+                y/o servicios adicionales identificados durante la evaluación del estándar 
+                correspondiente respecto a la solicitud inicial de los servicios. Dichos 
+                cargos adicionales no se encuentran considerados en el 
+                <b>Acuerdo de Servicios de Certificación (FAN-05)</b> GLOBALG.A.P. celebrado 
+                por las <b>"Partes"</b> durante la solicitud inicial del servicio. 
+                <b>"El Cliente"</b> se obliga a cubrir los cargos correspondientes conforme a 
+                las siguientes cláusulas:
+            </p>
+            <h4 style="text-align:center;font-weight:Bold;" >
+                CLÁUSULAS
+            </h4>
+            <p>
+                <b>PRIMERA. -HONORARIOS. -</b> Los honorarios que de común acuerdo pactan las Partes, a favor de <b>"PAOMX"</b> por sus servicios 
+                profesionales y a cargo de <b>"El Cliente"</b> son las siguientes cantidades, las cuales corresponden a un cargo adicional a lo ya 
+                enunciado en el <b>Acuerdo de Servicios de Certificación (FAN-05)</b> y las cuales deberán ser cubiertas en un plazo no mayor a 5 
+                días hábiles siguientes a la emisión del presente acuerdo:
+            </p>
+            <table style="width:100%; border:0px;">
+                <tr>
+                    <td style="border:0px; background-color:white; width:50%;"><p><b>Fecha de Auditoría: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
+                    <td style="border:0px; background-color:white; width:50%;"><p><b>Número de registro: </b><span t-field="line.registrynumber_id"/></p></td>
+                </tr>
+            </table>
+            <t t-set="sumtotal" t-value= "0"/>
+            <table style="width:100%">
+                <tr style="background-color: black; color:white;">
+                    <th>Servicios</th>
+                    <th>Cantidad</th>
+                    <th>Tarifa (<span t-field="doc.pricelist_id.currency_id"/>)</th>
+                </tr>
+                <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="serviceline">
+                    <t t-if="serviceline.registrynumber_id.id == registrynumber and serviceline.organization_id.id == organization">
+                        <tr>
+                            <td><span t-field="serviceline.name"/></td>
+                            <td style="text-align:right"><span t-field="serviceline.product_uom_qty"/></td>
+                            <td style="text-align:right"><span t-field="serviceline.price_subtotal"/></td>
+                        </tr>
+                        <t t-set="sumtotal" t-value="sumtotal+serviceline.price_subtotal"/>
+                    </t>
+                </t>
+                <tr>
+                    <td/>
+                    <td style="text-align:right"><b>Total del servicio (sin IVA):</b></td>
+                    <td style="text-align:right"><span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/></td>
+                </tr>
+            </table>
+            <p>
+                <b>SEGUNDA. -VIGENCIA. -</b> El presente <b>Acuerdo de Cargos Complementarios (A1)</b> estará vigente a partir de la firma del mismo, 
+                en conjunto con lo ya estipulado en el <b>Acuerdo de Servicios de Certificación (FAN-05)</b> y tendrá la misma vigencia de conformidad 
+                a la ahí señalada.
+            </p>
+            <p>
+                <b>TERCERA. -INCUMPLIMIENTO DE OBLIGACIONES</b> El incumplimiento de cualquiera de las obligaciones contenidas en el presente acuerdo 
+                por cualquiera de las partes, dará lugar a la parte afectada a dar por terminado el <b>Acuerdo de Servicios de Certificación (FAN-05)</b> 
+                y el presente acuerdo, sin necesidad de declaración judicial, indemnización o reembolso de los pagos previos realizados por <b>“El Cliente”</b> 
+                por concepto de la prestación del servicio. En caso de incumplimiento de este acuerdo, se podrán tomar las medidas necesarias que 
+                <b>“PAOMx"</b> considere pertinentes dentro del marco normativo y regulatorio aplicable.
+            </p>
+            <div style="page-break-after: always;">
+            </div>
+            <p>
+                <b>CUARTA. -DOMICILIO Y NOTIFICACIONES. - “Las Partes”</b> señalan como sus domicilios los establecidos en el 
+                <b>Acuerdo de Servicios de Certificación (FAN-05)</b>. Los avisos o notificaciones deberán ser por escrito y se considerarán 
+                debidamente practicados si se entregan en persona o por correo certificado con acuse de recibo en dichas direcciones, debiéndose 
+                dirigir a las personas que las partes autoricen para tal efecto.
+            </p>
+            <p>
+                Las Partes en el presente acuerdo se obligan a notificarse recíprocamente de cualquier cambio en los domicilios antes señalados, en el 
+                entendido que de no recibir comunicación alguna que informe la circunstancia anterior, cualquier notificación o aviso practicado en 
+                dichos domicilios se entenderá válidamente realizado, sufriendo plenamente todos sus efectos jurídicos.
+            </p>
+            <p>
+                Enteradas las partes de su contenido y fuerza legal, lo firman de conformidad, por duplicado el 
+                <b><u><span t-field="line.service_date_string"/></u></b> 
+                en la Ciudad de Guadalajara, Jalisco, México.
+            </p>
+            <table style="width:100%; border:0px;">
+                <tbody style="display:flex; justify-content: center; text-align: center;">
+                    <tr style="text-align: center;">
+                        <td style="border:0px; background-color:white; width:50%;">
+                            <p class="mx-4">
+                                <b>Por "PAOMX"</b> 
+                                <br/>
+                                <img class="img img-responsive" style="width:160px; height:90px;" src="/servicereferralagreement/static/src/img/firmajl.png"/>
+                                <br/>
+                                __________________________________
+                                <br/>
+                                <b>
+                                Javier Ledezma Pichardo
+                                <br/>
+                                Representante Legal
+                                </b>
+                            </p>
+                        </td>
+                        <td style="border:0px; background-color:white; width:50%;">
+                            <p class="mx-4">
+                                <b>Por "El Cliente"</b> 
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                __________________________________
+                                <br/>
+                                <b>
+                                Nombre y Firma
+                                <br/>
+                                Representante Legal
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        
+        </div> 
+    </template>
+</odoo>

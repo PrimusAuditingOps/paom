@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="sa_sustentabilidad">
-        <div>
+         <div>
             <h1>PRIMUS AUDITING OPERATIONS
-                <br />
+                <br/>
 ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             </h1>
 
@@ -17,24 +17,24 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             </p>
             <p>
                 <b>Nombre de la Organización("Cliente"): </b>
-                <span t-field="line.organization_id" />
-                <br />
+                <span t-field="line.organization_id"/>
+                <br/>
                 <b>Cliente de Facturación: </b>
-                <span t-field="doc.partner_id" />
+                <span t-field="doc.partner_id"/>
             </p>
-            <br />
+            <br/>
             <table style="width:100%; border:0px;">
                 <tr>
                     <td style="border:0px; background-color:white; width:50%;max-width:400px;">
                         <p style="text-align:left;max-width:400px;">
                             <b>RFC #: </b>
-                            <span t-field="doc.partner_id.vat" />
+                            <span t-field="doc.partner_id.vat"/>
                         </p>
                     </td>
                     <td style="border:0px; background-color:white; width:50%;max-width:400px;">
                         <p style="text-align:left;max-width:400px;">
                             <b>Número de Registro: </b>
-                            <span t-field="line.registrynumber_id" />
+                            <span t-field="line.registrynumber_id"/>
                         </p>
                     </td>
                 </tr>
@@ -49,13 +49,13 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
                     <td style="border:0px; background-color:white; width:50%;max-width:400px;">
                         <p style="text-align:left;max-width:400px;">
                             <b>Correo de Contrato: </b>
-                            <span t-field="line.registrynumber_id.contract_email" />
+                            <span t-field="line.registrynumber_id.contract_email"/>
                         </p>
                     </td>
                     <td style="border:0px; background-color:white; width:50%;max-width:400px;">
                         <p style="text-align:left;max-width:400px;">
                             <b>Telefono: </b>
-                            <span t-field="line.registrynumber_id.phone" />
+                            <span t-field="line.registrynumber_id.phone"/>
                         </p>
                     </td>
 
@@ -64,49 +64,49 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
                     <td style="border:0px; background-color:white; width:50%;max-width:400px;">
                         <p style="text-align:left;max-width:400px;">
                             <b>Correo de Facturación: </b>
-                            <span t-field="doc.partner_id.email" />
+                            <span t-field="doc.partner_id.email"/>
                         </p>
                     </td>
                     <td style="border:0px; background-color:white; width:50%;max-width:400px;">
                         <p style="text-align:left;max-width:400px;">
                             <b>Fecha Tentativa: </b>
-                            <span t-field="line.service_start_date" />
- -                            <span t-field="line.service_end_date" />
+                            <span t-field="line.service_start_date"/>
+ -                            <span t-field="line.service_end_date"/>
                         </p>
                     </td>
 
                 </tr>
             </table>
-            <t t-set="sumtotal" t-value="0" />
+            <t t-set="sumtotal" t-value="0"/>
             <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
                 <tr style="background-color: black; color:white;">
                     <th>Servicios</th>
                     <th>Cantidad</th>
-                    <th>Tarifa de Auditoría (<span t-field="doc.pricelist_id.currency_id" />)</th>
+                    <th>Tarifa de Auditoría (<span t-field="doc.pricelist_id.currency_id"/>)</th>
                 </tr>
                 <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="serviceline">
                     <t t-if="serviceline.registrynumber_id.id == registrynumber and serviceline.organization_id.id == organization">
                         <tr>
                             <td>
-                                <span t-field="serviceline.name" />
+                                <span t-field="serviceline.name"/>
                             </td>
                             <td style="text-align:right">
-                                <span t-field="serviceline.product_uom_qty" />
+                                <span t-field="serviceline.product_uom_qty"/>
                             </td>
                             <td style="text-align:right">
-                                <span t-field="serviceline.price_subtotal" />
+                                <span t-field="serviceline.price_subtotal"/>
                             </td>
                         </tr>
-                        <t t-set="sumtotal" t-value="sumtotal+serviceline.price_subtotal" />
+                        <t t-set="sumtotal" t-value="sumtotal+serviceline.price_subtotal"/>
                     </t>
                 </t>
                 <tr>
-                    <td></td>
+                    <td/>
                     <td style="text-align:right">
                         <b>Total Estimado:</b>
                     </td>
                     <td style="text-align:right">
-                        <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}" />
+                        <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/>
                     </td>
                 </tr>
             </table>
@@ -119,14 +119,14 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             Gastos estimados de viaje: Los honorarios de viaje son estimados
             y están sujetos a cambios basados en los costos de viaje reales
             incurridos.
-                <br />
+                <br/>
             Los gastos de viaje son directamente reembolsados e incluyen todos
             los gastos de transporte, alojamiento y comidas. Cada vez que es
             posible dichos viajes son combinados con visitas a otros clientes
             y los gastos son divididos entre todos para reducir el costo total
             para cada uno de ellos.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>1. SERVICIOS Y ENTREGA.</b> Primus Auditing Ops llevará a cabo
             una inspección y auditoría de las operaciones del Cliente para el
             esquema estándar de sostenibilidad del grupo de alimentos sostenibles
@@ -141,8 +141,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             Azzule. Si el Cliente no presenta acciones correctivas dentro de esa
             ventana de 30 días, la auditoría se considera cerrada y no habrá
             posibilidad de modificar el nivel de cumplimiento del Cliente.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>Una vez que el Cliente obtenga la certificación bajo</b> el estándar
             de Sustentabilidad TM y sus reglamentaciones generales, Primus Auditing
             Ops emitirá al Cliente un certificado que indique el cumplimiento del
@@ -152,8 +152,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             electrónicamente al Cliente por correo electrónico y Primus Auditing Ops los
             cargará directamente en la base de datos de Azzule Systems. Las copias
             impresas están disponibles a pedido del Cliente.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>2. PROPIEDAD DE LA INFORMACIÓN.</b> El cliente reconoce y acepta que
             todos los datos enviados por Primus Auditing Ops a la base de datos de
             Primus Auditing Ops y/o la base de datos de Azzule Systems se convierte
@@ -164,8 +164,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             el consentimiento del Cliente. Azzule se reserva el derecho de utilizar los
             datos para preparar análisis, comparaciones estadísticas específicas, uso
             genérico en informes, presentaciones y otros materiales.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>3. IDENTIFICACION Y DESLINDE DE RESPONSABILIDAD.</b> El Cliente reconoce
             y acepta que indemnizará, defenderá y eximirá de responsabilidad a Primus
             Auditing Ops, Sustainable Food Group y Azzule Systems de toda reclamacion,
@@ -173,8 +173,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             tipo y naturaleza, conocido y desconocido, incluidos los honorarios legales
             razonables asociados con los productos básicos y las operaciones del Cliente,
             independientemente de la causa o la naturaleza de la responsabilidad.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>4. SUBLICENCIA DE ESTANDAR DE SUSTENTABILIDAD TM MARCA REGISTRADA Y NOMBRE.</b>
             Tras la ejecución de esteAcuerdo y el Anexo "A" adjunto, y después de que el
             Cliente reciba la Certificación para su(s) operación(es), se otorga al Cliente
@@ -186,8 +186,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             "A" y las Regulaciones Generales puede resultar en la suspensión y/o revocación del
             uso de la Marca Registrada del Estándar de Sustentabilidad, y potencialmente anular
             el acuerdo, todo como se describe en el mismo.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>5. CONFIDENCIALIDAD.</b>
             Durante la vigencia de este Acuerdo, el Cliente y Primus Auditing Ops entrarán en
             contacto y se familiarizarán con cierta información sobre las prácticas comerciales,
@@ -205,8 +205,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             Auditing Ops y/o Sustainable Food Group. El cliente también acepta no copiar, reproducir,
             divulgar ni publicar ninguna información confidencial
             que encuentre durante la duración de la Certificación.
-                <br />
-                <br />
+                <br/>
+                <br/>
             </p>
             <p>
                 <b>6. RESPONSABILIDAD LIMITADA</b>
@@ -224,8 +224,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             la calidad del Cliente. Además, el Cliente libera y exime a Sustainable
             Food Group de toda responsabilidad por los servicios prestados en virtud
             de este Acuerdo.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>7. LEY APLICABLE/ LUGAR.</b>
             Este Acuerdo se regirá e interpretará de acuerdo con las leyes del Estado de
             California. En el caso de que sea necesario instituir cualquier acción para
@@ -233,8 +233,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             corregir cualquier supuesto incumplimiento del mismo, el lugar exclusivo
             para dicha acción deberá residirá en el Tribunal Superior o Municipal
             aplicable ubicado en Santa Maria, California.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>8. CUMPLIMIENTO DE LA AGENCIA GUBERNAMENTAL.</b> El cliente reconoce
             expresamente que Primus Auditing Ops y sus auditores no son una agencia
             rectora y no establecen los estándares de la industria para la seguridad
@@ -249,11 +249,11 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
                 <b>9. DERECHO DE REFERENCIA.</b>
             El Cliente reconoce que Primus Auditing Ops es, o puede, contratar los
             servicios de auditoría realizados para el Cliente. Debido a que un auditor
-            contratado se dedica a su propio negocio de contratación independiente y
+            independiente se dedica a su propio negocio de contratación independiente y
             no es un empleado de Primus Auditing Ops, Primus Auditing Ops no obtendrá
             un seguro (responsabilidad profesional, compensación de trabajadores,
             responsabilidad general, automóvil, etc.) para el auditor. o sus empleados.
-            Los auditores contratados acuerdan mediante un acuerdo de referencia por
+            Los auditores independientes acuerdan mediante un acuerdo de referencia por
             separado obtener su propia cobertura de seguro y proporcionar una copia
             del certificado de seguro a Primus Auditing Ops. Además, en aquellos casos en
             los que se contrate a un auditor, Primus Auditing Ops actuará en calidad
@@ -264,8 +264,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             ser coherente con las Regulaciones Generales de Sustainable Food Group, y el
             Cliente debe obtener permiso para usar las marcas y las marcas mismas de
             Sustainable Food Group.
-                <br />
-                <br />
+                <br/>
+                <br/>
 
                 <b>10. DURACION Y TERMINO.</b>
             Este Acuerdo será válido durante la duración de la Certificación del Cliente
@@ -303,8 +303,8 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
                 totales" en la página 1 de este Acuerdo. El hecho de que el Cliente
                 no lo haga es un incumplimiento sustancial de este Acuerdo por
                 parte del Cliente.</li>
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
 
                 </ul>
             </p>
@@ -318,71 +318,71 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             si el Cliente observa cualquier posible error, el Cliente acepta
             notificar a nuestro Departamento de Facturación dentro de los 10 días
             posteriores a la emisión de la factura errónea.
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b>12. MODIFICACIONES.</b>
             Este Acuerdo, junto con el apéndice "A" adjunto, constituye la totalidad
             del Acuerdo con respecto al tema contenido en este documento. Ninguna
             enmienda o extensión de este Acuerdo será vinculante para ninguna de
             las partes a menos que se realice por escrito y esté firmada por ambas
             partes.
-                <br />
-                <br />
+                <br/>
+                <br/>
             </p>
             <table style="width:100%; border:0px;">
                 <tr>
                     <td width="50%" style="border:0px; background-color:white;">
                         <p t-if="line.coordinator_id.employee_id.es_sign_signature">
                             <b>"PRIMUS AUDITING OPS"
-                                <br />
-                                <br />
+                                <br/>
+                                <br/>
                             JS Audit Group, Inc., una corporación de California</b>
-                            <br />
-                            <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)" />
-                            <br />
-                        Firmado por: <span t-field="line.coordinator_id" />
-                        <br />
+                            <br/>
+                            <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
+                            <br/>
+                        Firmado por: <span t-field="line.coordinator_id"/>
+                        <br/>
                         Coordinador de auditorías
-                        <br />
-                        Fecha: <span t-field="line.service_date" />
+                        <br/>
+                        Fecha: <span t-field="line.service_date"/>
                     </p>
                     <p t-if="not line.coordinator_id.employee_id.es_sign_signature">
                         <b>"PRIMUS AUDITING OPS"
-                            <br />
-                            <br />
+                            <br/>
+                            <br/>
                             JS Audit Group, Inc., una corporación de California</b>
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                         Firmado por:
-                        <br />
+                        <br/>
                         Coordinador de auditorías
-                        <br />
-                        Fecha: <span t-field="line.service_date" />
+                        <br/>
+                        Fecha: <span t-field="line.service_date"/>
                     </p>
                 </td>
                 <td width="50%" style="border:0px; background-color:white;">
                     <p>
                         <b>"CLIENTE"
-                            <br />
-                            <br />
-                            <span t-field="doc.partner_id" />
+                            <br/>
+                            <br/>
+                            <span t-field="doc.partner_id"/>
                         </b>
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                         Firmado por:
-                        <br />
+                        <br/>
                         Posición:
-                        <br />
+                        <br/>
                         Fecha:
                     </p>
                 </td>
@@ -401,23 +401,23 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
             incorporados al Acuerdo de Servicios de Auditoría de Sostenibilidad
             de Primus Auditing Operations por y entre Primus Auditing Ops y el
             Cliente (el "Acuerdo").
-            <br />
-            <br />
+            <br/>
+            <br/>
             <b>Marcas de conformidad</b>
-            <br />
-            <br />
+            <br/>
+            <br/>
             IPM Institute of North America, Inc., dba Sustainable Food Group
             es el propietario legal de la marca comercial y el nombre "Sustainability
             StandardTM" y el logotipo que la acompaña (colectivamente, "Sustainability
             Standard marca registrada").
-            <br />
-            <br />
+            <br/>
+            <br/>
             Al Cliente se le otorga una sublicencia no exclusiva y
             revocable para el uso de la Marca comercial estándar de
             sostenibilidad en las siguientes condiciones, todas las
             cuales la Parte contratante reconoce y acepta:
-            <br />
-            <br />
+            <br/>
+            <br/>
             <ul type="1">
                 <li>
                 El cliente solo puede usar la marca y/o el logotipo cuando existe
@@ -428,13 +428,13 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
                 sitios web, etc.), siempre que se especifique la operación y el cultivo certificado.
 
                 </li>
-                <br />
+                <br/>
                 <li>
                 El uso de la marca comercial Sustainability Standard no aparecerá en el
                 producto ni en el empaque del consumidor, ni se utilizará en el punto de
                 venta en conexión directa con productos individuales.
                 </li>
-                <br />
+                <br/>
                 <li>
                 El Cliente, como operación certificada, solo utilizará la Marca
                 comercial estándar de sostenibilidad de manera consistente con
@@ -444,11 +444,11 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
                 usar el Logotipo de cualquier manera que indique o implique lo
                 contrario:
                     <ul type="a">
-                        <br />
+                        <br/>
                         <li>Esto requiere que el Cliente esté al día en el pago de todas
                         las tarifas por el Cliente a Primus Auditing Ops y
                         Sustainable Food Group.</li>
-                        <br />
+                        <br/>
                     </ul>
                 </li>
                 <li>
@@ -458,19 +458,19 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
                 usarse de manera consistente con los requisitos de Sustainability
                 StandardTM.
                 </li>
-                <br />
+                <br/>
                 <li>El cliente deberá colaborar en todo momento con Sustainable
                 Food Group y sus agentes (incluido Primus Auditing Ops)
                 para permitir un acceso razonable para verificar el cumplimiento
                 de estos requisitos.
                 </li>
-                <br />
+                <br/>
                 <li>Sustainable Food Group o Primus Auditing Ops pueden suspender
                 la sublicencia del Cliente para el uso de la marca comercial
                 Sustainability Standard si, a criterio exclusivo de Sustainable
                 Food Group o Primus Auditing Ops, determina que:
                     <ul type="a">
-                        <br />
+                        <br/>
                         <li>El cliente no cumple con las reglas.</li>
                         <li>El cliente no cumple con los requisitos de recertificación.</li>
                         <li>El cliente usa el logotipo de una manera que va en detrimento
@@ -490,7 +490,7 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
                         Sustainability Standard.</li>
                     </ul>
                 </li>
-                <br />
+                <br/>
                 <li>Además de la suspensión o revocación del uso de la Marca comercial
                 estándar de sostenibilidad como se describe en la Sección 6.d. anterior,
                 una violación del uso de la marca comercial Sustainability Standard,
@@ -510,63 +510,63 @@ ACUERDO DE SERVICIOS PARA AUDITORIAS DE SUSTENTABILIDAD
 
         Nada de lo aquí dispuesto se interpretará como una exención de las
         partes de sus respectivas obligaciones en virtud del Acuerdo.
-            <br />
-            <br />
+            <br/>
+            <br/>
         </p>
         <table style="width:100%; border:0px;">
             <tr>
                 <td width="50%" style="border:0px; background-color:white;">
                     <p t-if="line.coordinator_id.employee_id.es_sign_signature">
                         <b>"PRIMUS AUDITING OPS"
-                            <br />
-                            <br />
+                            <br/>
+                            <br/>
                             JS Audit Group, Inc., una corporación de California</b>
-                        <br />
-                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)" />
-                        <br />
-                        Firmado por: <span t-field="line.coordinator_id" />
-                    <br />
+                        <br/>
+                        <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(line.coordinator_id.employee_id.es_sign_signature)"/>
+                        <br/>
+                        Firmado por: <span t-field="line.coordinator_id"/>
+                    <br/>
                         Coordinador de auditorías
-                    <br />
-                        Fecha: <span t-field="line.service_date" />
+                    <br/>
+                        Fecha: <span t-field="line.service_date"/>
                 </p>
                 <p t-if="not line.coordinator_id.employee_id.es_sign_signature">
                     <b>"PRIMUS AUDITING OPS"
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                             JS Audit Group, Inc., una corporación de California</b>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                         Firmado por:
-                    <br />
+                    <br/>
                         Coordinador de auditorías
-                    <br />
-                        Fecha: <span t-field="line.service_date" />
+                    <br/>
+                        Fecha: <span t-field="line.service_date"/>
                 </p>
             </td>
             <td width="50%" style="border:0px; background-color:white;">
                 <p>
                     <b>"CLIENTE"
-                        <br />
-                        <br />
-                        <span t-field="doc.partner_id" />
+                        <br/>
+                        <br/>
+                        <span t-field="doc.partner_id"/>
                     </b>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                         Firmado por:
-                    <br />
+                    <br/>
                         Posición:
-                    <br />
+                    <br/>
                         Fecha:
                 </p>
             </td>

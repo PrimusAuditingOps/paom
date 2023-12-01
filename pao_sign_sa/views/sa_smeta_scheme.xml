@@ -88,8 +88,7 @@
                             <th style="text-align:right;" colspan="2" esc="row">Costo Total (sin IVA)</th>
                             <th style="text-align:right;" colspan="1" scope="row">
                                 <strong class="mr16">
-                                     <span t-esc="current_subtotal"
-                                    t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                     <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
                                 </strong>   
                             </th>
                         </tr>
@@ -159,12 +158,12 @@
                     <b>5. DESLINDAMIENTO DE RESPONSABILIDADES.</b> El Cliente reconoce 
                     que Primus Auditing Ops está o puede contratar los servicios de 
                     auditoría realizados para el Cliente. Debido a que un auditor 
-                    subcontratado se dedica a su propio negocio de contratación 
+                    independiente se dedica a su propio negocio de contratación 
                     independiente y no es un empleado de Primus Auditing Ops, si 
-                    Primus Auditing Ops deriva la auditoría a un subcontratista, 
+                    Primus Auditing Ops deriva la auditoría a un independiente, 
                     este no obtendrá seguro (responsabilidad profesional, compensación 
                     de trabajadores, responsabilidad civil, automóvil, etc.) para el 
-                    auditor o sus empleados. Los auditores subcontratados acuerdan 
+                    auditor o sus empleados. Los auditores independientes acuerdan 
                     mediante un acuerdo de responsabilidades separado, obtener su propia 
                     cobertura de seguro y proporcionar una copia del certificado de seguro 
                     a Primus Auditing Ops. Además, en aquellos casos en los que se 
@@ -226,7 +225,7 @@
                 <p>
                     El cliente además acepta:
                     <br/>
-                    <ul style= "list-style-type: lower-latin">
+                    <ul style="list-style-type: lower-latin">
                         <li>
                             El cliente debe entregar el cuestionario de autoevaluación 
                             (SAQ) al menos 15 días antes de la fecha de la visita/auditoría 
@@ -275,7 +274,7 @@
                             El cliente se compromete a dar total acceso al auditor a la operación, los documentos 
                             y el personal auditados correspondientes durante la visita in situ para realizar 
                             la auditoría SMETA.
-                            <ul style= "list-style-type: lower-roman">
+                            <ul style="list-style-type: lower-roman">
                                 <li>
                                     Si un auditor no tiene acceso total, el auditor generará una alerta en todos 
                                     los casos. Si el auditor puede ingresar al sitio, pero no puede acceder a la 
@@ -293,7 +292,7 @@
                 <p>
                     <b>8. RESULTADOS DE AUDITORÍA.</b> El Cliente debe cumplir con los 
                     siguiente:
-                    <ul style= "list-style-type: lower-latin">
+                    <ul style="list-style-type: lower-latin">
                         <li>El cliente se compromete a cumplir siempre con los requisitos de la metodología.</li>
                         <li>El cliente deberá cumplir mediante la implementación de los cambios apropiados 
                         cuando se comuniquen a través de Primus Auditing Ops al cliente.</li>
@@ -309,7 +308,7 @@
                 </p>
                 <p>
                     <b>9. TÉRMINOS Y CONDICIONES.</b>  
-                    <ul style= "list-style-type: lower-latin">
+                    <ul style="list-style-type: lower-latin">
                         <li>
                             <b>Terminación por causa justificada.</b> Este Acuerdo de servicio será indefinido y 
                             finalizará en el momento de la expiración de la Certificación del Cliente. 
@@ -377,10 +376,10 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <img  t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
+                        <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
                     </div>
                     <div class="col-6">
-                        <img class="img img-responsive" style="width:327px; heigth:327px;"  t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                        <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
                     </div>  
                 </div>
                 <div class="row">
@@ -426,7 +425,7 @@
                     <ul class="list-inline" style="text-align: center;">
                         <li class="list-inline-item">PrimusAuditingOps Documento Confidencial</li>
                         <li class="list-inline-item">SCL-011s</li>
-                        <li class="list-inline-item">R.2   08/10/2021</li>
+                        <li class="list-inline-item">R.3   10/02/2023</li>
                     </ul>
                 </div>
                 

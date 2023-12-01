@@ -79,8 +79,7 @@
                             <th style="text-align:right;" colspan="2" esc="row">Total Estimado (sin iva)</th>
                             <th style="text-align:right;" colspan="1" scope="row">
                                 <strong class="mr16">
-                                    <span t-esc="current_subtotal"
-                                    t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                    <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
                                 </strong>
                             </th>
                         </tr>
@@ -160,14 +159,14 @@
                     <b>7.DERECHO DE REFERENCIA.</b> 
                     El Cliente reconoce que Primus Auditing Ops contrata o podría contratar 
                     los servicios de auditores para atender a sus clientes. Debido a que 
-                    los auditores contratados están dedicados a sus propios negocios de 
+                    los auditores independientes están dedicados a sus propios negocios de 
                     contratación independientes y no son empleados de Primus Auditing Ops, 
                     Primus Auditing Ops no contratará un seguro (de responsabilidad profesional, 
                     compensación de trabajadores, responsabilidad general, auto, etc.) para el 
-                    auditor y sus empleados. Los auditores contratados están de acuerdo mediante 
+                    auditor y sus empleados. Los auditores independientes están de acuerdo mediante 
                     un acuerdo de referencia a obtener cobertura de seguro propia y presentar una 
                     copia de este certificado a Primus Auditing Ops. Por otra parte, en aquellos 
-                    casos en los que se haga uso de un auditor contratado, Primus Auditing Ops 
+                    casos en los que se haga uso de un auditor independiente, Primus Auditing Ops 
                     estará actuando en la sola capacidad de contratista independiente y cualquier 
                     información o datos recibidos serán transmitidos únicamente entre las partes, 
                     por lo que no hay juicio, representaciones o garantías independientes en cuanto 
@@ -226,12 +225,12 @@
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <img  t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
                         </p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:center;">
-                            <img class="img img-responsive" style="width:327px; heigth:327px;"  t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
                         </p>
                     </div>  
                 </div>
@@ -264,7 +263,7 @@
                     <ul class="list-inline" style="text-align: center;">
                         <li class="list-inline-item">Primus Auditing Ops Confidential Document</li>
                         <li class="list-inline-item">Cert-008MX</li>
-                        <li class="list-inline-item">Rev. 0 08/10/2021</li>
+                        <li class="list-inline-item">Rev. 1 10/02/2023</li>
                     </ul>
                 </div>
                 

@@ -27,6 +27,7 @@
         'reports/servicereferralagreement_header_footer_sustentabilidad.xml',
         'reports/servicereferralagreement_header_footer_gfs.xml',
         'reports/servicereferralagreement_header_footer_ggap.xml',
+        'reports/servicereferralagreement_header_footer_add_ggap.xml',
         'reports/servicereferralagreement_header_footer_nop.xml',
         'reports/servicereferralagreement_header_footer_haccp.xml',
         'reports/servicereferralagreement_header_footer_smeta.xml',
@@ -39,6 +40,7 @@
         'reports/servicereferralagreement_sasaleorder.xml',
         'reports/servicereferralagreement_rapurchaseorder.xml',
         'reports/servicereferralagreement_lpo_ue.xml',
+        'reports/servicereferralagreement_add_ggap.xml',
         'reports/account_move_report.xml',
         'reports/sale_report.xml',
         # views
