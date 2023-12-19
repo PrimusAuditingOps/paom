@@ -3,6 +3,7 @@ from odoo import models, fields, tools
 class SAReport(models.Model):
 
     _name="sa.report"
+    _description = 'Service Agreement Report'
     _auto = False
     _rec_name = 'service_registry_number'
     _order = 'service_start_date desc'

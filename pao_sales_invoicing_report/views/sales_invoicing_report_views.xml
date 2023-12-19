@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sales_invoicing_report_view_pivot" model="ir.ui.view">
+            <field name="name">sales.invoicing.report.pivot</field>
+            <field name="model">sales.invoicing.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Sales Invoicing Analysis">
+                    <field name="categ_id" type="row"/>
+                    <field name="invoice_id" type="measure"/>
+                    <field name="quantity" type="measure"/>
+                    <field name="usd_untaxed_total" type="measure"/>
+                    <field name="usd_total" type="measure"/>
+                    <field name="mxn_untaxed_total" type="measure"/>
+                    <field name="mxn_total" type="measure"/>
+                </pivot>
+            </field>
+    </record>
+
+    <record id="pao_action_sales_invoicing_report" model="ir.actions.act_window">
+        <field name="name">Sales Invoicing Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sales.invoicing.report</field>
+        <field name="view_mode">pivot</field>
+    </record>
+
+</odoo>
