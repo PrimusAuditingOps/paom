@@ -21,14 +21,26 @@
                         <field name="state_id"/>
                         <field name="city_id"/>
                         <field name="street_name"/>
-                        <field name="street_number"/>
-                        <field name="colony"/>
                         <field name="zip"/>
                         <field name="phone"/>
                         <field name="cfdi_use"/>
                         <field name="attachment_datas" invisible="1"/>
                         <field name="attachment_name" invisible="1"/>
-                        <field name="attachment_datas" filename="attachment_name"/>   
+                        <field name="attachment_datas" filename="attachment_name"/>
+
+                        <field name="attachment_proof_of_address_datas" invisible="1"/>
+                        <field name="attachment_proof_of_address_name" invisible="1"/>
+                        <field name="attachment_proof_of_address_datas" filename="attachment_proof_of_address_name"/>   
+
+                        <field name="attachment_bank_account_datas" invisible="1"/>
+                        <field name="attachment_bank_account_name" invisible="1"/>
+                        <field name="attachment_bank_account_datas" filename="attachment_bank_account_name"/>   
+
+                        <field name="attachment_sat_compliance_opinion_datas" invisible="1"/>
+                        <field name="attachment_sat_compliance_opinion_name" invisible="1"/>
+                        <field name="attachment_sat_compliance_opinion_datas" filename="attachment_sat_compliance_opinion_name"/>   
+
+
                         <field name="form_url" widget="url"/>
                     </group>
                     <group col="2">

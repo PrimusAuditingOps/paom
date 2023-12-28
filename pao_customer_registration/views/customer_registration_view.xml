@@ -103,7 +103,8 @@
                                                             <span class="s_website_form_mark"> *</span>
                                                         </label>
                                                         <div class="col-sm">
-                                                            <input id="email" t-att-value="data.email" type="email" class="form-control s_website_form_input" name="email" required="*" />
+                                                            <input id="email" t-att-value="data.email" type="text" class="form-control s_website_form_input" name="email" required="*" />
+                                                            <p style="color:black;">To add more than one email, please place it with a comma and without a space.</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -112,35 +113,11 @@
                                                 <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_required" data-type="char">
                                                     <div class="row s_col_no_resize s_col_no_bgcolor">
                                                         <label class="col-form-label col-sm-auto s_website_form_label"  for="street">
-                                                            <span class="s_website_form_label_content">Street</span>
+                                                            <span class="s_website_form_label_content">Address</span>
                                                             <span class="s_website_form_mark"> *</span>
                                                         </label>
                                                         <div class="col-sm">
                                                             <input id="street" t-att-value="data.street_name" type="text" class="form-control s_website_form_input" name="street" required="*"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom s_website_form_required" data-type="char">
-                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
-                                                        <label class="col-form-label col-sm-auto s_website_form_label"  for="number">
-                                                            <span class="s_website_form_label_content">Number</span>
-                                                            <span class="s_website_form_mark"> *</span>
-                                                        </label>
-                                                        <div class="col-sm">
-                                                            <input id="number" name="number" t-att-value="data.street_number" required="*" class="form-control s_website_form_input"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="s_website_form_rows row s_col_no_bgcolor">
-                                                <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_dnone">
-                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
-                                                        <label class="col-form-label col-sm-auto s_website_form_label"  for="colony">
-                                                            <span class="s_website_form_label_content">Colony</span>
-                                                            <span class="s_website_form_mark"> *</span>
-                                                        </label>
-                                                        <div class="col-sm">
-                                                            <input id="colony" t-att-value="data.colony" class="form-control s_website_form_input" required="*" name="colony"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -155,7 +132,7 @@
                                                             
                                                         </div>
                                                     </div>
-                                                </div>                                                
+                                                </div>           
                                             </div>
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_dnone">
@@ -250,6 +227,45 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_dnone">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-auto s_website_form_label" for="attachments_proof_of_address">
+                                                            <span class="s_website_form_label_content">Proof of address</span>
+                                                        </label>
+                                                        <div class="col-sm col-xs-12">
+                                                            <input id="attachments_proof_of_address" type="file" required="*" name="attachments_proof_of_address" class="form-control s_website_form_input" multiple="true" accept="application/pdf"/>
+                                                            <p style="color:red;">Please attach the proof of address.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_dnone">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-auto s_website_form_label" for="attachments_bank_account">
+                                                            <span class="s_website_form_label_content">Bank account statement cover</span>
+                                                        </label>
+                                                        <div class="col-sm col-xs-12">
+                                                            <input id="attachments_bank_account" type="file" required="*" name="attachments_bank_account" class="form-control s_website_form_input" multiple="true" accept="application/pdf"/>
+                                                            <p style="color:red;">Please attach the Bank account statement cover</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_dnone">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-auto s_website_form_label" for="attachments_sat">
+                                                            <span class="s_website_form_label_content">SAT compliance opinion</span>
+                                                        </label>
+                                                        <div class="col-sm col-xs-12">
+                                                            <input id="attachments_sat" type="file" required="*" name="attachments_sat" class="form-control s_website_form_input" multiple="true" accept="application/pdf"/>
+                                                            <p style="color:red;">Please attach the SAT compliance opinion.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <legend  class="w-auto" style="font-weight:bold;text-align:center" >Contacts:</legend>
                                             <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
                                                 <div class="form-group col-md-3">
@@ -262,7 +278,7 @@
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="correocontacto">Email</label>
-                                                    <input type="email" name="correocontacto" id="correocontacto" class="form-control s_website_form_input" width="100px" placeholder="Enter email"/>
+                                                    <input type="text" name="correocontacto" id="correocontacto" class="form-control s_website_form_input" width="100px" placeholder="Enter email"/>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="movilcontacto">Phone</label>

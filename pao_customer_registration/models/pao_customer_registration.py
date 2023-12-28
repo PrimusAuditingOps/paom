@@ -79,6 +79,47 @@ class PaoCustomerRegistration(models.Model):
     attachment_name = fields.Char(
         related='attachment_id.name',
     )
+    attachment_proof_of_address_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        string='Attachment',
+        ondelete='restrict',
+        copy=False,
+    )
+    attachment_proof_of_address_datas = fields.Binary(
+        related='attachment_proof_of_address_id.datas',
+        string="Proof of address",
+    )
+    attachment_proof_of_address_name = fields.Char(
+        related='attachment_proof_of_address_id.name',
+    )
+    attachment_bank_account_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        string='Attachment',
+        ondelete='restrict',
+        copy=False,
+    )
+    attachment_bank_account_datas = fields.Binary(
+        related='attachment_bank_account_id.datas',
+        string="Bank account statement cover",
+    )
+    attachment_bank_account_name = fields.Char(
+        related='attachment_bank_account_id.name',
+    )
+    attachment_sat_compliance_opinion_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        string='Attachment',
+        ondelete='restrict',
+        copy=False,
+    )
+    attachment_sat_compliance_opinion_datas = fields.Binary(
+        related='attachment_sat_compliance_opinion_id.datas',
+        string="Bank account statement cover",
+    )
+    attachment_sat_compliance_opinion_name = fields.Char(
+        related='attachment_sat_compliance_opinion_id.name',
+    )
+
+
 
     res_partner_id = fields.Many2one(
         comodel_name='res.partner',
@@ -195,17 +236,22 @@ class PaoCustomerRegistration(models.Model):
                 "state_id": self.state_id.id,
                 "city_id": self.city_id.id,
                 "street": self.street_name,
-                "street2": self.street_number,
                 "zip": self.zip,
                 "phone": self.phone,
                 "email": self.email,
                 "ctm_cfdi_use": self.cfdi_use,
-                "l10n_mx_edi_colony": self.colony,
             }
         )
         attachment_list = []
         if self.attachment_id:
             attachment_list.append(self.attachment_id.id)
+        if self.attachment_proof_of_address_id:
+            attachment_list.append(self.attachment_proof_of_address_id.id)
+        if self.attachment_bank_account_id:
+            attachment_list.append(self.attachment_bank_account_id.id)
+        if self.attachment_sat_compliance_opinion_id:
+            attachment_list.append(self.attachment_sat_compliance_opinion_id.id)
+
         contact = self.env["res.partner"]
         for rec in self.child_ids:
             contact.create(

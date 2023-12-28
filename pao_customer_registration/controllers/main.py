@@ -44,8 +44,8 @@ class WebsitePaoAuditorRegistration(portal.CustomerPortal):
         
     
     @http.route(['/pao/customer/registration/send'], type='http', auth='public', methods=['POST'], website=True)
-    def customer_registration_send(self,cr_token, cr_id, company, rfc, phonenumber, email, street, number, colony, zip, country, state, 
-    city, cfdiuse, attachments, contacts,  **kwargs):
+    def customer_registration_send(self,cr_token, cr_id, company, rfc, phonenumber, email, street, zip, country, state, 
+    city, cfdiuse, attachments, attachments_proof_of_address, attachments_bank_account, attachments_sat, contacts,  **kwargs):
         try:
             cr_sudo = self._document_check_access('pao.customer.registration', int(cr_id), access_token=str(cr_token))
         except (AccessError, MissingError):
@@ -66,6 +66,30 @@ class WebsitePaoAuditorRegistration(portal.CustomerPortal):
                 'res_model': 'pao.customer.registration',
                 'res_id': cr_sudo.id,
             })
+
+            filename = "%s-%s.%s" % ("ComprobanteDomicilio",company, "pdf")
+            attachment_address = IrAttachment.create({
+                'name': filename,
+                'datas': base64.b64encode(attachments_proof_of_address.read()),
+                'res_model': 'pao.customer.registration',
+                'res_id': cr_sudo.id,
+            })
+
+            filename = "%s-%s.%s" % ("CuentaBancaria",company, "pdf")
+            attachment_bank = IrAttachment.create({
+                'name': filename,
+                'datas': base64.b64encode(attachments_bank_account.read()),
+                'res_model': 'pao.customer.registration',
+                'res_id': cr_sudo.id,
+            })
+
+            filename = "%s-%s.%s" % ("SAT",company, "pdf")
+            attachment_sat = IrAttachment.create({
+                'name': filename,
+                'datas': base64.b64encode(attachments_sat.read()),
+                'res_model': 'pao.customer.registration',
+                'res_id': cr_sudo.id,
+            })
             
             
             cr_sudo.write({
@@ -75,13 +99,14 @@ class WebsitePaoAuditorRegistration(portal.CustomerPortal):
                 "state_id": state,
                 "city_id": city,
                 "street_name": street,
-                "street_number": number,
-                "colony": colony,
                 "zip": zip,
                 "phone": phonenumber,
                 "email": email,
                 "cfdi_use": cfdiuse,
                 "attachment_id": attachment.id,
+                "attachment_proof_of_address_id": attachment_address.id,
+                "attachment_bank_account_id": attachment_bank.id,
+                "attachment_sat_compliance_opinion_id": attachment_sat.id,
                 "request_status": "complet"
             })
             request.env['pao.customer.registration.contact'].sudo().search([('customer_registration_id', '=', cr_sudo.id)]).unlink()
