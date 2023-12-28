@@ -53,7 +53,6 @@ class PaoCustomerRegistrationRequest(models.TransientModel):
             'subject': self.subject,
             'message': self.message,
             'cfdi_use': self.res_partner_id.ctm_cfdi_use,
-            'colony': self.res_partner_id.l10n_mx_edi_colony,
             'vat': self.res_partner_id.vat,
             
         })

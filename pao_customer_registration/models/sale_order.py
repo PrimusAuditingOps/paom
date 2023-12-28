@@ -28,7 +28,6 @@ class SaleOrder(models.Model):
                         'phone': rec.phone,
                         'email': rec.email,
                         'cfdi_use': rec.ctm_cfdi_use,
-                        'colony': rec.l10n_mx_edi_colony,
                         'vat': rec.vat,
                     })
                     base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
