@@ -40,8 +40,8 @@ class PaoCustomerRegistration(models.Model):
     street_number = fields.Char(
         string="Street number",
     )
-    colony = fields.Char(
-        string="Colony",
+    asesor = fields.Char(
+        string="Asesor",
     )
     zip = fields.Char(
         string="ZIP",

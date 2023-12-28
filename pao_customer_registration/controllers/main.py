@@ -45,7 +45,7 @@ class WebsitePaoAuditorRegistration(portal.CustomerPortal):
     
     @http.route(['/pao/customer/registration/send'], type='http', auth='public', methods=['POST'], website=True)
     def customer_registration_send(self,cr_token, cr_id, company, rfc, phonenumber, email, street, zip, country, state, 
-    city, cfdiuse, attachments, attachments_proof_of_address, attachments_bank_account, attachments_sat, contacts,  **kwargs):
+    city, cfdiuse, attachments, attachments_proof_of_address, attachments_bank_account, attachments_sat, contacts, asesor, **kwargs):
         try:
             cr_sudo = self._document_check_access('pao.customer.registration', int(cr_id), access_token=str(cr_token))
         except (AccessError, MissingError):
@@ -107,7 +107,8 @@ class WebsitePaoAuditorRegistration(portal.CustomerPortal):
                 "attachment_proof_of_address_id": attachment_address.id,
                 "attachment_bank_account_id": attachment_bank.id,
                 "attachment_sat_compliance_opinion_id": attachment_sat.id,
-                "request_status": "complet"
+                "request_status": "complet",
+                "asesor": asesor,
             })
             request.env['pao.customer.registration.contact'].sudo().search([('customer_registration_id', '=', cr_sudo.id)]).unlink()
             if len(contact_list) > 0:
