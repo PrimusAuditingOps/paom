@@ -1,0 +1,17 @@
+from odoo import fields, models, api, _
+from logging import getLogger
+
+_logger = getLogger(__name__)
+
+class PaoGlobalgapAddon(models.Model):
+    _name = "pao.globalgap.addon"
+    _description = "GlobalGAP addon"
+
+
+    name = fields.Char(
+        string='Name', 
+        copy=False,
+        required=True,
+        translate=True, 
+    )
+    

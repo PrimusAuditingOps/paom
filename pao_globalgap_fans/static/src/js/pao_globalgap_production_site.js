@@ -1,0 +1,462 @@
+odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
+
+    'use strict';
+
+
+    var publicWidget = require('web.public.widget');
+    
+
+    publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
+
+        selector: '.o_website_production_site_registration',
+        events: {
+            'change .o_website_production_site_registration_form select[id="sitecountry"]': '_onCountryChange',
+            'change .o_website_production_site_registration_form select[id="sitestate"]': '_onStateChange',
+            'change .o_website_production_site_registration_form select[id="contaccountry"]': '_onContactCountryChange',
+            'change .o_website_production_site_registration_form select[id="contactstate"]': '_onContactStateChange',
+            'click .o_website_production_site_registration_form input[name^="addonsgg"]': '_onAddonsChange',
+            'click .btn_add_production_site': '_onClickProductionSite',
+            'click .btn_add_products': '_onClickProduct'
+            
+        },
+        /**
+         * @constructor
+         */
+        init: function () {
+            this._super.apply(this, arguments);
+            this.datas = []
+            this.products = []
+
+        },
+        /**
+         * @override
+         * @param {Object} parent
+         */
+        start: function (parent) {
+
+            
+
+            $("#btn_send_sites").prop('disabled', true);
+
+            this.countries = document.querySelector('#sitecountry');
+            this.states = document.querySelector('#sitestate');
+            this.optionStates = this.states.querySelectorAll('option');
+            this.cities = document.querySelector('#sitecity');
+            this.optionCities = this.cities.querySelectorAll('option');
+
+            var countryInit = $("#sitecountry").val();
+            var stateInit = $("#sitestate").val();
+            var cityInit = $("#sitecity").val();
+            $("#sitecountry").val(countryInit).change();
+            $("#sitestate").val(stateInit).change();
+            $("#sitecity").val(cityInit).change();
+
+
+            this.contactCountries = document.querySelector('#contaccountry');
+            this.contactStates = document.querySelector('#contactstate');
+            this.optionContactStates = this.contactStates.querySelectorAll('option');
+            this.contactCities = document.querySelector('#contaccity');
+            this.optionContactCities = this.contactCities.querySelectorAll('option');
+
+            var contactCountryInit = $("#contaccountry").val();
+            var contactStateInit = $("#contactstate").val();
+            var contactCityInit = $("#contaccity").val();
+            $("#contaccountry").val(contactCountryInit).change();
+            $("#contactstate").val(contactStateInit).change();
+            $("#contaccity").val(contactCityInit).change();
+
+
+
+
+
+            $("#productionsite").val("");
+            $("#address").val("");
+            $("#postaladdress").val("");
+            $("#zip").val("");
+            $("#telephone").val("");
+            $("#email").val("");
+            $("#latitude").val("");
+            $("#longitude").val("");
+            $("#contactname").val("");
+            $("#contactaddress").val("");
+            $("#contactpostaladdress").val("");
+            $("#contactzip").val("");
+            $("#contacttelephone").val("");
+            $("#contactemail").val("");
+
+            this.datas = []
+            this.products = []
+            this.grid_selector = new gridjs.Grid({
+                columns: [
+                    {
+                        id: "name",
+                        name: "Sitio de producción",
+                    },
+                    {
+                        id: "type_name",
+                        name: "Tipo",
+                    },
+                    {
+                        id: "type",
+                        name: "Tipo",
+                        hidden: true,
+                    },
+                    {
+                        id: "address",
+                        name: "Dirección",
+                        hidden: true,
+                    },
+                    {
+                        id: "postaladdress",
+                        name: "Dirección postal",
+                        hidden: true,
+                    },
+                    {
+                        id: "country",
+                        name: "País",
+                        hidden: true,
+                    },
+                    {
+                        id: "state",
+                        name: "Estado",
+                        hidden: true,
+                    },
+                    {
+                        id: "city",
+                        name: "Ciudad",
+                        hidden: true,
+                    },
+                    {
+                        id: "zip",
+                        name: "Código postal",
+                        hidden: true,
+                    },
+                    {
+                        id: "telephone",
+                        name: "Telefono",
+                        hidden: true,
+                    },
+                    {
+                        id: "email",
+                        name: "Correo electrónico",
+                        hidden: true,
+                    },
+                    {
+                        id: "latitude",
+                        name: "latitud",
+                        hidden: true,
+                    },
+                    {
+                        id: "longitude",
+                        name: "longitud",
+                        hidden: true,
+                    },
+                    {
+                        id: "contactname",
+                        name: "Contacto",
+                        hidden: true,
+                    },
+                    {
+                        id: "contactaddress",
+                        name: "Dirección del contacto",
+                        hidden: true,
+                    },
+                    {
+                        id: "contactpostaladdress",
+                        name: "Dirección postal del contacto",
+                        hidden: true,
+                    },
+                    {
+                        id: "contactcountry",
+                        name: "País del contacto",
+                        hidden: true,
+                    },
+                    {
+                        id: "contactstate",
+                        name: "Estado del contacto",
+                        hidden: true,
+                    },
+                    {
+                        id: "contactcity",
+                        name: "Ciudad del contacto",
+                        hidden: true,
+                    },
+                    {
+                        id: "contactzip",
+                        name: "Código postal del contacto",
+                        hidden: true,
+                    },
+                    {
+                        id: "contacttelephone",
+                        name: "Telefono del contacto",
+                        hidden: true,
+                    },
+                    {
+                        id: "contactemail",
+                        name: "Correo electrónico del contacto",
+                        hidden: true,
+                    },
+                ],
+                data: [],
+            }).render(document.getElementById("gridProductionSite"));
+
+            this.grid_selector_products = new gridjs.Grid({
+                columns: [
+                    {
+                        id: "productid",
+                        name: "Producto",
+                        hidden: true,
+                    },
+                    {
+                        id: "product",
+                        name: "Producto",
+                    },
+                    {
+                        id: "hectareas",
+                        name: "Hectareas",
+                    },
+                    {
+                        id: "certify",
+                        name: "Certificar",
+                    },
+                    {
+                        id: "pppo",
+                        name: "PP/PO",
+                    },
+                ],
+                data: [],
+            }).render(document.getElementById("gridProducts"))
+
+            return this._super.apply(this, arguments);
+        },
+
+        //--------------------------------------------------------------------------
+        // Handlers
+        //--------------------------------------------------------------------------
+
+        /**
+         * On appointment type change: adapt appointment intro text and available
+         * employees (if option enabled)
+         *
+         * @override
+         * @param {Event} ev
+         */
+        _onCountryChange: function (ev) {
+            var selValue = $("#sitecountry").val();
+            console.log("entro");
+            this.states.innerHTML = '';
+            for (var i = 0; i < this.optionStates.length; i++) {
+                if (this.optionStates[i].dataset.option === selValue) {
+                    this.states.appendChild(this.optionStates[i]);
+                }
+            }
+
+        },
+        _clearFields: function() {
+                $("#productionsite").val("");
+                $("#address").val("");
+                $("#postaladdress").val("");
+                $("#zip").val("");
+                $("#telephone").val("");
+                $("#email").val("");
+                $("#latitude").val("");
+                $("#longitude").val("");
+                $("#contactname").val("");
+                $("#contactaddress").val("");
+                $("#contactpostaladdress").val("");
+                $("#contactzip").val("");
+                $("#contacttelephone").val("");
+                $("#contactemail").val("");
+                $("#products").val("");
+                this.products = [];
+                this.grid_selector_products.updateConfig({
+                    data: this.products
+                }).forceRender();
+        },
+        _onStateChange: function (ev) {
+            console.log("");
+            var selValue = $("#sitestate").val();
+            this.cities.innerHTML = '';
+            for (var i = 0; i < this.optionCities.length; i++) {
+                if (this.optionCities[i].dataset.option === selValue) {
+                    this.cities.appendChild(this.optionCities[i]);
+                }
+            }
+
+        },
+        _onClickProductionSite: function (ev) {
+
+            if($("#productionsite").val().trim() == ""){
+                $("#productionsite").focus();
+                alert("Por favor capture un nombre para el Sitio de producción o PHU.");
+            }
+            else if($("#address").val().trim() == ""){
+                $("#address").focus();
+                alert("Por favor capture una dirección para el Sitio de producción o PHU.");
+            }
+            else if($("#sitecountry").val().length == 0){
+                $("#sitecountry").focus();
+                alert("Por favor capture un País para el Sitio de producción o PHU.");
+            }
+            else if($("#sitestate").val().trim().length == 0){
+                $("#sitestate").focus();
+                alert("Por favor capture un Estado para el Sitio de producción o PHU.");
+            }
+            else if($("#sitecity").val().trim().length == 0){
+                $("#sitecity").focus();
+                alert("Por favor capture una Ciudad para el Sitio de producción o PHU.");
+            }
+            else if($("#zip").val().trim() == ""){
+                $("#zip").focus();
+                alert("Por favor capture un Código Postal para el Sitio de producción o PHU.");
+            }
+            else if($("#telephone").val().trim() == ""){
+                $("#telephone").focus();
+                alert("Por favor capture un Teléfono para el Sitio de producción o PHU.");
+            }
+            else if($("#email").val().trim() == ""){
+                $("#email").focus();
+                alert("Por favor capture un Correo Electrónico para el Sitio de producción o PHU.");
+            }
+            else if($("#latitude").val().trim() == ""){
+                $("#latitude").focus();
+                alert("Por favor capture una Latitud para el Sitio de producción o PHU.");
+            }
+            else if($("#longitude").val().trim() == ""){
+                $("#longitude").focus();
+                alert("Por favor capture una Longitud para el Sitio de producción o PHU.");
+            }
+            else if($("#contactname").val().trim() == ""){
+                $("#contactname").focus();
+                alert("Por favor capture un Nombre de Contacto para el Sitio de producción o PHU.");
+            }
+            else if($("#contactaddress").val().trim() == ""){
+                $("#contactaddress").focus();
+                alert("Por favor capture una Dirección del Contacto para el Sitio de producción o PHU.");
+            }
+            else if($("#contaccountry").val().trim().length == 0){
+                $("#contaccountry").focus();
+                alert("Por favor capture una País del Contacto para el Sitio de producción o PHU.");
+            }
+            else if($("#contactstate").val().trim().length == 0){
+                $("#contactstate").focus();
+                alert("Por favor capture un Estado del Contacto para el Sitio de producción o PHU.");
+            }
+            else if($("#contaccity").val().trim().length == 0){
+                $("#contaccity").focus();
+                alert("Por favor capture una Ciudad del Contacto para el Sitio de producción o PHU.");
+            }
+            else if($("#contactzip").val().trim() == ""){
+                $("#contactzip").focus();
+                alert("Por favor capture una Código Postal del Contacto para el Sitio de producción o PHU.");
+            }
+            else if($("#contacttelephone").val().trim() == ""){
+                $("#contacttelephone").focus();
+                alert("Por favor capture un Teléfono del Contacto para el Sitio de producción o PHU.");
+            }
+            else if($("#contactemail").val().trim() == ""){
+                $("#contactemail").focus();
+                alert("Por favor capture un Correo Electrónico del Contacto para el Sitio de producción o PHU.");
+            }
+            else if(this.products.length <= 0){
+                $("#product").focus();
+                alert("Por favor capture por lo menos un producto para el Sitio de producción o PHU.");
+            }
+            else{
+                this.datas.push(
+                    { 
+                        "name": $("#productionsite").val().trim(), 
+                        "type_name": $('input[name=site_type]:checked', '#production_site_form').val() == 1 ? "Sitio" : "PHU", 
+                        "type": $('input[name=site_type]:checked', '#production_site_form').val(), 
+                        "address": $("#address").val().trim(), 
+                        "country": $("#sitecountry").val(), 
+                        "state": $("#sitestate").val().trim(), 
+                        "city": $("#sitecity").val().trim(), 
+                        "zip": $("#zip").val().trim(),
+                        "telephone": $("#telephone").val().trim(), 
+                        "email": $("#email").val().trim(), 
+                        "latitude": $("#latitude").val().trim(), 
+                        "longitude": $("#longitude").val().trim(),
+                        "contactname": $("#contactname").val().trim(), 
+                        "contactaddress": $("#contactaddress").val().trim(), 
+                        "contactcountry": $("#contaccountry").val().trim(), 
+                        "contactstate": $("#contactstate").val().trim(), 
+                        "contactcity": $("#contaccity").val().trim(), 
+                        "contactzip": $("#contactzip").val().trim(), 
+                        "contacttelephone": $("#contacttelephone").val().trim(),
+                        "contactemail": $("#contactemail").val().trim(),
+                        "products": this.products,
+                    }
+                );
+                this.grid_selector.updateConfig({
+                    data: this.datas
+                }).forceRender();
+                $("#sites").val(JSON.stringify(this.datas));
+                this._clearFields();
+                if(this.datas.length > 0 ){
+                    $("#btn_send_sites").prop('disabled', false);
+                }
+            }  
+
+        },
+        _onClickProduct: function (ev) {
+            if($("#product").val().length == 0){
+                $("#product").focus();
+                alert("Por favor capture un Producto.");
+            }
+            else if($("#hect").val().trim() == ""){
+                $("#hect").focus();
+                alert("Por favor capture Hectareas para el producto.");
+            }
+            else if($("#forcertify").val().length == 0){
+                $("#forcertify").focus();
+                alert("Por favor capture la opción para certificar.");
+            }
+            else if($("#pppo").val().length == 0){
+                $("#pppo").focus();
+                alert("Por favor capture la opción PP/PO.");
+            }
+            else{
+                this.products.push(
+                    { 
+                        "product": $('select[name="product"] option:selected').text().trim(), 
+                        "hectareas": $("#hect").val(), 
+                        "certify": $("#forcertify").val(), 
+                        "pppo": $("#pppo").val(),
+                        "productid": $("#product").val(),
+                    }
+                );
+                this.grid_selector_products.updateConfig({
+                    data: this.products
+                }).forceRender();
+                $("#products").val(JSON.stringify(this.products));  
+                $("#product").val("");
+                $("#hect").val("");
+            }
+        },
+
+        _onContactStateChange: function (ev) {
+            console.log("");
+            var selValue = $("#contactstate").val();
+            this.contactCities.innerHTML = '';
+            for (var i = 0; i < this.optionContactCities.length; i++) {
+                if (this.optionContactCities[i].dataset.option === selValue) {
+                    this.contactCities.appendChild(this.optionContactCities[i]);
+                }
+            }
+
+        },
+        _onContactCountryChange: function (ev) {
+            var selValue = $("#contaccountry").val();
+            console.log("entro");
+            this.contactStates.innerHTML = '';
+            for (var i = 0; i < this.optionContactStates.length; i++) {
+                if (this.optionContactStates[i].dataset.option === selValue) {
+                    this.contactStates.appendChild(this.optionContactStates[i]);
+                }
+            }
+
+        },
+        
+    });
+});

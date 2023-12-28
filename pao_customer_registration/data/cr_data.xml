@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="rc_template_mail_request">
+        <table border="0" cellpadding="0" style="background-color: white; padding: 0px; border-collapse:separate;">
+            <tr><td valign="top">
+                Dear <span t-field="record.res_partner_id.name"/>.
+
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    I hope that you and your loved ones are healthy, we are sending you this application to complete your customer 
+                    registration, just click on the following link and start filling out the requested information.
+                </td>
+            </tr>
+             <tr><td valign="top">
+                <div style="margin:16px auto; text-align:center;">
+                    <a t-att-href="link"
+                        style="padding: 8px 16px 8px 16px; border-radius: 3px; background-color:#875A7B; text-align:center; text-decoration:none; color: #FFFFFF;">
+                        Go to form
+                    </a>
+                </div>
+                <br/>
+            </td></tr>
+            
+             <tr style="outline: thin solid">
+                <td valign="top">
+                  <b>Important</b>
+                    <ul>
+                      <li>
+                        Please attach the fiscal certificate dated less than 30 days old, as without this document 
+                        we will not be able to complete your invoicing process.
+                      </li>
+                      <br/>
+                      <li>
+                        Please indicate the contacts who should have a copy of: quotations, invoices and services agreement.
+                      </li>
+                  </ul>
+                  If you have any questions about the requested information. Please contact your Primus Auditing Ops Mexico contact person.
+                </td>
+            </tr>
+            <tr t-if="body"><td valign="top">
+                <div style="margin: 16px 0px 16px 0px; padding: 8px 16px 8px 16px; background-color: #F1F1F1;">
+                    <span>
+                        <t t-raw="body"/>
+                    </span>
+                </div>
+            </td></tr>
+            <tr><td valign="top">
+                <div style="opacity: 0.7;">
+                    <strong>Warning</strong> do not share this email with others!<br/>
+                    As they will be able to access this form.<br/>
+                </div>
+            </td></tr>
+        </table>
+    </template>
+
+</odoo>
