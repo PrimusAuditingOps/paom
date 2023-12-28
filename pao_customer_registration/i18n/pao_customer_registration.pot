@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-18 16:59+0000\n"
-"PO-Revision-Date: 2023-07-18 16:59+0000\n"
+"POT-Creation-Date: 2023-12-28 20:11+0000\n"
+"PO-Revision-Date: 2023-12-28 20:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,13 +16,27 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.rc_template_mail_request
-msgid "<b>Important</b>"
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.res_partner_customer_registration_view_form
+msgid "<span class=\"o_stat_text\">CR Request</span>"
 msgstr ""
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.res_partner_customer_registration_view_form
-msgid "<span class=\"o_stat_text\">CR Request</span>"
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
+msgid ""
+"<span class=\"s_website_form_label_content\">Address</span>\n"
+"                                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+
+#. module: pao_customer_registration
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
+msgid "<span class=\"s_website_form_label_content\">Asesor</span>"
+msgstr ""
+
+#. module: pao_customer_registration
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
+msgid ""
+"<span class=\"s_website_form_label_content\">Bank account statement "
+"cover</span>"
 msgstr ""
 
 #. module: pao_customer_registration
@@ -36,13 +50,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
 msgid ""
 "<span class=\"s_website_form_label_content\">City</span>\n"
-"                                                            <span class=\"s_website_form_mark\"> *</span>"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
-msgid ""
-"<span class=\"s_website_form_label_content\">Colony</span>\n"
 "                                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
 
@@ -75,28 +82,24 @@ msgstr ""
 #. module: pao_customer_registration
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
 msgid ""
-"<span class=\"s_website_form_label_content\">Number</span>\n"
-"                                                            <span class=\"s_website_form_mark\"> *</span>"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
-msgid ""
 "<span class=\"s_website_form_label_content\">Phone</span>\n"
 "                                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
 
 #. module: pao_customer_registration
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
-msgid ""
-"<span class=\"s_website_form_label_content\">State</span>\n"
-"                                                            <span class=\"s_website_form_mark\"> *</span>"
+msgid "<span class=\"s_website_form_label_content\">Proof of address</span>"
+msgstr ""
+
+#. module: pao_customer_registration
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
+msgid "<span class=\"s_website_form_label_content\">SAT compliance opinion</span>"
 msgstr ""
 
 #. module: pao_customer_registration
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
 msgid ""
-"<span class=\"s_website_form_label_content\">Street</span>\n"
+"<span class=\"s_website_form_label_content\">State</span>\n"
 "                                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
 
@@ -115,20 +118,27 @@ msgid ""
 msgstr ""
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.rc_template_mail_request
-msgid ""
-"<strong>Warning</strong> do not share this email with others!<br/>\n"
-"                    As they will be able to access this form.<br/>"
-msgstr ""
-
-#. module: pao_customer_registration
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
 msgid "Add Contact"
 msgstr ""
 
 #. module: pao_customer_registration
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__asesor
+msgid "Asesor"
+msgstr ""
+
+#. module: pao_customer_registration
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_bank_account_id
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_id
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_proof_of_address_id
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_sat_compliance_opinion_id
 msgid "Attachment"
+msgstr ""
+
+#. module: pao_customer_registration
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_bank_account_datas
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_sat_compliance_opinion_datas
+msgid "Bank account statement cover"
 msgstr ""
 
 #. module: pao_customer_registration
@@ -137,8 +147,6 @@ msgid "CFDI use"
 msgstr ""
 
 #. module: pao_customer_registration
-#: code:addons/pao_customer_registration/models/pao_customer_registration.py:0
-#: code:addons/pao_customer_registration/models/pao_customer_registration.py:0
 #: code:addons/pao_customer_registration/models/pao_customer_registration_request.py:0
 #: code:addons/pao_customer_registration/models/pao_customer_registration_request.py:0
 #, python-format
@@ -146,7 +154,6 @@ msgid "CR"
 msgstr ""
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.customer_registration_request_view_form
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration_sent_view_form
 msgid "Cancel"
 msgstr ""
@@ -159,11 +166,6 @@ msgstr ""
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__city_id
 msgid "City"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__colony
-msgid "Colony"
 msgstr ""
 
 #. module: pao_customer_registration
@@ -180,7 +182,6 @@ msgstr ""
 #: model:ir.model,name:pao_customer_registration.model_res_partner
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__contact_id
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__res_partner_id
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__contact_id
 msgid "Contact"
 msgstr ""
 
@@ -197,7 +198,6 @@ msgstr ""
 
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__follower_ids
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__follower_ids
 msgid "Copy to"
 msgstr ""
 
@@ -214,14 +214,12 @@ msgstr ""
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__create_uid
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact__create_uid
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__create_date
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact__create_date
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__create_date
 msgid "Created on"
 msgstr ""
 
@@ -245,7 +243,6 @@ msgstr ""
 
 #. module: pao_customer_registration
 #: code:addons/pao_customer_registration/models/res_partner.py:0
-#: model:ir.model,name:pao_customer_registration.model_pao_customer_registration_request
 #: model:ir.model.fields,field_description:pao_customer_registration.field_res_partner__pao_customer_registration_ids
 #: model:ir.model.fields,field_description:pao_customer_registration.field_res_users__pao_customer_registration_ids
 #, python-format
@@ -264,15 +261,10 @@ msgid "Customer registration has been completed: "
 msgstr ""
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.rc_template_mail_request
-msgid "Dear"
-msgstr ""
-
-#. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__display_name
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact__display_name
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__display_name
 #: model:ir.model.fields,field_description:pao_customer_registration.field_res_partner__display_name
+#: model:ir.model.fields,field_description:pao_customer_registration.field_sale_order__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -286,11 +278,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact__email
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
 msgid "Email"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.customer_registration_request_view_form
-msgid "Enter Subject"
 msgstr ""
 
 #. module: pao_customer_registration
@@ -319,51 +306,30 @@ msgid "Form URL"
 msgstr ""
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.rc_template_mail_request
-msgid "Go to form"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.rc_template_mail_request
-msgid ""
-"I hope that you and your loved ones are healthy, we are sending you this application to complete your customer \n"
-"                    registration, just click on the following link and start filling out the requested information."
-msgstr ""
-
-#. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__id
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact__id
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__id
 #: model:ir.model.fields,field_description:pao_customer_registration.field_res_partner__id
+#: model:ir.model.fields,field_description:pao_customer_registration.field_sale_order__id
 msgid "ID"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.rc_template_mail_request
-msgid ""
-"If you have any questions about the requested information. Please contact "
-"your Primus Auditing Ops Mexico contact person."
 msgstr ""
 
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration____last_update
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact____last_update
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request____last_update
 #: model:ir.model.fields,field_description:pao_customer_registration.field_res_partner____last_update
+#: model:ir.model.fields,field_description:pao_customer_registration.field_sale_order____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__write_uid
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact__write_uid
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__write_date
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact__write_date
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -374,12 +340,14 @@ msgstr ""
 
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__message
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__message
 msgid "Message"
 msgstr ""
 
 #. module: pao_customer_registration
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_bank_account_name
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_name
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_proof_of_address_name
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_sat_compliance_opinion_name
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__name
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_contact__name
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
@@ -393,19 +361,9 @@ msgid "Occupation"
 msgstr ""
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.customer_registration_request_view_form
-msgid "Optional Message..."
-msgstr ""
-
-#. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_res_partner__pao_customer_registration_count
 #: model:ir.model.fields,field_description:pao_customer_registration.field_res_users__pao_customer_registration_count
 msgid "Pao Customer Registration Count"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__res_partner_id
-msgid "Partner"
 msgstr ""
 
 #. module: pao_customer_registration
@@ -416,10 +374,13 @@ msgid "Phone"
 msgstr ""
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.rc_template_mail_request
-msgid ""
-"Please attach the fiscal certificate dated less than 30 days old, as without this document \n"
-"                        we will not be able to complete your invoicing process."
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
+msgid "Please attach the Bank account statement cover"
+msgstr ""
+
+#. module: pao_customer_registration
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
+msgid "Please attach the SAT compliance opinion."
 msgstr ""
 
 #. module: pao_customer_registration
@@ -428,15 +389,18 @@ msgid "Please attach the fiscal certificate dated less than 30 days old."
 msgstr ""
 
 #. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.rc_template_mail_request
-msgid ""
-"Please indicate the contacts who should have a copy of: quotations, invoices"
-" and services agreement."
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
+msgid "Please attach the proof of address."
 msgstr ""
 
 #. module: pao_customer_registration
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
 msgid "Please update your information."
+msgstr ""
+
+#. module: pao_customer_registration
+#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__attachment_proof_of_address_datas
+msgid "Proof of address"
 msgstr ""
 
 #. module: pao_customer_registration
@@ -465,18 +429,13 @@ msgid "Resend"
 msgstr ""
 
 #. module: pao_customer_registration
+#: model:ir.model,name:pao_customer_registration.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__access_token
 msgid "Security Token"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.customer_registration_request_view_form
-msgid "Send"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model:ir.actions.server,name:pao_customer_registration.customer_registration_wizard
-msgid "Send Customer Registration"
 msgstr ""
 
 #. module: pao_customer_registration
@@ -501,7 +460,6 @@ msgstr ""
 
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__subject
-#: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration_request__subject
 msgid "Subject"
 msgstr ""
 
@@ -532,6 +490,13 @@ msgid "The fiscal certificate has been added."
 msgstr ""
 
 #. module: pao_customer_registration
+#: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration
+msgid ""
+"To add more than one email, please place it with a comma and without a "
+"space."
+msgstr ""
+
+#. module: pao_customer_registration
 #: model_terms:ir.ui.view,arch_db:pao_customer_registration.pao_customer_registration_sent_view_form
 msgid "Update Contact"
 msgstr ""
@@ -539,11 +504,6 @@ msgstr ""
 #. module: pao_customer_registration
 #: model:ir.model.fields,field_description:pao_customer_registration.field_pao_customer_registration__vat
 msgid "VAT"
-msgstr ""
-
-#. module: pao_customer_registration
-#: model_terms:ir.ui.view,arch_db:pao_customer_registration.customer_registration_request_view_form
-msgid "Write email or search contact..."
 msgstr ""
 
 #. module: pao_customer_registration
