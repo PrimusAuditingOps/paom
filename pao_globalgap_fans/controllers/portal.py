@@ -233,7 +233,6 @@ class CustomerPortal(portal.CustomerPortal):
         
         production_site = json.loads(sites)  
         _logger.error(production_site)
-        """
         for obj in production_site:
             production_data = {
                 "name": obj["name"],
@@ -260,6 +259,6 @@ class CustomerPortal(portal.CustomerPortal):
                     "hectares_in_production": product["hectareas"],
                     "product_id": product["productid"],
                 }
-        """
+        
         return request.redirect('/pao/fillout/fans/production_site/' + str(cr_id) + '/' + cr_token)
 
