@@ -287,12 +287,11 @@ class CustomerPortal(portal.CustomerPortal):
                 "contact_name": obj["contactname"],
                 "contact_telephone": obj["contacttelephone"],
                 "contact_email": obj["contactemail"],
-                "contactaddress": obj["contactaddress"], 
-                "contactcountry": obj["contactcountry"], 
-                "contactstate": obj["contactstate"], 
-                "contactcity": obj["contactcity"], 
-                "contactzip": obj["contactzip"], 
-                "contacttelephone": obj["contacttelephone"], 
+                "contact_address": obj["contactaddress"], 
+                "contact_country_id": obj["contactcountry"], 
+                "contact_state_city": obj["contactstate"], 
+                "contact_city_id": obj["contactcity"], 
+                "contact_zip": obj["contactzip"], 
             }
             production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
             for product in obj["products"]:
