@@ -235,6 +235,7 @@ class CustomerPortal(portal.CustomerPortal):
         _logger.error(production_site)
         for obj in production_site:
             production_data = {
+                "organization_id": fr_sudo.organization_id.id,
                 "name": obj["name"],
                 "type": obj["type"],
                 "address": obj["address"],
