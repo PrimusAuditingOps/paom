@@ -212,35 +212,35 @@ class CustomerPortal(portal.CustomerPortal):
             product_list = []
             for p in rec.product_ids:
                 product_obj = {
-                    'product': p.product_id.name, 
-                    'hectareas': p.hectares_in_production, 
-                    'certify': p.to_certificate, 
-                    'pppo': p.parallel_production_or_property, 
-                    'productid': p.product_id.id
+                    "product": p.product_id.name, 
+                    "hectareas": p.hectares_in_production, 
+                    "certify": p.to_certificate, 
+                    "pppo": p.parallel_production_or_property, 
+                    "productid": p.product_id.id
                 }
                 product_list.append(product_obj)
             site_data = {
-                'name': rec.name, 
-                'type_name': dict(request.env['pao.globalgap.production.site'].sudo()._fields['type'].selection).get(rec.type), 
-                'type': rec.type, 
-                'address': rec.address, 
-                'country_id': rec.country_id.id, 
-                'state_id': rec.state_id.id, 
-                'city_id': rec.city_id.id, 
-                'zip': rec.zip, 
-                'telephone': rec.telephone, 
-                'email': rec.email, 
-                'latitude': rec.latitude, 
-                'longitude': rec.longitude, 
-                'contactname': rec.contact_name, 
-                'contactaddress': rec.contact_address, 
-                'contactcountry': rec.contact_country_id.id, 
-                'contactstate': rec.contact_state_id.id, 
-                'contactcity': rec.contact_city_id.id, 
-                'contactzip': rec.contact_zip, 
-                'contacttelephone': rec.contact_telephone, 
-                'contactemail': rec.contact_email,
-                'products': product_list,
+                "name": rec.name, 
+                "type_name": dict(request.env['pao.globalgap.production.site'].sudo()._fields['type'].selection).get(rec.type), 
+                "type": rec.type, 
+                "address": rec.address, 
+                "country_id": rec.country_id.id, 
+                "state_id": rec.state_id.id, 
+                "city_id": rec.city_id.id, 
+                "zip": rec.zip, 
+                "telephone": rec.telephone, 
+                "email": rec.email, 
+                "latitude": rec.latitude, 
+                "longitude": rec.longitude, 
+                "contactname": rec.contact_name, 
+                "contactaddress": rec.contact_address, 
+                "contactcountry": rec.contact_country_id.id, 
+                "contactstate": rec.contact_state_id.id, 
+                "contactcity": rec.contact_city_id.id, 
+                "contactzip": rec.contact_zip, 
+                "contacttelephone": rec.contact_telephone, 
+                "contactemail": rec.contact_email,
+                "products": product_list,
             }
             production_sites_list.append(site_data)
         _logger.error(production_sites_list)
