@@ -30,10 +30,11 @@ class PaoGlobalgapProductionSite(models.Model):
         comodel_name='res.city',
         ondelete='restrict',
     )
-    state_id = fields.Char(
+    state_id = fields.Many2one(
+        comodel_name = 'res.country.state', 
         string='State', 
-        copy=False,
-    )
+        ondelete='restrict',
+    ) 
     country_id = fields.Many2one(
         comodel_name = 'res.country', 
         string='Country', 
@@ -85,10 +86,11 @@ class PaoGlobalgapProductionSite(models.Model):
         comodel_name='res.city',
         ondelete='restrict',
     )
-    contact_state_id = fields.Char(
+    contact_state_id = fields.Many2one(
+        comodel_name = 'res.country.state', 
         string='Contact State', 
-        copy=False,
-    )
+        ondelete='restrict',
+    ) 
     contact_country_id = fields.Many2one(
         comodel_name = 'res.country', 
         string='Contact Country', 
