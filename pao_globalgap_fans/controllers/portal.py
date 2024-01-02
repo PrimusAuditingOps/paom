@@ -243,7 +243,7 @@ class CustomerPortal(portal.CustomerPortal):
                 'products': product_list,
             }
             production_sites_list.append(site_data)
-        _logger.error(production_sites)
+        _logger.error(production_sites_list)
         return request.render(
             'pao_globalgap_fans.fan_portal_production_site', 
             {
