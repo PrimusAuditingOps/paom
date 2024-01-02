@@ -302,7 +302,7 @@
                                                         <button type="button" class="btn btn-success btn-md btn_add_production_site" id="btn_add_production_site">Añadir sitio de producción</button>
                                                     </div>
                                                 </div>
-                                                <input type="hidden" name="sites" id="sites" class="form-control s_website_form_input" width="100px" placeholder=""/>
+                                                <input type="hidden" name="sites" id="sites" t-att-value="production_sites" class="form-control s_website_form_input" width="100px" placeholder=""/>
                                                 <div id="gridProductionSite"></div>
                                                 
 

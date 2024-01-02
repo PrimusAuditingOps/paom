@@ -18,21 +18,21 @@ class PaoGlobalgapProductionSiteProduct(models.Model):
     )
     to_certificate = fields.Selection(
         selection=[
-            ('yes', "Yes"),
-            ('no', "No"),
+            ('1', "Yes"),
+            ('2', "No"),
         ],
         string="To certificate", 
         copy=False,
-        default='yes',
+        default='1',
     )
     parallel_production_or_property = fields.Selection(
         selection=[
-            ('yes', "Yes"),
-            ('no', "No"),
+            ('1', "Yes"),
+            ('2', "No"),
         ],
         string="Parallel production/Parallel property", 
         copy=False,
-        default='yes',
+        default='1',
     )
     production_site_id = fields.Many2one(
         comodel_name='pao.globalgap.production.site',

@@ -207,11 +207,48 @@ class CustomerPortal(portal.CustomerPortal):
         products = request.env['servicereferralagreement.auditproducts'].sudo().search([])
         certificate = request.env['pao.globalgap.production.site.product'].sudo()._fields['to_certificate'].selection
         pppo = request.env['pao.globalgap.production.site.product'].sudo()._fields['parallel_production_or_property'].selection
+        production_sites_list = []
+        for rec in fan_sudo.organization_id.production_site_ids:
+            product_list = []
+            for p in rec.product_ids:
+                product_obj = {
+                    'product': p.product_id.name, 
+                    'hectareas': p.hectares_in_production, 
+                    'certify': p.to_certificate, 
+                    'pppo': p.parallel_production_or_property, 
+                    'productid': p.product_id.id
+                }
+                product_list.append(product_obj)
+            site_data = 
+            {
+                'name': rec.name, 
+                'type_name': dict(request.env['pao.globalgap.production.site'].sudo()._fields['type'].selection).get(rec.type), 
+                'type': rec.type, 
+                'address': rec.address, 
+                'country': rec.country_id, 
+                'state': rec.state_id, 
+                'city': rec.city_id, 
+                'zip': rec.zip, 
+                'telephone': rec.telephone, 
+                'email': rec.email, 
+                'latitude': rec.latitude, 
+                'longitude': rec.longitude, 
+                'contactname': rec.contact_name, 
+                'contactaddress': rec.contact_address, 
+                'contactcountry': rec.contact_country_id, 
+                'contactstate': rec.contact_state_city, 
+                'contactcity': rec.contact_state_city, 
+                'contactzip': rec.contact_zip, 
+                'contacttelephone': rec.contact_telephone, 
+                'contactemail': rec.contact_email,
+                'products': product_list,
+            }
+            production_sites_list.append(site_data)
 
         return request.render(
             'pao_globalgap_fans.fan_portal_production_site', 
             {
-                "data": fan_sudo.organization_id.sudo(), 
+                "data": fan_sudo.organization_id, 
                 "id": fan_id,
                 "token": fan_token,
                 "back_url": "/pao/fillout/fans/" +str(fan_id) + "/" + fan_token,
@@ -221,6 +258,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "products": products,
                 "certificate": certificate,
                 "pppo": pppo,
+                "production_sites": production_sites_list,
             }
         )
     
@@ -250,6 +288,12 @@ class CustomerPortal(portal.CustomerPortal):
                 "contact_name": obj["contactname"],
                 "contact_telephone": obj["contacttelephone"],
                 "contact_email": obj["contactemail"],
+                "contactaddress": obj["contactaddress"], 
+                "contactcountry": obj["contactcountry"], 
+                "contactstate": obj["contactstate"], 
+                "contactcity": obj["contactcity"], 
+                "contactzip": obj["contactzip"], 
+                "contacttelephone": obj["contacttelephone"], 
             }
             production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
             for product in obj["products"]:

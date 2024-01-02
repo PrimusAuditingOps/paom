@@ -31,7 +31,7 @@ class PaoGlobalgapProductionSite(models.Model):
         ondelete='restrict',
     )
     state_city = fields.Char(
-        string='State/City', 
+        string='State', 
         copy=False,
     )
     country_id = fields.Many2one(
@@ -72,6 +72,28 @@ class PaoGlobalgapProductionSite(models.Model):
         string='Contact email', 
         copy=False,
     )
+    contact_address = fields.Text(
+        string='Contact address', 
+        copy=False,
+    )
+    contact_zip = fields.Char(
+        string='ZIP', 
+        copy=False,
+    )
+    contact_city_id = fields.Many2one(
+        string="City",
+        comodel_name='res.city',
+        ondelete='restrict',
+    )
+    contact_state_city = fields.Char(
+        string='State', 
+        copy=False,
+    )
+    contact_country_id = fields.Many2one(
+        comodel_name = 'res.country', 
+        string='Country', 
+        ondelete='restrict',
+    )  
 
     organization_id = fields.Many2one(
         comodel_name='pao.globalgap.organization',
