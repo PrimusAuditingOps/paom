@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pao_crm_tracker_view_form" model="ir.ui.view">
+        <field name="name">pao.crm.tracker.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">          
+            <page name="internal_notes" position="after">
+                <page name="other_information" string="Other Information">
+                    <form string="Other Information">
+                        <sheet>
+                            <group col="2">
+                                <field name="pao_current_customer"/>
+                                <field name="pao_previous_cb_id"/>
+                                <field name="pao_new_cb_id"/>
+                            </group>
+                        </sheet>
+                    </form>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo> 

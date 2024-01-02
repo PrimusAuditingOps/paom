@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="res_partner_view_form_shared_cost_pl" model="ir.ui.view">
+        <field name="name">res.partner.view.form.shared.cost.pl</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="property_product_pricelist" position="after">
+                    <field name="pao_sc_price_list" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                </field>
+            </field>
+    </record>
+</odoo>
