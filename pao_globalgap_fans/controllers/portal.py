@@ -236,7 +236,7 @@ class CustomerPortal(portal.CustomerPortal):
         for obj in production_site:
             production_data = {
                 "name": obj["name"],
-                "type"; obj["type"],
+                "type": obj["type"],
                 "address": obj["address"],
                 "city_id": obj["city"],
                 "state_city": obj["state"],
