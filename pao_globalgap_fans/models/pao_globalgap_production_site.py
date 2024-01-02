@@ -77,21 +77,21 @@ class PaoGlobalgapProductionSite(models.Model):
         copy=False,
     )
     contact_zip = fields.Char(
-        string='ZIP', 
+        string='Contact ZIP', 
         copy=False,
     )
     contact_city_id = fields.Many2one(
-        string="City",
+        string="Contact City",
         comodel_name='res.city',
         ondelete='restrict',
     )
     contact_state_id = fields.Char(
-        string='State', 
+        string='Contact State', 
         copy=False,
     )
     contact_country_id = fields.Many2one(
         comodel_name = 'res.country', 
-        string='Country', 
+        string='Contact Country', 
         ondelete='restrict',
     )  
 
