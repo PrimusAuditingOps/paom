@@ -225,7 +225,7 @@ class CustomerPortal(portal.CustomerPortal):
         )
     
     @http.route(['/pao/fillout/fans/production_site_phu'], type='http', auth='public', methods=['POST'], website=True)
-    def portal_fans_save_organization(self, cr_token, cr_id, sites, **kw):
+    def portal_fans_save_production_sites(self, cr_token, cr_id, sites, **kw):
         try:
             fr_sudo = self._document_check_access('pao.globalgap.fans.request', int(cr_id), access_token=str(cr_token))
         except (AccessError, MissingError):
