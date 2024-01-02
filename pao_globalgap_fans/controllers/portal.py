@@ -259,6 +259,7 @@ class CustomerPortal(portal.CustomerPortal):
                     "hectares_in_production": product["hectareas"],
                     "product_id": product["productid"],
                 }
+                product = request.env['pao.globalgap.production.site.product'].sudo().create(product_data)
         
         return request.redirect('/pao/fillout/fans/production_site/' + str(cr_id) + '/' + cr_token)
 
