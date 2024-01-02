@@ -257,7 +257,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "products": products,
                 "certificate": certificate,
                 "pppo": pppo,
-                "production_sites": production_sites_list,
+                "production_sites": json.dumps(production_sites_list),
             }
         )
     

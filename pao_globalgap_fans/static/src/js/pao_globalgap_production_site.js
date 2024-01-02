@@ -228,7 +228,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
             }).render(document.getElementById("gridProducts"))
 
             var text = $("#sites").val();
-            console.log(JSON.stringify(text));
+            console.log(text);
 
 
             return this._super.apply(this, arguments);
