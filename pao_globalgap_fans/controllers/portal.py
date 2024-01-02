@@ -147,6 +147,8 @@ class CustomerPortal(portal.CustomerPortal):
     certification_option, evaluation_type, name, address, city,state, country,
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
     contact_telephone, contact_email, rights_of_access,addons, **kw):
+
+        _logger.error("Entroons")
         try:
             fr_sudo = self._document_check_access('pao.globalgap.fans.request', int(fr_id), access_token=str(fr_token))
         except (AccessError, MissingError):
