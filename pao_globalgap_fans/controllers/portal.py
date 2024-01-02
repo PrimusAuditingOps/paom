@@ -219,8 +219,7 @@ class CustomerPortal(portal.CustomerPortal):
                     'productid': p.product_id.id
                 }
                 product_list.append(product_obj)
-            site_data = 
-            {
+            site_data = {
                 'name': rec.name, 
                 'type_name': dict(request.env['pao.globalgap.production.site'].sudo()._fields['type'].selection).get(rec.type), 
                 'type': rec.type, 
