@@ -30,7 +30,7 @@ class PaoGlobalgapProductionSite(models.Model):
         comodel_name='res.city',
         ondelete='restrict',
     )
-    state_city = fields.Char(
+    state_id = fields.Char(
         string='State', 
         copy=False,
     )
@@ -85,7 +85,7 @@ class PaoGlobalgapProductionSite(models.Model):
         comodel_name='res.city',
         ondelete='restrict',
     )
-    contact_state_city = fields.Char(
+    contact_state_id = fields.Char(
         string='State', 
         copy=False,
     )
