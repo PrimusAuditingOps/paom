@@ -278,6 +278,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                     data: d
                 }).forceRender();
                 $("#sites").val(JSON.stringify(d));
+                console.log(this.data);
             }
             
 
