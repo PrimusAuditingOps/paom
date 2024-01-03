@@ -11,3 +11,4 @@ from . import paa_audit_honorarium_month
 from . import paa_configuration_audit_quantity
 from . import paa_configuration_audit_honorarium
 from . import paa_auditor_qualification
+from . import service_referral_agreement_audit_fees

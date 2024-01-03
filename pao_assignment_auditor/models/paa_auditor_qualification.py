@@ -11,7 +11,6 @@ class PaaAuditorQualification(models.Model):
 
 
 
-
     auditor_id = fields.Many2one(
         comodel_name='res.partner',
         string='Auditor',
@@ -24,7 +23,7 @@ class PaaAuditorQualification(models.Model):
     scheme_qualification = fields.Float(
         default = 0.00,
         required = True,
-        string= "Scheme Qualification",
+        string= "Scheme ranking",
     )
     localization_qualification = fields.Float(
         default = 0.00,
@@ -69,6 +68,15 @@ class PaaAuditorQualification(models.Model):
         string="Day color",
         defauult= "",
     ) 
+    is_in_house = fields.Selection(
+        [('0', 'Normal'), ('1', 'In house')], 
+        'In House', 
+        default='0',
+        readonly = True,
+    )
+
+    total_to_pay = fields.Float(string='Payment', digits='Product Price')
+
 
     def _get_position(self):
         

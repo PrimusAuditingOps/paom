@@ -6,6 +6,9 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+                <field name="vat" position="after">
+                     <field name="is_an_in_house_auditor"/>
+                </field>
                 <page name="sales_purchases" position="after">
                     <field name="ado_is_auditor" invisible="1"/>
                    

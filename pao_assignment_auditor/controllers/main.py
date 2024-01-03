@@ -19,7 +19,7 @@ _logger = getLogger(__name__)
 class webAuditorAssignment(http.Controller):
     
     @http.route(['/auditor_assignment'], type='json', auth='user', methods=['POST'])
-    def test(self, dates=None, startdates=None, products=None, organizations= None, saleorderid = None, orderid=None, cityid=None, failed=False, **kwargs):
+    def test(self, dates=None, startdates=None, products=None, organizations= None, saleorderid = None, orderid=None, cityid=None, price_total=0.00, failed=False, **kwargs):
         user_id = request.env.context.get('uid')
         weightings = self._get_weighting()
         auditors_list = []
@@ -27,7 +27,7 @@ class webAuditorAssignment(http.Controller):
         audit_quantity_list = []
         audit_honorarium_list = []
         auditor_localization_list = []
-        _logger.error(products)
+        
         view_id = 0
         if weightings:
             auditors_list = self._get_approved_auditor(products)
@@ -55,6 +55,18 @@ class webAuditorAssignment(http.Controller):
                     'user_id': user_id,
                 }
                 request.env.cr.execute(sql,params)
+
+                
+                """
+                if orderid:
+                    recPurchaseOrder = request.env['purchase.order'].browse(orderid)
+                    for r in recPurchaseOrder.order_line:
+                        if r.sra_sale_line_price_unit:
+                            price_unit_total += r.sra_sale_line_price_unit 
+                """
+
+
+
                 for auditor in auditors_list:
                     qualification = 0.00
                     scheme = 0.00
@@ -81,9 +93,21 @@ class webAuditorAssignment(http.Controller):
                     for r in objrate:
                         qualification += r['qualification']
                         honorarium = round(r['qualification'],4)
-                        break
+                        break 
                     
                     days = self._get_days_without_audits(auditor)
+                    
+                    total_to_pay = 0.00
+                    in_house_auditor = False
+                    recauditor = request.env['res.partner'].browse(auditor)
+                    for recPartner in recauditor:
+                        in_house_auditor = recPartner.is_an_in_house_auditor
+
+                        recFee = request.env["servicereferralagreement.auditfees"].search([("default","=",True)])
+                        for fee in recFee:
+                            for percentage in recPartner.audit_fee_percentages_ids.filtered_domain([('audit_fees_id', '=', fee.id)]):
+                                total_to_pay = percentage.audit_percentage * price_total / 100
+
 
                     value = request.env['paoassignmentauditor.auditor.qualification'].sudo().create(
                         {
@@ -95,10 +119,11 @@ class webAuditorAssignment(http.Controller):
                             'qualification': qualification,
                             'ref_user_id': user_id,
                             'day_without_audits': days,
+                            'total_to_pay': total_to_pay,
+                            'is_in_house': '0' if not in_house_auditor else '1',
                             'day_color': "blue" if days >= 22 and days <= 35 else "yellow" if days >= 36 and days <= 45 else "red" if days > 45 else "",
                         }
                     )
-                    
         
         return {
             'auditors': auditors_list,

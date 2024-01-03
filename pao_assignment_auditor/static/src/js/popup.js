@@ -44,6 +44,7 @@ odoo.define('pao_assignment_auditor.popup_assignment_auditor', function (require
             var saleorderid = null;
             var orderid = this.res_id ? this.res_id : -1;
             var cityid = this.getParent().state.data.audit_city_id.res_id;
+            var price_total = 0;
 
             var order_line = this.getParent().state.data.order_line.data;
             if (this.getParent().state.data.sale_order_id){
@@ -56,6 +57,7 @@ odoo.define('pao_assignment_auditor.popup_assignment_auditor', function (require
                 var formatenddate = order_line[id].data.service_end_date._f;
                 var product_id = order_line[id].data.product_id.res_id;
                 var organization_id = order_line[id].data.organization_id.res_id;
+                price_total += order_line[id].data.sra_sale_line_price_unit;
 
                 if (typeof product_id !== 'undefined') {
                     
@@ -108,6 +110,7 @@ odoo.define('pao_assignment_auditor.popup_assignment_auditor', function (require
                 'saleorderid' : saleorderid,
                 'orderid' : orderid,
                 'cityid' : cityid,
+                'price_total': price_total,
                 }).then(function (data) {
                     if ( data.auditors.length > 0 ){
                         self.do_action({

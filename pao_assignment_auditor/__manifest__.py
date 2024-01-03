@@ -24,6 +24,7 @@
         'views/configuration_audit_honorarium.xml',
         'views/assignment_auditor_qualification.xml',
         'views/assets.xml',
+        'views/auditfees_view.xml',
         
     ],
     'qweb': [

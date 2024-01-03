@@ -8,14 +8,16 @@
         <field name="arch" type="xml">
             <tree string="Assignment Auditor Calification" create="false">
                 <field name="position"/>
+                <field name="is_in_house" optional="show" widget="priority" nolabel="1"/>
                 <field name="day_color" invisible="1"/>
                 <field name="auditor_id" decoration-info="day_color == 'blue'" decoration-warning="day_color == 'yellow'" decoration-danger="day_color == 'red'"/>
-                <field name="scheme_qualification"/>
-                <field name="localization_qualification"/>
-                <field name="audit_qty_qualification"/>
-                <field name="audit_honorarium_qualification"/>
+                <field name="scheme_qualification" optional="show"/>
+                <field name="localization_qualification" optional="show"/>
+                <field name="audit_qty_qualification" optional="show"/>
+                <field name="audit_honorarium_qualification" optional="show"/>
+                <field name="total_to_pay"/>
                 <field name="qualification"/>
-                <field name="day_without_audits"/>
+                <field name="day_without_audits" optional="show"/>
                 <button name="assign_auditor" type="object" string="Assign" class="oe_highlight"/>
             </tree>
         </field>

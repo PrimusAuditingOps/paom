@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="sra_auditfees_default_rate_view_form" model="ir.ui.view">
+        <field name="name">sra.auditfees.default.rate.view.form</field>
+        <field name="model">servicereferralagreement.auditfees</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="servicereferralagreement.servicereferralagreement_audit_type_view_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                     <field name="default"/>
+                </field>
+            </field>
+    </record>
+</odoo>

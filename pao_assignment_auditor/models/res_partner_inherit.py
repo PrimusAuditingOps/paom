@@ -34,4 +34,7 @@ class ResPartner(models.Model):
         inverse_name='partner_id',
         string='scheme rating',
     )
-   
+    is_an_in_house_auditor = fields.Boolean(
+        string= "Is an in house auditor",
+        default= False,
+    )
