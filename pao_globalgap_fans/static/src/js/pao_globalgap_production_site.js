@@ -228,9 +228,11 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
             }).render(document.getElementById("gridProducts"))
 
         
-            var obj = JSON.parse($("#sites").val())
+            var obj = JSON.parse($("#sites").val());
+            var d = [];
             obj.forEach(function(objdata) {
-                var product_list = []
+                var product_list = [];
+            
                 objdata.products.forEach(function(objproduct){
                     product_list.push(
                         { 
@@ -242,7 +244,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         }
                     );
                 });
-                this.datas.push(
+                d.push(
                     { 
                         "name": objdata.name, 
                         "type_name": objdata.type_name, 
@@ -267,14 +269,14 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "products": product_list,
                     }
                 );
-                console.log(this.datas);
+                console.log(d);
 
             });
-            if (this.datas.length > 0){
+            if (d.length > 0){
                 this.grid_selector.updateConfig({
-                    data: this.datas
+                    data: d
                 }).forceRender();
-                $("#sites").val(JSON.stringify(this.datas));
+                $("#sites").val(JSON.stringify(d));
             }
             
 
