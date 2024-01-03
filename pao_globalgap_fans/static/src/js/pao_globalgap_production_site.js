@@ -273,28 +273,13 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
 
             });
             if (d.length > 0){
+                this.datas = d;
                 this.grid_selector.updateConfig({
                     data: d
                 }).forceRender();
                 $("#sites").val(JSON.stringify(d));
             }
             
-
-            /*
-            this.products.push(
-                    { 
-                        "product": $('select[name="product"] option:selected').text().trim(), 
-                        "hectareas": $("#hect").val(), 
-                        "certify": $("#forcertify").val(), 
-                        "pppo": $("#pppo").val(),
-                        "productid": $("#product").val(),
-                    }
-                );
-            
-                
-            
-            
-            */
 
             return this._super.apply(this, arguments);
         },
