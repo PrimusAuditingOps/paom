@@ -230,8 +230,69 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
         
             var obj = JSON.parse($("#sites").val())
             obj.forEach(function(objdata) {
-                console.log(objdata);
+                var product_list = []
+                objdata.products.forEach(function(objproduct){
+                    product_list.push(
+                        { 
+                            "product": objproduct.product, 
+                            "hectareas": objproduct.hectareas, 
+                            "certify": objproduct.certify, 
+                            "pppo": objproduct.pppo,
+                            "productid": objproduct.productid,
+                        }
+                    );
+                });
+                this.datas.push(
+                    { 
+                        "name": objdata.name, 
+                        "type_name": objdata.type_name, 
+                        "type": objdata.type, 
+                        "address": objdata.address, 
+                        "country": objdata.country_id, 
+                        "state": objdata.state_id, 
+                        "city": objdata.city_id, 
+                        "zip": objdata.zip,
+                        "telephone": objdata.telephone, 
+                        "email": objdata.email, 
+                        "latitude": objdata.latitude, 
+                        "longitude": objdata.longitude,
+                        "contactname": objdata.contactname, 
+                        "contactaddress": objdata.contactaddress, 
+                        "contactcountry": objdata.contactcountry, 
+                        "contactstate": objdata.contactstate, 
+                        "contactcity": objdata.contactcity, 
+                        "contactzip": objdata.contactzip, 
+                        "contacttelephone": objdata.contacttelephone,
+                        "contactemail": objdata.contactemail,
+                        "products": product_list,
+                    }
+                );
+                console.log(this.datas);
+
             });
+            if (this.datas.length > 0){
+                this.grid_selector.updateConfig({
+                    data: this.datas
+                }).forceRender();
+                $("#sites").val(JSON.stringify(this.datas));
+            }
+            
+
+            /*
+            this.products.push(
+                    { 
+                        "product": $('select[name="product"] option:selected').text().trim(), 
+                        "hectareas": $("#hect").val(), 
+                        "certify": $("#forcertify").val(), 
+                        "pppo": $("#pppo").val(),
+                        "productid": $("#product").val(),
+                    }
+                );
+            
+                
+            
+            
+            */
 
             return this._super.apply(this, arguments);
         },
