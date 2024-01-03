@@ -269,8 +269,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "products": product_list,
                     }
                 );
-                console.log(d);
-
             });
             if (d.length > 0){
                 this.datas = d;
@@ -278,7 +276,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                     data: d
                 }).forceRender();
                 $("#sites").val(JSON.stringify(d));
-                console.log(this.data);
+                $("#btn_send_sites").prop('disabled', false);
             }
             
 
@@ -298,7 +296,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
          */
         _onCountryChange: function (ev) {
             var selValue = $("#sitecountry").val();
-            console.log("entro");
             this.states.innerHTML = '';
             for (var i = 0; i < this.optionStates.length; i++) {
                 if (this.optionStates[i].dataset.option === selValue) {
@@ -329,7 +326,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                 }).forceRender();
         },
         _onStateChange: function (ev) {
-            console.log("");
             var selValue = $("#sitestate").val();
             this.cities.innerHTML = '';
             for (var i = 0; i < this.optionCities.length; i++) {
@@ -491,7 +487,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
         },
 
         _onContactStateChange: function (ev) {
-            console.log("");
             var selValue = $("#contactstate").val();
             this.contactCities.innerHTML = '';
             for (var i = 0; i < this.optionContactCities.length; i++) {
@@ -503,7 +498,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
         },
         _onContactCountryChange: function (ev) {
             var selValue = $("#contaccountry").val();
-            console.log("entro");
             this.contactStates.innerHTML = '';
             for (var i = 0; i < this.optionContactStates.length; i++) {
                 if (this.optionContactStates[i].dataset.option === selValue) {
