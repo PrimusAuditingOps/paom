@@ -37,5 +37,5 @@ class PaoGlobalgapProductionSiteProduct(models.Model):
     production_site_id = fields.Many2one(
         comodel_name='pao.globalgap.production.site',
         string='Production site',
-        ondelete='restrict',
+        ondelete='cascade',
     )

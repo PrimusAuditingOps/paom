@@ -293,6 +293,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "contact_city_id": obj["contactcity"], 
                 "contact_zip": obj["contactzip"], 
             }
+            request.env['pao.globalgap.production.site'].sudo().search([("organization_id","=",fr_sudo.organization_id.id)]).unlink()
             production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
             for product in obj["products"]:
                 product_data = {
