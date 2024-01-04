@@ -218,9 +218,19 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                     {
                         id: "certify",
                         name: "Certificar",
+                        hidden: true,
                     },
                     {
                         id: "pppo",
+                        name: "PP/PO",
+                        hidden: true,
+                    },
+                    {
+                        id: "certify_text",
+                        name: "Certificar",
+                    },
+                    {
+                        id: "pppo_text",
                         name: "PP/PO",
                     },
                 ],
@@ -475,6 +485,8 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "certify": $("#forcertify").val(), 
                         "pppo": $("#pppo").val(),
                         "productid": $("#product").val(),
+                        "certify_text": $('select[name="certify"] option:selected').text().trim(),
+                        "pppo_text": $('select[name="pppo"] option:selected').text().trim(),
                     }
                 );
                 this.grid_selector_products.updateConfig({
