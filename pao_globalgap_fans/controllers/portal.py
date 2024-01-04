@@ -305,5 +305,23 @@ class CustomerPortal(portal.CustomerPortal):
                 }
                 product = request.env['pao.globalgap.production.site.product'].sudo().create(product_data)
         
-        return request.redirect('/pao/fillout/fans/production_site/' + str(cr_id) + '/' + cr_token)
+        return request.redirect('/pao/fillout/fans/production_information/' + str(cr_id) + '/' + cr_token)
+
+    
+    @http.route(['/pao/fillout/fans/production_information/<int:fan_id>/<string:fan_token>'], type='http', auth="public", website=True)
+    def portal_fill_out_fans_product_information(self, fan_id=False, fan_token=None, **kw):
+        
+        try:
+            fan_sudo = self._document_check_access('pao.globalgap.fans.request', fan_id, access_token=fan_token)
+        except (AccessError, MissingError):
+            return request.redirect('/')
+        return request.render(
+            'pao_globalgap_fans.fans_portal_template_product_information', 
+            {
+                "data": {}, 
+                "id": fan_id,
+                "token": fan_token,
+                "back_url": "/pao/fillout/fans/production_site/" +str(fan_id) + "/" + fan_token,
+            }
+        )
 

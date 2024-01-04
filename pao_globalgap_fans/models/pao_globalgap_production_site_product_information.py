@@ -22,17 +22,17 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     )
     applicable_harvest = fields.Selection(
         selection=[
-            ('yes', "Yes"),
-            ('no', "No"),
+            ('1', "Yes"),
+            ('2', "No"),
         ],
         string="Applicable harvest", 
         copy=False,
-        default='yes',
+        default='1',
     )
     harvest_type = fields.Selection(
         selection=[
-            ('first', "First harvest"),
-            ('later', "Later harvest"),
+            ('1', "First harvest"),
+            ('2', "Later harvest"),
         ],
         string="Harvest type", 
         copy=False,
@@ -40,13 +40,13 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     )
     product_handling = fields.Selection(
         selection=[
-            ('no', "No"),
-            ('yes_field', "Yes, in the field"),
-            ('yes_phu', "Yes, in the PHU"),
+            ('1', "No"),
+            ('2', "Yes, in the field"),
+            ('3', "Yes, in the PHU"),
         ],
         string="Product handling", 
         copy=False,
-        default='no',
+        default='1',
     )
     outsourced_activities = fields.Char(
         string='Outsourced activities', 
@@ -58,21 +58,21 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     )
     product_manipulated_not_certificate = fields.Selection(
         selection=[
-            ('no', "No"),
-            ('yes', "Yes"),
+            ('1', "No"),
+            ('2', "Yes"),
         ],
         string="Product manipulated with product without certificate", 
         copy=False,
-        default='no',
+        default='1',
     )
     organization_buys_product = fields.Selection(
         selection=[
-            ('no', "No"),
-            ('yes', "Yes"),
+            ('1', "No"),
+            ('2', "Yes"),
         ],
         string="The organization buy the same certified product and/or not certified?", 
         copy=False,
-        default='no',
+        default='1',
     )
     estimated_yield_in_tons = fields.Float(
         string="Estimated yield in tons",

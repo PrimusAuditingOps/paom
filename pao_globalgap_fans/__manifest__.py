@@ -20,6 +20,7 @@
         'views/pao_globalgap_send_fans_request_view.xml',
         'views/fans_portal_template.xml',
         'views/fans_portal_template_production_site.xml',
+        'views/fans_portal_template_product_information.xml',
     ],
     'application':'True',     
     
