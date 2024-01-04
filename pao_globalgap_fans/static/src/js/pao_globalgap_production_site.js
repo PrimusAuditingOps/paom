@@ -485,7 +485,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "certify": $("#forcertify").val(), 
                         "pppo": $("#pppo").val(),
                         "productid": $("#product").val(),
-                        "certify_text": $('select[name="certify"] option:selected').text().trim(),
+                        "certify_text": $('select[name="forcertify"] option:selected').text().trim(),
                         "pppo_text": $('select[name="pppo"] option:selected').text().trim(),
                     }
                 );
