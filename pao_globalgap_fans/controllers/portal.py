@@ -270,6 +270,7 @@ class CustomerPortal(portal.CustomerPortal):
         
         production_site = json.loads(sites)  
         _logger.error(production_site)
+        request.env['pao.globalgap.production.site'].sudo().search([("organization_id","=",fr_sudo.organization_id.id)]).unlink()
         for obj in production_site:
             production_data = {
                 "organization_id": fr_sudo.organization_id.id,
@@ -293,8 +294,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "contact_city_id": obj["contactcity"], 
                 "contact_zip": obj["contactzip"], 
             }
-            request.env['pao.globalgap.production.site'].sudo().search([("organization_id","=",fr_sudo.organization_id.id)]).unlink()
-            production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
+           production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
             for product in obj["products"]:
                 product_data = {
                     "production_site_id": production.id,
