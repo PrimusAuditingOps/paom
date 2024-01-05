@@ -106,7 +106,25 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         name: "Países de Destino",
                     },
                 ],
-                data: [],
+                data: [
+                    {
+                       "id": 123,
+                       "product_id": 13,
+                       "product_name": "Pomelos",
+                       "uncovered_production_area": "Algun texto",
+                       "covered_production_area": "Otro texto",
+                       "applicable_harvest": "Otro texto",
+                       "harvest_type": "Otro texto",
+                       "product_handling": "Otro texto",
+                       "outsourced_activities": "Otro texto",
+                       "ggn_gln_outsourced": "Otro texto",
+                       "product_manipulated_not_certificate": "Otro texto",
+                       "organization_buys_product": "Otro texto",
+                       "estimated_yield_in_tons": "Otro texto",
+                       "dates_harvest_estimated": "Otro texto",
+                       "countries_of_products": "paises destino"
+                    }
+                ],
             }).render(document.getElementById("gridProductInformation"));
 
             
