@@ -318,7 +318,7 @@ class CustomerPortal(portal.CustomerPortal):
         return request.render(
             'pao_globalgap_fans.fans_portal_template_product_information', 
             {
-                "data": {}, 
+                "data": fan_sudo.organization_id, 
                 "id": fan_id,
                 "token": fan_token,
                 "back_url": "/pao/fillout/fans/production_site/" +str(fan_id) + "/" + fan_token,
