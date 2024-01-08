@@ -233,7 +233,7 @@
                         <page name="products" string="Products">
                             <field name="product_ids" widget="many2many" context="{'default_production_site_id': id}">
                                 <tree string="Products">
-                                    <field name="name"/>
+                                    <field name="product_id"/>
                                     <field name="hectares_in_production"/>
                                     <field name="to_certificate"/>
                                     <field name="parallel_production_or_property"/>
