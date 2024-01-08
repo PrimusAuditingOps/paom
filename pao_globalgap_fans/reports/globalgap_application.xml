@@ -2,8 +2,8 @@
 <odoo>
     <report id="globalgap_application_report" model="pao.globalgap.fans.request" 
     string="GLOBALG.A.P. certification application" 
-    name="servicereferralagreement.report_globalgap_application_view" 
-    file="servicereferralagreement.report_globalgap_application" 
+    name="pao_globalgap_fans.report_globalgap_application_view" 
+    file="pao_globalgap_fans.report_globalgap_application" 
     report_type="qweb-pdf"
     print_report_name= "'GlobalGAP - Application - %s' % (object.organization_id.name)"/>
     <template id="report_globalgap_application_view">
