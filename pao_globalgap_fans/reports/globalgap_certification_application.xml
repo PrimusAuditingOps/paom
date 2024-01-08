@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="globalgap_certification_application">
+        <div>
+            <table style="width:100%; border:0px;">
+                <tr>
+                    <td style="border:0px; background-color:white; width:30%;">
+                    <p style="text-align:left;"><b>PL-México: </b><span t-field="doc.organization_id.plmx"/></p></td>
+                    <td style="border:0px; background-color:white; width:30%;">
+                    <p style="text-align:left;"><b>GGN: </b><span t-field="doc.organization_id.ggn"/></p></td>
+                    <td style="border:0px; background-color:white; width:40%;">
+                    <p style="text-align:left;"><b>Versión: </b><span t-field="doc.organization_id.globalgap_version"/></p></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Opción de Certificación: </b><span t-field="doc.organization_id.certification_option"/></p></td>
+                    <td style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Tipo de Evaluación: </b><span t-field="doc.organization_id.evaluation_type"/></p></td>
+                    
+                </tr>
+            </table>
+            <h3 style="text-align:center;font-weight:Bold;">
+                Addon
+            </h3>
+            <p>
+                <t t-foreach="doc.organization_id.addons_ids" t-as="addon">
+                   <span t-field="addon.name" />
+                   <br/>
+                </t>
+            </p>
+            <table style="width:100%; border:0px;">
+                <tr>
+                    <td colspan="3" style="border:0px; background-color:white; width:100%;">
+                    <p style="text-align:left;"><b>Nombre de la Entidad Legal: </b><span t-field="doc.organization_id.name"/></p></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:0px; background-color:white; width:70%;">
+                    <p style="text-align:left;"><b>Dirección: </b><span t-field="doc.organization_id.address"/></p></td>
+                    <td style="border:0px; background-color:white; width:30%;">
+                    <p style="text-align:left;"><b>CP: </b><span t-field="doc.organization_id.zip"/></p></td>
+                </tr>
+                <tr>
+                    <td style="border:0px; background-color:white; width:40%;">
+                    <p style="text-align:left;"><b>Ciudad: </b><span t-field="doc.organization_id.city_id"/></p></td>
+                    <td style="border:0px; background-color:white; width:30%;">
+                    <p style="text-align:left;"><b>Estado: </b><span t-field="doc.organization_id.state_id"/></p></td>
+                    <td style="border:0px; background-color:white; width:30%;">
+                    <p style="text-align:left;"><b>País: </b><span t-field="doc.organization_id.country_id"/></p></td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Telefono: </b><span t-field="doc.organization_id.telephone"/></p></td>
+                    <td style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Email: </b><span t-field="doc.organization_id.email"/></p></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>GLN: </b><span t-field="doc.organization_id.gln"/></p></td>
+                    <td style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>RFC: </b><span t-field="doc.organization_id.vat"/></p></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="border:0px; background-color:white; width:100%;">
+                    <p style="text-align:left;"><b>Nombre CB: </b><span t-field="doc.organization_id.previous_cb"/></p></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Latitud: </b><span t-field="doc.organization_id.latitude"/></p></td>
+                    <td style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Longitud: </b><span t-field="doc.organization_id.longitude"/></p></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:0px; background-color:white; width:70%;">
+                    <p style="text-align:left;"><b>Persona de contacto: </b><span t-field="doc.organization_id.contact_name"/></p></td>
+                    <td style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Cargo: </b><span t-field="doc.organization_id.contact_position"/></p></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Telefono: </b><span t-field="doc.organization_id.contact_telephone"/></p></td>
+                    <td style="border:0px; background-color:white; width:50%;">
+                    <p style="text-align:left;"><b>Email: </b><span t-field="doc.organization_id.contact_email"/></p></td>
+                </tr>
+            </table>
+            <p>
+                <b><span t-field="doc.organization_id.rights_of_access"/></b>
+            </p>
+        </div>
+    </template>
+
+</odoo>
