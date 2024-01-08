@@ -2,7 +2,6 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
     'use strict';
 
-
     var publicWidget = require('web.public.widget');
     
 
@@ -34,17 +33,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
          */
         start: function (parent) {
 
-            console.log("va a entrar");
-            
-            $('#table').bootstrapTable('load', [{
-                'id': 0,
-                'name': 'Item 0',
-                'price': '$50'
-              }]);
-            
-            console.log("entro");
-            $("#btn_send_product").prop('disabled', true);
-
+        
 
             this.datas = []
             this.products = []
