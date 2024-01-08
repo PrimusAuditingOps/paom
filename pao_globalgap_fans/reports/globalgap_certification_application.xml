@@ -19,12 +19,12 @@
                     
                 </tr>
             </table>
-            <h3 style="text-align:center;font-weight:Bold;">
+            <h5 style="text-align:center;font-weight:Bold;">
                 Addon
-            </h3>
+            </h5>
             <p>
                 <t t-foreach="doc.organization_id.addons_ids" t-as="addon">
-                   <span t-field="addon.name" />
+                   <span>* </span><span t-field="addon.name"/>
                    <br/>
                 </t>
             </p>
@@ -49,10 +49,11 @@
                     
                 </tr>
                 <tr>
-                    <td colspan="2" style="border:0px; background-color:white; width:50%;">
-                    <p style="text-align:left;"><b>Telefono: </b><span t-field="doc.organization_id.telephone"/></p></td>
-                    <td style="border:0px; background-color:white; width:50%;">
+                    <td colspan="2" style="border:0px; background-color:white; width:70%;">
                     <p style="text-align:left;"><b>Email: </b><span t-field="doc.organization_id.email"/></p></td>
+                    <td  style="border:0px; background-color:white; width:30%;">
+                    <p style="text-align:left;"><b>Telefono: </b><span t-field="doc.organization_id.telephone"/></p></td>
+                    
                 </tr>
                 <tr>
                     <td colspan="2" style="border:0px; background-color:white; width:50%;">
@@ -77,13 +78,15 @@
                     <p style="text-align:left;"><b>Cargo: </b><span t-field="doc.organization_id.contact_position"/></p></td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="border:0px; background-color:white; width:50%;">
-                    <p style="text-align:left;"><b>Telefono: </b><span t-field="doc.organization_id.contact_telephone"/></p></td>
-                    <td style="border:0px; background-color:white; width:50%;">
+                    <td colspan="2" style="border:0px; background-color:white; width:70%;">
                     <p style="text-align:left;"><b>Email: </b><span t-field="doc.organization_id.contact_email"/></p></td>
-                </tr>
+                    <td style="border:0px; background-color:white; width:30%;">
+                    <p style="text-align:left;"><b>Telefono: </b><span t-field="doc.organization_id.contact_telephone"/></p></td>
+                    </tr>
             </table>
             <p>
+                De acuerdo a los requisitos del documento de las Reglas de Acceso a Datos, 
+                (que se adjunta y se localiza en www.globalgap.org/es/documents) indicar si:
                 <b><span t-field="doc.organization_id.rights_of_access"/></b>
             </p>
         </div>
