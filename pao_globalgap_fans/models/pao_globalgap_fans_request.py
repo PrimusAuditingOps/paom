@@ -104,7 +104,7 @@ class PaoGlobalgapFansRequest(models.Model):
     def action_approve(self):
         for rec in self:
             rec.write({"request_status": "approved"})
-            filename = "GlobalGAP_Application_%s_%s.%s" % (rec.name,rec.organization_id.name, "pdf")
+            filename = "GlobalGAP_Application_%s_%s.%s" % (rec.title,rec.organization_id.name, "pdf")
             pdf = rec.env.ref('pao_globalgap_fans.report_globalgap_application_view').sudo()._render_qweb_pdf([rec], data= {})[0]
             attachment = rec.env['ir.attachment'].sudo().create({
                 'name': filename,
