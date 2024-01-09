@@ -49,15 +49,15 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
                 'sale_order_id': self.sale_order_id.id,
                 'request_status': 'sent',            
             })
-            base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            form_url = url_join(base_url, '/pao/fillout/fans/%s/%s' % (fr.id, fr.access_token))
-            fr.write({"request_url": form_url})
+            
         else:
             fr = self.fans_request_id
             fr.write({"request_status": 'rejected'})
 
 
-        
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        form_url = url_join(base_url, '/pao/fillout/fans/%s/%s' % (fr.id, fr.access_token))
+        fr.write({"request_url": form_url})
         
 
         tpl = self.env.ref('pao_globalgap_fans.fans_request_template_mail')
