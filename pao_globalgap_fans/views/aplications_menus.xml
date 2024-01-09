@@ -42,7 +42,7 @@
                 <header>
                     <field name="request_status" widget="statusbar" statusbar_visible="draft,sent,review,approved"/>
                     <button name="action_approve" class="oe_highlight" type="object" string="Approve" />
-                    <button name="resend_fans_request" class="oe_highlight" type="object" string="Reject" />
+                    <button name="resend_fans_request" type="object" string="Reject" />
                     
                     <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['rejected','annulled', 'approved'])]}"/>
                     <!--attrs="{'invisible': [('request_status', '!=', 'review')]}"-->
