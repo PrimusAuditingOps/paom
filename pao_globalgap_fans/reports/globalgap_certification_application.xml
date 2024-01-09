@@ -134,6 +134,8 @@
                             <p style="text-align:left;"><b>Longitud: </b><span t-field="site.longitude"/></p></td>
                         </tr>
                     </table>
+                    <div style="page-break-after: always;">
+                    </div>
                     <h6 style="text-align:center;font-weight:Bold;">
                         Información de Contacto de <b><span t-field="site.name"/></b>
                     </h6>
@@ -180,7 +182,9 @@
                             </tr>
                         </t>
                     </table>
-                    <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
+                    <!--<hr class="mt-0 mb-1" style="border-top: 1px solid"/>-->
+                    <div style="page-break-after: always;">
+                    </div>
                 </p>
             </t>
 
