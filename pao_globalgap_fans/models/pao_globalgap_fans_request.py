@@ -139,6 +139,6 @@ class PaoGlobalgapFansRequest(models.Model):
             'target': 'new',
             'context': {
                 'default_fans_request_id': self.id,
-                'default_capturist_id': self.capturist_id
+                'default_capturist_id': self.capturist_id.id
             }
         }
