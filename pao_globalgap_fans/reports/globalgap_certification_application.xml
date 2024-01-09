@@ -189,6 +189,50 @@
                 </p>
             </t>
 
+            <p>
+                <h5 style="text-align:center;font-weight:Bold;">
+                    INFORMACIÓN DE PRODUCTOS
+                </h5>
+                <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                    <tr style="background-color: black; color:white;">
+                        <th style="width:10%;">Producto</th>
+                        <th style="width:5%;">Área en producción (ha)</th>
+                        <th style="width:5%;">Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)</th>
+                        <th style="width:5%;">Cosecha aplicable</th>
+                        <th style="width:5%;">Primera Cosecha/ Cosecha Posterior</th>
+                        <th style="width:5%;">Manipulación de Producto**</th>
+                        <th style="width:10%;">Actividades Subcontratadas</th>
+                        <th style="width:10%;">Si se subcontrata el empaque, indicar GGN o GLN (Obligatorio si tiene)</th>
+                        <th style="width:5%;">¿El producto a auditar es manipulado con producto no certificado GLOBALG.A.P.?</th>
+                        <th style="width:5%;">¿La organización compra el mismo producto certificado y/o no certificado?</th>
+                        <th style="width:10%;">Rendimiento Estimado en Tons</th>
+                        <th style="width:10%;">Fechas de cosecha estimadas</th>
+                        <th style="width:15%;">Países</th>
+                    </tr>
+                   
+                    <tr t-foreach="data.organization_id.product_information_ids" t-as="product_information">
+                        <t t-set="countries" t-value="''"/>
+                        <t t-foreach="product_information.countries_of_products" t-as="country">
+                            <t t-set="countries" t-value="countries+country.name+' '"/>
+                        </t>
+                        <td><span t-field="product_information.product_id"/></td>
+                        <td><span t-field="product_information.uncovered_production_area"/></td>
+                        <td><span t-field="product_information.covered_production_area"/></td>
+                        <td><span t-field="product_information.applicable_harvest"/></td>
+                        <td><span t-field="product_information.harvest_type"/></td>
+                        <td><span t-field="product_information.product_handling"/></td>
+                        <td><span t-field="product_information.outsourced_activities"/></td>
+                        <td><span t-field="product_information.ggn_gln_outsourced"/></td>
+                        <td><span t-field="product_information.product_manipulated_not_certificate"/></td>
+                        <td><span t-field="product_information.organization_buys_product"/></td>
+                        <td><span t-field="product_information.estimated_yield_in_tons"/></td>
+                        <td><span t-field="product_information.dates_harvest_estimated"/></td>
+                        <td><span t-field="product_information.dates_harvest_estimated"/></td>
+                        <td><t t-esc="countries"/></td>
+                        
+                    </tr>
+                </table>
+            </p>
 
         </div>
     </template>
