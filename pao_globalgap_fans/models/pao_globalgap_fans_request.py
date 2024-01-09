@@ -1,6 +1,7 @@
 from odoo import fields, models, api, _
 from logging import getLogger
 import uuid
+import base64
 
 _logger = getLogger(__name__)
 
