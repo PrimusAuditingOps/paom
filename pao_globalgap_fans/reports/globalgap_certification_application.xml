@@ -91,6 +91,8 @@
                 <br/>
                 <b><span t-field="doc.organization_id.rights_of_access"/></b>
             </p>
+            <div style="page-break-after: always;">
+            </div>
 
             <h5 style="text-align:center;font-weight:Bold;">
                 INFORMACIÓN DE LOS SITIOS DE PRODUCCIÓN Y PHU
@@ -134,8 +136,6 @@
                             <p style="text-align:left;"><b>Longitud: </b><span t-field="site.longitude"/></p></td>
                         </tr>
                     </table>
-                    <div style="page-break-after: always;">
-                    </div>
                     <h6 style="text-align:center;font-weight:Bold;">
                         Información de Contacto de <b><span t-field="site.name"/></b>
                     </h6>
