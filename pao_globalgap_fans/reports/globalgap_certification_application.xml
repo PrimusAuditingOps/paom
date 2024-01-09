@@ -169,10 +169,10 @@
                     </table>
                     <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
                         <tr style="background-color: black; color:white;">
-                            <th>Producto</th>
-                            <th>Hectáreas en producción (Sólo para Sitio de Producción)</th>
-                            <th>Para Certificar</th>
-                            <th>Producción Paralela (PP)/Propiedad Paralela (PO)</th>
+                            <th style="width:40%;">Producto</th>
+                            <th style="width:20%;">Hectáreas en producción (Sólo para Sitio de Producción)</th>
+                            <th style="width:20%;">Para Certificar</th>
+                            <th style="width:20%;">Producción Paralela (PP)/Propiedad Paralela (PO)</th>
                         </tr>
                         <t t-foreach="site.product_ids" t-as="product">
                             <tr>
