@@ -115,7 +115,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 'type': 'binary',  # override default_type from context, possibly meant for another model!
             })
             if rec.attachment_id:
-                old_attachment_id = rec.attachment_id
+                old_attachment_id = rec.attachment_id.id
             rec.write({"request_status": "approved", "attachment_id": attachment.id})
             if old_attachment_id:
                 rec.env['ir.attachment'].sudo().search([("id","=",old_attachment_id),("res_id","=",rec.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
