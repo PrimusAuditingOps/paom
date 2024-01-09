@@ -267,7 +267,7 @@ class CustomerPortal(portal.CustomerPortal):
             fr_sudo = self._document_check_access('pao.globalgap.fans.request', int(cr_id), access_token=str(cr_token))
         except (AccessError, MissingError):
             return request.redirect('/')
-        
+        product_ids_list = []
         production_site = json.loads(sites)  
         _logger.error(production_site)
         request.env['pao.globalgap.production.site'].sudo().search([("organization_id","=",fr_sudo.organization_id.id)]).unlink()
@@ -296,6 +296,7 @@ class CustomerPortal(portal.CustomerPortal):
             }
             production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
             for product in obj["products"]:
+                product_ids_list.append(product["productid"])
                 product_data = {
                     "production_site_id": production.id,
                     "parallel_production_or_property": product["pppo"],
@@ -304,7 +305,16 @@ class CustomerPortal(portal.CustomerPortal):
                     "product_id": product["productid"],
                 }
                 product = request.env['pao.globalgap.production.site.product'].sudo().create(product_data)
-        
+                
+                domain_create_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","=",product["productid"])]
+                rec_product_information = request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_create_product)
+                if not rec_product_information:
+                    request.env['pao.globalgap.production.site.product.information'].sudo().create({"product_id": product["productid"]})
+            
+            domain_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","not in",product_ids_list)]
+            request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_product).unlink()
+           
+
         return request.redirect('/pao/fillout/fans/production_information/' + str(cr_id) + '/' + cr_token)
 
     
