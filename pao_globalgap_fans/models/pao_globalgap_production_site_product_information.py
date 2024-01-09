@@ -36,7 +36,7 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
         ],
         string="Harvest type", 
         copy=False,
-        default='first_harvest',
+        default='1',
     )
     product_handling = fields.Selection(
         selection=[
