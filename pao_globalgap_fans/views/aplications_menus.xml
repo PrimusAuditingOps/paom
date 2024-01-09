@@ -41,10 +41,9 @@
             <form string="GLOBALG.A.P. Fans request">
                 <header>
                     <field name="request_status" widget="statusbar" statusbar_visible="draft,sent,review,approved"/>
-                    <button name="action_approve" class="oe_highlight" type="object" string="Approve" attrs="{'invisible': [('request_status', '!=', 'review')]}"/>
-                    <button name="action_cancel" type="object" string="Cancel"/>
-                    <!--attrs="{'invisible': [('request_status', 'in', ['rejected','annulled', 'approved'])]}"-->
-               
+                    <button name="action_approve" class="oe_highlight" type="object" string="Approve" />
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['rejected','annulled', 'approved'])]}"/>
+                    <!--attrs="{'invisible': [('request_status', '!=', 'review')]}"-->
                 </header>
                 <sheet>
                     <group col="4">
