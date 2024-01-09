@@ -312,6 +312,12 @@ class CustomerPortal(portal.CustomerPortal):
                 #if not rec_product_information:
                 #    request.env['pao.globalgap.production.site.product.information'].sudo().create({"product_id": product["productid"]})
             
+            for p in product_ids_list:
+                domain_create_product = [("organization_id","=",fr_sudo.organization_id.id),("product_id","=",p)]
+                rec_product_information = request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_create_product)
+                if not rec_product_information:
+                    request.env['pao.globalgap.production.site.product.information'].sudo().create({"product_id": p})
+
             domain_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","not in",product_ids_list)]
             request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_product).unlink()
            
