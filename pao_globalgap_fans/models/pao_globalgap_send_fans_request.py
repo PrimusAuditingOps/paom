@@ -32,20 +32,33 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
         string='Sale order',
         ondelete='set null',
     )
+    fans_request_id = fields.Many2one(
+        comodel_name='pao.globalgap.fans.request',
+        string='Fan request',
+        ondelete='set null',
+    )
     
     def send_fans_request(self):
         self.ensure_one()
-        fr = self.env['pao.globalgap.fans.request'].create({
-            'capturist_id': self.capturist_id.id,
-            'capturist_email': self.capturist_id.email,
-            'follower_ids': self.follower_ids,
-            'sale_order_id': self.sale_order_id.id,
-            'request_status': 'sent',            
-        })
+        fr = None
+        if not self.fans_request_id:
+            fr = self.env['pao.globalgap.fans.request'].create({
+                'capturist_id': self.capturist_id.id,
+                'capturist_email': self.capturist_id.email,
+                'follower_ids': self.follower_ids,
+                'sale_order_id': self.sale_order_id.id,
+                'request_status': 'sent',            
+            })
+            base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            form_url = url_join(base_url, '/pao/fillout/fans/%s/%s' % (fr.id, fr.access_token))
+            fr.write({"request_url": form_url})
+        else:
+            fr = self.fans_request_id
+            fr.write({"request_status": 'rejected'})
+
+
         
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        form_url = url_join(base_url, '/pao/fillout/fans/%s/%s' % (fr.id, fr.access_token))
-        fr.write({"request_url": form_url})
+        
 
         tpl = self.env.ref('pao_globalgap_fans.fans_request_template_mail')
         customer_lang = get_lang(self.env, lang_code=self.capturist_id.lang).code

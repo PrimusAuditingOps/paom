@@ -125,3 +125,19 @@ class PaoGlobalgapFansRequest(models.Model):
     def action_cancel(self):
         for rec in self:
             rec.write({"request_status": "annulled"})
+
+
+    
+    def resend_fans_request(self):
+        self.ensure_one()
+        return {
+            'name': _('Fans Request'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'pao.globalgap.send.fans.request',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_fans_request_id': self.id,
+            }
+        }
