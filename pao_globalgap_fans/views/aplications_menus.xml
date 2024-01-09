@@ -41,6 +41,9 @@
             <form string="GLOBALG.A.P. Fans request">
                 <header>
                     <field name="request_status" widget="statusbar" statusbar_visible="draft,sent,review,approved"/>
+                    <button name="action_approve" type="object" string="Approve" attrs="{'invisible': [('request_status', '!=', 'review')]}"/>
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['rejected','annulled', 'approved'])]}"/>
+               
                 </header>
                 <sheet>
                     <group col="4">
@@ -48,6 +51,9 @@
                         <field name="capturist_id"/>
                         <field name="sale_order_id"/>
                         <field name="organization_id"/>
+                        <field name="attachment_datas" invisible="1"/>
+                        <field name="attachment_name" invisible="1"/>
+                        <field name="attachment_datas" filename="attachment_name"/>
                     </group>
                 </sheet>
             </form>

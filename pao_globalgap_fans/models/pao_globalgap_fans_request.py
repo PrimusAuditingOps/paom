@@ -56,6 +56,20 @@ class PaoGlobalgapFansRequest(models.Model):
         string='Sale Order',
         ondelete='set null',
     )
+    attachment_id = fields.Many2one(
+        string="Document",
+        comodel_name='ir.attachment',
+        ondelete='restrict',
+        copy=False,
+    )
+    attachment_datas = fields.Binary(
+        related='attachment_id.datas',
+        string="Fan",
+    )
+    attachment_name = fields.Char(
+        related='attachment_id.name',
+    )
+    
 
     request_status = fields.Selection(
         selection=[
@@ -86,3 +100,13 @@ class PaoGlobalgapFansRequest(models.Model):
         string='Sale Order',
         ondelete='set null',
     )
+
+    def action_approve(self):
+        for rec in self:
+            rec.write({"request_status": "approved"})
+
+        
+    
+    def action_cancel(self):
+        for rec in self:
+            rec.write({"request_status": "annulled"})
