@@ -94,10 +94,11 @@
             <div style="page-break-after: always;">
             </div>
 
-            <h5 style="text-align:center;font-weight:Bold;">
-                INFORMACIÓN DE LOS SITIOS DE PRODUCCIÓN Y PHU
-            </h5>
+            
             <t t-foreach="doc.organization_id.production_site_ids" t-as="site">
+                <h5 style="text-align:center;font-weight:Bold;">
+                    INFORMACIÓN DE LOS SITIOS DE PRODUCCIÓN Y PHU
+                </h5>
                 <p>
                     <table style="width:100%; border:0px;">
                         <tr>
