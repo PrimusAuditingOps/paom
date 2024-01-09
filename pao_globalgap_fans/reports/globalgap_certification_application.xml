@@ -84,11 +84,87 @@
                     <p style="text-align:left;"><b>Telefono: </b><span t-field="doc.organization_id.contact_telephone"/></p></td>
                     </tr>
             </table>
+            
             <p>
                 De acuerdo a los requisitos del documento de las Reglas de Acceso a Datos, 
                 (que se adjunta y se localiza en www.globalgap.org/es/documents) indicar si:
                 <b><span t-field="doc.organization_id.rights_of_access"/></b>
             </p>
+
+            <h5 style="text-align:center;font-weight:Bold;">
+                INFORMACIÓN DE LOS SITIOS DE PRODUCCIÓN Y PHU
+            </h5>
+            <t t-foreach="doc.organization_id.production_site_ids" t-as="site">
+                <table style="width:100%; border:0px;">
+                    <tr>
+                       <td colspan="2" style="border:0px; background-color:white; width:70%;">
+                        <p style="text-align:left;"><b>Nombre: </b><span t-field="site.name"/></p></td>
+                        <td  style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>Telefono: </b><span t-field="site.type"/></p></td>
+                        
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border:0px; background-color:white; width:70%;">
+                        <p style="text-align:left;"><b>Dirección: </b><span t-field="site.address"/></p></td>
+                        <td style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>CP: </b><span t-field="site.zip"/></p></td>
+                    </tr>
+                    <tr>
+                        <td style="border:0px; background-color:white; width:40%;">
+                        <p style="text-align:left;"><b>Ciudad: </b><span t-field="site.city_id"/></p></td>
+                        <td style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>Estado: </b><span t-field="site.state_id"/></p></td>
+                        <td style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>País: </b><span t-field="site.country_id"/></p></td>
+                        
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border:0px; background-color:white; width:70%;">
+                        <p style="text-align:left;"><b>Email: </b><span t-field="site.email"/></p></td>
+                        <td  style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>Telefono: </b><span t-field="site.telephone"/></p></td>
+                        
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border:0px; background-color:white; width:50%;">
+                        <p style="text-align:left;"><b>Latitud: </b><span t-field="site.latitude"/></p></td>
+                        <td style="border:0px; background-color:white; width:50%;">
+                        <p style="text-align:left;"><b>Longitud: </b><span t-field="site.longitude"/></p></td>
+                    </tr>
+                </table>
+                <h6 style="text-align:center;font-weight:Bold;">
+                    Información de Contacto Sitio de Producción/PHU
+                </h6>
+                <table>
+                    <tr>
+                        <td colspan="3" style="border:0px; background-color:white; width:100%;">
+                        <p style="text-align:left;"><b>Persona de contacto: </b><span t-field="site.contact_name"/></p></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border:0px; background-color:white; width:70%;">
+                        <p style="text-align:left;"><b>Dirección: </b><span t-field="site.contact_address"/></p></td>
+                        <td style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>CP: </b><span t-field="site.contact_zip"/></p></td>
+                    </tr>
+                    <tr>
+                        <td style="border:0px; background-color:white; width:40%;">
+                        <p style="text-align:left;"><b>Ciudad: </b><span t-field="site.contact_city_id"/></p></td>
+                        <td style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>Estado: </b><span t-field="site.contact_state_id"/></p></td>
+                        <td style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>País: </b><span t-field="site.contact_country_id"/></p></td>
+                        
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border:0px; background-color:white; width:70%;">
+                        <p style="text-align:left;"><b>Email: </b><span t-field="site.contact_email"/></p></td>
+                        <td style="border:0px; background-color:white; width:30%;">
+                        <p style="text-align:left;"><b>Telefono: </b><span t-field="site.contact_telephone"/></p></td>
+                        </tr>
+                </table>
+            </t>
+
+
         </div>
     </template>
 
