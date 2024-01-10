@@ -97,13 +97,18 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                        "product_name": "Pomelos",
                        "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
                        "covered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "applicable_harvest": "Otro texto",
-                       "harvest_type": "Otro texto",
-                       "product_handling": "Otro texto",
+                       "applicable_harvest": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                       </select>`),
+                       "harvest_type": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                       </select>`),
+                       "product_handling": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                       </select>`),
                        "outsourced_activities": gridjs.html(`<input type="text" id="samuel21"/>`),
                        "ggn_gln_outsourced": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "product_manipulated_not_certificate": "Otro texto",
-                       "organization_buys_product": "Otro texto",
+                       "product_manipulated_not_certificate": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                       </select>`),
+                       "organization_buys_product": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                       </select>`),
                        "estimated_yield_in_tons": gridjs.html(`<input type="text" id="samuel21"/>`),
                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="samuel21"/>`),
                        "countries_of_products":  gridjs.html(`<select id="sasa" class="chzn-select" multiple="true" name="faculty" style="width:200px;">
@@ -117,6 +122,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             }).render(document.getElementById("gridProductInformation"));
             console.log("creo");
 
+            
+            
         },
         /**
          * @override
