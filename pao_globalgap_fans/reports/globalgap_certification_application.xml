@@ -210,7 +210,7 @@
                         <th style="width:15%;">Países</th>
                     </tr>
                    
-                    <tr t-foreach="data.organization_id.product_information_ids" t-as="product_information">
+                    <tr style="border:1px; border-color: black;" t-foreach="data.organization_id.product_information_ids" t-as="product_information">
                         <t t-set="countries" t-value="''"/>
                         <t t-foreach="product_information.countries_of_products" t-as="country">
                             <t t-set="countries" t-value="countries+country.name+' '"/>
