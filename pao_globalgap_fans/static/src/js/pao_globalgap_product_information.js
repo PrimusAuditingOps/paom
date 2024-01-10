@@ -175,6 +175,20 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     }
                     product_manipulated_not_certificate += `</select>`;
 
+                    var countries_of_products = `<select class="countries_of_products-select" multiple="true" name="countries_of_products" id="countries_of_products`+objdata.product_id+`">`;
+                    for (let i = 0; i < data.countries.length; i++) {
+                        /*if (data.countries_of_products[i][0] == objdata.countries_of_products[i]){
+                            countries_of_products += `<option selected value="`+data.countries_of_products[i][0]+`">`+data.countries_of_products[i][1]+`</option>`;
+                        }
+                        else{
+                            countries_of_products += `<option value="`+data.countries_of_products[i][0]+`">`+data.countries_of_products[i][1]+`</option>`;
+                        } 
+                        */
+                       countries_of_products += `<option value="`+data.countries[i].id+`">`+data.countries_of_products[i].name+`</option>`;
+                                               
+                    }
+                    countries_of_products += `</select>`;
+
 
                     var obj = {
                         "product_id": objdata.product_id,
@@ -190,12 +204,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "organization_buys_product": gridjs.html(organization_buys_product),
                         "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`"/>`),
                         "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`"/>`),
-                        "countries_of_products":  gridjs.html(`<select id="sasa" class="chzn-select" multiple="true" name="faculty" style="width:200px;">
-                                                                     <option value="AC">A</option>
-                                                                     <option value="AD">B</option>
-                                                                     <option value="AM">C</option>
-                                                                     <option value="AP">D</option>
-                                                                 </select>`)
+                        "countries_of_products":  gridjs.html(countries_of_products)
                      };
                      d.push(obj);
                 });
