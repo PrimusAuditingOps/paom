@@ -350,8 +350,10 @@ class CustomerPortal(portal.CustomerPortal):
         product_handling = None
         product_manipulated_not_certificate = None
         organization_buys_product = None
+        country = None
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
+            country = request.env['res.country'].sudo().search([])
             applicable_harvest = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['applicable_harvest'].selection
             harvest_type = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['harvest_type'].selection
             product_handling = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_handling'].selection
@@ -387,6 +389,7 @@ class CustomerPortal(portal.CustomerPortal):
             product_handling = None
             product_manipulated_not_certificate = None
             organization_buys_product = None
+            country = None
 
         
         return{
