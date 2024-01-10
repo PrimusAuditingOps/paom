@@ -164,6 +164,17 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     }
                     organization_buys_product += `</select>`;
 
+                    var product_manipulated_not_certificate = `<select optional="false" name="product_manipulated_not_certificate" id="product_manipulated_not_certificate`+objdata.product_id+`">`;
+                    for (let i = 0; i < data.product_manipulated_not_certificate.length; i++) {
+                        if (data.product_manipulated_not_certificate[i][0] == objdata.product_manipulated_not_certificate[i]){
+                            product_manipulated_not_certificate += `<option selected value="`+data.product_manipulated_not_certificate[i][0]+`">`+data.product_manipulated_not_certificate[i][1]+`</option>`;
+                        }
+                        else{
+                            product_manipulated_not_certificate += `<option value="`+data.product_manipulated_not_certificate[i][0]+`">`+data.product_manipulated_not_certificate[i][1]+`</option>`;
+                        }                        
+                    }
+                    product_manipulated_not_certificate += `</select>`;
+
 
                     var obj = {
                         "product_id": objdata.product_id,
@@ -175,8 +186,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "product_handling": gridjs.html(product_handling),
                         "outsourced_activities": gridjs.html(`<input type="text" id="outsourced_activities`+objdata.product_id+`"/>`),
                         "ggn_gln_outsourced": gridjs.html(`<input type="text" id="ggn_gln_outsourced`+objdata.product_id+`"/>`),
-                        "product_manipulated_not_certificate": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                        </select>`),
+                        "product_manipulated_not_certificate": gridjs.html(product_manipulated_not_certificate),
                         "organization_buys_product": gridjs.html(organization_buys_product),
                         "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`"/>`),
                         "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`"/>`),
