@@ -184,7 +184,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                             countries_of_products += `<option value="`+data.countries_of_products[i][0]+`">`+data.countries_of_products[i][1]+`</option>`;
                         } 
                         */
-                       countries_of_products += `<option value="`+data.countries[i].id+`">`+data.countries_of_products[i].name+`</option>`;
+                       countries_of_products += `<option value="`+data.countries[i].id+`">`+data.countries[i].name+`</option>`;
                                                
                     }
                     countries_of_products += `</select>`;
