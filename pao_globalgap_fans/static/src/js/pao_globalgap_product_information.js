@@ -259,7 +259,6 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
             });
 
-            console.log(product);
         },
 
         
