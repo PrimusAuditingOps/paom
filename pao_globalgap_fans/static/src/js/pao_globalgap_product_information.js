@@ -96,7 +96,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         'color': '#000',
                         'border-bottom': '3px solid #ccc',
                         'text-align': 'center',
-                        'height': '200px',
+                        'height': '50px',
                     },
                     td: {
                     'text-align': 'center'
@@ -129,7 +129,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
-                        "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
+                        "uncovered_production_area": gridjs.html(`<input type="text" id="uncovered_production_area`+objdata.product_id+`"/>`),
                         "covered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
                         "applicable_harvest": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
