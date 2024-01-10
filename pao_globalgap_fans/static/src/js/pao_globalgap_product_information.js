@@ -104,6 +104,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 'fan_token': $("#fr_token").val().trim(), 
             }).then(function (data) {
                 console.log(data);
+                var d = [];
                 data.data.forEach(function(objdata) {
                     console.log(objdata);
                     var obj = {
@@ -132,10 +133,10 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                                                                      <option value="AP">D</option>
                                                                  </select>`)
                      };
-                     this.data.push(obj);
+                     this.d.push(obj);
                 });
                 this.grid_selector.updateConfig({
-                    data: this.datas
+                    data: d
                 }).forceRender();
 
             });
