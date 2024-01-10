@@ -224,8 +224,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             return this._super.apply(this, arguments);
         },
         _onClickSendProduct: function (ev) {
-            console.log("Clic button");
-            window.location = "https://paom-conta-11076878.dev.odoo.com/en/pao/fillout/fans/production_site/1/d00912f11d1744e9a5b96f262afbe8ce";           
+            var obj = JSON.parse($("#product_ids").val());
+            console.log(obj);
+            //window.location = "https://paom-conta-11076878.dev.odoo.com/en/pao/fillout/fans/production_site/1/d00912f11d1744e9a5b96f262afbe8ce";           
         },
 
         
