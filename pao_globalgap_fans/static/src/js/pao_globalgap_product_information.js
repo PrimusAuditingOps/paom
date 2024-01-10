@@ -106,7 +106,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 console.log(data);
                 data.data.forEach(function(objdata) {
                     console.log(objdata);
-                    obj = {
+                    var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
                         "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
