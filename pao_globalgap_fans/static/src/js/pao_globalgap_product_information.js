@@ -120,6 +120,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             }).then(function (data) {
 
                 data.data.forEach(function(objdata) {
+                    console.log(objdata);
                     var applicable_harvest = `<select optional="false" name="applicable_harvest" id="applicable_harvest`+objdata.product_id+`">`;
                     for (let i = 0; i < objdata.applicable_harvest.length; i++) {
                         console.log(objdata.applicable_harvest[i])
