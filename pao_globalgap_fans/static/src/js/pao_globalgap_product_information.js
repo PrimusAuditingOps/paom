@@ -107,23 +107,28 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                        "id": 123,
                        "product_id": 13,
                        "product_name": "Pomelos",
-                       "uncovered_production_area": "Algun texto",
-                       "covered_production_area": "Otro texto",
+                       "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
+                       "covered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
                        "applicable_harvest": "Otro texto",
                        "harvest_type": "Otro texto",
                        "product_handling": "Otro texto",
-                       "outsourced_activities": "Otro texto",
-                       "ggn_gln_outsourced": "Otro texto",
+                       "outsourced_activities": gridjs.html(`<input type="text" id="samuel21"/>`),
+                       "ggn_gln_outsourced": gridjs.html(`<input type="text" id="samuel21"/>`),
                        "product_manipulated_not_certificate": "Otro texto",
                        "organization_buys_product": "Otro texto",
-                       "estimated_yield_in_tons": "Otro texto",
-                       "dates_harvest_estimated": "Otro texto",
-                       "countries_of_products":  gridjs.html(`<input type="text" id="samuel21"/>`)
+                       "estimated_yield_in_tons": gridjs.html(`<input type="text" id="samuel21"/>`),
+                       "dates_harvest_estimated": gridjs.html(`<input type="text" id="samuel21"/>`),
+                       "countries_of_products":  gridjs.html(`<select class="chzn-select" multiple="true" name="faculty" style="width:200px;">
+                                                                    <option value="AC">A</option>
+                                                                    <option value="AD">B</option>
+                                                                    <option value="AM">C</option>
+                                                                    <option value="AP">D</option>
+                                                                </select>`)
                     }
                 ],
             }).render(document.getElementById("gridProductInformation"));
 
-            
+            $(".chzn-select").chosen();
 
         
            /*
