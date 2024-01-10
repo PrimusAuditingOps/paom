@@ -142,6 +142,29 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     }
                     harvest_type += `</select>`;
 
+                    var product_handling = `<select optional="false" name="product_handling" id="product_handling`+objdata.product_id+`">`;
+                    for (let i = 0; i < data.product_handling.length; i++) {
+                        if (data.product_handling[i][0] == objdata.product_handling[i]){
+                            product_handling += `<option selected value="`+data.product_handling[i][0]+`">`+data.product_handling[i][1]+`</option>`;
+                        }
+                        else{
+                            product_handling += `<option value="`+data.product_handling[i][0]+`">`+data.product_handling[i][1]+`</option>`;
+                        }                        
+                    }
+                    product_handling += `</select>`;
+
+                    var organization_buys_product = `<select optional="false" name="organization_buys_product" id="organization_buys_product`+objdata.product_id+`">`;
+                    for (let i = 0; i < data.organization_buys_product.length; i++) {
+                        if (data.organization_buys_product[i][0] == objdata.organization_buys_product[i]){
+                            organization_buys_product += `<option selected value="`+data.organization_buys_product[i][0]+`">`+data.organization_buys_product[i][1]+`</option>`;
+                        }
+                        else{
+                            organization_buys_product += `<option value="`+data.organization_buys_product[i][0]+`">`+data.organization_buys_product[i][1]+`</option>`;
+                        }                        
+                    }
+                    organization_buys_product += `</select>`;
+
+
                     var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
@@ -149,14 +172,12 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "covered_production_area": gridjs.html(`<input type="text" id="covered_production_area`+objdata.product_id+`"/>`),
                         "applicable_harvest": gridjs.html(applicable_harvest),
                         "harvest_type": gridjs.html(harvest_type),
-                        "product_handling": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                        </select>`),
+                        "product_handling": gridjs.html(product_handling),
                         "outsourced_activities": gridjs.html(`<input type="text" id="outsourced_activities`+objdata.product_id+`"/>`),
                         "ggn_gln_outsourced": gridjs.html(`<input type="text" id="ggn_gln_outsourced`+objdata.product_id+`"/>`),
                         "product_manipulated_not_certificate": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
-                        "organization_buys_product": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                        </select>`),
+                        "organization_buys_product": gridjs.html(organization_buys_product),
                         "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`"/>`),
                         "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`"/>`),
                         "countries_of_products":  gridjs.html(`<select id="sasa" class="chzn-select" multiple="true" name="faculty" style="width:200px;">
