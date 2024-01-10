@@ -111,8 +111,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
                     console.log("entroasdasdasda");
                     var obj = {
-                        "product_id": objdata.product_id,
-                        "product_name": objdata.product_name,
+                        "product_id": 13,
+                        "product_name": "Pomelos",
                         "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
                         "covered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
                         "applicable_harvest": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
