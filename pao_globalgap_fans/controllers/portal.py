@@ -347,7 +347,7 @@ class CustomerPortal(portal.CustomerPortal):
         data = []
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
-            for rec in fan_sudo.organization_id.product_information_ids
+            for rec in fan_sudo.organization_id.product_information_ids:
                 countries = []
                 for c in rec.countries_of_products:
                     countries.append(c.id)
