@@ -123,7 +123,12 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     console.log(data);
                     var applicable_harvest = `<select optional="false" name="applicable_harvest" id="applicable_harvest`+objdata.product_id+`">`;
                     for (let i = 0; i < data.applicable_harvest.length; i++) {
-                        console.log(data.applicable_harvest[i][0])
+                        if (data.applicable_harvest[i][0] == objdata.applicable_harvest[i]){
+                            applicable_harvest += `<option selected value="`+data.applicable_harvest[i][0]+`">`+data.applicable_harvest[i][1]+`</option>`;
+                        }
+                        else{
+                            applicable_harvest += `<option value="`+data.applicable_harvest[i][0]+`">`+data.applicable_harvest[i][1]+`</option>`;
+                        }                        
                     }
                     applicable_harvest += `</select>`;
 
