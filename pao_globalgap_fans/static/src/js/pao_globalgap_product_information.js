@@ -172,7 +172,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             this.products = []
 
 
-
+            this.grid_selector.updateConfig({
+                data: d
+            }).forceRender();
            
 
 
