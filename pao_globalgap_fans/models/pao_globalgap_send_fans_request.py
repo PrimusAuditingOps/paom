@@ -51,8 +51,14 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
             })
             
         else:
+            old_attachment_id = None
             fr = self.fans_request_id
-            fr.write({"request_status": 'rejected'})
+            if fr.attachment_id:
+                old_attachment_id = fr.attachment_id.id
+            fr.write({"request_status": 'rejected', "attachment_id": None})
+            if old_attachment_id:
+                self.env['ir.attachment'].sudo().search([("id","=",old_attachment_id),("res_id","=",fr.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
+
 
 
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
