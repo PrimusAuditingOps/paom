@@ -109,6 +109,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 'fan_token': $("#fr_token").val().trim(), 
             }).then(function (data) {
                 console.log(data);
+                data.data.forEach(element => {
+                    console.log(element);
+                });
 
             });
 
