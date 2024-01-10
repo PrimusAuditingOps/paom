@@ -118,7 +118,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                        "organization_buys_product": "Otro texto",
                        "estimated_yield_in_tons": "Otro texto",
                        "dates_harvest_estimated": "Otro texto",
-                       "countries_of_products":  html(`<input type="text" id="samuel21"/>`)
+                       "countries_of_products":  gridjs.html(`<input type="text" id="samuel21"/>`)
                     }
                 ],
             }).render(document.getElementById("gridProductInformation"));
