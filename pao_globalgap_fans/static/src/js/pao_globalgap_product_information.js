@@ -224,8 +224,10 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             return this._super.apply(this, arguments);
         },
         _onClickSendProduct: function (ev) {
-            var obj = JSON.parse($("#product_ids").val());
-            console.log(obj);
+            var product_list = JSON.parse($("#product_ids").val());
+            for (let i = 0; i < product_list.length; i++) {
+                console.log(product_list[i]);
+            }
             //window.location = "https://paom-conta-11076878.dev.odoo.com/en/pao/fillout/fans/production_site/1/d00912f11d1744e9a5b96f262afbe8ce";           
         },
 
