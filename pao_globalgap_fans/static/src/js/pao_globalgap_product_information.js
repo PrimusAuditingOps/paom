@@ -106,7 +106,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                        "organization_buys_product": "Otro texto",
                        "estimated_yield_in_tons": gridjs.html(`<input type="text" id="samuel21"/>`),
                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "countries_of_products":  gridjs.html(`<select class="chzn-select" multiple="true" name="faculty" style="width:200px;">
+                       "countries_of_products":  gridjs.html(`<select id="sasa" class="chzn-select" multiple="true" name="faculty" style="width:200px;">
                                                                     <option value="AC">A</option>
                                                                     <option value="AD">B</option>
                                                                     <option value="AM">C</option>
@@ -130,7 +130,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             this.products = []
            
             console.log("entro2");
-            $(".chzn-select").chosen();
+            $("#sasa").chosen();
 
         
            /*
