@@ -225,7 +225,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
         },
         _onClickSendProduct: function (ev) {
             var product_list = JSON.parse($("#product_ids").val());
-            var product = []
+            var products = []
             for (let i = 0; i < product_list.length; i++) {
                 var countries = [];
                 
@@ -247,10 +247,19 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     "dates_harvest_estimated": $("#dates_harvest_estimated"+product_list[i]).val(),
                     "countries_of_products": countries,
                  };
-                product.push(obj);
+                products.push(obj);
             }
+            ajax.jsonRpc('/pao/fan/register/product_information', 'call', 
+            {
+                'fan_id': $("#fr_id").val().trim(), 
+                'fan_token': $("#fr_token").val().trim(), 
+                'products': products, 
+            }).then(function (data) {
+                window.location = "https://paom-conta-11076878.dev.odoo.com/en/pao/fillout/fans/production_site/1/d00912f11d1744e9a5b96f262afbe8ce";           
+
+            });
+
             console.log(product);
-            //window.location = "https://paom-conta-11076878.dev.odoo.com/en/pao/fillout/fans/production_site/1/d00912f11d1744e9a5b96f262afbe8ce";           
         },
 
         

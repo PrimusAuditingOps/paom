@@ -415,3 +415,16 @@ class CustomerPortal(portal.CustomerPortal):
             "organization_buys_product": organization_buys_product,
             "countries": countries,
         }
+    
+    @http.route(['/pao/fan/register/product_information'], type='json', auth='public', methods=['POST'])
+    def pao_fan_register_product_information(self, fan_id=False, fan_token=None, products=None, **kwargs):
+        
+        try:
+            fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
+            _logger.error(products)
+        except (AccessError, MissingError):
+           
+        
+        return{
+            "data": "great",
+        }
