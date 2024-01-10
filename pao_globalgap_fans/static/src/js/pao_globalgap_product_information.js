@@ -193,17 +193,17 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
-                        "uncovered_production_area": gridjs.html(`<input type="text" id="uncovered_production_area`+objdata.product_id+`"/>`),
-                        "covered_production_area": gridjs.html(`<input type="text" id="covered_production_area`+objdata.product_id+`"/>`),
+                        "uncovered_production_area": gridjs.html(`<input type="text" id="uncovered_production_area`+objdata.product_id+`" value="`+objdata.uncovered_production_area+`"/>`),
+                        "covered_production_area": gridjs.html(`<input type="text" id="covered_production_area`+objdata.product_id+`" value="`+objdata.covered_production_area+`"/>`),
                         "applicable_harvest": gridjs.html(applicable_harvest),
                         "harvest_type": gridjs.html(harvest_type),
                         "product_handling": gridjs.html(product_handling),
-                        "outsourced_activities": gridjs.html(`<input type="text" id="outsourced_activities`+objdata.product_id+`"/>`),
-                        "ggn_gln_outsourced": gridjs.html(`<input type="text" id="ggn_gln_outsourced`+objdata.product_id+`"/>`),
+                        "outsourced_activities": gridjs.html(`<input type="text" id="outsourced_activities`+objdata.product_id+`" value="`+objdata.outsourced_activities+`"/>`),
+                        "ggn_gln_outsourced": gridjs.html(`<input type="text" id="ggn_gln_outsourced`+objdata.product_id+`" value="`+objdata.ggn_gln_outsourced+`"/>`),
                         "product_manipulated_not_certificate": gridjs.html(product_manipulated_not_certificate),
                         "organization_buys_product": gridjs.html(organization_buys_product),
-                        "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`"/>`),
-                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`"/>`),
+                        "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`" value="`+objdata.estimated_yield_in_tons+`"/>`),
+                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`" value="`+objdata.dates_harvest_estimated+`"/>`),
                         "countries_of_products":  gridjs.html(countries_of_products)
                      };
                      d.push(obj);
