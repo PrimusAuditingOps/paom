@@ -223,7 +223,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
             return this._super.apply(this, arguments);
         },
-        _onClickProductionSite: function (ev) {
+        _onClickSendProduct: function (ev) {
             console.log("Clic button");
         },
 
