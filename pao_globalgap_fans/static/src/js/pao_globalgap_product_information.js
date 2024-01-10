@@ -255,7 +255,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 'fan_token': $("#fr_token").val().trim(), 
                 'products': products, 
             }).then(function (data) {
-                window.location = "https://paom-conta-11076878.dev.odoo.com/en/pao/fillout/fans/production_site/1/d00912f11d1744e9a5b96f262afbe8ce";           
+                //window.location = "https://paom-conta-11076878.dev.odoo.com/en/pao/fillout/fans/production_site/1/d00912f11d1744e9a5b96f262afbe8ce";           
 
             });
 
