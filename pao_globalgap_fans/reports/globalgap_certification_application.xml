@@ -210,12 +210,12 @@
                         <th style="width:15%;">Países</th>
                     </tr>
                    
-                    <tr style="border:1px; border-color: black;" t-foreach="data.organization_id.product_information_ids" t-as="product_information">
+                    <tr t-foreach="data.organization_id.product_information_ids" t-as="product_information">
                         <t t-set="countries" t-value="''"/>
                         <t t-foreach="product_information.countries_of_products" t-as="country">
                             <t t-set="countries" t-value="countries+country.name+' '"/>
                         </t>
-                        <td style="border:1px; border-color: black;"><span t-field="product_information.product_id"/></td>
+                        <td><span t-field="product_information.product_id"/></td>
                         <td><span t-field="product_information.uncovered_production_area"/></td>
                         <td><span t-field="product_information.covered_production_area"/></td>
                         <td><span t-field="product_information.applicable_harvest"/></td>
