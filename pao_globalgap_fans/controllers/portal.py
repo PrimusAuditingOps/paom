@@ -424,6 +424,10 @@ class CustomerPortal(portal.CustomerPortal):
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
             for p in products:
+                countries = []
+                for c in p["countries_of_products"]:
+                    countries.append(int(c))
+
                 _logger.error(p["countries_of_products"])
                 recProInfo = request.env['pao.globalgap.production.site.product.information'].sudo().search([("product_id","=",p["product_id"]),("organization_id","=", fan_sudo.organization_id.id)])
                 recProInfo.write(
@@ -439,7 +443,7 @@ class CustomerPortal(portal.CustomerPortal):
                         "organization_buys_product": p["organization_buys_product"],
                         "estimated_yield_in_tons": p["estimated_yield_in_tons"],
                         "dates_harvest_estimated": p["dates_harvest_estimated"],
-                        "countries_of_products": [(6, 0, p["countries_of_products"])],
+                        "countries_of_products": [(6, 0, countries)],
                     }
                 )
 
