@@ -350,15 +350,23 @@ class CustomerPortal(portal.CustomerPortal):
         product_handling = None
         product_manipulated_not_certificate = None
         organization_buys_product = None
-        countries = None
+        countries = []
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
-            countries = request.env['res.country'].sudo().search([])
+            rec_countries = request.env['res.country'].sudo().search([])
             applicable_harvest = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['applicable_harvest'].selection
             harvest_type = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['harvest_type'].selection
             product_handling = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_handling'].selection
             product_manipulated_not_certificate = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_manipulated_not_certificate'].selection
             organization_buys_product = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['organization_buys_product'].selection
+
+            for recCountries in rec_countries:
+                countries.append(
+                    {
+                        "id": recCountries.id,
+                        "name": recCountries.name,
+                    }
+                )
 
             for rec in fan_sudo.organization_id.product_information_ids:
                 countries_list = []
@@ -389,7 +397,7 @@ class CustomerPortal(portal.CustomerPortal):
             product_handling = None
             product_manipulated_not_certificate = None
             organization_buys_product = None
-            countries = None
+            countries = []
 
         
         return{
