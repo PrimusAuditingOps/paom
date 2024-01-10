@@ -44,7 +44,7 @@
                     <button name="action_approve" class="oe_highlight" type="object" string="Approve" />
                     <button name="resend_fans_request" type="object" string="Reject" />
                     
-                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['rejected','annulled', 'approved'])]}"/>
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['annulled', 'approved'])]}"/>
                     <!--attrs="{'invisible': [('request_status', '!=', 'review')]}"-->
                 </header>
                 <sheet>
@@ -52,10 +52,11 @@
                         <field name="title"/>
                         <field name="capturist_id"/>
                         <field name="sale_order_id"/>
-                        <field name="organization_id"/>
+                        <field name="request_status" attrs="{'invisible': 1}"/>
+                        <field name="organization_id" attrs="{'invisible': [('request_status', 'in', ['sent', 'draft'])]}"/>
                         <field name="attachment_datas" invisible="1"/>
                         <field name="attachment_name" invisible="1"/>
-                        <field name="attachment_datas" filename="attachment_name"/>
+                        <field name="attachment_datas" filename="attachment_name" attrs="{'invisible': [('request_status', '!=', 'approved')]}"/>
                     </group>
                 </sheet>
             </form>
