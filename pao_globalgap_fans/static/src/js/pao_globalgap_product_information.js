@@ -133,11 +133,11 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                                                                      <option value="AP">D</option>
                                                                  </select>`)
                      };
-                     this.d.push(obj);
+                     d.push(obj);
                 });
-                this.grid_selector.updateConfig({
+                /*this.grid_selector.updateConfig({
                     data: d
-                }).forceRender();
+                }).forceRender();*/
 
             });
 /*
