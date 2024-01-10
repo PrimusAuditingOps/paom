@@ -14,8 +14,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             'change .o_website_product_information_registration_form select[id="contaccountry"]': '_onContactCountryChange',
             'change .o_website_product_information_registration_form select[id="contactstate"]': '_onContactStateChange',
             'click .o_website_product_information_registration_form input[name^="addonsgg"]': '_onAddonsChange',
-            'click .btn_add_production_site': '_onClickProductionSite',
-            'click .btn_add_products': '_onClickProduct'*/
+            'click .btn_add_production_site': '_onClickProductionSite',*/
+            'click .btn_send_product_information': '_onClickSendProduct',
             
         },
         /**
@@ -213,25 +213,18 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 x.updateConfig({
                     data: d
                 }).forceRender();
-                $("#sasa").chosen();
-
+                $(".countries_of_products-select").chosen();
             });
 
            
 
         
-           /*
-            if (d.length > 0){
-                this.datas = d;
-                this.grid_selector.updateConfig({
-                    data: d
-                }).forceRender();
-                $("#sites").val(JSON.stringify(d));
-                $("#btn_send_sites").prop('disabled', false);
-            }*/
-            
+           
 
             return this._super.apply(this, arguments);
+        },
+        _onClickProductionSite: function (ev) {
+            console.log("Clic button");
         },
 
         
