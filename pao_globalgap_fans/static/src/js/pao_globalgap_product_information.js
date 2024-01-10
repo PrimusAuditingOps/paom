@@ -95,7 +95,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         'color': '#000',
                         'border-bottom': '3px solid #ccc',
                         'text-align': 'center',
-                        'width': '200px',
+                        'height': 'auto',
+                        'width': '200px'
                     },
                     td: {
                     'text-align': 'center'
