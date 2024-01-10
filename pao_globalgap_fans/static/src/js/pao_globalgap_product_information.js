@@ -88,13 +88,14 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 data: [],
                 style: {
                     table: {
-                    border: '3px solid #ccc'
+                        border: '3px solid #ccc'
                     },
                     th: {
-                    'background-color': 'rgba(0, 0, 0, 0.1)',
-                    color: '#000',
-                    'border-bottom': '3px solid #ccc',
-                    'text-align': 'center'
+                        'background-color': 'rgba(0, 0, 0, 0.1)',
+                        'color': '#000',
+                        'border-bottom': '3px solid #ccc',
+                        'text-align': 'center',
+                        'width': '200px',
                     },
                     td: {
                     'text-align': 'center'
