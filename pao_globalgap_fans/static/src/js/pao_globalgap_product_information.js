@@ -42,7 +42,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     },
                     {
                         id: "covered_production_area",
-                        name: "Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)",
+                        name:  gridjs.html('<div style="border: 1px solid #ccc;padding: 5px;border-radius: 5px;text-align: center;">Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)</div>'),
                     },
                     {
                         id: "applicable_harvest",
@@ -111,8 +111,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
                     console.log("entroasdasdasda");
                     var obj = {
-                        "product_id": 13,
-                        "product_name": "Pomelos",
+                        "product_id": objdata.product_id,
+                        "product_name": objdata.product_name,
                         "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
                         "covered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
                         "applicable_harvest": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
