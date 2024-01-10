@@ -98,13 +98,13 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
          */
         start: function (parent) {
 
+            var d = [];
             ajax.jsonRpc('/pao/fan/product_information', 'call', 
             {
                 'fan_id': $("#fr_id").val().trim(), 
                 'fan_token': $("#fr_token").val().trim(), 
             }).then(function (data) {
                 console.log(data);
-                var d = [];
                 data.data.forEach(function(objdata) {
                     console.log(objdata);
                     var obj = {
@@ -135,9 +135,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                      };
                      d.push(obj);
                 });
-                this.grid_selector.updateConfig({
+                /*this.grid_selector.updateConfig({
                     data: d
-                }).forceRender();
+                }).forceRender();*/
 
             });
 /*
