@@ -135,9 +135,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                      };
                      d.push(obj);
                 });
-                /*this.grid_selector.updateConfig({
+                this.grid_selector.updateConfig({
                     data: d
-                }).forceRender();*/
+                }).forceRender();
 
             });
 /*
