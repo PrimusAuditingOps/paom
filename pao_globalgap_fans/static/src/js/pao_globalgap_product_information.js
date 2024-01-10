@@ -121,30 +121,29 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 'fan_id': $("#fr_id").val().trim(), 
                 'fan_token': $("#fr_token").val().trim(), 
             }).then(function (data) {
-                console.log("entro");
+
                 data.data.forEach(function(objdata) {
-                    console.log(objdata);
 
                     console.log("entroasdasdasda");
                     var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
                         "uncovered_production_area": gridjs.html(`<input type="text" id="uncovered_production_area`+objdata.product_id+`"/>`),
-                        "covered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
+                        "covered_production_area": gridjs.html(`<input type="text" id="covered_production_area`+objdata.product_id+`"/>`),
                         "applicable_harvest": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
                         "harvest_type": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
                         "product_handling": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
-                        "outsourced_activities": gridjs.html(`<input type="text" id="samuel21"/>`),
-                        "ggn_gln_outsourced": gridjs.html(`<input type="text" id="samuel21"/>`),
+                        "outsourced_activities": gridjs.html(`<input type="text" id="outsourced_activities`+objdata.product_id+`"/>`),
+                        "ggn_gln_outsourced": gridjs.html(`<input type="text" id="ggn_gln_outsourced`+objdata.product_id+`"/>`),
                         "product_manipulated_not_certificate": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
                         "organization_buys_product": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
-                        "estimated_yield_in_tons": gridjs.html(`<input type="text" id="samuel21"/>`),
-                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="samuel21"/>`),
+                        "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`"/>`),
+                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`"/>`),
                         "countries_of_products":  gridjs.html(`<select id="sasa" class="chzn-select" multiple="true" name="faculty" style="width:200px;">
                                                                      <option value="AC">A</option>
                                                                      <option value="AD">B</option>
