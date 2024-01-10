@@ -120,7 +120,6 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             }).then(function (data) {
                 data.data.forEach(function(objdata) {
                     
-                    console.log(data);
                     var applicable_harvest = `<select optional="false" name="applicable_harvest" id="applicable_harvest`+objdata.product_id+`">`;
                     for (let i = 0; i < data.applicable_harvest.length; i++) {
                         if (data.applicable_harvest[i][0] == objdata.applicable_harvest[i]){
@@ -132,14 +131,24 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     }
                     applicable_harvest += `</select>`;
 
+                    var harvest_type = `<select optional="false" name="harvest_type" id="harvest_type`+objdata.product_id+`">`;
+                    for (let i = 0; i < data.harvest_type.length; i++) {
+                        if (data.harvest_type[i][0] == objdata.harvest_type[i]){
+                            harvest_type += `<option selected value="`+data.harvest_type[i][0]+`">`+data.harvest_type[i][1]+`</option>`;
+                        }
+                        else{
+                            harvest_type += `<option value="`+data.harvest_type[i][0]+`">`+data.harvest_type[i][1]+`</option>`;
+                        }                        
+                    }
+                    harvest_type += `</select>`;
+
                     var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
                         "uncovered_production_area": gridjs.html(`<input type="text" id="uncovered_production_area`+objdata.product_id+`"/>`),
                         "covered_production_area": gridjs.html(`<input type="text" id="covered_production_area`+objdata.product_id+`"/>`),
                         "applicable_harvest": gridjs.html(applicable_harvest),
-                        "harvest_type": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                        </select>`),
+                        "harvest_type": gridjs.html(harvest_type),
                         "product_handling": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
                         "outsourced_activities": gridjs.html(`<input type="text" id="outsourced_activities`+objdata.product_id+`"/>`),
