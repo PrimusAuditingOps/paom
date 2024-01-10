@@ -345,6 +345,7 @@ class CustomerPortal(portal.CustomerPortal):
     @http.route(['/pao/fan/product_information'], type='json', auth='public', methods=['POST'])
     def pao_fan_product_information(self, fan_id=False, fan_token=None, **kwargs):
         data = []
+        ids_list = []
         applicable_harvest = None
         harvest_type = None
         product_handling = None
@@ -369,6 +370,7 @@ class CustomerPortal(portal.CustomerPortal):
                 )
 
             for rec in fan_sudo.organization_id.product_information_ids:
+                ids_list.append(rec.product_id.id)
                 countries_list = []
                 for c in rec.countries_of_products:
                     countries_list.append(c.id)
@@ -401,6 +403,7 @@ class CustomerPortal(portal.CustomerPortal):
 
         
         return{
+            "ids": ids_list,
             "data": data,
             "applicable_harvest": applicable_harvest,
             "harvest_type": harvest_type,
