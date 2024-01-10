@@ -25,18 +25,6 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             this._super.apply(this, arguments);
             this.datas = []
             this.products = []
-
-        },
-        /**
-         * @override
-         * @param {Object} parent
-         */
-        start: function (parent) {
-
-        
-
-            this.datas = []
-            this.products = []
             this.grid_selector = new gridjs.Grid({
                 columns: [
                     {
@@ -127,6 +115,19 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     }
                 ],
             }).render(document.getElementById("gridProductInformation"));
+
+        },
+        /**
+         * @override
+         * @param {Object} parent
+         */
+        start: function (parent) {
+
+        
+
+            this.datas = []
+            this.products = []
+           
 
             $(".chzn-select").chosen();
 
