@@ -245,7 +245,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     "organization_buys_product": $('select[id="organization_buys_product'+product_list[i]+'"] option:selected').val(),
                     "estimated_yield_in_tons": $("#estimated_yield_in_tons"+product_list[i]).val(),
                     "dates_harvest_estimated": $("#dates_harvest_estimated"+product_list[i]).val(),
-                    "countries_of_products": ,
+                    "countries_of_products": countries,
                  };
                 product.push(obj);
             }
