@@ -229,8 +229,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             for (let i = 0; i < product_list.length; i++) {
                 var countries = [];
                 
-                $('select[id="countries_of_products'+product_list[i]+'"]').each(function() {
-                    countries.push($(this).find(':selected').val()); 
+                $('select[id="countries_of_products'+product_list[i]+'[]"] option:selected').each(function() {
+                    countries.push($(this).val()); 
                 });
                 var obj = {
                     "product_id": product_list[i],
