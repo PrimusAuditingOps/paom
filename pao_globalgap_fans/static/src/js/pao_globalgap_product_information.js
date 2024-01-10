@@ -42,7 +42,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     },
                     {
                         id: "covered_production_area",
-                        name:  gridjs.html('<div style="border: 1px solid #ccc;padding: 5px;border-radius: 5px;text-align: center;">Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)</div>'),
+                        name: "Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)",
                     },
                     {
                         id: "applicable_harvest",
@@ -86,6 +86,20 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     },
                 ],
                 data: [],
+                style: {
+                    table: {
+                    border: '3px solid #ccc'
+                    },
+                    th: {
+                    'background-color': 'rgba(0, 0, 0, 0.1)',
+                    color: '#000',
+                    'border-bottom': '3px solid #ccc',
+                    'text-align': 'center'
+                    },
+                    td: {
+                    'text-align': 'center'
+                    }
+                }
             }).render(document.getElementById("gridProductInformation"));
             console.log("creo");
 
