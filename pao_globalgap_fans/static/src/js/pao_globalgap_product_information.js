@@ -47,7 +47,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     },
                     {
                         id: "covered_production_area",
-                        name: "Producción cubierta (Invernadero, Macrotúnel con cobertura plástica) (Si/No)",
+                        name: "Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)",
                     },
                     {
                         id: "applicable_harvest",
@@ -59,7 +59,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     },
                     {
                         id: "product_handling",
-                        name: "Manipulación de Producto (No/Sí en campo/Sí en PHU)**",
+                        name: "Manipulación de Producto",
                     },
                     {
                         id: "outsourced_activities",
@@ -71,7 +71,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     },
                     {
                         id: "product_manipulated_not_certificate",
-                        name: "¿El producto a auditar es manipulado con producto no certificado GLOBALG.A.P.? (Sí/No/NA)",
+                        name: "¿El producto a auditar es manipulado con producto no certificado GLOBALG.A.P.?",
                     },
                     {
                         id: "organization_buys_product",
@@ -90,35 +90,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         name: "Países de Destino",
                     },
                 ],
-                data: [
-                    {
-                       "id": 123,
-                       "product_id": 13,
-                       "product_name": "Pomelos",
-                       "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "covered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "applicable_harvest": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                       </select>`),
-                       "harvest_type": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                       </select>`),
-                       "product_handling": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                       </select>`),
-                       "outsourced_activities": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "ggn_gln_outsourced": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "product_manipulated_not_certificate": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                       </select>`),
-                       "organization_buys_product": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                       </select>`),
-                       "estimated_yield_in_tons": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "dates_harvest_estimated": gridjs.html(`<input type="text" id="samuel21"/>`),
-                       "countries_of_products":  gridjs.html(`<select id="sasa" class="chzn-select" multiple="true" name="faculty" style="width:200px;">
-                                                                    <option value="AC">A</option>
-                                                                    <option value="AD">B</option>
-                                                                    <option value="AM">C</option>
-                                                                    <option value="AP">D</option>
-                                                                </select>`)
-                    }
-                ],
+                data: [],
             }).render(document.getElementById("gridProductInformation"));
             console.log("creo");
 
@@ -133,8 +105,44 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
         
 
-            this.datas = []
+            this.datas = [
+                {
+                   "id": 123,
+                   "product_id": 13,
+                   "product_name": "Pomelos",
+                   "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
+                   "covered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),
+                   "applicable_harvest": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                   </select>`),
+                   "harvest_type": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                   </select>`),
+                   "product_handling": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                   </select>`),
+                   "outsourced_activities": gridjs.html(`<input type="text" id="samuel21"/>`),
+                   "ggn_gln_outsourced": gridjs.html(`<input type="text" id="samuel21"/>`),
+                   "product_manipulated_not_certificate": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                   </select>`),
+                   "organization_buys_product": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
+                   </select>`),
+                   "estimated_yield_in_tons": gridjs.html(`<input type="text" id="samuel21"/>`),
+                   "dates_harvest_estimated": gridjs.html(`<input type="text" id="samuel21"/>`),
+                   "countries_of_products":  gridjs.html(`<select id="sasa" class="chzn-select" multiple="true" name="faculty" style="width:200px;">
+                                                                <option value="AC">A</option>
+                                                                <option value="AD">B</option>
+                                                                <option value="AM">C</option>
+                                                                <option value="AP">D</option>
+                                                            </select>`)
+                }
+            ];
             this.products = []
+
+
+
+            this.grid_selector.updateConfig({
+                data: this.datas
+            }).forceRender();
+
+
            
             console.log("entro2");
             $("#sasa").chosen();
