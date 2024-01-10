@@ -51,10 +51,12 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     outsourced_activities = fields.Char(
         string='Outsourced activities', 
         copy=False,
+        default="",
     )
     ggn_gln_outsourced = fields.Char(
         string='GGN or GLN outsourced', 
         copy=False,
+        default="",
     )
     product_manipulated_not_certificate = fields.Selection(
         selection=[
@@ -81,6 +83,7 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     dates_harvest_estimated = fields.Char(
         string='Dates harvest estimated', 
         copy=False,
+        default="",
     )
     countries_of_products = fields.Many2many(
         'res.country',

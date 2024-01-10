@@ -345,8 +345,19 @@ class CustomerPortal(portal.CustomerPortal):
     @http.route(['/pao/fan/product_information'], type='json', auth='public', methods=['POST'])
     def pao_fan_product_information(self, fan_id=False, fan_token=None, **kwargs):
         data = []
+        applicable_harvest = None
+        harvest_type = None
+        product_handling = None
+        product_manipulated_not_certificate = None
+        organization_buys_product = None
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
+            applicable_harvest = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['applicable_harvest'].selection
+            harvest_type = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['harvest_type'].selection
+            product_handling = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_handling'].selection
+            product_manipulated_not_certificate = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_manipulated_not_certificate'].selection
+            organization_buys_product = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['organization_buys_product'].selection
+
             for rec in fan_sudo.organization_id.product_information_ids:
                 countries = []
                 for c in rec.countries_of_products:
@@ -371,8 +382,18 @@ class CustomerPortal(portal.CustomerPortal):
                 )
         except (AccessError, MissingError):
             data = []
+            applicable_harvest = None
+            harvest_type = None
+            product_handling = None
+            product_manipulated_not_certificate = None
+            organization_buys_product = None
 
         
         return{
-            'data': data,
+            "data": data,
+            "applicable_harvest": applicable_harvest,
+            "harvest_type": harvest_type,
+            "product_handling": product_handling,
+            "product_manipulated_not_certificate": product_manipulated_not_certificate,
+            "organization_buys_product": organization_buys_product,
         }
