@@ -104,9 +104,11 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 'fan_id': $("#fr_id").val().trim(), 
                 'fan_token': $("#fr_token").val().trim(), 
             }).then(function (data) {
-                console.log(data);
+                console.log("entro");
                 data.data.forEach(function(objdata) {
                     console.log(objdata);
+
+                    console.log("entroasdasdasda");
                     var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
@@ -172,6 +174,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             this.products = []
 
 
+            console.log("ent3242ro");
             this.grid_selector.updateConfig({
                 data: d
             }).forceRender();
