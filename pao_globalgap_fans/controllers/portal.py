@@ -421,7 +421,25 @@ class CustomerPortal(portal.CustomerPortal):
         
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
-            _logger.error(products)
+            for p in products:
+                recProInfo = request.env['pao.globalgap.production.site.product.information'].sudo().search([("product_id","=",p.product_id),("organization_id","=", fan_sudo.organization_id.id)])
+                recProInfo.write(
+                    {
+                        "uncovered_production_area": p.uncovered_production_area,
+                        "covered_production_area": p.covered_production_area,
+                        "applicable_harvest": p.applicable_harvest,
+                        "harvest_type": p.harvest_type,
+                        "product_handling": p.product_handling,
+                        "outsourced_activities": p.outsourced_activities,
+                        "ggn_gln_outsourced": p.ggn_gln_outsourced,
+                        "product_manipulated_not_certificate": p.product_manipulated_not_certificate,
+                        "organization_buys_product": p.organization_buys_product,
+                        "estimated_yield_in_tons": p.estimated_yield_in_tons,
+                        "dates_harvest_estimated": p.dates_harvest_estimated,
+                        "countries_of_products": [(6, 0, p.countries_of_products)],
+                    }
+                )
+
         except (AccessError, MissingError):
            return request.redirect('/')
         
