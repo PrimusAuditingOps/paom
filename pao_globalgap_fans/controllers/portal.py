@@ -423,7 +423,7 @@ class CustomerPortal(portal.CustomerPortal):
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
             _logger.error(products)
         except (AccessError, MissingError):
-           
+           return request.redirect('/')
         
         return{
             "data": "great",
