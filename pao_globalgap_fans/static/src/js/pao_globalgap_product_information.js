@@ -120,14 +120,18 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             }).then(function (data) {
 
                 data.data.forEach(function(objdata) {
+                    var applicable_harvest = `<select optional="false" name="applicable_harvest" id="applicable_harvest`+objdata.product_id+`">`;
+                    for (let i = 0; i < objdata.applicable_harvest.length; i++) {
+                        console.log(objdata.applicable_harvest[i])
+                    }
+                    applicable_harvest += `</select>`;
 
                     var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
                         "uncovered_production_area": gridjs.html(`<input type="text" id="uncovered_production_area`+objdata.product_id+`"/>`),
                         "covered_production_area": gridjs.html(`<input type="text" id="covered_production_area`+objdata.product_id+`"/>`),
-                        "applicable_harvest": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
-                        </select>`),
+                        "applicable_harvest": gridjs.html(applicable_harvest),
                         "harvest_type": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
                         </select>`),
                         "product_handling": gridjs.html(`<select optional="false" id="1" name="organization_buys_product">
