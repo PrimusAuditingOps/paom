@@ -20,8 +20,8 @@
                                         <form id="production_site_form" class="o_mark_required o_website_product_information_registration_form" action="" method="post" enctype="multipart/form-data"  data-mark="*" >
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                                <input type="hidden" name="cr_token" t-att-value="token"/>
-                                                <input type="hidden" name="cr_id" t-att-value="id"/>
+                                                <input type="hidden" name="fr_token" t-att-value="token"/>
+                                                <input type="hidden" name="fr_id" t-att-value="id"/>
                                                 <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required" data-type="char">
                                                     <div class="row s_col_no_resize s_col_no_bgcolor">
                                                         <label class="col-form-label col-sm-auto s_website_form_label" for="name">
@@ -33,7 +33,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <fieldset class="border p-2" style="border-color:#5b5b5b !important;">
                                                 <legend  class="w-auto" style="font-weight:bold;text-align:center" >Información de productos</legend>
                                                 <input type="hidden" name="product_information" id="product_information" class="form-control s_website_form_input" width="100px"/>
                                                 <!--<table data-toggle="table" id="table" data-toolbar=".toolbar" >
@@ -58,7 +57,6 @@
                                                         <button type="submit" id="btn_send_product" class="btn btn-primary">Guardar y Continuar <span class="fa fa-arrow-right"/></button>
                                                     </div>
                                                 </div>
-                                            </fieldset>
                                         </form>
                                     </div>
                                 </section>

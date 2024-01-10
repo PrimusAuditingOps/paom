@@ -342,3 +342,16 @@ class CustomerPortal(portal.CustomerPortal):
             }
         )
 
+    @http.route(['/pao/fan/produc_information'], type='json', auth='public', methods=['POST'])
+    def pao_get_geolocation(self, fan_id=False, fan_token=None, **kwargs):
+        data = None
+        try:
+            fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
+            data = fan_sudo.organization_id.product_information_ids
+        except (AccessError, MissingError):
+            data = None
+
+        
+        return{
+            'data': data,
+        }

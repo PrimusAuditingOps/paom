@@ -103,7 +103,14 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
          */
         start: function (parent) {
 
-        
+            ajax.jsonRpc('//pao/fan/produc_information', 'call', 
+            {
+                'fan_id': $("#fr_id").val().trim(), 
+                'fan_token': $("#fr_token").val().trim(), 
+            }).then(function (data) {
+                console.log(data);
+
+            });
 
             this.datas = [
                 {
