@@ -225,9 +225,27 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
         },
         _onClickSendProduct: function (ev) {
             var product_list = JSON.parse($("#product_ids").val());
+            var product = []
             for (let i = 0; i < product_list.length; i++) {
-                console.log(product_list[i]);
+                
+                var obj = {
+                    "product_id": product_list[i],
+                    "uncovered_production_area": $("#uncovered_production_area"+product_list[i]).val(),
+                    "covered_production_area": $("#covered_production_area"+product_list[i]).val(),
+                    "applicable_harvest": $('select[id="applicable_harvest"'+product_list[i]+'] option:selected').val(),
+                    "harvest_type": $('select[id="harvest_type"'+product_list[i]+'] option:selected').val(),
+                    "product_handling": $('select[id="product_handling"'+product_list[i]+'] option:selected').val(),
+                    "outsourced_activities": $("#outsourced_activities"+product_list[i]).val(),
+                    "ggn_gln_outsourced": $("#ggn_gln_outsourced"+product_list[i]).val(),
+                    "product_manipulated_not_certificate": $('select[id="product_manipulated_not_certificate"'+product_list[i]+'] option:selected').val(),
+                    "organization_buys_product": $('select[id="organization_buys_product"'+product_list[i]+'] option:selected').val(),
+                    "estimated_yield_in_tons": $("#estimated_yield_in_tons"+product_list[i]).val(),
+                    "dates_harvest_estimated": $("#dates_harvest_estimated"+product_list[i]).val(),
+                    "countries_of_products": 1,
+                 };
+                product.push(obj);
             }
+            console.log(product);
             //window.location = "https://paom-conta-11076878.dev.odoo.com/en/pao/fillout/fans/production_site/1/d00912f11d1744e9a5b96f262afbe8ce";           
         },
 
