@@ -350,10 +350,10 @@ class CustomerPortal(portal.CustomerPortal):
         product_handling = None
         product_manipulated_not_certificate = None
         organization_buys_product = None
-        country = None
+        countries = None
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
-            country = request.env['res.country'].sudo().search([])
+            countries = request.env['res.country'].sudo().search([])
             applicable_harvest = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['applicable_harvest'].selection
             harvest_type = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['harvest_type'].selection
             product_handling = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_handling'].selection
@@ -361,9 +361,9 @@ class CustomerPortal(portal.CustomerPortal):
             organization_buys_product = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['organization_buys_product'].selection
 
             for rec in fan_sudo.organization_id.product_information_ids:
-                countries = []
+                countries_list = []
                 for c in rec.countries_of_products:
-                    countries.append(c.id)
+                    countries_list.append(c.id)
                 data.append(
                     {
                         "product_id": rec.product_id.id,
@@ -379,7 +379,7 @@ class CustomerPortal(portal.CustomerPortal):
                         "organization_buys_product": rec.organization_buys_product,
                         "estimated_yield_in_tons": rec.estimated_yield_in_tons,
                         "dates_harvest_estimated": rec.dates_harvest_estimated,
-                        "countries_of_products": countries,
+                        "countries_of_products": countries_list,
                     }
                 )
         except (AccessError, MissingError):
@@ -389,7 +389,7 @@ class CustomerPortal(portal.CustomerPortal):
             product_handling = None
             product_manipulated_not_certificate = None
             organization_buys_product = None
-            country = None
+            countries = None
 
         
         return{
@@ -399,4 +399,5 @@ class CustomerPortal(portal.CustomerPortal):
             "product_handling": product_handling,
             "product_manipulated_not_certificate": product_manipulated_not_certificate,
             "organization_buys_product": organization_buys_product,
+            "countries": countries,
         }
