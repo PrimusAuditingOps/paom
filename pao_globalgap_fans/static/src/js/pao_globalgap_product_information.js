@@ -229,7 +229,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             for (let i = 0; i < product_list.length; i++) {
                 var countries = [];
                 
-                $('select[id="countries_of_products'+product_list[i]+'[]"]').each(function() {
+                $('select[id="countries_of_products'+product_list[i]+'"]').each(function() {
                     countries.push($(this).find(':selected').val()); 
                 });
                 var obj = {
@@ -245,7 +245,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     "organization_buys_product": $('select[id="organization_buys_product'+product_list[i]+'"] option:selected').val(),
                     "estimated_yield_in_tons": $("#estimated_yield_in_tons"+product_list[i]).val(),
                     "dates_harvest_estimated": $("#dates_harvest_estimated"+product_list[i]).val(),
-                    "countries_of_products": countries,
+                    "countries_of_products": ,
                  };
                 product.push(obj);
             }
