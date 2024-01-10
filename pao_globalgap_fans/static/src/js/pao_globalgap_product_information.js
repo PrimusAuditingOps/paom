@@ -99,6 +99,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
         start: function (parent) {
 
             var d = [];
+            var x = this.grid_selector;
             ajax.jsonRpc('/pao/fan/product_information', 'call', 
             {
                 'fan_id': $("#fr_id").val().trim(), 
@@ -137,9 +138,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                      };
                      d.push(obj);
                 });
-                /*this.grid_selector.updateConfig({
+                x.updateConfig({
                     data: d
-                }).forceRender();*/
+                }).forceRender();
 
             });
 /*
@@ -175,9 +176,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
 
             console.log("ent3242ro");
-            this.grid_selector.updateConfig({
-                data: d
-            }).forceRender();
+            
            
 
 
