@@ -115,6 +115,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     }
                 ],
             }).render(document.getElementById("gridProductInformation"));
+            console.log("creo");
 
         },
         /**
@@ -128,7 +129,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             this.datas = []
             this.products = []
            
-
+            console.log("entro2");
             $(".chzn-select").chosen();
 
         
