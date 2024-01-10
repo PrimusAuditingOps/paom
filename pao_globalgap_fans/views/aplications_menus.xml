@@ -52,7 +52,6 @@
                         <field name="title"/>
                         <field name="capturist_id"/>
                         <field name="sale_order_id"/>
-                        <field name="request_status" attrs="{'invisible': 1}"/>
                         <field name="organization_id" attrs="{'invisible': [('request_status', 'in', ['sent', 'draft'])]}"/>
                         <field name="attachment_datas" invisible="1"/>
                         <field name="attachment_name" invisible="1"/>
