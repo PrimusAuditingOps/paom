@@ -103,7 +103,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 'fan_id': $("#fr_id").val().trim(), 
                 'fan_token': $("#fr_token").val().trim(), 
             }).then(function (data) {
-                console.log(data.data);
+                console.log(data);
                 data.data.forEach(function(objdata) {
                     console.log(objdata);
                 });
