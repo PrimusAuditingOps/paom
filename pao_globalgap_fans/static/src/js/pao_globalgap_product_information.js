@@ -28,11 +28,6 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             this.grid_selector = new gridjs.Grid({
                 columns: [
                     {
-                        id: "id",
-                        name: "ID",
-                        hidden: true,
-                    },
-                    {
                         id: "product_id",
                         name: "Product ID",
                         hidden: true,
@@ -117,7 +112,6 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
             this.datas = [
                 {
-                   "id": 123,
                    "product_id": 13,
                    "product_name": "Pomelos",
                    "uncovered_production_area": gridjs.html(`<input type="text" id="samuel21"/>`),

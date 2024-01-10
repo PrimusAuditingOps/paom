@@ -344,12 +344,33 @@ class CustomerPortal(portal.CustomerPortal):
 
     @http.route(['/pao/fan/product_information'], type='json', auth='public', methods=['POST'])
     def pao_fan_product_information(self, fan_id=False, fan_token=None, **kwargs):
-        data = None
+        data = []
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
-            data = fan_sudo.organization_id.product_information_ids
+            for rec in fan_sudo.organization_id.product_information_ids
+                countries = []
+                for c in rec.countries_of_products:
+                    countries.append(c.id)
+                data.append(
+                    {
+                        "product_id": rec.product_id.id,
+                        "product_name": rec.product_id.name,
+                        "uncovered_production_area": rec.uncovered_production_area,
+                        "covered_production_area": rec.covered_production_area,
+                        "applicable_harvest": rec.applicable_harvest,
+                        "harvest_type": rec.harvest_type,
+                        "product_handling": rec.product_handling,
+                        "outsourced_activities": rec.outsourced_activities,
+                        "ggn_gln_outsourced": rec.ggn_gln_outsourced,
+                        "product_manipulated_not_certificate": rec.product_manipulated_not_certificate,
+                        "organization_buys_product": rec.organization_buys_product,
+                        "estimated_yield_in_tons": rec.estimated_yield_in_tons,
+                        "dates_harvest_estimated": rec.dates_harvest_estimated,
+                        "countries_of_products": countries,
+                    }
+                )
         except (AccessError, MissingError):
-            data = None
+            data = []
 
         
         return{
