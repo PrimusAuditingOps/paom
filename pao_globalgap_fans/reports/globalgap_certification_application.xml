@@ -215,7 +215,7 @@
                         <t t-foreach="product_information.countries_of_products" t-as="country">
                             <t t-set="countries" t-value="countries+country.name+' '"/>
                         </t>
-                        <td><span t-field="product_information.product_id"/></td>
+                        <td style="border:1px; border-color: black;"><span t-field="product_information.product_id"/></td>
                         <td><span t-field="product_information.uncovered_production_area"/></td>
                         <td><span t-field="product_information.covered_production_area"/></td>
                         <td><span t-field="product_information.applicable_harvest"/></td>
