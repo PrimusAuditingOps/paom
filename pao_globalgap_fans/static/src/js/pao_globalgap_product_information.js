@@ -178,6 +178,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     var countries_of_products = `<select class="countries_of_products-select" multiple="true" name="countries_of_products" id="countries_of_products`+objdata.product_id+`">`;
                     for (let i = 0; i < data.countries.length; i++) {
                         if (data.countries[i].id in objdata.countries_of_products){
+                            console.log(data.countries[i].id);
+                            console.log(objdata.countries_of_products);
                             countries_of_products += `<option selected value="`+data.countries[i].id+`">`+data.countries[i].name+`</option>`;
                         }
                         else{
