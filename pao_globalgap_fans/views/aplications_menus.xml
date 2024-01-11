@@ -43,7 +43,7 @@
                 <header>
                     <field name="request_status" widget="statusbar" statusbar_visible="sent,review,signature_request,signed,approved"/>
                     <button name="action_approve" class="oe_highlight" type="object" string="Approve" />
-                    <button name="Correction request" type="object" string="Reject" />
+                    <button name="resend_fans_request" type="object" string="Correction request" />
                     
                     <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['annulled', 'approved'])]}"/>
                     <!--attrs="{'invisible': [('request_status', '!=', 'review')]}"-->
