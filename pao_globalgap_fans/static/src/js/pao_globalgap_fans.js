@@ -50,7 +50,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 var lat = parseFloat($("#latitude").val().trim());
                 this._createMap(lng,lat)
             }
-            /*let map = new mapboxgl.Map({
+            let map = new mapboxgl.Map({
                 container: "ubicationMap",
                 style: "mapbox://styles/mapbox/streets-v11",
                 center: [-102.1, 23.3],
@@ -66,7 +66,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 marker.setLngLat(coordinates).addTo(map);
                 $("#latitude").val(coordinates.lat);
                 $("#longitude").val(coordinates.lng);
-            });*/
+            });
 
             
 
