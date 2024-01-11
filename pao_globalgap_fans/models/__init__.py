@@ -3,6 +3,7 @@
 from . import pao_globalgap_version
 from . import pao_globalgap_certification_option
 from . import pao_globalgap_addon
+from . import pao_globalgap_destination_countries
 from . import pao_globalgap_production_site_product_information
 from . import pao_globalgap_production_site_product
 from . import pao_globalgap_production_site
