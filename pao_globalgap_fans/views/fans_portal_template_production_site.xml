@@ -23,8 +23,8 @@
                                         <form id="production_site_form" class="o_mark_required o_website_production_site_registration_form" action="/pao/fillout/fans/production_site_phu" method="post" enctype="multipart/form-data"  data-mark="*" >
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                                <input type="hidden" name="cr_token" t-att-value="token"/>
-                                                <input type="hidden" name="cr_id" t-att-value="id"/>
+                                                <input type="hidden" id="fr_token" name="cr_token" t-att-value="token"/>
+                                                <input type="hidden" id="fr_id" name="cr_id" t-att-value="id"/>
                                                 <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required" data-type="char">
                                                     <div class="row s_col_no_resize s_col_no_bgcolor">
                                                         <label class="col-form-label col-sm-auto s_website_form_label" for="name">
