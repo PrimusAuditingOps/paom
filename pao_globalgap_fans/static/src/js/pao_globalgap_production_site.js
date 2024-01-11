@@ -14,9 +14,11 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
             'change .o_website_production_site_registration_form select[id="sitestate"]': '_onStateChange',
             'change .o_website_production_site_registration_form select[id="contaccountry"]': '_onContactCountryChange',
             'change .o_website_production_site_registration_form select[id="contactstate"]': '_onContactStateChange',
-            'click .o_website_production_site_registration_form input[name^="addonsgg"]': '_onAddonsChange',
             'click .btn_add_production_site': '_onClickProductionSite',
-            'click .btn_add_products': '_onClickProduct'
+            'click .btn_add_products': '_onClickProduct',
+            'click .btn_add_search_site_address': '_searchAddress',
+            'blur .o_website_production_site_registration_form input[name^="longitude"]': '_onLngLatSiteBlur',
+            'blur .o_website_production_site_registration_form input[name^="latitude"]': '_onLngLatSiteBlur',
             
         },
         /**
@@ -543,6 +545,71 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                 }
             }
 
+        },
+        _onLngLatSiteBlur: function(ev){
+            if ($("#latitude").val().trim() != "" && $("#longitude").val().trim() != ""){
+                var lng = parseFloat($("#longitude").val().trim());
+                var lat = parseFloat($("#latitude").val().trim());
+                this._createMap(lng,lat)
+            }
+        },
+        _searchAddress: function (ev) {
+            var country = $('select[name="sitecountry"] option:selected').text().trim();
+            var state = $('select[name="sitestate"] option:selected').text().trim();
+            var city = $('select[name="sitecity"] option:selected').text().trim();
+            if ($("#address").val().trim() != "" && country != "" && state != "" && city != "" 
+            && $("#zip").val().trim() != ""){
+                ajax.jsonRpc('/pao_get_geolocation', 'call', 
+                {
+                    'fan_id': $("#fr_id").val().trim(), 
+                    'fan_token': $("#fr_token").val().trim(), 
+                    'street': $("#address").val().trim(), 
+                    'zip': $("#zip").val().trim(),
+                    'city': city, 
+                    'state': state, 
+                    'country': country,
+                }).then(function (data) {
+                    if (data.latitude != 0.00 && data.longitude != 0.00){
+                         let map = new mapboxgl.Map({
+                            container: "ubicationMap",
+                            style: "mapbox://styles/mapbox/streets-v11",
+                            center: [data.longitude,data.latitude],
+                            zoom: 4
+                        });
+                        let marker = new mapboxgl.Marker()
+                            .setLngLat([data.longitude, data.latitude])
+                            .addTo(map);
+
+                        map.on('click', (event) => {
+                            var coordinates = event.lngLat;
+                            console.log(coordinates);
+                            marker.setLngLat(coordinates).addTo(map);
+                            $("#latitude").val(coordinates.lat);
+                            $("#longitude").val(coordinates.lng);
+                        });
+                        $("#longitude").val(data.longitude);
+                        $("#latitude").val(data.latitude);
+                    }
+
+                });
+            }
+        },
+        _createMap: function(longitude, latitude) {
+            let map = new mapboxgl.Map({
+                container: "ubicationMap",
+                style: "mapbox://styles/mapbox/streets-v11",
+                center: [longitude,latitude],
+                zoom: 10
+            });
+            let marker = new mapboxgl.Marker()
+                .setLngLat([longitude,latitude])
+                .addTo(map);
+            map.on('click', (event) => {
+                var coordinates = event.lngLat;
+                marker.setLngLat(coordinates).addTo(map);
+                $("#latitude").val(coordinates.lat);
+                $("#longitude").val(coordinates.lng);
+            });  
         },
         
     });
