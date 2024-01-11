@@ -86,7 +86,7 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
         default="",
     )
     countries_of_products = fields.Many2many(
-        'res.country',
+        'pao.globalgap.destination.countries',
         'country_production_site_product_information_rel',
         'production_site_product_information_id', 'country_id',
         string='Countries of products',
