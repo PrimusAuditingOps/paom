@@ -30,7 +30,6 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
          */
         start: function (parent) {
 
-            console.log("entramos");
             this.countries = document.querySelector('#country');
             this.states = document.querySelector('#state');
             this.optionStates = this.states.querySelectorAll('option');

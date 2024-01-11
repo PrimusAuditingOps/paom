@@ -288,6 +288,32 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                 $("#sites").val(JSON.stringify(d));
                 $("#btn_send_sites").prop('disabled', false);
             }
+
+
+            mapboxgl.accessToken = "pk.eyJ1IjoiYWJyczIiLCJhIjoiY2xsNXBmcXV0MDRreTNjdGpwMGh5ODQzcCJ9.z5jbioKMgT4Z0YhPMzJjJw";
+            if ($("#latitude").val().trim() != "" && $("#longitude").val().trim() != ""){
+                var lng = parseFloat($("#longitude").val().trim());
+                var lat = parseFloat($("#latitude").val().trim());
+                this._createMap(lng,lat)
+            }
+            let map = new mapboxgl.Map({
+                container: "ubicationMap",
+                style: "mapbox://styles/mapbox/streets-v11",
+                center: [-102.1, 23.3],
+                zoom: 4
+            });
+            let marker = new mapboxgl.Marker()
+                .setLngLat([-102.1, 23.3])
+                .addTo(map);
+
+            map.on('click', (event) => {
+                var coordinates = event.lngLat;
+                console.log(coordinates);
+                marker.setLngLat(coordinates).addTo(map);
+                $("#latitude").val(coordinates.lat);
+                $("#longitude").val(coordinates.lng);
+            });
+
             
 
             return this._super.apply(this, arguments);
