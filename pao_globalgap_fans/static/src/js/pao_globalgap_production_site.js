@@ -4,7 +4,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
 
 
     var publicWidget = require('web.public.widget');
-    
+    var ajax = require('web.ajax');
 
     publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
 
