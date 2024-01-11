@@ -12,7 +12,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
         events: {
             'change .o_website_fans_organization_form select[id="country"]': '_onCountryChange',
             'change .o_website_fans_organization_form select[id="state"]': '_onStateChange',
-            'click .o_website_fans_organization_form input[name^="addonsgg"]': '_onAddonsChange',
+            'click .btn_add_search_address': '_onAddonsChange',
             'blur .o_website_fans_organization_form input[name^="address"]': '_onAddressBlur',
             'blur .o_website_fans_organization_form input[name^="longitude"]': '_onLngLatBlur',
             'blur .o_website_fans_organization_form input[name^="latitude"]': '_onLngLatBlur',
@@ -125,7 +125,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             var state = $('select[name="state"] option:selected').text().trim();
             var city = $('select[name="city"] option:selected').text().trim();
             if ($("#address").val().trim() != "" && country != "" && state != "" && city != "" 
-            && $("#latitude").val().trim() == "" && $("#longitude").val().trim() == ""){
+            && $("#zip").val().trim() != ""){
                 ajax.jsonRpc('/pao_get_geolocation', 'call', 
                 {
                     'fan_id': $("#fr_id").val().trim(), 
