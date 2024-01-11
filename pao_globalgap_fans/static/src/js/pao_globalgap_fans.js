@@ -12,8 +12,8 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
         events: {
             'change .o_website_fans_organization_form select[id="country"]': '_onCountryChange',
             'change .o_website_fans_organization_form select[id="state"]': '_onStateChange',
-            'click .btn_add_search_address': '_onAddonsChange',
-            'blur .o_website_fans_organization_form input[name^="address"]': '_onAddressBlur',
+            'click .o_website_fans_organization_form input[name^="addonsgg"]': '_onAddonsChange',
+            'click .btn_add_search_address': '_onAddressBlur',
             'blur .o_website_fans_organization_form input[name^="longitude"]': '_onLngLatBlur',
             'blur .o_website_fans_organization_form input[name^="latitude"]': '_onLngLatBlur',
         },
