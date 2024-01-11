@@ -14,4 +14,7 @@ class PaoGlobalgapAddon(models.Model):
         required=True,
         translate=True, 
     )
-    
+    is_grasp_module = fields.Boolean(
+        string= "Is GRASP module",
+        default= False,
+    )

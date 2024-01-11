@@ -78,6 +78,8 @@ class PaoGlobalgapFansRequest(models.Model):
             ('sent', "Sent"),
             ('review', "In review"),
             ('correction', "Correction request"),
+            ('signature_request', "Signature request"),
+            ('signed', "Signed"),
             ('annulled', "Annulled"),
             ('rejected', "Rejected"),
             ('approved', "Approved"),
