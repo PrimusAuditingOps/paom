@@ -272,10 +272,41 @@
         </field>
     </record>
 
+    <record id="pao_fans_globalgap_destination_countries_view_form" model="ir.ui.view">
+        <field name="name">pao.fans.globalgap.destination.countries.view.form</field>
+        <field name="model">pao.globalgap.destination.countries</field>
+        <field name="arch" type="xml">
+            <form string="GLOBALG.A.P. Destination countries">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pao_fans_globalgap_destination_countries_view_tree" model="ir.ui.view">
+        <field name="name">pao.fans.globalgap.destination.countries.view.tree</field>
+        <field name="model">pao.globalgap.destination.countries</field>
+        <field name="arch" type="xml">
+            <tree string="GLOBALG.A.P. Destination countries">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
 
 
 
 
+    <record id="pao_globalgap_destination_countries_action" model="ir.actions.act_window">
+        <field name="name">GLOBALG.A.P Destination countries</field>
+        <field name="res_model">pao.globalgap.destination.countries</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Destination countries
+            </p>
+        </field>
+    </record>
 
     <record id="pao_globalgap_certification_option_action" model="ir.actions.act_window">
         <field name="name">GLOBALG.A.P Certification Option</field>
@@ -327,7 +358,10 @@
     </record>
 
     
-
+    <menuitem id="menu_global_gap_destination_countries_option" name="Destination countries"
+            parent="menu_global_gap_configuration"
+            action="pao_globalgap_destination_countries_action" sequence="4"/>
+    
     <menuitem id="menu_global_gap_certification_option" name="Certification Option"
             parent="menu_global_gap_configuration"
             action="pao_globalgap_certification_option_action" sequence="2"/>
