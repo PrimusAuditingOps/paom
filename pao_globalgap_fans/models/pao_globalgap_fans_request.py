@@ -9,6 +9,7 @@ class PaoGlobalgapFansRequest(models.Model):
     _name = "pao.globalgap.fans.request"
     _description = "GlobalGAP fans request"
     _rec_name = 'title'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     @api.model
     def _default_access_token(self):
