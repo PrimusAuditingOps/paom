@@ -63,6 +63,7 @@ class PaoGlobalgapFansRequest(models.Model):
         comodel_name='ir.attachment',
         ondelete='restrict',
         copy=False,
+        tracking=True,
     )
     attachment_datas = fields.Binary(
         related='attachment_id.datas',
@@ -86,6 +87,7 @@ class PaoGlobalgapFansRequest(models.Model):
             ('approved', "Approved"),
         ],
         string="Request Status",
+        tracking=True,
         readonly=True, copy=False, index=True,
         default='draft'
     )
