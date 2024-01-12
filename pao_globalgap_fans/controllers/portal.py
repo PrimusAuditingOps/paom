@@ -110,6 +110,11 @@ class CustomerPortal(portal.CustomerPortal):
         evaluationtype = request.env['pao.globalgap.organization'].sudo()._fields['evaluation_type'].selection
         rightsofaccess = request.env['pao.globalgap.organization'].sudo()._fields['rights_of_access'].selection
         addons = request.env['pao.globalgap.addon'].sudo().search([])
+        grasp_module = []
+        for a in addons:
+            if a.is_grasp_module:
+                grasp_module.append(a.id)
+        
         _logger.error(fan_sudo.organization_id.addons_ids)
         addon_list = []
         addon_list = [rec.id for rec in fan_sudo.organization_id.addons_ids]
@@ -138,6 +143,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "globalgapversion": globalgapversion,
                 "addon_string": addon_string,
                 "addon": addon_list,
+                "grasp_module": grasp_module,
             }
         )
 

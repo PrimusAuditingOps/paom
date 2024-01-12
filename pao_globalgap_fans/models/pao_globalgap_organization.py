@@ -140,6 +140,14 @@ class PaoGlobalgapOrganization(models.Model):
         copy=False,
         default='1',
     )
+    number_of_hired_workers = fields.Integer(
+        string='Number of hired workers', 
+        default=0,
+    )
+    number_of_subcontracted_workers = fields.Integer(
+        string='Number of subcontracted workers', 
+        default=0,
+    )
     production_site_ids = fields.One2many(
         comodel_name='pao.globalgap.production.site',
         inverse_name='organization_id',
