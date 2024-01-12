@@ -107,19 +107,21 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
         _onAddonsChange: function (ev) {
             var addons = new Array();
             var grasp_module = $("#grasp_module").val();
+
+            var flag = false;
             $.each($("input[name='addonsgg']:checked"), function() {
-                var flag = false;
                 if (grasp_module.includes($(this).val())){
                     flag = true;
                     $('#div_grasp_module').css('visibility','visible')
                 }
                 addons.push($(this).val());
-                if(!flag){
-                    $('#div_grasp_module').css('visibility','hidden');
-                    $("#hired_workers").val("0");
-                    $("#subcontracted_workers").val("0");
-                }
+               
             });
+            if(!flag){
+                $('#div_grasp_module').css('visibility','hidden');
+                $("#hired_workers").val("0");
+                $("#subcontracted_workers").val("0");
+            }
             let text = addons.toString();
             $("#addons").val(addons);
         },
