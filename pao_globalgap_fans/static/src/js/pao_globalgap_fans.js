@@ -69,11 +69,16 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
 
             var addon_array = $("#addons").val().toString().split(",");
             var grasp_module = $("#grasp_module").val();
+            var flag = false;
             for(let i = 0; i<addon_array.length;i++){
                 if (grasp_module.includes(addon_array[i])){
-                    $('#div_grasp_module').css('visibility','visible')
+                    flag=true;
+                    $('#div_grasp_module').css('visibility','visible');
                     break;
                 }
+            }
+            if (!flag){
+                $('#div_grasp_module').css('visibility','hidden');
             }
 
             
