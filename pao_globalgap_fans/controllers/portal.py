@@ -158,7 +158,7 @@ class CustomerPortal(portal.CustomerPortal):
         addon_list = []
         if addons != "":
             _logger.error("Entro a addons")
-            addon_list = list(addons.split(","))
+            addon_list = [int(n) for n in addons.split(",")]
         organization_data = {
             "name": name,
             "plmx": plmx,
