@@ -107,6 +107,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
         _onAddonsChange: function (ev) {
             var addons = new Array();
             $.each($("input[name='addonsgg']:checked"), function() {
+                alert($(this).val());
                 addons.push($(this).val());
             });
             let text = addons.toString();
