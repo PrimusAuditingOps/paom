@@ -365,7 +365,7 @@ class CustomerPortal(portal.CustomerPortal):
         countries = []
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
-            rec_countries = request.env['res.country'].sudo().search([])
+            rec_countries = request.env['pao.globalgap.destination.countries'].sudo().search([])
             applicable_harvest = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['applicable_harvest'].selection
             harvest_type = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['harvest_type'].selection
             product_handling = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_handling'].selection
