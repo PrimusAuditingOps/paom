@@ -455,7 +455,7 @@ class CustomerPortal(portal.CustomerPortal):
 
             mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{fan_sudo.create_uid.id}">@{fan_sudo.create_uid.name}</a>'
             request_link = ('<a href="#" data-oe-model="pao.globalgap.fans.request" data-oe-id="%(request_id)d">%(name)s</a>'
-                                    ) % {'name': fan_sudo.name, 'request_id': fan_sudo.id}
+                                    ) % {'name': fan_sudo.title, 'request_id': fan_sudo.id}
             message = _('Hello %(mention_html)s, the request %(request_link)s has been filled out.'
                         ) % {'request_link': request_link, 'mention_html': mention_html}
             message_id = fan_sudo.message_post(
