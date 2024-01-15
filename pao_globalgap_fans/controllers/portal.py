@@ -433,8 +433,6 @@ class CustomerPortal(portal.CustomerPortal):
                 countries = []
                 for c in p["countries_of_products"]:
                     countries.append(int(c))
-
-                _logger.error(p["countries_of_products"])
                 recProInfo = request.env['pao.globalgap.production.site.product.information'].sudo().search([("product_id","=",p["product_id"]),("organization_id","=", fan_sudo.organization_id.id)])
                 recProInfo.write(
                     {
@@ -452,10 +450,26 @@ class CustomerPortal(portal.CustomerPortal):
                         "countries_of_products": [(6, 0, countries)],
                     }
                 )
+            if fan_sudo.request_status != "approved":
+                fan_sudo.write({"request_status":"review"})
+
+            mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{fan_sudo.create_uid.id}">@{fan_sudo.create_uid.name}</a>'
+            request_link = ('<a href="#" data-oe-model="pao.globalgap.fans.request" data-oe-id="%(request_id)d">%(name)s</a>'
+                                    ) % {'name': fan_sudo.name, 'request_id': fan_sudo.id}
+            message = _('Hello %(mention_html)s, the request %(request_link)s has been filled out.'
+                        ) % {'request_link': request_link, 'mention_html': mention_html}
+            message_id = fan_sudo.message_post(
+                body=message,
+                partner_ids=[fan_sudo.create_uid.id],
+            )
+            fan_sudo.message_notify(
+                message_id=message_id.id,
+            )
+
 
         except (AccessError, MissingError):
            return request.redirect('/')
         
         return{
-            "data": "great",
+            "response": "Successful",
         }
