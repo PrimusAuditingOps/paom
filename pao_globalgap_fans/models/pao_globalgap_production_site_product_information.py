@@ -5,7 +5,7 @@ _logger = getLogger(__name__)
 
 class PaoGlobalgapProductionSiteProductInformation(models.Model):
     _name = "pao.globalgap.production.site.product.information"
-    _description = "GlobalGAP production site product information"
+    _description = "GLOBALG.A.P. production site product information"
 
     product_id = fields.Many2one(
         string="Product",

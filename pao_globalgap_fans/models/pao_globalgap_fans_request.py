@@ -7,7 +7,7 @@ _logger = getLogger(__name__)
 
 class PaoGlobalgapFansRequest(models.Model):
     _name = "pao.globalgap.fans.request"
-    _description = "GlobalGAP fans request"
+    _description = "GLOBALG.A.P. fans request"
     _rec_name = 'title'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 

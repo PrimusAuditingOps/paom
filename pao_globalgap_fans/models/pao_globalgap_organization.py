@@ -5,7 +5,7 @@ _logger = getLogger(__name__)
 
 class PaoGlobalgapOrganization(models.Model):
     _name = "pao.globalgap.organization"
-    _description = "GlobalGAP Organization"
+    _description = "GLOBALG.A.P. Organization"
 
 
 

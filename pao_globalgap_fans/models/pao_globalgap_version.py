@@ -5,7 +5,7 @@ _logger = getLogger(__name__)
 
 class PaoGlobalgapVersion(models.Model):
     _name = "pao.globalgap.version"
-    _description = "GlobalGAP Version"
+    _description = "GLOBALG.A.P. Version"
 
     name = fields.Char(
         string='Name', 

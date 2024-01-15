@@ -5,7 +5,7 @@ _logger = getLogger(__name__)
 
 class PaoGlobalgapCertificationOption(models.Model):
     _name = "pao.globalgap.certification.option"
-    _description = "GlobalGAP Certification Option"
+    _description = "GLOBALG.A.P. Certification Option"
 
     name = fields.Char(
         string='Name', 

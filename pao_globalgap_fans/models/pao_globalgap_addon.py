@@ -5,7 +5,7 @@ _logger = getLogger(__name__)
 
 class PaoGlobalgapAddon(models.Model):
     _name = "pao.globalgap.addon"
-    _description = "GlobalGAP addon"
+    _description = "GLOBALG.A.P. addon"
 
 
     name = fields.Char(

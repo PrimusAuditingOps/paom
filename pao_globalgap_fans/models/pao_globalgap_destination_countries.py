@@ -5,7 +5,7 @@ _logger = getLogger(__name__)
 
 class PaoGlobalgapDestinationCountries(models.Model):
     _name = "pao.globalgap.destination.countries"
-    _description = "GlobalGAP Destination countries"
+    _description = "GLOBALG.A.P. Destination countries"
 
     name = fields.Char(
         string='Name', 

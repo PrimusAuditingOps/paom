@@ -5,7 +5,7 @@ _logger = getLogger(__name__)
 
 class PaoGlobalgapProductionSite(models.Model):
     _name = "pao.globalgap.production.site"
-    _description = "GlobalGAP production site"
+    _description = "GLOBALG.A.P. production site"
 
     
     name = fields.Char(
