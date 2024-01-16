@@ -410,16 +410,12 @@
                     </div>
                 </div>
                 <div class="row" t-if="fanrequest.signature">
-                     <div class="col-6">
-                        <p style="text-align:right;">
-                            <b>Fecha</b>
+                     <div class="col-12">
+                        <p style="text-align:center;">
+                            <b>Fecha </b>  <span t-field="fanrequest.signature_date" />
                         </p>
                     </div>
-                    <div class="col-6">
-                        <p style="text-align:left;">
-                            <span t-field="fanrequest.signature_date" />
-                        </p>
-                    </div>
+                    
                 </div>
 
                 <div style="text-align: center !important;" t-if="print == False">
