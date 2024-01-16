@@ -2,7 +2,7 @@
 <odoo>
     <template id="globalgap_certification_application">
         <div id="portal_fr_globalgap_content" t-attf-class="#{'card pb-5' if not print else ''}">
-            <div id="introduction" class="#{'pb-2 pt-3 card-header' if not print else ''}" style="text-align: center;">
+            <div t-if="print == False" id="introduction" class="pb-2 pt-3 card-header" style="text-align: center;">
                 <h3><b>FAN-01 SOLICITUD E INFORMACIÓN PARA CERTIFICACIÓN GLOBALG.A.P.</b></h3>
             </div>
             <div class="card-body">
@@ -23,6 +23,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;"><b>Opción de Certificación: </b>
@@ -35,6 +36,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div style="text-align: center;">
                     <h5 style="text-align:center;font-weight:Bold;">
                         Addon
@@ -46,6 +48,7 @@
                         <br />
                     </t>
                 </p>
+                <br/>
                 <div class="row">
                     <div class="col-12">
                         <p style="text-align:left;"><b>Nombre de la Entidad Legal: </b>
@@ -65,6 +68,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-4">
                         <p style="text-align:left;"><b>Ciudad: </b>
@@ -82,6 +86,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;"><b>Email: </b>
@@ -94,6 +99,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;"><b>GLN: </b>
@@ -106,6 +112,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-12">
                         <p style="text-align:left;"><b>Nombre CB: </b>
@@ -113,6 +120,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;"><b>Latitud: </b>
@@ -125,6 +133,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;"><b>Persona de contacto: </b>
@@ -137,6 +146,7 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;"><b>Email: </b>
@@ -149,9 +159,11 @@
                         </p>
                     </div>
                 </div>
+                <br/>
                 <p>
                     <b>De acuerdo a los requisitos del documento de las Reglas de Acceso a Datos,
                         (que se adjunta y se localiza en www.globalgap.org/es/documents) indicar si:</b>
+                    <br/>
                     <br/>
                     <span t-field="fanrequest.organization_id.rights_of_access" />
                 </p>
@@ -177,6 +189,7 @@
                             </p>
                         </div>
                     </div>
+                    <br/>
                     <div class="row">
                         <div class="col-9">
                             <p style="text-align:left;"><b>Dirección: </b>
@@ -189,6 +202,7 @@
                             </p>
                         </div>
                     </div>
+                    <br/>
                     <div class="row">
                         <div class="col-4">
                             <p style="text-align:left;"><b>Ciudad: </b>
@@ -206,6 +220,7 @@
                             </p>
                         </div>
                     </div>
+                    <br/>
                     <div class="row">
                         <div class="col-6">
                             <p style="text-align:left;"><b>Email: </b>
@@ -218,6 +233,7 @@
                             </p>
                         </div>
                     </div>
+                    <br/>
                     <div class="row">
                         <div class="col-6">
                             <p style="text-align:left;"><b>Latitud: </b>
@@ -230,6 +246,7 @@
                             </p>
                         </div>
                     </div>
+                    <br/>
                     <div style="text-align: center;">
                         <h6 style="text-align:center;font-weight:Bold;">
                             Información de Contacto de <b><span t-field="site.name" /></b>
@@ -242,6 +259,7 @@
                             </p>
                         </div>
                     </div>
+                    <br/>
                     <div class="row">
                         <div class="col-6">
                             <p style="text-align:left;"><b>Dirección: </b>
@@ -254,6 +272,7 @@
                             </p>
                         </div>
                     </div>
+                    <br/>
                     <div class="row">
                         <div class="col-4">
                             <p style="text-align:left;"><b>Ciudad: </b>
@@ -271,6 +290,7 @@
                             </p>
                         </div>
                     </div>
+                    <br/>
                     <div class="row">
                         <div class="col-6">
                             <p style="text-align:left;"><b>Email: </b>
@@ -283,7 +303,7 @@
                             </p>
                         </div>
                     </div>
-
+                    <br/>
                     <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
                         <thead style="background-color: gray; color:white;">
                             <tr>
@@ -375,27 +395,29 @@
                 <br/>
                 </p>
                 <div class="row" t-if="fanrequest.signature">
-                    <div class="col-6">
+                    <div class="col-12">
                         <p style="text-align:center;">
                             <img class="img img-responsive" style="width:327px; heigth:327px;"
                                 t-att-src="image_data_uri(fanrequest.signature)" />
                         </p>
                     </div>
-                    <div class="col-6">
-                        <p style="text-align:center;">
-                            <span t-field="fanrequest.signature_date" />
-                        </p>
-                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12">
                         <p style="text-align:center;">
                             <b>Firma del Representante del Cliente</b>
                         </p>
                     </div>
-                    <div class="col-6">
-                        <p style="text-align:center;">
+                </div>
+                <div class="row" t-if="fanrequest.signature">
+                     <div class="col-6">
+                        <p style="text-align:right;">
                             <b>Fecha</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-field="fanrequest.signature_date" />
                         </p>
                     </div>
                 </div>
