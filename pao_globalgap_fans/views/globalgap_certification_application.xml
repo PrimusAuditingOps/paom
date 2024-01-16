@@ -307,6 +307,9 @@
                     <div style="page-break-after: always;">
                     </div>
                 </t>
+
+                <br/>
+                <br/>
                 <div style="text-align: center;">
                     <h5 style="text-align:center;font-weight:Bold;">
                         INFORMACIÓN DE PRODUCTOS
@@ -362,6 +365,14 @@
                     </table>
                 </div>
                 <br/>
+                <br/>
+                <p t-if="print == False">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                </p>
                 <div class="row" t-if="fanrequest.signature">
                     <div class="col-6">
                         <p style="text-align:center;">
