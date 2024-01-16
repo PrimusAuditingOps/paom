@@ -535,7 +535,7 @@ class CustomerPortal(portal.CustomerPortal):
         fan_sudo.write(
             {
                 "signature": signature, 
-                "signer_name": name, 
+                "signature_name": name, 
                 "signature_date": signature_date,
                 "request_status": "approved" if fan_sudo.request_status == "approved" else "signed", 
                 "attachment_id": attachment.id
