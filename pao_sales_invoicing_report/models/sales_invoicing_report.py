@@ -54,6 +54,7 @@ class SalesInvoicingReport(models.Model):
     
     date_order = fields.Datetime('Order Date', readonly=True)
     
+    group_id = fields.Many2one('customergroups.group', 'Group')
     promotor_id = fields.Many2one('comisionpromotores.promotor', 'Promotor')
     invoice_origin = fields.Char('Invoice Source Document', readonly=True)
     
@@ -97,6 +98,7 @@ class SalesInvoicingReport(models.Model):
             partner.pao_shipper_id as shipper_id,
             so.invoice_status as invoice_status,
             so.date_order as date_order,
+            partner.cgg_group_id as group_id,
             partner.promotor_id as promotor_id,
             a.invoice_origin,
             sl.service_start_date as order_start_date,
@@ -134,6 +136,7 @@ class SalesInvoicingReport(models.Model):
             so.date_order,
             l.quantity,
             prcr.rate,
+            partner.cgg_group_id,
             partner.promotor_id,
             sl.service_start_date,
             sl.service_end_date,
