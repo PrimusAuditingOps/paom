@@ -489,7 +489,7 @@ class CustomerPortal(portal.CustomerPortal):
         #lang = sa_sudo.signer_id.lang or sa_sudo.create_uid.lang
         
         if fan_sudo.request_status == "signature_request" or (fan_sudo.request_status == "approved" and not fan_sudo.signature):
-            return request.render('pao_sign_sa.sa_portal_template', 
+            return request.render('pao_globalgap_fans.globalgap_application_portal_template', 
             {
                 "fanrequest": fan_sudo, 
                 "print": False, 
