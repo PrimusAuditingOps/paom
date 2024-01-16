@@ -496,7 +496,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "urlAccept": url
             })
         else:
-            return request.render('pao_sign_sa.pao_sign_sa_exception_page_view', {})
+            return request.render('pao_globalgap_fans.pao_fan_request_exception_page_view', {})
 
         
         

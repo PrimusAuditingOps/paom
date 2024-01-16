@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="pao_fan_request_exception_page_view" name="Aplication Sign request not found">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">The Application signature request was canceled or does not exist.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
     <template id="globalgap_application_portal_template" name="GLOBAL.G.A.P. Portal Template">
         <t t-call="web.frontend_layout">
             <xpath expr="//head" position="attributes">
