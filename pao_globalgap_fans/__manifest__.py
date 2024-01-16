@@ -17,6 +17,7 @@
         'reports/globagap_application_header_footer.xml',
         'reports/globalgap_application.xml',
         #views
+        'views/globalgap_application_portal_view.xml',
         'views/globalgap_certification_application.xml',
         'views/aplications_menus.xml',
         'views/sale_order.xml',
