@@ -507,7 +507,7 @@ class CustomerPortal(portal.CustomerPortal):
         """
     
     @http.route(['/pao/fan/signature/<int:fr_id>/<string:fr_token>/accept'], type='json', auth="public", website=True)
-    def portal_fan_signature_accept(self, sa_id, sa_token, name=None, signature=None):
+    def portal_fan_signature_accept(self, fr_id, fr_token, name=None, signature=None):
         try:
            fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fr_id), access_token=str(fr_token))
         except (AccessError, MissingError):
