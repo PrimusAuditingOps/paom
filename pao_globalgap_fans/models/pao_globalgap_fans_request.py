@@ -96,6 +96,14 @@ class PaoGlobalgapFansRequest(models.Model):
         default=_default_access_token,
         copy=False,
     )
+    signature = fields.Binary(
+        string="Signature", 
+        copy=False,
+    )
+    signature_date = fields.Date(
+        string="Signer's signature date", 
+        copy=False,
+    )
     organization_id = fields.Many2one(
         comodel_name='pao.globalgap.organization',
         string='GLOBALG.A.P Organization',

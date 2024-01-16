@@ -16,8 +16,8 @@
         #reports
         'reports/globagap_application_header_footer.xml',
         'reports/globalgap_application.xml',
-        'reports/globalgap_certification_application.xml',
         #views
+        'views/globalgap_certification_application.xml',
         'views/aplications_menus.xml',
         'views/sale_order.xml',
         'views/pao_globalgap_send_fans_request_view.xml',

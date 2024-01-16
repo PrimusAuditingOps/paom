@@ -473,3 +473,30 @@ class CustomerPortal(portal.CustomerPortal):
         return{
             "response": "Successful",
         }
+    
+
+    @http.route(['/pao/fan/signature/<int:fr_id>/<string:fr_token>'], type='http', auth="public", website=True)
+    def portal_fan_signature(self, report_type=None, fr_id=False, fr_token=None, **kw):
+        
+        try:
+            fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fr_id), access_token=str(fr_token))
+        except (AccessError, MissingError):
+            return request.redirect('/')
+        
+       
+        url = '/pao/fan/signature/'+str(fr_id)+'/'+fr_token+'/accept'
+ 
+        #lang = sa_sudo.signer_id.lang or sa_sudo.create_uid.lang
+        
+        if fan_sudo.request_status == "signature_request" or (fan_sudo.request_status == "approved" and not fan_sudo.signature):
+            return request.render('pao_sign_sa.sa_portal_template', 
+            {
+                "fanrequest": fan_sudo, 
+                "print": False, 
+                "urlAccept": url
+            })
+        else:
+            return request.render('pao_sign_sa.pao_sign_sa_exception_page_view', {})
+
+        
+        

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="globalgap_certification_application">
+        <div id="portal_fr_globalgap_content" t-attf-class="#{'card pb-5' if not print else ''}">
+            <div id="introduction" class="#{'pb-2 pt-3 card-header' if not print else ''}" style="text-align: center;">
+                <h3><b>FAN-01 SOLICITUD E INFORMACIÓN PARA CERTIFICACIÓN GLOBALG.A.P.</b></h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <p style="text-align:left;"><b>PL-México: </b>
+                        <span t-field="fanrequest.organization_id.plmx"/></p>
+                    </div>
+                    <div class="col-4">
+                        <p style="text-align:left;"><b>GGN: </b>
+                        <span t-field="fanrequest.organization_id.ggn"/></p>
+                    </div>
+                    <div class="col-4">
+                        <p style="text-align:left;"><b>Versión: </b>
+                        <span t-field="fanrequest.organization_id.globalgap_version"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Opción de Certificación: </b>
+                        <span t-field="fanrequest.organization_id.certification_option"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Tipo de Evaluación: </b>
+                        <span t-field="fanrequest.organization_id.evaluation_type"/></p>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <h5 style="text-align:center;font-weight:Bold;">
+                        Addon
+                    </h5>
+                </div>
+                <p>
+                    <t t-foreach="fanrequest.organization_id.addons_ids" t-as="addon">
+                    <span>* </span><span t-field="addon.name"/>
+                    <br/>
+                    </t>
+                </p>
+                <div class="row">
+                    <div class="col-12">
+                        <p style="text-align:left;"><b>Nombre de la Entidad Legal: </b>
+                        <span t-field="fanrequest.organization_id.name"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Dirección: </b>
+                        <span t-field="fanrequest.organization_id.address"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>CP: </b>
+                        <span t-field="fanrequest.organization_id.zip"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p style="text-align:left;"><b>Ciudad: </b>
+                        <span t-field="fanrequest.organization_id.city_id"/></p>
+                    </div>
+                    <div class="col-4">
+                        <p style="text-align:left;"><b>Estado: </b>
+                        <span t-field="fanrequest.organization_id.state_id"/></p>
+                    </div>
+                    <div class="col-4">
+                        <p style="text-align:left;"><b>País: </b>
+                        <span t-field="fanrequest.organization_id.country_id"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Email: </b>
+                        <span t-field="fanrequest.organization_id.email"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Telefono: </b>
+                        <span t-field="fanrequest.organization_id.telephone"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>GLN: </b>
+                        <span t-field="fanrequest.organization_id.gln"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>RFC: </b>
+                        <span t-field="fanrequest.organization_id.vat"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p style="text-align:left;"><b>Nombre CB: </b>
+                        <span t-field="fanrequest.organization_id.previous_cb"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Latitud: </b>
+                        <span t-field="fanrequest.organization_id.latitude"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Longitud: </b>
+                        <span t-field="fanrequest.organization_id.longitude"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Persona de contacto: </b>
+                        <span t-field="fanrequest.organization_id.contact_name"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Cargo: </b>
+                        <span t-field="fanrequest.organization_id.contact_position"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Email: </b>
+                        <span t-field="fanrequest.organization_id.contact_email"/></p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Telefono: </b>
+                        <span t-field="fanrequest.organization_id.contact_telephone"/></p>
+                    </div>
+                </div>                
+                <p>
+                    <b>De acuerdo a los requisitos del documento de las Reglas de Acceso a Datos, 
+                    (que se adjunta y se localiza en www.globalgap.org/es/documents) indicar si:</b>
+                    <br/>
+                    <span t-field="fanrequest.organization_id.rights_of_access"/>
+                </p>
+                <div style="page-break-after: always;">
+                </div>
+                
+                <t t-foreach="fanrequest.organization_id.production_site_ids" t-as="site">
+                    <div style="text-align: center;">
+                        <h5 style="text-align:center;font-weight:Bold;">
+                            INFORMACIÓN DE LOS SITIOS DE PRODUCCIÓN Y PHU
+                        </h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-9">
+                            <p style="text-align:left;"><b>Nombre: </b>
+                            <span t-field="site.name"/></p>
+                        </div>
+                        <div class="col-3">
+                            <p style="text-align:left;"><b>Tipo: </b>
+                            <span t-field="site.type"/></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-9">
+                            <p style="text-align:left;"><b>Dirección: </b>
+                            <span t-field="site.address"/></p>
+                        </div>
+                        <div class="col-3">
+                            <p style="text-align:left;"><b>CP: </b>
+                            <span t-field="site.zip"/></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>Ciudad: </b>
+                            <span t-field="site.city_id"/></p>
+                        </div>
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>Estado: </b>
+                            <span t-field="site.state_id"/></p>
+                        </div>
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>País: </b>
+                            <span t-field="site.country_id"/></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>Email: </b>
+                            <span t-field="site.email"/></p>
+                        </div>
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>Telefono: </b>
+                            <span t-field="site.telephone"/></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>Latitud: </b>
+                            <span t-field="site.latitude"/></p>
+                        </div>
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>Longitud: </b>
+                            <span t-field="site.longitude"/></p>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <h6 style="text-align:center;font-weight:Bold;">
+                            Información de Contacto de <b><span t-field="site.name"/></b>
+                        </h6>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="text-align:left;"><b>Persona de contacto: </b>
+                            <span t-field="site.contact_name"/></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>Dirección: </b>
+                            <span t-field="site.contact_address"/></p>
+                        </div>
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>CP: </b>
+                            <span t-field="site.contact_zip"/></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>Ciudad: </b>
+                            <span t-field="site.contact_city_id"/></p>
+                        </div>
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>Estado: </b>
+                            <span t-field="site.contact_state_id"/></p>
+                        </div>
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>País: </b>
+                            <span t-field="site.contact_country_id"/></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>Email: </b>
+                            <span t-field="site.contact_email"/></p>
+                        </div>
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>Telefono: </b>
+                            <span t-field="site.contact_telephone"/></p>
+                        </div>
+                    </div>
+
+                    <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                        <thead style="background-color: gray; color:white;">
+                            <tr>
+                                <th style="width:40%;">Producto</th>
+                                <th style="width:20%;">Hectáreas en producción (Sólo para Sitio de Producción)</th>
+                                <th style="width:20%;">Para Certificar</th>
+                                <th style="width:20%;">Producción Paralela (PP)/Propiedad Paralela (PO)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="site.product_ids" t-as="product">
+                                <tr>
+                                    <td><span t-field="product.product_id"/></td>
+                                    <td><span t-field="product.hectares_in_production"/></td>
+                                    <td><span t-field="product.to_certificate"/></td>
+                                    <td><span t-field="product.parallel_production_or_property"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <!--<hr class="mt-0 mb-1" style="border-top: 1px solid"/>-->
+                    <div style="page-break-after: always;">
+                    </div>
+                </t>
+                <div style="text-align: center;">
+                    <h5 style="text-align:center;font-weight:Bold;">
+                        INFORMACIÓN DE PRODUCTOS
+                    </h5>
+                </div>
+                <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                    <thead style="background-color: gray; color:white;">
+                        <tr style="background-color: gray; color:white;">
+                            <th style="width:10%;">Producto</th>
+                            <th style="width:5%;">Área en producción (ha)</th>
+                            <th style="width:5%;">Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)</th>
+                            <th style="width:5%;">Cosecha aplicable</th>
+                            <th style="width:5%;">Primera Cosecha/ Cosecha Posterior</th>
+                            <th style="width:5%;">Manipulación de Producto**</th>
+                            <th style="width:10%;">Actividades Subcontratadas</th>
+                            <th style="width:10%;">Si se subcontrata el empaque, indicar GGN o GLN (Obligatorio si tiene)</th>
+                            <th style="width:5%;">¿El producto a auditar es manipulado con producto no certificado GLOBALG.A.P.?</th>
+                            <th style="width:5%;">¿La organización compra el mismo producto certificado y/o no certificado?</th>
+                            <th style="width:10%;">Rendimiento Estimado en Tons</th>
+                            <th style="width:10%;">Fechas de cosecha estimadas</th>
+                            <th style="width:15%;">Países</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            <tr t-foreach="fanrequest.organization_id.product_information_ids" t-as="product_information">
+                                <t t-set="countries" t-value="''"/>
+                                <t t-foreach="product_information.countries_of_products" t-as="country">
+                                    <t t-set="countries" t-value="countries+country.name+' '"/>
+                                </t>
+                                <td><span t-field="product_information.product_id"/></td>
+                                <td><span t-field="product_information.uncovered_production_area"/></td>
+                                <td><span t-field="product_information.covered_production_area"/></td>
+                                <td><span t-field="product_information.applicable_harvest"/></td>
+                                <td><span t-field="product_information.harvest_type"/></td>
+                                <td><span t-field="product_information.product_handling"/></td>
+                                <td><span t-field="product_information.outsourced_activities"/></td>
+                                <td><span t-field="product_information.ggn_gln_outsourced"/></td>
+                                <td><span t-field="product_information.product_manipulated_not_certificate"/></td>
+                                <td><span t-field="product_information.organization_buys_product"/></td>
+                                <td><span t-field="product_information.estimated_yield_in_tons"/></td>
+                                <td><span t-field="product_information.dates_harvest_estimated"/></td>
+                                <td><t t-esc="countries"/></td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+            </div>
+
+            <div class="row" t-if="fanrequest.signature">
+                <div class="col-6">
+                    <p style="text-align:center;">
+                        <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(fanrequest.signature)"/>
+                    </p>
+                </div> 
+                <div class="col-6">
+                    <p style="text-align:center;">
+                        <span t-field="fanrequest.signature_date" />
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p style="text-align:center;">
+                        <b>Firma del Representante del Cliente</b>
+                    </p>
+                </div>
+                <div class="col-6">
+                    <p style="text-align:center;">
+                        <b>Fecha</b>
+                    </p>
+                </div>  
+            </div>
+
+            <div style="text-align: center !important;" t-if="print == False">
+                <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
+                <ul class="list-inline" style="text-align: center !important;">
+                    <li class="list-inline-item">Elaborado Por: P. Mascorro</li>
+                    <li class="list-inline-item">Revisado Por: M. Salmerón</li>
+                    <li class="list-inline-item">Aprobado Por: J. Ledezma</li>
+                </ul>
+                <ul class="list-inline" style="text-align: center !important;">
+                    <li class="list-inline-item">Edición Original: 27 Nov. 2017</li>
+                    <li class="list-inline-item">Revisión: 06</li>
+                    <li class="list-inline-item">Emisión: P/D</li>
+                </ul>
+            </div>
+        </div>
+    </template>
+
+</odoo>
