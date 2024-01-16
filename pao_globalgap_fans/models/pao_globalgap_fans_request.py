@@ -96,6 +96,10 @@ class PaoGlobalgapFansRequest(models.Model):
         default=_default_access_token,
         copy=False,
     )
+    signature_name = fields.Char(
+        'Signature name',
+        copy=False,
+    )
     signature = fields.Binary(
         string="Signature", 
         copy=False,

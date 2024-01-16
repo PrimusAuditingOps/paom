@@ -505,5 +505,62 @@ class CustomerPortal(portal.CustomerPortal):
         else:
             return request.render('pao_globalgap_fans.pao_fan_request_exception_page_view', {})
         """
+    
+    @http.route(['/pao/fan/signature/<int:fr_id>/<string:fr_token>/accept'], type='json', auth="public", website=True)
+    def portal_fan_signature_accept(self, sa_id, sa_token, name=None, signature=None):
+        try:
+           fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fr_id), access_token=str(fr_token))
+        except (AccessError, MissingError):
+            return request.redirect('/')
         
+        
+        zone = fan_sudo.create_uid.tz
+        requested_tz = pytz.timezone(zone)
+        today = requested_tz.fromutc(datetime.utcnow())
+
+        signature_date = today
+        
+        filename = "GLOBALGAP_Application_%s_%s.%s" % (fan_sudo.title,fan_sudo.organization_id.name, "pdf")
+        pdf = request.env.ref('pao_globalgap_fans.globalgap_application_report').sudo()._render_qweb_pdf([rec], data= {"fanrequest": fan_sudo,"print": False})[0]
+        attachment = request.env['ir.attachment'].sudo().create({
+            'name': filename,
+            'datas': base64.b64encode(pdf),
+            'res_model': 'pao.globalgap.fans.request',
+            'res_id': fan_sudo.id,
+            'type': 'binary',  # override default_type from context, possibly meant for another model!
+        })
+        if fan_sudo.attachment_id:
+            request.env['ir.attachment'].sudo().search([("id","=",fan_sudo.attachment_id.id),("res_id","=",fan_sudo.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
+
+        fan_sudo.write(
+            {
+                "signature": signature, 
+                "signer_name": name, 
+                "signature_date": signature_date,
+                "request_status": "approved" if fan_sudo.request_status == "approved" else "signed", 
+                "attachment_id": attachment.id
+            }
+        )
+        
+
+        """
+        filename = "%s-%s.%s" % (rn_sa.name,rn_sa.organization_name, "pdf")
+        pdf = request.env.ref('pao_sign_sa.report_service_agreements').sudo()._render_qweb_pdf([sa_id], data= {"values": rn_sa, "print": True})[0]
+        attachment = request.env['ir.attachment'].sudo().create({
+                'name': filename,
+                'datas': base64.b64encode(pdf),
+                'res_model': 'pao.sign.sa.agreements.sent',
+                'res_id': sa_id,
+                'type': 'binary',  # override default_type from context, possibly meant for another model!
+            })
+        fan_sudo.write({"signature": signature, "signer_name": name, "signature_date": signature_date})
+        
+        """
+
+
+        base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return {
+            'force_refresh': True,
+            'redirect_url':  url_join(base_url, '/pao/fan/signature/%s/%s' % (sa_id, sa_token))
+        }
         
