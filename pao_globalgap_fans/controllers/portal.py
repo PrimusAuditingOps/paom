@@ -519,7 +519,7 @@ class CustomerPortal(portal.CustomerPortal):
         today = requested_tz.fromutc(datetime.utcnow())
 
         signature_date = today
-        
+        old_attachment_id = None
         filename = "GLOBALGAP_Application_%s_%s.%s" % (fan_sudo.title,fan_sudo.organization_id.name, "pdf")
         pdf = request.env.ref('pao_globalgap_fans.globalgap_application_report').sudo()._render_qweb_pdf([fan_sudo], data= {"fanrequest": fan_sudo,"print": True})[0]
         attachment = request.env['ir.attachment'].sudo().create({
@@ -530,7 +530,7 @@ class CustomerPortal(portal.CustomerPortal):
             'type': 'binary',  # override default_type from context, possibly meant for another model!
         })
         if fan_sudo.attachment_id:
-            request.env['ir.attachment'].sudo().search([("id","=",fan_sudo.attachment_id.id),("res_id","=",fan_sudo.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
+            old_attachment_id = fan_sudo.attachment_id.id
 
         fan_sudo.write(
             {
@@ -541,6 +541,9 @@ class CustomerPortal(portal.CustomerPortal):
                 "attachment_id": attachment.id
             }
         )
+        if old_attachment_id:
+            request.env['ir.attachment'].sudo().search([("id","=",old_attachment_id),("res_id","=",fan_sudo.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
+
         
 
         """
