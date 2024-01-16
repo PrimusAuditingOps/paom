@@ -337,26 +337,26 @@
                     </h5>
                 </div>
                 <div t-attf-style="#{'height:auto;overflow:auto;margin-top:20px' if not print else ''}">
-                    <table style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                    <table style="table-layout: fixed; width: 1000px; font-family: 'Times New Roman'; font-size: 16px; color: black;">
                         <thead style="background-color: gray; color:white;">
                             <tr style="background-color: gray; color:white;">
-                                <th style="width:5%;">Producto</th>
+                                <th style="width:10%;">Producto</th>
                                 <th style="width:5%;">Área en producción (ha)</th>
                                 <th style="width:5%;">Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)
                                 </th>
                                 <th style="width:5%;">Cosecha aplicable</th>
                                 <th style="width:5%;">Primera Cosecha/ Cosecha Posterior</th>
                                 <th style="width:5%;">Manipulación de Producto**</th>
-                                <th style="width:5%;">Actividades Subcontratadas</th>
-                                <th style="width:5%;">Si se subcontrata el empaque, indicar GGN o GLN (Obligatorio si
+                                <th style="width:10%;">Actividades Subcontratadas</th>
+                                <th style="width:10%;">Si se subcontrata el empaque, indicar GGN o GLN (Obligatorio si
                                     tiene)</th>
                                 <th style="width:5%;">¿El producto a auditar es manipulado con producto no certificado
                                     GLOBALG.A.P.?</th>
                                 <th style="width:5%;">¿La organización compra el mismo producto certificado y/o no
                                     certificado?</th>
-                                <th style="width:5%;">Rendimiento Estimado en Tons</th>
-                                <th style="width:5%;">Fechas de cosecha estimadas</th>
-                                <th style="width:10%;">Países</th>
+                                <th style="width:10%;">Rendimiento Estimado en Tons</th>
+                                <th style="width:10%;">Fechas de cosecha estimadas</th>
+                                <th style="width:15%;">Países</th>
                             </tr>
                         </thead>
                         <tbody>
