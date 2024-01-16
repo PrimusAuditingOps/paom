@@ -521,7 +521,7 @@ class CustomerPortal(portal.CustomerPortal):
         signature_date = today
         
         filename = "GLOBALGAP_Application_%s_%s.%s" % (fan_sudo.title,fan_sudo.organization_id.name, "pdf")
-        pdf = request.env.ref('pao_globalgap_fans.globalgap_application_report').sudo()._render_qweb_pdf([fan_sudo], data= {"fanrequest": fan_sudo,"print": False})[0]
+        pdf = request.env.ref('pao_globalgap_fans.globalgap_application_report').sudo()._render_qweb_pdf([fan_sudo], data= {"fanrequest": fan_sudo,"print": True})[0]
         attachment = request.env['ir.attachment'].sudo().create({
             'name': filename,
             'datas': base64.b64encode(pdf),
