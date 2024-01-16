@@ -487,7 +487,14 @@ class CustomerPortal(portal.CustomerPortal):
         url = '/pao/fan/signature/'+str(fr_id)+'/'+fr_token+'/accept'
  
         #lang = sa_sudo.signer_id.lang or sa_sudo.create_uid.lang
+        return request.render('pao_globalgap_fans.globalgap_application_portal_template', 
+        {
+            "fanrequest": fan_sudo, 
+            "print": False, 
+            "urlAccept": url
+        })
         
+        """
         if fan_sudo.request_status == "signature_request" or (fan_sudo.request_status == "approved" and not fan_sudo.signature):
             return request.render('pao_globalgap_fans.globalgap_application_portal_template', 
             {
@@ -497,6 +504,6 @@ class CustomerPortal(portal.CustomerPortal):
             })
         else:
             return request.render('pao_globalgap_fans.pao_fan_request_exception_page_view', {})
-
+        """
         
         
