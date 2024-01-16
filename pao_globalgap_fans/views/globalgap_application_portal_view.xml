@@ -64,7 +64,7 @@
                                     </header>
                                     <main class="modal-body" id="sa-dialog">
                                         <p>
-                                            Al firmar, la organización <span t-field="data.organization_id.name"/> está 
+                                            Al firmar, la organización <span t-field="fanrequest.organization_id.name"/> está 
                                             certificando que toda la información entregada en este documento es verdadera.
                                             Cualquier discrepancia encontrada entre la información de este documento y lo 
                                             que se observe durante la inspección realizada por Primus Auditing Operatios 
@@ -73,7 +73,7 @@
                                         </p>
                                         <t t-call="portal.signature_form">
                                             <t t-set="call_url" t-value="urlAccept"/>
-                                            <t t-set="default_name" t-value="data.organization_id.contact_name"/>
+                                            <t t-set="default_name" t-value="fanrequest.organization_id.contact_name"/>
                                             <t t-set="font_color" t-value="'darkblue'"/>
                                         </t>                            
                                     </main>
