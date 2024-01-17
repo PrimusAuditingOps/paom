@@ -14,11 +14,11 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     )
     uncovered_production_area = fields.Float(
         string="Uncovered production area",
-        digits=(16, 2),
+        digits=(16, 4),
     )
     covered_production_area = fields.Float(
         string="Covered production area",
-        digits=(16, 2),
+        digits=(16, 4),
     )
     applicable_harvest = fields.Selection(
         selection=[
@@ -78,7 +78,7 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     )
     estimated_yield_in_tons = fields.Float(
         string="Estimated yield in tons",
-        digits=(16, 2),
+        digits=(16, 4),
     )
     dates_harvest_estimated = fields.Char(
         string='Dates harvest estimated', 

@@ -64,11 +64,11 @@
                                     </header>
                                     <main class="modal-body" id="sa-dialog">
                                         <p>
-                                            Al firmar, la organización <span t-field="fanrequest.organization_id.name"/> está 
+                                            Al firmar, la organización <b><span t-field="fanrequest.organization_id.name"/></b> está 
                                             certificando que toda la información entregada en este documento es verdadera.
                                             Cualquier discrepancia encontrada entre la información de este documento y lo 
-                                            que se observe durante la inspección realizada por Primus Auditing Operatios 
-                                            México o GLOBALG.A.P. será motivo de suspensión de la certificación de la 
+                                            que se observe durante la inspección realizada por <b>Primus Auditing Operatios 
+                                            México</b> o <b>GLOBALG.A.P.</b> será motivo de suspensión de la certificación de la 
                                             organización.
                                         </p>
                                         <t t-call="portal.signature_form">

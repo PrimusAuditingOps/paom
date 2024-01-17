@@ -14,7 +14,7 @@ class PaoGlobalgapProductionSiteProduct(models.Model):
     )
     hectares_in_production = fields.Float(
         string="Hectares in production",
-        digits=(16, 2),
+        digits=(16, 4),
     )
     to_certificate = fields.Selection(
         selection=[
