@@ -42,12 +42,34 @@
                         Addon
                     </h5>
                 </div>
+                <t t-set="show_grasp" t-value="False"/>
                 <p>
                     <t t-foreach="fanrequest.organization_id.addons_ids" t-as="addon">
+                         <t t-if="addon.is_grasp_module">
+                            <t t-set="show_grasp" t-value="True"/>
+                         </t>
                         <span>* </span><span t-field="addon.name" />
                         <br />
                     </t>
                 </p>
+                <br/>
+                <div style="text-align: center;" t-if="show_grasp == True">
+                    <h5 style="text-align:center;font-weight:Bold;">
+                        Información para el Módulo GRASP 
+                    </h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>No. de Trabajadores Contratados: </b>
+                                <span t-field="fanrequest.organization_id.number_of_hired_workers" />
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p style="text-align:left;"><b>No. de Trabajadores Subcontratados: </b>
+                                <span t-field="fanrequest.organization_id.number_of_subcontracted_workers" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <br/>
                 <div class="row">
                     <div class="col-12">
