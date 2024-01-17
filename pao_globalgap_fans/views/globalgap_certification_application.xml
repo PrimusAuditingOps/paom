@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="globalgap_certification_application">
-        <div id="portal_fr_globalgap_content" t-attf-class="#{'card pb-5' if not print else ''}">
+        <div id="portal_fr_globalgap_content" style="font-family: 'Montserrat' !important; font-size: 11px; color: black;" t-attf-class="#{'card pb-5' if not print else ''}">
             <div t-if="print == False" id="introduction" class="pb-2 pt-3 card-header" style="text-align: center;">
                 <h3><b>FAN-01 SOLICITUD E INFORMACIÓN PARA CERTIFICACIÓN GLOBALG.A.P.</b></h3>
             </div>
@@ -441,7 +441,7 @@
                     
                 </div>
 
-                <div style="text-align: center !important;" t-if="print == False">
+                <div style="text-align: center !important; font-family: 'Montserrat'; font-size: 9px; color: black;" t-if="print == False">
                     <hr class="mt-0 mb-1" style="border-top: 1px solid" />
                     <ul class="list-inline" style="text-align: center !important;">
                         <li class="list-inline-item">Elaborado Por: P. Mascorro</li>
