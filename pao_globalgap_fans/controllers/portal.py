@@ -222,7 +222,6 @@ class CustomerPortal(portal.CustomerPortal):
             return request.redirect('/')
         product_ids_list = []
         production_site = json.loads(sites)  
-        _logger.error(production_site)
         request.env['pao.globalgap.production.site'].sudo().search([("organization_id","=",fr_sudo.organization_id.id)]).unlink()
         for obj in production_site:
             production_data = {
@@ -249,7 +248,7 @@ class CustomerPortal(portal.CustomerPortal):
             }
             production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
             for product in obj["products"]:
-                product_ids_list.append(product["productid"])
+                product_ids_list.append(int(product["productid"]))
                 product_data = {
                     "production_site_id": production.id,
                     "parallel_production_or_property": product["pppo"],
@@ -264,17 +263,14 @@ class CustomerPortal(portal.CustomerPortal):
                 #rec_product_information = request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_create_product)
                 #if not rec_product_information:
                 #    request.env['pao.globalgap.production.site.product.information'].sudo().create({"product_id": product["productid"]})
-            _logger.error("imprime productos")
-            _logger.error(product_ids_list)
             for p in product_ids_list:
                 domain_create_product = [("organization_id","=",fr_sudo.organization_id.id),("product_id","=",p)]
                 rec_product_information = request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_create_product)
                 if not rec_product_information:
-                    _
                     request.env['pao.globalgap.production.site.product.information'].sudo().create({"product_id": p, "organization_id":fr_sudo.organization_id.id})
 
-            #domain_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","not in",product_ids_list)]
-            #request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_product).unlink()
+            domain_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","not in",product_ids_list)]
+            request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_product).unlink()
            
 
         return request.redirect('/pao/fillout/fans/production_information/' + str(cr_id) + '/' + cr_token)
