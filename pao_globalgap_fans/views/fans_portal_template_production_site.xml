@@ -124,18 +124,23 @@
                                                                 </t>
                                                             </select>
                                                         </div>
+                                                    </div>                                            
+                                                </div>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
+                                                     <div class="form-group col-md-9">
+                                                        <label for="address">Dirección</label>
+                                                        <input type="text" name="address" id="address" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección"/>
                                                     </div>
-                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
-                                                        <div class="form-group col-md-9">
-                                                            <label for="address">Dirección</label>
-                                                            <input type="text" name="address" id="address" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección"/>
-                                                        </div>
-                                                        <div class="form-group col-md-3">
-                                                            <label for="zip">Código postal</label>
-                                                            <input type="text" name="zip" id="zip" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el código postal"/>
-                                                        </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="zip">Código postal</label>
+                                                        <input type="text" name="zip" id="zip" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el código postal"/>
                                                     </div>
-                                            
+                                                </div>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
+                                                     <div class="form-group col-md-12">
+                                                        <label for="postal_address">Dirección postal (si es diferente):</label>
+                                                        <input type="text" name="postal_address" id="postal_address" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección postal"/>
+                                                    </div>
                                                 </div>
                                                 
                                                 <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">

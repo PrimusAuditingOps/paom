@@ -235,8 +235,17 @@
                                                         </div>
                                                        
                                                     </div>
-                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
-                                                       
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">                                                       
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="previous_cb">
+                                                                    <span class="s_website_form_label_content">Nombre CB previo</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="previous_cb" t-att-value="data.previous_cb" type="text" class="form-control s_website_form_input" name="previous_cb"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
                                                             <div class="row s_col_no_resize s_col_no_bgcolor">
                                                                 <label class="col-form-label col-sm-auto s_website_form_label" for="previous_ggn">
@@ -245,16 +254,6 @@
                                                                 </label>
                                                                 <div class="col-sm">
                                                                     <input id="previous_ggn" t-att-value="data.previous_ggn"  minlength="13" maxlength="13" type="number"  class="form-control s_website_form_input" name="previous_ggn"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
-                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
-                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="previous_cb">
-                                                                    <span class="s_website_form_label_content">Nombre CB previo</span>
-                                                                </label>
-                                                                <div class="col-sm">
-                                                                    <input id="previous_cb" t-att-value="data.previous_cb" type="text" class="form-control s_website_form_input" name="previous_cb"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -366,10 +365,9 @@
                                                             <div class="row s_col_no_resize s_col_no_bgcolor">
                                                                 <label class="col-form-label col-sm-auto s_website_form_label"  for="postal_address">
                                                                     <span class="s_website_form_label_content">Dirección postal (si es diferente):</span>
-                                                                    <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="postal_address" t-att-value="data.postal_address" type="text" class="form-control s_website_form_input" required="*" name="postal_address"/>
+                                                                    <input id="postal_address" t-att-value="data.postal_address" type="text" class="form-control s_website_form_input" name="postal_address"/>
                                                                 </div>
                                                             </div>
                                                         </div>                                                               
