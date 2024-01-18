@@ -107,6 +107,10 @@ class PaoGlobalgapOrganization(models.Model):
         string='Previous CB', 
         copy=False,
     )
+    previous_ggn = fields.Char(
+        string='Previous GGN', 
+        copy=False,
+    )
     latitude = fields.Float(
         string='Geo Latitude', 
         digits=(10, 7)

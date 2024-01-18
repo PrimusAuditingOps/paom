@@ -97,7 +97,7 @@ class CustomerPortal(portal.CustomerPortal):
     def portal_fans_save_organization(self, fr_token, fr_id, plmx, ggn, globalgap_version, 
     certification_option, evaluation_type, name, address, city,state, country,
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
-    contact_telephone, contact_email, rights_of_access,addons,postal_address, **kw):
+    contact_telephone, contact_email, rights_of_access,addons,postal_address,previous_ggn, **kw):
 
         _logger.error("Entroons")
         try:
@@ -120,6 +120,7 @@ class CustomerPortal(portal.CustomerPortal):
             "evaluation_type": str(evaluation_type),
             "address": address,
             "postal_address": postal_address,
+            "previous_ggn": previous_ggn,
             "city_id": city,
             "state_id": state,
             "country_id": country,
