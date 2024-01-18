@@ -205,7 +205,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "product_manipulated_not_certificate": gridjs.html(product_manipulated_not_certificate),
                         "organization_buys_product": gridjs.html(organization_buys_product),
                         "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`" value="`+objdata.estimated_yield_in_tons+`"/>`),
-                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`" value="`+objdata.dates_harvest_estimated+`"/>`),
+                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/><input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
                         "countries_of_products":  gridjs.html(countries_of_products)
                      };
                      d.push(obj);

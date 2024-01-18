@@ -343,6 +343,8 @@ class CustomerPortal(portal.CustomerPortal):
                         "organization_buys_product": rec.organization_buys_product,
                         "estimated_yield_in_tons": rec.estimated_yield_in_tons,
                         "dates_harvest_estimated": rec.dates_harvest_estimated,
+                        "harvest_estimated_start_date": rec.harvest_estimated_start_date,
+                        "harvest_estimated_end_date": rec.harvest_estimated_end_date,
                         "countries_of_products": countries_list,
                     }
                 )
