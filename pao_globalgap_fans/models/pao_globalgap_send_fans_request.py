@@ -81,7 +81,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
         mail = self._message_send_mail(
             body, 'mail.mail_notification_light',
             {'record_name': fr.title},
-            {'model_description': _('FR'), 'company': self.create_uid.company_id},
+            {'model_description': _('Formulario de aplicación'), 'company': self.create_uid.company_id},
             {'email_from': self.create_uid.email_formatted,
                 'author_id': self.create_uid.partner_id.id,
                 'email_to': self.capturist_id.email_formatted,
