@@ -15,62 +15,7 @@ _logger = getLogger(__name__)
 
 class CustomerPortal(portal.CustomerPortal):
 
-    """
-    @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>/accept'], type='json', auth="public", website=True)
-    def portal_sa_accept(self, sa_id, sa_token, name=None, signature=None):
-        try:
-            sa_sudo = self._document_check_access('pao.sign.sa.agreements.sent', sa_id, access_token=sa_token)
-        except (AccessError, MissingError):
-            return request.redirect('/')
-        
-        lang = sa_sudo.signer_id.lang or sa_sudo.create_uid.lang
-        sa_sudo.with_context(lang=lang)
-        zone = sa_sudo.create_uid.tz
-        requested_tz = pytz.timezone(zone)
-        today = requested_tz.fromutc(datetime.utcnow())
-
-        signature_date = today
-        sa_sudo.write({"signature": signature, "signer_name": name, "signature_date": signature_date})
-
-        
-        attachment_list = []
-        for rn_sa in sa_sudo.registration_number_to_sign_ids:
-            
-
-            filename = "%s-%s.%s" % (rn_sa.name,rn_sa.organization_name, "pdf")
-            pdf = request.env.ref('pao_sign_sa.report_service_agreements').sudo()._render_qweb_pdf([sa_id], data= {"values": rn_sa, "print": True})[0]
-            attachment = request.env['ir.attachment'].sudo().create({
-                    'name': filename,
-                    'datas': base64.b64encode(pdf),
-                    'res_model': 'pao.sign.sa.agreements.sent',
-                    'res_id': sa_id,
-                    'type': 'binary',  # override default_type from context, possibly meant for another model!
-                })
-            attachment_list.append(attachment.id)
-        
-        #_logger.error(request.httprequest.remote_addr) 
-        #_logger.error(request.session['geoip'].get('latitude') or 0.0)
-        #_logger.error(request.session['geoip'].get('longitude') or 0.0)
-        sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign"})
-        msg = "Se ha firmado el acuerdo " + sa_sudo.title
-        notification_ids = []
-        notification_ids.append((0,0,{
-            'res_partner_id':sa_sudo.create_uid.id,
-            'notification_type':'inbox'
-        }))
-        sa_sudo.sale_order_id.message_post(body=msg)
-    
-        #.message_post(body=msg, partner_ids=[sa_sudo.create_uid.id]) 
-        #sa_sudo.write({'signature_name': name, 'signature': signature, 'document_status': 'sign'})
-        #signature_date 
-
-
-        base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        return {
-            'force_refresh': True,
-            'redirect_url':  url_join(base_url, '/sign/sa/%s/%s' % (sa_id, sa_token))
-        }
-    """
+  
     @http.route(['/pao_get_geolocation'], type='json', auth='public', methods=['POST'])
     def pao_get_geolocation(self, fan_id=False, fan_token=None, street=None, zip=None, city=None, state=None, country=None, **kwargs):
         latitude = 0.00
@@ -152,7 +97,7 @@ class CustomerPortal(portal.CustomerPortal):
     def portal_fans_save_organization(self, fr_token, fr_id, plmx, ggn, globalgap_version, 
     certification_option, evaluation_type, name, address, city,state, country,
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
-    contact_telephone, contact_email, rights_of_access,addons, **kw):
+    contact_telephone, contact_email, rights_of_access,addons,postal_address, **kw):
 
         _logger.error("Entroons")
         try:
@@ -174,6 +119,7 @@ class CustomerPortal(portal.CustomerPortal):
             "addons_ids": [(6, 0, addon_list)],
             "evaluation_type": str(evaluation_type),
             "address": address,
+            "postal_address": postal_address,
             "city_id": city,
             "state_id": state,
             "country_id": country,

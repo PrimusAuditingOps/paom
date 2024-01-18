@@ -64,6 +64,10 @@ class PaoGlobalgapOrganization(models.Model):
         string='Address', 
         copy=False,
     )
+    postal_address = fields.Text(
+        string='Postal address', 
+        copy=False,
+    )
     city_id = fields.Many2one(
         string="City",
         comodel_name='res.city',
