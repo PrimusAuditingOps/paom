@@ -2,6 +2,7 @@ from odoo import fields, models, api, _
 from logging import getLogger
 import uuid
 import base64
+from werkzeug.urls import url_join
 
 _logger = getLogger(__name__)
 
@@ -187,3 +188,19 @@ class PaoGlobalgapFansRequest(models.Model):
                 force_send=True,
                 lang=customer_lang,
             )
+    
+    def _message_send_mail(self, body, notif_template_xmlid, message_values, notif_values, mail_values, force_send=False, **kwargs):
+        
+        default_lang = get_lang(self.env, lang_code=kwargs.get('lang')).code
+        lang = kwargs.get('lang', default_lang)
+        sign_request = self.with_context(lang=lang)
+
+        msg = sign_request.env['mail.message'].sudo().new(dict(body=body, **message_values))
+        notif_layout = sign_request.env.ref(notif_template_xmlid)
+        body_html = notif_layout._render(dict(message=msg, **notif_values), engine='ir.qweb', minimal_qcontext=True)
+        body_html = sign_request.env['mail.render.mixin']._replace_local_links(body_html)
+
+        mail = sign_request.env['mail.mail'].sudo().create(dict(body_html=body_html, state='outgoing', **mail_values))
+        if force_send:
+            mail.send()
+        return mail
