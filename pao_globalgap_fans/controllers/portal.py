@@ -511,9 +511,20 @@ class CustomerPortal(portal.CustomerPortal):
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         return {
             'force_refresh': True,
-            'redirect_url':  url_join(base_url, '/pao/fan/signature/%s/%s' % (fr_id, fr_token))
+            'redirect_url':  url_join(base_url, '/pao/fillout/fans/message/signed/%s/%s' % (fr_id, fr_token))
         }
+
+    @http.route(['/pao/fillout/fans/message/signed/<int:fan_id>/<string:fan_token>'], type='http', auth="public", website=True)
+    def portal_fill_out_fans_message(self, fan_id=False, fan_token=None, **kw):
+        try:
+           fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
+        except (AccessError, MissingError):
+            return request.redirect('/')
         
+        return request.render(
+            'pao_globalgap_fans.globalgap_fan_signed_page_view', {}
+        )
+
     @http.route(['/pao/fillout/fans/message/<int:fan_id>/<string:fan_token>'], type='http', auth="public", website=True)
     def portal_fill_out_fans_message(self, fan_id=False, fan_token=None, **kw):
         try:
@@ -524,3 +535,5 @@ class CustomerPortal(portal.CustomerPortal):
         return request.render(
             'pao_globalgap_fans.globalgap_fan_registered_page_view', {}
         )
+    
+    

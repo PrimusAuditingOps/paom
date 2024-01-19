@@ -9,6 +9,15 @@
             </div>
         </t>
     </template>
+    <template id="globalgap_fan_signed_page_view" name="Request registered">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">The request was signed, thank you, we appreciate your response!</h3>
+                </div>
+            </div>
+        </t>
+    </template>
     <template id="assets_frontend" inherit_id="website.assets_frontend" name="GLOBALG.A.P. Fans">
         <xpath expr="." position="inside">
 
