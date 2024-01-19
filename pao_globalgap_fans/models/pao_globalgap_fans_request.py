@@ -123,23 +123,7 @@ class PaoGlobalgapFansRequest(models.Model):
 
     def action_approve(self):
         for rec in self:
-            old_attachment_id = None
-            filename = "GlobalGAP_Application_%s_%s.%s" % (rec.title,rec.organization_id.name, "pdf")
-            pdf = rec.env.ref('pao_globalgap_fans.globalgap_application_report').sudo()._render_qweb_pdf([rec], data= {"values":rec})[0]
-            attachment = rec.env['ir.attachment'].sudo().create({
-                'name': filename,
-                'datas': base64.b64encode(pdf),
-                'res_model': 'pao.globalgap.fans.request',
-                'res_id': rec.id,
-                'type': 'binary',  # override default_type from context, possibly meant for another model!
-            })
-            if rec.attachment_id:
-                old_attachment_id = rec.attachment_id.id
-            rec.write({"request_status": "approved", "attachment_id": attachment.id})
-            if old_attachment_id:
-                rec.env['ir.attachment'].sudo().search([("id","=",old_attachment_id),("res_id","=",rec.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
-
-        
+            rec.write({"request_status": "approved"})
     
     def action_cancel(self):
         for rec in self:
