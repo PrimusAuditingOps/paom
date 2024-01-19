@@ -231,7 +231,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
         },
         _onName: function(ev){
             $(".countries_of_products-select").chosen();
-
+            var product_list = JSON.parse($("#product_ids").val());
             for (let i = 0; i < product_list.length; i++) {
                 /*$("#harvest_estimated_start_date1321").datepicker({
                     defaultDate: "+1w",
