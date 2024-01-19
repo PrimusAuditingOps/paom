@@ -236,6 +236,15 @@
                     </div>
                     <br/>
                     <div class="row">
+                        <div class="col-12">
+                            <p style="text-align:left;"><b>Dirección Postal: </b>
+                                <span t-field="site.postal_address" />
+                            </p>
+                        </div>
+                        
+                    </div>
+                    <br/>
+                    <div class="row">
                         <div class="col-4">
                             <p style="text-align:left;"><b>Ciudad: </b>
                                 <span t-field="site.city_id" />
