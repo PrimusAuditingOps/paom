@@ -73,7 +73,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
 
             $("#productionsite").val("");
             $("#address").val("");
-            $("#postaladdress").val("");
+            $("#postal_address").val("");
             $("#zip").val("");
             $("#telephone").val("");
             $("#email").val("");
@@ -109,10 +109,11 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         hidden: true,
                     },
                     {
-                        id: "postaladdress",
+                        id: "postal_address",
                         name: "Dirección postal",
                         hidden: true,
                     },
+                    
                     {
                         id: "country",
                         name: "País",
@@ -345,7 +346,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
         _clearFields: function() {
                 $("#productionsite").val("");
                 $("#address").val("");
-                $("#postaladdress").val("");
+                $("#postal_address").val("");
                 $("#zip").val("");
                 $("#telephone").val("");
                 $("#email").val("");
@@ -458,6 +459,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "type_name": $('input[name=site_type]:checked', '#production_site_form').val() == 1 ? "Sitio" : "PHU", 
                         "type": $('input[name=site_type]:checked', '#production_site_form').val(), 
                         "address": $("#address").val().trim(), 
+                        "postal_address": $("#postal_address").val().trim(), 
                         "country": $("#sitecountry").val(), 
                         "state": $("#sitestate").val().trim(), 
                         "city": $("#sitecity").val().trim(), 

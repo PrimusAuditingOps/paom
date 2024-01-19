@@ -229,6 +229,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "name": obj["name"],
                 "type": obj["type"],
                 "address": obj["address"],
+                "postal_address": obj["postal_address"],
                 "city_id": obj["city"],
                 "state_id": obj["state"],
                 "country_id": obj["country"],
