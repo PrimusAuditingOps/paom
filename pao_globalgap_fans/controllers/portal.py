@@ -515,7 +515,7 @@ class CustomerPortal(portal.CustomerPortal):
         }
 
     @http.route(['/pao/fillout/fans/message/signed/<int:fan_id>/<string:fan_token>'], type='http', auth="public", website=True)
-    def portal_fill_out_fans_message(self, fan_id=False, fan_token=None, **kw):
+    def portal_fill_out_fans_message_signed(self, fan_id=False, fan_token=None, **kw):
         try:
            fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
         except (AccessError, MissingError):
