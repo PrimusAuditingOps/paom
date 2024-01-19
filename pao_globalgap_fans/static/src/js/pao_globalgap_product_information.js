@@ -16,6 +16,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             'click .o_website_product_information_registration_form input[name^="addonsgg"]': '_onAddonsChange',
             'click .btn_add_production_site': '_onClickProductionSite',*/
             'click .btn_send_product_information': '_onClickSendProduct',
+            'blur .o_website_product_information_registration_form input[name^="name"]': '_onName',
             
         },
         /**
@@ -231,6 +232,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
            
 
             return this._super.apply(this, arguments);
+        },
+        _onName: function(ev){
+            $(".countries_of_products-select").chosen();
         },
         _onClickSendProduct: function (ev) {
             var product_list = JSON.parse($("#product_ids").val());
