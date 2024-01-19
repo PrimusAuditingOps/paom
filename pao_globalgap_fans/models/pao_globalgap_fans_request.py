@@ -159,3 +159,31 @@ class PaoGlobalgapFansRequest(models.Model):
                 'default_capturist_id': self.capturist_id.id
             }
         }
+    def action_send_to_sign(self):
+        for rec in self:
+            #rec.write({"request_status": "annulled"})
+            base_url = rec.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            form_url = url_join(base_url, '/pao/fan/signature/%s/%s' % (fr.id, fr.access_token))            
+
+            tpl = rec.env.ref('pao_globalgap_fans.fans_request_signature_mail')
+            customer_lang = get_lang(rec.env, lang_code=rec.capturist_id.lang).code
+            tpl = tpl.with_context(lang=customer_lang)
+            body = tpl._render({
+                    'record': rec,
+                    'link': form_url,
+                    'subject': _("Signature Request"),
+                    'body': '<p><br></p>',
+                }, engine='ir.qweb', minimal_qcontext=True)
+            
+            
+            mail = self._message_send_mail(
+                body, 'mail.mail_notification_light',
+                {'record_name': fr.title},
+                {'model_description': _('Signature Request'), 'company': rec.create_uid.company_id},
+                {'email_from': rec.create_uid.email_formatted,
+                    'author_id': rec.create_uid.partner_id.id,
+                    'email_to': rec.organization_id.email,
+                    'subject': _('Signature Request')},
+                force_send=True,
+                lang=customer_lang,
+            )

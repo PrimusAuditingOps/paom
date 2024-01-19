@@ -12,6 +12,7 @@
         'security/ir.model.access.csv',
         #data
         'data/mail_template_data.xml',
+        'data/signature_template_data.xml'
         #demo
         #reports
         'reports/globagap_application_header_footer.xml',
