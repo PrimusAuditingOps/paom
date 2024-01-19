@@ -76,6 +76,10 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         name: "Rendimiento Estimado en Tons (voluntario)",
                     },
                     {
+                        id: "dates_estimated",
+                        name: "Fechas de cosecha estimadas (Obligatorio)",
+                    },
+                     {
                         id: "dates_harvest_estimated",
                         name: "Fechas de cosecha estimadas (Obligatorio)",
                     },
@@ -197,7 +201,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "product_manipulated_not_certificate": gridjs.html(product_manipulated_not_certificate),
                         "organization_buys_product": gridjs.html(organization_buys_product),
                         "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`" value="`+objdata.estimated_yield_in_tons+`"/>`),
-                        //"dates_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/><input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
+                        "dates_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/><input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
                         "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`" value="`+objdata.ggn_gln_outsourced+`"/>`),
                         "countries_of_products":  gridjs.html(countries_of_products)
                      };
@@ -218,16 +222,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             $("#name").focus();
             
 
-            $(".countries_of_products-select").chosen();
            
-            $("#harvest_estimated_start_date1321").datepicker({
-                defaultDate: "+1w",
-                changeMonth: true,
-                numberOfMonths: 1
-              })
-              .on( "change", function() {
-                to.datepicker( "option", "minDate", getDate( this ) );
-              })
+            
         
            
 
@@ -235,6 +231,45 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
         },
         _onName: function(ev){
             $(".countries_of_products-select").chosen();
+
+            for (let i = 0; i < product_list.length; i++) {
+                /*$("#harvest_estimated_start_date1321").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                .on( "change", function() {
+                to.datepicker( "option", "minDate", getDate( this ) );
+                });*/
+
+                from = $( "#harvest_estimated_start_date"+product_list[i])
+                    .datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 1
+                    })
+                .on( "change", function() {
+                    to.datepicker( "option", "minDate", this._getDate( this ) );
+                }),
+                to = $( "#harvest_estimated_end_date"+product_list[i] ).datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                .on( "change", function() {
+                    from.datepicker( "option", "maxDate", this._getDate( this ) );
+                });
+            }
+        },
+        _getDate: function(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate( "yy/mm/dd", element.value );
+            } catch( error ) {
+                date = null;
+            }
+        
+            return date;
         },
         _onClickSendProduct: function (ev) {
             var product_list = JSON.parse($("#product_ids").val());
