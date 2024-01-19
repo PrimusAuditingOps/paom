@@ -418,7 +418,6 @@ class CustomerPortal(portal.CustomerPortal):
            return request.redirect('/')
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         return {
-            'force_refresh': True,
             'redirect_url':  url_join(base_url, '/pao/fillout/fans/message/%s/%s' % (fan_id, fan_token))
         }
        
