@@ -115,7 +115,7 @@ class CustomerPortal(portal.CustomerPortal):
             "plmx": plmx,
             "ggn": ggn,
             "number_of_hired_workers": subcontracted_workers,
-            "number_of_subcontracted_workers":  +hired_workers,
+            "number_of_subcontracted_workers": hired_workers,
             "version_id": globalgap_version,
             "certification_option_id": certification_option, 
             "addons_ids": [(6, 0, addon_list)],
