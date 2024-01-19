@@ -164,7 +164,7 @@ class PaoGlobalgapFansRequest(models.Model):
         for rec in self:
             #rec.write({"request_status": "annulled"})
             base_url = rec.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            form_url = url_join(base_url, '/pao/fan/signature/%s/%s' % (fr.id, fr.access_token))            
+            form_url = url_join(base_url, '/pao/fan/signature/%s/%s' % (rec.id, rec.access_token))            
 
             tpl = rec.env.ref('pao_globalgap_fans.fans_request_signature_mail')
             customer_lang = get_lang(rec.env, lang_code=rec.capturist_id.lang).code
@@ -179,7 +179,7 @@ class PaoGlobalgapFansRequest(models.Model):
             
             mail = self._message_send_mail(
                 body, 'mail.mail_notification_light',
-                {'record_name': fr.title},
+                {'record_name': rec.title},
                 {'model_description': _('Signature Request'), 'company': rec.create_uid.company_id},
                 {'email_from': rec.create_uid.email_formatted,
                     'author_id': rec.create_uid.partner_id.id,
