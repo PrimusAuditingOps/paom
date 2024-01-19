@@ -97,7 +97,7 @@ class CustomerPortal(portal.CustomerPortal):
     def portal_fans_save_organization(self, fr_token, fr_id, plmx, ggn, globalgap_version, 
     certification_option, evaluation_type, name, address, city,state, country,
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
-    contact_telephone, contact_email, rights_of_access,addons,postal_address,previous_ggn, **kw):
+    contact_telephone, contact_email, rights_of_access,addons,postal_address,previous_ggn,subcontracted_workers, hired_workers, **kw):
 
         _logger.error("Entroons")
         try:
@@ -114,6 +114,8 @@ class CustomerPortal(portal.CustomerPortal):
             "name": name,
             "plmx": plmx,
             "ggn": ggn,
+            "number_of_hired_workers": subcontracted_workers,
+            "number_of_subcontracted_workers":  +hired_workers,
             "version_id": globalgap_version,
             "certification_option_id": certification_option, 
             "addons_ids": [(6, 0, addon_list)],
@@ -408,7 +410,7 @@ class CustomerPortal(portal.CustomerPortal):
                         ) % {'request_link': request_link, 'mention_html': mention_html}
             message_id = fan_sudo.message_post(
                 body=message,
-                partner_ids=[fan_sudo.create_uid.id],
+                partner_ids=[fan_sudo.create_uid.partner_id.id],
             )
             fan_sudo.message_notify(
                 message_id=message_id.id,
@@ -501,8 +503,9 @@ class CustomerPortal(portal.CustomerPortal):
                     ) % {'request_link': request_link, 'mention_html': mention_html}
         message_id = fan_sudo.message_post(
             body=message,
-            partner_ids=[fan_sudo.create_uid.id],
+            partner_ids=[fan_sudo.create_uid.partner_id.id],
         )
+
         fan_sudo.message_notify(
             message_id=message_id.id,
         )

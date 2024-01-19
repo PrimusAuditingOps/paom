@@ -45,8 +45,7 @@
                     <button name="action_approve" class="oe_highlight" type="object" string="Approve" attrs="{'invisible': [('request_status', 'in', ['approved','annulled','signature_request', 'draft'])]}"/>
                     <button name="resend_fans_request" type="object" string="Correction request" attrs="{'invisible': [('request_status', 'in', ['annulled', 'approved','draft'])]}"/>
                     <button name="resend_fans_request" type="object" string="Send request" attrs="{'invisible': [('request_status', '!=', 'draft')]}"/>
-                    <field name="attachment_id" invisible="1"/>
-                    <button name="action_send_to_sign" type="object" string="Send to Sign" attrs="{'invisible': ['&amp;','|',('request_status', '=', 'approved'),('attachment_id', '!=',False ),('request_status', 'in', ['annulled','signature_request', 'draft', 'sign','sent','rejected','correction'])]}"/>
+                    <button name="action_send_to_sign" type="object" string="Send to Sign" attrs="{'invisible': [('request_status', '!=', 'review')]}"/>
                     <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['annulled', 'approved'])]}"/>
                     <!---->
                 </header>
