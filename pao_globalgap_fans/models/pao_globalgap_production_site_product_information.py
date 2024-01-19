@@ -86,11 +86,11 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
         default="",
     )
     harvest_estimated_start_date = fields.Date(
-        string='Dates harvest estimated', 
+        string='Estimated harvest start date', 
         copy=False,
     )
     harvest_estimated_end_date = fields.Date(
-        string='Dates harvest estimated', 
+        string='Estimated harvest end date', 
         copy=False,
     )
     countries_of_products = fields.Many2many(
