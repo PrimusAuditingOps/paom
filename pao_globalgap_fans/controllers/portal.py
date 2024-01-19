@@ -416,8 +416,11 @@ class CustomerPortal(portal.CustomerPortal):
 
         except (AccessError, MissingError):
            return request.redirect('/')
-        
-        return request.render('pao_globalgap_fans.globalgap_fan_registered_page_view', {})
+        base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return {
+            'force_refresh': True,
+            'redirect_url':  url_join(base_url, '/pao/fillout/fans/message/%s/%s' % (fr_id, fr_token))
+        }
        
     
 
@@ -511,3 +514,13 @@ class CustomerPortal(portal.CustomerPortal):
             'redirect_url':  url_join(base_url, '/pao/fan/signature/%s/%s' % (fr_id, fr_token))
         }
         
+    @http.route(['/pao/fillout/fans/message/<int:fan_id>/<string:fan_token>'], type='http', auth="public", website=True)
+    def portal_fill_out_fans_message(self, fan_id=False, fan_token=None, **kw):
+        try:
+           fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
+        except (AccessError, MissingError):
+            return request.redirect('/')
+        
+        return request.render(
+            'pao_globalgap_fans.globalgap_fan_registered_page_view', {}
+        )
