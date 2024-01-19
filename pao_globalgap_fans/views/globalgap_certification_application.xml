@@ -385,8 +385,9 @@
                                     GLOBALG.A.P.?</th>
                                 <th style="width:5%;">¿La organización compra el mismo producto certificado y/o no
                                     certificado?</th>
-                                <th style="width:10%;">Rendimiento Estimado en Tons</th>
-                                <th style="width:15%;">Fechas de cosecha estimadas</th>
+                                <th style="width:5%;">Rendimiento Estimado en Tons</th>
+                                <th style="width:10%;">Fecha inicio de cosecha estimada</th>
+                                <th style="width:10%;">Fecha fin de cosecha estimada</th>
                                 <th style="width:10%;">Países</th>
                             </tr>
                         </thead>
@@ -407,7 +408,8 @@
                                 <td><span t-field="product_information.product_manipulated_not_certificate" /></td>
                                 <td><span t-field="product_information.organization_buys_product" /></td>
                                 <td><span t-field="product_information.estimated_yield_in_tons" /></td>
-                                <td><span t-field="product_information.dates_harvest_estimated" /></td>
+                                <td><span t-field="product_information.harvest_estimated_start_date" /></td>
+                                <td><span t-field="product_information.harvest_estimated_end_date" /></td>
                                 <td>
                                     <t t-esc="countries" />
                                 </td>

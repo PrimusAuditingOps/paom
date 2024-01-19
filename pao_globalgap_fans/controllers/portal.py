@@ -417,9 +417,8 @@ class CustomerPortal(portal.CustomerPortal):
         except (AccessError, MissingError):
            return request.redirect('/')
         
-        return{
-            "response": "Successful",
-        }
+        return request.render('pao_globalgap_fans.globalgap_fan_registered_page_view', {})
+       
     
 
     @http.route(['/pao/fan/signature/<int:fr_id>/<string:fr_token>'], type='http', auth="public", website=True)
