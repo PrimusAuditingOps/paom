@@ -242,7 +242,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 to.datepicker( "option", "minDate", getDate( this ) );
                 });*/
 
-                from = $( "#harvest_estimated_start_date"+product_list[i])
+                var from = $( "#harvest_estimated_start_date"+product_list[i])
                     .datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
@@ -250,8 +250,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     })
                 .on( "change", function() {
                     to.datepicker( "option", "minDate", this._getDate( this ) );
-                }),
-                to = $( "#harvest_estimated_end_date"+product_list[i] ).datepicker({
+                });
+                var to = $( "#harvest_estimated_end_date"+product_list[i] ).datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
                     numberOfMonths: 1
