@@ -196,7 +196,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "product_manipulated_not_certificate": gridjs.html(product_manipulated_not_certificate),
                         "organization_buys_product": gridjs.html(organization_buys_product),
                         "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`" value="`+objdata.estimated_yield_in_tons+`"/>`),
-                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/><input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
+                        //"dates_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/><input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
+                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`" value="`+objdata.ggn_gln_outsourced+`"/>`),
                         "countries_of_products":  gridjs.html(countries_of_products)
                      };
                      d.push(obj);
@@ -206,6 +207,16 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 }).forceRender();
             });
             
+        },
+        /**
+         * @override
+         * @param {Object} parent
+         */
+        start: function (parent) {
+
+            $("#name").focus();
+            
+
             $(".countries_of_products-select").chosen();
            
             $("#harvest_estimated_start_date1321").datepicker({
@@ -217,19 +228,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 to.datepicker( "option", "minDate", getDate( this ) );
               })
         
-        },
-        /**
-         * @override
-         * @param {Object} parent
-         */
-        start: function (parent) {
-
-            
-
            
 
             return this._super.apply(this, arguments);
-            
         },
         _onClickSendProduct: function (ev) {
             var product_list = JSON.parse($("#product_ids").val());
