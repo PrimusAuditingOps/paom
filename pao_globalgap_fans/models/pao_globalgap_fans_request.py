@@ -189,6 +189,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 force_send=True,
                 lang=customer_lang,
             )
+            rec.write({"request_status": "signature_request" if rec.request_status != "approved" else "approved"})
     
     def _message_send_mail(self, body, notif_template_xmlid, message_values, notif_values, mail_values, force_send=False, **kwargs):
         
