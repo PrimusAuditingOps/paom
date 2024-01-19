@@ -388,6 +388,8 @@ class CustomerPortal(portal.CustomerPortal):
                         "product_handling": p["product_handling"],
                         "outsourced_activities": p["outsourced_activities"],
                         "ggn_gln_outsourced": p["ggn_gln_outsourced"],
+                        "harvest_estimated_start_date": p["harvest_estimated_start_date"],
+                        "harvest_estimated_end_date": p["harvest_estimated_end_date"],
                         "product_manipulated_not_certificate": p["product_manipulated_not_certificate"],
                         "organization_buys_product": p["organization_buys_product"],
                         "estimated_yield_in_tons": p["estimated_yield_in_tons"],

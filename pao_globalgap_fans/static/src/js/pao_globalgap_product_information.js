@@ -76,12 +76,12 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         name: "Rendimiento Estimado en Tons (voluntario)",
                     },
                     {
-                        id: "dates_estimated",
-                        name: "Fechas de cosecha estimadas (Obligatorio)",
+                        id: "start_date_harvest_estimated",
+                        name: "Fecha inicio de cosecha estimada (Obligatorio)",
                     },
                      {
-                        id: "dates_harvest_estimated",
-                        name: "Fechas de cosecha estimadas (Obligatorio)",
+                        id: "end_date_harvest_estimated",
+                        name: "Fecha fin de cosecha estimada (Obligatorio)",
                     },
                     {
                         id: "countries_of_products",
@@ -201,8 +201,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "product_manipulated_not_certificate": gridjs.html(product_manipulated_not_certificate),
                         "organization_buys_product": gridjs.html(organization_buys_product),
                         "estimated_yield_in_tons": gridjs.html(`<input type="text" id="estimated_yield_in_tons`+objdata.product_id+`" value="`+objdata.estimated_yield_in_tons+`"/>`),
-                        "dates_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/><input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
-                        "dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`" value="`+objdata.ggn_gln_outsourced+`"/>`),
+                        "start_date_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/>`),
+                        "end_date_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
+                        //"dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`" value="`+objdata.ggn_gln_outsourced+`"/>`),
                         "countries_of_products":  gridjs.html(countries_of_products)
                      };
                      d.push(obj);
@@ -288,7 +289,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     "product_manipulated_not_certificate": $('select[id="product_manipulated_not_certificate'+product_list[i]+'"] option:selected').val(),
                     "organization_buys_product": $('select[id="organization_buys_product'+product_list[i]+'"] option:selected').val(),
                     "estimated_yield_in_tons": $("#estimated_yield_in_tons"+product_list[i]).val(),
-                    "dates_harvest_estimated": $("#dates_harvest_estimated"+product_list[i]).val(),
+                    "dates_harvest_estimated": "",
+                    "harvest_estimated_end_date": $("#harvest_estimated_end_date"+product_list[i]).val(),
+                    "harvest_estimated_start_date": $("#harvest_estimated_start_date"+product_list[i]).val(),
                     "countries_of_products": $("#countries_of_products"+product_list[i]).val(),
                  };
                 products.push(obj);
