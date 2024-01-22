@@ -201,8 +201,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "product_manipulated_not_certificate": gridjs.html(product_manipulated_not_certificate),
                         "organization_buys_product": gridjs.html(organization_buys_product),
                         "estimated_yield_in_tons": gridjs.html(`<input type="text" maxlength="20" id="estimated_yield_in_tons`+objdata.product_id+`" value="`+objdata.estimated_yield_in_tons+`"/>`),
-                        "start_date_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/>`),
-                        "end_date_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
+                        "start_date_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date ? objdata.harvest_estimated_start_date : ''+`"/>`),
+                        "end_date_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date ? objdata.harvest_estimated_end_date : '' +`"/>`),
                         //"dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`" value="`+objdata.ggn_gln_outsourced+`"/>`),
                         "countries_of_products":  gridjs.html(countries_of_products)
                      };
