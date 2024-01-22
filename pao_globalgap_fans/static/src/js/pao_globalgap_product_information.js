@@ -251,7 +251,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     numberOfMonths: 1,
                     })
                 .on( "change", function() {
-
+                    if ($("#harvest_estimated_start_date"+product_list[i]).val()){
+                        $( "#harvest_estimated_end_date"+product_list[i] ).datepicker( "option", "minDate", $("#harvest_estimated_start_date"+product_list[i]).val());
+                    }
                     //$( "#harvest_estimated_end_date"+product_list[i] ).datepicker( "option", "minDate", $.datepicker.parseDate( "yy/mm/dd", $("#harvest_estimated_start_date"+product_list[i]).value));
                 });
                 $( "#harvest_estimated_end_date"+product_list[i] ).datepicker({
@@ -261,6 +263,9 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     numberOfMonths: 1,
                 })
                 .on( "change", function() {
+                    if ($("#harvest_estimated_end_date"+product_list[i]).val()){
+                        $( "#harvest_estimated_start_date"+product_list[i] ).datepicker( "option", "minDate", $("#harvest_estimated_end_date"+product_list[i]).val());
+                    }
                     //$("#harvest_estimated_start_date"+product_list[i]).datepicker( "option", "maxDate", $.datepicker.parseDate( "yy/mm/dd", $( "#harvest_estimated_end_date"+product_list[i] ).value ) );
                 });
 
