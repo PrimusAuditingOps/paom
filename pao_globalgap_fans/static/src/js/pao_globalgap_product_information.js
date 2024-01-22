@@ -89,6 +89,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     },
                 ],
                 data: [],
+                height: "600px",
                 style: {
                     table: {
                         border: '3px solid #ccc',
