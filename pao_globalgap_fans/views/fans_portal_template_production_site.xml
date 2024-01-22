@@ -53,17 +53,17 @@
                                                 <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
                                                     <div class="form-group col-md-12">
                                                         <label for="productionsite">Nombre del Sitio/Unidad de Manipulación</label>
-                                                        <input type="text" name="productionsite" id="productionsite" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el nombre del Sitio/PHU"/>
+                                                        <input type="text" name="productionsite" id="productionsite" maxlength="100" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el nombre del Sitio/Unidad de Manipulación"/>
                                                     </div>
                                                 </div>
                                                 <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
                                                     <div class="form-group col-md-6">
                                                         <label for="telephone">Telefono</label>
-                                                        <input type="text" name="telephone" id="telephone" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el telefono"/>
+                                                        <input type="text" name="telephone" id="telephone" maxlength="20" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el telefono"/>
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="email">Email</label>
-                                                        <input type="text" name="email" id="email" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el Email"/>
+                                                        <input type="text" name="email" id="email" maxlength="100" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el Email"/>
                                                     </div>
                                                 </div>
                                                 
@@ -127,17 +127,17 @@
                                                 <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
                                                      <div class="form-group col-md-9">
                                                         <label for="address">Dirección</label>
-                                                        <input type="text" name="address" id="address" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección"/>
+                                                        <input type="text" name="address" id="address" maxlength="200" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección"/>
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label for="zip">Código postal</label>
-                                                        <input type="text" name="zip" id="zip" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el código postal"/>
+                                                        <input type="text" name="zip" id="zip" maxlength="10" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el código postal"/>
                                                     </div>
                                                 </div>
                                                 <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
                                                      <div class="form-group col-md-12">
                                                         <label for="postal_address">Dirección postal (si es diferente):</label>
-                                                        <input type="text" name="postal_address" id="postal_address" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección postal"/>
+                                                        <input type="text" name="postal_address" id="postal_address" maxlength="200" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección postal"/>
                                                     </div>
                                                 </div>
                                                 
@@ -149,11 +149,11 @@
                                                 <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
                                                     <div class="form-group col-md-6">
                                                         <label for="latitude">Latitud</label>
-                                                        <input type="text" name="latitude" id="latitude" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la latitud"/>
+                                                        <input type="text" name="latitude" id="latitude" maxlength="20" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la latitud"/>
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="longitude">Longitud</label>
-                                                        <input type="text" name="longitude" id="longitude" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la longitud"/>
+                                                        <input type="text" name="longitude" id="longitude" maxlength="20" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la longitud"/>
                                                     </div> 
                                                 </div>
                                                 
@@ -172,13 +172,13 @@
                                                     <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
                                                         <div class="form-group col-md-12">
                                                             <label for="contactname">Nombre del contacto</label>
-                                                            <input type="text" name="contactname" id="contactname" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el nombre del contacto"/>
+                                                            <input type="text" name="contactname" maxlength="100" id="contactname" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el nombre del contacto"/>
                                                         </div>
                                                     </div>
                                                     <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
                                                         <div class="form-group col-md-12">
                                                             <label for="contactaddress">Dirección</label>
-                                                            <input type="text" name="contactaddress" id="contactaddress" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección"/>
+                                                            <input type="text" name="contactaddress" maxlength="200" id="contactaddress" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección"/>
                                                         </div>
                                                     </div>
                                                     <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
@@ -241,15 +241,15 @@
                                                     <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
                                                         <div class="form-group col-md-4">
                                                             <label for="contactzip">Código postal</label>
-                                                            <input type="text" name="contactzip" id="contactzip" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el código postal"/>
+                                                            <input type="text" name="contactzip" id="contactzip" maxlength="10" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el código postal"/>
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label for="contacttelephone">Telefono</label>
-                                                            <input type="text" name="contacttelephone" id="contacttelephone" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el telefono"/>
+                                                            <input type="text" name="contacttelephone" id="contacttelephone" maxlength="20" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el telefono"/>
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label for="contactemail">Email</label>
-                                                            <input type="text" name="contactemail" id="contactemail" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el Email"/>
+                                                            <input type="text" name="contactemail" id="contactemail" maxlength="100" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el Email"/>
                                                         </div>
                                                     </div>
                                                 </fieldset>
@@ -268,7 +268,7 @@
                                                         </div>
                                                         <div class="form-group col-md-3">
                                                             <label for="hect">Hectáreas en producción</label>
-                                                            <input type="text" name="hect" id="hect" class="form-control s_website_form_input" width="100px" placeholder="Ingrese las hectáreas en producción"/>
+                                                            <input type="text" name="hect" id="hect" maxlength="15" class="form-control s_website_form_input" width="100px" placeholder="Ingrese las hectáreas en producción"/>
                                                         </div>
                                                         <div class="form-group col-md-3">
                                                             <label for="forcertify">Para certificar</label>
