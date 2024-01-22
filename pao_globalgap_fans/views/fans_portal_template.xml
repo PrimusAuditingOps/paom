@@ -29,17 +29,7 @@
             <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet"/>
             <link rel="stylesheet" href="/pao_globalgap_fans/static/src/css/chosen.min.css"/>
 
-            <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"/>
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"/>
-            <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css"/>
-            <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"/>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"/>
-            <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"/>
-            <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"/>
-            <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"/>
-            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"/>
-            <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>-->
-
+          
 
         </xpath>
     </template>
@@ -117,7 +107,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="plmx" t-att-value="data.plmx" type="text" class="form-control s_website_form_input" name="plmx" required="*"/>
+                                                                    <input id="plmx" t-att-value="data.plmx" maxlength="20" type="text" class="form-control s_website_form_input" name="plmx" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -128,7 +118,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="ggn" t-att-value="data.ggn" minlength="13" maxlength="13" type="number" class="form-control s_website_form_input" name="ggn" required="*" />
+                                                                    <input id="ggn" t-att-value="data.ggn" maxlength="13" type="text" class="form-control s_website_form_input" name="ggn" required="*" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -181,7 +171,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="hired_workers" t-att-value="data.number_of_hired_workers" type="text" class="form-control s_website_form_input" required="*" name="hired_workers"/>
+                                                                    <input id="hired_workers" t-att-value="data.number_of_hired_workers" maxlength="9" type="text" class="form-control s_website_form_input" required="*" name="hired_workers"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -192,7 +182,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="subcontracted_workers" t-att-value="data.number_of_subcontracted_workers" type="text" class="form-control s_website_form_input" name="subcontracted_workers" required="*"/>
+                                                                    <input id="subcontracted_workers" t-att-value="data.number_of_subcontracted_workers" maxlength="9" type="text" class="form-control s_website_form_input" name="subcontracted_workers" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -206,7 +196,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="name" t-att-value="data.name" type="text" class="form-control s_website_form_input" required="*" name="name"/>
+                                                                    <input id="name" t-att-value="data.name" maxlength="100" type="text" class="form-control s_website_form_input" required="*" name="name"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -217,7 +207,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="vat" t-att-value="data.vat" type="text" class="form-control s_website_form_input" name="vat" required="*"/>
+                                                                    <input id="vat" t-att-value="data.vat" type="text" maxlength="20" class="form-control s_website_form_input" name="vat" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -231,7 +221,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="email" t-att-value="data.email" type="email" class="form-control s_website_form_input" name="email" required="*"/>
+                                                                    <input id="email" t-att-value="data.email" type="email" maxlength="100" class="form-control s_website_form_input" name="email" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -242,7 +232,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="telephone" t-att-value="data.telephone" type="text" class="form-control s_website_form_input" name="telephone" required="*"/>
+                                                                    <input id="telephone" t-att-value="data.telephone" type="text" maxlength="20" class="form-control s_website_form_input" name="telephone" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -255,7 +245,7 @@
                                                                     <span class="s_website_form_label_content">Nombre CB previo</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="previous_cb" t-att-value="data.previous_cb" type="text" class="form-control s_website_form_input" name="previous_cb"/>
+                                                                    <input id="previous_cb" t-att-value="data.previous_cb" type="text" maxlength="100" class="form-control s_website_form_input" name="previous_cb"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -266,7 +256,7 @@
                                                                     
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="previous_ggn" t-att-value="data.previous_ggn"  minlength="13" maxlength="13" type="number"  class="form-control s_website_form_input" name="previous_ggn"/>
+                                                                    <input id="previous_ggn" t-att-value="data.previous_ggn"  maxlength="13" type="text"  class="form-control s_website_form_input" name="previous_ggn"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -279,7 +269,7 @@
                                                                     
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="gln" t-att-value="data.gln"  minlength="13" maxlength="13" type="number"  class="form-control s_website_form_input" name="gln"/>
+                                                                    <input id="gln" t-att-value="data.gln" maxlength="13" type="text"  class="form-control s_website_form_input" name="gln"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -357,7 +347,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="address" t-att-value="data.address" type="text" class="form-control s_website_form_input" required="*" name="address"/>
+                                                                    <input id="address" t-att-value="data.address" type="text" maxlength="200" class="form-control s_website_form_input" required="*" name="address"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -368,7 +358,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="zip" t-att-value="data.zip" class="form-control s_website_form_input" required="*" name="zip"/>
+                                                                    <input id="zip" t-att-value="data.zip" class="form-control s_website_form_input" maxlength="10" required="*" name="zip"/>
                                                                 </div>
                                                             </div>    
                                                         </div>                                                                    
@@ -380,7 +370,7 @@
                                                                     <span class="s_website_form_label_content">Dirección postal (si es diferente):</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="postal_address" t-att-value="data.postal_address" type="text" class="form-control s_website_form_input" name="postal_address"/>
+                                                                    <input id="postal_address" t-att-value="data.postal_address" type="text" maxlength="200" class="form-control s_website_form_input" name="postal_address"/>
                                                                 </div>
                                                             </div>
                                                         </div>                                                               
@@ -398,7 +388,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="latitude" t-att-value="data.latitude" type="text" class="form-control s_website_form_input" name="latitude" required="*"/>
+                                                                    <input id="latitude" t-att-value="data.latitude" type="text" maxlength="30" class="form-control s_website_form_input" name="latitude" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -409,7 +399,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="longitude" t-att-value="data.longitude" type="text" class="form-control s_website_form_input" name="longitude" required="*"/>
+                                                                    <input id="longitude" t-att-value="data.longitude" type="text" maxlength="30" class="form-control s_website_form_input" name="longitude" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -433,7 +423,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="contact_name" t-att-value="data.contact_name" type="text" class="form-control s_website_form_input" name="contact_name" required="*"/>
+                                                                    <input id="contact_name" t-att-value="data.contact_name" maxlength="100" type="text" class="form-control s_website_form_input" name="contact_name" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -444,7 +434,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="contact_position" t-att-value="data.contact_position" type="text" class="form-control s_website_form_input" name="contact_position" required="*"/>
+                                                                    <input id="contact_position" t-att-value="data.contact_position" maxlength="50" type="text" class="form-control s_website_form_input" name="contact_position" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -458,7 +448,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="contact_telephone" t-att-value="data.contact_telephone" type="text" class="form-control s_website_form_input" name="contact_telephone" required="*"/>
+                                                                    <input id="contact_telephone" t-att-value="data.contact_telephone" maxlength="20" type="text" class="form-control s_website_form_input" name="contact_telephone" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -469,7 +459,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input id="contact_email"  t-att-value="data.contact_email"  type="email" class="form-control s_website_form_input" name="contact_email" required="*"/>
+                                                                    <input id="contact_email"  t-att-value="data.contact_email" maxlength="100" type="email" class="form-control s_website_form_input" name="contact_email" required="*"/>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -59,6 +59,7 @@ class PaoGlobalgapFansRequest(models.Model):
         comodel_name='sale.order',
         string='Sale Order',
         ondelete='set null',
+        tracking=True,
     )
     attachment_id = fields.Many2one(
         string="Document",
