@@ -347,7 +347,7 @@
                     </div>
                     <br/>
                     <table style="width:100%; font-family: 'Montserrat'; font-size: 11px; color: black;">
-                        <thead style="background-color: gray; color:white;">
+                        <thead style="background-color: gray; color:white; text-align:center;">
                             <tr>
                                 <th style="width:40%;">Producto</th>
                                 <th style="width:20%;">Hectáreas en producción (Sólo para Sitio de Producción)</th>
@@ -355,7 +355,7 @@
                                 <th style="width:20%;">Producción Paralela (PP)/Propiedad Paralela (PO)</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="text-align:center;">
                             <t t-foreach="site.product_ids" t-as="product">
                                 <tr>
                                     <td><span t-field="product.product_id" /></td>
@@ -381,7 +381,7 @@
                 </div>
                 <div t-attf-style="#{'height:auto;overflow:auto;margin-top:20px' if not print else ''}">
                     <table style="table-layout: fixed; width: 1000px; font-family: 'Montserrat'; font-size: 11px; color: black;">
-                        <thead style="background-color: gray; color:white;">
+                        <thead style="background-color: gray; color:white; text-align:center;">
                             <tr style="background-color: gray; color:white;">
                                 <th style="width:10%;">Producto</th>
                                 <th style="width:5%;">Área en producción (ha)</th>
@@ -403,7 +403,7 @@
                                 <th style="width:10%;">Países</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="text-align:center;">
                             <tr t-foreach="fanrequest.organization_id.product_information_ids" t-as="product_information">
                                 <t t-set="countries" t-value="''" />
                                 <t t-foreach="product_information.countries_of_products" t-as="country">
