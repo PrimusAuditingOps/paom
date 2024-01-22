@@ -169,7 +169,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 {'model_description': _('Signature Request'), 'company': rec.create_uid.company_id},
                 {'email_from': rec.create_uid.email_formatted,
                     'author_id': rec.create_uid.partner_id.id,
-                    'email_to': rec.organization_id.email,
+                    'email_to': rec.organization_id.contact_email,
                     'subject': _('Signature Request')},
                 force_send=True,
                 lang=customer_lang,
