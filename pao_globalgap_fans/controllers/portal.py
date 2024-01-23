@@ -400,8 +400,7 @@ class CustomerPortal(portal.CustomerPortal):
                         "countries_of_products": [(6, 0, countries)],
                     }
                 )
-            if fan_sudo.request_status != "approved":
-                fan_sudo.write({"request_status":"review"})
+            fan_sudo.write({"request_status":"review"})
 
             mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{fan_sudo.create_uid.id}">@{fan_sudo.create_uid.name}</a>'
             request_link = ('<a href="#" data-oe-model="pao.globalgap.fans.request" data-oe-id="%(request_id)d">%(name)s</a>'
@@ -475,7 +474,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "signature": signature, 
                 "signature_name": name, 
                 "signature_date": signature_date,
-                "request_status": "approved" if fan_sudo.request_status == "approved" else "signed",
+                "request_status": "signed",
             }
         )
 

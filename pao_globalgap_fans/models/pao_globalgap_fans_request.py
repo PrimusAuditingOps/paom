@@ -87,12 +87,21 @@ class PaoGlobalgapFansRequest(models.Model):
             ('signed', "Signed"),
             ('annulled', "Annulled"),
             ('rejected', "Rejected"),
-            ('approved', "Approved"),
         ],
         string="Request Status",
         tracking=True,
         readonly=True, copy=False, index=True,
         default='draft'
+    )
+    qa_status = fields.Selection(
+        selection=[
+            ('pending', "Pending"),
+            ('approved', "Approved"),
+        ],
+        string="QA Status",
+        tracking=True,
+        readonly=True, copy=False, index=True,
+        default='pending'
     )
     access_token = fields.Char(
         'Security Token', 
@@ -119,7 +128,7 @@ class PaoGlobalgapFansRequest(models.Model):
 
     def action_approve(self):
         for rec in self:
-            rec.write({"request_status": "approved"})
+            rec.write({"qa_status": "approved"})
     
     def action_cancel(self):
         for rec in self:
@@ -169,7 +178,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 force_send=True,
                 lang=customer_lang,
             )
-            rec.write({"request_status": "signature_request" if rec.request_status != "approved" else "approved"})
+            rec.write({"request_status": "signature_request"})
     
     def _message_send_mail(self, body, notif_template_xmlid, message_values, notif_values, mail_values, force_send=False, **kwargs):
         

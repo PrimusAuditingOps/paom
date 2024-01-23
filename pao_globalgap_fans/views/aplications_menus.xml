@@ -41,12 +41,12 @@
         <field name="arch" type="xml">
             <form string="GLOBALG.A.P. Fans request">
                 <header>
-                    <field name="request_status" widget="statusbar" statusbar_visible="sent,review,signature_request,signed,approved"/>
-                    <button name="action_approve" class="oe_highlight" type="object" string="Approve" attrs="{'invisible': [('request_status', 'in', ['approved','annulled','signature_request', 'draft'])]}"/>
-                    <button name="resend_fans_request" type="object" string="Correction request" attrs="{'invisible': [('request_status', 'in', ['annulled', 'approved','draft'])]}"/>
+                    <field name="request_status" widget="statusbar" statusbar_visible="sent,review,signature_request,signed"/>
+                    <button name="action_approve" class="oe_highlight" type="object" string="Approve" attrs="{'invisible': [('request_status', 'in', ['annulled','signature_request', 'draft'])]}"/>
+                    <button name="resend_fans_request" type="object" string="Correction request" attrs="{'invisible': [('request_status', 'in', ['annulled','draft'])]}"/>
                     <button name="resend_fans_request" type="object" string="Send request" attrs="{'invisible': [('request_status', '!=', 'draft')]}"/>
                     <button name="action_send_to_sign" type="object" string="Send to Sign" attrs="{'invisible': [('request_status', '!=', 'review')]}"/>
-                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['annulled', 'approved'])]}"/>
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('request_status', 'in', ['annulled'])]}"/>
                     <!---->
                 </header>
                 <sheet>
@@ -57,10 +57,11 @@
                         <field name="sale_order_id"/>
                     </group>
                     <group col="2">
+                        <field name="qa_status"/>
                         <field name="attachment_datas" invisible="1"/>
                         <field name="attachment_name" invisible="1"/>
                         <field name="attachment_id" invisible="1"/>
-                        <field name="attachment_datas" filename="attachment_name" attrs="{'invisible': ['|',('request_status', '!=', 'signed'), ('request_status', '=', 'approved'), ('attachment_id', '=', False) ]}"/>
+                        <field name="attachment_datas" filename="attachment_name" attrs="{'invisible': [('request_status', '!=', 'signed')]}"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
