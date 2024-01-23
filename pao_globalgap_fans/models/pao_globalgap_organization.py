@@ -6,7 +6,7 @@ _logger = getLogger(__name__)
 class PaoGlobalgapOrganization(models.Model):
     _name = "pao.globalgap.organization"
     _description = "GLOBALG.A.P. Organization"
-
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
 
     name = fields.Char(
