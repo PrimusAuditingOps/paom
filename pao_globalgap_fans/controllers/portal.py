@@ -44,6 +44,12 @@ class CustomerPortal(portal.CustomerPortal):
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', fan_id, access_token=fan_token)
         except (AccessError, MissingError):
             return request.redirect('/')
+
+        
+        if fan_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
+            return request.render(
+                'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
+            )
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
         cities = request.env['res.city'].sudo().search([])
@@ -60,7 +66,6 @@ class CustomerPortal(portal.CustomerPortal):
             if a.is_grasp_module:
                 grasp_module.append(a.id)
         
-        _logger.error(fan_sudo.organization_id.addons_ids)
         addon_list = []
         addon_list = [rec.id for rec in fan_sudo.organization_id.addons_ids]
         addon_string = ""
@@ -99,13 +104,15 @@ class CustomerPortal(portal.CustomerPortal):
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
     contact_telephone, contact_email, rights_of_access,addons,postal_address,previous_ggn,subcontracted_workers, hired_workers, **kw):
 
-        _logger.error("Entroons")
         try:
             fr_sudo = self._document_check_access('pao.globalgap.fans.request', int(fr_id), access_token=str(fr_token))
         except (AccessError, MissingError):
             return request.redirect('/')
 
-       
+        if fan_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
+            return request.render(
+                'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
+            )
         addon_list = []
         if addons != "":
             _logger.error("Entro a addons")
@@ -156,6 +163,12 @@ class CustomerPortal(portal.CustomerPortal):
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', fan_id, access_token=fan_token)
         except (AccessError, MissingError):
             return request.redirect('/')
+        
+        if fan_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
+            return request.render(
+                'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
+            )
+
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
         cities = request.env['res.city'].sudo().search([])
@@ -222,6 +235,12 @@ class CustomerPortal(portal.CustomerPortal):
             fr_sudo = self._document_check_access('pao.globalgap.fans.request', int(cr_id), access_token=str(cr_token))
         except (AccessError, MissingError):
             return request.redirect('/')
+        
+        if fan_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
+            return request.render(
+                'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
+            )
+        
         product_ids_list = []
         production_site = json.loads(sites)  
         request.env['pao.globalgap.production.site'].sudo().search([("organization_id","=",fr_sudo.organization_id.id)]).unlink()
@@ -288,6 +307,12 @@ class CustomerPortal(portal.CustomerPortal):
                 product_ids.append(rec.product_id.id)
         except (AccessError, MissingError):
             return request.redirect('/')
+        
+        if fan_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
+            return request.render(
+                'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
+            )
+
         return request.render(
             'pao_globalgap_fans.fans_portal_template_product_information', 
             {
@@ -433,7 +458,11 @@ class CustomerPortal(portal.CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect('/')
         
-       
+        if fan_sudo.request_status != 'signature_request':
+            return request.render(
+                'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
+            )
+
         url = '/pao/fan/signature/'+str(fr_id)+'/'+fr_token+'/accept'
  
         #lang = sa_sudo.signer_id.lang or sa_sudo.create_uid.lang
@@ -443,18 +472,6 @@ class CustomerPortal(portal.CustomerPortal):
             "print": False, 
             "urlAccept": url
         })
-        
-        """
-        if fan_sudo.request_status == "signature_request" or (fan_sudo.request_status == "approved" and not fan_sudo.signature):
-            return request.render('pao_globalgap_fans.globalgap_application_portal_template', 
-            {
-                "fanrequest": fan_sudo, 
-                "print": False, 
-                "urlAccept": url
-            })
-        else:
-            return request.render('pao_globalgap_fans.pao_fan_request_exception_page_view', {})
-        """
     
     @http.route(['/pao/fan/signature/<int:fr_id>/<string:fr_token>/accept'], type='json', auth="public", website=True)
     def portal_fan_signature_accept(self, fr_id, fr_token, name=None, signature=None):
