@@ -116,11 +116,6 @@ class PaoGlobalgapFansRequest(models.Model):
         string='GLOBALG.A.P Organization',
         ondelete='restrict',
     )
-    sale_order_id = fields.Many2one(
-        comodel_name='sale.order',
-        string='Sale Order',
-        ondelete='set null',
-    )
 
     def action_approve(self):
         for rec in self:
