@@ -44,7 +44,7 @@
                     <field name="qa_status" invisible="1"/>
                     <field name="request_status" widget="statusbar" statusbar_visible="sent,review,signature_request,signed"/>
                     <button name="action_approve" class="oe_highlight" type="object" string="Approve" attrs="{'invisible': ['|',('request_status', '=', 'annulled'),('qa_status', '=', 'approved')]}"/>
-                    <button name="resend_fans_request" type="object" string="Correction request" attrs="{'invisible': [('request_status', 'in', ['annulled','draft'])]}"/>
+                    <button name="resend_fans_request" type="object" string="Correction request" attrs="{'invisible': [('request_status', 'in', ['annulled','draft','signed'])]}"/>
                     <button name="resend_fans_request" type="object" string="Send request" attrs="{'invisible': [('request_status', '!=', 'draft')]}"/>
                     <button name="action_send_to_sign" type="object" string="Send to Sign" attrs="{'invisible': [('request_status', '!=', 'review')]}"/>
                     <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': ['|',('request_status', 'in', ['annulled']),('qa_status', '=', 'approved')]}"/>
