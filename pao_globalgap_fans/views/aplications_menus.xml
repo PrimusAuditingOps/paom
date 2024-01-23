@@ -50,6 +50,10 @@
                     <!---->
                 </header>
                 <sheet>
+
+                    <group col="2">
+                        <field name="qa_status"/>
+                    </group>
                     <group col="4">
                         <field name="title"/>
                         <field name="capturist_id"/>
@@ -57,7 +61,6 @@
                         <field name="sale_order_id"/>
                     </group>
                     <group col="2">
-                        <field name="qa_status"/>
                         <field name="attachment_datas" invisible="1"/>
                         <field name="attachment_name" invisible="1"/>
                         <field name="attachment_id" invisible="1"/>
