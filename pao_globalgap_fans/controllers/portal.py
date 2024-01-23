@@ -109,7 +109,7 @@ class CustomerPortal(portal.CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect('/')
 
-        if fan_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
+        if fr_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
             return request.render(
                 'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
             )
@@ -236,7 +236,7 @@ class CustomerPortal(portal.CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect('/')
         
-        if fan_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
+        if fr_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
             return request.render(
                 'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
             )
