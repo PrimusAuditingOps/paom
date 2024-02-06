@@ -592,6 +592,9 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         $("#longitude").val(data.longitude);
                         $("#latitude").val(data.latitude);
                     }
+                    else{
+                        alert("No se encontró la geolocalización de la dirección.")
+                    }
 
                 });
             }
