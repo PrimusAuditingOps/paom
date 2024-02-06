@@ -223,11 +223,11 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             
             */
 
-            if ($('select[name="evaluation_type"] option:selected').text().trim() != "1" && $("#plmx").val().trim() == ""){
+            if ($('select[name="evaluation_type"] option:selected').val() != "1" && $("#plmx").val().trim() == ""){
                 alert("Favor de capturar PL_México");
                 $("#plmx").focus();
             }
-            else if ($('select[name="evaluation_type"] option:selected').text().trim() != "1" && $("#ggn").val().trim() == ""){
+            else if ($('select[name="evaluation_type"] option:selected').val() != "1" && $("#ggn").val().trim() == ""){
                 alert("Favor de capturar GGN");
                 $("#ggn").focus();
             }
