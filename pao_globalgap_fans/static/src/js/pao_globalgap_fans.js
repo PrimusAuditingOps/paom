@@ -293,9 +293,10 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             }
             else{
                 ajax.jsonRpc('/pao/fillout/fans/products', 'call', 
-                {
-                    'fan_id': $("#fr_id").val().trim(), 
-                    'fan_token': $("#fr_token").val().trim(), 
+                {   
+                    'fr_id': $("#fr_id").val().trim(), 
+                    'fr_token': $("#fr_token").val().trim(),
+                    "plmx": $("#plmx").val().trim(), 
                     "ggn": $("#ggn").val().trim(),
                     "globalgap_version":  $('select[name="globalgap_version"] option:selected').text().trim(),
                     "certification_option": $('select[name="certification_option"] option:selected').text().trim(),
