@@ -18,7 +18,7 @@ class PaoGlobalgapProductionSiteProduct(models.Model):
     )
     to_certificate = fields.Selection(
         selection=[
-            ('1', "Yes"),
+            ('1', "Si"),
             ('2', "No"),
         ],
         string="To certificate", 
@@ -27,7 +27,7 @@ class PaoGlobalgapProductionSiteProduct(models.Model):
     )
     parallel_production_or_property = fields.Selection(
         selection=[
-            ('1', "Yes"),
+            ('1', "Si"),
             ('2', "No"),
         ],
         string="Parallel production/Parallel property", 

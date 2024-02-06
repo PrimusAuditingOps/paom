@@ -16,6 +16,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             'click .btn_add_search_address': '_onAddressBlur',
             'blur .o_website_fans_organization_form input[name^="longitude"]': '_onLngLatBlur',
             'blur .o_website_fans_organization_form input[name^="latitude"]': '_onLngLatBlur',
+            'click .o_website_fans_organization_form button[id="btn_send_organization"]': '_onClickSaveOrganization',
         },
         /**
          * @constructor
@@ -82,6 +83,8 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             
             if (!flag){
                 $('#div_grasp_module').css('visibility','hidden');
+                $("#hired_workers").val("0");
+                $("#subcontracted_workers").val("0");
             }
 
             
@@ -209,6 +212,122 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 $("#latitude").val(coordinates.lat);
                 $("#longitude").val(coordinates.lng);
             });  
+        },
+        _onClickSaveOrganization: function (ev) {
+            
+            /* 
+            ggn, globalgap_version, 
+    certification_option, evaluation_type, name, address, city,state, country,
+    zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
+    contact_telephone, contact_email, rights_of_access,addons,postal_address,previous_ggn,subcontracted_workers, hired_workers
+            
+            */
+
+            if ($('select[name="evaluation_type"] option:selected').text().trim() != "1" && $("#plmx").val().trim() == ""){
+                alert("Favor de capturar PL_México");
+                $("#plmx").focus();
+            }
+            else if ($('select[name="evaluation_type"] option:selected').text().trim() != "1" && $("#ggn").val().trim() == ""){
+                alert("Favor de capturar GGN");
+                $("#ggn").focus();
+            }
+            else if ($("#name").val().trim() == ""){
+                alert("Favor de capturar Nombre de la entidad legal");
+                $("#name").focus();
+            }
+            else if ($("#vat").val().trim() == ""){
+                alert("Favor de capturar RFC");
+                $("#vat").focus();
+            }
+            else if ($("#email").val().trim() == ""){
+                alert("Favor de capturar Correo eletrónico");
+                $("#email").focus();
+            }
+            else if ($("#telephone").val().trim() == ""){
+                alert("Favor de capturar Telefono");
+                $("#telephone").focus();
+            }
+            else if ($("#country").val().length == 0){
+                alert("Favor de capturar País");
+                $("#country").focus();
+            }
+            else if ($("#state").val().length == 0){
+                alert("Favor de capturar Estado");
+                $("#state").focus();
+            }
+            else if ($("#city").val().length == 0){
+                alert("Favor de capturar Ciudad");
+                $("#city").focus();
+            }
+            else if ($("#address").val().trim() == ""){
+                alert("Favor de capturar Dirección");
+                $("#address").focus();
+            }
+            else if ($("#zip").val().trim() == ""){
+                alert("Favor de capturar CP");
+                $("#zip").focus();
+            }
+            else if ($("#latitude").val().trim() == ""){
+                alert("Favor de capturar Latitud");
+                $("#latitude").focus();
+            }
+            else if ($("#longitude").val().trim() == ""){
+                alert("Favor de capturar Longitud");
+                $("#longitude").focus();
+            }
+            else if ($("#contact_name").val().trim() == ""){
+                alert("Favor de capturar Persona de contacto");
+                $("#contact_name").focus();
+            }
+            else if ($("#contact_position").val().trim() == ""){
+                alert("Favor de capturar Desempeño o Cargo");
+                $("#contact_position").focus();
+            }
+            else if ($("#contact_telephone").val().trim() == ""){
+                alert("Favor de capturar Telefono de contacto");
+                $("#contact_telephone").focus();
+            }
+            else if ($("#contact_email").val().trim() == ""){
+                alert("Favor de capturar Correo eletrónico de contacto");
+                $("#contact_email").focus();
+            }
+            else{
+                ajax.jsonRpc('/pao/fillout/fans/products', 'call', 
+                {
+                    'fan_id': $("#fr_id").val().trim(), 
+                    'fan_token': $("#fr_token").val().trim(), 
+                    "ggn": $("#ggn").val().trim(),
+                    "globalgap_version":  $('select[name="globalgap_version"] option:selected').text().trim(),
+                    "certification_option": $('select[name="certification_option"] option:selected').text().trim(),
+                    "evaluation_type": $('select[name="evaluation_type"] option:selected').text().trim(),
+                    "name": $("#name").val().trim(),
+                    "address": $("#address").val().trim(),
+                    "city": $('select[name="city"] option:selected').text().trim(),
+                    "state": $('select[name="state"] option:selected').text().trim(),
+                    "country": $('select[name="country"] option:selected').text().trim(),
+                    "zip": $("#zip").val().trim(),
+                    "telephone": $("#telephone").val().trim(),
+                    "email":  $("#email").val().trim(),
+                    "gln":  $("#gln").val().trim(),
+                    "vat":  $("#vat").val().trim(),
+                    "previous_cb":  $("#previous_cb").val().trim(),
+                    "latitude":  $("#latitude").val().trim(),
+                    "longitude":  $("#longitude").val().trim(),
+                    "contact_name":  $("#contact_name").val().trim(),
+                    "contact_position": $("#contact_position").val().trim(),
+                    "contact_telephone":  $("#contact_telephone").val().trim(),
+                    "contact_email":  $("#contact_email").val().trim(),
+                    "rights_of_access": $('select[name="rights_of_access"] option:selected').text().trim(),
+                    "addons": $("#addons").val(),
+                    "postal_address": $("#postal_address").val().trim(),
+                    "previous_ggn": $("#previous_ggn").val().trim(),
+                    "subcontracted_workers": $("#subcontracted_workers").val().trim(),
+                    "hired_workers": $("#hired_workers").val().trim(),
+                }).then(function (data) {
+                    window.location = data.redirect_url;           
+                });
+            }
+            
         },
 
         

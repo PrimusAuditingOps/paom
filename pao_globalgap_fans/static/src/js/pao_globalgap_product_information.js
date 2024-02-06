@@ -221,28 +221,12 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
         start: function (parent) {
 
             $("#name").focus();
-            
-
-           
-            
-        
-           
-
             return this._super.apply(this, arguments);
         },
         _onName: function(ev){
             $(".countries_of_products-select").chosen();
             var product_list = JSON.parse($("#product_ids").val());
             for (let i = 0; i < product_list.length; i++) {
-                /*$("#harvest_estimated_start_date1321").datepicker({
-                    defaultDate: "+1w",
-                    changeMonth: true,
-                    numberOfMonths: 1
-                })
-                .on( "change", function() {
-                to.datepicker( "option", "minDate", getDate( this ) );
-                });*/
-
                 $("#harvest_estimated_start_date"+product_list[i])
                     .datepicker({
                     defaultDate: "+1w",

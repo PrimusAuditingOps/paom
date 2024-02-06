@@ -98,7 +98,7 @@ class CustomerPortal(portal.CustomerPortal):
         )
 
 
-    @http.route(['/pao/fillout/fans/products'], type='http', auth='public', methods=['POST'], website=True)
+    @http.route(['/pao/fillout/fans/products'], type='json', auth='public', methods=['POST'])
     def portal_fans_save_organization(self, fr_token, fr_id, plmx, ggn, globalgap_version, 
     certification_option, evaluation_type, name, address, city,state, country,
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
@@ -154,7 +154,10 @@ class CustomerPortal(portal.CustomerPortal):
             organization = request.env['pao.globalgap.organization'].sudo().create(organization_data)
             fr_sudo.write({"organization_id": organization.id})
 
-        return request.redirect('/pao/fillout/fans/production_site/' + fr_id + '/' + fr_token)
+        base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return {
+            'redirect_url':  url_join(base_url, '/pao/fillout/fans/production_site/%s/%s' % (fr_id, fr_token))
+        }
 
     @http.route(['/pao/fillout/fans/production_site/<int:fan_id>/<string:fan_token>'], type='http', auth="public", website=True)
     def portal_fill_out_fans_production_site(self, fan_id=False, fan_token=None, **kw):

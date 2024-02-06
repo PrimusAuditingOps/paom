@@ -62,7 +62,7 @@
                                         <section class="s_website_form">
                                             <div class="container">
                                                 <!--data-model_name="mail.mail"-->
-                                                <form id="organization_form" class="o_mark_required o_website_fans_organization_form" action="/pao/fillout/fans/products" method="POST" enctype="multipart/form-data"  data-mark="*" >
+                                                <form id="organization_form" class="o_mark_required o_website_fans_organization_form" action="" method="POST" enctype="multipart/form-data"  data-mark="*" >
                                                     <div class="s_website_form_rows row s_col_no_bgcolor">
                                                         <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
                                                             <div class="row s_col_no_resize s_col_no_bgcolor">
@@ -503,7 +503,7 @@
                                                     <div class="s_website_form_rows row s_col_no_bgcolor">
                                                         <div class="mb-0 py-2 col-12 s_website_form_submit" style="text-align: center;" data-name="Submit Button">
                                                             <div style="width: 200px;" class="s_website_form_label"/>
-                                                            <button type="submit" class="btn btn-primary">Guardar y Continuar <span class="fa fa-arrow-right"/></button>
+                                                            <button type="button" id="btn_send_organization" class="btn btn-primary">Guardar y Continuar <span class="fa fa-arrow-right"/></button>
                                                         </div>
                                                     </div>
                                                 </form>

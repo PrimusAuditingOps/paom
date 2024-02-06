@@ -22,7 +22,7 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     )
     applicable_harvest = fields.Selection(
         selection=[
-            ('1', "Yes"),
+            ('1', "Si"),
             ('2', "No"),
         ],
         string="Applicable harvest", 
@@ -31,8 +31,8 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     )
     harvest_type = fields.Selection(
         selection=[
-            ('1', "First harvest"),
-            ('2', "Later harvest"),
+            ('1', "Primera cosecha"),
+            ('2', "Cosecha posterior"),
         ],
         string="Harvest type", 
         copy=False,
@@ -41,8 +41,8 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     product_handling = fields.Selection(
         selection=[
             ('1', "No"),
-            ('2', "Yes, in the field"),
-            ('3', "Yes, in the PHU"),
+            ('2', "Si, en el campo"),
+            ('3', "Si, en el PHU"),
         ],
         string="Product handling", 
         copy=False,
@@ -61,7 +61,7 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     product_manipulated_not_certificate = fields.Selection(
         selection=[
             ('1', "No"),
-            ('2', "Yes"),
+            ('2', "Si"),
         ],
         string="Product manipulated with product without certificate", 
         copy=False,
@@ -70,7 +70,7 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
     organization_buys_product = fields.Selection(
         selection=[
             ('1', "No"),
-            ('2', "Yes"),
+            ('2', "Si"),
         ],
         string="The organization buy the same certified product and/or not certified?", 
         copy=False,
