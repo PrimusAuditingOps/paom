@@ -175,7 +175,7 @@ class CustomerPortal(portal.CustomerPortal):
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
         cities = request.env['res.city'].sudo().search([])
-        products = request.env['servicereferralagreement.auditproducts'].sudo().search([])
+        products = request.env['servicereferralagreement.auditproducts'].sudo().search([],order='name asc')
         certificate = request.env['pao.globalgap.production.site.product'].sudo()._fields['to_certificate'].selection
         pppo = request.env['pao.globalgap.production.site.product'].sudo()._fields['parallel_production_or_property'].selection
         production_sites_list = []
