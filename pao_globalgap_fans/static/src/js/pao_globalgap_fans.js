@@ -247,15 +247,15 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 alert("Favor de capturar Telefono");
                 $("#telephone").focus();
             }
-            else if ($("#country").val().length == 0){
+            else if ($("#country").val() == null){
                 alert("Favor de capturar País");
                 $("#country").focus();
             }
-            else if ($("#state").val().length == 0){
+            else if ($("#state").val() == null){
                 alert("Favor de capturar Estado");
                 $("#state").focus();
             }
-            else if ($("#city").val().length == 0){
+            else if ($("#city").val() == null){
                 alert("Favor de capturar Ciudad");
                 $("#city").focus();
             }
