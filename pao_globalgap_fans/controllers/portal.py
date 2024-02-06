@@ -25,7 +25,7 @@ class CustomerPortal(portal.CustomerPortal):
             geo_obj = request.env['base.geocoder'].sudo()
             search = geo_obj.geo_query_address(street=street, zip=zip, city=city, state=state, country=country)
             result = geo_obj.geo_find(search, force_country=country)
-            if result[0] and result[1]:
+            if result and result[0] and result[1]:
                 latitude=result[0]
                 longitude=result[1]
         except (AccessError, MissingError):
