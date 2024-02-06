@@ -192,6 +192,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "type_name": dict(request.env['pao.globalgap.production.site'].sudo()._fields['type'].selection).get(rec.type), 
                 "type": rec.type, 
                 "address": rec.address, 
+                "postal_address": rec.postal_address,
                 "country_id": rec.country_id.id, 
                 "state_id": rec.state_id.id, 
                 "city_id": rec.city_id.id, 

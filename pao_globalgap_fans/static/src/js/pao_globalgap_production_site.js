@@ -263,6 +263,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "type_name": objdata.type_name, 
                         "type": objdata.type, 
                         "address": objdata.address, 
+                        "postal_address": objdata.postal_address,
                         "country": objdata.country_id, 
                         "state": objdata.state_id, 
                         "city": objdata.city_id, 
