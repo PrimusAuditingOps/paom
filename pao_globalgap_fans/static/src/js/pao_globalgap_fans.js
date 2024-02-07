@@ -17,6 +17,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             'blur .o_website_fans_organization_form input[name^="longitude"]': '_onLngLatBlur',
             'blur .o_website_fans_organization_form input[name^="latitude"]': '_onLngLatBlur',
             'click .o_website_fans_organization_form button[id="btn_send_organization"]': '_onClickSaveOrganization',
+            'keypress .o_website_fans_organization_form input[class="only_numbers"]': '_onOnlyNumbers',
         },
         /**
          * @constructor
@@ -123,7 +124,11 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             }
 
         },
-        
+        _onOnlyNumbers: function (e) {
+            var key = e.charCode;
+            console.log(key);
+            return key >= 48 && key <= 57;
+        },
         _onAddonsChange: function (ev) {
             var addons = new Array();
             var grasp_module = $("#grasp_module").val();
