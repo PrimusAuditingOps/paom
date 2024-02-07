@@ -20,6 +20,11 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             'keypress .o_website_fans_organization_form input[name^="contact_telephone"]': '_onOnlyNumbers',
             'keypress .o_website_fans_organization_form input[name^="hired_workers"]': '_onOnlyNumbers',
             'keypress .o_website_fans_organization_form input[name^="subcontracted_workers"]': '_onOnlyNumbers',
+            'keypress .o_website_fans_organization_form input[name^="telephone"]': '_onOnlyNumbers',
+            'keypress .o_website_fans_organization_form input[name^="zip"]': '_onOnlyNumbers',
+            'keypress .o_website_fans_organization_form input[name^="latitude"]': '_onOnlyNumbersAndSpecialCharacter',
+            'keypress .o_website_fans_organization_form input[name^="longitude"]': '_onOnlyNumbersAndSpecialCharacter',
+            
         },
         /**
          * @constructor
@@ -130,6 +135,11 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             var key = e.charCode;
             console.log(key);
             return key >= 48 && key <= 57;
+        },
+        _onOnlyNumbersAndSpecialCharacter: function (e) {
+            var key = e.charCode;
+            console.log(key);
+            return key >= 45 && key <= 57;
         },
         _onAddonsChange: function (ev) {
             var addons = new Array();
