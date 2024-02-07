@@ -19,6 +19,13 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
             'click .btn_add_search_site_address': '_searchAddress',
             'blur .o_website_production_site_registration_form input[name^="longitude"]': '_onLngLatSiteBlur',
             'blur .o_website_production_site_registration_form input[name^="latitude"]': '_onLngLatSiteBlur',
+            'keypress .o_website_production_site_registration_form input[name^="contacttelephone"]': '_onOnlyNumbers',
+            'keypress ..o_website_production_site_registration_form input[name^="hect"]': '_onOnlyNumbersAndSpecialCharacter',
+            'keypress ..o_website_production_site_registration_form input[name^="contactzip"]': '_onOnlyNumbers',
+            'keypress ..o_website_production_site_registration_form input[name^="telephone"]': '_onOnlyNumbers',
+            'keypress ..o_website_production_site_registration_form input[name^="zip"]': '_onOnlyNumbers',
+            'keypress ..o_website_production_site_registration_form input[name^="latitude"]': '_onOnlyNumbersAndSpecialCharacter',
+            'keypress ..o_website_production_site_registration_form input[name^="longitude"]': '_onOnlyNumbersAndSpecialCharacter',
             
         },
         /**
@@ -374,6 +381,16 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                 }
             }
 
+        },
+        _onOnlyNumbers: function (e) {
+            var key = e.charCode;
+            console.log(key);
+            return key >= 48 && key <= 57;
+        },
+        _onOnlyNumbersAndSpecialCharacter: function (e) {
+            var key = e.charCode;
+            console.log(key);
+            return key >= 45 && key <= 57;
         },
         _onClickProductionSite: function (ev) {
 
