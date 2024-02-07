@@ -18,6 +18,8 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             'blur .o_website_fans_organization_form input[name^="latitude"]': '_onLngLatBlur',
             'click .o_website_fans_organization_form button[id="btn_send_organization"]': '_onClickSaveOrganization',
             'keypress .o_website_fans_organization_form input[name^="contact_telephone"]': '_onOnlyNumbers',
+            'keypress .o_website_fans_organization_form input[name^="hired_workers"]': '_onOnlyNumbers',
+            'keypress .o_website_fans_organization_form input[name^="subcontracted_workers"]': '_onOnlyNumbers',
         },
         /**
          * @constructor
