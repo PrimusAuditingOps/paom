@@ -212,14 +212,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 x.updateConfig({
                     data: d
                 }).forceRender();
-                $('.onlyNumber').each(function(){
-                    $(this).on( "keypress", function (e){
-                        var key = e.charCode;
-                        if (key <45 || key > 57){
-                            e.preventDefault();
-                        }
-                    });
-                });
+
+                
                 
 
             });
@@ -235,6 +229,14 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             return this._super.apply(this, arguments);
         },
         _onName: function(ev){
+            $('.onlyNumber').each(function(){
+                    $(this).on( "keypress", function (e){
+                        var key = e.charCode;
+                        if (key <45 || key > 57){
+                            e.preventDefault();
+                        }
+                    });
+                });
             $(".countries_of_products-select").chosen();
             var product_list = JSON.parse($("#product_ids").val());
             for (let i = 0; i < product_list.length; i++) {
@@ -266,6 +268,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
 
                  $("#harvest_estimated_start_date"+product_list[i]).datepicker( "option", "dateFormat", "yy-mm-dd" );
                  $("#harvest_estimated_end_date"+product_list[i]).datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+
             }
         },
         _getDate: function(element) {
