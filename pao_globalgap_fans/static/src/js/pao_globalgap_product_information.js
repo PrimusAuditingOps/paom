@@ -213,7 +213,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     data: d
                 }).forceRender();
                 
-                inputs = document.querySelector('.onlyNumber');
+                var inputs = document.querySelector('.onlyNumber');
                 inputs.codigo.addEventListener('keypress', function (e){
                     var key = e.charCode;
                     if (key <45 || key > 57){
