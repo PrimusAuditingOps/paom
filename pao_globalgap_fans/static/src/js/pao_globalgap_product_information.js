@@ -191,8 +191,8 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     var obj = {
                         "product_id": objdata.product_id,
                         "product_name": objdata.product_name,
-                        "uncovered_production_area": gridjs.html(`<input type="text" maxlength="20" id="uncovered_production_area`+objdata.product_id+`" value="`+objdata.uncovered_production_area+`"/>`),
-                        "covered_production_area": gridjs.html(`<input type="text" maxlength="20" id="covered_production_area`+objdata.product_id+`" value="`+objdata.covered_production_area+`"/>`),
+                        "uncovered_production_area": gridjs.html(`<input type="text"  name="onlyNumber" maxlength="20" id="uncovered_production_area`+objdata.product_id+`" value="`+objdata.uncovered_production_area+`"/>`),
+                        "covered_production_area": gridjs.html(`<input type="text" name="onlyNumber" maxlength="20" id="covered_production_area`+objdata.product_id+`" value="`+objdata.covered_production_area+`"/>`),
                         "applicable_harvest": gridjs.html(applicable_harvest),
                         "harvest_type": gridjs.html(harvest_type),
                         "product_handling": gridjs.html(product_handling),
@@ -200,17 +200,28 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                         "ggn_gln_outsourced": gridjs.html(`<input type="text" maxlength="20" id="ggn_gln_outsourced`+objdata.product_id+`" value="`+objdata.ggn_gln_outsourced+`"/>`),
                         "product_manipulated_not_certificate": gridjs.html(product_manipulated_not_certificate),
                         "organization_buys_product": gridjs.html(organization_buys_product),
-                        "estimated_yield_in_tons": gridjs.html(`<input type="text" maxlength="20" id="estimated_yield_in_tons`+objdata.product_id+`" value="`+objdata.estimated_yield_in_tons+`"/>`),
+                        "estimated_yield_in_tons": gridjs.html(`<input type="text" name="onlyNumber" maxlength="20" id="estimated_yield_in_tons`+objdata.product_id+`" value="`+objdata.estimated_yield_in_tons+`"/>`),
                         "start_date_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_start_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_start_date+`"/>`),
                         "end_date_harvest_estimated": gridjs.html(`<input type="text" id="harvest_estimated_end_date`+objdata.product_id+`" value="`+objdata.harvest_estimated_end_date+`"/>`),
                         //"dates_harvest_estimated": gridjs.html(`<input type="text" id="dates_harvest_estimated`+objdata.product_id+`" value="`+objdata.ggn_gln_outsourced+`"/>`),
                         "countries_of_products":  gridjs.html(countries_of_products)
                      };
                      d.push(obj);
+
                 });
                 x.updateConfig({
                     data: d
                 }).forceRender();
+                
+                inputs = document.querySelector('.onlyNumber');
+                inputs.codigo.addEventListener('keypress', function (e){
+                    var key = e.charCode;
+                    if (key <45 || key > 57){
+                        e.preventDefault();
+                    }
+                }
+                );
+
             });
             
         },
