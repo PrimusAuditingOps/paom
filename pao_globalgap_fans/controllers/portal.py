@@ -82,7 +82,7 @@ class CustomerPortal(portal.CustomerPortal):
             'pao_globalgap_fans.fan_portal_organization', 
             {
                 "data": fan_sudo.organization_id, 
-                "default_country": 52,
+                "default_country": 57,
                 "id": fan_id,
                 "token": fan_token,
                 "countries": countries, 
