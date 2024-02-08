@@ -77,7 +77,7 @@
                                                                                 <t t-esc="e[1]"/>
                                                                             </option>
                                                                             <option t-else="" t-att-value="e[0]">                         
-                                                                                <t t-esc="e[1]" />
+                                                                                <t t-esc="e[1]"/>
                                                                             </option>
                                                                         </t>
                                                                     </select>
@@ -296,7 +296,11 @@
                                                                 <div class="col-sm">
                                                                     <select class="form-control" optional="false" id="country" name="country" required="*">
                                                                         <t t-foreach="countries" t-as="c">
-                                                                            <option t-if="c.id == data.country_id.id" selected="" required="*" t-att-value="c.id">
+
+                                                                            <option t-if="not data.id and c.id == data.create_uid.country_id.id" selected="" required="*" t-att-value="c.id">
+                                                                                <t t-esc="c.name"/>
+                                                                            </option>
+                                                                            <option t-elif="c.id == data.country_id.id" selected="" required="*" t-att-value="c.id">
                                                                                 <t t-esc="c.name"/>
                                                                             </option>
                                                                             <option t-else="" t-att-value="c.id">
