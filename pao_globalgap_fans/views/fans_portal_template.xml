@@ -294,11 +294,10 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                <t t-esc="default_country"/>
                                                                     <select class="form-control" optional="false" id="country" name="country" required="*">
                                                                         <t t-foreach="countries" t-as="c">
 
-                                                                            <option t-if="c.id == default_country" selected="" required="*" t-att-value="c.id">
+                                                                            <option t-if="c.id == data.country_id.id" selected="" required="*" t-att-value="c.id">
                                                                                 <t t-esc="c.name"/>
                                                                             </option>
                                                                             <option t-else="" t-att-value="c.id">
