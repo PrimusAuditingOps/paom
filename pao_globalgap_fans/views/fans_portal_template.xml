@@ -294,6 +294,7 @@
                                                                     <span class="s_website_form_mark"> *</span>
                                                                 </label>
                                                                 <div class="col-sm">
+                                                                <t t-esc="default_country"/>
                                                                     <select class="form-control" optional="false" id="country" name="country" required="*">
                                                                         <t t-foreach="countries" t-as="c">
 
