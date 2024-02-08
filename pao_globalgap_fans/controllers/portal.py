@@ -364,7 +364,7 @@ class CustomerPortal(portal.CustomerPortal):
                     }
                 )
 
-            for rec in fan_sudo.organization_id.product_information_ids:
+            for rec in fan_sudo.organization_id.product_information_id.swith_context(lang=lang):
                 ids_list.append(rec.product_id.id)
                 countries_list = []
                 for c in rec.countries_of_products:
