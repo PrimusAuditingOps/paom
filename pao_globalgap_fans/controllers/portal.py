@@ -50,17 +50,20 @@ class CustomerPortal(portal.CustomerPortal):
             return request.render(
                 'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
             )
-        countries = request.env['res.country'].sudo().search([])
-        states = request.env['res.country.state'].sudo().search([])
-        cities = request.env['res.city'].sudo().search([])
-        versions = request.env['pao.globalgap.version'].sudo().search([])
-        certificationOptions = request.env['pao.globalgap.certification.option'].sudo().search([])
+        lang = fan_sudo.capturist_id.lang or fan_sudo.create_uid.lang
+        fan_sudo.with_context(lang=lang)
+
+        countries = request.env['res.country'].sudo().with_context(lang=lang).search([])
+        states = request.env['res.country.state'].with_context(lang=lang).sudo().search([])
+        cities = request.env['res.city'].sudo().with_context(lang=lang).search([])
+        versions = request.env['pao.globalgap.version'].sudo().with_context(lang=lang).search([])
+        certificationOptions = request.env['pao.globalgap.certification.option'].sudo().with_context(lang=lang).search([])
         
-        globalgapversion = request.env['pao.globalgap.organization'].sudo()._fields['globalgap_version'].selection
-        certificationoption = request.env['pao.globalgap.organization'].sudo()._fields['certification_option'].selection
-        evaluationtype = request.env['pao.globalgap.organization'].sudo()._fields['evaluation_type'].selection
-        rightsofaccess = request.env['pao.globalgap.organization'].sudo()._fields['rights_of_access'].selection
-        addons = request.env['pao.globalgap.addon'].sudo().search([])
+        globalgapversion = request.env['pao.globalgap.organization'].sudo().with_context(lang=lang)._fields['globalgap_version'].selection
+        certificationoption = request.env['pao.globalgap.organization'].sudo().with_context(lang=lang)._fields['certification_option'].selection
+        evaluationtype = request.env['pao.globalgap.organization'].sudo().with_context(lang=lang)._fields['evaluation_type'].selection
+        rightsofaccess = request.env['pao.globalgap.organization'].sudo().with_context(lang=lang)._fields['rights_of_access'].selection
+        addons = request.env['pao.globalgap.addon'].sudo().with_context(lang=lang).search([])
         grasp_module = []
         for a in addons:
             if a.is_grasp_module:
@@ -113,6 +116,7 @@ class CustomerPortal(portal.CustomerPortal):
             return request.render(
                 'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
             )
+        
         addon_list = []
         if addons != "":
             _logger.error("Entro a addons")
@@ -171,13 +175,15 @@ class CustomerPortal(portal.CustomerPortal):
             return request.render(
                 'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
             )
+        lang = fan_sudo.capturist_id.lang or fan_sudo.create_uid.lang
+        fan_sudo.with_context(lang=lang)
 
-        countries = request.env['res.country'].sudo().search([])
-        states = request.env['res.country.state'].sudo().search([])
-        cities = request.env['res.city'].sudo().search([])
-        products = request.env['servicereferralagreement.auditproducts'].sudo().search([],order='name asc')
-        certificate = request.env['pao.globalgap.production.site.product'].sudo()._fields['to_certificate'].selection
-        pppo = request.env['pao.globalgap.production.site.product'].sudo()._fields['parallel_production_or_property'].selection
+        countries = request.env['res.country'].sudo().with_context(lang=lang).search([])
+        states = request.env['res.country.state'].sudo().with_context(lang=lang).search([])
+        cities = request.env['res.city'].sudo().with_context(lang=lang).search([])
+        products = request.env['servicereferralagreement.auditproducts'].sudo().with_context(lang=lang).search([],order='name asc')
+        certificate = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['to_certificate'].selection
+        pppo = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_production_or_property'].selection
         production_sites_list = []
         for rec in fan_sudo.organization_id.production_site_ids:
             product_list = []
@@ -316,7 +322,8 @@ class CustomerPortal(portal.CustomerPortal):
             return request.render(
                 'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
             )
-
+        lang = fan_sudo.capturist_id.lang or fan_sudo.create_uid.lang
+        fan_sudo.with_context(lang=lang)
         return request.render(
             'pao_globalgap_fans.fans_portal_template_product_information', 
             {
@@ -340,12 +347,14 @@ class CustomerPortal(portal.CustomerPortal):
         countries = []
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
-            rec_countries = request.env['pao.globalgap.destination.countries'].sudo().search([])
-            applicable_harvest = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['applicable_harvest'].selection
-            harvest_type = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['harvest_type'].selection
-            product_handling = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_handling'].selection
-            product_manipulated_not_certificate = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['product_manipulated_not_certificate'].selection
-            organization_buys_product = request.env['pao.globalgap.production.site.product.information'].sudo()._fields['organization_buys_product'].selection
+            lang = fan_sudo.capturist_id.lang or fan_sudo.create_uid.lang
+            fan_sudo.with_context(lang=lang)
+            rec_countries = request.env['pao.globalgap.destination.countries'].sudo().with_context(lang=lang).search([])
+            applicable_harvest = request.env['pao.globalgap.production.site.product.information'].sudo().with_context(lang=lang)._fields['applicable_harvest'].selection
+            harvest_type = request.env['pao.globalgap.production.site.product.information'].sudo().with_context(lang=lang)._fields['harvest_type'].selection
+            product_handling = request.env['pao.globalgap.production.site.product.information'].sudo().with_context(lang=lang)._fields['product_handling'].selection
+            product_manipulated_not_certificate = request.env['pao.globalgap.production.site.product.information'].sudo().with_context(lang=lang)._fields['product_manipulated_not_certificate'].selection
+            organization_buys_product = request.env['pao.globalgap.production.site.product.information'].sudo().with_context(lang=lang)._fields['organization_buys_product'].selection
 
             for recCountries in rec_countries:
                 countries.append(
@@ -498,7 +507,8 @@ class CustomerPortal(portal.CustomerPortal):
                 "request_status": "signed",
             }
         )
-
+        lang = fan_sudo.capturist_id.lang or fan_sudo.create_uid.lang
+        fan_sudo.with_context(lang=lang)
         old_attachment_id = None
         filename = "GLOBALGAP_Application_%s_%s.%s" % (fan_sudo.title,fan_sudo.organization_id.name, "pdf")
         pdf = request.env.ref('pao_globalgap_fans.globalgap_application_report').sudo()._render_qweb_pdf([fan_sudo], data= {"fanrequest": fan_sudo,"print": True})[0]
