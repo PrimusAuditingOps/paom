@@ -364,7 +364,7 @@ class CustomerPortal(portal.CustomerPortal):
                     }
                 )
 
-            for rec in fan_sudo.organization_id.product_information_ids.with_context(lang=lang):
+            for rec in fan_sudo.organization_id.product_information_ids:
                 ids_list.append(rec.product_id.id)
                 countries_list = []
                 for c in rec.countries_of_products:
@@ -372,7 +372,7 @@ class CustomerPortal(portal.CustomerPortal):
                 data.append(
                     {
                         "product_id": rec.product_id.id,
-                        "product_name": rec.product_id.name,
+                        "product_name": rec.product_id.name.with_context(lang=lang),
                         "uncovered_production_area": rec.uncovered_production_area,
                         "covered_production_area": rec.covered_production_area,
                         "applicable_harvest": rec.applicable_harvest,
