@@ -231,8 +231,13 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         hidden: true,
                     },
                     {
-                        id: "pppo",
-                        name: "PP/PO",
+                        id: "pp",
+                        name: "PP",
+                        hidden: true,
+                    },
+                    {
+                        id: "po",
+                        name: "PO",
                         hidden: true,
                     },
                     {
@@ -240,8 +245,12 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         name: "Certificar",
                     },
                     {
-                        id: "pppo_text",
-                        name: "PP/PO",
+                        id: "pp_text",
+                        name: "PP",
+                    },
+                    {
+                        id: "po_text",
+                        name: "PO",
                     },
                 ],
                 data: [],
@@ -259,7 +268,8 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                             "product": objproduct.product, 
                             "hectareas": objproduct.hectareas, 
                             "certify": objproduct.certify, 
-                            "pppo": objproduct.pppo,
+                            "pp": objproduct.pp,
+                            "po": objproduct.po,
                             "productid": objproduct.productid,
                         }
                     );
@@ -521,9 +531,13 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                 $("#forcertify").focus();
                 alert("Por favor capture la opción para certificar.");
             }
-            else if($("#pppo").val().length == 0){
-                $("#pppo").focus();
-                alert("Por favor capture la opción PP/PO.");
+            else if($("#pp").val().length == 0){
+                $("#pp").focus();
+                alert("Por favor capture la opción PP.");
+            }
+            else if($("#po").val().length == 0){
+                $("#po").focus();
+                alert("Por favor capture la opción PO.");
             }
             else{
                 this.products.push(
@@ -531,10 +545,12 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "product": $('select[name="product"] option:selected').text().trim(), 
                         "hectareas": $("#hect").val(), 
                         "certify": $("#forcertify").val(), 
-                        "pppo": $("#pppo").val(),
+                        "pp": $("#pp").val(),
+                        "po": $("#po").val(),
                         "productid": $("#product").val(),
                         "certify_text": $('select[name="forcertify"] option:selected').text().trim(),
-                        "pppo_text": $('select[name="pppo"] option:selected').text().trim(),
+                        "pp_text": $('select[name="pp"] option:selected').text().trim(),
+                        "po_text": $('select[name="po"] option:selected').text().trim(),
                     }
                 );
                 this.grid_selector_products.updateConfig({

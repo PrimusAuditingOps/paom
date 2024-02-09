@@ -282,7 +282,7 @@
                                                             <label for="hect">Hectáreas en producción</label>
                                                             <input type="text" name="hect" id="hect" maxlength="15" class="form-control s_website_form_input" width="100px" placeholder="Ingrese las hectáreas en producción"/>
                                                         </div>
-                                                        <div class="form-group col-md-3">
+                                                        <div class="form-group col-md-2">
                                                             <label for="forcertify">Para certificar</label>
                                                             <select class="form-control" optional="false" id="forcertify" name="forcertify">
                                                                 <t t-foreach="certificate" t-as="c">
@@ -290,31 +290,28 @@
                                                                         <t t-esc="c[1]" />
                                                                     </option>
                                                                 </t>
-                                                                <!--<option selected="" value="si">
-                                                                    Si
-                                                                </option>
-                                                                    <option value="no">
-                                                                    No
-                                                                </option>-->
+                                                               
                                                             </select> 
                                                         </div>
-                                                        <div class="form-group col-md-3">
-                                                            <label for="pppo">Producción Paralela (PP)/ Propiedad Paralela (PO)</label>
-                                                            <select class="form-control" optional="false" id="pppo" name="pppo">
-                                                                <t t-foreach="pppo" t-as="p">
+                                                        <div class="form-group col-md-2">
+                                                            <label for="pppo">Producción Paralela (PP)</label>
+                                                            <select class="form-control" optional="false" id="pp" name="pp">
+                                                                <t t-foreach="pp" t-as="p">
                                                                     <option t-att-value="p[0]">                         
                                                                         <t t-esc="p[1]"/>
                                                                     </option>
                                                                 </t>
                                                             </select>
-                                                            <!--<select class="form-control" optional="false" id="pppo" name="pppo" required="*">
-                                                                <option selected="" value="si">
-                                                                    Si
-                                                                </option>
-                                                                    <option value="no">
-                                                                    No
-                                                                </option>
-                                                            </select>-->
+                                                        </div>
+                                                         <div class="form-group col-md-2">
+                                                            <label for="pppo">Propiedad Paralela (PO)</label>
+                                                            <select class="form-control" optional="false" id="po" name="po">
+                                                                <t t-foreach="po" t-as="p">
+                                                                    <option t-att-value="p[0]">                         
+                                                                        <t t-esc="p[1]"/>
+                                                                    </option>
+                                                                </t>
+                                                            </select>
                                                         </div>
                                                         
                                                     </div>

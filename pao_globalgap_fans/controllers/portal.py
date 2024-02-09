@@ -184,7 +184,9 @@ class CustomerPortal(portal.CustomerPortal):
         cities = request.env['res.city'].sudo().with_context(lang=lang).search([])
         products = request.env['servicereferralagreement.auditproducts'].sudo().with_context(lang=lang).search([],order='name asc')
         certificate = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['to_certificate'].selection
-        pppo = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_production_or_property'].selection
+        pp = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_production'].selection
+        po = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_property'].selection
+        
         production_sites_list = []
         for rec in fan_sudo.organization_id.production_site_ids:
             product_list = []
@@ -193,7 +195,8 @@ class CustomerPortal(portal.CustomerPortal):
                     "product": p.product_id.name, 
                     "hectareas": p.hectares_in_production, 
                     "certify": p.to_certificate, 
-                    "pppo": p.parallel_production_or_property, 
+                    "pp": p.parallel_production, 
+                    "po": p.parallel_property, 
                     "productid": p.product_id.id
                 }
                 product_list.append(product_obj)
@@ -284,7 +287,8 @@ class CustomerPortal(portal.CustomerPortal):
                 product_ids_list.append(int(product["productid"]))
                 product_data = {
                     "production_site_id": production.id,
-                    "parallel_production_or_property": product["pppo"],
+                    "parallel_production": product["pp"],
+                    "parallel_property": product["po"],
                     "to_certificate": product["certify"],
                     "hectares_in_production": product["hectareas"],
                     "product_id": product["productid"],

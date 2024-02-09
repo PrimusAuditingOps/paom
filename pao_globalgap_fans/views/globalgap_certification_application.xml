@@ -349,10 +349,11 @@
                     <table style="width:100%; font-family: 'Montserrat'; font-size: 11px; color: black;">
                         <thead style="background-color: gray; color:white; text-align:center;">
                             <tr>
-                                <th style="width:40%;">Producto</th>
+                                <th style="width:30%;">Producto</th>
                                 <th style="width:20%;">Hectáreas en producción (Sólo para Sitio de Producción)</th>
                                 <th style="width:20%;">Para Certificar</th>
-                                <th style="width:20%;">Producción Paralela (PP)/Propiedad Paralela (PO)</th>
+                                <th style="width:15%;">Producción Paralela (PP)</th>
+                                <th style="width:15%;">Propiedad Paralela (PO)</th>
                             </tr>
                         </thead>
                         <tbody style="text-align:center;">
@@ -361,7 +362,8 @@
                                     <td><span t-field="product.product_id" /></td>
                                     <td><span t-field="product.hectares_in_production" /></td>
                                     <td><span t-field="product.to_certificate" /></td>
-                                    <td><span t-field="product.parallel_production_or_property" /></td>
+                                    <td><span t-field="product.parallel_production" /></td>
+                                    <td><span t-field="product.parallel_property" /></td>
                                 </tr>
                             </t>
                         </tbody>
