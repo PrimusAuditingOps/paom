@@ -238,7 +238,8 @@ class CustomerPortal(portal.CustomerPortal):
                 "cities": cities,
                 "products": products,
                 "certificate": certificate,
-                "pppo": pppo,
+                "pp": pp,
+                "po": po,
                 "production_sites": json.dumps(production_sites_list),
             }
         )
