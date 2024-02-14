@@ -17,12 +17,12 @@ class PaoCrVisitsReport(models.Model):
         string= "Audit ID",
     )
 
-    audit_date = fields.Date(
+    audit_date = fields.Char(
         string= "Audit date",
     )
 
     registration_number = fields.Char(
-        string= "Registration number Azzule",
+        string= "Registration number",
     )
 
     organization_name = fields.Char(
