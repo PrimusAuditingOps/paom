@@ -15,5 +15,6 @@
         # reports
         # views
         'views/cr_visits_report.xml',
+        'views/cr_visits_report_services.xml',
     ],
 }

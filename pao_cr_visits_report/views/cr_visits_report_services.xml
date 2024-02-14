@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_cr_visits_report_services_view_form" model="ir.ui.view">
+        <field name="name">pao.cr.visits.report.services.view.form</field>
+        <field name="model">pao.cr.visits.report.services</field>
+        <field name="arch" type="xml">
+            <form string="CR visits report services Form">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="product_template_ids" widget="many2many">
+                                <tree string="Registered Products">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_cr_visits_report_services_view_tree" model="ir.ui.view">
+        <field name="name">pao.cr.visits.report.services.view.tree</field>
+        <field name="model">pao.cr.visits.report.services</field>
+        <field name="arch" type="xml">
+            <tree string="CR Visits Report Tree">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_cr_visits_report_services_action" model="ir.actions.act_window">
+        <field name="name">CR Visits Report services</field>
+        <field name="res_model">pao.cr.visits.report.services</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first CR visits report services
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pao_cr_visits_report_services"
+            name="CR Visits Report services"
+            parent="sale.sale_order_menu"
+            action="pao_cr_visits_report_action_services"
+            sequence="16"/>
+
+</odoo>
