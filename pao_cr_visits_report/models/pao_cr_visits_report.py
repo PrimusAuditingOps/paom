@@ -128,17 +128,14 @@ class PaoCrVisitsReport(models.Model):
     @api.depends('audit_date')
     def _get_year(self):
         for rec in self:
-            rec.year = 0
-            date_list = rec.audit_date.split("-")
-            if date_list[0]:
-                rec.year = int(date_list[0])
+            if rec.audit_date:
+                rec.year = int(rec.audit_date.year)
     
     @api.depends('audit_date')
     def _get_month(self):
         months = ("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
         for rec in self:
             rec.month = ""
-            date_list = rec.audit_date.split("-")
-            if date_list[1]:
-                rec.month = "{}-{}".format(str(date_list[1]), months[int(date_list[1]) - 1])
+            if rec.audit_date:
+                rec.month = "{}-{}".format(str(rec.audit_date.month), months[int(rec.audit_date.month) - 1])
     
