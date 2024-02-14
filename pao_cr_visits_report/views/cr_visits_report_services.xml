@@ -28,6 +28,7 @@
         <field name="model">pao.cr.visits.report.services</field>
         <field name="arch" type="xml">
             <tree string="CR Visits Report Tree">
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
             </tree>
         </field>

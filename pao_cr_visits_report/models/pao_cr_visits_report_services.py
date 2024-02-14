@@ -9,7 +9,8 @@ class PaoCrVisitsReportServices(models.Model):
         string="name",
         required=True,
     )
-
+    sequence = fields.Integer(string='Sequence', default=10)
+    
     product_template_ids = fields.One2many(
         comodel_name='product.template',
         inverse_name='pao_cr_vr_services_id',
