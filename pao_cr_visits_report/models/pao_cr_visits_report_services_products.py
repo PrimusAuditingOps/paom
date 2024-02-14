@@ -9,7 +9,7 @@ class PaoCrVisitsReportServicesProducts(models.Model):
     service_id = fields.Many2one(
         string="CR visits reports service id",
         comodel_name='pao.cr.visits.report.services',
-        ondelete='delete',
+        ondelete='cascade',
         index=True,
     )
 
@@ -18,6 +18,6 @@ class PaoCrVisitsReportServicesProducts(models.Model):
     product_template_id = fields.Many2one(
         string="Product template",
         comodel_name='product.template',
-        ondelete='delete',
+        ondelete='cascade',
         index=True,
     )
