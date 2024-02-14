@@ -17,7 +17,7 @@ class PaoCrVisitsReport(models.Model):
         string= "Audit ID",
     )
 
-    audit_date = fields.Char(
+    audit_date = fields.Date(
         string= "Audit date",
     )
 
