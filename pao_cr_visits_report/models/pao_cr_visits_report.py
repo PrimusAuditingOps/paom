@@ -104,11 +104,11 @@ class PaoCrVisitsReport(models.Model):
         for rec in self:
             rec.cb = ""
 
-            if rec.registration_number_azzule:
+            if rec.registration_number:
                 indice = -1
-                indice = rec.registration_number_azzule.find("-")
+                indice = rec.registration_number.find("-")
                 if indice > -1:
-                    rec.cb = rec.registration_number_azzule[indice+1:]
+                    rec.cb = rec.registration_number[indice+1:]
 
     @api.depends('locations')
     def _get_city_state_country(self):
