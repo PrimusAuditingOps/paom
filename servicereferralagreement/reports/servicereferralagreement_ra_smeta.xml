@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="smeta_rapurchaseorder_view">
+        <div class="page">
+            <t t-set="printra" t-value="1"/>
+            <t t-if="line.registrynumber_id.scheme_id.name == 'SMETA'">
+                <h2 style="text-align:center;font-weight:Bold;">ACUERDO DE 
+                SERVICIOS DE PRIMUS AUDITING OPERATIONS MÉXICO, S. DE R.L. DE C.V. 
+                PARA AUDITORES INDEPENDIENTES</h2>
+            </t>
+            <p style="text-align:justify;">
+                A través de éste medio <b><span t-field="doc.partner_id"/></b> 
+                con RFC <b><span t-field="doc.partner_id.vat"/></b>, 
+                con domicilio en <b>
+                <span t-field="doc.partner_id.street"/>, 
+                <span t-field="doc.partner_id.state_id"/>, 
+                <span t-field="doc.partner_id.country_id"/>, 
+                C.P. <span t-field="doc.partner_id.zip"/>,</b> 
+                se compromete con Primus Auditing Operations México, S. de R.L. de C.V. y comprueba 
+                que cuenta con los conocimientos técnicos y especializados para realizar el servicio 
+                de auditorías especificadas a continuación:
+            </p>
+            <p style="text-align:left;">
+                <b>Nombre de la Organización: </b>
+                <span t-field="line.organization_id"/>
+            </p>
+            <p style="text-align:left;">
+                <b>Contacto Teléfono:</b>
+                <span t-field="line.registrynumber_id.phone"/>
+            </p>
+            <p style="text-align:left;">
+                <b>Domicilio Físico:</b>
+                <span t-field="line.organization_id.address"/>, 
+                <span t-field="line.organization_id.city"/>, 
+                <span t-field="line.organization_id.state_id"/>, 
+                <span t-field="line.organization_id.country_id"/>
+            </p>
+            <p style="text-align:left;">
+                <b>Cliente de Facturación:</b>
+                <span t-field="line.sra_customer_id"/>
+            </p>
+            <p style="text-align:left;">
+                <span style="font-weight:Bold;">Domicilio Fiscal:</span>
+                <span t-field="line.sra_customer_id.street"/>, 
+                <span t-field="line.sra_customer_id.state_id"/>, 
+                <span t-field="line.sra_customer_id.country_id"/>, 
+                C.P. <span t-field="line.sra_customer_id.zip"/>
+            </p>
+            <p style="text-align:left;">
+                <b>Número de Registro: </b>
+                <span t-field="line.registrynumber_id"/>
+                
+            </p>
+            
+            <p style="text-align:left;">
+                <b>Esquema: </b>
+                <span t-field="line.registrynumber_id.scheme_id.name"/>
+            </p>
+        
+            <p style="text-align:left;">
+                <span style="font-weight:Bold;">TIPO DE SERVICIO:</span>
+            </p>
+            <t t-set="sumtotal" t-value="0.00"/>
+            <table style="width:100%">
+                <tr style="background-color: black; color:white;">
+                    <th>Servicios</th>
+                    <th>Cantidad</th>
+                    <th>Tarifa</th>
+                </tr>
+                <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="serviceline">
+                    <t t-if="serviceline.registrynumber_id.id == registrynumber and serviceline.organization_id.id == organization">
+                        <tr>
+                            <td><span t-field="serviceline.name"/></td>
+                            <td style="text-align:right"><span t-field="serviceline.product_uom_qty"/></td>
+                            <td style="text-align:right"><span t-field="serviceline.sra_subtotal_iva"/></td>
+                        </tr>
+                        <t t-set="sumtotal" t-value="sumtotal+serviceline.sra_subtotal_iva"/>
+                    </t>
+                </t>
+            </table>
+            <p>
+                <br/>
+            </p>
+            <p style="text-align:left;">
+                <b>FECHA DEL SERVICIO: 
+                <span t-field="line.service_start_date"/> - 
+                <span t-field="line.service_end_date"/></b>
+            </p>
+            <p style="text-align:left;">
+                <b>IMPORTE TOTAL DEL SERVICIO 
+                <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                M.N. (Menos impuestos).</b>
+            </p>
+            <div style="page-break-after: always;">
+            </div>
+            <p style="text-align:justify;">
+                <u><b>Gastos:</b></u> De llegar a un acuerdo, 
+                Primus Auditing Operations México, S. de R.L. de C.V. 
+                reembolsará al auditor los gastos ocasionados por la prestación del servicio 
+                estrictamente indispensables de acuerdo a la LISR <b>vigente</b>, (excepto en acuerdos 
+                específicos para Costco). <u><b>Para que surta efecto su reembolso, el auditor independiente 
+                deberá de realizar los gastos a su propia Razón Social y posteriormente hacer una 
+                factura por el total de los gastos a nombre de Primus Auditing Operations México, S. 
+                de R.L. de C.V., domicilio Calz. Lázaro Cárdenas Pte. 3478, Chapalita, 44500 Zapopan, Jal. 
+                RFC: PAO‑150424‑J6A, anexando formato relación de viáticos y 
+                documentación soporte.</b></u> A través de éste acuerdo el auditor se obliga con 
+                Primus Auditing Operations México, S. de R.L. de C.V. a verificar con el 
+                coordinador de auditorías, la calendarización de trabajos cuando se le proporcionen 
+                instrucciones especiales. 
+                <br/>
+                <br/>
+            </p>
+            <t t-if="line.registrynumber_id.scheme_id.name == 'SMETA'">
+                <p style="text-align:justify;">
+                    <u><b>Entrega de Resultados de Auditoria:</b></u> El Auditor 
+                    acuerda por medio de éste documento tomar en cuenta la 
+                    siguiente cláusula de penalización: Primus Auditing Operations 
+                    México, S. de R.L de C.V. está contractualmente obligado a 
+                    entregar la información de la auditoria a sus clientes a más 
+                    tardar 15 días naturales después 
+                    de haber sido realizada la misma, <u><b>por lo tanto, 
+                    los resultados de la auditoria deben ser entregados a Primus 
+                    Auditing Operations México, S. de R.L. de C.V. a más tardar 5 días naturales 
+                    después de que finalizó la auditoría.</b></u> Si en el evento, el reporte de 
+                    auditoría no es entregado a Primus Auditing Operations México, S. 
+                    de R.L. de C.V. de acuerdo a lo anterior, la sanción será 
+                    determinada a una tasa del 10% sobre la cantidad que aparece en el 
+                    presente acuerdo con Primus Auditing Operations México, S. de R.L. 
+                    de C.V. por cada día de retraso; hasta que el reporte sea entregado 
+                    a Primus Auditing Operations México, S. de R.L. de C.V. 
+                    (Esto excluye reportes rechazados por el Sistema de Aseguramiento 
+                    de Calidad de Auditorías). 
+                </p>
+                <p style="text-align:justify;">
+                Ejemplo: Un contrato en el que el pago original sea $1,000, la 
+                sanción sería de $100 menos por día sobre la cantidad que se le 
+                iba a pagar al auditor. Primus Auditing Operations México, 
+                S. de R.L. de C.V. considerará en un futuro utilizar los servicios 
+                del auditor debido a la entrega tardía de resultados.
+                </p>
+                <p style="text-align:justify;">
+                Primus Auditing Operations México, S. de R.L. de C.V. únicamente pagará el Fee de 
+                reporte en caso que el auditor haya compartido el informe en de auditoría y toda la 
+                información correspondiente mencionada en el CERT 060- Acuerdo de protocolo de 
+                Responsabilidad social dentro de los dos días posteriores de la fecha que finalizó 
+                la auditoría, el informe y las notas de auditoría deberán estar completos y cumplir 
+                con los requisitos de calidad correspondientes. Es decir, si Calidad identifica que 
+                el reporte carece de información o se omitió información por parte del auditor al 
+                momento de entregar el informe, el pago del informe puede ser rechazado y no 
+                efectuarse.
+                </p>
+                <p style="text-align:justify;">
+                Primus Auditing Operations México, S. de R.L. de C.V. únicamente pagará el Fee de traslado cuando el tiempo de traslado sea de 4 o más horas esto considerando el punto de partida del auditor y que las opciones de transporte disponible en la región o zona conlleven a este tiempo de traslado. Si el auditor elige un medio de transporte que requiera más tiempo de traslado por no elegir la transportación de menor tiempo, Por ejemplo; elegir viajar en autobús a una ciudad cuando el medio principal de transporte es un avión, el tiempo de traslado no será pagado. Si al regreso del auditor este no continua con un servicio de auditoría bajo el nombre de Primus Auditing Operations México, S. de R.L. de C.V únicamente se pagará el Fee de ida, cuando el auditor se traslade 4 o más horas de regreso y ese tiempo pertenezca a servicios de Primus Auditing Operations México, S. de R.L. de C.V, es decir que no se utilice ese tiempo para ejecutar otro servicio que no se de Primus, el fee de regreso no será pagado al auditor.
+                </p>
+            </t>
+            <!-- <t t-if="not line.registrynumber_id.scheme_id.name == 'PrimusGFS' and not line.registrynumber_id.scheme_id.name == 'SMETA' and not line.registrynumber_id.scheme_id.name == 'NOP' and not line.registrynumber_id.scheme_id.name == 'Primus Standard GAP' and not line.registrynumber_id.scheme_id.name == 'Primus Standard GMP'">
+                <p style="text-align:justify;">
+                    <u><b>Entrega de Resultados de Auditoria:</b></u> El Auditor 
+                    acuerda por medio de éste documento tomar en cuenta la 
+                    siguiente cláusula de penalización: Primus Auditing Operations 
+                    México, S. de R.L de C.V. está contractualmente obligado a 
+                    entregar la información de la auditoria a sus clientes a más 
+                    tardar el décimo día natural después 
+                    de haber sido realizada la misma, <u><b>por lo tanto, 
+                    los resultados de la auditoria deben ser entregados a Primus 
+                    Auditing Operations México, S. de R.L. de C.V. a más tardar a los 
+                    días mencionados en éste párrafo.</b></u> Si en el evento, el reporte de 
+                    auditoría no es entregado a Primus Auditing Operations México, S. 
+                    de R.L. de C.V. de acuerdo a lo anterior, la sanción será 
+                    determinada a una tasa del 10% sobre la cantidad que aparece en el 
+                    presente acuerdo con Primus Auditing Operations México, S. de R.L. 
+                    de C.V. por cada día de retraso; hasta que el reporte sea entregado 
+                    a Primus Auditing Operations México, S. de R.L. de C.V. 
+                    (Esto excluye reportes rechazados por el Sistema de Aseguramiento 
+                    de Calidad de Auditorías). 
+                </p>
+                <p style="text-align:justify;">
+                    Ejemplo: Un contrato en el que el pago original sea $1,000, la 
+                    sanción sería de $100 menos por día sobre la cantidad que se le 
+                    iba a pagar al auditor. Primus Auditing Operations México, 
+                    S. de R.L. de C.V. considerará en un futuro utilizar los servicios 
+                    del auditor debido a la entrega tardía de resultados.
+                </p>
+            </t> -->
+            <p style="text-align:justify;">
+                <u><b>Propiedad de la Información:</b></u> La información que se ingrese a la 
+                base de datos de Primus Auditing Operations México, S. de R.L. 
+                de C.V. será propiedad de 
+                <!-- <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
+                    JS Audit Group, Inc.,
+                </t> -->
+                <t t-if="not line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
+                    Primus Auditing Operations México, S. de R.L. de C.V.,
+                </t> 
+                para ser usada 
+                en preparación de comparaciones específicas, estadísticas, de 
+                reportes genéricos, presentaciones y otros materiales. 
+                <u><b>Queda estrictamente prohibido que el auditor haga cualquier 
+                tipo de uso de la información para beneficios futuros y/o en 
+                contra de la Compañía.</b></u> 
+            </p>
+            <p style="text-align:justify;">
+                El auditor declara que en la ejecución del servicio independiente, 
+                no existe ninguna subordinación o dependencia laboral entre 
+                Primus Auditing Operations México, S. de R.L. de C.V. y el 
+                prestador de servicios.
+                <u><b>NOTA: </b></u> Primus Auditing Operations México, S. de R.L.  de C.V. 
+                cobrará y enviará al cliente el resultado de la auditoría. 
+                <span t-field="doc.partner_id"/> cobrará a Primus Auditing Operations México, 
+                S. de R.L. de C.V. por sus servicios en éste acuerdo. 
+            </p>
+            <p style="text-align:left;">
+                <span style="font-weight:Bold;">FECHA </span>
+                <span t-field="line.referral_date"/>
+            </p>
+            <p>
+                <br/>
+                <br/>
+            </p>
+
+            <table style="width:100%; border:0px;">
+                <tr>
+                    <td width="50%" style="border:0px; background-color:white; text-align:center;">
+                        <p t-if="doc.sra_audit_signature" style="text-align:center;">
+                            <br/>
+                            <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.sra_audit_signature)"/>
+                            <br/>
+                            <span>__________________________________</span> 
+                            <br/>
+                            <span t-field="doc.partner_id"/>
+                            <br/>
+                            <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
+                                <span style="font-weight:Bold;">Auditor</span>
+                                
+                            </t>
+                            <t t-if="line.registrynumber_id.scheme_id.name != 'PrimusGFS'">
+                                <span style="font-weight:Bold;">Inspector/Auditor (de la finca o del SGC)</span>
+                            </t>
+                        </p>
+                        <p t-if="not doc.sra_audit_signature" style="text-align:center;">
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <span>__________________________________</span> 
+                            <br/>
+                            <span t-field="doc.partner_id"/>
+                            <br/>
+                            <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
+                                <span style="font-weight:Bold;">Auditor</span>
+                            </t>
+                            <t t-if="line.registrynumber_id.scheme_id.name != 'PrimusGFS'">
+                                
+                                <span style="font-weight:Bold;">Inspector/Auditor (de la finca o del SGC)</span>
+                            </t>
+                        </p>
+                    </td>
+                    <td width="50%" style="border:0px; background-color:white; text-align:center;">
+                        <p t-if="doc.coordinator_id.employee_id.es_sign_signature" style="text-align:center;">
+                            <br/>
+                            <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.coordinator_id.employee_id.es_sign_signature)"/>
+                            <br/>
+                            <span>__________________________________</span> 
+                            <br/>
+                            <span t-field="doc.coordinator_id"/>
+                            <br/>
+                            <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
+                                <span style="font-weight:Bold;">Coordinador de Auditoría</span>
+                            </t>
+                            <t t-if="line.registrynumber_id.scheme_id.name != 'PrimusGFS'">
+                                <span style="font-weight:Bold;">Especialista de Operaciones</span>
+                            </t>
+                        </p>
+                        <p t-if="not doc.coordinator_id.employee_id.es_sign_signature" style="text-align:center;">
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <span>__________________________________</span> 
+                            <br/>
+                            <span t-field="doc.coordinator_id"/>
+                            <br/>
+                            <t t-if="line.registrynumber_id.scheme_id.name == 'PrimusGFS'">
+                                <span style="font-weight:Bold;">Coordinador de Auditoría</span>
+                            </t>
+                            <t t-if="line.registrynumber_id.scheme_id.name != 'PrimusGFS'">
+                                <span style="font-weight:Bold;">Especialista de Operaciones</span>
+                            </t>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </template>
+</odoo>

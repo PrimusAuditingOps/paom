@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <menuitem id="menu_pao_sgc_application" name="SGC" web_icon="pao_sgc,static/description/icon.png"/>
+
+        <menuitem id="menu_sgc_document" name="Management" parent="menu_pao_sgc_application" sequence="1" />
+            <menuitem id="menu_sgc" name="Documents" parent="menu_sgc_document" sequence="1" action="pao_documents_version_action"/>
+
+        <menuitem id="menu_sgc_configuration" name="Configuration" parent="menu_pao_sgc_application" sequence="2" groups="pao_sgc.sgc_admin_group"/>
+            <menuitem id="department_option_menu_item" name="Departments" parent="menu_sgc_configuration" sequence="1" action="pao_sgc_department_action"/>
+            <menuitem id="scheme_option_menu_item" name="Schemes" parent="menu_sgc_configuration" sequence="2" action="pao_sgc_scheme_action"/>
+
+</odoo>

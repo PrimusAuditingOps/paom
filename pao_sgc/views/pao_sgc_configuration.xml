@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pao_sgc_department_view_tree" model="ir.ui.view">
+        <field name="name">pao.sgc.department.view.tree</field>
+        <field name="model">pao.sgc.department</field>
+        <field name="arch" type="xml">
+            <tree string="Departments">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_sgc_department_view_form" model="ir.ui.view">
+        <field name="name">pao.sgc.department.view.form</field>
+        <field name="model">pao.sgc.department</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_sgc_department_action" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pao.sgc.department</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+
+
+    <record id="pao_sgc_scheme_view_tree" model="ir.ui.view">
+        <field name="name">pao.sgc.scheme.view.tree</field>
+        <field name="model">pao.sgc.scheme</field>
+        <field name="arch" type="xml">
+            <tree string="Schemes">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_sgc_scheme_view_form" model="ir.ui.view">
+        <field name="name">pao.sgc.scheme.view.form</field>
+        <field name="model">pao.sgc.scheme</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_sgc_scheme_action" model="ir.actions.act_window">
+        <field name="name">Schemes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pao.sgc.scheme</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

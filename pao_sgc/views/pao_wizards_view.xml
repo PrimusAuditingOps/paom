@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pao_upload_document_version_form" model="ir.ui.view">
+        <field name="name">pao.upload.document.version.form</field>
+        <field name="model">pao.upload.document.version</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="name" readonly="1"/>
+                    <field name="version"/>
+                    <field name="revision_number"/>
+                    <field name="document_file"/>
+                    <field name="selected_reviewer" options="{'no_create': True}" />
+                    <field name="selected_approvers" widget="many2many_tags" options="{'no_create': True}" />
+                    <field name="approval_reason"/>
+                </group>
+                <footer>
+                    <button string="REQUEST APPROVAL" class="oe_highlight" type="object" name="request_document_approval_action"/>
+                    <button string="CANCEL" special="cancel" class="oe_link" name="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_pao_approval_refuse_reason_form" model="ir.ui.view">
+        <field name="name">pao.approval.refuse.reason.form</field>
+        <field name="model">pao.approval.refuse.reason</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button string="ACCEPT" class="oe_highlight" type="object" name="refuse_request"/>
+                    <button string="CANCEL" special="cancel" class="oe_link" name="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="pao_documents_version_history_form" model="ir.ui.view">
+        <field name="name">pao.documents.version.history.form</field>
+        <field name="model">pao.documents.version.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="name" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
+                    <field name="version" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
+                    <field name="revision_number" attrs="{'readonly': [('id', '!=', False)]}"/>
+                    <field name="document_file" attrs="{'readonly': [('id', '!=', False)]}"/>
+                    <field name="validity_start_date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                    <field name="validity_end_date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                    <field name="version_by" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
+                    <field name="approval_id" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+</odoo>

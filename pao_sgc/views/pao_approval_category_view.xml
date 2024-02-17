@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_approval_category_kanban_inherit" model="ir.ui.view">
+        <field name="name">approval.category.view.kanban.inherit</field>
+        <field name="model">approval.category</field>
+        <field name="inherit_id" ref="approvals.approval_category_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_module_vignette']" position="inside">
+                <field name="internal_name" invisible="1"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_module_vignette']" position="attributes">
+                <attribute name="attrs">{'invisible': [('internal_name', '=', 'document_formats')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

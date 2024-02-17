@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sgc_scheme_ggap" model="pao.sgc.scheme">
+            <field name="name" >GLOBALG.A.P.</field>
+            <field name="internal_name">global_gap</field>
+        </record>
+
+        <record id="sgc_scheme_general" model="pao.sgc.scheme">
+            <field name="name" >General</field>
+            <field name="internal_name">general</field>
+        </record>
+
+        <record id="sgc_scheme_organics" model="pao.sgc.scheme">
+            <field name="name" >Organics</field>
+            <field name="internal_name">organics</field>
+        </record>
+
+        <record id="sgc_scheme_haccp" model="pao.sgc.scheme">
+            <field name="name" >HACCP</field>
+            <field name="internal_name">haccp</field>
+        </record>
+    </data>
+</odoo>

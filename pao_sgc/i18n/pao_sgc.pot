@@ -1,0 +1,850 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_sgc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-07 22:42+0000\n"
+"PO-Revision-Date: 2024-02-07 22:42+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
+msgid "<span class=\"o_stat_value\">Request</span>"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.view_pao_approval_refuse_reason_form
+msgid "ACCEPT"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/pao_documents_version_management.py:0
+#, python-format
+msgid "Active approval request"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "Active requests"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_finance
+msgid "Administration and finance"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_app
+msgid "Application"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model,name:pao_sgc.model_approval_category
+msgid "Approval Category"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__approval_id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__approval_id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__approval_id
+msgid "Approval Reference"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model,name:pao_sgc.model_approval_request
+msgid "Approval Request"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields.selection,name:pao_sgc.selection__approval_request__request_status__approved
+msgid "Approved"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__selected_approvers
+msgid "Approvers"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_reviewer
+msgid "Assigned reviewer"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_audit
+msgid "Audit"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.view_pao_approval_refuse_reason_form
+#: model_terms:ir.ui.view,arch_db:pao_sgc.view_pao_upload_document_version_form
+msgid "CANCEL"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields.selection,name:pao_sgc.selection__approval_request__request_status__cancel
+msgid "Cancel"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/pao_documents_version_management.py:0
+#, python-format
+msgid "Cannot update using an existing version"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model,name:pao_sgc.model_pao_sgc_department
+msgid "Catalog of departments used in SGC moduel"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model,name:pao_sgc.model_pao_sgc_scheme
+msgid "Catalog of schemes used in SGC moduel"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_cert_decision
+msgid "Certification Decision"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.ui.menu,name:pao_sgc.menu_sgc_configuration
+msgid "Configuration"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__create_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__create_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__create_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department__create_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__create_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__create_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__create_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__create_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department__create_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__create_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_version
+msgid "Current Version"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__version
+msgid "Current Version (Odoo)"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__version_management_id
+msgid "Current document version"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_customer_service_sales
+msgid "Customer service and Sales"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__department_id
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "Department"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.actions.act_window,name:pao_sgc.pao_sgc_department_action
+#: model:ir.ui.menu,name:pao_sgc.department_option_menu_item
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_sgc_department_view_tree
+msgid "Departments"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__approval_reason
+msgid "Description of the change"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_category__display_name
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__display_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__display_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__display_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__display_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department__display_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__display_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__code
+msgid "Document Code"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_document_file
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__document_file
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__document_file
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__document_file
+msgid "Document File"
+msgstr ""
+
+#. module: pao_sgc
+#: model:approval.category,name:pao_sgc.approval_category_documents_sgc
+msgid "Document Formats"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__language_id
+msgid "Document Language"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__name
+msgid "Document Name"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__version
+msgid "Document Version (Odoo)"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_version_management_id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__version_management_id
+msgid "Document Version Origin"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.ui.menu,name:pao_sgc.menu_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
+msgid "Documents"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.actions.act_window,name:pao_sgc.pao_documents_version_action
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_tree
+msgid "Documents Version Management"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "English"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__expiration_date
+msgid "Expiration Date"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_filename
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__filename
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__filename
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__filename
+msgid "Filename"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.scheme,name:pao_sgc.sgc_scheme_ggap
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "GLOBALG.A.P."
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.scheme,name:pao_sgc.sgc_scheme_general
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "General"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.scheme,name:pao_sgc.sgc_scheme_haccp
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "HACCP"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__approval_request_in_progress
+msgid "Has an active request"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/pao_documents_version_management.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the request %(approval_request_link)s has been "
+"approved."
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/approval_request.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the request %(approval_request_link)s has been "
+"refused due to the following reasons: %(reasons)s"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/approval_request.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the request %(approval_request_link)s has been "
+"reviewed and is ready for approval."
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_direction
+msgid "High Direction"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_category__id
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department__id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__id
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__id
+msgid "ID"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_needaction
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_has_error
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_impartiality
+msgid "Impartiality Management"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_it
+msgid "Information Technology"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_category__internal_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department__internal_name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__internal_name
+msgid "Internal Name"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__is_document_expired
+msgid "Is Document Expired"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__is_document_near_expiration
+msgid "Is Document Near Expiration"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__is_user_reviewer
+msgid "Is User Reviewer"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/pao_documents_version_management.py:0
+#, python-format
+msgid ""
+"It's necessary to fill in the fields: Current Version, Document File, "
+"Revision Number and Valid Since to proceed."
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_job
+msgid "Job Descriptions"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "Language"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_category____last_update
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request____last_update
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason____last_update
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history____last_update
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management____last_update
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department____last_update
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme____last_update
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__last_updated_by
+msgid "Last Updated By"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__write_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__write_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__write_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department__write_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__write_uid
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__write_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__write_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__write_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department__write_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__write_date
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.ui.menu,name:pao_sgc.menu_sgc_document
+msgid "Management"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_policies
+msgid "Manuals and policies"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department__name
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__name
+msgid "Name"
+msgstr ""
+
+#. module: pao_sgc
+#: model:approval.category,description:pao_sgc.approval_category_documents_sgc
+msgid "New formats for official company documents gets approved"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.scheme,name:pao_sgc.sgc_scheme_organics
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "Organics"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_request_closed
+msgid "PAO Document has been closed"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_reviewed
+msgid "PAO Document reviewed"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model,name:pao_sgc.model_pao_documents_version_history
+msgid "PAO Documents Version History"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model,name:pao_sgc.model_pao_documents_version_management
+msgid "PAO Documents Version Management"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/approval_request.py:0
+#, python-format
+msgid "Please review the document."
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_resources
+msgid "Provision of Resources"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_quality
+msgid "Quality Assurement"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/pao_upload_document_version_wizard.py:0
+#, python-format
+msgid "REQ: %(document_name)s - Version: %(version)s - Revision: %(revision)s"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.view_pao_upload_document_version_form
+msgid "REQUEST APPROVAL"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.view_pao_approval_request_form_inherit
+msgid "Refuse"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_refuse_reason
+msgid "Refuse Reason"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/approval_request.py:0
+#: code:addons/pao_sgc/models/approval_request.py:0
+#, python-format
+msgid "Refuse details"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__reason
+#: model_terms:ir.ui.view,arch_db:pao_sgc.view_pao_approval_request_form_inherit
+msgid "Refuse reason"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields.selection,name:pao_sgc.selection__approval_request__request_status__refused
+msgid "Refused"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__request_status
+msgid "Request Status"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/approval_request.py:0
+#, python-format
+msgid "Review document"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields.selection,name:pao_sgc.selection__approval_request__request_status__reviewed
+#: model_terms:ir.ui.view,arch_db:pao_sgc.view_pao_approval_request_form_inherit
+msgid "Reviewed"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__selected_reviewer
+msgid "Reviewer"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__pao_document_revision
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__revision_number
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__revision_number
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__revision_number
+msgid "Revision Number"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.ui.menu,name:pao_sgc.menu_pao_sgc_application
+msgid "SGC"
+msgstr ""
+
+#. module: pao_sgc
+#: model:res.groups,name:pao_sgc.sgc_admin_group
+msgid "SGC Admin"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__scheme_id
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "Scheme"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.actions.act_window,name:pao_sgc.pao_sgc_scheme_action
+#: model:ir.ui.menu,name:pao_sgc.scheme_option_menu_item
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_sgc_scheme_view_tree
+msgid "Schemes"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
+msgid "Spanish"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields.selection,name:pao_sgc.selection__approval_request__request_status__pending
+msgid "Submitted"
+msgstr ""
+
+#. module: pao_sgc
+#: model:pao.sgc.department,name:pao_sgc.sgc_department_competence
+msgid "Technical Competence"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
+msgid "The document is still valid"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/approval_request.py:0
+#, python-format
+msgid "The request can only be cancelled by its owner."
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/approval_request.py:0
+#, python-format
+msgid ""
+"The request has been closed and cannot be undone. To make changes to the "
+"current document, please upload a new one using the SGC module."
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/approval_request.py:0
+#, python-format
+msgid "The request must be reviewed before approval."
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/pao_documents_version_management.py:0
+#, python-format
+msgid "This document has already an approval request in progress."
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields.selection,name:pao_sgc.selection__approval_request__request_status__new
+msgid "To Submit"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: pao_sgc
+#: code:addons/pao_sgc/models/pao_documents_version_management.py:0
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
+#, python-format
+msgid "Upload new version"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__approval_date
+msgid "Valid Since"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__validity_end_date
+msgid "Validity End Date"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__validity_start_date
+msgid "Validity Start Date"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__version
+msgid "Version (Odoo)"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__history_version_ids
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
+msgid "Version History"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__version_by
+msgid "Version uploaded by"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model,name:pao_sgc.model_pao_approval_refuse_reason
+msgid "Wizard Model to input the reason why a request is being refused"
+msgstr ""
+
+#. module: pao_sgc
+#: model:ir.model,name:pao_sgc.model_pao_upload_document_version
+msgid "Wizard Model to request the approval of a new version of a document"
+msgstr ""
