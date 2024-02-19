@@ -85,7 +85,12 @@
                             <span t-field="fanrequest.organization_id.address" />
                         </p>
                     </div>
-                    <div class="col-6">
+                    <div class="col-3">
+                        <p style="text-align:left;"><b>Colonia: </b>
+                            <span t-field="fanrequest.organization_id.colony" />
+                        </p>
+                    </div>
+                    <div class="col-3">
                         <p style="text-align:left;"><b>CP: </b>
                             <span t-field="fanrequest.organization_id.zip" />
                         </p>
