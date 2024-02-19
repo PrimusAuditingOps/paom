@@ -248,6 +248,10 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 alert("Favor de capturar GGN");
                 $("#ggn").focus();
             }
+            else if ($('select[name="evaluation_type"] option:selected').val() != "1" && $("#ggn").val().trim().length != 13){
+                alert("Favor de capturar GGN de 13 digitos");
+                $("#ggn").focus();
+            }
             else if ($("#name").val().trim() == ""){
                 alert("Favor de capturar Nombre de la entidad legal");
                 $("#name").focus();
