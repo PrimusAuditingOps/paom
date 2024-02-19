@@ -72,6 +72,11 @@ class PaoGlobalgapOrganization(models.Model):
         copy=False,
         tracking=True,
     )
+    colony = fields.Char(
+        string='Colony', 
+        copy=False,
+        tracking=True,
+    )
     postal_address = fields.Text(
         string='Postal address', 
         copy=False,

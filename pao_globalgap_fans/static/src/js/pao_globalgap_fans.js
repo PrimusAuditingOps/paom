@@ -277,12 +277,16 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 $("#state").focus();
             }
             else if ($("#city").val() == null){
-                alert("Favor de capturar Ciudad");
+                alert("Favor de capturar Ciudad"); 
                 $("#city").focus();
             }
             else if ($("#address").val().trim() == ""){
                 alert("Favor de capturar Dirección");
                 $("#address").focus();
+            }
+            else if ($("#colony").val().trim() == ""){
+                alert("Favor de capturar Colonia");
+                $("#colony").focus();
             }
             else if ($("#zip").val().trim() == ""){
                 alert("Favor de capturar CP");
@@ -324,6 +328,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                     "evaluation_type": $('select[name="evaluation_type"] option:selected').val(),
                     "name": $("#name").val().trim(),
                     "address": $("#address").val().trim(),
+                    "colony": $("#colony").val().trim(),
                     "city": $('select[name="city"] option:selected').val(),
                     "state": $('select[name="state"] option:selected').val(),
                     "country": $('select[name="country"] option:selected').val(),

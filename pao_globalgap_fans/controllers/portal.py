@@ -104,7 +104,7 @@ class CustomerPortal(portal.CustomerPortal):
 
     @http.route(['/pao/fillout/fans/products'], type='json', auth='public', methods=['POST'])
     def portal_fans_save_organization(self, fr_token, fr_id, plmx, ggn, globalgap_version, 
-    certification_option, evaluation_type, name, address, city,state, country,
+    certification_option, evaluation_type, name, address, colony, city,state, country,
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
     contact_telephone, contact_email, rights_of_access,addons,postal_address,previous_ggn,subcontracted_workers, hired_workers, **kw):
 
@@ -133,6 +133,7 @@ class CustomerPortal(portal.CustomerPortal):
             "addons_ids": [(6, 0, addon_list)],
             "evaluation_type": str(evaluation_type),
             "address": address,
+            "colony": colony,
             "postal_address": postal_address,
             "previous_ggn": previous_ggn,
             "city_id": city,
