@@ -450,13 +450,7 @@ class CustomerPortal(portal.CustomerPortal):
             request_link = ('<a href="#" data-oe-model="pao.globalgap.fans.request" data-oe-id="%(request_id)d">%(name)s</a>'
                                     ) % {'name': fan_sudo.title, 'request_id': fan_sudo.id}
 
-            message = _('Hello %(mention_html)s, the request %(request_link)s has been corrected.'
-                        ) % {'request_link': request_link, 'mention_html': mention_html} 
-                        if fan_sudo.request_status == "correction" else 
-                        _('Hello %(mention_html)s, the request %(request_link)s has been filled out.'
-                        ) % {'request_link': request_link, 'mention_html': mention_html} 
-
-            
+            message = _('Hello %(mention_html)s, the request %(request_link)s has been corrected.') % {'request_link': request_link, 'mention_html': mention_html} if fan_sudo.request_status == "correction" else _('Hello %(mention_html)s, the request %(request_link)s has been filled out.') % {'request_link': request_link, 'mention_html': mention_html}       
             message_id = fan_sudo.message_post(
                 body=message,
                 partner_ids=[fan_sudo.create_uid.partner_id.id],
