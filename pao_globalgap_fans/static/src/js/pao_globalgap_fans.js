@@ -240,7 +240,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
             
             */
 
-            if ($('select[name="evaluation_type"] option:selected').val() != "1" && $("#plmx").val().trim() == ""){
+            if ($('select[name="evaluation_type"] option:selected').val() != "1" && ($("#plmx").val().trim() == "" && $("#previous_cb").val().trim() == "" )){
                 alert("Favor de capturar PL_México");
                 $("#plmx").focus();
             }
