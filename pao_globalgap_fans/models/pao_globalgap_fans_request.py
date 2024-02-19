@@ -147,7 +147,7 @@ class PaoGlobalgapFansRequest(models.Model):
             'target': 'new',
             'context': {
                 'default_fans_request_id': self.id,
-                'default_capturist_id': self.capturist_id.id
+                'default_capturist_id': self.capturist_id.id,
                 'default_subject': _("GLOBALG.A.P application registration request") if self.request_status == "draft" else _("GLOBALG.A.P application registration correction request")
             }
         }
