@@ -62,7 +62,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 container: "ubicationMap",
                 style: "mapbox://styles/mapbox/streets-v11",
                 center: [-102.1, 23.3],
-                zoom: 4
+                zoom: 10
             });
             let marker = new mapboxgl.Marker()
                 .setLngLat([-102.1, 23.3])
@@ -190,7 +190,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                             container: "ubicationMap",
                             style: "mapbox://styles/mapbox/streets-v11",
                             center: [data.longitude,data.latitude],
-                            zoom: 4
+                            zoom: 13
                         });
                         let marker = new mapboxgl.Marker()
                             .setLngLat([data.longitude, data.latitude])
@@ -218,7 +218,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 container: "ubicationMap",
                 style: "mapbox://styles/mapbox/streets-v11",
                 center: [longitude,latitude],
-                zoom: 10
+                zoom: 13
             });
             let marker = new mapboxgl.Marker()
                 .setLngLat([longitude,latitude])
