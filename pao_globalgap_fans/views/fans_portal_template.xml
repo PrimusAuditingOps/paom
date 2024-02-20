@@ -21,9 +21,23 @@
     </template>
     <template id="globalgap_fan_signed_page_view" name="Request registered">
         <t t-call="web.frontend_layout">
-            <div class="container pt-5">
-                <div class="text-center mt-5 pt-5">
-                    <h3 class="d-inline">The request was signed, thank you, we appreciate your response!</h3>
+            <div class="m-0 row justify-content-center">
+                <div style="padding-top:10px" class="col-auto">
+                    <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_fr_content">
+                        <div class="card-header">Download</div>
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" t-foreach="documents" t-as="attach">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" title="Download #{attach['name']}" target="_blank" t-attf-href="#{attach['url']}">
+                                            <i class="fa fa-download"></i> 
+                                            <span t-esc="attach['name']"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </t>

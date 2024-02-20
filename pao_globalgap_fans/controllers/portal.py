@@ -46,10 +46,19 @@ class CustomerPortal(portal.CustomerPortal):
             return request.redirect('/')
 
         
-        if fan_sudo.request_status in ['review', 'signature_request', 'signed', 'annulled']:
+        if fan_sudo.request_status in ['review', 'signature_request', 'annulled']:
             return request.render(
                 'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
             )
+        elif  fan_sudo.request_status == 'signed':
+            url = request.env['ir.config_parameter'].sudo().get_param('web.base.url') 
+            documents = []
+            documents.append({"name": fan_sudo.attachment_id.name, "url": url+"/web/content/"+str(fan_sudo.attachment_id.id)+"?download=true&access_token="+str(fan_sudo.attachment_id.access_token)})
+            return request.render(
+                'pao_globalgap_fans.globalgap_fan_signed_page_view', {"documents": documents}
+            )
+
+
         lang = fan_sudo.capturist_id.lang or fan_sudo.create_uid.lang
         fan_sudo.with_context(lang=lang)
 
@@ -531,6 +540,11 @@ class CustomerPortal(portal.CustomerPortal):
             old_attachment_id = fan_sudo.attachment_id.id
 
         fan_sudo.write({"attachment_id": attachment.id})
+
+        if not attachment.access_token:
+            token = attachment._generate_access_token()
+            attachment.write({"access_token": token})
+        
         if old_attachment_id:
             request.env['ir.attachment'].sudo().search([("id","=",old_attachment_id),("res_id","=",fan_sudo.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
 
@@ -562,8 +576,11 @@ class CustomerPortal(portal.CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect('/')
         
+        url = request.env['ir.config_parameter'].sudo().get_param('web.base.url') 
+        documents = []
+        documents.append({"name": fan_sudo.attachment_id.name, "url": url+"/web/content/"+str(fan_sudo.attachment_id.id)+"?download=true&access_token="+str(fan_sudo.attachment_id.access_token)})
         return request.render(
-            'pao_globalgap_fans.globalgap_fan_signed_page_view', {}
+            'pao_globalgap_fans.globalgap_fan_signed_page_view', {"documents": documents}
         )
 
     @http.route(['/pao/fillout/fans/message/<int:fan_id>/<string:fan_token>'], type='http', auth="public", website=True)
