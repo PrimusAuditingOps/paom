@@ -207,7 +207,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                         $("#latitude").val(data.latitude);
                     }
                     else{
-                        alert("No se encontró la geolocalización de la dirección.")
+                        alert("Oops! no se encontró el domicilio exacto, puedes ingresar las coordenadas y continuar con el llenado.")
                     }
 
                 });
