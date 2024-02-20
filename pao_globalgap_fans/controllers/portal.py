@@ -487,8 +487,15 @@ class CustomerPortal(portal.CustomerPortal):
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fr_id), access_token=str(fr_token))
         except (AccessError, MissingError):
             return request.redirect('/')
-        
-        if fan_sudo.request_status != 'signature_request':
+         
+        if  fan_sudo.request_status == 'signed':
+            url = request.env['ir.config_parameter'].sudo().get_param('web.base.url') 
+            documents = []
+            documents.append({"name": fan_sudo.attachment_id.name, "url": url+"/web/content/"+str(fan_sudo.attachment_id.id)+"?download=true&access_token="+str(fan_sudo.attachment_id.access_token)})
+            return request.render(
+                'pao_globalgap_fans.globalgap_fan_signed_page_view', {"documents": documents}
+            )
+        elif fan_sudo.request_status != 'signature_request':
             return request.render(
                 'pao_globalgap_fans.globalgap_fan_completed_cancel_page_view', {}
             )
