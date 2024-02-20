@@ -425,6 +425,7 @@
                                                                 </label>
                                                                 <div class="col-sm">
                                                                     <input id="latitude" t-att-value="data.latitude" type="text" maxlength="30" class="form-control s_website_form_input" name="latitude" required="*"/>
+                                                                    <p style="font-size:12px; color:gray;">Ingresar latitud en formato decimal ejemplo : 41.40338</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -436,6 +437,7 @@
                                                                 </label>
                                                                 <div class="col-sm">
                                                                     <input id="longitude" t-att-value="data.longitude" type="text" maxlength="30" class="form-control s_website_form_input" name="longitude" required="*"/>
+                                                                    <p style="font-size:12px; color:gray;">Ingresar longitud en formato decimal ejemplo : 2.17403</p>
                                                                 </div>
                                                             </div>
                                                         </div>
