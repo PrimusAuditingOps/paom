@@ -22,7 +22,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
     subject = fields.Char(
         string="Subject", 
         required=True, 
-        default=_("GLOBALG.A.P application registration request"),
+        default=_("Solicitud de registro de aplicación GLOBALG.A.P"),
     )
     message = fields.Html(
         string="Message",
