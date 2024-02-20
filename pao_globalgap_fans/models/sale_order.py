@@ -43,5 +43,7 @@ class SaleOrder(models.Model):
             'view_type': 'form',
             'view_mode': 'form',
             'target': 'new',
-            'context': {'default_sale_order_id': self.id}
+            'context': {
+                'default_sale_order_id': self.id,
+                'capturist_id': self.partner_id.id}
         }
