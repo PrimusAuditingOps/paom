@@ -27,8 +27,8 @@ class PaoGlobalgapProductionSiteProduct(models.Model):
     )
     parallel_production = fields.Selection(
         selection=[
-            ('1', "Si"),
-            ('2', "No"),
+            ('1', "No"),
+            ('2', "Si"),
         ],
         string="Parallel production", 
         copy=False,
@@ -36,8 +36,8 @@ class PaoGlobalgapProductionSiteProduct(models.Model):
     )
     parallel_property = fields.Selection(
         selection=[
-            ('1', "Si"),
-            ('2', "No"),
+            ('1', "No"),
+            ('2', "Si"),
         ],
         string="Parallel property", 
         copy=False,
