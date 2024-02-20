@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-23 06:02+0000\n"
-"PO-Revision-Date: 2024-01-23 06:02+0000\n"
+"POT-Creation-Date: 2024-02-20 17:25+0000\n"
+"PO-Revision-Date: 2024-02-20 17:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,11 @@ msgstr ""
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "<b>Ciudad: </b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Colonia: </b>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -243,6 +248,13 @@ msgstr ""
 msgid ""
 "<span class=\"s_website_form_label_content\">Ciudad</span>\n"
 "                                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+msgid ""
+"<span class=\"s_website_form_label_content\">Colonia</span>\n"
+"                                                                    <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -548,7 +560,7 @@ msgstr "Cosecha aplicable"
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_request_view_form
 msgid "Approve"
-msgstr "Aprobar"
+msgstr "Aprovar"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_fans_request__qa_status__approved
@@ -638,6 +650,11 @@ msgid "Close"
 msgstr "Cerrar"
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__colony
+msgid "Colony"
+msgstr "Colonia"
+
+#. module: pao_globalgap_fans
 #: model:ir.ui.menu,name:pao_globalgap_fans.menu_global_gap_configuration
 msgid "Configuration"
 msgstr "Configuración"
@@ -715,7 +732,7 @@ msgstr "Copiar a"
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_fans_request__request_status__correction
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_request_view_form
 msgid "Correction request"
-msgstr "Solicitud de corrección"
+msgstr "Solicitud de correción"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
@@ -723,9 +740,14 @@ msgid "Cosecha aplicable"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__harvest_type__2
+msgid "Cosecha posterior"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__countries_of_products
 msgid "Countries of products"
-msgstr "Mercado destino del producto"
+msgstr "Paises del producto"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__country_id
@@ -809,7 +831,7 @@ msgstr "Fecha estimada de cosecha"
 #. module: pao_globalgap_fans
 #: model:ir.ui.menu,name:pao_globalgap_fans.menu_global_gap_destination_countries_option
 msgid "Destination countries"
-msgstr "Mercado destino del producto"
+msgstr "Paises de destino"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
@@ -840,6 +862,16 @@ msgstr "Nombre en pantalla"
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__attachment_id
 msgid "Document"
 msgstr "Documento"
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_fan_signed_page_view
+msgid "Download"
+msgstr "Descarga"
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_fan_signed_page_view
+msgid "Download #{attach['name']}"
+msgstr "Descargar #{attach['name']}"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_fans_request__request_status__draft
@@ -964,11 +996,6 @@ msgid "Fill out the application form"
 msgstr "Llenar formulario de aplicación"
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__harvest_type__1
-msgid "First harvest"
-msgstr "Primera cosecha"
-
-#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__message_follower_ids
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__message_follower_ids
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__message_follower_ids
@@ -1045,6 +1072,19 @@ msgstr "GLOBALG.A.P Organización"
 #: model:ir.actions.act_window,name:pao_globalgap_fans.pao_fans_globalgap_version_action
 msgid "GLOBALG.A.P Version"
 msgstr ""
+
+#. module: pao_globalgap_fans
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
+#, python-format
+msgid "GLOBALG.A.P application registration correction request"
+msgstr "Solicitud de correción para el registro de aplicacion GLOBALG.A.P"
+
+#. module: pao_globalgap_fans
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_send_fans_request.py:0
+#, python-format
+msgid "GLOBALG.A.P application registration request"
+msgstr "Solicitud de registro de aplicación GLOBALG.A.P"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__globalgap_version
@@ -1169,9 +1209,16 @@ msgstr ""
 #: code:addons/pao_globalgap_fans/controllers/portal.py:0
 #, python-format
 msgid ""
-"Hello %(mention_html)s, the request %(request_link)s has been filled out."
+"Hello %(mention_html)s, the request %(request_link)s has been corrected."
 msgstr ""
-"Hola %(mention_html)s, la solicitud %(request_link)s ha sido llenada."
+"Hola %(mention_html)s,la solicitud %(request_link)s ha sido corregida."
+
+#. module: pao_globalgap_fans
+#: code:addons/pao_globalgap_fans/controllers/portal.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the request %(request_link)s has been filled out."
+msgstr "Hola %(mention_html)s, la solicitud %(request_link)s ha sido llenada."
 
 #. module: pao_globalgap_fans
 #: code:addons/pao_globalgap_fans/controllers/portal.py:0
@@ -1374,11 +1421,6 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__harvest_type__2
-msgid "Later harvest"
-msgstr "Ultima cosecha"
-
-#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
 msgid "Latitud"
 msgstr ""
@@ -1464,7 +1506,8 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_production_or_property__2
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_production__2
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_property__2
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__to_certificate__2
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__applicable_harvest__2
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__organization_buys_product__1
@@ -1602,9 +1645,14 @@ msgid "Para certificar"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product__parallel_production_or_property
-msgid "Parallel production/Parallel property"
-msgstr "Producción paralela/Propiedad paralela"
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product__parallel_production
+msgid "Parallel production"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product__parallel_property
+msgid "Parallel property"
+msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
@@ -1638,13 +1686,18 @@ msgid "Primera Cosecha/ Cosecha Posterior"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__harvest_type__1
+msgid "Primera cosecha"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
-msgid "Producción Paralela (PP)/ Propiedad Paralela (PO)"
+msgid "Producción Paralela"
 msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
-msgid "Producción Paralela (PP)/Propiedad Paralela (PO)"
+msgid "Producción Paralela (PP)"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1702,6 +1755,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_production_site_view_form
 msgid "Products"
 msgstr "Productos"
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Propiedad Paralela"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "Propiedad Paralela (PO)"
+msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
@@ -1816,6 +1879,16 @@ msgid "Sent"
 msgstr "Enviado"
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_production__1
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_property__1
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__to_certificate__1
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__applicable_harvest__1
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__organization_buys_product__2
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_manipulated_not_certificate__2
+msgid "Si"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid ""
 "Si se subcontrata el empaque, indicar GGN o GLN (Obligatorio si\n"
@@ -1827,6 +1900,16 @@ msgstr ""
 msgid ""
 "Si, el productor se compromete a permitir el acceso a la dirección de su "
 "empresa por parte del grupo público de acceso."
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__3
+msgid "Si, en el PHU"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__2
+msgid "Si, en el campo"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1929,7 +2012,8 @@ msgstr "La solicitud de firma de la Solicitud fue cancelada o no existe."
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__organization_buys_product
 msgid "The organization buy the same certified product and/or not certified?"
-msgstr "¿La organización compra el mismo producto certificado y/o no certificado?"
+msgstr ""
+"¿La organización compra el mismo producto certificado y/o no certificado?"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_fan_completed_cancel_page_view
@@ -1940,11 +2024,6 @@ msgstr "¡La solicitud fue completada o cancelada!"
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_fan_registered_page_view
 msgid "The request was registered, thank you, we appreciate your response!"
 msgstr "La solicitud fue registrada, gracias, agradecemos su respuesta!"
-
-#. module: pao_globalgap_fans
-#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_fan_signed_page_view
-msgid "The request was signed, thank you, we appreciate your response!"
-msgstr "La solicitud fue firmada, gracias, agradecemos su respuesta!"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product__to_certificate
@@ -2036,25 +2115,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_globalgap_send_fans_request_view_form
 msgid "Write email or search contact..."
 msgstr "Escribe email o busca contacto..."
-
-#. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_production_or_property__1
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__to_certificate__1
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__applicable_harvest__1
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__organization_buys_product__2
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_manipulated_not_certificate__2
-msgid "Yes"
-msgstr "Si"
-
-#. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__3
-msgid "Yes, in the PHU"
-msgstr "Si, en la unidad de manipulación"
-
-#. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__2
-msgid "Yes, in the field"
-msgstr "Si, en el campo"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__zip
