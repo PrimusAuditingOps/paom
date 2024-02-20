@@ -284,10 +284,6 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 alert("Favor de capturar Dirección");
                 $("#address").focus();
             }
-            else if ($("#colony").val().trim() == ""){
-                alert("Favor de capturar Colonia");
-                $("#colony").focus();
-            }
             else if ($("#zip").val().trim() == ""){
                 alert("Favor de capturar CP");
                 $("#zip").focus();
