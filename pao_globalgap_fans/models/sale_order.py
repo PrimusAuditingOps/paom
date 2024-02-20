@@ -45,5 +45,5 @@ class SaleOrder(models.Model):
             'target': 'new',
             'context': {
                 'default_sale_order_id': self.id,
-                'capturist_id': self.partner_id.id}
+                'default_capturist_id': self.partner_id.id}
         }
