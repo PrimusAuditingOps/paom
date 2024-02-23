@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="res_pao_partner_offices_view_form" model="ir.ui.view">
+        <field name="name">res.partner.pao.offices.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="team_id" position="after">
+                    <field name="pao_office_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                </field>
+            </field>
+    </record>
+</odoo>

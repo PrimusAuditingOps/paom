@@ -44,6 +44,7 @@ class SalesInvoicingReport(models.Model):
     medium_id = fields.Many2one('utm.medium', 'Medium')
     source_id = fields.Many2one('utm.source', 'Source')
     shipper_id = fields.Many2one('pao.shippers', 'Shipper')
+    office_id = fields.Many2one('pao.offices', 'Office')
     
     invoice_status = fields.Selection([
         ('upselling', 'Upselling Opportunity'),
@@ -96,6 +97,7 @@ class SalesInvoicingReport(models.Model):
             partner.commercial_partner_id as commercial_partner_id,
             l.discount as discount,
             partner.pao_shipper_id as shipper_id,
+            partner.pao_office_id as office_id,
             so.invoice_status as invoice_status,
             so.date_order as date_order,
             partner.cgg_group_id as group_id,
@@ -153,6 +155,7 @@ class SalesInvoicingReport(models.Model):
             a.medium_id,
             a.source_id,
             partner.pao_shipper_id,
+            partner.pao_office_id,
             a.team_id,
             p.product_tmpl_id,
             partner.country_id,
