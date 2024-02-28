@@ -206,6 +206,29 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         name: "Correo electrónico del contacto",
                         hidden: true,
                     },
+                    {
+                        id: "index",
+                        name: "index",
+                        hidden: true,
+                    }, 
+                    { 
+                        name: '',
+                        formatter: (cell, row) => {
+                          return gridjs.h('icon', {
+                            style:'border: 1px solid; padding: 5px; background-color: red; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
+                            onClick: () => {
+                                const list = this.datas.filter(d => d.index != row.cells[22].data);
+                                this.datas = list;
+                                this.grid_selector.updateConfig({
+                                    data: list
+                                }).forceRender();
+                                $("#sites").val(JSON.stringify(list));  
+
+                                //alert(`Editing "${row.cells[0].data}" ${this.products} "${row.cells[1].data}"`)
+                            }
+                          }, 'Eliminar');
+                        }
+                    },
                 ],
                 data: [],
             }).render(document.getElementById("gridProductionSite"));
@@ -264,14 +287,11 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                             style:'border: 1px solid; padding: 5px; background-color: red; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
                             onClick: () => {
                                 const list = this.products.filter(prod => prod.index != row.cells[9].data);
-                                console.log(list);
                                 this.products = list;
                                 this.grid_selector_products.updateConfig({
                                     data: list
                                 }).forceRender();
                                 $("#products").val(JSON.stringify(list));  
-
-                                //alert(`Editing "${row.cells[0].data}" ${this.products} "${row.cells[1].data}"`)
                             }
                           }, 'Eliminar');
                         }
@@ -321,6 +341,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "contactzip": objdata.contactzip, 
                         "contacttelephone": objdata.contacttelephone,
                         "contactemail": objdata.contactemail,
+                        "index": d.length,
                         "products": product_list,
                     }
                 );
@@ -353,7 +374,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
 
             map.on('click', (event) => {
                 var coordinates = event.lngLat;
-                console.log(coordinates);
                 marker.setLngLat(coordinates).addTo(map);
                 $("#latitude").val(coordinates.lat);
                 $("#longitude").val(coordinates.lng);
@@ -418,12 +438,10 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
         },
         _onOnlyNumbers: function (e) {
             var key = e.charCode;
-            console.log(key);
             return key >= 48 && key <= 57;
         },
         _onOnlyNumbersAndSpecialCharacter: function (e) {
             var key = e.charCode;
-            console.log(key);
             return key >= 45 && key <= 57;
         },
         _onClickProductionSite: function (ev) {
@@ -528,6 +546,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "contactzip": $("#contactzip").val().trim(), 
                         "contacttelephone": $("#contacttelephone").val().trim(),
                         "contactemail": $("#contactemail").val().trim(),
+                        "index": this.datas.length,
                         "products": this.products,
                     }
                 );
@@ -643,7 +662,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
 
                         map.on('click', (event) => {
                             var coordinates = event.lngLat;
-                            console.log(coordinates);
                             marker.setLngLat(coordinates).addTo(map);
                             $("#latitude").val(coordinates.lat);
                             $("#longitude").val(coordinates.lng);
