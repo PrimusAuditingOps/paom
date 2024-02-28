@@ -261,7 +261,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
-                            style:'border: 1px solid; padding: 10px; background-color: red; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
+                            style:'border: 1px solid; padding: 5px; background-color: red; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
                             onClick: () => {
                                 const list = this.products.filter(prod => prod.index != row.cells[9].data);
                                 console.log(list);
@@ -273,7 +273,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
 
                                 //alert(`Editing "${row.cells[0].data}" ${this.products} "${row.cells[1].data}"`)
                             }
-                          }, 'Edit');
+                          }, 'Eliminar');
                         }
                     },
                 ],
