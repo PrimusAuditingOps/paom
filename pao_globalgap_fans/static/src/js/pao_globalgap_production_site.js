@@ -266,7 +266,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                                 console.log(list);
                                 this.products = list;
                                 this.grid_selector_products.updateConfig({
-                                    data: this.list
+                                    data: list
                                 }).forceRender();
                                 $("#products").val(JSON.stringify(list));  
 
