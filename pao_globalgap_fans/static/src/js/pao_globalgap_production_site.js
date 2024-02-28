@@ -280,6 +280,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         hidden: true,
                     }, 
                     { 
+                        id:"action",
                         name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
