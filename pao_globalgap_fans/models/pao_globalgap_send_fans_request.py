@@ -47,7 +47,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
 
         if self.send_to_sign:
              #rec.write({"request_status": "annulled"})
-            base_url = rec.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             form_url = url_join(base_url, '/pao/fan/signature/%s/%s' % (self.fans_request_id.id, self.fans_request_id.access_token))            
 
             tpl = self.env.ref('pao_globalgap_fans.fans_request_signature_mail')
