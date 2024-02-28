@@ -260,9 +260,9 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                     { 
                         name: 'Actions',
                         formatter: (cell, row) => {
-                          return h('button', {
+                          return gridjs.h('button', {
                             className: 'py-2 mb-4 px-4 border rounded-md text-white bg-blue-600',
-                            onClick: () => alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`)
+                            onClick: () => alert('Editing "${row.cells[0].data}" "${row.cells[1].data}"')
                           }, 'Edit');
                         }
                     },
