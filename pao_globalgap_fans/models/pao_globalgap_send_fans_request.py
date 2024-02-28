@@ -37,7 +37,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
         string='Fan request',
         ondelete='set null',
     )
-    send_to_sign = fields.Bolean(
+    send_to_sign = fields.Boolean(
         string="Send to Sign",
         default=False,
     )
