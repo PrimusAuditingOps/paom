@@ -57,7 +57,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
                     'record': self,
                     'link': form_url,
                     'subject': _("Signature Request"),
-                    'body': '<p><br></p>',
+                    'body': self.message if self.message != '<p><br></p>' else False,
                 }, engine='ir.qweb', minimal_qcontext=True)
             
             
