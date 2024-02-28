@@ -212,6 +212,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         hidden: true,
                     }, 
                     { 
+                        id:"action",
                         name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
@@ -223,8 +224,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                                     data: list
                                 }).forceRender();
                                 $("#sites").val(JSON.stringify(list));  
-
-                                //alert(`Editing "${row.cells[0].data}" ${this.products} "${row.cells[1].data}"`)
                             }
                           }, 'Eliminar');
                         }
