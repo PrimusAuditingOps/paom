@@ -261,7 +261,11 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         name: 'Actions',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
-                            onClick: () => alert(`Editing "${row.cells[0].data}" ${this.products} "${row.cells[1].data}"`)
+                            onClick: () => {
+                                const list = this.products.filter(prod => prod.index != row.cells[9].data);
+                                console.log(list);
+                                //alert(`Editing "${row.cells[0].data}" ${this.products} "${row.cells[1].data}"`)
+                            }
                           }, 'Edit');
                         }
                     },
