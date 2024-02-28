@@ -256,12 +256,12 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         id: "index",
                         name: "index",
                         hidden: true,
-                    },
+                    }, 
                     { 
                         name: 'Actions',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
-                            onClick: () => alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`)
+                            onClick: () => alert(`Editing "${row.cells[0].data}" ${this.products} "${row.cells[1].data}"`)
                           }, 'Edit');
                         }
                     },
