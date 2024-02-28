@@ -258,9 +258,10 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         hidden: true,
                     }, 
                     { 
-                        name: 'Actions',
+                        name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
+                            style:'border: 1px solid; padding: 10px; background-color: red; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
                             onClick: () => {
                                 const list = this.products.filter(prod => prod.index != row.cells[9].data);
                                 console.log(list);
