@@ -252,6 +252,20 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         id: "po_text",
                         name: "PO",
                     },
+                    {
+                        id: "index",
+                        name: "index",
+                        hidden: true,
+                    },
+                    { 
+                        name: 'Actions',
+                        formatter: (cell, row) => {
+                            return h('button', {
+                            className: 'py-2 mb-4 px-4 border rounded-md text-white bg-red-600',
+                            onClick: () => alert(`Delete "${row.cells[9].data}" "${row.cells[1].data}"`)
+                            }, 'Delete');
+                        }
+                    },
                 ],
                 data: [],
             }).render(document.getElementById("gridProducts"))
