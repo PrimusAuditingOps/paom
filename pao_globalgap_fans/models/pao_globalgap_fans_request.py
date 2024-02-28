@@ -152,6 +152,22 @@ class PaoGlobalgapFansRequest(models.Model):
             }
         }
     def action_send_to_sign(self):
+        self.ensure_one()
+        return {
+            'name': _('Send FAN to sign'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'pao.globalgap.send.fans.request',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_send_to_sign': True,
+                'default_fans_request_id': self.id,
+                'default_capturist_id': self.capturist_id.id,
+                'default_subject': _("Solicitud de firma para el registro de aplicación GLOBALG.A.P") if self.request_status == "draft" else _("Solicitud de firma para el registro de aplicacion GLOBALG.A.P")
+            }
+        }
+        """
         for rec in self:
             #rec.write({"request_status": "annulled"})
             base_url = rec.env['ir.config_parameter'].sudo().get_param('web.base.url')
@@ -180,7 +196,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 lang=customer_lang,
             )
             rec.write({"request_status": "signature_request"})
-    
+        """    
     def _message_send_mail(self, body, notif_template_xmlid, message_values, notif_values, mail_values, force_send=False, **kwargs):
         
         default_lang = get_lang(self.env, lang_code=kwargs.get('lang')).code

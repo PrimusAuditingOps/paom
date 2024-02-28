@@ -244,6 +244,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     .datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
+                    changeYear: true,
                     dateFormat: "yy-mm-dd",
                     numberOfMonths: 1,
                     })
@@ -256,6 +257,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                 $( "#harvest_estimated_end_date"+product_list[i] ).datepicker({
                     defaultDate: "+1w",
                     changeMonth: true,
+                    changeYear: true,
                     dateFormat: "yy-mm-dd",
                     numberOfMonths: 1,
                 })

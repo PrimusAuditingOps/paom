@@ -197,11 +197,12 @@ class PaoGlobalgapOrganization(models.Model):
         string='Production sites',
         tracking=True,
     )
+    """
     fan_request_ids = fields.One2many(
         comodel_name='pao.globalgap.fans.request',
         inverse_name='organization_id',
         string='GLOBALG.A.P. Fans request',
-    )
+    )"""
     product_information_ids = fields.One2many(
         comodel_name='pao.globalgap.production.site.product.information',
         inverse_name='organization_id',

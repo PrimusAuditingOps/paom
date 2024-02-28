@@ -6,9 +6,9 @@
                 <tr>
                     <td valign="top">
                         <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
-                            Estimado/a <t t-esc="record.organization_id.contact_name"/>
+                            Estimado/a <t t-esc="record.capturist_id.name"/>
                             <br/><br/>
-                            A través de este correo le hacemos llegar la solicitud de firma para el registro de aplicación de  <t t-esc="record.organization_id.name"/>
+                            A través de este correo le hacemos llegar la solicitud de firma para el registro de aplicación de  <t t-esc="record.fans_request_id.organization_id.name"/>
                             <br/><br/>
                         </p>  
                     </td>
