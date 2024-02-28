@@ -264,6 +264,12 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                             onClick: () => {
                                 const list = this.products.filter(prod => prod.index != row.cells[9].data);
                                 console.log(list);
+                                this.products = list;
+                                this.grid_selector.updateConfig({
+                                    data: list
+                                }).forceRender();
+                                $("#sites").val(JSON.stringify(list));
+
                                 //alert(`Editing "${row.cells[0].data}" ${this.products} "${row.cells[1].data}"`)
                             }
                           }, 'Edit');
