@@ -212,7 +212,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         hidden: true,
                     }, 
                     { 
-                        id:"action",
+                        id:"deleteaction",
                         name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
@@ -226,6 +226,19 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                                 $("#sites").val(JSON.stringify(list));  
                             }
                           }, 'Eliminar');
+                        }
+                    },
+                    { 
+                        id:"updateaction",
+                        name: '',
+                        formatter: (cell, row) => {
+                          return gridjs.h('icon', {
+                            style:'border: 1px solid; padding: 5px; background-color: blue; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
+                            onClick: () => {
+                                const list = this.datas.filter(d => d.index == row.cells[22].data);
+                                console.log(list);
+                            }
+                          }, 'Actualizar');
                         }
                     },
                 ],
