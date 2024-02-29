@@ -31,6 +31,7 @@ class SalesInvoicingReport(models.Model):
     categ_id = fields.Many2one('product.category', 'Product Category', readonly=True)
     nbr = fields.Integer('# of Lines', readonly=True)
     team_id = fields.Many2one('crm.team', 'Sales Team', readonly=True)
+    pao_old_sales_team_id = fields.Many2one('crm.team', 'Old Sales Team', readonly=True)
     country_id = fields.Many2one('res.country', 'Customer Country', readonly=True)
     industry_id = fields.Many2one('res.partner.industry', 'Customer Industry', readonly=True)
     commercial_partner_id = fields.Many2one('res.partner', 'Customer Entity', readonly=True)
@@ -90,7 +91,8 @@ class SalesInvoicingReport(models.Model):
             a.medium_id as medium_id,
             a.source_id as source_id,
             t.categ_id as categ_id,
-            a.team_id as team_id,
+            partner.team_id as team_id,
+            partner.pao_old_sales_team_id as pao_old_sales_team_id,
             p.product_tmpl_id,
             partner.country_id as country_id,
             partner.industry_id as industry_id,
@@ -156,7 +158,8 @@ class SalesInvoicingReport(models.Model):
             a.source_id,
             partner.pao_shipper_id,
             partner.pao_office_id,
-            a.team_id,
+            partner.team_id,
+            partner.pao_old_sales_team_id,
             p.product_tmpl_id,
             partner.country_id,
             partner.industry_id,
