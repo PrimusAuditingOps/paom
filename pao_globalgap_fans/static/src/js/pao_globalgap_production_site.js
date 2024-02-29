@@ -233,7 +233,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
-                            style:'border: 1px solid; padding: 5px; background-color: blue; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
+                            style:'border: 1px solid; padding: 5px; background-color: #17a2b8; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
                             onClick: () => {
                                 const list = this.datas.filter(d => d.index == row.cells[22].data);
                                 console.log(list);
