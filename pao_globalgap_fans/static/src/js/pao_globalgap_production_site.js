@@ -237,6 +237,35 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                             onClick: () => {
                                 const list = this.datas.filter(d => d.index == row.cells[22].data);
                                 console.log(list);
+                                $("#productionsite").val(list.name);
+                                $("#address").val(list.address); 
+                                $("#postal_address").val(list.postal_address);
+                                $("#sitecountry").val(list.country);
+                                $("#sitestate").val(list.state); 
+                                $("#zip").val(list.zip);
+                                $("#telephone").val(list.telephone); 
+                                $("#email").val(list.email); 
+                                $("#latitude").val(list.latitude);
+                                $("#longitude").val(list.longitude);
+                                $("#contactname").val(list.contactname); 
+                                $("#contactaddress").val(list.contactaddress); 
+                                $("#contaccountry").val(list.contaccountry); 
+                                $("#contactstate").val(list.contactstate); 
+                                $("#contaccity").val(list.contactcity); 
+                                $("#contactzip").val(list.contactzip); 
+                                $("#contacttelephone").val(list.contacttelephone);
+                                $("#contactemail").val(list.contactemail);
+                                $("#site_index").val(list.index);
+                                
+
+                                /*
+                        "type_name": $('input[name=site_type]:checked', '#production_site_form').val() == 1 ? "Sitio" : "PHU", 
+                        "type": $('input[name=site_type]:checked', '#production_site_form').val(), 
+                        
+                        "index": this.datas.length,
+                        "products": this.products,
+                                
+                                */
                             }
                           }, 'Actualizar');
                         }
