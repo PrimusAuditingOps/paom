@@ -256,6 +256,15 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                                 $("#contacttelephone").val(list[0].contacttelephone);
                                 $("#contactemail").val(list[0].contactemail);
                                 $("#site_index").val(list[0].index);
+                                $("#sitecountry").val(list[0].country).change();
+                                $("#sitestate").val(list[0].state).change();
+                                $("#sitecity").val(list[0].city).change();
+                                $("#contaccountry").val(list[0].contactcountry).change();
+                                $("#contactstate").val(list[0].contactstate).change();
+                                $("#contaccity").val(list[0].contactcity).change();
+
+
+
                                 this.products = list[0].products;
                                 console.log(list[0].products);
                                 this.grid_selector_products.updateConfig({
