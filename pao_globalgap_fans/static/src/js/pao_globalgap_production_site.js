@@ -256,7 +256,11 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                                 $("#contacttelephone").val(list[0].contacttelephone);
                                 $("#contactemail").val(list[0].contactemail);
                                 $("#site_index").val(list[0].index);
-                                
+                                this.products = list[0].products;
+                                this.grid_selector_products.updateConfig({
+                                    data: list[0].products
+                                }).forceRender();
+                                $("#products").val(JSON.stringify(list[0].products));  
 
                                 /*
                         "type_name": $('input[name=site_type]:checked', '#production_site_form').val() == 1 ? "Sitio" : "PHU", 
