@@ -203,8 +203,6 @@ class CustomerPortal(portal.CustomerPortal):
             for p in rec.product_ids:
 
                 _logger.error("error sadas")
-                _logger.error(dict(request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['to_certificate'].selection).get(p.to_certificate))
-
                 #"certify_text": dict(request._fields['to_certificate'].selection).get(p.to_certificate),
                 #    "pp_text": dict(request._fields['parallel_production'].selection).get(p.parallel_production),
                 #    "po_text": dict(request._fields['parallel_property'].selection).get(p-parallel_property)
@@ -216,7 +214,9 @@ class CustomerPortal(portal.CustomerPortal):
                     "pp": p.parallel_production, 
                     "po": p.parallel_property, 
                     "productid": p.product_id.id,
-                    
+                    "certify_text": dict(request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['to_certificate'].selection).get(p.to_certificate),
+                    "pp_text": dict(request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_production'].selection).get(p.parallel_production),
+                    "po_text": dict(request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_property'].selection).get(p.parallel_property),
                 }
                 product_list.append(product_obj)
             site_data = {
