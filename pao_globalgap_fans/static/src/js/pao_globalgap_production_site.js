@@ -236,7 +236,6 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                             style:'border: 1px solid; padding: 5px; background-color: #17a2b8; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
                             onClick: () => {
                                 const list = this.datas.filter(d => d.index == row.cells[22].data);
-                                console.log(list);
                                 $("#productionsite").val(list[0].name);
                                 $("#address").val(list[0].address); 
                                 $("#postal_address").val(list[0].postal_address);
@@ -263,17 +262,17 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                                 $("#contactstate").val(list[0].contactstate).change();
                                 $("#contaccity").val(list[0].contactcity).change();
                                 
-                                $("select[id='po']").each(function(i, obj) {
-                                    
-                                    console.log($(this).text());
-                                });
+                                if (list[0].type == "1") {
+                                    $("#sitio").prop("checked",true);
+                                    $("#phu").prop("checked",false);
+                                }
+                                else{
+                                    $("#phu").prop("checked",true);
+                                    $("#sitio").prop("checked",false);
+                                }
 
-                                $("select[id='po']").each(function(i, obj) {
-                                    console.log($(this).text());
-                                });
 
                                 this.products = list[0].products;
-                                console.log(list[0].products);
                                 this.grid_selector_products.updateConfig({
                                     data: list[0].products
                                 }).forceRender();
@@ -589,6 +588,12 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                 alert("Por favor capture por lo menos un producto para el Sitio de producción o PHU.");
             }
             else{
+
+                if ($("#site_index").val() != ""){
+                    const list = this.datas.filter(d => d.index != $("#site_index").val());
+                    this.datas = list;
+
+                }
                 this.datas.push(
                     { 
                         "name": $("#productionsite").val().trim(), 
@@ -616,6 +621,9 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         "products": this.products,
                     }
                 );
+                
+
+                
                 this.grid_selector.updateConfig({
                     data: this.datas
                 }).forceRender();
@@ -624,6 +632,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                 if(this.datas.length > 0 ){
                     $("#btn_send_sites").prop('disabled', false);
                 }
+                $("#site_index").val("");
             }  
 
         },
