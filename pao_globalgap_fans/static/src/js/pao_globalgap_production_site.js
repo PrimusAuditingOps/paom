@@ -378,6 +378,9 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                             "pp": objproduct.pp,
                             "po": objproduct.po,
                             "productid": objproduct.productid,
+                            "certify_text": objproduct.certify_text,
+                            "pp_text": objproduct.pp_text,
+                            "po_text": objproduct.po_text,
                         }
                     );
                 });
