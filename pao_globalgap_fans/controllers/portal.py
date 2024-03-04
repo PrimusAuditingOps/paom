@@ -203,7 +203,7 @@ class CustomerPortal(portal.CustomerPortal):
             for p in rec.product_ids:
 
                 _logger.error("error sadas")
-                _logger.error(dict(request._fields['to_certificate'].selection).get(p.to_certificate))
+                _logger.error(dict(request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['to_certificate'].selection).get(p.to_certificate))
 
                 #"certify_text": dict(request._fields['to_certificate'].selection).get(p.to_certificate),
                 #    "pp_text": dict(request._fields['parallel_production'].selection).get(p.parallel_production),
