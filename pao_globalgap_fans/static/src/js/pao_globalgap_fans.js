@@ -317,6 +317,7 @@ odoo.define('pao_globalgap_fans.globalgapfans', function (require) {
                 {   
                     'fr_id': $("#fr_id").val().trim(), 
                     'fr_token': $("#fr_token").val().trim(),
+                    'unannounced': $("#unannounced").is(':checked'),
                     "plmx": $("#plmx").val().trim(), 
                     "ggn": $("#ggn").val().trim(),
                     "globalgap_version":  $('select[name="globalgap_version"] option:selected').val(),

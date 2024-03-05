@@ -112,7 +112,7 @@ class CustomerPortal(portal.CustomerPortal):
 
 
     @http.route(['/pao/fillout/fans/products'], type='json', auth='public', methods=['POST'])
-    def portal_fans_save_organization(self, fr_token, fr_id, plmx, ggn, globalgap_version, 
+    def portal_fans_save_organization(self, fr_token, fr_id, unannounced, plmx, ggn, globalgap_version, 
     certification_option, evaluation_type, name, address, colony, city,state, country,
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
     contact_telephone, contact_email, rights_of_access,addons,postal_address,previous_ggn,subcontracted_workers, hired_workers, **kw):
@@ -135,6 +135,7 @@ class CustomerPortal(portal.CustomerPortal):
             "name": name,
             "plmx": plmx,
             "ggn": ggn,
+            'unannounced': unannounced,
             "number_of_hired_workers": subcontracted_workers,
             "number_of_subcontracted_workers": hired_workers,
             "version_id": globalgap_version,
@@ -201,11 +202,6 @@ class CustomerPortal(portal.CustomerPortal):
         for rec in fan_sudo.organization_id.production_site_ids:
             product_list = []
             for p in rec.product_ids:
-
-                _logger.error("error sadas")
-                #"certify_text": dict(request._fields['to_certificate'].selection).get(p.to_certificate),
-                #    "pp_text": dict(request._fields['parallel_production'].selection).get(p.parallel_production),
-                #    "po_text": dict(request._fields['parallel_property'].selection).get(p-parallel_property)
                 
                 product_obj = {
                     "product": p.product_id.name, 
