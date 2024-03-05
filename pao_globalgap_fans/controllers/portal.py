@@ -129,7 +129,6 @@ class CustomerPortal(portal.CustomerPortal):
         
         addon_list = []
         if addons != "":
-            _logger.error("Entro a addons")
             addon_list = [int(n) for n in addons.split(",")]
         organization_data = {
             "name": name,
@@ -240,7 +239,6 @@ class CustomerPortal(portal.CustomerPortal):
                 "products": product_list,
             }
             production_sites_list.append(site_data)
-        _logger.error(production_sites_list)
         return request.render(
             'pao_globalgap_fans.fan_portal_production_site', 
             {
@@ -272,6 +270,7 @@ class CustomerPortal(portal.CustomerPortal):
             )
         
         product_ids_list = []
+        product_ids_hectares_list = []
         production_site = json.loads(sites)  
         request.env['pao.globalgap.production.site'].sudo().search([("organization_id","=",fr_sudo.organization_id.id)]).unlink()
         for obj in production_site:
@@ -301,6 +300,13 @@ class CustomerPortal(portal.CustomerPortal):
             production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
             for product in obj["products"]:
                 product_ids_list.append(int(product["productid"]))
+
+                product_ids_hectares_list.append(
+                    {
+                        "id": int(product["productid"]),
+                        "hect": float(product["hectareas"])
+                    }
+                )
                 product_data = {
                     "production_site_id": production.id,
                     "parallel_production": product["pp"],
@@ -311,16 +317,22 @@ class CustomerPortal(portal.CustomerPortal):
                 }
                 product = request.env['pao.globalgap.production.site.product'].sudo().create(product_data)
                 
-                #domain_create_product = [("organization_id","=",fr_sudo.organization_id.id),("product_id","=",product["productid"])]
-                
-                #rec_product_information = request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_create_product)
-                #if not rec_product_information:
-                #    request.env['pao.globalgap.production.site.product.information'].sudo().create({"product_id": product["productid"]})
             for p in product_ids_list:
                 domain_create_product = [("organization_id","=",fr_sudo.organization_id.id),("product_id","=",p)]
                 rec_product_information = request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_create_product)
                 if not rec_product_information:
-                    request.env['pao.globalgap.production.site.product.information'].sudo().create({"product_id": p, "organization_id":fr_sudo.organization_id.id})
+                    total = 0.00
+                    for e in product_ids_hectares_list:
+                        if e['id']  == p:
+                            total = float(float(total) + float(e['hect']))
+
+                    request.env['pao.globalgap.production.site.product.information'].sudo().create(
+                        {
+                            "product_id": p, 
+                            "organization_id":fr_sudo.organization_id.id,
+                            "uncovered_production_area": total
+                        }
+                    )
 
             domain_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","not in",product_ids_list)]
             request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_product).unlink()
@@ -605,5 +617,4 @@ class CustomerPortal(portal.CustomerPortal):
         return request.render(
             'pao_globalgap_fans.globalgap_fan_registered_page_view', {}
         )
-    
     
