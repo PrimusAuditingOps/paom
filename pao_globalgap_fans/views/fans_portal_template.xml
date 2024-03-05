@@ -85,10 +85,9 @@
                                                                     <span class="s_website_form_label_content">No anunciada</span>
                                                                 </label>
                                                                 <div class="col-sm">
-                                                                    <input type="checkbox" id="unannounced" name="unannounced" value="1" t-if="data.unannounced" checked=""/>
-                                                                    <input type="checkbox" id="unannounced" name="unannounced" value="0" t-else=""/>
+                                                                    <input type="checkbox" id="unannounced" name="unannounced" t-att-checked="data.unannounced"/> 
                                                                 </div>
-                                                            </div>
+                                                            </div> 
                                                         </div>
                                                     </div>
                                                     <div class="s_website_form_rows row s_col_no_bgcolor">
