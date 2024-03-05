@@ -209,7 +209,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                     {
                         id: "index",
                         name: "index",
-                        hidden: true,
+                        //hidden: true,
                     }, 
                     { 
                         id:"deleteaction",
