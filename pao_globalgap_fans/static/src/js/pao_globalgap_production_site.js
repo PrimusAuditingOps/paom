@@ -376,6 +376,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                             "certify": objproduct.certify, 
                             "pp": objproduct.pp,
                             "po": objproduct.po,
+                            "index": product_list.length,
                             "productid": objproduct.productid,
                             "certify_text": objproduct.certify_text,
                             "pp_text": objproduct.pp_text,
