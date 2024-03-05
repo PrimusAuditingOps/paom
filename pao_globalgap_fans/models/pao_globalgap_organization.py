@@ -14,6 +14,10 @@ class PaoGlobalgapOrganization(models.Model):
         copy=False,
         tracking=True,
     )
+    unannounced = fields.Boolean(
+        string="Unannounced",
+        default=False,
+    )
     plmx = fields.Char(
         string='PL-México', 
         copy=False,
