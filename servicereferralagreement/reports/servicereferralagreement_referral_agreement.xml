@@ -846,7 +846,7 @@
                         <th>Fecha del servicio</th>
                         <th>Servicios</th>
                         <th>Cantidad</th>
-                        <th>Tarifa/Rate (<span t-field="doc.pricelist_id.currency_id"/>)</th>
+                        <th>Tarifa/Rate (<span t-field="doc.currency_id"/>)</th>
                     </tr>
                     <t t-foreach="doc.order_line.sorted(key=lambda x: (x.organization_id.id,x.registrynumber_id.id))" t-as="serviceline">
                         <tr>
