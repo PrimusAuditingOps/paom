@@ -5,7 +5,7 @@ from . import sale_order
 from . import servicereferralagreement_entity
 from . import servicereferralagreement_registrynumber
 from . import servicereferralagreement_organization
-from . import pao_degree
+#from . import pao_degree
 from . import res_partner
 from . import servicereferralagreement_auditproducts
 from . import sale_order_line

@@ -13,17 +13,7 @@ class Partner(models.Model):
     )"""
 
 
-    pao_urcn = fields.Char(
-        string="URCN",
-    )
-    pao_professional_license = fields.Char(
-        string="Professional license identification number",
-    )
-    degree_id = fields.Many2one(
-        comodel_name = 'pao.degree', 
-        string='Degree',  
-        ondelete='restrict',
-    ) 
+   
 
     organization_ids = fields.Many2many(
         'servicereferralagreement.organization',
@@ -56,7 +46,19 @@ class Partner(models.Model):
                 else:
                     list_remove_elements.append(fees._origin.id)
                     rec.audit_fee_percentages_ids = [(2, fees._origin.id, 0)]
-
+    """
+    pao_urcn = fields.Char(
+        string="URCN",
+    )
+    pao_professional_license = fields.Char(
+        string="Professional license identification number",
+    )
+    degree_id = fields.Many2one(
+        comodel_name = 'pao.degree', 
+        string='Degree',  
+        ondelete='restrict',
+    ) 
+    """
 
     
     
