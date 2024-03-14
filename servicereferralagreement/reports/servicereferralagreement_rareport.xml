@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report id="report_referral_agreement" model="purchase.order" 
+    string="New referral agreement" 
+    name="servicereferralagreement.report_referral_agreement_view" 
+    file="servicereferralagreement.report_ra_print" 
+    report_type="qweb-pdf"
+    print_report_name= "'RA - %s - %s' % (object.name,object.partner_id.name)"/>
+    <template id="report_referral_agreement_view">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.html_container">
+                <div t-attf-class="article o_report_layout_boxed" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id">
+                    <t t-call="servicereferralagreement.custom_header_footer_referral_agreement"/>
+                    <xpath expr="//head" position="attributes">
+                        <link rel='stylesheet' href="/servicereferralagreement/static/src/css/servicereferralagreement.css"/>
+                    </xpath>
+                    <div class="page">
+                        <t t-call="servicereferralagreement.report_referral_agreement" />
+                    </div>
+                </div>
+            </t>               
+        </t>
+    </template>
+</odoo>

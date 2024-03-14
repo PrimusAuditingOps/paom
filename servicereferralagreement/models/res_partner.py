@@ -12,6 +12,19 @@ class Partner(models.Model):
         string='Organizations',
     )"""
 
+
+    pao_urcn = fields.Char(
+        string="URCN",
+    )
+    pao_professional_license = fields.Char(
+        string="Professional license identification number",
+    )
+    degree_id = fields.Many2one(
+        comodel_name = 'pao.degree', 
+        string='Degree',  
+        ondelete='restrict',
+    ) 
+
     organization_ids = fields.Many2many(
         'servicereferralagreement.organization',
         'servicereferralagreement_organization_res_partner_rel',
