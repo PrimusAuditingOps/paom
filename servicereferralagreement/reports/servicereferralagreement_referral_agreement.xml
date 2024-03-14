@@ -863,7 +863,7 @@
                     <tr>
                         <td style="text-align:right"><b>IMPORTE TOTAL DEL SERVICIO</b></td>
                         <td style="text-align:right">
-                            <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/> 
+                            <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/> 
                             M.N. (Menos impuestos).
                         </td>
                     </tr>
