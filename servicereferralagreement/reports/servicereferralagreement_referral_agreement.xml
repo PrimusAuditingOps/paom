@@ -853,7 +853,7 @@
                             <td><span t-field="serviceline.organization_id.name"/></td>
                             <td><span t-field="serviceline.registrynumber_id.name"/></td>
                             <td><span t-field="serviceline.registrynumber_id.scheme_id.name"/></td>
-                            <td><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></td>
+                            <td><span t-field="serviceline.service_start_date"/> - <span t-field="serviceline.service_end_date"/></td>
                             <td><span t-field="serviceline.name"/></td>
                             <td style="text-align:right"><span t-field="serviceline.product_uom_qty"/></td>
                             <td style="text-align:right"><span t-field="serviceline.price_subtotal"/></td>
