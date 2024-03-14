@@ -43,6 +43,9 @@
         'reports/servicereferralagreement_add_ggap.xml',
         'reports/account_move_report.xml',
         'reports/sale_report.xml',
+        'reports/servicereferralagreement_referral_agreement.xml',
+        'reports/servicereferralagreement_rareport.xml',
+        'reports/servicereferralagreement_header_footer_referral_agreement.xml',
         # views
         'views/purchase_order.xml',
         'views/sale_order.xml',
