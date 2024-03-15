@@ -11,25 +11,25 @@
         </t>
     </template>
 
-    <template id="pricelist_proposal_response_sent" name="Respuesta enviada">
+    <template id="pricelist_proposal_response_sent" name="Response sent">
         <t t-call="web.frontend_layout">
             <div class="container pt-5">
                 <div class="text-center my-5 py-5">
-                    <h3 class="d-inline">Su respuesta ha sido enviada.</h3>
+                    <h3 class="d-inline">Your response has been sent.</h3>
                     <br/><br/>
                     <a class="btn btn-primary" t-if="attachment" t-attf-href="/download_attachment/{{ attachment.id }}" type="button">
-                       Descargar acuerdo de propuesta
+                       Download proposal agreement
                     </a>
                 </div>
             </div>
         </t>
     </template>
 
-    <template id="pricelist_proposal_response_error" name="Error al enviar respuesta">
+    <template id="pricelist_proposal_response_error" name="Error sending response">
         <t t-call="web.frontend_layout">
             <div class="container pt-5">
                 <div class="text-center my-5 py-5">
-                    <h3 class="d-inline">Ocurrió un error enviando su respuesta. Por favor intente de nuevo.</h3>
+                    <h3 class="d-inline">An error occurred while sending your response. Please try again.</h3>
                 </div>
             </div>
         </t>
@@ -40,7 +40,7 @@
             <div class="container pt-5">
                 <div class="text-center mb-4">
                     <h3 class="d-inline">
-                        <b>Propuesta de precios preferenciales</b>
+                        <b>Preferred pricing proposal</b>
                     </h3>
                 </div>
 
@@ -63,8 +63,8 @@
                                     <th class="text-uppercase">
                                         <t t-esc="category_name"/>
                                     </th>
-                                    <th class="text-uppercase">Precio normal</th>
-                                    <th class="text-uppercase">Precio preferencial</th>
+                                    <th class="text-uppercase">Normal price</th>
+                                    <th class="text-uppercase">Preferred price</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -96,8 +96,8 @@
                 </t>
 
                 <div class="d-flex justify-content-center mt-4 mb-5">
-                    <button data-toggle="modal" data-target="#accept_proposal_sign" class="btn btn-primary mx-3">Aceptar</button>
-                    <button data-toggle="modal" data-target="#reject_reasons" class="btn btn-primary mx-3">Declinar</button>
+                    <button data-toggle="modal" data-target="#accept_proposal_sign" class="btn btn-primary mx-3">Accept</button>
+                    <button data-toggle="modal" data-target="#reject_reasons" class="btn btn-primary mx-3">Decline</button>
                 </div>
 
                 <div class="modal fade" id="accept_proposal_sign" tabindex="-1" aria-labelledby="accept_proposal_sign_label" aria-hidden="true">
@@ -106,7 +106,7 @@
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Aceptar propuesta</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Accept proposal</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span title="Close" class="fa fa-times"></span></button>
                                 </div>
                                 <div class="modal-body">
@@ -126,19 +126,19 @@
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Declinar propuesta</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Decline proposal</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span title="Close" class="fa fa-times"></span></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="mx-4">
-                                        <label for="reject_reasons">Motivo de rechazo</label>
+                                        <label for="reject_reasons">Reason for rejection</label>
                                         <textarea required="true" class="form-control" name="reject_reasons" id="reject_reasons" cols="30" rows="10"></textarea>
                                     </div>
 
                                     <br/>
 
                                     <div class="text-center mt-4 mb-5">
-                                        <button type="submit" class="btn btn-primary mx-3">Enviar</button>
+                                        <button type="submit" class="btn btn-primary mx-3">Send</button>
                                     </div>
                                 </div>
                             </div>
