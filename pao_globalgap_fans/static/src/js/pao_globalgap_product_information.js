@@ -289,34 +289,77 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
             var products = []
             for (let i = 0; i < product_list.length; i++) {
                 
-                var obj = {
-                    "product_id": product_list[i],
-                    "uncovered_production_area": $("#uncovered_production_area"+product_list[i]).val(),
-                    "covered_production_area": $("#covered_production_area"+product_list[i]).val(),
-                    "applicable_harvest": $('select[id="applicable_harvest'+product_list[i]+'"] option:selected').val(),
-                    "harvest_type": $('select[id="harvest_type'+product_list[i]+'"] option:selected').val(),
-                    "product_handling": $('select[id="product_handling'+product_list[i]+'"] option:selected').val(),
-                    "outsourced_activities": $("#outsourced_activities"+product_list[i]).val(),
-                    "ggn_gln_outsourced": $("#ggn_gln_outsourced"+product_list[i]).val(),
-                    "product_manipulated_not_certificate": $('select[id="product_manipulated_not_certificate'+product_list[i]+'"] option:selected').val(),
-                    "organization_buys_product": $('select[id="organization_buys_product'+product_list[i]+'"] option:selected').val(),
-                    "estimated_yield_in_tons": $("#estimated_yield_in_tons"+product_list[i]).val(),
-                    "dates_harvest_estimated": "",
-                    "harvest_estimated_end_date": $("#harvest_estimated_end_date"+product_list[i] ).val(),
-                    "harvest_estimated_start_date": $("#harvest_estimated_start_date"+product_list[i] ).val(),
-                    "countries_of_products": $("#countries_of_products"+product_list[i]).val(),
-                 };
-                products.push(obj);
-            }
-            ajax.jsonRpc('/pao/fan/register/product_information', 'call', 
-            {
-                'fan_id': $("#fr_id").val().trim(), 
-                'fan_token': $("#fr_token").val().trim(), 
-                'products': products, 
-            }).then(function (data) {
-                window.location = data.redirect_url;           
+                if ($("#uncovered_production_area"+product_list[i]).val() == ""){
 
-            });
+                    alert("Favor de capturar un Área en producción total (ha).");
+                    $("#uncovered_production_area"+product_list[i]).focus()
+                    products = [];
+                    break;
+                }
+                else if ($("#covered_production_area"+product_list[i]).val() == ""){
+                    alert("Favor de capturar la Producción cubierta (Invernadero, Macrotúnel con cobertura plástica).");
+                    $("#covered_production_area"+product_list[i]).focus()
+                    products = [];
+                    break;
+                }
+                else if($("#estimated_yield_in_tons"+product_list[i]).val() == ""){
+                    alert("Favor de capturar un Rendimiento Estimado en Tons.");
+                    $("#estimated_yield_in_tons"+product_list[i]).focus()
+                    products = [];
+                    break;
+                }
+                else if($("#harvest_estimated_start_date"+product_list[i] ).val() == ""){
+                    alert("Favor de seleccionar una Fecha inicio de cosecha estimada.");
+                    $("#harvest_estimated_start_date"+product_list[i]).focus()
+                    products = [];
+                    break;
+                }
+                else if($("#harvest_estimated_end_date"+product_list[i] ).val() == ""){
+                    alert("Favor de seleccionar una Fecha fin de cosecha estimada.");
+                    $("#harvest_estimated_end_date"+product_list[i]).focus()
+                    products = [];
+                    break;
+                }
+                else if($("#countries_of_products"+product_list[i] ).val().length <= 0){
+                    alert("Favor de seleccionar los Países de Destino.");
+                    $("#countries_of_products"+product_list[i]).focus()
+                    products = [];
+                    break;
+                }
+                else{
+                    var obj = {
+                        "product_id": product_list[i],
+                        "uncovered_production_area": $("#uncovered_production_area"+product_list[i]).val(),
+                        "covered_production_area": $("#covered_production_area"+product_list[i]).val(),
+                        "applicable_harvest": $('select[id="applicable_harvest'+product_list[i]+'"] option:selected').val(),
+                        "harvest_type": $('select[id="harvest_type'+product_list[i]+'"] option:selected').val(),
+                        "product_handling": $('select[id="product_handling'+product_list[i]+'"] option:selected').val(),
+                        "outsourced_activities": $("#outsourced_activities"+product_list[i]).val(),
+                        "ggn_gln_outsourced": $("#ggn_gln_outsourced"+product_list[i]).val(),
+                        "product_manipulated_not_certificate": $('select[id="product_manipulated_not_certificate'+product_list[i]+'"] option:selected').val(),
+                        "organization_buys_product": $('select[id="organization_buys_product'+product_list[i]+'"] option:selected').val(),
+                        "estimated_yield_in_tons": $("#estimated_yield_in_tons"+product_list[i]).val(),
+                        "dates_harvest_estimated": "",
+                        "harvest_estimated_end_date": $("#harvest_estimated_end_date"+product_list[i] ).val(),
+                        "harvest_estimated_start_date": $("#harvest_estimated_start_date"+product_list[i] ).val(),
+                        "countries_of_products": $("#countries_of_products"+product_list[i]).val(),
+                     };
+                    products.push(obj);
+                }
+               
+            }
+            if (products.length>0){
+                ajax.jsonRpc('/pao/fan/register/product_information', 'call', 
+                {
+                    'fan_id': $("#fr_id").val().trim(), 
+                    'fan_token': $("#fr_token").val().trim(), 
+                    'products': products, 
+                }).then(function (data) {
+                    window.location = data.redirect_url;           
+    
+                });
+            }
+           
 
         },
 
