@@ -80,7 +80,7 @@ class PriceListProposal(models.Model):
     def send_proposal_action(self):
         if self.proposal_status == 'draft' and self.authorized:
             
-            if not self.pricelist_proposal_manager:
+            if not self.pricelist_proposal_manager_id:
                 raise ValidationError(_("No employee in charge of pricelist proposals was found."))
             
             if not self.pricelist_proposal_manager_id.es_sign_signature or not self.create_uid.employee_id.es_sign_signature:
