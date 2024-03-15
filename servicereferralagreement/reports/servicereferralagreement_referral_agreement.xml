@@ -812,7 +812,7 @@
             <div class="col-12" style="border: 1px solid black;">
                 <br/>
                 <t t-set="sumtotal" t-value="0"/>
-                <table border="1"  style="width:100%;  border-collapse: collapse; !important;">
+                <table style="width:100%;">
                     <tr style="background-color: black; color:white;">
                         <th>Organización</th>
                         <th>Número de registro</th>
@@ -827,7 +827,7 @@
                             <td><span t-field="serviceline.organization_id.name"/></td>
                             <td><span t-field="serviceline.registrynumber_id.name"/></td>
                             <td><span t-field="serviceline.registrynumber_id.scheme_id.name"/></td>
-                            <td><span t-field="serviceline.service_start_date"/> - <span t-field="serviceline.service_end_date"/></td>
+                            <td><span t-field="serviceline.service_start_date"/> Al <span t-field="serviceline.service_end_date"/></td>
                             <td><span t-field="serviceline.name"/></td>
                             <td style="text-align:right"><span t-field="serviceline.product_uom_qty"/></td>
                             <td style="text-align:right"><span t-field="serviceline.price_subtotal"/></td>
