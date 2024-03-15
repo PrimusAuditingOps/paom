@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-15 18:56+0000\n"
-"PO-Revision-Date: 2024-03-15 18:56+0000\n"
+"POT-Creation-Date: 2024-03-15 19:17+0000\n"
+"PO-Revision-Date: 2024-03-15 19:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
 msgid "<b>Preferred pricing proposal</b>"
-msgstr ""
+msgstr "<b>Propuesta de precios preferenciales</b>"
 
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
@@ -47,7 +47,7 @@ msgstr ""
 "<br/><br/>\n"
 "                    Reiterando nuestro agradecimiento por su confianza al considerarnos su proveedor de servicios en auditorías de tercera \n"
 "                    parte en inocuidad agroalimentaria, le hacemos llegar la propuesta de precios preferenciales para sus auditorías durante \n"
-"                    la temporada 2023-2024. \n"
+"                    la temporada 2023-2024.\n"
 "                    <br/><br/>\n"
 "                    Puede visualizar la propuesta de precios preferenciales a continuación.\n"
 "                    <br/><br/>"
@@ -94,19 +94,19 @@ msgid ""
 "            "
 msgstr ""
 "<p style=\"font-size:12pt; font-family:Tahoma,sans-serif; color:#000000; line-height:1.0;\">\n"
-"                    <b>Estimado {customer_name}</b> \n"
-"                    <br/><br/> \n"
+"                    <b>Dear {customer_name}</b>\n"
+"                    <br/><br/>\n"
 "                    Reiterando nuestro agradecimiento por su confianza al considerarnos su proveedor de servicios en auditorías de tercera \n"
 "                    parte en inocuidad agroalimentaria, le hacemos llegar la propuesta de precios preferenciales para sus auditorías durante \n"
-"                    la temporada 2023-2024. \n"
-"                    <br/><br/> \n"
-"                    Puede visualizar la propuesta de precios preferenciales haciendo click <a href="{proposal_link}" target="_blank">aquí.</a> \n"
-"                    <br/><br/> \n"
-"                    Sin otro particular quedamos para cualquier duda o comentario. \n"
-"                    <br/><br/> \n"
-"                    Atentamente \n"
-"                    <br/><br/> \n"
-"                    {specialist} \n"
+"                    la temporada 2023-2024.\n"
+"                    <br/><br/>\n"
+"                    Puede visualizar la propuesta de precios preferenciales haciendo click <a href=\"{proposal_link}\" target=\"_blank\">aquí.</a>\n"
+"                    <br/><br/>\n"
+"                    Sin otro particular quedamos para cualquier duda o comentario.\n"
+"                    <br/><br/>\n"
+"                    Atentamente\n"
+"                    <br/><br/>\n"
+"                    {specialist}\n"
 "                </p>\n"
 "            "
 
@@ -197,12 +197,6 @@ msgstr "Estado de actividad"
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_type_icon
 msgid "Activity Type Icon"
 msgstr "Ícono de tipo de actvidad"
-
-#. module: pao_pricelist_proposal
-#: code:addons/pao_pricelist_proposal/controllers/portal.py:0
-#, python-format
-msgid "Acuerdo de propuesta"
-msgstr ""
 
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_proposal_response_error
@@ -352,12 +346,12 @@ msgstr "Declinar"
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
 msgid "Decline proposal"
-msgstr "Declinar propusta"
+msgstr "Declinar propuesta"
 
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_terms_schemes_tree
-msgid "Departments"
-msgstr "Departamentos"
+msgid "Pricelist Terms and Conditions"
+msgstr "Términos y condiciones de tarifas"
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__discount_policy
@@ -745,6 +739,11 @@ msgid "Preferred price"
 msgstr "Precio preferencial"
 
 #. module: pao_pricelist_proposal
+#: model:mail.template,subject:pao_pricelist_proposal.mail_template_pricelist_proposal
+msgid "Preferred pricing proposal"
+msgstr "Propuesta de precios preferenciales"
+
+#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__price
 msgid "Price"
 msgstr "Precio"
@@ -825,7 +824,7 @@ msgstr "Encargado de propuestas de tarifas"
 #: model:ir.actions.act_window,name:pao_pricelist_proposal.proposal_terms_schemes_action
 #: model:ir.ui.menu,name:pao_pricelist_proposal.proposal_terms_schemes_menu_item
 msgid "Pricelist Terms and Conditions"
-msgstr "Términos y condiciones de tarifa"
+msgstr "Términos y condiciones de tarifas"
 
 #. module: pao_pricelist_proposal
 #: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
@@ -875,20 +874,17 @@ msgid "Proposal"
 msgstr "Propuesta"
 
 #. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/controllers/portal.py:0
 #: model:ir.actions.report,name:pao_pricelist_proposal.report_proposal_agreement
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__proposal_agreement_id
+#, python-format
 msgid "Proposal Agreement"
 msgstr "Acuerdo de propuesta"
 
 #. module: pao_pricelist_proposal
 #: model:ir.model,name:pao_pricelist_proposal.model_proposal_terms_schemes
 msgid "Proposal terms by scheme"
-msgstr "Términos de propuestas por esquam"
-
-#. module: pao_pricelist_proposal
-#: model:mail.template,subject:pao_pricelist_proposal.mail_template_pricelist_proposal
-msgid "Propuesta de precios preferenciales"
-msgstr ""
+msgstr "Términos de propuesta por esquema"
 
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
