@@ -9,14 +9,14 @@
 
     <template id="proposal_agreement">
         <t t-call="web.basic_layout">
-            <div t-attf-class="header">
-                <div class="d-flex">
-                    <div class="col-2">
-                        <img src="./pao_pricelist_proposal/static/src/img/pao_logo.png" style="width:auto; height:80px" alt="Logo"/>
+            <t t-foreach="docs" t-as="proposal">
+                <div t-attf-class="header">
+                    <div class="d-flex">
+                        <div class="col-2">
+                            <img src="https://paom-conta-11076878.dev.odoo.com/pao_pricelist_proposal/static/src/img/pao_logo.png" style="width:auto; height:80px" alt="Logo"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <t t-foreach="docs" t-as="proposal">
 
                 <!-- <t t-if="pricelist.pricelist_agreement_id">
                     
