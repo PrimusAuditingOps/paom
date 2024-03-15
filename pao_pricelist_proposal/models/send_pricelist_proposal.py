@@ -29,12 +29,21 @@ class SendPricelistProposal(models.TransientModel):
                 
                 template = self.env.ref('pao_pricelist_proposal.mail_template_pricelist_proposal')
                 
+                customer_lang = self.customer_id.lang if self.customer_id else self.pricelist_proposal_id.create_uid.lang
+                context = {'lang': customer_lang}
+                
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 link = url_join(base_url, '/pricelist_proposal/%s/%s' % (record.pricelist_proposal_id.id, record.pricelist_proposal_id.access_token))
-                customer_name = record.customer_id.display_name if record.customer_id else 'cliente'
+                customer_name = record.customer_id.display_name if record.customer_id else '____________'
                 specialist = record.pricelist_proposal_id.create_uid.name
                 
-                rendered_body = template.body_html.format(proposal_link = link, customer_name=customer_name, specialist=specialist)
+                # rendered_body = template.body_html.format(proposal_link = link, customer_name=customer_name, specialist=specialist)
+                
+                rendered_body = template.with_context(context).render_template(template.body_html, {
+                    'proposal_link': link,
+                    'customer_name': customer_name,
+                    'specialist': specialist,
+                })
                 
                 record.subject = record.mail_template_id.subject + " " + record.pricelist_proposal_id.origin_product_pricelist_id.name
                 record.message = rendered_body
