@@ -7,7 +7,7 @@ class ProposalTermsSchemes(models.Model):
     _description="Proposal terms by scheme"
     
     name = fields.Char("Name")
-    scheme_id =  fields.Many2one('pao.pricelist.proposal', string="Pricelist Proposal", required=True)
+    # scheme_id =  fields.Many2one('pao.pricelist.proposal', string="Pricelist Proposal", required=True)
     terms_and_conditions = fields.Text(string="Terms & Conditions", required=True, translate=True)
     
     
