@@ -17,9 +17,9 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group col="4">
+                    <group>
                         <field name="name"/>
-                        <field name="terms_and_conditions"/>
+                        <field name="terms_and_conditions" widget="html"/>
                     </group>
                 </sheet>
             </form>
