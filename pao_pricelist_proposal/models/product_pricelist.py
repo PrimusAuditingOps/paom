@@ -40,8 +40,6 @@ class ProductPriceList(models.Model):
         
         self.pricelist_proposal_id = new_record.id
         self.existing_proposal = True
-        
-        self._request_proposal_approval()
 
         return {
             'type': 'ir.actions.act_window',
@@ -91,7 +89,7 @@ class ProductPriceList(models.Model):
             message_id=message.id,
         )
         
-    def _request_proposal_approval(self):
+    def request_proposal_approval(self):
         
         pricelist_proposal_manager = self.env['hr.employee'].search([('pricelist_proposal_manager', '=', True)], limit=1)
         

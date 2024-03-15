@@ -89,16 +89,9 @@
 
                 <br/>
 
-                <ul class="mb-4">
-                    <li> Los precios son válidos sólo para auditorías realizadas y facturadas dentro de la República Mexicana.</li>
-                    <li> Los precios son en dólares, y ningún precio incluye IVA.</li>
-                    <li> Estos precios estarán vigentes a partir del 1 septiembre de 2023 al 31 de agosto de 2024. Posterior a esta fecha, Primus
-                        Auditing Ops México, se reserva el derecho de reajustar la propuesta según el cumplimiento del padrón durante el periodo de
-                        vigencia de este documento.</li>
-                    <li> Los viáticos no vienen incluidos, se cobran reales y se facturan al siguiente mes de realizada la auditoría.</li>
-                    <li> Si se requieren servicios complementarios a los aquí descritos, consideran que pueden llevar un costo adicional.</li>
-                    <li> Si se realizan auditorías adicionales a las aquí descritas, favor de solicitar la actualización de su propuesta de precios.</li>
-                </ul>
+                <t t-if="proposal.proposal_terms">
+                    <t t-esc="proposal.proposal_terms.terms_and_conditions"/>
+                </t>
 
                 <div class="d-flex justify-content-center mt-4 mb-5">
                     <button data-toggle="modal" data-target="#accept_proposal_sign" class="btn btn-primary mx-3">Aceptar</button>

@@ -22,6 +22,8 @@ class PriceListProposal(models.Model):
     
     customer_id = fields.Many2one('res.partner', string="Customer")
     
+    proposal_terms =  fields.Many2one('proposal.terms.schemes', string="Terms & Conditions")
+    
     reject_reasons = fields.Char("Reject reasons", readonly=True)
     
     sign_date = fields.Date("Sign Date", readonly=True)
@@ -54,6 +56,10 @@ class PriceListProposal(models.Model):
     @api.model
     def _get_access_token(self):
         return uuid.uuid4().hex
+    
+    def request_approval(self):
+        if not self.authorized:
+            self.origin_product_pricelist_id.request_proposal_approval()
     
     def authorize_proposal_action(self):
         
