@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="proposal_terms_schemes_tree" model="ir.ui.view">
+        <field name="name">proposal.terms.schemes.view.tree</field>
+        <field name="model">proposal.terms.schemes</field>
+        <field name="arch" type="xml">
+            <tree string="Departments">
+                <field name="name"/>
+                <field name="scheme_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="proposal_terms_schemes_form" model="ir.ui.view">
+        <field name="name">proposal.terms.schemes.view.form</field>
+        <field name="model">proposal.terms.schemes</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="scheme_id"/>
+                        <field name="terms_and_conditions"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="proposal_terms_schemes_action" model="ir.actions.act_window">
+        <field name="name">Pricelist Terms and Conditions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">proposal_terms_schemes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="proposal_terms_schemes_menu_item" name="Pricelist Terms and Conditions" parent="sale.menu_sale_config" sequence="11" action="proposal_terms_schemes_action"/>
+
+</odoo>
