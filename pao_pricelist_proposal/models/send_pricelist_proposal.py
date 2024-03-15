@@ -39,7 +39,7 @@ class SendPricelistProposal(models.TransientModel):
                 
                 # rendered_body = template.body_html.format(proposal_link = link, customer_name=customer_name, specialist=specialist)
                 
-                rendered_body = template.with_context(context).render_template(template.body_html, {
+                rendered_body = template.with_context(context).render_email({
                     'proposal_link': link,
                     'customer_name': customer_name,
                     'specialist': specialist,
