@@ -183,7 +183,11 @@ class PriceListProposal(models.Model):
             
     def _generate_proposal_agreement(self):
         
-        pdf = self.env.ref('pao_pricelist_proposal.report_proposal_agreement').sudo()._render_qweb_pdf([self.id], data= {"docs": self.ids})[0]
+        customer_lang = self.customer_id.lang if self.customer_id else self.create_uid.lang
+        context = {'lang': customer_lang}
+        
+        pdf = self.env.ref('pao_pricelist_proposal.report_proposal_agreement').sudo()._render_qweb_pdf([self.id], data={"docs": self.ids}, context=context)[0]
+        # pdf = self.env.ref('pao_pricelist_proposal.report_proposal_agreement').sudo()._render_qweb_pdf([self.id], data= {"docs": self.ids})[0]
         attachment = self.env['ir.attachment'].sudo().create({
             'name': _('Pricelist proposal agreement'),
             'type': 'binary',

@@ -75,7 +75,7 @@ class ProposalPortal(portal.CustomerPortal):
         else:
             return request.render('pao_pricelist_proposal.pricelist_proposal_response_error')
     
-    @http.route(['/download_attachment/<int:attachment_id>'], type='http', auth="user", website=True)
+    @http.route(['/download_attachment/<int:attachment_id>'], type='http', auth="public", website=True)
     def download_attachment(self, attachment_id, **kw):
         attachment = request.env['ir.attachment'].sudo().browse(attachment_id)
         if attachment and attachment.datas and attachment.mimetype == 'application/pdf':
