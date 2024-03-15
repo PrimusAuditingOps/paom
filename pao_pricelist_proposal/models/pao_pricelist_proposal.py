@@ -53,6 +53,8 @@ class PriceListProposal(models.Model):
     
     pricelist_proposal_manager_id = fields.Many2one('hr.employee', string="Pricelist Proposal Manager", readonly=True)
     
+    base_url = fields.Char("Base URL", readonly=True)
+    
     @api.model
     def _get_access_token(self):
         return uuid.uuid4().hex

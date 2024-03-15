@@ -21,6 +21,7 @@ class ProductPriceList(models.Model):
             proposal_values['currency_id'] = record.currency_id.id if record.currency_id else False
             proposal_values['discount_policy'] = record.discount_policy
             proposal_values['origin_product_pricelist_id'] = record.id
+            proposal_values['base_url'] = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             
             new_record = pricelist_proposal.create(proposal_values)
             
