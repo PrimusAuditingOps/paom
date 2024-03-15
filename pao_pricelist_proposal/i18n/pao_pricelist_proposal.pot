@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-15 18:48+0000\n"
-"PO-Revision-Date: 2024-03-15 18:48+0000\n"
+"POT-Creation-Date: 2024-03-15 18:55+0000\n"
+"PO-Revision-Date: 2024-03-15 18:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,11 +35,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
 msgid ""
 "<br/><br/>\n"
-"                    Reiterando nuestro agradecimiento por su confianza al considerarnos su proveedor de servicios en auditorías de tercera\n"
-"                    parte en inocuidad agroalimentaria, le hacemos llegar la propuesta de precios preferenciales para sus auditorías durante\n"
-"                    la temporada 2023-2024.\n"
+"                    Reiterating our gratitude for your trust in considering us as your third-party \n"
+"                    audit services provider in agri-food safety, we are pleased to present the \n"
+"                    proposal of preferential prices for your audits during the 2023-2024 season.\n"
 "                    <br/><br/>\n"
-"                    Puede visualizar la propuesta de precios preferenciales a continuación.\n"
+"                    You can view the preferred pricing proposal below.\n"
 "                    <br/><br/>"
 msgstr ""
 
@@ -308,6 +308,11 @@ msgid "Customer"
 msgstr ""
 
 #. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid "Dear"
+msgstr ""
+
+#. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
 msgid "Decline"
 msgstr ""
@@ -372,19 +377,6 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.send_proposal_view_form
 msgid "Enter Subject"
-msgstr ""
-
-#. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid "Estimado"
-msgstr ""
-
-#. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid ""
-"Estos precios estarán vigentes a partir del 1 septiembre de 2023 al 31 de agosto de 2024. Posterior a esta fecha, Primus\n"
-"                        Auditing Ops México, se reserva el derecho de reajustar la propuesta según el cumplimiento del padrón durante el periodo de\n"
-"                        vigencia de este documento."
 msgstr ""
 
 #. module: pao_pricelist_proposal
@@ -551,25 +543,6 @@ msgid "Logo"
 msgstr ""
 
 #. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid "Los precios son en dólares, y ningún precio incluye IVA."
-msgstr ""
-
-#. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid ""
-"Los precios son válidos sólo para auditorías realizadas y facturadas dentro "
-"de la República Mexicana."
-msgstr ""
-
-#. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid ""
-"Los viáticos no vienen incluidos, se cobran reales y se facturan al "
-"siguiente mes de realizada la auditoría."
-msgstr ""
-
-#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__mail_template_id
 msgid "Mail Template"
 msgstr ""
@@ -670,6 +643,7 @@ msgstr ""
 
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
 msgid "Normal price"
 msgstr ""
 
@@ -725,17 +699,8 @@ msgid "Percentage Price"
 msgstr ""
 
 #. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid "Precio normal"
-msgstr ""
-
-#. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid "Precio preferencial"
-msgstr ""
-
-#. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
 msgid "Preferred price"
 msgstr ""
 
@@ -954,20 +919,6 @@ msgid ""
 msgstr ""
 
 #. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid ""
-"Si se realizan auditorías adicionales a las aquí descritas, favor de "
-"solicitar la actualización de su propuesta de precios."
-msgstr ""
-
-#. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid ""
-"Si se requieren servicios complementarios a los aquí descritos, consideran "
-"que pueden llevar un costo adicional."
-msgstr ""
-
-#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__sign_date
 msgid "Sign Date"
 msgstr ""
@@ -975,15 +926,6 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__signature
 msgid "Signature Image"
-msgstr ""
-
-#. module: pao_pricelist_proposal
-#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
-msgid ""
-"Sin otro particular quedamos para cualquier duda o comentario.\n"
-"                    <br/><br/>\n"
-"                    Atentamente\n"
-"                    <br/><br/>"
 msgstr ""
 
 #. module: pao_pricelist_proposal
@@ -1103,6 +1045,15 @@ msgstr ""
 #: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__website_message_ids
 #: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid ""
+"Without further ado, we remain available for any questions or comments.\n"
+"                    <br/><br/>\n"
+"                    Sincerely\n"
+"                    <br/><br/>"
 msgstr ""
 
 #. module: pao_pricelist_proposal

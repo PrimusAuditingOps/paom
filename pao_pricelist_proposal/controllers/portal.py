@@ -80,7 +80,7 @@ class ProposalPortal(portal.CustomerPortal):
         attachment = request.env['ir.attachment'].sudo().browse(attachment_id)
         if attachment and attachment.datas and attachment.mimetype == 'application/pdf':
             pdf_data = base64.b64decode(attachment.datas)
-            file_name = _("Acuerdo de propuesta") + ".pdf"
+            file_name = _("Proposal Agreement") + ".pdf"
             response = http.request.make_response(
                 pdf_data,
                 [('Content-Type', 'application/pdf'), ('Content-Disposition', 'attachment; filename=%s' % file_name)]
