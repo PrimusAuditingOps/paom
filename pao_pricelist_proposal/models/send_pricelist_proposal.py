@@ -39,7 +39,7 @@ class SendPricelistProposal(models.TransientModel):
                 
                 rendered_body = template.with_context(context).body_html.format(proposal_link = link, customer_name=customer_name, specialist=specialist)
                 
-                record.subject = record.mail_template_id.subject + " " + record.pricelist_proposal_id.origin_product_pricelist_id.name
+                record.subject = record.mail_template_id.with_context(context).subject + " " + record.pricelist_proposal_id.origin_product_pricelist_id.name
                 record.message = rendered_body
                 
                 
