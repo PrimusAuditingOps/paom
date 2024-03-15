@@ -186,8 +186,7 @@ class PriceListProposal(models.Model):
         customer_lang = self.customer_id.lang if self.customer_id else self.create_uid.lang
         context = {'lang': customer_lang}
         
-        with self.env.context(context):
-            pdf = self.env.ref('pao_pricelist_proposal.report_proposal_agreement').sudo()._render_qweb_pdf([self.id], data= {"docs": self.ids})[0]
+        pdf = self.env.ref('pao_pricelist_proposal.report_proposal_agreement').sudo().with_context(context)._render_qweb_pdf([self.id], data= {"docs": self.ids})[0]
         
         attachment = self.env['ir.attachment'].sudo().create({
             'name': _('Pricelist proposal agreement'),
