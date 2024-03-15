@@ -9,16 +9,6 @@
 
     <template id="proposal_agreement">
         <t t-call="web.basic_layout">
-            <!-- <t t-set="layout_settings">
-                <xpath expr="//style" position="inside">
-                    <![CDATA[
-                        @page {
-                            margin: 0 !important;
-                            padding: 0 !important;
-                        }
-                    ]]>
-                </xpath>
-            </t> -->
             <div t-attf-class="header">
                 <div class="d-flex">
                     <div class="col-2">
@@ -32,13 +22,13 @@
                     
                     <t t-set="proposal" t-value="pricelist.pricelist_agreement_id"/> -->
                 
-                    <b>Estimado <t t-esc="proposal.customer_id.display_name"/></b>
+                    <b>Dear <t t-esc="proposal.customer_id.display_name"/></b>
                     <br/><br/>
-                    Reiterando nuestro agradecimiento por su confianza al considerarnos su proveedor de servicios en auditorías de tercera
-                    parte en inocuidad agroalimentaria, le hacemos llegar la propuesta de precios preferenciales para sus auditorías durante
-                    la temporada 2023-2024.
+                    Reiterating our gratitude for your trust in considering us as your third-party 
+                    audit services provider in agri-food safety, we are pleased to present the 
+                    proposal of preferential prices for your audits during the 2023-2024 season.
                     <br/><br/>
-                    Puede visualizar la propuesta de precios preferenciales a continuación.
+                    You can view the preferred pricing proposal below.
                     <br/><br/>
                     <t t-set="categories" t-value="[]"/>
                     <t t-foreach="proposal.item_ids" t-as="item">
@@ -59,8 +49,8 @@
                                         <th class="text-uppercase">
                                             <t t-esc="category_name"/>
                                         </th>
-                                        <th class="text-uppercase">Precio normal</th>
-                                        <th class="text-uppercase">Precio preferencial</th>
+                                        <th class="text-uppercase">Normal price</th>
+                                        <th class="text-uppercase">Preferred price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,22 +72,17 @@
                             </table>
                         </t>
                     </div>
-                <!-- </t> -->
-                <ul class="mb-4">
-                    <li> Los precios son válidos sólo para auditorías realizadas y facturadas dentro de la República Mexicana.</li>
-                    <li> Los precios son en dólares, y ningún precio incluye IVA.</li>
-                    <li> Estos precios estarán vigentes a partir del 1 septiembre de 2023 al 31 de agosto de 2024. Posterior a esta fecha, Primus
-                        Auditing Ops México, se reserva el derecho de reajustar la propuesta según el cumplimiento del padrón durante el periodo de
-                        vigencia de este documento.</li>
-                    <li> Los viáticos no vienen incluidos, se cobran reales y se facturan al siguiente mes de realizada la auditoría.</li>
-                    <li> Si se requieren servicios complementarios a los aquí descritos, consideran que pueden llevar un costo adicional.</li>
-                    <li> Si se realizan auditorías adicionales a las aquí descritas, favor de solicitar la actualización de su propuesta de precios.</li>
-                </ul>
+                
+                <t t-if="proposal.proposal_terms">
+                    <div class="mb-4">
+                        <t t-raw="proposal.proposal_terms.terms_and_conditions"/>
+                    </div>
+                </t>
 
                 <div style="page-break-before: always;">
-                    Sin otro particular quedamos para cualquier duda o comentario.
+                    Without further ado, we remain available for any questions or comments.
                     <br/><br/>
-                    Atentamente
+                    Sincerely
                     <br/><br/>
                     <p class="text-center">
                         <t t-esc="proposal.create_uid.name"/>
