@@ -75,13 +75,13 @@ class PriceListProposal(models.Model):
         
         self.pricelist_proposal_manager_id = self.env['hr.employee'].search([('pricelist_proposal_manager', '=', True)], limit=1)
         
+        if not self.pricelist_proposal_manager_id:
+                raise ValidationError(_("No employee in charge of pricelist proposals was found."))
+        
         self.authorized = True
     
     def send_proposal_action(self):
         if self.proposal_status == 'draft' and self.authorized:
-            
-            if not self.pricelist_proposal_manager_id:
-                raise ValidationError(_("No employee in charge of pricelist proposals was found."))
             
             if not self.pricelist_proposal_manager_id.es_sign_signature or not self.create_uid.employee_id.es_sign_signature:
                 raise ValidationError(_("Please ensure that all employees involved in this process have a signature assigned in the Employees section."))
