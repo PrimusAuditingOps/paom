@@ -37,7 +37,7 @@ odoo.define('pao_globalgap_fans.globalgapproductinformation', function (require)
                     },
                     {
                         id: "uncovered_production_area",
-                        name: "Area en producción (ha)",
+                        name: "Área en producción total (ha)",
                     },
                     {
                         id: "covered_production_area",

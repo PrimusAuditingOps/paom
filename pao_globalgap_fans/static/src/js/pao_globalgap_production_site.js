@@ -216,7 +216,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
-                            style:'border: 1px solid; padding: 5px; background-color: red; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
+                            style:'padding: 10px 20px;background-color: red;color: white;border: none; border-radius: 5px;cursor: pointer;',
                             onClick: () => {
                                 const list = this.datas.filter(d => d.index != row.cells[22].data);
                                 this.datas = list;
@@ -233,7 +233,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
-                            style:'border: 1px solid; padding: 5px; background-color: #17a2b8; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
+                            style:'padding: 10px 20px;background-color: #17a2b8; color: white;border: none; border-radius: 5px;cursor: pointer;',
                             onClick: () => {
                                 const list = this.datas.filter(d => d.index == row.cells[22].data);
                                 $("#productionsite").val(list[0].name);
@@ -346,7 +346,7 @@ odoo.define('pao_globalgap_fans.globalgapproductionsite', function (require) {
                         name: '',
                         formatter: (cell, row) => {
                           return gridjs.h('icon', {
-                            style:'border: 1px solid; padding: 5px; background-color: red; color: #ffffff;text-decoration: none; text-transform: uppercase; border-radius: 10px;',
+                            style:'padding: 10px 20px;background-color: red;color: white;border: none; border-radius: 5px;cursor: pointer;',
                             onClick: () => {
                                 const list = this.products.filter(prod => prod.index != row.cells[9].data);
                                 this.products = list;
