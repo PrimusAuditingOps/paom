@@ -51,8 +51,6 @@ class PriceListProposal(models.Model):
     
     authorized = fields.Boolean(string="Is proposal authorized", default=False)
     
-    pricelist_proposal_manager_id = fields.Many2one('hr.employee', string="Pricelist Proposal Manager", readonly=True)
-    
     @api.model
     def _get_access_token(self):
         return uuid.uuid4().hex
@@ -73,17 +71,17 @@ class PriceListProposal(models.Model):
         
         self.origin_product_pricelist_id.notify_action(message)
         
-        self.pricelist_proposal_manager_id = self.env['hr.employee'].search([('pricelist_proposal_manager', '=', True)], limit=1)
-        
-        if not self.pricelist_proposal_manager_id:
-                raise ValidationError(_("No employee in charge of pricelist proposals was found."))
-        
         self.authorized = True
     
     def send_proposal_action(self):
         if self.proposal_status == 'draft' and self.authorized:
             
-            if not self.pricelist_proposal_manager_id.es_sign_signature or not self.create_uid.employee_id.es_sign_signature:
+            pricelist_proposal_manager_id = self.env['hr.employee'].search([('pricelist_proposal_manager', '=', True)], limit=1)
+            
+            if not pricelist_proposal_manager_id:
+                raise ValidationError(_("No employee in charge of pricelist proposals was found."))
+            
+            if not pricelist_proposal_manager_id.es_sign_signature or not self.create_uid.employee_id.es_sign_signature:
                 raise ValidationError(_("Please ensure that all employees involved in this process have a signature assigned in the Employees section."))
             
             self.access_token = self._get_access_token()
