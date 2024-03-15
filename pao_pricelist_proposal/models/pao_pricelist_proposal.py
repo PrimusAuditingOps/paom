@@ -20,7 +20,7 @@ class PriceListProposal(models.Model):
 
     item_ids = fields.One2many('product.proposal.item', 'pricelist_id', 'Pricelist Items')
     
-    customer_id = fields.Many2one('res.partner', string="Customer",required=True)
+    customer_id = fields.Many2one('res.partner', string="Customer")
     
     reject_reasons = fields.Char("Reject reasons", readonly=True)
     
