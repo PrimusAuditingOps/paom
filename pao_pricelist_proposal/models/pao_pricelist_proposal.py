@@ -80,6 +80,9 @@ class PriceListProposal(models.Model):
     def send_proposal_action(self):
         if self.proposal_status == 'draft' and self.authorized:
             
+            if not self.pricelist_proposal_manager_id.es_sign_signature or not self.create_uid.employee_id.es_sign_signature:
+                raise ValidationError(_("Please ensure that all employees involved in this process have a signature assigned in the Employees section."))
+            
             self.access_token = self._get_access_token()
             
             return {
@@ -93,7 +96,7 @@ class PriceListProposal(models.Model):
                     'default_pricelist_proposal_id': self.id,
                 },
             }
-    
+            
     def set_reject_reasons(self, reasons):
         if self.proposal_status == 'sent':
             self.reject_reasons = reasons
