@@ -72,7 +72,7 @@ class PriceListProposal(models.Model):
         self.authorized = True
     
     def send_proposal_action(self):
-        if self.proposal_status == 'draft' and self.authorized and self.proposal_terms:
+        if self.proposal_status == 'draft' and self.authorized:
             
             self.access_token = self._get_access_token()
             
