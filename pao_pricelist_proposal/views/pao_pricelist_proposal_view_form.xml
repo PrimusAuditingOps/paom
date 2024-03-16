@@ -9,7 +9,7 @@
                     <field name="authorized" invisible="1"/>
                     <button string="Cancel" attrs="{'invisible': [('proposal_status', 'in', ['cancel', 'complete'])]}" type="object" class="oe_highlight" name="cancel_proposal_action"/>
                     <button string="Send" attrs="{'invisible': ['|',('proposal_status', '!=', 'draft'),('authorized', '!=', True)]}" type="object" class="oe_highlight" name="send_proposal_action"/>
-                    <button string="Request authorization" type="object" class="oe_highlight" name="request_approval" attrs="{'invisible': ['|',('authorized', '=', True),('proposal_status', '!=', 'draft')]}"/>
+                    <button string="Request authorization" type="object" class="oe_highlight" name="request_approval" attrs="{'invisible': ['|',('authorization_request_sent', '=', True), ('authorized', '=', True),('proposal_status', '!=', 'draft')]}"/>
                     <button string="Authorize proposal" type="object" class="oe_highlight" name="authorize_proposal_action" attrs="{'invisible': ['|',('authorized', '=', True),('proposal_status', '!=', 'draft')]}" groups="pao_pricelist_proposal.pricelist_proposal_authorizer"/>
                     <button string="Complete" attrs="{'invisible': [('proposal_status', '!=', 'accept')]}" type="object" class="oe_highlight" name="complete_proposal_action"/>
                     <field name="proposal_status" widget="statusbar"/>

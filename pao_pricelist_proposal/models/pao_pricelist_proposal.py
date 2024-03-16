@@ -51,6 +51,8 @@ class PriceListProposal(models.Model):
     
     authorized = fields.Boolean(string="Is proposal authorized", default=False)
     
+    authorization_request_sent = fields.Boolean(string="Authorization request sent", default=False, readonly=True)
+    
     pricelist_proposal_manager_id = fields.Many2one('hr.employee', string="Pricelist Proposal Manager", readonly=True)
     
     base_url = fields.Char("Base URL", readonly=True)
@@ -61,6 +63,7 @@ class PriceListProposal(models.Model):
     
     def request_approval(self):
         if not self.authorized:
+            self.authorization_request_sent = True
             self.origin_product_pricelist_id.request_proposal_approval()
     
     def authorize_proposal_action(self):

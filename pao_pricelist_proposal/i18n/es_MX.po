@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-15 20:07+0000\n"
-"PO-Revision-Date: 2024-03-15 20:07+0000\n"
+"POT-Creation-Date: 2024-03-16 00:11+0000\n"
+"PO-Revision-Date: 2024-03-16 00:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -233,6 +233,11 @@ msgstr "Autorizar propuesta"
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
 msgid "Availability"
 msgstr "Disponibilidad"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__base_url
+msgid "Base URL"
+msgstr "URL Base"
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__base
@@ -665,6 +670,7 @@ msgid "Next Activity Type"
 msgstr "Resumen de la siguiente actividad"
 
 #. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
 #: code:addons/pao_pricelist_proposal/models/product_pricelist.py:0
 #, python-format
 msgid "No employee in charge of pricelist proposals was found."
@@ -726,6 +732,16 @@ msgstr "Otra tarifa"
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__percent_price
 msgid "Percentage Price"
 msgstr "Porcentaje de precio"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid ""
+"Please ensure that all employees involved in this process have a signature "
+"assigned in the Employees section."
+msgstr ""
+"Por favor, asegúrese de que todos los empleados involucrados en este proceso tengan una firma "
+"asignada en el apartado de Empleados."
 
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
