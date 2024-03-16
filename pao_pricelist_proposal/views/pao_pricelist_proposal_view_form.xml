@@ -7,6 +7,7 @@
             <form string="Products Price List">
                 <header>
                     <field name="authorized" invisible="1"/>
+                    <field name="authorization_request_sent" invisible="1"/>
                     <button string="Cancel" attrs="{'invisible': [('proposal_status', 'in', ['cancel', 'complete'])]}" type="object" class="oe_highlight" name="cancel_proposal_action"/>
                     <button string="Send" attrs="{'invisible': ['|',('proposal_status', '!=', 'draft'),('authorized', '!=', True)]}" type="object" class="oe_highlight" name="send_proposal_action"/>
                     <button string="Request authorization" type="object" class="oe_highlight" name="request_approval" attrs="{'invisible': ['|',('authorization_request_sent', '=', True), ('authorized', '=', True),('proposal_status', '!=', 'draft')]}"/>
