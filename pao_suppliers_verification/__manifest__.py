@@ -14,7 +14,7 @@
         'data/services_data.xml',
         # reports
         # views
-        'views/suppliers_configurations_views.xml'
+        'views/suppliers_configurations_views.xml',
         'views/res_partner_supplier_verifications_view.xml'
     ],
 }
