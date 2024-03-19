@@ -67,7 +67,7 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="supplier_section_contacts" name="Suppliers" parent="contacts.res_partner_menu_config" sequence="7">
+    <menuitem id="supplier_section_contacts" name="Suppliers" parent="contacts.res_partner_menu_config" sequence="7"/>
         <menuitem id="department_option_menu_item" name="Branches" parent="supplier_section_contacts" sequence="1" action="pao_supplier_branch_office_action"/>
         <menuitem id="scheme_option_menu_item" name="Services" parent="supplier_section_contacts" sequence="2" action="pao_supplier_service_action"/>
 
