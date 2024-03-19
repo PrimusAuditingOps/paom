@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_partner_suppliers_verification_form" model="ir.ui.view">
+        <field name="name">res.partner.suppliers.verification.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='st_supplier_taxes_id']" position="after">
+                <field name="affects_certification_process" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
+                <field name="service_type_id" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
+                <field name="branch_office_ids" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
+            </xpath>
+
+            <!-- <xpath expr="//field[@name='st_supplier_taxes_id']" position="after">
+                <field name="affects_certification_process" invisible="supplier_rank &lt;= 0)]}"/>
+                <field name="service_type_id" invisible="supplier_rank &lt;= 0)]}"/>
+                <field name="branch_office_ids" invisible="supplier_rank &lt;= 0)]}"/>
+            </xpath> -->
+            
+        </field>
+    </record>
+</odoo>

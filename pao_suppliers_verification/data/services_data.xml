@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="suppliers_service_lab" model="pao.supplier.service">
+            <field name="name" >Laboratory</field>
+            <field name="internal_name">laboratory</field>
+        </record>
+
+        <record id="suppliers_service_db" model="pao.supplier.service">
+            <field name="name" >Database</field>
+            <field name="internal_name">database</field>
+        </record>
+
+        <record id="suppliers_service_accreditors" model="pao.supplier.service">
+            <field name="name" >Accreditors/Approvers</field>
+            <field name="internal_name">accreditors_approvers</field>
+        </record>
+
+        <record id="suppliers_service_trainings" model="pao.supplier.service">
+            <field name="name" >Trainings</field>
+            <field name="internal_name">trainings</field>
+        </record>
+    </data>
+</odoo>
