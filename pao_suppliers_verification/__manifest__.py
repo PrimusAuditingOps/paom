@@ -1,5 +1,5 @@
 {
-    'name': 'PAO Providers Verificiation',
+    'name': 'PAO Suppliers Verificiation',
     'version': '1.0',
     'author': 'Manuel Uzueta Gil',
     'category': '',

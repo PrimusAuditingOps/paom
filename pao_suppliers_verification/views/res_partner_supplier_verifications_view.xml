@@ -9,8 +9,8 @@
 
             <xpath expr="//field[@name='st_supplier_taxes_id']" position="after">
                 <field name="affects_certification_process" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
-                <field name="service_type_id" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
-                <field name="branch_office_ids" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
+                <field name="service_type_id" options="{'no_create': True}" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
+                <field name="branch_office_ids" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
             </xpath>
 
             <!-- <xpath expr="//field[@name='st_supplier_taxes_id']" position="after">
