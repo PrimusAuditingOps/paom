@@ -22,4 +22,17 @@
             
         </field>
     </record>
+
+    <record id="res_partner_suppliers_verification_search" model="ir.ui.view">
+        <field name="name">res.partner.suppliers.verification.search</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="filter_affects_certification_process" string="Affects the certification process" domain="[('affects_certification_process', '=', True)]"/>
+
+                <filter name="group_service_id" string="Service Type" context="{'group_by':'service_type_id'}"/>
+                <filter name="group_branch_id" string="Brnach Office" context="{'group_by':'branch_office_ids'}"/>
+            </search>
+        </field>
+    </record>
 </odoo>
