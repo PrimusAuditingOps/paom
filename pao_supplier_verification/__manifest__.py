@@ -4,7 +4,7 @@
     'author': 'Manuel Uzueta Gil',
     'category': '',
     'website': 'https://paomx.com',
-    'depends': ['res_partner'
+    'depends': ['contacts'
     ],
     'data': [
         # security
