@@ -6,9 +6,10 @@ class ResPartnerInherit(models.Model):
 
     def notify_channel_action(self, message, channel_name, subject):
 
-        channel = self.env['mail.channel'].search([('id', '=', 1)], limit=1)
-        
-        channel.message_post(body=message)
+        channel = self.env['mail.channel'].search([('name', 'ilike', "general")]) 
+        if channel:
+            channel.message_post(body=message, message_type='comment', subtype_xmlid='mail.mt_comment')
+            # notification = ('<a href="#" data-oe-model="pao.customer.registration" class="o_redirect" data-oe-id="%s">#%s</a>') % (cr_sudo.id, cr_sudo.res_partner_id.name,)
             
         message = self.message_post(
             body=message,
