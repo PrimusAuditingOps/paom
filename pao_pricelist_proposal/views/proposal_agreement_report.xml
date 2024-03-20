@@ -61,10 +61,10 @@
                                                 <t t-esc="item.product_tmpl_id.name"/>
                                             </td>
                                             <td>
-                                                $<t t-esc="'${:,.2f}'.format(base_item.fixed_price)" t-if="base_item"/>
+                                                <t t-esc="'${:,.2f}'.format(base_item.fixed_price)" t-if="base_item"/>
                                             </td>
                                             <td>
-                                                $<t t-esc="'%.2f'% item.fixed_price"/>
+                                                <t t-esc="'${:,.2f}'.format(item.fixed_price)"/>
                                             </td>
                                         </tr>
                                     </t>
