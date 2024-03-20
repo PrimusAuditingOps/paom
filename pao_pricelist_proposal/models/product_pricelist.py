@@ -22,6 +22,7 @@ class ProductPriceList(models.Model):
             proposal_values['discount_policy'] = record.discount_policy
             proposal_values['origin_product_pricelist_id'] = record.id
             proposal_values['base_url'] = self.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/pao_pricelist_proposal/static/src/img/pao_logo.png'
+            proposal_values['base_pricelist'] = self.env['product.pricelist'].search([], order='sequence', limit=1).id
             
             new_record = pricelist_proposal.create(proposal_values)
             

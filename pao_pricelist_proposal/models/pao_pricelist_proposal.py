@@ -187,10 +187,7 @@ class PriceListProposal(models.Model):
             self.origin_product_pricelist_id.item_ids = items_data
     
     def get_current_base_pricelist(self):
-        pricelist = self.env['product.pricelist'].search([], order='sequence', limit=1)
-        self.base_pricelist = pricelist.id
-        
-        return pricelist
+        return self.base_pricelist
             
     def _generate_proposal_agreement(self):
         
