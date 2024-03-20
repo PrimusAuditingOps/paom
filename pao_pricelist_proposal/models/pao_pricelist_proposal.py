@@ -185,9 +185,19 @@ class PriceListProposal(models.Model):
             
             self.origin_product_pricelist_id.item_ids.unlink()
             self.origin_product_pricelist_id.item_ids = items_data
+            
+            self._notify_new_pricelist()
     
     def get_current_base_pricelist(self):
         return self.base_pricelist
+    
+    def _notify_new_pricelist(self):
+        
+        message=_('The pricelist of %(customer_name)s has been updated.') % {'customer_name': self.customer_id.name}
+        channel_name='general'
+        subject=_('Pricelist %(pricelist_name)s updated') % {'customer_name': self.origin_product_pricelist_id.name}
+        
+        self.customer_id.notify_channel_action(message, channel_name, subject)
             
     def _generate_proposal_agreement(self):
         
