@@ -19,23 +19,21 @@
                 <field name="service_type_id" invisible="supplier_rank &lt;= 0)]}"/>
                 <field name="branch_office_ids" invisible="supplier_rank &lt;= 0)]}"/>
             </xpath> -->
+        </field>
+    </record>
 
-            <record id="res_partner_suppliers_filter" model="ir.ui.view">
-                <field name="name">res.partner.suppliers.filter</field>
-                <field name="model">res.partner</field>
-                <field name="inherit_id" ref="account.view_res_partner_filter"/>
-                <field name="arch" type="xml">
-                    <xpath expr="//filter[@name='supplier']" position="after">
-                        <separator/>
-                        <filter name="affects_certification" string="Affects the certification process" domain="[('affects_certification_process', '=', True)]"/>
-                        <separator/>
-                        <filter name="group_by_branch_offices" string="Branch Offices" context="{'group_by': 'branch_office_ids'}"/>
-                        <filter name="group_by_services" string="Services" context="{'group_by': 'service_type_id'}"/>
-                    </xpath>
-                </field>
-            </record>
-
-
+    <record id="res_partner_suppliers_filter" model="ir.ui.view">
+        <field name="name">res.partner.suppliers.filter</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='supplier']" position="after">
+                <separator/>
+                <filter name="affects_certification" string="Affects the certification process" domain="[('affects_certification_process', '=', True)]"/>
+                <separator/>
+                <filter name="group_by_branch_offices" string="Branch Offices" context="{'group_by': 'branch_office_ids'}"/>
+                <filter name="group_by_services" string="Services" context="{'group_by': 'service_type_id'}"/>
+            </xpath>
         </field>
     </record>
 </odoo>
