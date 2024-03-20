@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-19 22:06+0000\n"
-"PO-Revision-Date: 2024-03-19 22:06+0000\n"
+"POT-Creation-Date: 2024-03-20 18:57+0000\n"
+"PO-Revision-Date: 2024-03-20 18:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,7 @@ msgstr ""
 #. module: pao_supplier_verification
 #: model:ir.model.fields,field_description:pao_supplier_verification.field_res_partner__affects_certification_process
 #: model:ir.model.fields,field_description:pao_supplier_verification.field_res_users__affects_certification_process
+#: model_terms:ir.ui.view,arch_db:pao_supplier_verification.res_partner_suppliers_filter
 msgid "Affects the certification process"
 msgstr ""
 
@@ -61,6 +62,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: pao_supplier_verification
+#: model_terms:ir.ui.view,arch_db:pao_supplier_verification.res_partner_suppliers_filter
+msgid "Culiacán Branch"
+msgstr ""
+
+#. module: pao_supplier_verification
 #: model:pao.supplier.service,name:pao_supplier_verification.suppliers_service_db
 msgid "Database"
 msgstr ""
@@ -70,6 +76,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_supplier_verification.field_pao_supplier_service__display_name
 #: model:ir.model.fields,field_description:pao_supplier_verification.field_res_partner__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: pao_supplier_verification
+#: model_terms:ir.ui.view,arch_db:pao_supplier_verification.res_partner_suppliers_filter
+msgid "Guadalajara Branch"
 msgstr ""
 
 #. module: pao_supplier_verification
@@ -124,6 +135,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:pao_supplier_verification.pao_supplier_service_action
 #: model:ir.ui.menu,name:pao_supplier_verification.scheme_option_menu_item
 #: model_terms:ir.ui.view,arch_db:pao_supplier_verification.pao_supplier_service_view_tree
+#: model_terms:ir.ui.view,arch_db:pao_supplier_verification.res_partner_suppliers_filter
 msgid "Services"
 msgstr ""
 
@@ -135,6 +147,11 @@ msgstr ""
 #. module: pao_supplier_verification
 #: model:pao.supplier.service,name:pao_supplier_verification.suppliers_service_trainings
 msgid "Trainings"
+msgstr ""
+
+#. module: pao_supplier_verification
+#: model_terms:ir.ui.view,arch_db:pao_supplier_verification.res_partner_suppliers_filter
+msgid "Uruapan Branch"
 msgstr ""
 
 #. module: pao_supplier_verification
