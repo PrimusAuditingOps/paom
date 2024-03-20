@@ -18,5 +18,5 @@ class ResPartnerInherit(models.Model):
 
         if channel:
             # Notify all members of the channel
-            for member in channel.member_ids:
-                member.message_post(body=message, subject=subject)
+            for member in channel.channel_partner_ids:
+                member.partner_id.message_post(body=message, subject=subject)

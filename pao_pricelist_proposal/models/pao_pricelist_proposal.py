@@ -150,8 +150,8 @@ class PriceListProposal(models.Model):
             proposal_link = _('<a href="#" data-oe-model="pao.pricelist.proposal" data-oe-id="%(proposal_id)d">pricelist proposal</a>'
                             ) % {'proposal_id': self.id}
 
-            message = _('Hello %(mention_html)s, the %(proposal_link)s has been accepted'
-                    ) % {'proposal_link': proposal_link, 'mention_html': mention_html}
+            message = _('Hello %(mention_html)s, the %(proposal_link)s of %(pricelist_name)s has been accepted'
+                    ) % {'proposal_link': proposal_link, 'mention_html': mention_html, 'pricelist_name': self.origin_product_pricelist_id.name}
             
             attachment = self._generate_proposal_agreement()
             
