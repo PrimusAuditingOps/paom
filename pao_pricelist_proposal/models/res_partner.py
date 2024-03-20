@@ -6,7 +6,7 @@ class ResPartnerInherit(models.Model):
 
     def notify_channel_action(self, message, channels):
 
-        message = self.message_post(
+        self.message_post(
             body=message,
             # partner_ids=channel.channel_partner_ids.ids,
         )
