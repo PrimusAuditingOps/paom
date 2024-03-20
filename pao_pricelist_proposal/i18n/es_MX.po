@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-16 00:11+0000\n"
-"PO-Revision-Date: 2024-03-16 00:11+0000\n"
+"POT-Creation-Date: 2024-03-20 23:46+0000\n"
+"PO-Revision-Date: 2024-03-20 23:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -225,6 +225,11 @@ msgid "Attachment Count"
 msgstr "Nº de archivos adjuntos"
 
 #. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__authorization_request_sent
+msgid "Authorization request sent"
+msgstr "Solicitud de autorización enviada"
+
+#. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
 msgid "Authorize proposal"
 msgstr "Autorizar propuesta"
@@ -306,6 +311,11 @@ msgid "Configuration"
 msgstr "Configuración"
 
 #. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__country_group_ids
 msgid "Country Groups"
 msgstr "Grupos de países"
@@ -369,6 +379,7 @@ msgstr "Descuentos"
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__display_name
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__display_name
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__display_name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_res_partner__display_name
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__display_name
 msgid "Display Name"
 msgstr "Nombre en pantalla"
@@ -470,12 +481,6 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
 #, python-format
-msgid "Hello %(mention_html)s, the %(proposal_link)s has been accepted"
-msgstr "Hola %(mention_html)s, la %(proposal_link)s ha sido aceptada"
-
-#. module: pao_pricelist_proposal
-#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
-#, python-format
 msgid "Hello %(mention_html)s, the %(proposal_link)s has been authorized."
 msgstr "Hola %(mention_html)s, la %(proposal_link)s ha sido autorizada."
 
@@ -490,11 +495,20 @@ msgstr ""
 "siguientes razones: %(reasons)s"
 
 #. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the %(proposal_link)s of %(pricelist_name)s has been"
+" accepted"
+msgstr ""
+
+#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_hr_employee__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_res_partner__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__id
 msgid "ID"
 msgstr ""
@@ -551,6 +565,7 @@ msgstr "La propuesta esta autorizada"
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist____last_update
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item____last_update
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes____last_update
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_res_partner____last_update
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal____last_update
 msgid "Last Modified on"
 msgstr "Última modificación el"
@@ -740,8 +755,8 @@ msgid ""
 "Please ensure that all employees involved in this process have a signature "
 "assigned in the Employees section."
 msgstr ""
-"Por favor, asegúrese de que todos los empleados involucrados en este proceso tengan una firma "
-"asignada en el apartado de Empleados."
+"Por favor, asegúrese de que todos los empleados involucrados en este proceso"
+" tengan una firma asignada en el apartado de Empleados."
 
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
@@ -1080,6 +1095,12 @@ msgid ""
 msgstr ""
 "El precio calculado se expresa en la unidad de medida por defecto del "
 "producto."
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid "The pricelist %(pricelist_name)s has been updated."
+msgstr "La tarifa %(pricelist_name)s ha sido actualizada."
 
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_proposal_exception_page_view
