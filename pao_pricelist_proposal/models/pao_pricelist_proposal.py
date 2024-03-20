@@ -195,7 +195,7 @@ class PriceListProposal(models.Model):
         
         message=_('The pricelist of %(customer_name)s has been updated.') % {'customer_name': self.customer_id.name}
         channel_name='general'
-        subject=_('Pricelist %(pricelist_name)s updated') % {'customer_name': self.origin_product_pricelist_id.name}
+        subject=_('Pricelist %(pricelist_name)s updated') % {'pricelist_name': self.origin_product_pricelist_id.name}
         
         self.customer_id.notify_channel_action(message, channel_name, subject)
             
