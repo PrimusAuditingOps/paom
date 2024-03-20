@@ -6,10 +6,9 @@ class ResPartnerInherit(models.Model):
 
     def notify_channel_action(self, message, channel_name, subject):
 
-        channel = self.env['mail.channel'].search([('name', '=', channel_name)], limit=1)
+        channel = self.env['mail.channel'].search([('id', '=', 1)], limit=1)
         
-        if channel:
-            channel.message_post(body=message)
+        channel.message_post(body=message)
             
         message = self.message_post(
             body=message,
