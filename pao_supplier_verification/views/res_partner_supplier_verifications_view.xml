@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_partner_suppliers_verification_form" model="ir.ui.view">
+        <field name="name">res.partner.suppliers.verification.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="supplier_rank" invisible="1"/>
+                <field name="affects_certification_process" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
+                <field name="service_type_id" options="{'no_create': True}" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
+                <field name="branch_office_ids" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
+            </xpath>
+
+            <!--<xpath expr="//field[@name='category_id']" position="after">
+                <field name="affects_certification_process" invisible="supplier_rank &lt;= 0)]}"/>
+                <field name="service_type_id" invisible="supplier_rank &lt;= 0)]}"/>
+                <field name="branch_office_ids" invisible="supplier_rank &lt;= 0)]}"/>
+            </xpath> -->
+        </field>
+    </record>
+
+    <record id="res_partner_suppliers_filter" model="ir.ui.view">
+        <field name="name">res.partner.suppliers.filter</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.res_partner_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='supplier']" position="after">
+                <separator/>
+                <filter name="affects_certification_filter" string="Affects the certification process" domain="[('affects_certification_process', '=', True)]"/>
+                <separator/>
+                <filter name="branch_culiacan_filter" string="Culiacán Branch" domain="[('branch_office_ids.name', 'ilike', 'Culiacán')]"/>
+                <filter name="branch_guadalajara_filter" string="Guadalajara Branch" domain="[('branch_office_ids.name', 'ilike', 'Guadalajara')]"/>
+                <filter name="branch_uruapan_filter" string="Uruapan Branch" domain="[('branch_office_ids.name', 'ilike', 'Uruapan')]"/>
+                <separator/>
+                <filter name="group_by_services" string="Services" context="{'group_by': 'service_type_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

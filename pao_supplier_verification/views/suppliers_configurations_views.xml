@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pao_supplier_service_view_tree" model="ir.ui.view">
+        <field name="name">pao.supplier.service.view.tree</field>
+        <field name="model">pao.supplier.service</field>
+        <field name="arch" type="xml">
+            <tree string="Services">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_supplier_service_view_form" model="ir.ui.view">
+        <field name="name">pao.supplier.service.view.form</field>
+        <field name="model">pao.supplier.service</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_supplier_service_action" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pao.supplier.service</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+
+
+    <record id="pao_supplier_branch_office_view_tree" model="ir.ui.view">
+        <field name="name">pao.supplier.branch.office.view.tree</field>
+        <field name="model">pao.supplier.branch.office</field>
+        <field name="arch" type="xml">
+            <tree string="Branch Offices">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_supplier_branch_office_view_form" model="ir.ui.view">
+        <field name="name">pao.supplier.branch.office.view.form</field>
+        <field name="model">pao.supplier.branch.office</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_supplier_branch_office_action" model="ir.actions.act_window">
+        <field name="name">Branch Offices</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pao.supplier.branch.office</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="supplier_section_contacts" name="Suppliers" parent="contacts.res_partner_menu_config" sequence="7"/>
+        <menuitem id="department_option_menu_item" name="Branches" parent="supplier_section_contacts" sequence="1" action="pao_supplier_branch_office_action"/>
+        <menuitem id="scheme_option_menu_item" name="Services" parent="supplier_section_contacts" sequence="2" action="pao_supplier_service_action"/>
+
+</odoo>
