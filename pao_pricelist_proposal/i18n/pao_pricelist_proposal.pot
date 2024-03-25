@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-20 23:45+0000\n"
-"PO-Revision-Date: 2024-03-20 23:45+0000\n"
+"POT-Creation-Date: 2024-03-25 16:59+0000\n"
+"PO-Revision-Date: 2024-03-25 16:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,10 +35,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
 msgid ""
 "<br/><br/>\n"
-"                    Reiterating our gratitude for your trust in considering us as your third-party \n"
-"                    audit services provider in agri-food safety, we are pleased to present the \n"
-"                    proposal of preferential prices for your audits during the 2023-2024 season.\n"
-"                    <br/><br/>\n"
 "                    You can view the preferred pricing proposal below.\n"
 "                    <br/><br/>"
 msgstr ""
@@ -70,9 +66,10 @@ msgid ""
 "<p style=\"font-size:12pt; font-family:Tahoma,sans-serif; color:#000000; line-height:1.0;\">\n"
 "                    <b>Dear {customer_name}</b>\n"
 "                    <br/><br/>\n"
-"                    Reiterating our gratitude for your trust in considering us as your third-party \n"
+"                    <!-- Reiterating our gratitude for your trust in considering us as your third-party \n"
 "                    audit services provider in agri-food safety, we are pleased to present the \n"
-"                    proposal of preferential prices for your audits during the 2023-2024 season.\n"
+"                    proposal of preferential prices for your audits during the 2023-2024 season. -->\n"
+"                    {message_proposal_template}\n"
 "                    <br/><br/>\n"
 "                    You can view the proposal of preferential prices by clicking <a href=\"{proposal_link}\" target=\"_blank\">here.</a>\n"
 "                    <br/><br/>\n"
@@ -279,11 +276,6 @@ msgid "Configuration"
 msgstr ""
 
 #. module: pao_pricelist_proposal
-#: model:ir.model,name:pao_pricelist_proposal.model_res_partner
-msgid "Contact"
-msgstr ""
-
-#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__country_group_ids
 msgid "Country Groups"
 msgstr ""
@@ -291,6 +283,7 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__create_uid
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__create_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__create_uid
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__create_uid
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__create_uid
 msgid "Created by"
@@ -299,6 +292,7 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__create_date
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__create_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__create_date
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__create_date
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__create_date
 msgid "Created on"
@@ -346,8 +340,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__display_name
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__display_name
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__display_name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__display_name
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__display_name
-#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_res_partner__display_name
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__display_name
 msgid "Display Name"
 msgstr ""
@@ -467,8 +461,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__id
-#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_res_partner__id
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__id
 msgid "ID"
 msgstr ""
@@ -524,8 +518,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal____last_update
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist____last_update
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item____last_update
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates____last_update
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes____last_update
-#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_res_partner____last_update
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -533,6 +527,7 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__write_uid
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__write_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__write_uid
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__write_uid
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__write_uid
 msgid "Last Updated by"
@@ -541,6 +536,7 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__write_date
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__write_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__write_date
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__write_date
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__write_date
 msgid "Last Updated on"
@@ -612,6 +608,7 @@ msgstr ""
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__name
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__name
 msgid "Name"
 msgstr ""
@@ -805,8 +802,12 @@ msgid "Pricelist Proposal Manager"
 msgstr ""
 
 #. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_templates_tree
+msgid "Pricelist Templates"
+msgstr ""
+
+#. module: pao_pricelist_proposal
 #: model:ir.actions.act_window,name:pao_pricelist_proposal.proposal_terms_schemes_action
-#: model:ir.ui.menu,name:pao_pricelist_proposal.proposal_terms_schemes_menu_item
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_terms_schemes_tree
 msgid "Pricelist Terms and Conditions"
 msgstr ""
@@ -825,6 +826,11 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model:ir.model,name:pao_pricelist_proposal.model_send_pricelist_proposal
 msgid "Pricelist send proposal"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:ir.ui.menu,name:pao_pricelist_proposal.pricelist_terms_templates
+msgid "Pricelists"
 msgstr ""
 
 #. module: pao_pricelist_proposal
@@ -867,6 +873,11 @@ msgid "Proposal Agreement"
 msgstr ""
 
 #. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_proposal_templates
+msgid "Proposal Templates"
+msgstr ""
+
+#. module: pao_pricelist_proposal
 #: model:ir.model,name:pao_pricelist_proposal.model_proposal_terms_schemes
 msgid "Proposal terms by scheme"
 msgstr ""
@@ -874,6 +885,13 @@ msgstr ""
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
 msgid "Reason for rejection"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:proposal.templates,template:pao_pricelist_proposal.pricelist_template_season_2024
+msgid ""
+"Reiterating our gratitude for your trust in considering us as your third-party audit services provider in agri-food safety, we are pleased to present the proposal of preferential prices for your audits during the 2023-2024 season.\n"
+"            "
 msgstr ""
 
 #. module: pao_pricelist_proposal
@@ -1020,10 +1038,27 @@ msgid "Subject"
 msgstr ""
 
 #. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__template
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__message_proposal_template_id
+msgid "Template"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:ir.actions.act_window,name:pao_pricelist_proposal.proposal_templates_action
+#: model:ir.ui.menu,name:pao_pricelist_proposal.proposal_templates_menu_item
+msgid "Templates"
+msgstr ""
+
+#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__proposal_terms
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__terms_and_conditions
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__proposal_terms
 msgid "Terms & Conditions"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:ir.ui.menu,name:pao_pricelist_proposal.proposal_terms_schemes_menu_item
+msgid "Terms and Conditions"
 msgstr ""
 
 #. module: pao_pricelist_proposal
