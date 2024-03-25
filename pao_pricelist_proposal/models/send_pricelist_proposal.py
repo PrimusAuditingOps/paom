@@ -37,9 +37,9 @@ class SendPricelistProposal(models.TransientModel):
                 link = url_join(base_url, '/pricelist_proposal/%s/%s' % (record.pricelist_proposal_id.id, record.pricelist_proposal_id.access_token))
                 customer_name = record.customer_id.display_name if record.customer_id else '____________'
                 specialist = record.pricelist_proposal_id.create_uid.name
-                template = record.message_proposal_template_id.template if record.message_proposal_template_id else '________________________'
+                message_proposal_template = record.message_proposal_template_id.template if record.message_proposal_template_id else '________________________'
                 
-                rendered_body = template.with_context(context).body_html.format(proposal_link = link, customer_name=customer_name, specialist=specialist, message_proposal_template=template)
+                rendered_body = template.with_context(context).body_html.format(proposal_link = link, customer_name=customer_name, specialist=specialist, message_proposal_template=message_proposal_template)
                 
                 record.subject = record.mail_template_id.with_context(context).subject + " " + record.pricelist_proposal_id.origin_product_pricelist_id.name
                 record.message = rendered_body
