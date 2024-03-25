@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-25 16:59+0000\n"
-"PO-Revision-Date: 2024-03-25 16:59+0000\n"
+"POT-Creation-Date: 2024-03-25 17:15+0000\n"
+"PO-Revision-Date: 2024-03-25 17:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -89,10 +89,7 @@ msgstr ""
 "<p style=\"font-size:12pt; font-family:Tahoma,sans-serif; color:#000000; line-height:1.0;\">\n"
 "                    <b>Estimado {customer_name}</b>\n"
 "                    <br/><br/>\n"
-"                    <!-- Reiterando nuestro agradecimiento por su confianza al considerarnos su proveedor de servicios en auditorías de tercera \n"
-"                    parte en inocuidad agroalimentaria, le hacemos llegar la propuesta de precios preferenciales para sus auditorías durante \n"
-"                    la temporada 2023-2024. -->\n"
-                     {message_proposal_template}\n"
+"                    {message_proposal_template}\n"
 "                    <br/><br/>\n"
 "                    Puede visualizar la propuesta de precios preferenciales haciendo click <a href=\"{proposal_link}\" target=\"_blank\">aquí.</a>\n"
 "                    <br/><br/>\n"
@@ -492,6 +489,8 @@ msgid ""
 "Hello %(mention_html)s, the %(proposal_link)s of %(pricelist_name)s has been"
 " accepted"
 msgstr ""
+"Hola %(mention_html)s, la %(proposal_link)s de %(pricelist_name)s ha sido"
+" aceptada"
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_hr_employee__id
@@ -843,7 +842,7 @@ msgstr "Encargado de propuestas de tarifas"
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_templates_tree
 msgid "Pricelist Templates"
-msgstr "Plantilla de tarifa"
+msgstr "Plantillas de tarifa"
 
 #. module: pao_pricelist_proposal
 #: model:ir.actions.act_window,name:pao_pricelist_proposal.proposal_terms_schemes_action
@@ -932,9 +931,7 @@ msgid ""
 "Reiterating our gratitude for your trust in considering us as your third-party audit services provider in agri-food safety, we are pleased to present the proposal of preferential prices for your audits during the 2023-2024 season.\n"
 "            "
 msgstr ""
-"Reiterating our gratitude for your trust in considering us as your third-party audit services provider in agri-food safety, we are pleased to present the proposal of preferential prices for your audits during the 2023-2024 season.\n"
-"Reiterando nuestro agradecimiento por su confianza al considerarnos su proveedor de servicios en auditorías de tercera parte en inocuidad agroalimentaria, le hacemos llegar la propuesta de precios preferenciales para sus auditorías durante la temporada 2023-2024.
-"            "
+"Reiterando nuestro agradecimiento por su confianza al considerarnos su proveedor de servicios en auditorías de tercera parte en inocuidad agroalimentaria, le hacemos llegar la propuesta de precios preferenciales para sus auditorías durante la temporada 2023-2024."
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__reject_reasons
