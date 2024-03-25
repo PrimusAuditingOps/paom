@@ -27,7 +27,7 @@
                     <!-- Reiterating our gratitude for your trust in considering us as your third-party 
                     audit services provider in agri-food safety, we are pleased to present the 
                     proposal of preferential prices for your audits during the 2023-2024 season. -->
-                    <t t-raw="proposal.message_proposal_template_id.template"/>
+                    <t t-esc="proposal.message_proposal_template_id.template"/>
                     <br/><br/>
                     You can view the preferred pricing proposal below.
                     <br/><br/>
