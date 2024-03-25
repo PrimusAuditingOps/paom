@@ -24,6 +24,8 @@ class PriceListProposal(models.Model):
     
     proposal_terms =  fields.Many2one('proposal.terms.schemes', string="Terms & Conditions")
     
+    message_proposal_template_id = fields.Many2one('proposal.templates', string="Template")
+    
     reject_reasons = fields.Char("Reject reasons", readonly=True)
     
     sign_date = fields.Date("Sign Date", readonly=True)
