@@ -10,6 +10,7 @@
         'security/ir.model.access.csv',
         
         'data/mail_template.xml',
+        'data/pricelist_template.xml',
         'views/proposal_agreement_report.xml',
         
         'views/pricelist_portal_template.xml',

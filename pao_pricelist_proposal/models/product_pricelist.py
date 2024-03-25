@@ -76,8 +76,9 @@ class ProductPriceList(models.Model):
             }
             return action
     
-    def notify_action(self, notification_message, attachment=None):
-        user = self.pricelist_proposal_id.create_uid
+    def notify_action(self, notification_message, attachment=None, manager_user = None):
+        
+        user = self.pricelist_proposal_id.create_uid if not manager_user else manager_user
         
         attachments = [attachment.id] if attachment else None
         
@@ -108,4 +109,4 @@ class ProductPriceList(models.Model):
         message = _('Hello %(mention_html)s,  your approval is required for this %(proposal_link)s to be shared with the client.'
                 ) % {'proposal_link': proposal_link, 'mention_html': mention_html}
         
-        self.notify_action(message)
+        self.notify_action(message, manager_user=approver)

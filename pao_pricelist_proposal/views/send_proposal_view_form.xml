@@ -11,6 +11,7 @@
                     <field name="message" placeholder="Optional Message..."/>
                 </group>
                 <group col="4">
+                    <field name="message_proposal_template_id"/>
                     <field name="proposal_terms"/>
                     <field name="mail_template_id" invisible="1" options="{'no_create':True, 'create_edit': false,'no_open': True}"/>
                 </group>
