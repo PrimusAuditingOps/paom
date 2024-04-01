@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pao_pricelist_proposal_view_form" model="ir.ui.view">
+        <field name="name">pao.pricelist.proposal.view.form</field>
+        <field name="model">pao.pricelist.proposal</field>
+        <field name="arch" type="xml">
+            <form string="Products Price List">
+                <header>
+                    <field name="authorized" invisible="1"/>
+                    <field name="authorization_request_sent" invisible="1"/>
+                    <button string="Cancel" attrs="{'invisible': [('proposal_status', 'in', ['cancel', 'complete'])]}" type="object" class="oe_highlight" name="cancel_proposal_action"/>
+                    <button string="Send" attrs="{'invisible': ['|',('proposal_status', '!=', 'draft'),('authorized', '!=', True)]}" type="object" class="oe_highlight" name="send_proposal_action"/>
+                    <button string="Request authorization" type="object" class="oe_highlight" name="request_approval" attrs="{'invisible': ['|','|',('authorization_request_sent', '=', True), ('authorized', '=', True),('proposal_status', '!=', 'draft')]}"/>
+                    <button string="Authorize proposal" type="object" class="oe_highlight" name="authorize_proposal_action" attrs="{'invisible': ['|',('authorized', '=', True),('proposal_status', '!=', 'draft')]}" groups="pao_pricelist_proposal.pricelist_proposal_authorizer"/>
+                    <button string="Complete" attrs="{'invisible': [('proposal_status', '!=', 'accept')]}" type="object" class="oe_highlight" name="complete_proposal_action"/>
+                    <field name="proposal_status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" placeholder="e.g. USD Retailers"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="pricelist_settings">
+                            <field name="sign_date" readonly="1"/>
+                            <field name="currency_id" readonly="1" can_create="true" can_write="true"/>
+                            <field name="create_uid" invisible="1" can_create="true" can_write="true"/>
+                            <field name="active" invisible="1"/>
+                            <field name="company_id" options="{'no_create': True}" can_create="true" can_write="true" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="pricelist_rules" string="Price Rules">
+                            <field name="item_ids" attrs="{'readonly': [('proposal_status', '!=', 'draft')]}" nolabel="1" context="{'default_base':'list_price'}"/>
+                        </page>
+                        <page name="pricelist_config" string="Configuration">
+                            <group>
+                                <group name="pricelist_availability" string="Availability">
+                                    <field name="country_group_ids" readonly="1" widget="many2many_tags" can_create="true" can_write="true"/>
+                                </group>
+                                <group name="pricelist_discounts" string="Discounts" invisible="1">
+                                    <field name="discount_policy" widget="radio"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

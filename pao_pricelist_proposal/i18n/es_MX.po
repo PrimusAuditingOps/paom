@@ -1,0 +1,1205 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_pricelist_proposal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-25 17:15+0000\n"
+"PO-Revision-Date: 2024-03-25 17:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#: code:addons/pao_pricelist_proposal/models/product_pricelist.py:0
+#, python-format
+msgid ""
+"<a href=\"#\" data-oe-model=\"pao.pricelist.proposal\" data-oe-"
+"id=\"%(proposal_id)d\">pricelist proposal</a>"
+msgstr ""
+"<a href=\"#\" data-oe-model=\"pao.pricelist.proposal\" data-oe-"
+"id=\"%(proposal_id)d\">propuesta de lista de precios</a>"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+msgid "<b>Preferred pricing proposal</b>"
+msgstr "<b>Propuesta de precios preferenciales</b>"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid ""
+"<br/><br/>\n"
+"                    You can view the preferred pricing proposal below.\n"
+"                    <br/><br/>"
+msgstr ""
+"<br/><br/>\n"
+"                    Puede visualizar la propuesta de precios preferenciales a continuación.\n"
+"                    <br/><br/>"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid ""
+"<i class=\"fa fa-envelope\" aria-hidden=\"true\" style=\"color: #78c957 !important; font-size: 17px !important;\"/>\n"
+"                        <span class=\"mx-1\">paomexico@primusauditingops.com</span>"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid ""
+"<i class=\"fa fa-globe\" aria-hidden=\"true\" style=\"color: #78c957 !important; font-size: 17px !important;\"/>\n"
+"                        <span class=\"mx-1\">primusauditingops.com</span>"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid ""
+"<i class=\"fa fa-phone\" aria-hidden=\"true\" style=\"color: #78c957 !important; font-size: 17px !important;\"/>\n"
+"                        <span class=\"mx-1\">331.981.8572</span>"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:mail.template,body_html:pao_pricelist_proposal.mail_template_pricelist_proposal
+msgid ""
+"<p style=\"font-size:12pt; font-family:Tahoma,sans-serif; color:#000000; line-height:1.0;\">\n"
+"                    <b>Dear {customer_name}</b>\n"
+"                    <br/><br/>\n"
+"                    {message_proposal_template}\n"
+"                    <br/><br/>\n"
+"                    You can view the proposal of preferential prices by clicking <a href=\"{proposal_link}\" target=\"_blank\">here.</a>\n"
+"                    <br/><br/>\n"
+"                    Please feel free to reach out for any questions or comments.\n"
+"                    <br/><br/>\n"
+"                    Sincerely\n"
+"                    <br/><br/>\n"
+"                    {specialist}\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<p style=\"font-size:12pt; font-family:Tahoma,sans-serif; color:#000000; line-height:1.0;\">\n"
+"                    <b>Estimado {customer_name}</b>\n"
+"                    <br/><br/>\n"
+"                    {message_proposal_template}\n"
+"                    <br/><br/>\n"
+"                    Puede visualizar la propuesta de precios preferenciales haciendo click <a href=\"{proposal_link}\" target=\"_blank\">aquí.</a>\n"
+"                    <br/><br/>\n"
+"                    Sin otro particular quedamos para cualquier duda o comentario.\n"
+"                    <br/><br/>\n"
+"                    Atentamente\n"
+"                    <br/><br/>\n"
+"                    {specialist}\n"
+"                </p>\n"
+"            "
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid ""
+"<span attrs=\"{'invisible':[('base', '!=', 'list_price')]}\">Sales Price  -  </span>\n"
+"                            <span attrs=\"{'invisible':[('base', '!=', 'standard_price')]}\">Cost  -  </span>\n"
+"                            <span attrs=\"{'invisible':[('base', '!=', 'pricelist')]}\">Other Pricelist  -  </span>"
+msgstr ""
+"<span attrs=\"{'invisible':[('base', '!=', 'list_price')]}\">Precio de Venta - </span>\n"
+"<span attrs=\"{'invisible':[('base', '!=', 'standard_price')]}\">Costo - </span>\n"
+"<span attrs=\"{'invisible':[('base', '!=', 'pricelist')]}\">Otra Lista de Precios - </span>"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.product_pricelist_proposal_form_inherit
+msgid "<span class=\"o_stat_value\">Proposal</span>"
+msgstr "<span class=\"o_stat_value\">Propuesta</span>"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+msgid "<span title=\"Close\" class=\"fa fa-times\"/>"
+msgstr "<span title=\"Cerrar\" class=\"fa fa-times\"/>"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid ""
+"<span><b>Av Lázaro Cárdenas Número Exterior 3478 Colonia Chapalita Guadalajara Jalisco, C.P. 44500</b></span>\n"
+"                    <br/>\n"
+"                    <span>\n"
+"                        <b>USA:</b> HQ Santa Maria, CA  •  Brandon, FL  •  <b>Mexico:</b> Guadalajara  •  Culiacán  •  Uruapan  •  \n"
+"                        <b>Costa Rica:</b> San José  •  <b>Chile:</b> Viña del Mar\n"
+"                    </span>"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+msgid "Accept"
+msgstr "Aceptar"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+msgid "Accept proposal"
+msgstr "Aceptar propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields.selection,name:pao_pricelist_proposal.selection__pao_pricelist_proposal__proposal_status__accept
+msgid "Accepted"
+msgstr "Aceptado"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__access_token
+msgid "Access Token"
+msgstr "Token de acceso"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_needaction
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_needaction
+msgid "Action Needed"
+msgstr "Acción requerida"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__active
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_ids
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_exception_decoration
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoración de Actividad  de Excepción"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_state
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_state
+msgid "Activity State"
+msgstr "Estado de actividad"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_type_icon
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ícono de tipo de actvidad"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_proposal_response_error
+msgid "An error occurred while sending your response. Please try again."
+msgstr "Ocurrió un error enviando su respuesta. Por favor intente de nuevo."
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_tree
+msgid "Applied On"
+msgstr "Aplicable en"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__applied_on
+msgid "Apply On"
+msgstr "Aplicar sobre"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_attachment_count
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nº de archivos adjuntos"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__authorization_request_sent
+msgid "Authorization request sent"
+msgstr "Solicitud de autorización enviada"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Authorize proposal"
+msgstr "Autorizar propuesta"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Availability"
+msgstr "Disponibilidad"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__base_url
+msgid "Base URL"
+msgstr "URL Base"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__base
+msgid ""
+"Base price for computation.\n"
+"Sales Price: The base price will be the Sales Price.\n"
+"Cost Price : The base price will be the cost price.\n"
+"Other Pricelist : Computation of the base price based on another Pricelist."
+msgstr ""
+"Precio base para el cálculo.\n"
+"Precio de venta: El precio base será el precio de venta.\n"
+"Precio de coste El precio base será el precio de coste.\n"
+"Otra lista de precios: Cálculo del precio base en base a otra lista de precios."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__base_pricelist
+msgid "Base pricelist"
+msgstr "Tarifa base"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__base
+msgid "Based on"
+msgstr "Basado en"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.send_proposal_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields.selection,name:pao_pricelist_proposal.selection__pao_pricelist_proposal__proposal_status__cancel
+msgid "Canceled"
+msgstr "Cancelado"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__company_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Complete"
+msgstr "Completar"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields.selection,name:pao_pricelist_proposal.selection__pao_pricelist_proposal__proposal_status__complete
+msgid "Completed"
+msgstr "Completado"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__compute_price
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid "Compute Price"
+msgstr "Calcula el Precio"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__country_group_ids
+msgid "Country Groups"
+msgstr "Grupos de países"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__create_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__create_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__create_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__create_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__create_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__create_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__create_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__create_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__currency_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__customer_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__customer_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid "Dear"
+msgstr "Estimado"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+msgid "Decline"
+msgstr "Declinar"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+msgid "Decline proposal"
+msgstr "Declinar propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__discount_policy
+msgid "Discount Policy"
+msgstr "Política de descuento"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Discounts"
+msgstr "Descuentos"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__display_name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__display_name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__display_name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__display_name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__display_name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__display_name
+msgid "Display Name"
+msgstr "Nombre en pantalla"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_proposal_response_sent
+msgid "Download proposal agreement"
+msgstr "Descargar acuerdo de propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields.selection,name:pao_pricelist_proposal.selection__pao_pricelist_proposal__proposal_status__draft
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_hr_employee
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__date_end
+msgid "End Date"
+msgstr "Fecha de fin"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__date_end
+msgid ""
+"Ending datetime for the pricelist item validation\n"
+"The displayed value depends on the timezone set in your preferences."
+msgstr ""
+"Fecha y hora límite para la validación de la lista de precios \n"
+"El valor que se muestra depende del uso horario que está indicado en sus preferencias."
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.send_proposal_view_form
+msgid "Enter Subject"
+msgstr "Ingresar asunto"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__existing_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__existing_proposal
+msgid "Existing pricelist proposal"
+msgstr "Propuesta de lista de precios existente"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__name
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__price
+msgid "Explicit rule name for this pricelist line."
+msgstr "Nombre de regla explícita para esta línea de tarifa."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__fixed_price
+msgid "Fixed Price"
+msgstr "Precio fijo"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_follower_ids
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_channel_ids
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canales)"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_partner_ids
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Contactos)"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_type_icon
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Icono de Font Awesome ej. fa-tasks"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__min_quantity
+msgid ""
+"For the rule to apply, bought/sold quantity must be greater than or equal to the minimum quantity specified in this field.\n"
+"Expressed in the default unit of measure of the product."
+msgstr ""
+"Para que se aplique la regla, la cantidad comprada/vendida debe ser mayor o igual que la cantidad mínima especificada en este campo. \n"
+"Expresada en la Unidad de Medida por defecto del producto."
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/product_pricelist.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s,  your approval is required for this "
+"%(proposal_link)s to be shared with the client."
+msgstr ""
+"Hola %(mention_html)s,  se requiere su aprobación para esta "
+"%(proposal_link)s para ser compartida con el cliente."
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid "Hello %(mention_html)s, the %(proposal_link)s has been authorized."
+msgstr "Hola %(mention_html)s, la %(proposal_link)s ha sido autorizada."
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the %(proposal_link)s has been rejected due the "
+"following reasons: %(reasons)s"
+msgstr ""
+"Hola %(mention_html)s, la %(proposal_link)s ha sido rechazada debido a las "
+"siguientes razones: %(reasons)s"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the %(proposal_link)s of %(pricelist_name)s has been"
+" accepted"
+msgstr ""
+"Hola %(mention_html)s, la %(proposal_link)s de %(pricelist_name)s ha sido"
+" aceptada"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_hr_employee__id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__id
+msgid "ID"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_exception_icon
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_exception_icon
+msgid "Icon"
+msgstr "Ícono"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_exception_icon
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icono para indicar una actividad de excepción."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__message_needaction
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__message_unread
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__message_needaction
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado hay nuevos mensajes que requieren su atención."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__message_has_error
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__message_has_sms_error
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__message_has_error
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__active
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__active
+msgid ""
+"If unchecked, it will allow you to hide the pricelist without removing it."
+msgstr "Si no está marcado, la tarifa podrá ocultarse sin eliminarla."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_is_follower
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_is_follower
+msgid "Is Follower"
+msgstr "Es seguidor"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__authorized
+msgid "Is proposal authorized"
+msgstr "La propuesta esta autorizada"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_hr_employee____last_update
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal____last_update
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist____last_update
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item____last_update
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates____last_update
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes____last_update
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__write_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__write_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__write_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__write_uid
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__write_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__write_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__write_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__write_date
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__write_date
+msgid "Last Updated on"
+msgstr "Última vez actualizado el"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid "Logo"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__mail_template_id
+msgid "Mail Template"
+msgstr "Plantilla de correo"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_main_attachment_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Adjuntos principales"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid "Max. Margin"
+msgstr "Margen máx."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__price_max_margin
+msgid "Max. Price Margin"
+msgstr "Máx. margen de precio"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__message
+msgid "Message"
+msgstr "Mensaje"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_has_error
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_ids
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid "Min. Margin"
+msgstr "Margen mín."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__price_min_margin
+msgid "Min. Price Margin"
+msgstr "Mín. margen de precio"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__min_quantity
+msgid "Min. Quantity"
+msgstr "Cantidad mín."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__my_activity_date_deadline
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Plazo de mi actividad"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__name
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid "New Price ="
+msgstr "Nuevo Precio ="
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.product_pricelist_proposal_form_inherit
+msgid "New Proposal"
+msgstr "Nueva propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_date_deadline
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Siguiente plazo de actividad"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_summary
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_type_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_type_id
+msgid "Next Activity Type"
+msgstr "Resumen de la siguiente actividad"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#: code:addons/pao_pricelist_proposal/models/product_pricelist.py:0
+#, python-format
+msgid "No employee in charge of pricelist proposals was found."
+msgstr "No se encontró ningún empleado encargado de propuestas de tarifas"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid "Normal price"
+msgstr "Precio normal"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_needaction_counter
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de acciones"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_has_error_counter
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de errores"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__message_needaction_counter
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__message_has_error_counter
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de envío"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__message_unread_counter
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leidos"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/hr_employee.py:0
+#, python-format
+msgid "Only one employee can be pricelist proposal manager."
+msgstr "Solamente un empleado puede ser encargado de propuestas de tarifas"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.send_proposal_view_form
+msgid "Optional Message..."
+msgstr "Mensaje opcional..."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__base_pricelist_id
+msgid "Other Pricelist"
+msgstr "Otra tarifa"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__percent_price
+msgid "Percentage Price"
+msgstr "Porcentaje de precio"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid ""
+"Please ensure that all employees involved in this process have a signature "
+"assigned in the Employees section."
+msgstr ""
+"Por favor, asegúrese de que todos los empleados involucrados en este proceso"
+" tengan una firma asignada en el apartado de Empleados."
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid "Preferred price"
+msgstr "Precio preferencial"
+
+#. module: pao_pricelist_proposal
+#: model:mail.template,subject:pao_pricelist_proposal.mail_template_pricelist_proposal
+msgid "Preferred pricing proposal"
+msgstr "Propuesta de precios preferenciales"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__price
+msgid "Price"
+msgstr "Precio"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid "Price Computation"
+msgstr "Cálculo del precio"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__price_discount
+msgid "Price Discount"
+msgstr "Descuento precio"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__price_round
+msgid "Price Rounding"
+msgstr "Redondeo precio"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_tree
+msgid "Price Rules"
+msgstr "Normas de precio"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__price_surcharge
+msgid "Price Surcharge"
+msgstr "Recargo precio"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_product_pricelist
+msgid "Pricelist"
+msgstr "Lista de precios"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__pricelist_agreement_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__pricelist_agreement_id
+#, python-format
+msgid "Pricelist Agreement"
+msgstr "Acuerdo de tarifa"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__applied_on
+msgid "Pricelist Item applicable on selected option"
+msgstr "Elemento de tarifa aplicable a la opción seleccionada"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__item_ids
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid "Pricelist Items"
+msgstr "Elementos de tarifa"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__name
+msgid "Pricelist Name"
+msgstr "Nombre tarifa"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/product_pricelist.py:0
+#: code:addons/pao_pricelist_proposal/models/product_pricelist.py:0
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__pricelist_proposal_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__pricelist_proposal_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__pricelist_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__pricelist_proposal_id
+#, python-format
+msgid "Pricelist Proposal"
+msgstr "Propuesta de tarifa"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_hr_employee__pricelist_proposal_manager
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__pricelist_proposal_manager_id
+msgid "Pricelist Proposal Manager"
+msgstr "Encargado de propuestas de tarifas"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_templates_tree
+msgid "Pricelist Templates"
+msgstr "Plantillas de tarifa"
+
+#. module: pao_pricelist_proposal
+#: model:ir.actions.act_window,name:pao_pricelist_proposal.proposal_terms_schemes_action
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_terms_schemes_tree
+msgid "Pricelist Terms and Conditions"
+msgstr "Términos y condiciones de tarifas"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid "Pricelist proposal agreement"
+msgstr "Acuerdo de propuesta de tarifa"
+
+#. module: pao_pricelist_proposal
+#: model:res.groups,name:pao_pricelist_proposal.pricelist_proposal_authorizer
+msgid "Pricelist proposal authorizer"
+msgstr "Autorizador de propuesta de tarifas"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_send_pricelist_proposal
+msgid "Pricelist send proposal"
+msgstr "Tarifa enviar propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.ui.menu,name:pao_pricelist_proposal.pricelist_terms_templates
+msgid "Pricelists"
+msgstr "Tarifas"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__product_tmpl_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__categ_id
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__origin_product_pricelist_id
+msgid "Product Price List Origin"
+msgstr "Tarifa de producto origen"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__product_id
+msgid "Product Variant"
+msgstr "Variante de producto"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Products Price List"
+msgstr "Tarifa de productos"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/product_pricelist.py:0
+#, python-format
+msgid "Proposal"
+msgstr "Propuesta"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/controllers/portal.py:0
+#: model:ir.actions.report,name:pao_pricelist_proposal.report_proposal_agreement
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__proposal_agreement_id
+#, python-format
+msgid "Proposal Agreement"
+msgstr "Acuerdo de propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_proposal_templates
+msgid "Proposal Templates"
+msgstr "Plantillas de propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_proposal_terms_schemes
+msgid "Proposal terms by scheme"
+msgstr "Términos de propuesta por esquema"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+msgid "Reason for rejection"
+msgstr "Motivo de rechazo"
+
+#. module: pao_pricelist_proposal
+#: model:proposal.templates,template:pao_pricelist_proposal.pricelist_template_season_2024
+msgid ""
+"Reiterating our gratitude for your trust in considering us as your third-party audit services provider in agri-food safety, we are pleased to present the proposal of preferential prices for your audits during the 2023-2024 season.\n"
+"            "
+msgstr ""
+"Reiterando nuestro agradecimiento por su confianza al considerarnos su proveedor de servicios en auditorías de tercera parte en inocuidad agroalimentaria, le hacemos llegar la propuesta de precios preferenciales para sus auditorías durante la temporada 2023-2024."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__reject_reasons
+msgid "Reject reasons"
+msgstr "Motivo de rechazo"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields.selection,name:pao_pricelist_proposal.selection__pao_pricelist_proposal__proposal_status__reject
+msgid "Rejected"
+msgstr "Rechazado"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Request authorization"
+msgstr "Solicitar autorización"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_user_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario responsable"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid "Rounding Method"
+msgstr "Método de redondeo"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_has_sms_error
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Error de entrega de SMS"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_portal_template
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.send_proposal_view_form
+msgid "Send"
+msgstr "Enviar"
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid "Send proposal"
+msgstr "Enviar propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields.selection,name:pao_pricelist_proposal.selection__pao_pricelist_proposal__proposal_status__sent
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__price_round
+msgid ""
+"Sets the price so that it is a multiple of this value.\n"
+"Rounding is applied after the discount and before the surcharge.\n"
+"To have prices that end in 9.99, set rounding 10, surcharge -0.01"
+msgstr ""
+"Calcula el precio de modo que sea un múltiplo de este valor.\n"
+"El redondeo se aplica después del descuento y antes del incremento.\n"
+"Para que los precios terminen en 9,99, redondeo 10, incremento -0,01."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__sign_date
+msgid "Sign Date"
+msgstr "Fecha de firma"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__signature
+msgid "Signature Image"
+msgstr "Imagen de firma"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__categ_id
+msgid ""
+"Specify a product category if this rule only applies to products belonging "
+"to this category or its children categories. Keep empty otherwise."
+msgstr ""
+"Especifique una categoría de producto si esta regla sólo se aplica a los "
+"productos pertenecientes a esa categoría o a sus categorías hijas. Déjelo en"
+" blanco en caso contrario."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__product_id
+msgid ""
+"Specify a product if this rule only applies to one product. Keep empty "
+"otherwise."
+msgstr ""
+"Especifique un producto si esta regla sólo se aplica a un producto, Déjelo "
+"vacío en otro caso."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__product_tmpl_id
+msgid ""
+"Specify a template if this rule only applies to one product template. Keep "
+"empty otherwise."
+msgstr ""
+"Especifique una plantilla si esta regla sólo se aplica a una plantilla de "
+"producto. Déjelo vacío en caso contrario."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__price_surcharge
+msgid ""
+"Specify the fixed amount to add or subtract(if negative) to the amount "
+"calculated with the discount."
+msgstr ""
+"Especifica el importe fijo a añadir o a quitar (si es negativo) al importe "
+"calculado con el descuento."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__price_max_margin
+msgid "Specify the maximum amount of margin over the base price."
+msgstr "Especifique el importe máximo de margen sobre el precio base."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__price_min_margin
+msgid "Specify the minimum amount of margin over the base price."
+msgstr "Especifique el importe mínimo del margen sobre el precio base."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__date_start
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_proposal_item__date_start
+msgid ""
+"Starting datetime for the pricelist item validation\n"
+"The displayed value depends on the timezone set in your preferences."
+msgstr ""
+"Fecha y hora de inicio de la validación de la lista de precios\n"
+"\n"
+"El valor que se muestra depende del uso horario que está indicando en sus preferencias."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__proposal_status
+msgid "Status"
+msgstr "Estado"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_state
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Estado basado en actividades\n"
+"Vencida: la fecha tope ya ha pasado\n"
+"Hoy: La fecha tope es hoy\n"
+"Planificada: futuras actividades."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__subject
+msgid "Subject"
+msgstr "Asunto"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__template
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__message_proposal_template_id
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: pao_pricelist_proposal
+#: model:ir.actions.act_window,name:pao_pricelist_proposal.proposal_templates_action
+#: model:ir.ui.menu,name:pao_pricelist_proposal.proposal_templates_menu_item
+msgid "Templates"
+msgstr "Plantillas"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__proposal_terms
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_terms_schemes__terms_and_conditions
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__proposal_terms
+msgid "Terms & Conditions"
+msgstr "Términos y condiciones"
+
+#. module: pao_pricelist_proposal
+#: model:ir.ui.menu,name:pao_pricelist_proposal.proposal_terms_schemes_menu_item
+msgid "Terms and Conditions"
+msgstr "Términos y condiciones"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_item_view_form
+msgid ""
+"The computed price is expressed in the default Unit of Measure of the "
+"product."
+msgstr ""
+"El precio calculado se expresa en la unidad de medida por defecto del "
+"producto."
+
+#. module: pao_pricelist_proposal
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid "The pricelist %(pricelist_name)s has been updated."
+msgstr "La tarifa %(pricelist_name)s ha sido actualizada."
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_proposal_exception_page_view
+msgid "The pricelist proposal was canceled or does not exist."
+msgstr "La propuesta de lista de precios ha sido cancelada o no existe."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_exception_decoration
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo de actividad de excepción registrada."
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_unread
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes sin leer"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__message_unread_counter
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Nº de mensajes sin leer"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__website_message_ids
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_pricelist__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes de sitio web"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_pao_pricelist_proposal__website_message_ids
+#: model:ir.model.fields,help:pao_pricelist_proposal.field_product_pricelist__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicación de sitio web"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
+msgid ""
+"Without further ado, we remain available for any questions or comments.\n"
+"                    <br/><br/>\n"
+"                    Sincerely\n"
+"                    <br/><br/>"
+msgstr ""
+"Sin otro particular quedamos para cualquier duda o comentario.\n"
+"                    <br/><br/>\n"
+"                    Atentamente\n"
+"                    <br/><br/>"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.send_proposal_view_form
+msgid "Write email or search contact..."
+msgstr "Escribe un correo o busca un contacto..."
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pricelist_proposal_response_sent
+msgid "Your response has been sent."
+msgstr "Su respuesta ha sido enviada."
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "e.g. USD Retailers"
+msgstr "ej. USD Minoristas"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_pao_pricelist_proposal
+msgid "pao.pricelist.proposal"
+msgstr ""
+
+#. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_product_proposal_item
+msgid "product.proposal.item"
+msgstr ""

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="pricelist_proposal_exception_page_view" name="Pricelist proposal not found">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center my-5 py-5">
+                    <h3 class="d-inline">The pricelist proposal was canceled or does not exist.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="pricelist_proposal_response_sent" name="Response sent">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center my-5 py-5">
+                    <h3 class="d-inline">Your response has been sent.</h3>
+                    <br/><br/>
+                    <a class="btn btn-primary" t-if="attachment" t-attf-href="/download_attachment/{{ attachment.id }}" type="button">
+                       Download proposal agreement
+                    </a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="pricelist_proposal_response_error" name="Error sending response">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center my-5 py-5">
+                    <h3 class="d-inline">An error occurred while sending your response. Please try again.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="pricelist_portal_template" name="Propuesta de precios preferenciales">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mb-4">
+                    <h3 class="d-inline">
+                        <b>Preferred pricing proposal</b>
+                    </h3>
+                </div>
+
+                <t t-set="categories" t-value="[]"/>
+                <t t-foreach="proposal.item_ids" t-as="item">
+                    <t t-set="category" t-value="item.product_tmpl_id.categ_id"/>
+                    <t t-if="category">
+                        <t t-set="category_name" t-value="category.name"/>
+                        <t t-if="not categories or category_name not in categories">
+                            <t t-set="categories" t-value="categories + [category_name]"/>
+                        </t>
+                    </t>
+                </t>
+
+                <div class="mx-4">
+                    <t t-foreach="categories" t-as="category_name">
+                        <table class="table mb-4">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase">
+                                        <t t-esc="category_name"/>
+                                    </th>
+                                    <th class="text-uppercase">Normal price</th>
+                                    <th class="text-uppercase">Preferred price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="proposal.item_ids.filtered(lambda item: item.product_tmpl_id.categ_id.name == category_name)" t-as="item">
+                                    <t t-set="base_item" t-value="base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)[0]"/>
+                                    <tr>
+                                        <td class="col-md-7">
+                                            <t t-esc="item.product_tmpl_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="'${:,.2f}'.format(base_item.fixed_price)"/>
+                                        </td>
+                                        <td>
+                                            <!-- $<t t-esc="'%.2f'% item.fixed_price"/> -->
+                                            <t t-esc="'${:,.2f}'.format(item.fixed_price)"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+
+                <br/>
+
+                <t t-if="proposal.proposal_terms">
+                    <div class="mb-4">
+                        <t t-raw="proposal.proposal_terms.terms_and_conditions"/>
+                    </div>
+                </t>
+
+                <div class="d-flex justify-content-center mt-4 mb-5">
+                    <button data-toggle="modal" data-target="#accept_proposal_sign" class="btn btn-primary mx-3">Accept</button>
+                    <button data-toggle="modal" data-target="#reject_reasons" class="btn btn-primary mx-3">Decline</button>
+                </div>
+
+                <div class="modal fade" id="accept_proposal_sign" tabindex="-1" aria-labelledby="accept_proposal_sign_label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form method="POST">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Accept proposal</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span title="Close" class="fa fa-times"></span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <t t-call="portal.signature_form">
+                                        <t t-set="call_url" t-value="accept_link"/>
+                                        <t t-set="default_name" t-value="proposal.customer_id.name"/>
+                                        <t t-set="font_color" t-value="'darkblue'"/>
+                                    </t> 
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="reject_reasons" tabindex="-1" aria-labelledby="reject_reasons_label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form method="POST" t-att-action="confirm_reject_link">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Decline proposal</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span title="Close" class="fa fa-times"></span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mx-4">
+                                        <label for="reject_reasons">Reason for rejection</label>
+                                        <textarea required="true" class="form-control" name="reject_reasons" id="reject_reasons" cols="30" rows="10"></textarea>
+                                    </div>
+
+                                    <br/>
+
+                                    <div class="text-center mt-4 mb-5">
+                                        <button type="submit" class="btn btn-primary mx-3">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

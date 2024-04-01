@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="product_pricelist_proposal_form_inherit" model="ir.ui.view">
+            <field name="name">product.pricelist.proposal.form.inherit</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="product.product_pricelist_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <field name="existing_proposal" invisible="1"/>
+                        <field name="pricelist_agreement_id" invisible="1"/>
+                        <button string="New Proposal" attrs="{'invisible': [('existing_proposal', '!=', False)]}" type="object" class="oe_highlight" name="create_pricelist_proposal"/>
+                    </header>
+                </xpath>
+                <xpath expr="//widget[@name='web_ribbon']" position="before">
+                    <div class="o_not_full oe_button_box">
+                        <button name="action_view_existing_proposal" type="object" class="oe_stat_button" icon="fa-file-text-o" attrs="{'invisible': [('existing_proposal', '=', False)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">Proposal</span>
+                            </div>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//sheet" position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="message_ids"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

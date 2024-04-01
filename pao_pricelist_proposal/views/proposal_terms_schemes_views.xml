@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="proposal_terms_schemes_tree" model="ir.ui.view">
+        <field name="name">proposal.terms.schemes.view.tree</field>
+        <field name="model">proposal.terms.schemes</field>
+        <field name="arch" type="xml">
+            <tree string="Pricelist Terms and Conditions">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="proposal_terms_schemes_form" model="ir.ui.view">
+        <field name="name">proposal.terms.schemes.view.form</field>
+        <field name="model">proposal.terms.schemes</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="terms_and_conditions" widget="html"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="proposal_terms_schemes_action" model="ir.actions.act_window">
+        <field name="name">Pricelist Terms and Conditions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">proposal.terms.schemes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+    <record id="proposal_templates_tree" model="ir.ui.view">
+        <field name="name">proposal.templates.view.tree</field>
+        <field name="model">proposal.templates</field>
+        <field name="arch" type="xml">
+            <tree string="Pricelist Templates">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="proposal_templates_form" model="ir.ui.view">
+        <field name="name">proposal.templates.view.form</field>
+        <field name="model">proposal.templates</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="template"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="proposal_templates_action" model="ir.actions.act_window">
+        <field name="name">Templates</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">proposal.templates</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="pricelist_terms_templates" name="Pricelists" parent="sale.menu_sale_config" sequence="11"/>
+        <menuitem id="proposal_terms_schemes_menu_item" name="Terms and Conditions" parent="pricelist_terms_templates" sequence="1" action="proposal_terms_schemes_action"/>
+        <menuitem id="proposal_templates_menu_item" name="Templates" parent="pricelist_terms_templates" sequence="2" action="proposal_templates_action"/>
+</odoo>
