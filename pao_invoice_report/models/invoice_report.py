@@ -9,6 +9,7 @@ class InvoiceReport(models.Model):
     
     # Extra required fields #
     currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
+    currency_rate = fields.Char('Currency Rate', compute='_get_rate', readonly=True)
     invoice_id = fields.Many2one('account.move', 'Invoice', readonly=True)
     
     id = fields.Integer("ID", readonly=True)
@@ -19,8 +20,9 @@ class InvoiceReport(models.Model):
     
     # Details of operations #        
     product = fields.Many2one('product.product','Product', readonly=True)
+    product_category = fields.Many2one('product.category','Product Category', readonly=True)
     quantity = fields.Float('Quantity', readonly=True)
-    price_subtotal = fields.Monetary('Price Subtotal', currency_field='currency_id', readonly=True)
+    price_subtotal = fields.Monetary('Original Currency Subtotal', currency_field='currency_id', readonly=True)
     usd_subtotal = fields.Monetary(string='USD Subtotal', compute='_get_usd_price', currency_field='currency_id', readonly=True)
     mxn_subtotal = fields.Monetary(string='MXN Subtotal', compute='_get_mxn_price', currency_field='currency_id', readonly=True)
     #########################
@@ -55,6 +57,16 @@ class InvoiceReport(models.Model):
     # mxn_net = fields.Monetary(related='invoice_id.ad_mxn_neto', string="MXN Net", readonly=True)
     # mxn_total = fields.Monetary(related='invoice_id.ad_mxn_total', string="MXN Total", readonly=True)
     
+    def _get_rate(self):
+        for rec in self:
+            dateinvoice = rec.invoice_date
+            if rec.currency_id.name == 'USD':
+                currencyrate = rec.invoice_id._get_rates_currency(dateinvoice)
+                rec.currency_rate = round((1 / currencyrate.get('USD')),6)
+            elif rec.currency_id.name == 'MXN':
+                rec.currency_rate = 1
+            else:
+                rec.currency_rate = -1
     
     def _get_mxn_price(self):
         for rec in self:
@@ -90,6 +102,7 @@ class InvoiceReport(models.Model):
             
             --details of operations:
             l.product_id as product,
+            pc.id as product_category,
             l.quantity as quantity,
             l.price_subtotal as price_subtotal,
             
@@ -109,6 +122,7 @@ class InvoiceReport(models.Model):
             
             --extra required fields:
             c.id as currency_id,
+            --cr.rate as currency_rate,
             a.id as invoice_id
         """
 
@@ -121,6 +135,7 @@ class InvoiceReport(models.Model):
                 	account_move_line l
                         INNER JOIN account_move a ON a.id = l.move_id
                         INNER JOIN res_currency c ON a.currency_id = c.id
+                        --JOIN res_currency_rate cr ON c.id = cr.currency_id AND cr.name = a.invoice_date
                         LEFT JOIN crm_team t ON t.id = a.team_id
                         LEFT JOIN res_users u ON u.id = a.invoice_user_id
                         
@@ -147,6 +162,7 @@ class InvoiceReport(models.Model):
             ,r.cgg_group_id
             ,r.promotor_id
             ,l.product_id
+            ,pc.id
             ,a.invoice_partner_display_name
             ,a.invoice_date
             ,a.invoice_date_due
@@ -161,6 +177,7 @@ class InvoiceReport(models.Model):
             ,a.state
             ,a.payment_state
             ,c.id
+            --,cr.rate
             ,a.id
             %s
         """ % (groupby)

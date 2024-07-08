@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-15 00:26+0000\n"
-"PO-Revision-Date: 2023-08-15 00:26+0000\n"
+"POT-Creation-Date: 2024-07-04 22:03+0000\n"
+"PO-Revision-Date: 2024-07-04 22:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: pao_accounting_report
+#: code:addons/pao_accounting_report/models/report_account_aged_partner_inherit.py:0
+#, python-format
+msgid "Account"
+msgstr ""
 
 #. module: pao_accounting_report
 #: model:ir.model,name:pao_accounting_report.model_account_aged_partner
@@ -25,6 +31,20 @@ msgstr "Balances antiguos de los partners"
 #, python-format
 msgid "As of: %s"
 msgstr ""
+
+#. module: pao_accounting_report
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_partner__currency_name
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_payable__currency_name
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_receivable__currency_name
+msgid "Currency"
+msgstr "Divisa"
+
+#. module: pao_accounting_report
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_partner__currency_rate
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_payable__currency_rate
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_receivable__currency_rate
+msgid "Currency Rate"
+msgstr "Tasa de cambio"
 
 #. module: pao_accounting_report
 #: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_partner__display_name
@@ -44,9 +64,29 @@ msgid "Inv. Date"
 msgstr "Fecha Fac."
 
 #. module: pao_accounting_report
+#: code:addons/pao_accounting_report/models/report_account_aged_partner_inherit.py:0
+#, python-format
+msgid "Journal"
+msgstr ""
+
+#. module: pao_accounting_report
 #: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_partner____last_update
 msgid "Last Modified on"
 msgstr "Última modificación el"
+
+#. module: pao_accounting_report
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_partner__origin_price_total
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_payable__origin_price_total
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_receivable__origin_price_total
+msgid "Original Currency Total"
+msgstr "Total moneda origen"
+
+#. module: pao_accounting_report
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_partner__price_total
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_payable__price_total
+#: model:ir.model.fields,field_description:pao_accounting_report.field_account_aged_receivable__price_total
+msgid "Price Total"
+msgstr "Precio total"
 
 #. module: pao_accounting_report
 #: code:addons/pao_accounting_report/models/report_account_aged_partner_inherit.py:0
