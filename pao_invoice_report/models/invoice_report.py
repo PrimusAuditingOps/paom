@@ -6,6 +6,7 @@ class InvoiceReport(models.Model):
     _auto = False
     _rec_name = 'invoice_number'
     _order = 'invoice_number desc'
+    _description='Invoice Report'
     
     # Extra required fields #
     currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
