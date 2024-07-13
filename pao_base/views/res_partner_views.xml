@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_address_format')]/field[@name='city']" position="before">
+					<field name="city_id" domain="[('country_id', '=', country_id), ('state_id', '=', state_id)]"
+						context="{'default_country_id': country_id, 'default_state_id': state_id}"
+						placeholder="City" options="{'no_open': True}"
+					    class="o_address_state"	readonly="type == 'contact' and parent_id"/>
+				</xpath>
+				<xpath expr="//div[hasclass('o_address_format')]/field[@name='city']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

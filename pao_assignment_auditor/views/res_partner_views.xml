@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_partner_assignment_auditor_view_form" model="ir.ui.view">
+        <field name="name">res.partner.assignment.auditor.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+        
+           
+            <page name="sales_purchases" position="after">
+                <field name="ado_is_auditor" invisible="1"/>
+
+
+                <page string="Blocked Customers" name="blocked_customers" groups="pao_assignment_auditor.schemes_ranking_group" invisible="not ado_is_auditor">
+                    <field name="paa_blocked_company_ids" widget="many2many" domain="[('is_company', '=', True)]">
+                        <tree string="Registered Blocked Customer" create="false" edit="false">
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+                
+                <page string="Blocked Organizations" name="blocked_organizations" groups="pao_assignment_auditor.schemes_ranking_group" invisible="not ado_is_auditor">
+                    <field name="paa_blocked_organizations_ids" widget="many2many">
+                        <tree string="Registered Blocked Organizations" create="false" edit="false">
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+                
+                <page string="Ranking schemes" name="ranking_schemes" groups="pao_assignment_auditor.schemes_ranking_group" invisible="not ado_is_auditor">
+                    <field name="paa_rating_scheme_ids" widget="many2many" domain="[('partner_id', '=', id)]" context="{'default_partner_id': id}">
+                        <tree string="Registered Ranking schemes">
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Season goal" name="season_goal" groups="pao_assignment_auditor.schemes_ranking_group" invisible="not ado_is_auditor">
+                    <group>
+                        <group name="auditors_goal" string="Auditor's Goal">
+                            <field name="paa_audit_quantity" class="oe_inline"/>
+
+                            <field name="paa_audits_honorarium_total" class="oe_inline"/>
+
+                            <field name="paa_currency_id" class="oe_inline"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+            <xpath expr="//group[1]/group[1]" position="inside">
+                <field name="is_an_in_house_auditor" invisible="not ado_is_auditor"/>
+                <field name="language_ids" widget="many2many_tags" invisible="not ado_is_auditor" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Assets -->
-    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Auditor Agenda">
-        <xpath expr="." position="inside">
-            <link rel="stylesheet" type="text/scss" href="/pao_auditor_agenda/static/src/scss/website_auditor_calendar.scss" t-ignore="true"/>
-        </xpath>
-    </template>
-
     <template id="portal_my_home_auditor_agenda" name="Show Auditor Agenda" customize_show="True" inherit_id="portal.portal_my_home" priority="80">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-if="isanauditor == True">
-                <t t-call="portal.portal_docs_entry">
-                    <t t-set="title">Agenda</t>
-                    <t t-set="url" t-value="'/calendar/auditordates'"/>
-                    <t t-set="placeholder_count" t-value="0"/>
-                </t> 
+				<div class="o_portal_category row g-2 mt-2" id="portal_agenda_category">
+	                <t t-call="portal.portal_docs_entry">
+						<t t-set="icon" t-value="'/pao_auditor_agenda/static/src/img/agenda.jpeg'"/>
+	                    <t t-set="title">Agenda</t>
+	                    <t t-set="url" t-value="'/calendar/auditordates'"/>
+	                    <t t-set="text">The days when an auditor will have purchase orders</t>
+	                    <!--<t t-set="placeholder_count" t-value="agenda_count"/>-->
+	                    <t t-set="config_card" t-value="True"/>
+	                </t>
+                </div>
             </t>
         </xpath>
     </template>
-
 
     <template id="auditor_calendar" name="Website Auditor Calendar: Auditor Calendars">
         <t t-call="website.layout">

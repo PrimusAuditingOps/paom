@@ -8,4 +8,5 @@
     'data': [
         'views/invoice_date_view.xml',
     ],
+    'license': 'LGPL-3',
 }

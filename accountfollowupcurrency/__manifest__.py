@@ -1,19 +1,33 @@
-# -*- coding: utf-8 -*-
 {
-    'name': 'account followup currency',
-    'version': '1.0',
-    'author': 'samuel castro',
-    'category': '',
-    'website': 'https://paomx.com',
-    'depends': ['base','account','account_reports','account_followup'
+    'name': 'PAO: Account follow-up currency',
+    'version': '17.0.0.1.0',
+    'author': 'Port Cities',
+    'category': 'Accounting/Accounting',
+    'website': 'https://www.portcities.net',
+    'sequence': 1,
+    'summary': """
+        Add the currency used in the transaction
+    """,
+    'description': """
+    v 1.0
+        Reviewer : Masoud AD. <masoud@portcities.net>\n
+        * Migrated from v14.\n
+    """,
+    'depends': [
+        'account_followup'
     ],
-    'data': [
-        # security
-        #'security/ir.model.access.csv',
-        # data
-        # demo
-        # reports
-        # views
-        #'views/employee_signature.xml',
+    'data' : [
+        'views/res_partner_views.xml',
     ],
+    'assets': {
+        'web.report_assets_common': [
+        ],
+        'web.assets_backend': [
+        ],
+    },
+    'qweb': [],
+    'installable': True,
+    'application' : False,
+    'auto_install' : False,
+    'license': 'LGPL-3',
 }

@@ -7,25 +7,45 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//page[@name='geo_location']/group[1]" position="before">
-                    <field name="pao_geolocation_allowed" attrs="{'invisible':1}"></field>
+                <xpath expr="//page[@name='geo_location']/group[1]/group[1]" position="before">
+                    <field name="pao_geolocation_allowed" invisible="1"></field>
                 </xpath>
 
-                <xpath expr="//page[@name='geo_location']/group[1]/div[1]/field[@name='partner_latitude']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('pao_geolocation_allowed','=', False)]}</attribute>
-                </xpath>
+                <xpath expr="//page[@name='geo_location']/group[1]/group[1]/div[1]/span[1]/field[@name='partner_latitude']" position="attributes">
+                    <attribute name="readonly">not pao_geolocation_allowed</attribute>
+                </xpath> 
 
-                <xpath expr="//page[@name='geo_location']/group[1]/div[1]/field[@name='partner_longitude']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('pao_geolocation_allowed','=', False)]}</attribute>
+                <xpath expr="//page[@name='geo_location']/group[1]/group[1]/div[1]/span[2]/field[@name='partner_longitude']" position="attributes">
+                      <attribute name="readonly">not pao_geolocation_allowed</attribute>
                 </xpath>
 
                 <xpath expr="//button[@name='geo_localize']" position="attributes">
+                    <attribute name="invisible">not pao_geolocation_allowed</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='date_localization']" position="attributes">
+                    <attribute name="invisible">not pao_geolocation_allowed</attribute>
+                </xpath>
+
+                <!-- <xpath expr="//page[@name='geo_location']/group[1]/group[1]" position="before">
+                    <field name="pao_geolocation_allowed" attrs="{'invisible':1}"></field>
+                </xpath> -->
+
+                <!-- <xpath expr="//page[@name='geo_location']/group[1]/group[1]/div[1]/field[@name='partner_latitude']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('pao_geolocation_allowed','=', False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='geo_location']/group[1]/group[1]/div[1]/field[@name='partner_longitude']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('pao_geolocation_allowed','=', False)]}</attribute>
+                </xpath> -->
+
+                <!-- <xpath expr="//button[@name='geo_localize']" position="attributes">
                     <attribute name="attrs">{'invisible':[('pao_geolocation_allowed','=', False)]}</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='date_localization']" position="attributes">
                     <attribute name="attrs">{'readonly':[('pao_geolocation_allowed','=', False)]}</attribute>
-                </xpath>
+                </xpath> -->
 
             </field>
         </record>

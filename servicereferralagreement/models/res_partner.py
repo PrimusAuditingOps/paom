@@ -1,11 +1,10 @@
 from odoo import fields, models, api
-from logging import getLogger
 
-_logger = getLogger(__name__)
-class Partner(models.Model):
-    _inherit='res.partner'
 
-    
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
     """organization_id = fields.One2many(
         comodel_name='servicereferralagreement.organization',
         inverse_name='customer_id',
@@ -16,22 +15,16 @@ class Partner(models.Model):
         'servicereferralagreement.organization',
         'servicereferralagreement_organization_res_partner_rel',
         'res_partner_id', 'servicereferralagreement_organization_id',
-        string='Organizations',
-    )
-
-    vendor_service_percentage = fields.Float(
-        default = 0.00,
-        required = True,
-        string= "Vendor service percentage",
-    )
-
+        string='Organizations')
+    vendor_service_percentage = fields.Float(default = 0.00, required = True,
+                                             string= "Vendor service percentage")
     audit_fee_percentages_ids = fields.Many2many(
         'servicereferralagreement.percentageofauditfee',
         'servicereferralagreement_percentageofauditfee_res_partner_rel',
         'res_partner_id', 'servicereferralagreement_percentageofauditfee_id',
         string='audit fee percentages',
-        required = True,
-    )
+        required = True)
+
     @api.onchange('audit_fee_percentages_ids')
     def _change_audit_fee(self):
         for rec in self:
@@ -43,7 +36,3 @@ class Partner(models.Model):
                 else:
                     list_remove_elements.append(fees._origin.id)
                     rec.audit_fee_percentages_ids = [(2, fees._origin.id, 0)]
-
-
-    
-    

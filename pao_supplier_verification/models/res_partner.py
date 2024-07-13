@@ -16,22 +16,25 @@ class ResPartnerInherit(models.Model):
     
 class SupplierService(models.Model):
     _name = "pao.supplier.service"
+    _description = "Supplier Service"
     
     name = fields.Char('Name', translate=True, required=True)
     internal_name = fields.Char('Internal Name')
     
-    @api.model 
-    def create(self, values):
-        record = super(SupplierService, self).create(values)
-        
-        if not record.internal_name:
-            internal_name = record.name.lower().replace(" ", "_")
-            record.internal_name = internal_name
+    @api.model_create_multi
+    def create(self, values_list):
+        for values in values_list:
+            record = super(SupplierService, self).create(values)
             
-        return record
+            if not record.internal_name:
+                internal_name = record.name.lower().replace(" ", "_")
+                record.internal_name = internal_name
+                
+            return record
     
 
 class SupplierBranchOffice(models.Model):
     _name = "pao.supplier.branch.office"
+    _description = "Supplier Branch Office"
     
     name = fields.Char('Name', required=True)

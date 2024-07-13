@@ -3,15 +3,14 @@
     <record id="res_partner_pao_specialist_audits_progress_view_tree" model="ir.ui.view">
         <field name="name">res.partner.inherit.pao.specialist.audits.progress.tree</field>
         <field name="model">res.partner</field>
-        <field name="groups_id" eval="[(4, ref('pao_auditor_audits_progress.group_auditor_progress_viewer'))]"/>
         <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='user_id']" position="before">
 
-                <field name="specialist_audits_coordinated" optional="hide"/>
-                <field name="specalist_audits_goal" optional="hide"/>
-                <field name="specialist_goal_progress" optional="hide" widget="progressbar"/>
+                <field name="specialist_audits_coordinated" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" optional="hide"/>
+                <field name="specalist_audits_goal" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" optional="hide"/>
+                <field name="specialist_goal_progress" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" optional="hide" widget="progressbar"/>
 
             </xpath>
 
@@ -22,56 +21,32 @@
         <field name="name">res.partner.inherit.pao.specialist.audits.progress.form</field>
         <field name="model">res.partner</field>
         <field name="type">form</field>
-        <field name="groups_id" eval="[(4, ref('pao_auditor_audits_progress.group_auditor_progress_viewer'))]"/>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
 
             <xpath expr="//page[@name='season_goal']" position="attributes">
-                <attribute name="attrs">{'invisible':[('ado_is_specialist','=',False),('ado_is_auditor','=',False)]}</attribute>
+                <attribute name="invisible">not ado_is_auditor and not ado_is_specialist</attribute>
             </xpath>
 
             <xpath expr="//field[@name='ado_is_auditor']" position="after">
                 <field name="ado_is_specialist"/>
             </xpath>
 
-            <xpath expr="//page[@name='season_goal']/group[1]/div[1]/span[1]" position="before">
-                <div>
-                    <span class="oe_inline" style="font-weight: bold;">Auditor's Goal</span>
-                </div>
+            <xpath expr="//page[@name='season_goal']/group[1]/group[@name='auditors_goal']" position="attributes">
+                <attribute name="invisible">not ado_is_auditor</attribute>
             </xpath>
 
-            <xpath expr="//page[@name='season_goal']/group[1]" position="attributes">
-                <attribute name="attrs">{'invisible':[('ado_is_auditor','=',False)]}</attribute>
-            </xpath>
+            <xpath expr="//page[@name='season_goal']/group[1]" position="inside">
 
-            <xpath expr="//page[@name='season_goal']/group[2]" position="attributes">
-                <attribute name="attrs">{'invisible':[('ado_is_auditor','=',False)]}</attribute>
-            </xpath>
+                <group name="specialist_goal" string="Specialist's Season Goal" invisible="not ado_is_specialist" groups="pao_auditor_audits_progress.group_auditor_progress_viewer">
+                    <field name="specialist_audits_quantity" class="oe_inline"/>
+                    
+                    <field name="specialist_audits_coordinated" class="oe_inline"/>
 
-            <xpath expr="//page[@name='season_goal']" position="inside">
+                    <field name="specialist_goal_progress" widget="progressbar" class="oe_inline"/>
 
-                    <group colspan="2" col="2" attrs="{'invisible':[('ado_is_specialist','=',False)]}">
-                        <div>
-                            <div>
-                                <span class="oe_inline" style="font-weight: bold; margin-top:20px;">Specialist's Season Goal</span>
-                            </div>
-                            <div>
-                                <span class="oe_inline">Number of audits to coordinate: </span>
-                                <field name="specialist_audits_quantity" nolabel="1" class="oe_inline" style="margin-right:20px;"/>
-                            </div>
-                            <span class="oe_inline">Coordinated audits: </span>
-                            <field name="specialist_audits_coordinated" nolabel="1" class="oe_inline" style="margin-right:70px;"/>
-
-                            <span class="oe_inline">Progress: </span>
-                            <field name="specialist_goal_progress" widget="progressbar" nolabel="1" class="oe_inline"/>
-
-                            <span class="oe_inline">Current audits goal: </span>
-                            <field name="specalist_audits_goal" nolabel="1" class="oe_inline" style="margin-right:20px;"/>
-
-                            <!-- <span class="oe_inline">Period type: </span>
-                            <field name="specialist_period_type" nolabel="1" class="oe_inline"/> -->
-                        </div>
-                    </group>
+                    <field name="specalist_audits_goal" class="oe_inline"/>
+                </group>
 
             </xpath>
 

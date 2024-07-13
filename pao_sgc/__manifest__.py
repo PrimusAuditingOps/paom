@@ -6,6 +6,7 @@
     "website": "https://paomx.com",
     "depends": ["approvals", "base"],
     'data': [
+        'security/rules.xml',
         'security/groups.xml',
         'security/ir.model.access.csv',
         
@@ -20,5 +21,6 @@
         'views/approval_request.xml',
         'views/menu_application_sgc.xml',
     ],
-    'application': 'True'
+    'application': 'True',
+    'license': 'LGPL-3',
 }

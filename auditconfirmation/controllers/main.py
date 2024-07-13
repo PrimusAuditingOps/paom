@@ -18,22 +18,27 @@ class ConfirmPurchase(CustomerPortal):
     @http.route('/confirm/<string:token>/<string:idresponse>', type='http', auth="public", website=True)
     def action_confirm_audit(self, token, idresponse, **kwargs):
         #assert idresponse in ('1','2'), "Incorrect id"
+        
         purchaseconfirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search(['&',('ac_access_token', '=', token),'|',('ac_consumed','=',False),('ac_audit_confirmation_status','=', '3')])
         if not purchaseconfirmation or idresponse not in ('1','2','3'): 
             return request.not_found()
         purchase =  request.env['purchase.order'].sudo().search([('id', '=', purchaseconfirmation.ac_id_purchase)])
         notice = ""
-        if purchase.ac_request_travel_expenses:
-            notice = _("After agreeing and signing, you will be prompted to enter travel expenses.")
-        #request.env.cr.commit()
+        # if purchase.ac_request_travel_expenses:
+        #     notice = _("After agreeing and signing, you will be prompted to enter travel expenses.")
         lang = purchase.partner_id.lang or get_lang(request.env).code
+        access_token = purchase._portal_ensure_token()
         if idresponse == '1':
-            return request.env['ir.ui.view'].with_context(lang=lang)._render_template('auditconfirmation.audit_confirmation_external_page_view', 
-            {
-                'signname': purchase.partner_id.name,
-                'urlconfirm': purchase.get_portal_url(suffix='/accept/audit'),
-                'notice': notice
-            })
+            if purchase.ac_request_travel_expenses and not purchaseconfirmation.ac_consumed_travel_expenses:   
+                pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(purchase.id)+"&ra_verification=1"
+                return request.redirect(pageredirect)
+            else:
+                return request.env['ir.ui.view'].with_context(lang=lang)._render_template('auditconfirmation.audit_confirmation_external_page_view', 
+                {
+                    'signname': purchase.partner_id.name,
+                    'urlconfirm': purchase.get_portal_url(suffix='/accept/audit'),
+                    'notice': notice
+                })
         else:
             return request.env['ir.ui.view'].with_context(lang=lang)._render_template('auditconfirmation.audit_rejected_external_page_view', 
             {
@@ -92,13 +97,15 @@ class ConfirmPurchase(CustomerPortal):
 
 
     @http.route('/response/travel/expenses', type='http', auth="public", website=True)
-    def action_response_travel_expenses(self, number=None, access_token=None, **kwargs):
+    def action_response_travel_expenses(self, number=None, access_token=None, ra_verification=None, **kwargs):
+        ra_verification = ra_verification or request.httprequest.args.get('ra_verification')
         access_token = access_token or request.httprequest.args.get('access_token')
         order_id = number or request.httprequest.args.get('number')
         purchase =  request.env['purchase.order'].sudo().search([('id', '=', order_id)])
         lang = purchase.partner_id.lang or get_lang(request.env).code
         return request.env['ir.ui.view'].with_context(lang=lang)._render_template('auditconfirmation.audit_confirmation_travel_expenses_external_page_view', 
         {
+            'raverification': ra_verification,
             'accesstoken': access_token,
             'order': order_id
         })
@@ -129,7 +136,7 @@ class ConfirmPurchase(CustomerPortal):
         purchaseconfirmation.write({'ac_audit_confirmation_status': '1', 'ac_consumed': True})
         order_sudo.write({'ac_audit_confirmation_status': '1', 'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date': today})
         if order_sudo.ac_request_travel_expenses and not purchaseconfirmation.ac_consumed_travel_expenses:
-            pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(id)
+            pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(id)+"&ra_verification=1"
         else:
             pageredirect = "/response/message"
         
@@ -141,13 +148,14 @@ class ConfirmPurchase(CustomerPortal):
             'purchase.order', id, _('%s has accepted the audit and signed the Referral Agreement') % (name,),
             attachments=[],
             **({'token': access_token} if access_token else {})).sudo()
+        
         return {
             'force_refresh': True,
             'redirect_url': pageredirect,
         }
         
     @http.route(['/travel/expenses/audit'], type='http', methods=['POST'], auth="public", website=True)
-    def portal_tralvel_expenses_audit(self, order_id=None, access_token=None, travelexpenses=None, **post):
+    def portal_tralvel_expenses_audit(self, order_id=None, access_token=None, travelexpenses=None, ra_verification=None, **post):
         try:
             order_sudo = self._document_check_access('purchase.order', int(order_id), access_token=access_token)
             purchaseconfirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search([('ac_id_purchase', '=', order_sudo.id),('ac_consumed_travel_expenses', '=', False)])
@@ -163,8 +171,25 @@ class ConfirmPurchase(CustomerPortal):
         
         purchaseconfirmation.write({'ac_consumed_travel_expenses': True})
         request.env.cr.commit()
-
-        return request.redirect('/response/message')
+        
+        if not ra_verification:
+            return request.redirect('/response/message')
+        else:
+            if not purchaseconfirmation: 
+                return request.not_found()
+            purchase =  request.env['purchase.order'].sudo().search([('id', '=', purchaseconfirmation.ac_id_purchase)])
+            notice = ""
+            # if purchase.ac_request_travel_expenses:
+            #     notice = _("After agreeing and signing, you will be prompted to enter travel expenses.")
+                
+            lang = purchase.partner_id.lang or get_lang(request.env).code
+            
+            return request.env['ir.ui.view'].with_context(lang=lang)._render_template('auditconfirmation.audit_confirmation_external_page_view', 
+            {
+                'signname': purchase.partner_id.name,
+                'urlconfirm': purchase.get_portal_url(suffix='/accept/audit'),
+                'notice': notice
+            })
 
 
     @http.route(['/my/purchase/<int:id>/decline/audit'], type='http', methods=['POST'], auth="public", website=True)

@@ -1,42 +1,38 @@
-from logging import getLogger
 from odoo.exceptions import ValidationError
 from odoo import fields, models, api, _
 
-_logger = getLogger(__name__)
-class Partner(models.Model):
-    
-    _name = 'res.partner'
+
+
+
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    ctm_ref_bank_pesos = fields.Text(
-        string = 'Pesos Reference MXN',
-        readonly = True,
-        copy=False,
-    )
-    ctm_ref_bank_dolares = fields.Text(
-        string = 'Dollar Reference USD',
-        readonly = True,
-        copy=False,
-    )
+    ctm_ref_bank_pesos = fields.Text(string='Pesos Reference MXN',
+                                     readonly = True, copy=False)
+    ctm_ref_bank_dolares = fields.Text(string='Dollar Reference USD',
+                                       readonly = True, copy=False)
 
-    @api.model
-    def create(self, vals):
-        seq = 0
-        if (not self.ctm_ref_bank_pesos or not self.ctm_ref_bank_dolares) and (self.company_type == 'company' or vals.get('company_type') == 'company'):
-            seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
-            vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
-            vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
-        result = super(Partner, self).create(vals)
-        return result
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            seq = 0
+            if (not self.ctm_ref_bank_pesos or not self.ctm_ref_bank_dolares) and (self.company_type == 'company' or vals.get('company_type') == 'company'):
+                seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
+                if seq:
+                    vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
+                    vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
+            result = super(ResPartner, self).create(vals)
+            return result
     
     def write(self, vals):
         seq = 0
         for rec in self:
             if (not rec.ctm_ref_bank_pesos or not rec.ctm_ref_bank_dolares) and (vals.get('company_type') == 'company' or rec.company_type == 'company'):
                 seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
-                vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
-                vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
-        result = super(Partner, self).write(vals)
+                if seq:
+                    vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
+                    vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
+        result = super(ResPartner, self).write(vals)
         return result
 
     def generate_reference_pesos(self,seq):
@@ -60,7 +56,6 @@ class Partner(models.Model):
             sumTotal += lstCuentaPesos[i] * lstPonderarorCuenta[i]
         for i in range(len(lstConcecutivoPesos)):
             sumTotal += int(lstConcecutivoPesos[i]) * lstPonderadorConcecutivo[i]
-
 
         residuo = sumTotal % ponderadorFijoNoventaSiete
         digitoVerificador = ponderadorFijoNoventaNueve - residuo
@@ -89,18 +84,19 @@ class Partner(models.Model):
         for i in range(len(lstConcecutivoDolares)):
             sumTotal += int(lstConcecutivoDolares[i]) * lstPonderadorConcecutivo[i]
 
-
         residuo = sumTotal % ponderadorFijoNoventaSiete
         digitoVerificador = ponderadorFijoNoventaNueve - residuo
 
         return str(seq)+str(digitoVerificador).zfill(2)
+
     @api.constrains('ctm_ref_bank_pesos')
     def _check_duplicate_ctm_ref_bank_pesos(self):
         refs = self.env['res.partner'].search([('ctm_ref_bank_pesos', '=', self.ctm_ref_bank_pesos), ('id','!=',self.id)])
         for n in refs:
             raise ValidationError(_("There is already a PESOS reference with this number("+self.ctm_ref_bank_dolares+")"))
+
     @api.constrains('ctm_ref_bank_dolares')
-    def _check_duplicate_ctm_ref_bank_pesos(self):
+    def _check_duplicate_ctm_ref_bank_dolares(self):
         refs = self.env['res.partner'].search([('ctm_ref_bank_dolares', '=', self.ctm_ref_bank_dolares), ('id','!=',self.id)])
         for n in refs:
             raise ValidationError(_("There is already a DOLLAR reference with this number ("+self.ctm_ref_bank_dolares+")"))

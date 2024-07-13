@@ -6,19 +6,21 @@
             <field name="model_id" ref="pao_pricelist_proposal.model_send_pricelist_proposal"/>
             <field name="subject">Preferred pricing proposal</field>
             <field name="body_html" type="html">
-                <p style="font-size:12pt; font-family:Tahoma,sans-serif; color:#000000; line-height:1.0;">
-                    <b>Dear {customer_name}</b>
-                    <br/><br/>
-                    {message_proposal_template}
-                    <br/><br/>
-                    You can view the proposal of preferential prices by clicking <a href="{proposal_link}" target="_blank">here.</a>
-                    <br/><br/>
-                    Please feel free to reach out for any questions or comments.
-                    <br/><br/>
-                    Sincerely
-                    <br/><br/>
-                    {specialist}
-                </p>
+                <t t-call="web.basic_layout">
+                    <p style="font-size:12pt; font-family:Tahoma,sans-serif; color:#000000; line-height:1.0;">
+                        <b>Dear {customer_name}</b>
+                        <br/><br/>
+                        {message_proposal_template}
+                        <br/><br/>
+                        You can view the proposal of preferential prices by clicking <a href="{proposal_link}" target="_blank">here.</a>
+                        <br/><br/>
+                        Please feel free to reach out for any questions or comments.
+                        <br/><br/>
+                        Sincerely
+                        <br/><br/>
+                        {specialist}
+                    </p>
+                </t>
             </field>
         </record>
     </data>

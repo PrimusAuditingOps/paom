@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <report id="report_proposal_agreement" model="pao.pricelist.proposal" 
+    <!-- <report id="report_proposal_agreement" model="pao.pricelist.proposal" 
         string="Proposal Agreement" 
         name="pao_pricelist_proposal.proposal_agreement" 
         file="pao_pricelist_proposal.agreement" 
         report_type="qweb-pdf"
-    />
+    /> -->
+
+    <record id="report_proposal_agreement" model="ir.actions.report">
+       <field name="name">Proposal Agreement</field>
+       <field name="model">pao.pricelist.proposal</field>
+       <field name="report_type">qweb-pdf</field>
+       <field name="report_name">pao_pricelist_proposal.proposal_agreement</field>
+       <field name="report_file">pao_pricelist_proposal.proposal_agreement</field>
+       <field name="print_report_name">'Proposal Agreement'</field>
+       <field name="binding_model_id" ref="pao_pricelist_proposal.model_pao_pricelist_proposal"/>
+       <field name="binding_type">report</field>
+   </record>
 
     <template id="proposal_agreement">
         <t t-call="web.basic_layout">
@@ -76,7 +87,7 @@
                 
                 <t t-if="proposal.proposal_terms">
                     <div class="mb-4">
-                        <t t-raw="proposal.proposal_terms.terms_and_conditions"/>
+                        <t t-raw="proposal.proposal_terms.terms_and_conditions" class="font-sans-serif"/>
                     </div>
                 </t>
 

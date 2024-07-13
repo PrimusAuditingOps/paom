@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+     <record id="view_city_form_view" model="ir.ui.view">
+        <field name="name">res.city.form.view</field>
+        <field name="model">res.city</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="pao_base.view_city_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='right_group']" position="inside">
+				<field name="paa_city_latitude" readonly="True"/>
+				<field name="paa_city_longitude" readonly="True"/>
+				<field name="paa_date_localization" readonly="True"/>
+			</xpath>
+		</field>
+    </record>
+
+     <record id="view_city_tree_view" model="ir.ui.view">
+        <field name="name">res.city.tree.view</field>
+        <field name="model">res.city</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="pao_base.view_city_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state_id']" position="after">
+				<field name="paa_city_latitude"/>
+				<field name="paa_city_longitude"/>
+				<field name="paa_date_localization"/>
+			</xpath>
+		</field>
+    </record>
+
+</odoo>

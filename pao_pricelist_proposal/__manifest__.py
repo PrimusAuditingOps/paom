@@ -15,10 +15,11 @@
         
         'views/pricelist_portal_template.xml',
         'views/proposal_terms_schemes_views.xml',
-        'views/proposal_item_views.xml',
+        # 'views/proposal_item_views.xml',
         'views/product_pricelist_form_inherit.xml',
         'views/pao_pricelist_proposal_view_form.xml',
         'views/send_proposal_view_form.xml',
         'views/hr_employeee_form_inherit.xml',
     ],
+    'license': 'LGPL-3',
 }

@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <report id="report_service_agreements" model="pao.sign.sa.agreements.sent" 
+    
+    <!-- <report id="report_service_agreements" 
+    model="pao.sign.sa.agreements.sent" 
     string="Service Agreement" 
     name="pao_sign_sa.report_service_agreements_view" 
     file="pao_sign_sa.report_service_agreements" 
     report_type="qweb-pdf" 
-    print_report_name= "'SA'"/>
+    print_report_name= "'SA'"/>-->
+
+    <record id="report_service_agreements" model="ir.actions.report">
+        <field name="name">Service Agreement</field>
+        <field name="model">pao.sign.sa.agreements.sent</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_sign_sa.report_service_agreements_view</field>
+        <field name="report_file">pao_sign_sa.report_service_agreements</field>
+        <field name="print_report_name">'SA'</field>
+        <field name="binding_model_id" ref="model_pao_sign_sa_agreements_sent"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+
     <template id="report_service_agreements_view">
         <t t-set="values" t-value="values.with_context(lang='es_MX')"/>
         <t t-call="web.html_container">
@@ -95,10 +111,7 @@
                                 <t t-set="serviceagreement" t-value="values"/>
                             </t>
                         </div>
-                    </t>     
-
-
-                                     
+                    </t>                          
             </div>
         </t>
     </template>

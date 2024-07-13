@@ -10,24 +10,26 @@
                     <header>
                         <field name="existing_proposal" invisible="1"/>
                         <field name="pricelist_agreement_id" invisible="1"/>
-                        <button string="New Proposal" attrs="{'invisible': [('existing_proposal', '!=', False)]}" type="object" class="oe_highlight" name="create_pricelist_proposal"/>
+                        <button string="New Proposal" invisible="existing_proposal" type="object" class="oe_highlight" name="create_pricelist_proposal"/>
+                        
+                        <div class="o_not_full oe_button_box">
+                            <button name="action_view_existing_proposal" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not existing_proposal">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">Proposal</span>
+                                </div>
+                            </button>
+                        </div>
                     </header>
                 </xpath>
-                <xpath expr="//widget[@name='web_ribbon']" position="before">
+                <!-- <xpath expr="//widget[@name='web_ribbon']" position="before">
                     <div class="o_not_full oe_button_box">
-                        <button name="action_view_existing_proposal" type="object" class="oe_stat_button" icon="fa-file-text-o" attrs="{'invisible': [('existing_proposal', '=', False)]}">
+                        <button name="action_view_existing_proposal" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not existing_proposal">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value">Proposal</span>
                             </div>
                         </button>
                     </div>
-                </xpath>
-                <xpath expr="//sheet" position="after">
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" groups="base.group_user"/>
-                        <field name="message_ids"/>
-                    </div>
-                </xpath>
+                </xpath> -->
             </field>
         </record>
     </data>

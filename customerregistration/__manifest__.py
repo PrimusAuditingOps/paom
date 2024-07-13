@@ -15,4 +15,5 @@
         # views
         'views/res_partner.xml',
     ],
+    'license': 'LGPL-3',
 }

@@ -1,1 +1,1 @@
-from . import sale_order_inh
+from . import sale_order

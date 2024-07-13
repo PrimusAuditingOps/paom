@@ -7,15 +7,17 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <page name="sales_purchases" position="after">
-                        <page string="Organizations">
-                            <field name="organization_ids" widget="many2many">
+                        <page string="Organizations"> 
+                            <field name="company_id" invisible="1"/>
+                            <field name="organization_ids" widget="many2many" context="{'company_id': company_id}">
                                 <tree string="Registered Organizations" create="false" edit="false">
                                     <field name="name"/>
                                 </tree>
                             </field>
-                        </page>
+                        </page> 
                         <page string="Audit Percentages" groups="servicereferralagreement.commission_suppplier_group">
-                          <field name="audit_fee_percentages_ids" widget="many2many">
+                          <field name="company_id" invisible="1"/>
+                          <field name="audit_fee_percentages_ids" widget="many2many" context="{'company_id': company_id}">
                               <tree string="Registered percentages">
                                   <field name="audit_fees_id"/>
                                   <field name="audit_percentage" digits="[12,3]"/>

@@ -14,4 +14,5 @@
         # reports
         # views
     ],
+    'license': 'LGPL-3',
 }

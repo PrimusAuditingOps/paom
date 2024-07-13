@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="auditordaysoff_days_view_form" model="ir.ui.view">
+    <record id="auditor_daysoff_days_view_form" model="ir.ui.view">
         <field name="name">auditordaysoff.days.view.form</field>
         <field name="model">auditordaysoff.days</field>
         <field name="arch" type="xml">
-           
             <form string="Auditor's days off Form">
                 <sheet>
-                    <group col="2">
-                        <field name="name"/>
-                    </group>
-                    <group col="6">
-                        <field name="auditor_id"/>
-                        <field name="start_date" widget="daterange" options="{'related_end_date': 'end_date'}"/>
-                        <field name="end_date" widget="daterange" options="{'related_start_date': 'start_date'}"/>
-                    </group>
-                    <group col="2">
-                        <field name="comments"/>
-                    </group>
+					<group>
+						<field name="name"/>
+					</group>
+					<group col="3">
+	                    <group>
+	                        <field name="auditor_id"/>
+	                    </group>
+	                    <group col="2">
+							<label for="start_date" string="Date"/>
+							<div>
+		                        <field name="start_date" widget="daterange"
+		                        	options="{'end_date_field': 'end_date'}"/>
+							</div>
+	                    </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>   
+                        </group>
+	                    <group>
+	                        <field name="end_date" invisible="1"/>
+	                    </group>
+					</group>
+					<group>
+						<field name="comments"/>
+					</group>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <record id="auditordaysoff_days_view_tree" model="ir.ui.view">
+    <record id="auditor_daysoff_days_view_tree" model="ir.ui.view">
         <field name="name">auditordaysoff.days.view.tree</field>
         <field name="model">auditordaysoff.days</field>
         <field name="arch" type="xml">
@@ -32,23 +44,27 @@
                 <field name="auditor_id"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
             </tree>
         </field>
     </record>
 
-    <record id="auditordaysoff_days_view_calendar" model="ir.ui.view">
-        <field name="name">auditordaysoff_days_view_calendar</field>
+    <record id="auditor_daysoff_days_view_calendar" model="ir.ui.view">
+        <field name="name">auditordaysoff.days.calendar</field>
         <field name="model">auditordaysoff.days</field>
+        <field name="priority" eval="1"/>
         <field name="arch" type="xml">
-            <calendar string="Auditor's days off Calendar" date_start="start_date" date_stop="end_date" 
-             color="auditor_id" quick_add="False" mode="month" all_day="all_day"> 
+            <calendar string="Auditor's days off Calendar"
+            	date_start="start_date" date_stop="end_date"
+            	color="auditor_id" hide_time="true" event_limit="5"
+            	mode="month">
                 <field name="name"/>
                 <field name="auditor_id" filters="1"/>
             </calendar>
         </field>
     </record>
 
-    <record id="auditordaysoff_action" model="ir.actions.act_window">
+    <record id="auditor_daysoff_action" model="ir.actions.act_window">
         <field name="name">auditordaysoff</field>
         <field name="res_model">auditordaysoff.days</field>
         <field name="view_mode">calendar,tree,form</field>
@@ -58,10 +74,10 @@
         </field>
     </record>
 
-    <menuitem id="auditordaysoff_purchase"
+    <menuitem id="auditor_days_off_purchase"
             name="Auditor's days off"
             parent="pao_catalog_menu.purchase_pao_catalog_menu"
-            action="auditordaysoff_action"
+            action="auditor_daysoff_action"
             sequence="7"/>
 
 </odoo>

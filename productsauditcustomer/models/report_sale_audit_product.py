@@ -1,11 +1,11 @@
 from odoo import tools
 from odoo import api, fields, models
-from logging import getLogger
 
-_logger = getLogger(__name__)
+
+
 class ReportSaleAuditProduct(models.Model):
-    _name = "productsauditcustomer.sale.report.products"
-    _description = "Sales Analysis Report for audit Product"
+    _name = 'productsauditcustomer.sale.report.products'
+    _description = 'Sales Analysis Report for audit Product'
     _auto = False
     _rec_name = 'date'
     _order = 'date desc'
@@ -58,9 +58,7 @@ class ReportSaleAuditProduct(models.Model):
         readonly=True
     )
     source_id = fields.Many2one('utm.source', 'Source')
-
     order_id = fields.Many2one('sale.order', 'Order #', readonly=True)
-
     promotor_id = fields.Many2one('comisionpromotores.promotor', 'Promoter', readonly=True)
     cgg_group_id = fields.Many2one('customergroups.group', 'Group', readonly=True)
 

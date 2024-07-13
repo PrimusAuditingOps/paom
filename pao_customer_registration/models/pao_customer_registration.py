@@ -2,7 +2,7 @@ from odoo import fields, models, api, _
 import uuid
 from logging import getLogger
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, formataddr, config, get_lang
-
+from odoo.addons.l10n_mx_edi.models.res_company import FISCAL_REGIMES_SELECTION
 _logger = getLogger(__name__)
 
 class PaoCustomerRegistration(models.Model):
@@ -52,9 +52,15 @@ class PaoCustomerRegistration(models.Model):
     email = fields.Char(
         string="Email",
     )
-    cfdi_use = fields.Char(
-        string="CFDI use",
-    )
+    fiscal_regime = fields.Selection(
+        selection=FISCAL_REGIMES_SELECTION,
+        string="Fiscal Regime",
+        readonly=False,
+        help="Fiscal Regime is required for all partners (used in CFDI)")
+    #cfdi_use = fields.Char(
+    #    string="CFDI use",
+    #)
+
     form_url = fields.Char(
         string="Form URL",
     )
@@ -81,7 +87,7 @@ class PaoCustomerRegistration(models.Model):
     )
     attachment_proof_of_address_id = fields.Many2one(
         comodel_name='ir.attachment',
-        string='Attachment',
+        string='Attachment Proof of address',
         ondelete='restrict',
         copy=False,
     )
@@ -94,7 +100,7 @@ class PaoCustomerRegistration(models.Model):
     )
     attachment_bank_account_id = fields.Many2one(
         comodel_name='ir.attachment',
-        string='Attachment',
+        string='Attachment Bank account statement cover',
         ondelete='restrict',
         copy=False,
     )
@@ -107,13 +113,13 @@ class PaoCustomerRegistration(models.Model):
     )
     attachment_sat_compliance_opinion_id = fields.Many2one(
         comodel_name='ir.attachment',
-        string='Attachment',
+        string='Attachment SAT compliance opinion',
         ondelete='restrict',
         copy=False,
     )
     attachment_sat_compliance_opinion_datas = fields.Binary(
         related='attachment_sat_compliance_opinion_id.datas',
-        string="Bank account statement cover",
+        string="SAT compliance opinion",
     )
     attachment_sat_compliance_opinion_name = fields.Char(
         related='attachment_sat_compliance_opinion_id.name',
@@ -159,56 +165,7 @@ class PaoCustomerRegistration(models.Model):
 
     def action_resend(self):
         self.ensure_one()
-        """
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        tpl = self.env.ref('pao_customer_registration.rc_template_mail_request')
-        customer_lang = get_lang(self.env, lang_code=self.contact_id.lang).code
-        tpl = tpl.with_context(lang=customer_lang)
-
-        body = tpl._render({
-                'record': self,
-                'link': self.form_url,
-                'subject': self.subject,
-                'body': self.message if self.message != '<p><br></p>' else False,
-            }, engine='ir.qweb', minimal_qcontext=True)
-
        
-        mail = self._message_send_mail(
-            body, 'mail.mail_notification_light',
-            {'record_name': self.name},
-            {'model_description': _('CR'), 'company': self.create_uid.company_id},
-            {'email_from': self.create_uid.email_formatted,
-                'author_id': self.create_uid.partner_id.id,
-                'email_to': self.contact_id.email_formatted,
-                'subject': self.subject},
-            force_send=True,
-            lang=customer_lang,
-        )
-        if mail:
-            
-            for follower in self.follower_ids:
-                tpl = self.env.ref('pao_customer_registration.rc_template_mail_request')
-                follower_lang = get_lang(self.env, lang_code=follower.lang).code
-                tpl = tpl.with_context(lang=follower.lang)
-                body = tpl._render({
-                    'record': self,
-                    'link': self.form_url,
-                    'subject': self.subject,
-                    'body': self.message if self.message != '<p><br></p>' else False,
-                }, engine='ir.qweb', minimal_qcontext=True)
-                
-                mail = self._message_send_mail(
-                    body, 'mail.mail_notification_light',
-                    {'record_name': self.name},
-                    {'model_description': _('CR'), 'company': self.create_uid.company_id},
-                    {'email_from': self.create_uid.email_formatted,
-                        'author_id': self.create_uid.partner_id.id,
-                        'email_to': follower.email_formatted,
-                        'subject': self.subject},
-                    force_send=True,
-                    lang=follower_lang,
-                )
-        """
         self.write(
             {
                 "request_status": "sent"
@@ -239,7 +196,7 @@ class PaoCustomerRegistration(models.Model):
                 "zip": self.zip,
                 "phone": self.phone,
                 "email": self.email,
-                "ctm_cfdi_use": self.cfdi_use,
+                "l10n_mx_edi_fiscal_regime": self.fiscal_regime,
             }
         )
         attachment_list = []
@@ -266,18 +223,15 @@ class PaoCustomerRegistration(models.Model):
             )
         partner.message_post(body=_("The fiscal certificate has been added."), attachment_ids= attachment_list)
 
-    def _message_send_mail(self, body, notif_template_xmlid, message_values, notif_values, mail_values, force_send=False, **kwargs):
-        
-        default_lang = get_lang(self.env, lang_code=kwargs.get('lang')).code
-        lang = kwargs.get('lang', default_lang)
-        sign_request = self.with_context(lang=lang)
 
-        msg = sign_request.env['mail.message'].sudo().new(dict(body=body, **message_values))
-        notif_layout = sign_request.env.ref(notif_template_xmlid)
-        body_html = notif_layout._render(dict(message=msg, **notif_values), engine='ir.qweb', minimal_qcontext=True)
-        body_html = sign_request.env['mail.render.mixin']._replace_local_links(body_html)
+    def write(self, vals):
+        for rec in self:
+            if vals.get('request_status') == "complet":
+                channel_id = rec.env['discuss.channel'].sudo().search([('name', 'ilike', "Actualización Catálogos")]) 
+                if channel_id:
 
-        mail = sign_request.env['mail.mail'].sudo().create(dict(body_html=body_html, state='outgoing', **mail_values))
-        if force_send:
-            mail.send()
-        return mail
+                    notification = ('<a href="#" data-oe-model="pao.customer.registration" class="o_redirect" data-oe-id="%s">#%s</a>') % (rec.id, rec.res_partner_id.name,)
+                    channel_id.sudo().message_post(body=_('Customer registration has been completed: ') + notification, message_type='comment', body_is_html = True)
+
+        result = super(PaoCustomerRegistration, self).write(vals)
+        return result

@@ -3,21 +3,24 @@
     <record id="res_partner_pao_auditor_audits_progress_view_tree" model="ir.ui.view">
         <field name="name">res.partner.inherit.pao.auditor.audits.progress.tree</field>
         <field name="model">res.partner</field>
-        <field name="groups_id" eval="[(4, ref('group_auditor_progress_viewer'))]"/>
+        <!-- <field name="groups_id" eval="[(4, ref('group_auditor_progress_viewer'))]"/> -->
         <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='email']" position="after">
 
-                <field name="audits_done" optional="hide"/>
-                <field name="audits_goal" optional="hide"/>
-                <field name="progress_bar" optional="hide" widget="progressbar"/>
+                <field name="audits_done" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" optional="hide"/>
+                <field name="audits_goal" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" optional="hide"/>
+                <field name="progress_bar" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" optional="hide" widget="progressbar"/>
 
             </xpath>
             <xpath expr="//field[@name='vat']" position="replace">
 
             </xpath>
-            <xpath expr="//field[@name='create_uid']" position="replace">
+            <!-- <xpath expr="//field[@name='create_uid']" position="replace">
                 <field name="create_uid" optional="hide"/>
+            </xpath> -->
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="create_uid" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" optional="hide"/>
             </xpath>
         </field>
     </record>
@@ -26,24 +29,14 @@
         <field name="name">res.partner.inherit.pao.auditor.audits.progress.form</field>
         <field name="model">res.partner</field>
         <field name="type">form</field>
-        <field name="groups_id" eval="[(4, ref('group_auditor_progress_viewer'))]"/>
+        <!-- <field name="groups_id" eval="[(4, ref('group_auditor_progress_viewer'))]"/> -->
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='season_goal']" position="inside">
-                <group colspan="2" col="2">
-                    <div>
-                        <span class="oe_inline"> Confirmed audits : </span>
-                        <field name="audits_done" nolabel="1" class="oe_inline" style="margin-right:20px;"/>
-                        <span class="oe_inline"> Progress : </span>
-                        <field name="progress_bar" widget="progressbar" nolabel="1" class="oe_inline"/>
-                        <span class="oe_inline"> Audits goal : </span>
-                        <field name="audits_goal" nolabel="1" class="oe_inline" style="margin-right:20px;"/>
-                        <span class="oe_inline"> Period type : </span>
-                        <field name="period_type" nolabel="1" class="oe_inline"/>
-
-                    </div>
-                </group>
-
+            <xpath expr="//page[@name='season_goal']/group[1]/group[@name='auditors_goal']" position="inside">
+                <field name="audits_done" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" class="oe_inline"/>
+                <field name="progress_bar" widget="progressbar" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" class="oe_inline"/>
+                <field name="audits_goal" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" class="oe_inline"/>
+                <field name="period_type" groups="pao_auditor_audits_progress.group_auditor_progress_viewer" class="oe_inline"/>
             </xpath>
         </field>
     </record>

@@ -7,8 +7,8 @@
             <form string="Agreements Form">
                 <header>
                     <field name="document_status" invisible="1"/>
-                    <button name="action_resend" type="object" string="Resend" attrs="{'invisible': [('document_status', 'in', ['sign', 'cancel'])]}"/>
-                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('document_status', 'in', ['sign', 'cancel'])]}"/>
+                    <button name="action_resend" type="object" string="Resend" invisible="document_status in ['sign', 'cancel']"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="document_status in ['sign', 'cancel']"/>
                 </header>
                 <sheet>
                     <group col="2">

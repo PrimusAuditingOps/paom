@@ -8,39 +8,65 @@
                 <header>
                     <field name="authorized" invisible="1"/>
                     <field name="authorization_request_sent" invisible="1"/>
-                    <button string="Cancel" attrs="{'invisible': [('proposal_status', 'in', ['cancel', 'complete'])]}" type="object" class="oe_highlight" name="cancel_proposal_action"/>
-                    <button string="Send" attrs="{'invisible': ['|',('proposal_status', '!=', 'draft'),('authorized', '!=', True)]}" type="object" class="oe_highlight" name="send_proposal_action"/>
-                    <button string="Request authorization" type="object" class="oe_highlight" name="request_approval" attrs="{'invisible': ['|','|',('authorization_request_sent', '=', True), ('authorized', '=', True),('proposal_status', '!=', 'draft')]}"/>
-                    <button string="Authorize proposal" type="object" class="oe_highlight" name="authorize_proposal_action" attrs="{'invisible': ['|',('authorized', '=', True),('proposal_status', '!=', 'draft')]}" groups="pao_pricelist_proposal.pricelist_proposal_authorizer"/>
-                    <button string="Complete" attrs="{'invisible': [('proposal_status', '!=', 'accept')]}" type="object" class="oe_highlight" name="complete_proposal_action"/>
+                    <button string="Cancel" invisible="proposal_status in ['cancel', 'complete']" type="object" class="oe_highlight" name="cancel_proposal_action"/>
+                    <button string="Send" invisible="proposal_status != 'draft' or not authorized" type="object" class="oe_highlight" name="send_proposal_action"/>
+                    <button string="Request authorization" type="object" class="oe_highlight" name="request_approval" invisible="authorization_request_sent or authorized or proposal_status != 'draft'"/>
+                    <button string="Authorize proposal" type="object" class="oe_highlight" name="authorize_proposal_action" invisible="authorized or proposal_status != 'draft'" groups="pao_pricelist_proposal.pricelist_proposal_authorizer"/>
+                    <button string="Complete" invisible="proposal_status != 'accept'" type="object" class="oe_highlight" name="complete_proposal_action"/>
                     <field name="proposal_status" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <div class="oe_title">
-                        <h1>
-                            <field name="name" readonly="1" placeholder="e.g. USD Retailers"/>
-                        </h1>
+                        <h1><field name="name" placeholder="e.g. USD Retailers"/></h1>
                     </div>
                     <group>
                         <group name="pricelist_settings">
-                            <field name="sign_date" readonly="1"/>
-                            <field name="currency_id" readonly="1" can_create="true" can_write="true"/>
-                            <field name="create_uid" invisible="1" can_create="true" can_write="true"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
                             <field name="active" invisible="1"/>
-                            <field name="company_id" options="{'no_create': True}" can_create="true" can_write="true" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                         </group>
                     </group>
                     <notebook>
                         <page name="pricelist_rules" string="Price Rules">
-                            <field name="item_ids" attrs="{'readonly': [('proposal_status', '!=', 'draft')]}" nolabel="1" context="{'default_base':'list_price'}"/>
+                            <field name="item_ids" nolabel="1" context="{'default_base':'list_price'}" readonly="authorized">
+                                <tree groups="!product.group_sale_pricelist" string="Pricelist Rules" editable="bottom">
+                                    <field name="product_tmpl_id" string="Products" required="1"/>
+                                    <field name="product_id" string="Variants" groups="product.group_product_variant" domain="[('product_tmpl_id', '=', product_tmpl_id)]" options="{'no_create':1}"/>
+                                    <field name="min_quantity"/>
+                                    <field name="fixed_price" string="Price"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="pricelist_id" column_invisible="True"/>
+                                    <!-- Pricelist ID is here only for related fields to be correctly computed -->
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="base" column_invisible="True"/>
+                                    <field name="applied_on" column_invisible="True"/>
+                                    <field name="company_id" column_invisible="True"/>
+                                </tree>
+                                <!-- When in advanced pricelist mode : pricelist rules
+                                    Should open in a form view and not be editable inline anymore.
+                                -->
+                                <tree groups="product.group_sale_pricelist" string="Pricelist Rules">
+                                    <field name="product_tmpl_id" column_invisible="True"/>
+                                    <field name="name" string="Applicable On"/>
+                                    <field name="min_quantity"/>
+                                    <field name="price" string="Price"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="base" column_invisible="True"/>
+                                    <field name="price_discount" column_invisible="True"/>
+                                    <field name="applied_on" column_invisible="True"/>
+                                    <field name="compute_price" column_invisible="True"/>
+                                </tree>
+                            </field>
                         </page>
                         <page name="pricelist_config" string="Configuration">
                             <group>
                                 <group name="pricelist_availability" string="Availability">
-                                    <field name="country_group_ids" readonly="1" widget="many2many_tags" can_create="true" can_write="true"/>
+                                    <field name="country_group_ids" widget="many2many_tags"/>
                                 </group>
-                                <group name="pricelist_discounts" string="Discounts" invisible="1">
+                                <group name="pricelist_discounts" string="Discounts">
                                     <field name="discount_policy" widget="radio"/>
                                 </group>
                             </group>
@@ -48,6 +74,8 @@
                     </notebook>
                 </sheet>
             </form>
+
+
         </field>
     </record>
 </odoo>

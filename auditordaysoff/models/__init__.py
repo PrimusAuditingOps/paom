@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from . import res_partner_inherit
-from . import purchase_order_inherit
-from . import auditor_days_off_days
+from . import res_partner
+from . import purchase_order
+from . import auditor_daysoff_days
 from . import purchase_order_line

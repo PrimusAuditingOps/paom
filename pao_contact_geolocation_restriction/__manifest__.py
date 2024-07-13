@@ -9,4 +9,5 @@
         'security/groups.xml',
         'views/geolocation_restriction_view.xml',
     ],
+    'license': 'LGPL-3',
 }

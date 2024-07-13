@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'PAO SIGN SA',
-    'version': '1.1',
+    'version': '17.0.0.1.0',
     'author': 'samuel castro',
     'category': '',
     'website': 'https://paomx.com',
+    'summary': """
+        The purpose of this module is to send clients' SA to signature.
+    """,
+    'description': """
+    v 1.0
+        * Migrated from v14.\n
+    """,
     'depends': ['base','sale','servicereferralagreement','portal'
     ],
     'data': [
@@ -52,4 +59,5 @@
     'css': [
         'static/src/css/sa.css',
     ],
+    'license': 'LGPL-3',
 }

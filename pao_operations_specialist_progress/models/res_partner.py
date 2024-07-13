@@ -57,11 +57,16 @@ class ResPartnerInherit(models.Model):
                         'start_date': start_date,
                         'end_date': end_date,
                     }
+                    
+                    if not params['coordinator']:
+                        rec.specialist_audits_coordinated = 0
+                        return
+                    
                     self.env.cr.execute(query, params)
                     query_result = self.env.cr.dictfetchall()
                     
                     for row in query_result:
-                        rec.specialist_audits_coordinated = (float) (row['coordinated_audits'])
+                        rec.specialist_audits_coordinated = (float) (row['coordinated_audits'] if row['coordinated_audits'] else 0)
                     
                     # domain = [('coordinator_id', '=', rec.user_ids.id)]
                     # purchase = self.env['purchase.order'].search(domain)
@@ -141,7 +146,7 @@ class ResPartnerInherit(models.Model):
 
         for con in configuration:
             
-            _logger.error("------------------ Conf N <-----------------------")
+            # _logger.error("------------------ Conf N <-----------------------")
 
             period_month_start = int(con.season_start_month)
             period_moth_end = int(con.season_end_month)

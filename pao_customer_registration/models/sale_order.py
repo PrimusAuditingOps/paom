@@ -27,7 +27,7 @@ class SaleOrder(models.Model):
                         'zip': rec.zip,
                         'phone': rec.phone,
                         'email': rec.email,
-                        'cfdi_use': rec.ctm_cfdi_use,
+                        'fiscal_regime': rec.l10n_mx_edi_fiscal_regime,
                         'vat': rec.vat,
                     })
                     base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')

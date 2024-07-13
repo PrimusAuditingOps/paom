@@ -15,4 +15,5 @@
         # views
         'views/view_operations_specialist_progress.xml'
     ],
+    'license': 'LGPL-3',
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="account_invoice_delete_totals_company_invices" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-call='account.document_tax_totals_company_currency_template']" position="replace">
+        </xpath>
+    </template>
+</odoo>

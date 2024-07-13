@@ -10,4 +10,5 @@
     'data': [
         'views/account_move_so_fields.xml',
     ],
+    'license': 'LGPL-3',
 }

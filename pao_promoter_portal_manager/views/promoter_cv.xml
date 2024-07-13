@@ -10,6 +10,8 @@
                         <field name="website_published"/>
                         <field name="name"/>
                         <field name="company_name"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>   
+                        <field name="company_id" invisible="1"/>   
                     </group>
                     <group col="4">
                         <field name="profile_image" widget="image" class="oe_avatar"/>
@@ -17,7 +19,7 @@
                         <field name="profession"/>
                         <field name="telephone"/>
                         <field name="email"/>
-                        <field name="work_zone_ids" widget="many2many_tags"/>
+                        <field name="work_zone_ids" widget="many2many_tags" context="{'company_id': company_id}"/>
                         <field name="whatsapp" placeholder="Enter the region and Whatsapp number"/>
                         <field name="facebook" placeholder="Enter URL"/>
                         <field name="instagram" placeholder="Enter URL"/>
@@ -32,7 +34,7 @@
                     </group>
                     <notebook>
                          <page string="Services">
-                            <field name="service_ids" widget="many2many" context="{'default_promotor_cv_id': id}">
+                            <field name="service_ids" widget="many2many" context="{'default_promotor_cv_id': id, 'company_id': company_id}">
                                 <tree string="Add Services">
                                     <field name="name"/>
                                     <field name="service_group_id"/>
@@ -40,14 +42,14 @@
                             </field>
                         </page>
                         <page string="Carousel Images">
-                            <field name="carousel_image_ids" widget="many2many" domain="[('promotor_cv_id','=', id)]" context="{'default_promotor_cv_id': id}">
+                            <field name="carousel_image_ids" widget="many2many" domain="[('promotor_cv_id','=', id)]" context="{'default_promotor_cv_id': id, 'company_id': company_id}">
                                 <tree string="Add Carousel Images">
                                     <field name="image" widget="image" class="oe_avatar"/>
                                 </tree>
                             </field>
                         </page>
                         <page string="History">
-                            <field name="history_block_ids" widget="many2many" domain="[('promotor_cv_id','=', id)]" context="{'default_promotor_cv_id': id}">
+                            <field name="history_block_ids" widget="many2many" domain="[('promotor_cv_id','=', id)]" context="{'default_promotor_cv_id': id, 'company_id': company_id}">
                                 <tree string="Add History">
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
@@ -75,6 +77,7 @@
                     <group col="2">
                         <field name="name"/>
                         <field name="history_text"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>   
                     </group>                   
                 </sheet>
             </form>
@@ -88,6 +91,7 @@
             <tree string="Promoter CV">
                 <field name="name"/>
                 <field name="history_text"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
             </tree>
         </field>
     </record>
@@ -102,6 +106,7 @@
                 <sheet>
                     <group col="2">
                         <field name="image" widget="image" class="oe_avatar"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>   
                     </group>                   
                 </sheet>
             </form>
@@ -115,6 +120,7 @@
             <tree string="Services">
                 <field name="name"/>
                 <field name="service_group_id"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
             </tree>
         </field>
     </record>
@@ -125,6 +131,7 @@
         <field name="arch" type="xml">
             <tree string="Promoter images">
                 <field name="image" widget="image" options="{'size': [0, 50]}"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
             </tree>
         </field>
     </record>
@@ -140,6 +147,7 @@
                     <group col="4">
                         <field name="name"/>
                         <field name="image" widget="image" class="oe_avatar"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>   
                     </group>                   
                 </sheet>
             </form>
@@ -174,6 +182,6 @@
             name="Promotor CV"
             parent="sale.sale_order_menu"
             action="pao_promotor_cv_action"
-            sequence="10"/>
+            sequence="110"/>
 
 </odoo>

@@ -1,11 +1,12 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
+
+
 class PaaAuditorAssignmentAuditsHonorariumPertMonth(models.Model):
     _name = 'paoassignmentauditor.auditshonorariumpermonth'
     _description = 'Auditor assignment Audits honorarium per Month'
     _rec_name = 'month'
     _order = 'month asc'
-
 
     month = fields.Selection(
         selection=[
@@ -25,18 +26,11 @@ class PaaAuditorAssignmentAuditsHonorariumPertMonth(models.Model):
         string="Month", 
         copy=False,
     )
-    currency_id = fields.Many2one(
-        'res.currency',
-        string='Currency',
-    )
-    audit_honorarium_total = fields.Monetary(
-        string="Total honorarium of audits",
-        currency_field='currency_id',
-        default=0,
-    )
-    configuration_id = fields.Many2one(
-        comodel_name='paoassignmentauditor.configuration.audit.honorarium',
-        string='configuration', 
-        ondelete='set null',
-    )
+    currency_id = fields.Many2one('res.currency', string='Currency')
+    audit_honorarium_total = fields.Monetary(string="Total honorarium of audits",
+                                             currency_field='currency_id',
+                                             default=0)
+    configuration_id = fields.Many2one('paoassignmentauditor.configuration.audit.honorarium',
+                                       string='configuration',
+                                       ondelete='set null')
    

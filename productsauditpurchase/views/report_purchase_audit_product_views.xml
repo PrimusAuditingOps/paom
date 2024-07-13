@@ -6,9 +6,6 @@
             <field name="arch" type="xml">
                 <pivot string="Purchase Analysis by Audit Products" display_quantity="1" sample="1">
                     <field name="category_id" type="row"/>
-                    <!--<field name="order_id" type="measure"/>-->
-                    <!--<field name="untaxed_total" type="measure"/>-->
-                    <!--<field name="price_total" type="measure"/>-->
                 </pivot>
             </field>
         </record>
@@ -18,7 +15,6 @@
             <field name="arch" type="xml">
                 <graph string="Purchase Analysis by Audit Products" type="line" sample="1">
                     <field name="date_approve" interval="day"/>
-                    <!--<field name="untaxed_total" type="measure"/>-->
                 </graph>
             </field>
         </record>
@@ -39,8 +35,6 @@
                     <field name="qty_received" optional="hide" sum="Sum of Qty Received"/>
                     <field name="qty_billed" optional="hide" sum="Sum of Qty Billed"/>
                     <field name="currency_id" optional="show" invisible="1"/>
-                    <!--<field name="untaxed_total" optional="hide" widget="monetary" sum="Sum of Untaxed Total"/>-->
-                    <!--<field name="price_total" optional="show" widget="monetary" sum="Sum of Total"/>-->
                     <field name="state" optional="show"/>
                 </tree>
             </field>
@@ -97,6 +91,5 @@
         <field name="target">current</field>
     </record>
 
-    <menuitem id="purchase_report_all" name="Purchase" parent="purchase.purchase_report" sequence="99" groups="purchase.group_purchase_manager" action="purchase_enterprise.purchase_report_action_dashboard"/>
-    <menuitem id="report_purchase_product_audit" name="Purchase by Audit Products" parent="purchase.purchase_report" sequence="100" action="action_purchase_order_product_audit_report_all"/>
+    <menuitem id="report_purchase_product_audit" name="Purchase by Audit Products" parent="purchase.purchase_report_main" sequence="100" action="action_purchase_order_product_audit_report_all"/>
 </odoo>

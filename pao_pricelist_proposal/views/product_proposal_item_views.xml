@@ -3,8 +3,8 @@
     <data>
         <record id="product_proposal_item_view_tree" model="ir.ui.view">
             <field name="name">product.proposal.item.view.tree</field>
-            <field name="model">product.proposal.item</field> <!-- Change model name -->
-            <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/> <!-- Specify original view ID -->
+            <field name="model">product.proposal.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/>
             <field name="arch" type="xml">
                 <tree>
                     <field name="pricelist_id" position="attributes">

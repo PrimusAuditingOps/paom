@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="account_invoice_cuenta_report_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//p[@name='payment_communication']" position="replace">
+        </xpath>
+        <xpath expr="//div[@name='comment']" position="after">
+           <t t-if="not o.move_type == 'in_invoice' and o.country_code == 'MX'">
+                <div style="page-break-after: always;">
+                </div>
+                <table class="table">
+                    <tr>
+                        <th colspan="4" class="text-center" style="border: 1px solid black; background-color:white;"><h5><b>Datos Cuenta En Mexico</b></h5></th>
+
+                    </tr>
+                    <tr>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>Banco:</b> Banamex</td>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>Bank:</b> Banamex</td>
+                    </tr>
+                    <tr>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td style="border:0px; background-color:white;"><b>Sucursal Numero:</b> 7009</td>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td style="border:0px; background-color:white;"><b>Sucursal Numero:</b> 891</td>
+                    </tr>
+                    <tr>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td style="border:0px; background-color:white;"><b>Cuenta en Pesos:</b> 4534575</td>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td style="border:0px; background-color:white;"><b>Dollars Account:</b> 9766752</td>
+                    </tr>
+                    <tr>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td style="border:0px; background-color:white;"><b>CLABE Transferencia:</b> 002320700945345756</td>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td style="border:0px; background-color:white;"><b>CLABE Transferencia:</b> 002320089197667521</td>
+                    </tr>
+                    <tr>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td style="border:0px; background-color:white;">
+                            <p t-if="o.partner_id.ctm_ref_bank_pesos">
+                                <b>Referencia:</b> <span class="m-0" t-field="o.partner_id.ctm_ref_bank_pesos"/>
+                            </p>
+                        </td>
+                        <td style="border:0px; background-color:white;"></td>
+                        <td style="border:0px; background-color:white;">
+                            <p t-if="o.partner_id.ctm_ref_bank_dolares">
+                                <b>Referencia:</b> <span class="m-0" t-field="o.partner_id.ctm_ref_bank_dolares"/>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center" style="border:0px; background-color:white;">
+                            <p class="m-0">
+                                Swift: BNMXMXMM<br/>
+                                Contacto Administracion: facturacion@pao-mx.com<br/>
+                                Referencia Necesaria para depositos y/o transferencia<br/>
+                                <b>Este documento es una representación impresa de un CFDI</b>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+
+                <table class="table">
+                    <tr>
+                        <td colspan="4" class="text-left" 
+                        style="border: 0px; background-color:white;">
+                            <p class="m-0" style="font-size:14px">
+                                DEBO (EMOS) Y PAGARÉ (MOS) INCONDICIONALMENTE POR ESTE PAGARE A LA ORDEN DE PRIMUS AUDITING OPERATIONS MEXICO S DE RL DE CV
+                            </p>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td width="20%" style="border:0px; background-color:white;"><p class="m-0" style="font-size:14px">EN: Zapopan, Jalisco</p></td>
+                        <td width="40%" style="border:0px; background-color:white;"><p class="m-0" style="font-size:14px">EL DIA: <span class="m-0" t-field="o.invoice_date"/></p></td>
+                        <td colspan="2" width="40%" style="border:0px; background-color:white;"><p class="m-0" style="font-size:14px">LA CANTIDAD DE: <span t-field="o.amount_total"/></p></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="border:0px; background-color:white;">
+                        <p t-if="is_cfdi_signed" name="comment" class="m-0" style="font-size:14px">
+                                <span t-esc="o._l10n_mx_edi_cfdi_amount_to_text()"/>   
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-justify" style="border:0px; background-color:white;">
+                            <p class="m-0" style="font-size:14px">
+                            VALOR RECIBIDO A MI (NUESTRA) ENTERA SATISFACION DE NO PAGARSE 
+                            A SU VENCIMIENTO ESTE DOCUMENTO HASTA EL DIA DE SU LIQUIDACION 
+                            CAUSARÁ INTERESES MORATORIOS AL TIPO DE 2 % MENSUAL PAGADERO 
+                            EN ESTA CIUDAD JUNTAMENTE CON EL PRINCIPAL, DE ACUERDO A LA 
+                            LEY GENERAL DE TITULOS Y OPERACIONES DE CREDITO.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:0px; background-color:white;"><p class="m-0" style="font-size:14px">Zapopan, Jalisco</p></td>
+                        <td style="border:0px; background-color:white;"><p class="m-0" style="font-size:14px"><span class="m-0" t-field="o.invoice_date"/></p></td>
+                        <td colspan="2" style="border:0px; background-color:white;"><p class="m-0" style="font-size:14px">FACTURA: <span class="m-0" t-field="o.name"/></p></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-left" style="border:0px; background-color:white;">
+                            <p class="m-0" style="font-size:14px">
+                                OTORGANTE: <span class="m-0" t-field="o.partner_id"/>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-left" style="border:0px; background-color:white;">
+                            <p class="m-0" style="font-size:14px">
+                                DOMICILIO:
+                                <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: True}"/>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </t>
+        </xpath>
+    </template>
+</odoo>

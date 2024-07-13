@@ -3,75 +3,44 @@ from odoo.exceptions import ValidationError
 from logging import getLogger
 
 _logger = getLogger(__name__)
+
+
+
 class PaaAuditorQualification(models.Model):
     _name = 'paoassignmentauditor.auditor.qualification'
     _description = 'Auditor assignment Qualification'
     _rec_name = 'auditor_id'
     _order = 'qualification desc'
 
+    auditor_id = fields.Many2one('res.partner', string='Auditor', ondelete='set null')
+    position = fields.Integer(string='Position', compute="_get_position")
+    scheme_qualification = fields.Float(default=0.00, required=True,
+                                        string="Scheme Qualification")
+    localization_qualification = fields.Float(default=0.00, required=True,
+                                              string="Localization Qualification")
+    audit_qty_qualification = fields.Float(default=0.00, required=True,
+                                           string= "Audit Quantity Qualification")
+    audit_honorarium_qualification = fields.Float(default=0.00, required=True,
+                                                  string= "Audit honorarium Qualification")
+    qualification = fields.Float(default=0.00, required=True, string="Qualification")
+    ref_user_id = fields.Integer(string='User ID')
+    assigned_auditor_id = fields.Integer(string="Assigned auditor id", default=0) 
+    assigned_auditor_position = fields.Integer(string="Pos Reference", default=0) 
+    assigned_auditor_qualification = fields.Float(default=0.00, string="Qual Reference") 
+    day_without_audits = fields.Integer(string="Days without audits", default=0) 
+    day_color = fields.Char(string="Day color", default="") 
+    is_in_house = fields.Selection(
+        [('0', 'Normal'), ('1', 'In house')], 
+        'In House', 
+        default='0',
+        readonly = True,
+    )
 
+    total_to_pay = fields.Float(string='Payment', digits='Product Price')
+    total_audits = fields.Float(string='Total Audits', digits='Product Price')
 
-
-    auditor_id = fields.Many2one(
-        comodel_name='res.partner',
-        string='Auditor',
-        ondelete='set null',
-    )
-    position = fields.Integer(
-        string='Position',
-        compute="_get_position"
-    )
-    scheme_qualification = fields.Float(
-        default = 0.00,
-        required = True,
-        string= "Scheme Qualification",
-    )
-    localization_qualification = fields.Float(
-        default = 0.00,
-        required = True,
-        string= "Localization Qualification",
-    )
-    audit_qty_qualification = fields.Float(
-        default = 0.00,
-        required = True,
-        string= "Audit Quantity Qualification",
-    )
-    audit_honorarium_qualification = fields.Float(
-        default = 0.00,
-        required = True,
-        string= "Audit honorarium Qualification",
-    )
-    qualification = fields.Float(
-        default = 0.00,
-        required = True,
-        string= "Qualification",
-    )
-    ref_user_id = fields.Integer(
-        string='User ID',
-    )
-    assigned_auditor_id = fields.Integer(
-        string="Assigned auditor id",
-        default = 0,
-    ) 
-    assigned_auditor_position = fields.Integer(
-        string = "Pos Reference",
-        default = 0,
-    ) 
-    assigned_auditor_qualification = fields.Float(
-        default = 0.00,
-        string = "Qual Reference",
-    ) 
-    day_without_audits = fields.Integer(
-        string="Days without audits",
-        default = 0,
-    ) 
-    day_color = fields.Char(
-        string="Day color",
-        defauult= "",
-    ) 
 
     def _get_position(self):
-        
         for rec in self:
             domain = [("ref_user_id","=",rec.ref_user_id)]
             rec_qualifications = self.env['paoassignmentauditor.auditor.qualification'].search(domain,order = 'qualification desc')
@@ -81,8 +50,6 @@ class PaaAuditorQualification(models.Model):
                 if qln.auditor_id.id == rec.auditor_id.id:
                     rec.position = position
                     break
-
-        
 
     def assign_auditor(self,context=None):
         for rec in self:

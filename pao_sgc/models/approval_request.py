@@ -15,13 +15,10 @@ class ApprovalRequestInherit(models.Model):
     pao_document_version_management_id = fields.Many2one('pao.documents.version.management', string="Document Version Origin", readonly=True)
     pao_document_request_closed = fields.Boolean("PAO Document has been closed", default=False)
     pao_refuse_reason = fields.Text('Refuse Reason')
-    request_status = fields.Selection([
-        ('new', 'To Submit'),
-        ('pending', 'Submitted'),
+    request_status = fields.Selection(
+        selection_add=[
         ('reviewed', 'Reviewed'),
-        ('approved', 'Approved'),
-        ('refused', 'Refused'),
-        ('cancel', 'Cancel'),
+        ('approved',)
     ])
     pao_document_reviewer = fields.Many2one('res.users', string="Assigned reviewer", readonly=True)
     pao_document_reviewed = fields.Boolean("PAO Document reviewed", default=False)
@@ -90,7 +87,10 @@ class ApprovalRequestInherit(models.Model):
     def set_refuse_reason(self, reason):
         self.pao_refuse_reason = reason
         
-        mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.request_owner_id.id}">@{self.request_owner_id.name}</a>'
+        # mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.request_owner_id.id}">@{self.request_owner_id.name}</a>'
+        
+        mention_html = f'<a href="/web#model=res.partner&amp;id={self.request_owner_id.partner_id.id}" class="o_mail_redirect" data-oe-id="{self.request_owner_id.partner_id.id}" data-oe-model="res.partner" target="_blank">@{self.request_owner_id.name}</a>'
+        
         approval_request_link = ('<a href="#" data-oe-model="approval.request" data-oe-id="%(approval_id)d">%(name)s</a>'
                                 ) % {'name': self.name, 'approval_id': self.id}
         reasons = ('<br/><b>%(refuse_reason)s</b>') % {'refuse_reason': reason}
@@ -125,7 +125,9 @@ class ApprovalRequestInherit(models.Model):
             }
         
     def _notify_review_done(self):
-        mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.request_owner_id.id}">@{self.request_owner_id.name}</a>'
+        mention_html = f'<a href="/web#model=res.partner&amp;id={self.request_owner_id.partner_id.id}" class="o_mail_redirect" data-oe-id="{self.request_owner_id.partner_id.id}" data-oe-model="res.partner" target="_blank">@{self.request_owner_id.name}</a>'
+        
+        # mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.request_owner_id.id}">@{self.request_owner_id.name}</a>'
         approval_request_link = ('<a href="#" data-oe-model="approval.request" data-oe-id="%(approval_id)d">%(name)s</a>'
                                 ) % {'name': self.name, 'approval_id': self.id}
         

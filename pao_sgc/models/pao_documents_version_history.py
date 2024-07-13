@@ -14,7 +14,9 @@ class PaoDocumentsVersionHistory(models.Model):
     validity_end_date = fields.Date("Validity End Date", required=True)
     filename = fields.Char('Filename', compute="_compute_filename")
     version_by = fields.Many2one('res.users', string="Version uploaded by", compute="_compute_version_by")
-    version_management_id = fields.Many2one('pao.documents.version.management', string="Current document version", inverse_name='history_version_ids')
+    version_management_id = fields.Many2one('pao.documents.version.management', string="Current document version", 
+                                            # inverse_name='history_version_ids'
+                                            )
     approval_id = fields.Many2one('approval.request', string="Approval Reference")
 
     @api.depends("name", "revision_number")

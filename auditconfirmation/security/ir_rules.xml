@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Multi - Company Rules -->
+    <record id="servicereferralagreement_auditconfirmation_auditstate_comp_rule" model="ir.rule">
+        <field name="name">Audit state multi-company</field>
+        <field name="model_id" ref="model_auditconfirmation_auditstate"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="servicereferralagreement_auditconfirmation_auditstate_history_comp_rule" model="ir.rule">
+        <field name="name">Audit state history multi-company</field>
+        <field name="model_id" ref="model_auditconfirmation_auditstate_history"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

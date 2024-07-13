@@ -1,11 +1,8 @@
-from odoo import api, exceptions, fields, models, _
-from logging import getLogger
+from odoo import fields, models
 
-_logger = getLogger(__name__)
+
 
 class AccountMove(models.Model):
-    _inherit='account.move'
+    _inherit = 'account.move'
     
-    pao_sage_folio = fields.Char(
-        string = 'folio SAGE',
-    )  
+    pao_sage_folio = fields.Char(string='folio SAGE')  

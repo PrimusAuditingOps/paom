@@ -4,11 +4,12 @@
     "author": "Manuel Uzueta Gil",
     "category": "",
     "website": "https://paomx.com",
-    "depends": ["account"],
+    "depends": ["account", "pao_assignment_auditor", "attachmentdownload"],
     'data': [
         'views/invoice_report_views.xml',
         'views/menu_item_invoice_report.xml',
         
         'security/ir.model.access.csv',
     ],
+    'license': 'LGPL-3',
 }

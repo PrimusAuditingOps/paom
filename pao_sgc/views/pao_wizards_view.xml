@@ -6,14 +6,18 @@
         <field name="model">pao.upload.document.version</field>
         <field name="arch" type="xml">
             <form>
-                <group col="4">
-                    <field name="name" readonly="1"/>
-                    <field name="version"/>
-                    <field name="revision_number"/>
-                    <field name="document_file"/>
-                    <field name="selected_reviewer" options="{'no_create': True}" />
-                    <field name="selected_approvers" widget="many2many_tags" options="{'no_create': True}" />
-                    <field name="approval_reason"/>
+                <group>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="version"/>
+                        <field name="revision_number"/>
+                        <field name="document_file"/>
+                    </group>
+                    <group>
+                        <field name="selected_reviewer" options="{'no_create': True}" />
+                        <field name="selected_approvers" widget="many2many_tags" options="{'no_create': True}" />
+                        <field name="approval_reason"/>
+                    </group>
                 </group>
                 <footer>
                     <button string="REQUEST APPROVAL" class="oe_highlight" type="object" name="request_document_approval_action"/>
@@ -29,7 +33,7 @@
         <field name="model">pao.approval.refuse.reason</field>
         <field name="arch" type="xml">
             <form>
-                <group col="4">
+                <group>
                     <field name="reason"/>
                 </group>
                 <footer>
@@ -46,15 +50,28 @@
         <field name="model">pao.documents.version.history</field>
         <field name="arch" type="xml">
             <form>
-                <group col="4">
-                    <field name="name" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
-                    <field name="version" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
-                    <field name="revision_number" attrs="{'readonly': [('id', '!=', False)]}"/>
-                    <field name="document_file" attrs="{'readonly': [('id', '!=', False)]}"/>
-                    <field name="validity_start_date" attrs="{'readonly': [('id', '!=', False)]}"/>
-                    <field name="validity_end_date" attrs="{'readonly': [('id', '!=', False)]}"/>
-                    <field name="version_by" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
-                    <field name="approval_id" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
+                <group>
+                    <group invisible="id == False">
+                        <!-- <field name="name" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
+                        <field name="version" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
+                        <field name="revision_number" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        <field name="document_file" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        <field name="validity_start_date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        <field name="validity_end_date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        <field name="version_by" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/>
+                        <field name="approval_id" attrs="{'invisible': [('id', '=', False)], 'readonly': [('id', '!=', False)]}"/> -->
+                        <field name="name" readonly="id != False"/>
+                        <field name="version" readonly="id != False"/>
+                        <field name="version_by" readonly="id != False"/>
+                        <field name="approval_id" readonly="id != False"/>
+                    </group>
+                    <group>
+                        <field name="filename" invisible="1"/>
+                        <field name="revision_number" readonly="id != False"/>
+                        <field name="document_file" filename="filename" readonly="id != False"/>
+                        <field name="validity_start_date" readonly="id != False"/>
+                        <field name="validity_end_date" readonly="id != False"/>
+                    </group>
                 </group>
             </form>
         </field>

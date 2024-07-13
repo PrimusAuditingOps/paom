@@ -1,33 +1,24 @@
 from datetime import datetime, timedelta
 from odoo import fields, models, api
-from logging import getLogger
 
-_logger = getLogger(__name__)
+
+
+
 class SaleOrder(models.Model):
-
-    _inherit='sale.order'
+    _inherit = 'sale.order'
     
-    purchase_order_id = fields.One2many(
-        comodel_name='purchase.order',
-        inverse_name='sale_order_id',
-        string='Purchase Order',
-    )
-    enable_organization_ids = fields.Many2many(
-        related="partner_id.organization_ids",
-    )
-    coordinator_id = fields.Many2one(
-        string="Coordinator",
-        comodel_name='res.users',
-        ondelete='set null',
-        index=True,
-        domain = [('share','=',False)],
-    )
+    purchase_order_id = fields.One2many('purchase.order', inverse_name='sale_order_id',
+                                        string='Purchase Order')
+    enable_organization_ids = fields.Many2many(related='partner_id.organization_ids')
+    coordinator_id = fields.Many2one('res.users', string="Coordinator",
+                                     ondelete='set null', index=True,
+                                     domain = [('share','=',False)])
     registration_number_order_lines_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber', 
         compute='_get_registration_number', 
         string='Registration number order lines',
-        readonly=True,
-    )   
+        readonly=True)
+
     def _get_registration_number(self):
         rn = []
         for rec in self:
@@ -41,8 +32,7 @@ class SaleOrder(models.Model):
         string="Document to print",
         comodel_name='servicereferralagreement.registrynumber',
         ondelete='set null',
-        index=True,
-    )
+        index=True)
     
     @api.onchange('coordinator_id')
     def _change_coordinator(self):
@@ -78,5 +68,3 @@ class SaleOrder(models.Model):
                     rec.update({'coordinator_id': coordinator})
                 organization = rec.organization_id.id
                 registrynumber = rec.registrynumber_id.id
-    
-    

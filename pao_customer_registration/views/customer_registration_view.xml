@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>  
-    <!-- Assets -->
+    <!-- Assets
     <template id="assets_frontend" inherit_id="website.assets_frontend" name="Customer Registration">
         <xpath expr="." position="inside">
             <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
             <script type="text/javascript" src="https://unpkg.com/gridjs/dist/gridjs.umd.js"/>
             <script type="text/javascript" src="/pao_customer_registration/static/src/js/pao_customer_registration.js"/>
         </xpath>
-    </template>
+    </template>-->
     <template id="pao_customer_registration_exception_page_view" name="Request not found">
         <t t-call="web.frontend_layout">
             <div class="container pt-5">
@@ -56,11 +56,12 @@
                                 <section class="s_website_form">
                                     <div class="container">
                                         <!--data-model_name="mail.mail"-->
-                                        <form id="contactus_form" class="o_mark_required o_website_customer_registration_form" action="/pao/customer/registration/send" method="post" enctype="multipart/form-data"  data-mark="*" >
+                                        <form id="contactus_form" class="o_mark_required o_website_customer_registration_form" action="/pao/customer/registration/send/data" method="post"  enctype="multipart/form-data" 
+                                        data-success-mode="redirect" data-success-page="/job-thank-you" hide-change-model="true" data-mark="*" >
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                                <input type="hidden" name="cr_token" t-att-value="token"/>
-                                                <input type="hidden" name="cr_id" t-att-value="id"/>
+                                                <input type="hidden" name="cr_token" id="cr_token" t-att-value="token"/>
+                                                <input type="hidden" name="cr_id" id="cr_id" t-att-value="id"/>
                                                 <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom s_website_form_required" data-type="char">
                                                     <div class="row s_col_no_resize s_col_no_bgcolor">
                                                         <label class="col-form-label col-sm-auto s_website_form_label" for="name">
@@ -209,7 +210,16 @@
                                                             <span class="s_website_form_mark"> *</span>
                                                         </label>
                                                         <div class="col-sm">
-                                                            <input id="cfdiuse" t-att-value="data.cfdi_use" required="*" class="form-control s_website_form_input" name="cfdiuse"/>
+                                                            <select class="form-control"  optional="false" id="cfdiuse" name="cfdiuse">
+                                                                    <t t-foreach="fiscal_regime" t-as="e">
+                                                                        <option t-if="e[0] == data.fiscal_regime" selected="" t-att-value="e[0]">
+                                                                        <t t-esc="e[1]"/>
+                                                                    </option>
+                                                                    <option t-else="" t-att-value="e[0]">                         
+                                                                        <t t-esc="e[1]"/>
+                                                                    </option>
+                                                                </t>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>                                                
@@ -303,7 +313,7 @@
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <div class="mb-0 py-2 col-12 s_website_form_submit" style="text-align: center;" data-name="Submit Button">
                                                     <div style="width: 200px;" class="s_website_form_label"/>
-                                                    <button type="submit" class="btn btn-primary">Submit <span class="fa fa-arrow-right"/></button>
+                                                    <button type="button" id="btn_send" class="btn btn-primary">Submit <span class="fa fa-arrow-right"/></button>
                                                 </div>
                                             </div>
                                         </form>

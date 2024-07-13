@@ -36,6 +36,13 @@
     </template>
 
     <template id="pricelist_portal_template" name="Propuesta de precios preferenciales">
+        <xpath expr="//head" position="inside">
+            <style>
+                ul {
+                    font-family: sans-serif !important;
+                }
+            </style>
+        </xpath>
         <t t-call="web.frontend_layout">
             <div class="container pt-5">
                 <div class="text-center mb-4">
@@ -97,8 +104,8 @@
                 </t>
 
                 <div class="d-flex justify-content-center mt-4 mb-5">
-                    <button data-toggle="modal" data-target="#accept_proposal_sign" class="btn btn-primary mx-3">Accept</button>
-                    <button data-toggle="modal" data-target="#reject_reasons" class="btn btn-primary mx-3">Decline</button>
+                    <button data-bs-toggle="modal" data-bs-target="#accept_proposal_sign" class="btn btn-primary mx-3">Accept</button>
+                    <button data-bs-toggle="modal" data-bs-target="#reject_reasons" class="btn btn-primary mx-3">Decline</button>
                 </div>
 
                 <div class="modal fade" id="accept_proposal_sign" tabindex="-1" aria-labelledby="accept_proposal_sign_label" aria-hidden="true">
@@ -108,7 +115,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Accept proposal</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span title="Close" class="fa fa-times"></span></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <t t-call="portal.signature_form">
@@ -129,12 +136,12 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Decline proposal</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span title="Close" class="fa fa-times"></span></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="mx-4">
                                         <label for="reject_reasons">Reason for rejection</label>
-                                        <textarea required="true" class="form-control" name="reject_reasons" id="reject_reasons" cols="30" rows="10"></textarea>
+                                        <textarea required="true" class="form-control" name="reject_reasons" id="reject_reasons" cols="30" rows="10"/>
                                     </div>
 
                                     <br/>

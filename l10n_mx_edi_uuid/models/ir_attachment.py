@@ -66,12 +66,13 @@ class IrAttachment(models.Model):
                 self.update_uuid()
         return res
 
-    @api.model
-    def create(self, vals):
-        vals.pop('l10n_mx_edi_cfdi_uuid', None)
-        with self.env.cr.savepoint():
-            # Secure way if someone catch the exception and skip a rollback
-            records = super(IrAttachment, self).create(vals)
-            if set(vals.keys()) & set(FIELDS):
-                records.update_uuid()
-        return records
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            vals.pop('l10n_mx_edi_cfdi_uuid', None)
+            with self.env.cr.savepoint():
+                # Secure way if someone catch the exception and skip a rollback
+                records = super(IrAttachment, self).create(vals)
+                if set(vals.keys()) & set(FIELDS):
+                    records.update_uuid()
+            return records

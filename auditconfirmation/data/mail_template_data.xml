@@ -4,8 +4,8 @@
         <record id="email_template_audit_availability_confirm" model="mail.template">
             <field name="name">Purchase order: Confirmación de disponibilidad de auditoría</field>
             <field name="model_id" ref="purchase.model_purchase_order"/>
-            <field name="subject">Confirmación de disponibilidad ${object.sale_order_id.partner_id.name or ''}</field>
-            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="subject">Confirmación de disponibilidad {{ object.sale_order_id.partner_id.name or '' }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
             <field name="body_html" type="html">
                 <table style="padding-top:16px;background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #000000; width: 100%; border-collapse:separate;" cellspacing="0" cellpadding="0" border="0">
                     <tbody>
@@ -50,7 +50,7 @@
                                                         <tr>
                                                             <td valign="top">
                                                                 <div>
-                                                                    Estimado ${object.partner_id.name},<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
+                                                                    Estimado <t t-out="object.partner_id.name"/>,<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
                                                                 </div>
                                                                 <div style="display:table;">
                                                                     <div style="display:table-header-group;">
@@ -63,74 +63,74 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                            
-                                                                    % for line in object.order_line:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Organización - </b>${line.organization_id.name or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Servicio - </b>${line.name or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Cantidad - </b>${line.product_qty or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Fecha inicio - </b>${line.service_start_date or 'N/A'}
-                                                                                <b>Fecha fin - </b>${line.service_end_date or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                    <br/>
-                                                                    </div>
-                                                                    % endfor
+                                                                    <t t-set="order_line" t-value="object.order_line"/>
+                                                                    <t t-foreach="order_line" t-as="line">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Organización - </b><t t-out="line.organization_id.name or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Servicio - </b><t t-out="line.name or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Cantidad - </b><t t-out="line.product_qty or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Fecha inicio - </b><t t-out="line.service_start_date or 'N/A'"/>
+	                                                                                <b>Fecha fin - </b><t t-out="line.service_end_date or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                    <br/>
+	                                                                    </div>
+                                                                    </t>
                                                                     <div style="display:table-row;">
                                                                         <br/>
                                                                         <font class="text-black">
                                                                             <div style="display:table-cell;width:400px;"><b>Estado de auditoría - 
-                                                                                </b>${object.audit_state_id.name or 'N/A'}
+                                                                                </b><t t-out="object.audit_state_id.name or 'N/A'"/>
                                                                             </div>
                                                                         </font>
                                                                     </div>
                                                                     <div style="display:table-row;">
                                                                         <font class="text-black">
                                                                             <div style="display:table-cell;width:400px;"><b>Ciudad de auditoría - 
-                                                                                </b>${object.audit_city_id.name  or 'N/A'}
+                                                                                </b><t t-out="object.audit_city_id.name  or 'N/A'"/>
                                                                             </div>
                                                                         </font>
                                                                     </div>
-                                                                    % if object.shadow_id:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
-                                                                                </b>${object.shadow_id.name  or ''}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    % endif
-                                                                    % if object.assessment_id:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
-                                                                                </b>${object.assessment_id.name  or ''}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    % endif
+                                                                    <t t-if="object.shadow_id">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
+	                                                                                </b><t t-out="object.shadow_id.name  or ''"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+                                                                    </t>
+                                                                    <t t-if="object.assessment_id">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
+	                                                                                </b><t t-out="object.assessment_id.name  or ''"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                </t>
                                                                 </div>
                                                                 <br/>
                                                                 <p style="padding:0px;">
@@ -153,12 +153,11 @@
                                                         <tr>
                                                             <td>
                                                                 <div style="margin:16px 0px 16px 0px;">
-                                                                    % set access_token = object.get_confirmation_access_token()
                                                                     <br/>
-                                                                    <a href="/confirm/${access_token}/1" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                    <a t-attf-href="/confirm/{{ object.get_confirmation_access_token() }}/1" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
                                                                         Aceptar
                                                                     </a>
-                                                                    <a href="/confirm/${access_token}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                    <a t-attf-href="/confirm/{{ object.get_confirmation_access_token() }}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
                                                                         Declinar
                                                                     </a>
                                                                     <br/><br/>
@@ -215,16 +214,15 @@
 
             
             </field>
-            <field name="report_template" ref="servicereferralagreement.report_rapurchaseorder"/>
-            <field name="report_name">RA - ${object.name} - ${object.partner_id.name}</field>
-            <field name="lang">${object.partner_id.lang}</field>
+            <field name="report_template_ids" eval="[(4, ref('servicereferralagreement.report_rapurchaseorder'))]"/>
+            <field name="lang">{{ object.partner_id.lang }}</field>
         </record>
 
         <record id="email_template_extern_audit_availability_confirm" model="mail.template">
             <field name="name">Purchase order: Confirmación de disponibilidad de auditoría externa</field>
             <field name="model_id" ref="purchase.model_purchase_order"/>
             <field name="subject">Confirmación de disponibilidad</field>
-            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
             <field name="body_html" type="html">
                 <table style="padding-top:16px;background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #000000; width: 100%; border-collapse:separate;" cellspacing="0" cellpadding="0" border="0">
                     <tbody>
@@ -262,7 +260,7 @@
                                                         <tr>
                                                             <td valign="top">
                                                                 <div>
-                                                                    Estimado ${object.partner_id.name},<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
+                                                                    Estimado <t t-out="object.partner_id.name"/>,<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
                                                                 </div>
                                                                 <div style="display:table;">
                                                                     <div style="display:table-header-group;">
@@ -275,79 +273,79 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                            
-                                                                    % for line in object.order_line:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Organización - </b>${line.organization_id.name or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Servicio - </b>${line.name or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Cantidad - </b>${line.product_qty or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Fecha inicio - </b>${line.service_start_date or 'N/A'}
-                                                                                <b>Fecha fin - </b>${line.service_end_date or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                    <br/>
-                                                                    </div>
-                                                                    % endfor
+                                                                    <t t-set="order_line" t-value="object.order_line"/>
+                                                                    <t t-foreach="order_line" t-as="line">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Organización - </b><t t-out="line.organization_id.name or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Servicio - </b><t t-out="line.name or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Cantidad - </b><t t-out="line.product_qty or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Fecha inicio - </b><t t-out="line.service_start_date or 'N/A'"/>
+	                                                                                <b>Fecha fin - </b><t t-out="line.service_end_date or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                    <br/>
+	                                                                    </div>
+                                                                    </t>
                                                                     <div style="display:table-row;">
                                                                         <br/>
                                                                         <font class="text-black">
                                                                             <div style="display:table-cell;width:400px;"><b>Estado de auditoría - 
-                                                                                </b>${object.audit_state_id.name or 'N/A'}
+                                                                                </b><t t-out="object.audit_state_id.name or 'N/A'"/>
                                                                             </div>
                                                                         </font>
                                                                     </div>
                                                                     <div style="display:table-row;">
                                                                         <font class="text-black">
                                                                             <div style="display:table-cell;width:400px;"><b>Ciudad de auditoría - 
-                                                                                </b>${object.audit_city_id.name  or 'N/A'}
+                                                                                </b><t t-out="object.audit_city_id.name  or 'N/A'"/>
                                                                             </div>
                                                                         </font>
                                                                     </div>
-                                                                    % if object.shadow_id:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
-                                                                                </b>${object.shadow_id.name  or ''}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    % endif
-                                                                    % if object.assessment_id:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
-                                                                                </b>${object.assessment_id.name  or ''}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    % endif
+                                                                    <t t-if="object.shadow_id">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
+	                                                                                </b><t t-out="object.shadow_id.name  or ''"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                </t>
+                                                                    <t t-if="object.assessment_id">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
+	                                                                                </b><t t-out="object.assessment_id.name  or ''"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+                                                                    </t>
                                                                 </div>
                                                                 <br/>
                                                                 <p style="padding:0px;">
                                                                     <font class="text-black"><b>Honorarios Tentativos: </b></font>
-                                                                    ${format_amount(object.amount_total, object.currency_id)}
+                                                                    <t t-out="format_amount(object.amount_total, object.currency_id)"/>
                                                                     <br/>
                                                                     <br/>
                                                                 </p>
@@ -356,12 +354,11 @@
                                                         <tr>
                                                             <td>
                                                                 <div style="margin:16px 0px 16px 0px;">
-                                                                    % set access_token = object.get_confirmation_access_token()
                                                                     <br/>
-                                                                    <a href="/confirm/external/audit/${access_token}/1" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                    <a t-attf-href="/confirm/external/audit/{{ object.get_confirmation_access_token() }}/1" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
                                                                         Aceptar
                                                                     </a>
-                                                                    <a href="/confirm/${access_token}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                    <a t-attf-href="/confirm/{{ object.get_confirmation_access_token() }}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
                                                                         Declinar
                                                                     </a>
                                                                     <br/><br/>
@@ -416,14 +413,14 @@
                     </tbody>
                 </table>
             </field>
-            <field name="lang">${object.partner_id.lang}</field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
         </record>
 
         <record id="email_template_audit_availability_tentatively_confirmed" model="mail.template">
             <field name="name">Purchase order: Confirmación de disponibilidad de auditoría tentativa</field>
             <field name="model_id" ref="purchase.model_purchase_order"/>
             <field name="subject">Confirmación de disponibilidad auditoría tentativa</field>
-            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
             <field name="body_html" type="html">
                 <table style="padding-top:16px;background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #000000; width: 100%; border-collapse:separate;" cellspacing="0" cellpadding="0" border="0">
                     <tbody>
@@ -461,7 +458,7 @@
                                                         <tr>
                                                             <td valign="top">
                                                                 <div>
-                                                                    Estimado ${object.partner_id.name},<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
+                                                                    Estimado <t t-out="object.partner_id.name"/>,<br/><br/><div>Por medio de este correo solicitamos la confirmación de su disponibilidad para las siguientes</div><span style="text-align:inherit;">auditorías</span>: <br/>
                                                                 </div>
                                                                 <div style="display:table;">
                                                                     <div style="display:table-header-group;">
@@ -474,74 +471,74 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                            
-                                                                    % for line in object.order_line:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Organización - </b>${line.organization_id.name or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Servicio - </b>${line.name or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Cantidad - </b>${line.product_qty or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;">
-                                                                                <b>Fecha inicio - </b>${line.service_start_date or 'N/A'}
-                                                                                <b>Fecha fin - </b>${line.service_end_date or 'N/A'}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    <div style="display:table-row;">
-                                                                    <br/>
-                                                                    </div>
-                                                                    % endfor
+                                                                    <t t-set="order_line" t-value="object.order_line"/>
+                                                                    <t t-foreach="order_line" t-as="line">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Organización - </b><t t-out="line.organization_id.name or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Servicio - </b><t t-out="line.name or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Cantidad - </b><t t-out="line.product_qty or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;">
+	                                                                                <b>Fecha inicio - </b><t t-out="line.service_start_date or 'N/A'"/>
+	                                                                                <b>Fecha fin - </b><t t-out="line.service_end_date or 'N/A'"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+	                                                                    <div style="display:table-row;">
+	                                                                    <br/>
+	                                                                    </div>
+                                                            		</t>
                                                                     <div style="display:table-row;">
                                                                         <br/>
                                                                         <font class="text-black">
                                                                             <div style="display:table-cell;width:400px;"><b>Estado de auditoría - 
-                                                                                </b>${object.audit_state_id.name or 'N/A'}
+                                                                                </b><t t-out="object.audit_state_id.name or 'N/A'"/>
                                                                             </div>
                                                                         </font>
                                                                     </div>
                                                                     <div style="display:table-row;">
                                                                         <font class="text-black">
                                                                             <div style="display:table-cell;width:400px;"><b>Ciudad de auditoría - 
-                                                                                </b>${object.audit_city_id.name  or 'N/A'}
+                                                                                </b><t t-out="object.audit_city_id.name  or 'N/A'"/>
                                                                             </div>
                                                                         </font>
                                                                     </div>
-                                                                    % if object.shadow_id:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
-                                                                                </b>${object.shadow_id.name  or ''}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    % endif
-                                                                    % if object.assessment_id:
-                                                                    <div style="display:table-row;">
-                                                                        <font class="text-black">
-                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
-                                                                                </b>${object.assessment_id.name  or ''}
-                                                                            </div>
-                                                                        </font>
-                                                                    </div>
-                                                                    % endif
+                                                                    <t t-if="object.shadow_id">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;"><b>Sombra - 
+	                                                                                </b><t t-out="object.shadow_id.name  or ''"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+                                                                    </t>
+                                                                    <t t-if="object.assessment_id">
+	                                                                    <div style="display:table-row;">
+	                                                                        <font class="text-black">
+	                                                                            <div style="display:table-cell;width:400px;"><b>Assessment - 
+	                                                                                </b><t t-out="object.assessment_id.name  or ''"/>
+	                                                                            </div>
+	                                                                        </font>
+	                                                                    </div>
+                                                                    </t>
                                                                 </div>
                                                                 <br/>
                                                                 
@@ -550,12 +547,11 @@
                                                         <tr>
                                                             <td>
                                                                 <div style="margin:16px 0px 16px 0px;">
-                                                                    % set access_token = object.get_confirmation_access_token()
                                                                     <br/>
-                                                                    <a href="/confirm/tentatively/audit/${access_token}/3" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                    <a t-attf-href="/confirm/tentatively/audit/{{ object.get_confirmation_access_token() }}/3" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
                                                                         Aceptar
                                                                     </a>
-                                                                    <a href="/confirm/${access_token}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                    <a t-attf-href="/confirm/{{ object.get_confirmation_access_token() }}/2" style="background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
                                                                         Declinar
                                                                     </a>
                                                                     <br/><br/>
@@ -610,7 +606,7 @@
                     </tbody>
                 </table>
             </field>
-            <field name="lang">${object.partner_id.lang}</field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
         </record>
     </data>
 </odoo>

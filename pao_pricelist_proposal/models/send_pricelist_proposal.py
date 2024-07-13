@@ -1,7 +1,5 @@
 from odoo import api, fields, models, _
-from datetime import datetime
 from werkzeug.urls import url_join
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, formataddr, config, get_lang
 
 class SendPricelistProposal(models.TransientModel):
     _name = 'send.pricelist.proposal'
@@ -39,7 +37,13 @@ class SendPricelistProposal(models.TransientModel):
                 specialist = record.pricelist_proposal_id.create_uid.name
                 message_proposal_template = record.message_proposal_template_id.with_context(context).template if record.message_proposal_template_id else '________________________'
                 
-                rendered_body = template.with_context(context).body_html.format(proposal_link = link, customer_name=customer_name, specialist=specialist, message_proposal_template=message_proposal_template)
+                mail_body_html = template.with_context(context).body_html
+                
+                mail_body_html = mail_body_html.replace("%7B", "{")
+
+                mail_body_html = mail_body_html.replace("%7D", "}")
+                
+                rendered_body = mail_body_html.format(proposal_link = link, customer_name=customer_name, specialist=specialist, message_proposal_template=message_proposal_template)
                 
                 record.subject = record.mail_template_id.with_context(context).subject + " " + record.pricelist_proposal_id.origin_product_pricelist_id.name
                 record.message = rendered_body

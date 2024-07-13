@@ -7,22 +7,23 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='category_id']" position="after">
+            <!-- <xpath expr="//field[@name='category_id']" position="after">
                 <field name="supplier_rank" invisible="1"/>
                 <field name="affects_certification_process" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
                 <field name="service_type_id" options="{'no_create': True}" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
                 <field name="branch_office_ids" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible': [('supplier_rank', '&lt;=', 0)]}"/>
-            </xpath>
-
-            <!--<xpath expr="//field[@name='category_id']" position="after">
-                <field name="affects_certification_process" invisible="supplier_rank &lt;= 0)]}"/>
-                <field name="service_type_id" invisible="supplier_rank &lt;= 0)]}"/>
-                <field name="branch_office_ids" invisible="supplier_rank &lt;= 0)]}"/>
             </xpath> -->
+            <xpath expr="//field[@name='category_id']" position="after">
+                <!-- <field name="supplier_rank" invisible="1"/> -->
+                <field name="affects_certification_process"/>
+                <field name="service_type_id" options="{'no_create': True}"/>
+                <field name="branch_office_ids" widget="many2many_tags" options="{'no_create': True}"/>
+            </xpath>
+            
         </field>
     </record>
 
-    <record id="res_partner_suppliers_filter" model="ir.ui.view">
+    <!-- <record id="res_partner_suppliers_filter" model="ir.ui.view">
         <field name="name">res.partner.suppliers.filter</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="account.res_partner_view_search"/>
@@ -38,5 +39,5 @@
                 <filter name="group_by_services" string="Services" context="{'group_by': 'service_type_id'}"/>
             </xpath>
         </field>
-    </record>
+    </record> -->
 </odoo>

@@ -5,7 +5,7 @@
     'author': 'samuel castro',
     'category': '',
     'website': 'https://paomx.com',
-    'depends': ['base','account','l10n_mx_edi_40','web'
+    'depends': ['base','account','l10n_mx_edi','web'
     ],
     'data': [
         # security
@@ -16,4 +16,5 @@
         'reports/external_layout_boxed.xml',
         # views
     ],
+    'license': 'LGPL-3',
 }

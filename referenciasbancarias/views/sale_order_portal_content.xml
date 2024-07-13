@@ -4,58 +4,60 @@
         <!--<xpath expr="//div/section[@id='details']/table/tbody/t[@t-foreach='sale_order.order_line']/t/tr[@class='is-subtotal text-right']" position="replace">
         </xpath>-->
         <xpath expr="//div/section[@id='terms']" position="before">
-            <section id="cuentabancaria" name="Bancos">
-                <table class="table">
-                    <tr>
-                        <th colspan="4" class="text-center" style="border: 1px solid black; background-color:white;"><h5><b>Datos Cuenta En Mexico</b></h5></th>
+            <t t-if="sale_order.country_code == 'MX'">
+                <section id="cuentabancaria" name="Bancos">
+                    <table class="table">
+                        <tr>
+                            <th colspan="4" class="text-center" style="border: 1px solid black; background-color:white;"><h5><b>Datos Cuenta En Mexico</b></h5></th>
 
-                    </tr>
-                    <tr>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;"><b>Banco:</b> Banamex</td>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;"><b>Bank:</b> Banamex</td>
-                    </tr>
-                    <tr>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;"><b>Sucursal Numero:</b> 7009</td>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;"><b>Sucursal Numero:</b> 891</td>
-                    </tr>
-                    <tr>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;"><b>Cuenta en Pesos:</b> 4534575</td>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;"><b>Dollars Account:</b> 9766752</td>
-                    </tr>
-                    <tr>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;"><b>CLABE Transferencia:</b> 002320700945345756</td>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;"><b>CLABE Transferencia:</b> 002320089197667521</td>
-                    </tr>
-                    <tr>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;">
-                            <p t-if="sale_order.partner_id.ctm_ref_bank_pesos">
-                                <b>Referencia:</b> <span class="m-0" t-field="sale_order.partner_id.ctm_ref_bank_pesos"/>
-                            </p>
-                        </td>
-                        <td width="10%" style="border:0px; background-color:white;"></td>
-                        <td width="40%" style="border:0px; background-color:white;">
-                            <p t-if="sale_order.partner_id.ctm_ref_bank_dolares">
-                                <b>Referencia:</b> <span class="m-0" t-field="sale_order.partner_id.ctm_ref_bank_dolares"/>
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" class="text-center" style="border:0px; background-color:white;">Swift: BNMXMXMM</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" class="text-center" style="border:0px; background-color:white; color:red;">En caso de no contar con su referencia, favor de solicitarla a su contacto en PAOMX.</td>
-                    </tr>
-                </table>
-             </section>
+                        </tr>
+                        <tr>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;"><b>Banco:</b> Banamex</td>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;"><b>Bank:</b> Banamex</td>
+                        </tr>
+                        <tr>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;"><b>Sucursal Numero:</b> 7009</td>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;"><b>Sucursal Numero:</b> 891</td>
+                        </tr>
+                        <tr>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;"><b>Cuenta en Pesos:</b> 4534575</td>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;"><b>Dollars Account:</b> 9766752</td>
+                        </tr>
+                        <tr>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;"><b>CLABE Transferencia:</b> 002320700945345756</td>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;"><b>CLABE Transferencia:</b> 002320089197667521</td>
+                        </tr>
+                        <tr>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;">
+                                <p t-if="sale_order.partner_id.ctm_ref_bank_pesos">
+                                    <b>Referencia:</b> <span class="m-0" t-field="sale_order.partner_id.ctm_ref_bank_pesos"/>
+                                </p>
+                            </td>
+                            <td width="10%" style="border:0px; background-color:white;"></td>
+                            <td width="40%" style="border:0px; background-color:white;">
+                                <p t-if="sale_order.partner_id.ctm_ref_bank_dolares">
+                                    <b>Referencia:</b> <span class="m-0" t-field="sale_order.partner_id.ctm_ref_bank_dolares"/>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-center" style="border:0px; background-color:white;">Swift: BNMXMXMM</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-center" style="border:0px; background-color:white; color:red;">En caso de no contar con su referencia, favor de solicitarla a su contacto en PAOMX.</td>
+                        </tr>
+                    </table>
+                </section>
+            </t>
         </xpath>
     </template>
 </odoo>

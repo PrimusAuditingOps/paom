@@ -25,6 +25,9 @@ class PaoDocumentsVersionManagement(models.Model):
     scheme_id = fields.Many2one('pao.sgc.scheme', string="Scheme", required=True)
     department_id = fields.Many2one('pao.sgc.department', string="Department", required=True)
     language_id = fields.Many2many('res.lang', string="Document Language", required=True)
+    company_id = fields.Many2one(
+        'res.company', 'Company', copy=False,
+        required=True, index=True, default=lambda s: s.env.company)
     
     is_document_expired = fields.Boolean(compute="_compute_is_document_expired", store=False)
     is_document_near_expiration = fields.Boolean(compute="_compute_is_document_near_expiration", store=False)
@@ -100,22 +103,23 @@ class PaoDocumentsVersionManagement(models.Model):
         }
         return action
     
-    @api.model 
-    def create(self, values):
+    @api.model_create_multi
+    def create(self, values_list):
         
-        if any(values.get(field) for field in ['version', 'document_file', 'revision_number', 'approval_date']):
-            if not all(values.get(field) for field in ['version', 'document_file', 'revision_number', 'approval_date']):
-                raise ValidationError(_("It's necessary to fill in the fields: Current Version, Document File, Revision Number and Valid Since to proceed."))
-            else:
-                approval_date = fields.Date.from_string(values.get('approval_date'))
-                values['expiration_date'] = approval_date + relativedelta(years=1)
-        
-        record = super(PaoDocumentsVersionManagement, self).create(values)
-        
-        if record.version and record.document_file and record.revision_number:
-            record.last_updated_by = record.create_uid
+        for values in values_list:
+            if any(values.get(field) for field in ['version', 'document_file', 'revision_number', 'approval_date']):
+                if not all(values.get(field) for field in ['version', 'document_file', 'revision_number', 'approval_date']):
+                    raise ValidationError(_("It's necessary to fill in the fields: Current Version, Document File, Revision Number and Valid Since to proceed."))
+                else:
+                    approval_date = fields.Date.from_string(values.get('approval_date'))
+                    values['expiration_date'] = approval_date + relativedelta(years=1)
             
-        return record
+            record = super(PaoDocumentsVersionManagement, self).create(values)
+            
+            if record.version and record.document_file and record.revision_number:
+                record.last_updated_by = record.create_uid
+                
+            return record
     
     def update_current_version(self, data):
         previous_data ={
@@ -139,10 +143,14 @@ class PaoDocumentsVersionManagement(models.Model):
         self.approval_id = data['approval_id']
         self.approval_request_in_progress = data['approval_request_in_progress']
         
-        mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.approval_id.request_owner_id.id}">@{self.approval_id.request_owner_id.name}</a>'
+        
+        mention_html = f'<a href="/web#model=res.partner&amp;id={self.approval_id.request_owner_id.partner_id.id}" class="o_mail_redirect" data-oe-id="{self.approval_id.request_owner_id.partner_id.id}" data-oe-model="res.partner" target="_blank">@{self.approval_id.request_owner_id.name}</a>'
+        
+        # mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.approval_id.request_owner_id.id}">@{self.approval_id.request_owner_id.name}</a>'
         
         approval_request_link = ('<a href="#" data-oe-model="approval.request" data-oe-id="%(approval_id)d">%(name)s</a>'
                                 ) % {'name': self.approval_id.name, 'approval_id': self.approval_id.id}
+        
         
         message = _('Hello %(mention_html)s, the request %(approval_request_link)s has been approved.'
                     ) % {'approval_request_link': approval_request_link, 'mention_html': mention_html}
@@ -187,6 +195,7 @@ class PaoDocumentsVersionManagement(models.Model):
         message = self.message_post(
             body=message,
             partner_ids=[user.partner_id.id],
+            body_is_html = True
         )
         
         self.message_notify(
@@ -195,6 +204,5 @@ class PaoDocumentsVersionManagement(models.Model):
 
     def postpone_expiration_date(self):
         self.expiration_date = self._get_today_date() + relativedelta(years=1)
-    
 
     

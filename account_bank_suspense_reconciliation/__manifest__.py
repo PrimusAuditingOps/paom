@@ -3,17 +3,22 @@
 
 {
     "name": "Bank Statement Suspense Account Reconcilation",
-    "version": "14.0.1.0.1",
-    "license": "AGPL-3",
-    "author": "Open Source Integrators",
-    "category": "Accounting",
-    "maintainer": "Open Source Integrators",
-    "summary": "Accounting Enhancements for SoD",
-    "website": "http://www.opensourceintegrators.com",
-    "pre_init_hook": "pre_init_hook",
+    'version': '17.0.0.1.0',
+    'author': 'samuel castro',
+    'category': '',
+    'website': 'https://paomx.com',
+    'summary': """
+        Functionality is removed because it is not functional in version 17.
+    """,
+    'description': """
+    v 1.0
+        * Migrated from v14.\n
+    """,
+    #"pre_init_hook": "pre_init_hook",
     "depends": [
         "account",
     ],
     "data": [],
     "installable": True,
+    'license': 'LGPL-3',
 }

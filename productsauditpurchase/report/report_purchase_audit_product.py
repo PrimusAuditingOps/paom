@@ -202,7 +202,7 @@ class ReportPurchaseAuditProduct(models.Model):
                 left join res_partner c on (c.id=saleorder.partner_id)
                 left join crm_team st on (st.id=c.team_id)
         """.format(
-            currency_table=self.env['res.currency']._get_query_currency_table({'multi_company': True, 'date': {'date_to': fields.Date.today()}}),
+            currency_table=self.env['res.currency']._get_query_currency_table(self.env.companies.ids, fields.Date.today())
         )
 
         return from_str

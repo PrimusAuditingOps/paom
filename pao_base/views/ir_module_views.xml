@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <data>
+
+        <record id="view_module_filter" model="ir.ui.view">
+            <field name="name">ir.module.module.list.select</field>
+            <field name="model">ir.module.module</field>
+            <field name="inherit_id" ref="base.view_module_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='app']" position="after">
+                    <filter name="pao_app" string="PAO Modules"
+                    	domain="[('shortdesc', 'ilike', 'PAO')]"/>
+                    
+               </xpath>
+            </field>
+        </record>
+
+		<record id="base.open_module_tree" model="ir.actions.act_window">
+			<field name="context">{'search_default_pao_app': 1}</field>
+		</record>
+
+	 </data>
+</odoo>

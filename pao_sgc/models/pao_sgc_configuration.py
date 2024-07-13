@@ -8,15 +8,16 @@ class PaoSGCDepartment(models.Model):
     name = fields.Char('Name', translate=True, required=True)
     internal_name = fields.Char('Internal Name')
     
-    @api.model 
-    def create(self, values):
-        record = super(PaoSGCDepartment, self).create(values)
-        
-        if not record.internal_name:
-            internal_name = record.name.lower().replace(" ", "_")
-            record.internal_name = internal_name
+    @api.model_create_multi 
+    def create(self, values_list):
+        for values in values_list:
+            record = super(PaoSGCDepartment, self).create(values)
             
-        return record
+            if not record.internal_name:
+                internal_name = record.name.lower().replace(" ", "_")
+                record.internal_name = internal_name
+                
+            return record
 
 class PaoSGCScheme(models.Model):
 
@@ -26,13 +27,14 @@ class PaoSGCScheme(models.Model):
     name = fields.Char('Name', translate=True, required=True)
     internal_name = fields.Char('Internal Name')
     
-    @api.model 
-    def create(self, values):
-        record = super(PaoSGCScheme, self).create(values)
-        
-        if not record.internal_name:
-            internal_name = record.name.lower().replace(" ", "_")
-            record.internal_name = internal_name
+    @api.model_create_multi 
+    def create(self, values_list):
+        for values in values_list:
+            record = super(PaoSGCScheme, self).create(values)
             
-        return record 
+            if not record.internal_name:
+                internal_name = record.name.lower().replace(" ", "_")
+                record.internal_name = internal_name
+                
+            return record 
 

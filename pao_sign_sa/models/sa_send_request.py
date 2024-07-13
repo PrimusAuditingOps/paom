@@ -214,20 +214,18 @@ class SASendRequest(models.TransientModel):
             rec_rn = self.env['pao.registration.number.to.sign'].search([("sign_sa_agreements_id", "in", sa_sent), ("id", "!=", rec.id),('name','ilike',rec.name)], limit=1, order='create_date desc')
             for r in rec_rn:
                 rn_sent.append(r)
-        _logger.error(rn_sent)
 
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        tpl = self.env.ref('pao_sign_sa.sa_template_mail_request')
         signer_lang = get_lang(self.env, lang_code=self.signer_id.lang).code
-        tpl = tpl.with_context(lang=signer_lang)
-        body = tpl._render({
+        body =  self.env['ir.ui.view'].with_context(lang=signer_lang)._render_template('pao_sign_sa.sa_template_mail_request', 
+            {
                 'record': sa,
                 'rnsent': rn_sent,
                 'link': url_join(base_url, '/sign/sa/%s/%s' % (sa.id, sa.access_token)),
                 'subject': self.subject,
                 'body': self.message if self.message != '<p><br></p>' else False,
-            }, engine='ir.qweb', minimal_qcontext=True)
-        
+            }
+        )
         sa.write({'sign_url': url_join(base_url, '/sign/sa/%s/%s' % (sa.id, sa.access_token))})
         
         mail = self._message_send_mail(
@@ -244,15 +242,16 @@ class SASendRequest(models.TransientModel):
         if mail:
             sa.write({'mail_id': mail.id})
             for follower in self.follower_ids:
-                tpl = self.env.ref('pao_sign_sa.sa_template_mail_request_followers')
                 follower_lang = get_lang(self.env, lang_code=follower.lang).code
-                tpl = tpl.with_context(lang=follower.lang)
-                body = tpl._render({
+                body =  self.env['ir.ui.view'].with_context(lang=follower_lang)._render_template('pao_sign_sa.sa_template_mail_request_followers', 
+                    {
                         'record': sa,
                         'subject': self.subject,
                         'body': self.message if self.message != '<p><br></p>' else False,
-                    }, engine='ir.qweb', minimal_qcontext=True)
-                
+                    }
+                )
+
+
                 mail = self._message_send_mail(
                     body, 'mail.mail_notification_light',
                     {'record_name': sa.title},
@@ -274,8 +273,11 @@ class SASendRequest(models.TransientModel):
         sign_request = self.with_context(lang=lang)
 
         msg = sign_request.env['mail.message'].sudo().new(dict(body=body, **message_values))
-        notif_layout = sign_request.env.ref(notif_template_xmlid)
-        body_html = notif_layout._render(dict(message=msg, **notif_values), engine='ir.qweb', minimal_qcontext=True)
+        
+        body_html =  self.env['ir.ui.view'].with_context(lang=lang)._render_template(notif_template_xmlid, 
+            dict(message=msg, **notif_values)
+        )
+
         body_html = sign_request.env['mail.render.mixin']._replace_local_links(body_html)
 
         mail = sign_request.env['mail.mail'].sudo().create(dict(body_html=body_html, state='outgoing', **mail_values))

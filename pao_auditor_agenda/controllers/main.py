@@ -21,7 +21,6 @@ class WebsiteAuditorCalendar(http.Controller):
 
     @http.route(['/calendar/auditordates'], type='http', auth="user", website=True)
     def calendar_appointment(self, startdate=None, failed=False, **kwargs):
-
         status_color = ['transparent', 'Red', 'Orange', 'Yellow', 'Light blue', 'Dark purple',
                         'Salmon pink', 'Medium blue', 'Dark blue', 'Fushia', 'Green', 'Purple']
         #Employee = request.env['hr.employee'].sudo().browse(int(employee_id)) if employee_id else None

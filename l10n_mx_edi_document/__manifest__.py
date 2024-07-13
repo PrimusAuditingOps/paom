@@ -2,7 +2,7 @@
 
 {
     'name': 'Manage Mexican Documents',
-    'version': '14.0.1.0.0',
+    'version': '14.0.1',
     'author': 'Vauxoo',
     'category': 'Accounting',
     'license': 'LGPL-3',

@@ -4,31 +4,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-12 21:47+0000\n"
-"PO-Revision-Date: 2023-09-12 21:47+0000\n"
+"POT-Creation-Date: 2024-04-10 00:26+0000\n"
+"PO-Revision-Date: 2024-04-10 00:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: pao_assignment_auditor
-#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
-msgid "<span class=\"oe_inline\"> Number of audits : </span>"
-msgstr "<span class=\"oe_inline\"> Numero de auditorías : </span>"
-
-#. module: pao_assignment_auditor
-#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
-msgid "<span>  Currency :  </span>"
-msgstr "<span>  Moneda :  </span>"
-
-#. module: pao_assignment_auditor
-#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
-msgid "<span>  Total honorarium of audits : </span>"
-msgstr "<span>  Total de honorarios de auditorías : </span>"
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditshonorariumpermonth__month__04
@@ -69,6 +54,11 @@ msgstr "Configuración asignación del auditor"
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.assignment_auditor_view_form
 msgid "Assignment Auditor Form"
 msgstr "Asignación de auditor formulario"
+
+#. module: pao_assignment_auditor
+#: model:ir.model,name:pao_assignment_auditor.model_assignment_auditor
+msgid "Assignment Auditor Functions"
+msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.actions.act_window,name:pao_assignment_auditor.assignment_auditor_qualification_action
@@ -180,6 +170,11 @@ msgid "Auditor assignment weighting"
 msgstr "Ponderación Asignación del Auditor"
 
 #. module: pao_assignment_auditor
+#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
+msgid "Auditor's Goal"
+msgstr "Meta de auditor"
+
+#. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.assignment_auditor_configuration_audit_honorarium_view_form
 msgid "Audits honorarium per month"
 msgstr "Honorarios de Auditorías por mes"
@@ -223,14 +218,19 @@ msgid "Blocked Customers"
 msgstr "Clientes Bloqueados"
 
 #. module: pao_assignment_auditor
+#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
+msgid "Blocked Organizations"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__paa_blocked_organizations_ids
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__paa_blocked_organizations_ids
 msgid "Blocked organizations"
 msgstr "Organizaciones Bloqueadas"
 
 #. module: pao_assignment_auditor
-#. openerp-web
-#: code:addons/pao_assignment_auditor/static/src/js/popup.js:0
+#. odoo-javascript
+#: code:addons/pao_assignment_auditor/static/src/js/search_auditor.js:0
 #, python-format
 msgid "Capture audit services or assign a date to services."
 msgstr "Capture servicios de auditorías o asigne fechas a los servicios."
@@ -266,6 +266,7 @@ msgid "Create your first configuration"
 msgstr "Crear Configuración"
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__create_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__create_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__create_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__create_uid
@@ -278,6 +279,7 @@ msgid "Created by"
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__create_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__create_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__create_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__create_date
@@ -318,6 +320,7 @@ msgid "December"
 msgstr "Diciembre"
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__display_name
@@ -326,10 +329,6 @@ msgstr "Diciembre"
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_quantity__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_schemeranking__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__display_name
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_product_category__display_name
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order__display_name
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_city__display_name
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
@@ -371,6 +370,7 @@ msgid "Geolocation Date"
 msgstr "Fecha"
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__id
@@ -379,10 +379,6 @@ msgstr "Fecha"
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_quantity__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_schemeranking__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__id
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_product_category__id
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order__id
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_city__id
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__id
 msgid "ID"
 msgstr "Identificación"
 
@@ -432,22 +428,7 @@ msgid "June"
 msgstr "Junio"
 
 #. module: pao_assignment_auditor
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_quantity____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_schemeranking____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_product_category____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_city____last_update
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr "Última modificación el"
-
-#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__write_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__write_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__write_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__write_uid
@@ -460,6 +441,7 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__write_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__write_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__write_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__write_date
@@ -510,8 +492,8 @@ msgid "Month"
 msgstr "Mes"
 
 #. module: pao_assignment_auditor
-#. openerp-web
-#: code:addons/pao_assignment_auditor/static/src/js/popup.js:0
+#. odoo-javascript
+#: code:addons/pao_assignment_auditor/static/src/js/search_auditor.js:0
 #, python-format
 msgid "No available auditors found."
 msgstr "No se encontraron auditores para realizar los servicios."
@@ -549,6 +531,13 @@ msgstr "Octubre"
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_quantity__option
 msgid "Option"
 msgstr "Opción"
+
+#. module: pao_assignment_auditor
+#. odoo-javascript
+#: code:addons/pao_assignment_auditor/static/src/js/search_auditor.js:0
+#, python-format
+msgid "Please add some products to the order line."
+msgstr "Agregue algunos productos a la línea de pedido."
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__assigned_auditor_position
@@ -604,6 +593,11 @@ msgstr "Clientes bloqueados"
 
 #. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
+msgid "Registered Blocked Organizations"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
 msgid "Registered Ranking schemes"
 msgstr "Ranking de esquemas"
 
@@ -640,9 +634,8 @@ msgid "Schemes ranking Administrator"
 msgstr "Administrador del ranking de esquemas"
 
 #. module: pao_assignment_auditor
-#. openerp-web
-#: code:addons/pao_assignment_auditor/static/src/xml/popup_assignment_auditor.xml:0
-#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.purchase_order_assignment_auditor_view_form
+#. odoo-javascript
+#: code:addons/pao_assignment_auditor/static/src/xml/search_auditor.xml:0
 #, python-format
 msgid "Search Auditors"
 msgstr "Buscar Auditores"
@@ -687,18 +680,21 @@ msgid "September"
 msgstr "Septiembre"
 
 #. module: pao_assignment_auditor
-#: code:addons/pao_assignment_auditor/models/purchase_order_inherit.py:0
+#. odoo-python
+#: code:addons/pao_assignment_auditor/models/purchase_order.py:0
 #, python-format
 msgid "The auditor is blocked for"
 msgstr "El auditor esta bloqueado para"
 
 #. module: pao_assignment_auditor
-#: code:addons/pao_assignment_auditor/models/purchase_order_inherit.py:0
+#. odoo-python
+#: code:addons/pao_assignment_auditor/models/purchase_order.py:0
 #, python-format
 msgid "The auditor is blocked for the sales order customer."
 msgstr "El auditor esta bloqueado para el cliente del pedido de venta."
 
 #. module: pao_assignment_auditor
+#. odoo-python
 #: code:addons/pao_assignment_auditor/models/paa_auditor_assignment_weighting.py:0
 #, python-format
 msgid "The sum of the variables must be equal to 10"
@@ -730,6 +726,15 @@ msgid "User ID"
 msgstr "D de usuario"
 
 #. module: pao_assignment_auditor
+#. odoo-javascript
+#: code:addons/pao_assignment_auditor/static/src/js/search_auditor.js:0
+#: code:addons/pao_assignment_auditor/static/src/js/search_auditor.js:0
+#: code:addons/pao_assignment_auditor/static/src/js/search_auditor.js:0
+#, python-format
+msgid "Warning"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__name
 msgid "Weighting"
 msgstr "Ponderación"
@@ -752,7 +757,8 @@ msgid "scheme rating"
 msgstr "Ranking del esquema"
 
 #. module: pao_assignment_auditor
-#: code:addons/pao_assignment_auditor/models/purchase_order_inherit.py:0
+#. odoo-python
+#: code:addons/pao_assignment_auditor/models/purchase_order.py:0
 #, python-format
 msgid "{0} \"{1}\"."
 msgstr ""

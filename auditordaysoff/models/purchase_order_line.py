@@ -1,18 +1,18 @@
 from datetime import datetime, timedelta
 from email import message
 from odoo import fields, models, api, _
-from logging import getLogger
 
 
-_logger = getLogger(__name__)
+
 class PurchaseOrderLine(models.Model):
-    _inherit='purchase.order.line'
-    shadow_id = fields.Many2one('res.partner', 
-    related='order_id.shadow_id', string='Shawow', readonly=True, store=True)
-    assessment_id = fields.Many2one('res.partner', 
-    related='order_id.assessment_id', string='Assessment', readonly=True, store=True)
+    _inherit = 'purchase.order.line'
 
-    @api.onchange('service_end_date','service_start_date')
+    shadow_id = fields.Many2one('res.partner', related='order_id.shadow_id',
+                                string='Shawow', readonly=True, store=True)
+    assessment_id = fields.Many2one('res.partner', related='order_id.assessment_id',
+                                    string='Assessment', readonly=True, store=True)
+
+    @api.onchange('service_end_date', 'service_start_date')
     def _change_start_end_date(self):
         for orderline in self:
             purchaseorders = ""
@@ -55,6 +55,7 @@ class PurchaseOrderLine(models.Model):
                     if purchaseorders != "":
                         msg_vendor = _('The Vendor is assigned as Shadow or Assessment on the dates selected of the following Purchase Orders: ')
                         returnmsg = '{0} {1}'.format(msg_vendor,purchaseorders)
+
                 if orderline.order_id.shadow_id:
                     domain = [('id', 'not in', listidline),('state', '<>', 'cancel'),
                     '|','|',('partner_id', '=', orderline.shadow_id.id),
@@ -83,6 +84,7 @@ class PurchaseOrderLine(models.Model):
                     if purchaseordersshadow != "":
                         msg_shadow = _('The Shadow contains services on the dates selected of the following Purchase Orders: ')
                         returnmsg = '{0}\n{1} {2}'.format(returnmsg,msg_shadow,purchaseordersshadow)
+
                 if orderline.order_id.assessment_id:
                     domain = [('id', 'not in', listidline),('state', '<>', 'cancel'),
                     '|','|',('partner_id', '=', orderline.assessment_id.id),
@@ -115,7 +117,7 @@ class PurchaseOrderLine(models.Model):
                 msg_title = _('Warning')
                 return {
                     'warning': {
-                        'title':msg_title,
+                        'title': msg_title,
                         'message': returnmsg
                     },
                 }

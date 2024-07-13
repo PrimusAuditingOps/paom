@@ -8,6 +8,7 @@
                 <sheet>
                     <group col="2">
                         <field name="name"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>   
                     </group>
                     <notebook>
                         <page string="Customers">
@@ -29,6 +30,7 @@
         <field name="arch" type="xml">
             <tree string="offices Tree">
                 <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
             </tree>
         </field>
     </record>

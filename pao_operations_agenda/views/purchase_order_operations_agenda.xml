@@ -6,7 +6,7 @@
         <field name="model">pao.operations.agenda</field>
         <field name="arch" type="xml">
             <calendar string="Auditor Calendar" date_start="service_start_date" date_stop="service_end_date" 
-             color="color" quick_add="False" hide_time="True" hide_date="True" mode="month" all_day="all_day"> 
+             color="color" hide_time="True" hide_date="True" mode="month" all_day="all_day"> 
                 <field name="audit_status"/>
                 <field name="order_id"/>
                 <field name="state_id"/>

@@ -1,7 +1,8 @@
-from odoo import fields, models, api
+from odoo import fields, models
+
 
 class AccountMove(models.Model):
-    _inherit='account.move'
+    _inherit = 'account.move'
 
     promotor_name = fields.Many2one(
         related='partner_id.promotor_id',
@@ -15,7 +16,8 @@ class AccountMove(models.Model):
         compute='_get_promotor_pay', 
         string='Promoter payment',
         readonly=True,
-    )   
+    )
+
     def _get_operations(self):
         idproduct = 0
         productqty = 0

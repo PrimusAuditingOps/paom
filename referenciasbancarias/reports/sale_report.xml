@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_report_inherit" inherit_id= "sale.report_saleorder_document">
+		<!-- Do not replace the td, other base module need it to xpath and remmove the td -->
+        <xpath expr="//td[@name='td_section_subtotal']" position="replace">
+            <td name="td_section_subtotal" colspan="99">
+            </td>
+        </xpath>
+        
+        <xpath expr="//span[@t-field='doc.note']" position="before">
+            <t t-if="doc.country_code == 'MX'">
+
+                <div style="page-break-after: always;">
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <th colspan="4" class="text-center" style="border: 1px solid black; background-color:white;"><h5><b>Datos Cuenta En Mexico</b></h5></th>
+
+                    </tr>
+                    <tr>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>Banco:</b> Banamex</td>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>Bank:</b> Banamex</td>
+                    </tr>
+                    <tr>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>Sucursal Numero:</b> 7009</td>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>Sucursal Numero:</b> 891</td>
+                    </tr>
+                    <tr>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>Cuenta en Pesos:</b> 4534575</td>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>Dollars Account:</b> 9766752</td>
+                    </tr>
+                    <tr>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>CLABE Transferencia:</b> 002320700945345756</td>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;"><b>CLABE Transferencia:</b> 002320089197667521</td>
+                    </tr>
+                    <tr>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;">
+                            <p t-if="doc.partner_id.ctm_ref_bank_pesos">
+                                <b>Referencia:</b> <span class="m-0" t-field="doc.partner_id.ctm_ref_bank_pesos"/>
+                            </p>
+                        </td>
+                        <td width="10%" style="border:0px; background-color:white;"></td>
+                        <td width="40%" style="border:0px; background-color:white;">
+                            <p t-if="doc.partner_id.ctm_ref_bank_dolares">
+                                <b>Referencia:</b> <span class="m-0" t-field="doc.partner_id.ctm_ref_bank_dolares"/>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center" style="border:0px; background-color:white;">Swift: BNMXMXMM</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center" style="border:0px; background-color:white; color:red;">En caso de no contar con su referencia, favor de solicitarla a su contacto en PAOMX.</td>
+                    </tr>
+                </table>
+            </t>
+        </xpath>
+    </template>
+</odoo>

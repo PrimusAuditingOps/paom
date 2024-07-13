@@ -1,11 +1,10 @@
 from datetime import datetime, timedelta
 from odoo import fields, models, api, _
-from logging import getLogger
 
 
-_logger = getLogger(__name__)
+
 class PurchaseOrderLine(models.Model):
-    _inherit='purchase.order.line'
+    _inherit = 'purchase.order.line'
 
     @api.depends('price_subtotal', 'taxes_id')
     def _generate_subtotal(self):
@@ -26,53 +25,29 @@ class PurchaseOrderLine(models.Model):
         for rec in self:
             rec.referral_date = datetime.today()
 
-    organization_id = fields.Many2one(
-        comodel_name = 'servicereferralagreement.organization', 
-        string='Organization', 
-        help='Select Organization', 
-        ondelete='set null',
-    )
-    registrynumber_id = fields.Many2one(
-        comodel_name='servicereferralagreement.registrynumber',
-        string='Registry number',
-        ondelete='set null',
-    )
-       
-    service_start_date = fields.Date(
-        string="Service start date",
-    )
-    service_end_date = fields.Date(
-         string="Service end date",
-    )
-    referral_date = fields.Date(
-        compute= _generate_referral_date,
-    )
-    update_number = fields.Integer(
-        default= 0,
-        copy=False,
-    )
-    sra_customer_id = fields.Many2one(
-       related="order_id.sale_order_id.partner_id",
-    )  
-    sra_sale_line_ids = fields.Many2many(
-        'sale.order.line',
-        'sale_order_line_purchase_line_rel',
-        'purchase_order_line_id', 'sale_order_line_id',
-        string='Sales Order Lines')
-    
-
+    organization_id = fields.Many2one('servicereferralagreement.organization',
+                                      string='Organization',
+                                      help='Select Organization',
+                                      ondelete='set null')
+    registrynumber_id = fields.Many2one('servicereferralagreement.registrynumber',
+                                        string='Registry number',
+                                        ondelete='set null')
+    service_start_date = fields.Date(string="Service start date")
+    service_end_date = fields.Date(string="Service end date")
+    referral_date = fields.Date(compute= _generate_referral_date)
+    update_number = fields.Integer(default= 0, copy=False)
+    sra_customer_id = fields.Many2one(related='order_id.sale_order_id.partner_id')  
+    sra_sale_line_ids = fields.Many2many('sale.order.line',
+                                         'sale_order_line_purchase_line_rel',
+                                         'purchase_order_line_id', 'sale_order_line_id',
+                                         string='Sales Order Lines')
     sra_sale_line_product_audit_ids = fields.Many2many(
         related="sra_sale_line_ids.audit_products",
-        string="Audit products",
-    )
-    sra_sale_line_price_unit = fields.Float(
-        related="sra_sale_line_ids.price_unit",
-        string="Price unit",
-    )
-    sra_subtotal_iva = fields.Monetary(
-        compute= _generate_subtotal,
-        string="Subtotal Iva",
-    )
+        string="Audit products")
+    sra_sale_line_price_unit = fields.Float(related='sra_sale_line_ids.price_unit',
+                                            string="Price unit")
+    sra_subtotal_iva = fields.Monetary(compute= _generate_subtotal,
+                                       string="Subtotal Iva")
 
     @api.onchange('service_end_date')
     def _change_end_date(self):

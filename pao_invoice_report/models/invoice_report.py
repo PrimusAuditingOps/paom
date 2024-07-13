@@ -59,36 +59,38 @@ class InvoiceReport(models.Model):
     
     def _get_rate(self):
         for rec in self:
+            rec.currency_rate = -1
             dateinvoice = rec.invoice_date
-            if rec.currency_id.name == 'USD':
-                currencyrate = rec.invoice_id._get_rates_currency(dateinvoice)
-                rec.currency_rate = round((1 / currencyrate.get('USD')),6)
-            elif rec.currency_id.name == 'MXN':
-                rec.currency_rate = 1
-            else:
-                rec.currency_rate = -1
+            if dateinvoice:
+                if rec.currency_id.name == 'USD':
+                    currencyrate = rec.invoice_id._get_rates_currency(dateinvoice)
+                    rec.currency_rate = round((1 / currencyrate.get('USD')),6)
+                elif rec.currency_id.name == 'MXN':
+                    rec.currency_rate = 1
     
     def _get_mxn_price(self):
         for rec in self:
             rec.mxn_subtotal = 0.00
             dateinvoice = rec.invoice_date
-            if rec.currency_id.name == 'USD':
-                currencyrate = rec.invoice_id._get_rates_currency(dateinvoice)
-                if currencyrate:
-                    rec.mxn_subtotal = round((rec.price_subtotal / currencyrate.get('USD')),2)
-            elif rec.currency_id.name == 'MXN':
-                rec.mxn_subtotal = rec.price_subtotal
+            if dateinvoice:
+                if rec.currency_id.name == 'USD':
+                    currencyrate = rec.invoice_id._get_rates_currency(dateinvoice)
+                    if currencyrate:
+                        rec.mxn_subtotal = round((rec.price_subtotal / currencyrate.get('USD')),2)
+                elif rec.currency_id.name == 'MXN':
+                    rec.mxn_subtotal = rec.price_subtotal
                 
     def _get_usd_price(self):
         for rec in self:
             rec.usd_subtotal = 0.00
             dateinvoice = rec.invoice_date
-            if rec.currency_id.name == 'MXN':
-                currencyrate = rec.invoice_id._get_rates_currency(dateinvoice)
-                if currencyrate:
-                    rec.usd_subtotal = round((rec.price_subtotal * currencyrate.get('USD')),2)
-            elif rec.currency_id.name == "USD":
-                rec.usd_subtotal = rec.price_subtotal
+            if dateinvoice:
+                if rec.currency_id.name == 'MXN':
+                    currencyrate = rec.invoice_id._get_rates_currency(dateinvoice)
+                    if currencyrate:
+                        rec.usd_subtotal = round((rec.price_subtotal * currencyrate.get('USD')),2)
+                elif rec.currency_id.name == "USD":
+                    rec.usd_subtotal = rec.price_subtotal
         
     def _select(self, fields=None):
         if not fields:

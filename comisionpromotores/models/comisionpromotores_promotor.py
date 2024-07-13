@@ -1,7 +1,6 @@
 from odoo import fields, models
 
 class ComisionpromotoresPromotor(models.Model):
-    
     _name = 'comisionpromotores.promotor'
     _description = 'Modelo para los promotores que llevan una comision'
 
@@ -21,11 +20,15 @@ class ComisionpromotoresPromotor(models.Model):
     porcentaje = fields.Integer(
         default = 0,
         required = True,
-        string= "Commission percentage",
+        string= "Commission Percentage",
     )
     cliente_id = fields.One2many(
         comodel_name='res.partner',
         inverse_name='promotor_id',
         string='Customer',
     )
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company) 
     

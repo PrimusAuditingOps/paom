@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_city_form_view" model="ir.ui.view">
+			<field name="name">res.city.form.view</field>
+            <field name="model">res.city</field>
+            <field name="arch" type="xml">
+                <form string="City">
+					<sheet>
+						<group>
+							<group name="left_group">
+								<field name="name"/>
+	                    		<field name="zipcode"/>
+			                    <field name="country_id"/>
+			                    <field name="state_id" context="{'default_country_id': country_id}"/>
+							</group>
+							<group name="right_group">
+							</group>
+						</group>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_city_tree_view" model="ir.ui.view">
+			<field name="name">res.city.tree.view</field>
+            <field name="model">res.city</field>
+            <field name="arch" type="xml">
+                <tree string="City">
+                    <field name="name"/>
+                    <field name="zipcode"/>
+                    <field name="country_id"/>
+                    <field name="state_id" context="{'default_country_id': country_id}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_city_filter_view" model="ir.ui.view">
+			<field name="name">res.city.filter.view</field>
+            <field name="model">res.city</field>
+            <field name="arch" type="xml">
+                <search string="Search City">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('zipcode','ilike',self)]"
+                           string="City"/>
+                    <separator/>
+                    <field name="country_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_res_city_tree" model="ir.actions.act_window">
+            <field name="name">Cities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.city</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">
+                Display and manage the list of all cities that can be assigned to
+                your partner records. Note that an option can be set on each country separately
+                to enforce any address of it to have a city in this list.
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

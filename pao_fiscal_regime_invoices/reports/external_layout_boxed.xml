@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="external_layout_boxed_fiscal_regime" inherit_id= "web.external_layout_boxed">
-        <xpath expr="/t/div/div/div[@class='row mb8']/div[@class='col-6 text-right mb4']/div[@class='float-right mb4']" position="inside">
+        <xpath expr="//div[@name='company_address']" position="inside">
             <br/>
             <t t-if="company.partner_id.l10n_mx_edi_fiscal_regime" >Fiscal regime: </t><span t-field="company.partner_id.l10n_mx_edi_fiscal_regime"/>                        
         </xpath>

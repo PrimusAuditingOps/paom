@@ -6,26 +6,33 @@
         <field name="inherit_id" ref="approvals.approval_request_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//widget[@name='attach_document'][not(@highlight)]" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', ('attachment_number', '&lt;', 1), ('pao_document_version_management_id', '!=', False)]}</attribute>
+                <!-- <attribute name="attrs">{'invisible': ['|', ('attachment_number', '&lt;', 1), ('pao_document_version_management_id', '!=', False)]}</attribute> -->
+                <attribute name="invisible">attachment_number &lt; 1 or pao_document_version_management_id != False </attribute>
             </xpath>
 
             <xpath expr="//widget[@name='attach_document'][@highlight]" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', ('attachment_number', '&gt;=', 1), ('pao_document_version_management_id', '!=', False)]}</attribute>
+                <!-- <attribute name="attrs">{'invisible': ['|', ('attachment_number', '&gt;=', 1), ('pao_document_version_management_id', '!=', False)]}</attribute> -->
+                <attribute name="invisible">attachment_number &gt; 1 or pao_document_version_management_id != False </attribute>
             </xpath>
             <xpath expr="//field[@name='date_confirmed']" position="after">
-                <field name="pao_document_reviewer" attrs="{'invisible': [('pao_document_version_management_id', '=', False)]}"/>
-                <field name="pao_refuse_reason" string="Refuse reason" attrs="{'invisible': [('pao_refuse_reason', '=', False)]}"/>
+                <!-- <field name="pao_document_reviewer" attrs="{'invisible': [('pao_document_version_management_id', '=', False)]}"/>
+                <field name="pao_refuse_reason" string="Refuse reason" attrs="{'invisible': [('pao_refuse_reason', '=', False)]}"/> -->
+                <field name="pao_document_reviewer" invisible="pao_document_version_management_id == False"/>
+                <field name="pao_refuse_reason" string="Refuse reason" invisible="pao_refuse_reason == False"/>
                 <field name="pao_document_version_management_id" invisible="1"/>
                 <field name="is_user_reviewer" invisible="1"/>
             </xpath>
 
             <xpath expr="//button[@name='action_refuse']" position="before">
-                <button name="document_reviewed" string="Reviewed" type="object" attrs="{'invisible': ['|', '|', ('pao_document_version_management_id', '=', False), ('request_status', '!=', 'pending'), ('is_user_reviewer', '=', False)]}"/>
-                <button name="action_reviewer_refuse" string="Refuse" type="object" attrs="{'invisible': ['|', '|', ('pao_document_version_management_id', '=', False), ('request_status', '!=', 'pending'), ('is_user_reviewer', '=', False)]}"/>
+                <!-- <button name="document_reviewed" string="Reviewed" type="object" attrs="{'invisible': ['|', '|', ('pao_document_version_management_id', '=', False), ('request_status', '!=', 'pending'), ('is_user_reviewer', '=', False)]}"/>
+                <button name="action_reviewer_refuse" string="Refuse" type="object" attrs="{'invisible': ['|', '|', ('pao_document_version_management_id', '=', False), ('request_status', '!=', 'pending'), ('is_user_reviewer', '=', False)]}"/> -->
+                <button name="document_reviewed" string="Reviewed" type="object" invisible="pao_document_version_management_id == False or request_status != 'pending' or is_user_reviewer == False"/>
+                <button name="action_reviewer_refuse" string="Refuse" type="object" invisible="pao_document_version_management_id == False or request_status != 'pending' or is_user_reviewer == False"/>
             </xpath>
 
             <xpath expr="//button[@name='action_withdraw']" position="attributes">
-                <attribute name="attrs">{'invisible':['|', '|', '|', ('request_status', '==', 'new'), ('user_status', 'in', ['pending', 'cancel']), ('user_status', '=', False), ('pao_document_version_management_id', '!=', False)]}</attribute>
+                <!-- <attribute name="attrs">{'invisible':['|', '|', '|', ('request_status', '==', 'new'), ('user_status', 'in', ['pending', 'cancel']), ('user_status', '=', False), ('pao_document_version_management_id', '!=', False)]}</attribute> -->
+                <attribute name="invisible">request_status == 'new' or user_status == ['pending', 'cancel'] or pao_document_version_management_id != False</attribute>
             </xpath>
             
         </field>

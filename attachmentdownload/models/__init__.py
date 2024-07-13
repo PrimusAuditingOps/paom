@@ -1,2 +1,2 @@
 from . import attachment
-from . import account_move_inh
+from . import account_move

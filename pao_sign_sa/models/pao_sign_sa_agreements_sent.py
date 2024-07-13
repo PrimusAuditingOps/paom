@@ -1,5 +1,3 @@
-from asyncore import read
-from itertools import product
 from odoo import tools
 from odoo import fields, models, api, _
 from logging import getLogger
@@ -171,17 +169,20 @@ class PaoSignSaAgreementsSent(models.Model):
     def action_resend(self):
         self.ensure_one()
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        tpl = self.env.ref('pao_sign_sa.sa_template_mail_request')
         signer_lang = get_lang(self.env, lang_code=self.signer_id.lang).code
-        tpl = tpl.with_context(lang=signer_lang)
-        body = tpl._render({
+        
+        body =  self.env['ir.ui.view'].with_context(lang=signer_lang)._render_template('pao_sign_sa.sa_template_mail_request', 
+            {
                 'record': self,
                 'link': url_join(base_url, '/sign/sa/%s/%s' % (self.id, self.access_token)),
                 'subject': self.subject,
                 'body': self.message if self.message != '<p><br></p>' else False,
-            }, engine='ir.qweb', minimal_qcontext=True)
-        
-        mail = self._message_send_mail(
+            }
+        )
+
+
+
+        self._message_send_mail(
             body, 'mail.mail_notification_light',
             {'record_name': self.title},
             {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
@@ -214,18 +215,21 @@ class PaoSignSaAgreementsSent(models.Model):
                 continue
             else:   
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                tpl = self.env.ref('pao_sign_sa.sa_template_mail_request')
                 signer_lang = get_lang(self.env, lang_code=sign_request.signer_id.lang).code
-                tpl = tpl.with_context(lang=signer_lang)
                 
-                body = tpl._render({
+               
+                body =  self.env['ir.ui.view'].with_context(lang=signer_lang)._render_template('pao_sign_sa.sa_template_mail_request', 
+                    {
                         'record': sign_request,
                         'link': url_join(base_url, '/sign/sa/%s/%s' % (sign_request.id, sign_request.access_token)),
                         'subject': sign_request.subject,
                         'body': sign_request.message if sign_request.message != '<p><br></p>' else False,
-                    }, engine='ir.qweb', minimal_qcontext=True)
-                
-                mail = self._message_send_mail(
+                    }
+                )
+
+
+
+                self._message_send_mail(
                     body, 'mail.mail_notification_light',
                     {'record_name': sign_request.title},
                     {'model_description': _('Service Agreement'), 'company': sign_request.create_uid.company_id},
@@ -244,8 +248,11 @@ class PaoSignSaAgreementsSent(models.Model):
         sign_request = self.with_context(lang=lang)
 
         msg = sign_request.env['mail.message'].sudo().new(dict(body=body, **message_values))
-        notif_layout = sign_request.env.ref(notif_template_xmlid)
-        body_html = notif_layout._render(dict(message=msg, **notif_values), engine='ir.qweb', minimal_qcontext=True)
+        
+        body_html =  self.env['ir.ui.view'].with_context(lang=lang)._render_template(notif_template_xmlid, 
+            dict(message=msg, **notif_values)
+        )
+
         body_html = sign_request.env['mail.render.mixin']._replace_local_links(body_html)
 
         mail = sign_request.env['mail.mail'].sudo().create(dict(body_html=body_html, state='outgoing', **mail_values))

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    
+    <record id="assignment_auditor_qualification_tree" model="ir.ui.view">
+        <field name="name">assignment.auditor.qualification.tree</field>
+        <field name="model">paoassignmentauditor.auditor.qualification</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Assignment Auditor Calification" create="false">
+                <field name="position"/>
+                <field name="is_in_house" optional="show" widget="priority" nolabel="1"/>
+                <field name="day_color" invisible="1" nolabel="1" column_invisible="True"/>
+                <field name="auditor_id" decoration-info="day_color == 'blue'" decoration-warning="day_color == 'yellow'" decoration-danger="day_color == 'red'"/>
+                <field name="scheme_qualification" optional="show"/>
+                <field name="localization_qualification" optional="show"/>
+                <field name="audit_qty_qualification" optional="hide"/>
+                <field name="audit_honorarium_qualification" optional="hide"/>
+                <field name="total_audits" invisible="1" nolabel="1" column_invisible="True"/>
+                <field name="qualification"/>
+                <field name="day_without_audits" optional="hide"/>
+                <button name="assign_auditor" invisible="total_audits == 0"  type="object" confirm="An in-house auditor should be assigned to this purchase order, are you sure?" string="Assign" class="oe_highlight"/>
+                <button name="assign_auditor" invisible="total_audits == 1"  type="object"  string="Assign" class="oe_highlight"/>
+            </tree>
+        </field>
+    </record>   
+
+    <record id="assignment_auditor_qualification_action" model="ir.actions.act_window">
+        <field name="name">Assignment Auditor Qualification</field>
+        <field name="res_model">paoassignmentauditor.auditor.qualification</field>
+        <field name="view_mode">tree</field>
+        <field name="target">new</field>
+    </record> 
+
+</odoo>

@@ -5,9 +5,9 @@
         <field name="model">pao.documents.version.management</field>
         <field name="arch" type="xml">
             <tree string="Documents Version Management">
-                <field name="expiration_date" invisible="1"/>
-                <field name="is_document_expired" invisible="1"/>
-                <field name="is_document_near_expiration" invisible="1"/>
+                <field name="expiration_date" column_invisible="1"/>
+                <field name="is_document_expired" column_invisible="1"/>
+                <field name="is_document_near_expiration" column_invisible="1"/>
                 <field decoration-danger="is_document_expired" decoration-warning="is_document_near_expiration" name="code"/>
                 <field decoration-danger="is_document_expired" decoration-warning="is_document_near_expiration" name="name"/>
                 <field decoration-danger="is_document_expired" decoration-warning="is_document_near_expiration" name="department_id"/>
@@ -25,6 +25,11 @@
         <field name="model">pao.documents.version.management</field>
         <field name="arch" type="xml">
             <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="department_id"/>
+                <field name="scheme_id"/>
+
                 <filter name="filter_ggap" string="GLOBALG.A.P." domain="[('scheme_id.internal_name', '=', 'global_gap')]"/>
                 <filter name="filter_general" string="General" domain="[('scheme_id.internal_name', '=', 'general')]"/>
                 <filter name="filter_organics" string="Organics" domain="[('scheme_id.internal_name', '=', 'organics')]"/>
@@ -51,33 +56,52 @@
         <field name="model">pao.documents.version.management</field>
         <field name="arch" type="xml">
             <form string="Documents Version Management">
-                <sheet>
+                <header>
                     <field name="approval_request_in_progress" invisible="1"/>
                     <field name="is_document_expired" invisible="1"/>
                     <div class="o_not_full oe_button_box">
-                        <button string="The document is still valid" attrs="{'invisible': [('is_document_expired', '=', False)]}" type="object" class="oe_highlight" name="postpone_expiration_date" groups="pao_sgc.sgc_admin_group"/>
+                        <!-- <button string="The document is still valid" attrs="{'invisible': [('is_document_expired', '=', False)]}" type="object" class="oe_highlight" name="postpone_expiration_date" groups="pao_sgc.sgc_admin_group"/>
                         <button string="Upload new version" attrs="{'invisible': [('id', '=', False)]}" type="object" class="oe_highlight m-3" name="upload_new_version_action" groups="pao_sgc.sgc_admin_group"/>
                         <button name="action_view_active_approval_request" groups="pao_sgc.sgc_admin_group" type="object" class="oe_stat_button" icon="fa-file-text-o" attrs="{'invisible': [('approval_request_in_progress', '=', False)]}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value">Request</span>
                             </div>
+                        </button> -->
+                        <button string="The document is still valid" invisible="is_document_expired == False" type="object" class="oe_highlight" name="postpone_expiration_date" groups="pao_sgc.sgc_admin_group"/>
+                        <button string="Upload new version" invisible="id == False" type="object" class="oe_highlight m-3" name="upload_new_version_action" groups="pao_sgc.sgc_admin_group"/>
+                        <button name="action_view_active_approval_request" groups="pao_sgc.sgc_admin_group" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="approval_request_in_progress == False">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">Request</span>
+                            </div>
                         </button>
                     </div>
-                    <group col="4">
-                        <field name="code"/>
-                        <field name="name"/>
-                        <field name="department_id" options="{'no_create': True, 'no_create_edit':True}" />
-                        <field name="scheme_id" options="{'no_create': True, 'no_create_edit':True}" />
-                        <field name="language_id" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}" />
-                        <field name="version" attrs="{'readonly': [('id', '!=', False)]}"/>
-                        <field name="revision_number" attrs="{'readonly': [('id', '!=', False)]}"/>
-                        <field name="approval_date" attrs="{'readonly': [('id', '!=', False)]}"/>
-                        <field name="document_file" filename="filename" attrs="{'readonly': [('id', '!=', False)]}"/>
-                        <field name="approval_id" attrs="{'invisible': [('approval_id', '=', False)]}"/>
-                        <field name="id" invisible="1"/>
-                        <field name="filename" invisible="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Document Information">
+                            <field name="code" readonly="id != False"/>
+                            <field name="name" readonly="id != False"/>
+                            <field name="department_id" readonly="id != False" options="{'no_create': True, 'no_create_edit':True}" />
+                            <field name="scheme_id" readonly="id != False" options="{'no_create': True, 'no_create_edit':True}" />
+                            <field name="language_id" readonly="id != False" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}" />
+                        </group>
+                        <group string="Version Details">
+                            <!-- <field name="version" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="revision_number" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="approval_date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="document_file" filename="filename" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="approval_id" attrs="{'invisible': [('approval_id', '=', False)]}"/> -->
+                            <field name="version" readonly="id != False"/>
+                            <field name="revision_number" readonly="id != False"/>
+                            <field name="approval_date" readonly="id != False"/>
+                            <field name="document_file" filename="filename" readonly="id != False"/>
+                            <field name="approval_id" invisible="approval_id == False"/>
+                            <field name="id" invisible="1"/>
+                            <field name="filename" invisible="1"/>
+                        </group>
                     </group>
-                    <notebook groups="pao_sgc.sgc_admin_group" attrs="{'invisible': [('id', '=', False)]}">
+                    <!-- <notebook groups="pao_sgc.sgc_admin_group" attrs="{'invisible': [('id', '=', False)]}"> -->
+                    <notebook groups="pao_sgc.sgc_admin_group" invisible="id == False">
                         <page string="Version History">
                             <field name="history_version_ids" widget="one2many_list">
                                 <tree string="Documents">
@@ -89,7 +113,7 @@
                                     <field name="approval_id"/>
                                     <field name="validity_start_date"/>
                                     <field name="validity_end_date"/>
-                                    <field name="filename" invisible="1"/>
+                                    <field name="filename" column_invisible="1"/>
                                 </tree>
                             </field>
                         </page>

@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e-20240104\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-07 22:42+0000\n"
-"PO-Revision-Date: 2024-02-07 22:42+0000\n"
+"POT-Creation-Date: 2024-02-07 23:39+0000\n"
+"PO-Revision-Date: 2024-02-07 23:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,7 @@ msgid "Action Needed"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/pao_documents_version_management.py:0
 #, python-format
 msgid "Active approval request"
@@ -125,6 +126,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/pao_documents_version_management.py:0
 #, python-format
 msgid "Cannot update using an existing version"
@@ -209,8 +211,6 @@ msgid "Description of the change"
 msgstr ""
 
 #. module: pao_sgc
-#: model:ir.model.fields,field_description:pao_sgc.field_approval_category__display_name
-#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__display_name
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__display_name
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__display_name
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__display_name
@@ -236,6 +236,11 @@ msgstr ""
 #. module: pao_sgc
 #: model:approval.category,name:pao_sgc.approval_category_documents_sgc
 msgid "Document Formats"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
+msgid "Document Information"
 msgstr ""
 
 #. module: pao_sgc
@@ -299,11 +304,6 @@ msgid "Followers"
 msgstr ""
 
 #. module: pao_sgc
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
-
-#. module: pao_sgc
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -332,11 +332,17 @@ msgid "HACCP"
 msgstr ""
 
 #. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: pao_sgc
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__approval_request_in_progress
 msgid "Has an active request"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/pao_documents_version_management.py:0
 #, python-format
 msgid ""
@@ -345,6 +351,7 @@ msgid ""
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/approval_request.py:0
 #, python-format
 msgid ""
@@ -353,6 +360,7 @@ msgid ""
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/approval_request.py:0
 #, python-format
 msgid ""
@@ -366,8 +374,6 @@ msgid "High Direction"
 msgstr ""
 
 #. module: pao_sgc
-#: model:ir.model.fields,field_description:pao_sgc.field_approval_category__id
-#: model:ir.model.fields,field_description:pao_sgc.field_approval_request__id
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason__id
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history__id
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__id
@@ -389,7 +395,6 @@ msgstr ""
 
 #. module: pao_sgc
 #: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_needaction
-#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -437,6 +442,7 @@ msgid "Is User Reviewer"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/pao_documents_version_management.py:0
 #, python-format
 msgid ""
@@ -452,18 +458,6 @@ msgstr ""
 #. module: pao_sgc
 #: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_search
 msgid "Language"
-msgstr ""
-
-#. module: pao_sgc
-#: model:ir.model.fields,field_description:pao_sgc.field_approval_category____last_update
-#: model:ir.model.fields,field_description:pao_sgc.field_approval_request____last_update
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_approval_refuse_reason____last_update
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_history____last_update
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management____last_update
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_department____last_update
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme____last_update
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: pao_sgc
@@ -489,11 +483,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_sgc_scheme__write_date
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: pao_sgc
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_main_attachment_id
-msgid "Main Attachment"
 msgstr ""
 
 #. module: pao_sgc
@@ -533,6 +522,11 @@ msgid "New formats for official company documents gets approved"
 msgstr ""
 
 #. module: pao_sgc
+#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: pao_sgc
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -559,17 +553,12 @@ msgstr ""
 
 #. module: pao_sgc
 #: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: pao_sgc
 #: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
-
-#. module: pao_sgc
-#: model:ir.model.fields,help:pao_sgc.field_pao_documents_version_management__message_unread_counter
-msgid "Number of unread messages"
 msgstr ""
 
 #. module: pao_sgc
@@ -599,6 +588,7 @@ msgid "PAO Documents Version Management"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/approval_request.py:0
 #, python-format
 msgid "Please review the document."
@@ -615,6 +605,7 @@ msgid "Quality Assurement"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/pao_upload_document_version_wizard.py:0
 #, python-format
 msgid "REQ: %(document_name)s - Version: %(version)s - Revision: %(revision)s"
@@ -636,6 +627,7 @@ msgid "Refuse Reason"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/approval_request.py:0
 #: code:addons/pao_sgc/models/approval_request.py:0
 #, python-format
@@ -664,6 +656,7 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/approval_request.py:0
 #, python-format
 msgid "Review document"
@@ -746,12 +739,14 @@ msgid "The document is still valid"
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/approval_request.py:0
 #, python-format
 msgid "The request can only be cancelled by its owner."
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/approval_request.py:0
 #, python-format
 msgid ""
@@ -760,12 +755,14 @@ msgid ""
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/approval_request.py:0
 #, python-format
 msgid "The request must be reviewed before approval."
 msgstr ""
 
 #. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/pao_documents_version_management.py:0
 #, python-format
 msgid "This document has already an approval request in progress."
@@ -782,16 +779,7 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: pao_sgc
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: pao_sgc
-#: model:ir.model.fields,field_description:pao_sgc.field_pao_documents_version_management__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: pao_sgc
+#. odoo-python
 #: code:addons/pao_sgc/models/pao_documents_version_management.py:0
 #: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
 #, python-format
@@ -816,6 +804,11 @@ msgstr ""
 #. module: pao_sgc
 #: model:ir.model.fields,field_description:pao_sgc.field_pao_upload_document_version__version
 msgid "Version (Odoo)"
+msgstr ""
+
+#. module: pao_sgc
+#: model_terms:ir.ui.view,arch_db:pao_sgc.pao_documents_version_management_view_form
+msgid "Version Details"
 msgstr ""
 
 #. module: pao_sgc

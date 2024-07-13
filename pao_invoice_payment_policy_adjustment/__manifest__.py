@@ -7,4 +7,5 @@
     "depends": ["l10n_mx_edi"],
     'data': [
     ],
+    'license': 'LGPL-3',
 }

@@ -7,20 +7,19 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <field name="payment_term_id" position="after">
-             <field name="enable_organization_ids" invisible="1"/>
-             <field name="coordinator_id"/>
-             <field name="registration_number_order_lines_ids" invisible="1"/>
-             <field name="registration_number_print" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('id', 'in', registration_number_order_lines_ids )]"/>
+             	<field name="enable_organization_ids" invisible="1"/>
+             	<field name="coordinator_id"/>
+             	<field name="registration_number_order_lines_ids" invisible="1"/>
+             	<field name="registration_number_print" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('id', 'in', registration_number_order_lines_ids )]"/>
             </field>
-
             <page name="other_information" position="after">
-                    <page string="Purchase Orders">
-                        <field name="purchase_order_id" widget="many2many">
-                            <tree string="Registered Purchase Orders">
-                                <field name="name"/>
-                            </tree>
-                        </field>
-                    </page>
+                <page string="Purchase Orders">
+                    <field name="purchase_order_id" widget="many2many">
+                        <tree string="Registered Purchase Orders">
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
             </page>
             <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
                 <field name="audit_products" widget="many2many_tags" options="{'color_field': 'color','no_quick_create': True, 'no_create_edit' : True}"/>

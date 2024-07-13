@@ -17,4 +17,5 @@
         'views/suppliers_configurations_views.xml',
         'views/res_partner_supplier_verifications_view.xml'
     ],
+    'license': 'LGPL-3',
 }

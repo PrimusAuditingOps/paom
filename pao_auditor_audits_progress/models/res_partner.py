@@ -87,8 +87,15 @@ class RestPartnerInherit(models.Model):
                 period_type = rec._get_start_and_end_period_dates()
                 start_date = period_type[0]
                 end_date = period_type[1]
-                pType= period_type[2]
-                rec.period_type = str(pType)+"   Del  "+start_date+"  al  "+end_date
+                pType= (str(period_type[2])).upper()
+                
+                year1, month1, day1 = start_date.split('-')
+                year2, month2, day2 = end_date.split('-')
+
+                formatted_start_date = "{}-{:02d}-{:02d}".format(year1, int(month1), int(day1))
+                formatted_end_date = "{}-{:02d}-{:02d}".format(year2, int(month2), int(day2))
+                
+                rec.period_type = pType + ": Desde "+ formatted_start_date +" hasta " + formatted_end_date
             else:
                 rec.period_type = "None"
 

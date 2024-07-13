@@ -1,4 +1,4 @@
-from asyncore import read
+#from asyncore import read
 from itertools import product
 from odoo import tools
 from odoo import fields, models, api, _

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Multi - Company Rules -->
+    <record id="pao_promoter_cv_rule" model="ir.rule">
+        <field name="name">pao promoter cv multi-company</field>
+        <field name="model_id" ref="model_pao_promoter_cv"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="pao_promoter_history_block_rule" model="ir.rule">
+        <field name="name">pao promoter history block multi-company</field>
+        <field name="model_id" ref="model_pao_promoter_history_block"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="pao_promoter_service_groups_rule" model="ir.rule">
+        <field name="name">pao promoter service groups multi-company</field>
+        <field name="model_id" ref="model_pao_promoter_service_groups"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="pao_promoter_service_rule" model="ir.rule">
+        <field name="name">pao promoter service multi-company</field>
+        <field name="model_id" ref="model_pao_promoter_service"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="pao_promotors_images_rule" model="ir.rule">
+        <field name="name">pao_promotors_images multi-company</field>
+        <field name="model_id" ref="model_pao_promotors_images"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="pao_work_zone_rule" model="ir.rule">
+        <field name="name">pao work zone multi-company</field>
+        <field name="model_id" ref="model_pao_work_zone"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

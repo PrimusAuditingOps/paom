@@ -1,23 +1,38 @@
-# -*- coding: utf-8 -*-
 {
-    'name': 'Comision Promotores',
-    'version': '1.0',
-    'author': 'samuel castro',
-    'category': '',
-    'website': 'https://paomx.com',
-    'depends': ['base','account','sale'
+    'name': 'PAO: Commission Promotor',
+    'version': '17.0.0.1.0',
+    'author': 'Port Cities',
+    'category': 'Sale',
+    'website': 'https://www.portcities.net',
+    'sequence': 1,
+    'summary': """
+        Sub-menu in the sales module that helps view and set commissions for people who
+        They promote company audits to different clients.
+    """,
+    'description': """
+    v 1.0
+        Reviewer : Dwiki Adnan F. <dwiki@portcities.net>\n
+        * Migrated from v14.\n
+    """,
+    'depends': [
+        'servicereferralagreement'
     ],
     'data': [
-        # security
         'security/groups.xml',
+        'security/ir_rules.xml',
         'security/ir.model.access.csv',
-        # data
-        # demo
-        # reports
-        # views
-        'views/res_partner.xml',
-        'views/account_move_tree.xml',
-        'views/comisionpromotores_promotor.xml',
-        #'views/account_move_view_search.xml',
+        'views/res_partner_views.xml',
+        'views/account_move_views.xml',
+        'views/commission_promoter_views.xml',
     ],
+    'assets': {
+
+    },
+    'qweb': [
+        
+    ],
+    'installable': True,
+    'application' : False,
+    'auto_install' : False,
+    'license': 'LGPL-3',
 }

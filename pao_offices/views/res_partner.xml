@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <field name="team_id" position="after">
-                    <field name="pao_office_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="pao_office_id" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'company_id': company_id}"/>
                 </field>
             </field>
     </record>

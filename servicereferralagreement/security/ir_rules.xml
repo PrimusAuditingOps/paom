@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Multi - Company Rules -->
+    <record id="servicereferralagreement_organization_comp_rule" model="ir.rule">
+        <field name="name">Organization multi-company</field>
+        <field name="model_id" ref="model_servicereferralagreement_organization"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="servicereferralagreement_registration_number_comp_rule" model="ir.rule">
+        <field name="name">Registration number multi-company</field>
+        <field name="model_id" ref="model_servicereferralagreement_registrynumber"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="servicereferralagreement_scheme_comp_rule" model="ir.rule">
+        <field name="name">Scheme multi-company</field>
+        <field name="model_id" ref="model_servicereferralagreement_scheme"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="servicereferralagreement_audit_products_comp_rule" model="ir.rule">
+        <field name="name">Audit products multi-company</field>
+        <field name="model_id" ref="model_servicereferralagreement_auditproducts"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="servicereferralagreement_audit_fees_comp_rule" model="ir.rule">
+        <field name="name">Audit fees multi-company</field>
+        <field name="model_id" ref="model_servicereferralagreement_auditfees"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="servicereferralagreement_percentageofauditfee_comp_rule" model="ir.rule">
+        <field name="name">Percentage of audit fee multi-company</field>
+        <field name="model_id" ref="model_servicereferralagreement_percentageofauditfee"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    
+
+    
+
+</odoo>

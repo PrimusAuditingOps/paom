@@ -9,6 +9,7 @@ class PriceListProposal(models.Model):
 
     _name="pao.pricelist.proposal"
     _inherit="product.pricelist"
+    _description="PAO Pricelist Proposal Model"
     
     
     base_pricelist = fields.Many2one('product.pricelist', string="Base pricelist", readonly=True)
@@ -85,7 +86,7 @@ class PriceListProposal(models.Model):
     def send_proposal_action(self):
         if self.proposal_status == 'draft' and self.authorized:
             
-            self.pricelist_proposal_manager_id = self.env['hr.employee'].search([('pricelist_proposal_manager', '=', True)], limit=1)
+            self.pricelist_proposal_manager_id = self.env['hr.employee'].sudo().search([('pricelist_proposal_manager', '=', True)], limit=1)
             
             if not self.pricelist_proposal_manager_id:
                 raise ValidationError(_("No employee in charge of pricelist proposals was found."))
@@ -206,7 +207,7 @@ class PriceListProposal(models.Model):
         odoo_bot = self.env.ref('base.partner_root')
         
         for channel_name in channels:
-            channel = self.env['mail.channel'].search([('name', 'ilike', channel_name)]) 
+            channel = self.env['discuss.channel'].search([('name', 'ilike', channel_name)]) 
             if channel:
                 channel.sudo().message_post(body=message, message_type='comment', subtype_xmlid='mail.mt_comment', author_id=odoo_bot.id)
                 # notification = ('<a href="#" data-oe-model="pao.customer.registration" class="o_redirect" data-oe-id="%s">#%s</a>') % (cr_sudo.id, cr_sudo.res_partner_id.name,)
@@ -216,7 +217,10 @@ class PriceListProposal(models.Model):
         customer_lang = self.customer_id.lang if self.customer_id else self.create_uid.lang
         context = {'lang': customer_lang}
         
-        pdf = self.env.ref('pao_pricelist_proposal.report_proposal_agreement').sudo().with_context(context)._render_qweb_pdf([self.id], data= {"docs": self.ids})[0]
+        pdf = self.env['ir.actions.report'].sudo().with_context(context)._render_qweb_pdf(
+            'pao_pricelist_proposal.report_proposal_agreement',
+            self.ids,
+        )[0]
         
         attachment = self.env['ir.attachment'].sudo().create({
             'name': _('Pricelist proposal agreement'),
@@ -229,6 +233,3 @@ class PriceListProposal(models.Model):
         self.proposal_agreement_id = attachment.id
         
         return attachment
-        
-
-        

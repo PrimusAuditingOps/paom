@@ -37,7 +37,8 @@ class CustomerPortal(portal.CustomerPortal):
             
 
             filename = "%s-%s.%s" % (rn_sa.name,rn_sa.organization_name, "pdf")
-            pdf = request.env.ref('pao_sign_sa.report_service_agreements').sudo()._render_qweb_pdf([sa_id], data= {"values": rn_sa, "print": True})[0]
+            #pdf = request.env.ref('pao_sign_sa.report_service_agreements').sudo()._render_qweb_pdf([sa_id.id], data= {"values": rn_sa, "print": True})[0]
+            pdf = request.env['ir.actions.report'].sudo()._render_qweb_pdf('pao_sign_sa.report_service_agreements', [sa_id], data= {"values": rn_sa, "print": True})[0]
             attachment = request.env['ir.attachment'].sudo().create({
                     'name': filename,
                     'datas': base64.b64encode(pdf),

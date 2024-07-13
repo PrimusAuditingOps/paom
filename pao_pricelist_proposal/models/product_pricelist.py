@@ -85,7 +85,8 @@ class ProductPriceList(models.Model):
         message = self.message_post(
             body=notification_message,
             partner_ids=[user.partner_id.id],
-            attachment_ids=attachments
+            attachment_ids=attachments,
+            body_is_html = True
         )
         
         self.message_notify(

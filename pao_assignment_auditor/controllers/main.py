@@ -19,7 +19,7 @@ _logger = getLogger(__name__)
 class webAuditorAssignment(http.Controller):
     
     @http.route(['/auditor_assignment'], type='json', auth='user', methods=['POST'])
-    def test(self, dates=None, startdates=None, products=None, organizations= None, saleorderid = None, orderid=None, cityid=None, failed=False, **kwargs):
+    def search_auditors(self, dates=None, startdates=None, products=None, organizations= None, saleorderid = None, orderid=None, cityid=None, stateid = None, auditquantity=0.00, languages = None, failed=False, **kwargs):
         user_id = request.env.context.get('uid')
         weightings = self._get_weighting()
         auditors_list = []
@@ -27,10 +27,16 @@ class webAuditorAssignment(http.Controller):
         audit_quantity_list = []
         audit_honorarium_list = []
         auditor_localization_list = []
-        _logger.error(products)
+        startdates = self._convert_startdates(startdates)
+        _logger.error(stateid)
         view_id = 0
         if weightings:
+            location = weightings.location
+            scheme_ranking = weightings.scheme_ranking
+            audit_quantity_target = weightings.audit_quantity_target
+            audit_honorarium_target = weightings.audit_honorarium_target
             auditors_list = self._get_approved_auditor(products)
+            auditors_list = self._get_auditor_languages(auditors_list, languages)
             auditors_list = self._get_auditors_without_veto_organization(auditors_list,organizations)
             auditors_list = self._get_auditors_without_veto_customer(auditors_list,saleorderid)
             auditors_list = self._get_auditor_availability(auditors_list,dates,orderid)
@@ -39,14 +45,19 @@ class webAuditorAssignment(http.Controller):
                 schemes_ids = self._get_schemes(products)
                 first_date_list = self._get_dates(startdates)
                 first_start_date = datetime.datetime.strptime(startdates[0], '%Y-%m-%d')
-                if weightings.scheme_ranking > 0:
-                    scheme_rating_list = self._get_auditor_scheme_rating(auditors_list, schemes_ids, weightings.scheme_ranking)
-                if weightings.location > 0:
-                    auditor_localization_list = self._get_auditor_localization(auditors_list, cityid, weightings.location,first_start_date)
-                if weightings.audit_quantity_target > 0:
-                    audit_quantity_list = self._get_auditor_audit_quantity_target(auditors_list,weightings.audit_quantity_target,first_date_list, orderid)
-                if weightings.audit_honorarium_target > 0:
-                    audit_honorarium_list = self._get_auditor_audit_honorarium_target(auditors_list,weightings.audit_honorarium_target,first_date_list, orderid)
+                if location > 0 and (not weightings.state_ids or stateid in weightings.state_ids.ids):
+                    auditor_localization_list = self._get_auditor_localization(auditors_list, cityid, location,first_start_date)
+                elif location > 0:
+                    scheme_ranking = scheme_ranking + location
+                    location = 0
+
+
+                if scheme_ranking > 0:
+                    scheme_rating_list = self._get_auditor_scheme_rating(auditors_list, schemes_ids, scheme_ranking)
+                if audit_quantity_target > 0:
+                    audit_quantity_list = self._get_auditor_audit_quantity_target(auditors_list,audit_quantity_target,first_date_list, orderid)
+                if audit_honorarium_target > 0:
+                    audit_honorarium_list = self._get_auditor_audit_honorarium_target(auditors_list,audit_honorarium_target,first_date_list, orderid)
 
 
 
@@ -85,6 +96,19 @@ class webAuditorAssignment(http.Controller):
                     
                     days = self._get_days_without_audits(auditor)
 
+
+                    #total_to_pay = 0.00
+                    in_house_auditor = False
+                    recauditor = request.env['res.partner'].browse(auditor)
+                    for recPartner in recauditor:
+                        #total_to_pay = 0.00
+                        in_house_auditor = recPartner.is_an_in_house_auditor
+
+                        #recFee = request.env["servicereferralagreement.auditfees"].search([("default","=",True)])
+                        #for fee in recFee:
+                        #    for percentage in recPartner.audit_fee_percentages_ids.filtered_domain([('audit_fees_id', '=', fee.id)]):
+                        #        total_to_pay = percentage.audit_percentage * price_total / 100
+
                     value = request.env['paoassignmentauditor.auditor.qualification'].sudo().create(
                         {
                             'auditor_id': auditor,
@@ -95,16 +119,17 @@ class webAuditorAssignment(http.Controller):
                             'qualification': qualification,
                             'ref_user_id': user_id,
                             'day_without_audits': days,
+                            'total_audits': 1 if auditquantity > 9 else 0,
+                            'is_in_house': '0' if not in_house_auditor else '1',
                             'day_color': "blue" if days >= 22 and days <= 35 else "yellow" if days >= 36 and days <= 45 else "red" if days > 45 else "",
                         }
                     )
-                    
-        
-        return {
+        res = {
             'auditors': auditors_list,
             'user_id': user_id
         }
-        
+        return res
+
     def _get_days_without_audits(self, auditor_id):
         requested_tz = pytz.timezone('America/Mexico_City')
         today = requested_tz.fromutc(datetime.datetime.utcnow())
@@ -162,6 +187,19 @@ class webAuditorAssignment(http.Controller):
             return rec
         return {}
 
+
+    def _get_auditor_languages(self, auditors_list,lenguages_ids):
+        
+        auditor_ids = []
+        if len(lenguages_ids) > 0:
+            for auditor in auditors_list:
+                recAuditor = request.env["res.partner"].browse(auditor)
+                for l in lenguages_ids:
+                    if l not in recAuditor.language_ids.ids:
+                        auditor_ids.append(auditor)
+                        break
+        return [auditor for auditor in auditors_list if auditor not in auditor_ids]
+
     def _get_approved_auditor(self, products_ids):
 
         auditor_ids = []
@@ -191,6 +229,7 @@ class webAuditorAssignment(http.Controller):
             }
             request.env.cr.execute(sql, params)
             result = request.env.cr.dictfetchall()
+
             auditor_ids = [r['res_partner_id'] for r in result]
         return auditor_ids
     
@@ -252,6 +291,9 @@ class webAuditorAssignment(http.Controller):
     def _get_auditor_availability(self,auditor_ids,datelist,orderid):
      
         auditors_not_available_list = []
+        if not orderid:
+            orderid = 0
+            
         if len(auditor_ids) > 0:
 
             for dates in datelist:
@@ -451,7 +493,18 @@ class webAuditorAssignment(http.Controller):
         distance = acos(sin(point_1[0])*sin(point_2[0]) + cos(point_1[0])*cos(point_2[0])*cos(point_1[1] - point_2[1]))
 
         return distance * 6371.01
-    
+
+    def _convert_startdates(self, startdates):
+        """ Remove the remain part of the date if exist 
+        """
+        formated_startdates = []
+        for dt in startdates:
+            sdt = str(dt)
+            if 'T' in sdt:
+                sdt = sdt.split('T')[0]
+            formated_startdates.append(sdt)
+        return formated_startdates
+
     def _get_dates(self, startdates):
         dates_list = []
         first_date_list = []
