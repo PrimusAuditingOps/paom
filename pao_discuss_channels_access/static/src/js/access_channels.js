@@ -6,7 +6,7 @@ odoo.define('pao_discuss_channels_access.custom_feature', function (require) {
     const { ChannelSelector } = require('discuss'); // Assuming ChannelSelector is from discuss
     const { _t } = require('@web/core/utils/translation'); // Assuming _t is for translations
 
-    const ChannelSelector = require('discuss.ChannelSelector');
+    // const ChannelSelector = require('discuss.ChannelSelector');
 
     ChannelSelector.include({
         async fetchSuggestions() {
