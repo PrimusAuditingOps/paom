@@ -1,7 +1,7 @@
 
 odoo.define('pao_discuss_channels_access.custom_feature', [], function (require) {
     "use strict";
-    const ChannelSelector = require('mail.ChannelSelector');
+    const ChannelSelector = require('web.ChannelSelector');
 
     ChannelSelector.include({
         async fetchSuggestions() {
