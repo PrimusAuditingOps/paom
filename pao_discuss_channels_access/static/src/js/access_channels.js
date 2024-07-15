@@ -1,7 +1,5 @@
 
-import { ChannelSelector } from 'discuss';
-import { cleanTerm } from "@mail/utils/common/format";
-import { Component, onMounted, useEffect, useRef, useState } from "@odoo/owl";
+const ChannelSelector = require('discuss.ChannelSelector');
 
 export class OverrideChannelSelector extends ChannelSelector {
     // Override the fetchSuggestions function with your custom logic
