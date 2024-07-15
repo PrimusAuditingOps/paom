@@ -1,12 +1,12 @@
 // static/src/js/discuss_channel_override.js
-odoo.define('my_custom_module.DiscussChannelOverride', function (require) {
+odoo.define('pao_discuss_channels_access.DiscussChannelOverride', function (require) {
     "use strict";
 
     const DiscussChannelSelector = require('mail.DiscussChannelSelector');
     const cleanTerm = require('mail.utils').cleanTerm; // Adjust this if cleanTerm is defined elsewhere
     const { patch } = require('web.utils');
 
-    patch(DiscussChannelSelector.prototype, 'my_custom_module.DiscussChannelOverride', {
+    patch(DiscussChannelSelector.prototype, 'pao_discuss_channels_access.DiscussChannelOverride', {
         async fetchSuggestions() {
             const cleanedTerm = cleanTerm(this.state.value);
             if (cleanedTerm) {
