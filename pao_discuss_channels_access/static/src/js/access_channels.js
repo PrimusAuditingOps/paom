@@ -1,9 +1,9 @@
 
-(async () => {
+odoo.define('pao_discuss_channels_access.custom_feature', [], function (require) {
+    "use strict";
+    const ChannelSelector = require('mail/static/src/discuss/core/web/channel_selector.js');
 
-    // Extend the original ChannelSelector class
-    class CustomChannelSelector extends discuss.ChannelSelector {
-      // Override the fetchSuggestions method with your custom logic
+    ChannelSelector.include({
         async fetchSuggestions() {
             const cleanedTerm = cleanTerm(this.state.value);
             if (cleanedTerm) {
@@ -86,6 +86,6 @@
             }
             this.state.navigableListProps.options = [];
             return;
-    }
-    }
-  })();
+        },
+    });
+});
