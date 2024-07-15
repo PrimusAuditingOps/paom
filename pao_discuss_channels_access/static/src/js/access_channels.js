@@ -1,6 +1,6 @@
 
-import { useService } from "@web/core/utils/hooks";
-import { _t } from "@web/core/l10n/translation";
+const { useService } = await import("@web/core/utils/hooks");
+const { _t } = await import("@web/core/l10n/translation");
 
 // Extend the original ChannelSelector class
 export class CustomChannelSelector extends discuss.ChannelSelector {
