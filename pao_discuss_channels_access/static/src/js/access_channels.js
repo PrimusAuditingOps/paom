@@ -1,11 +1,12 @@
 
-odoo.define('pao_discuss_channels_access.custom_feature', [], function (require) {
-    "use strict";
-    const { Component } = require("@odoo/owl");
-  
-    class MyChannelSelector extends Component {
-      // Override the fetchSuggestions function or other methods as needed
-        async fetchSuggestions() {
+import { useService } from "@web/core/utils/hooks";
+import { _t } from "@web/core/l10n/translation";
+
+// Extend the original ChannelSelector class
+export class CustomChannelSelector extends discuss.ChannelSelector {
+
+    // Override the fetchSuggestions method with your custom logic
+    async fetchSuggestions() {
         const cleanedTerm = cleanTerm(this.state.value);
         if (cleanedTerm) {
             if (this.props.category.id === "channels") {
@@ -87,11 +88,5 @@ odoo.define('pao_discuss_channels_access.custom_feature', [], function (require)
         }
         this.state.navigableListProps.options = [];
         return;
-        }
     }
-  
-
-  
-    return MyChannelSelector;
-  });
-  
+}
