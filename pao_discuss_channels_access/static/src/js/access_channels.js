@@ -1,10 +1,9 @@
-// static/src/js/discuss_channel_override.js
-odoo.define('pao_discuss_channels_access.DiscussChannelOverride', [], function (require) {
+
+odoo.define('pao_discuss_channels_access.custom_feature', [], function (require) {
     "use strict";
+    const ChannelSelector = require('discuss.ChannelSelector');
 
-    const DiscussChannelSelector = require('mail.DiscussChannelSelector');
-
-    patch(DiscussChannelSelector.prototype, 'pao_discuss_channels_access.DiscussChannelOverride', {
+    ChannelSelector.include({
         async fetchSuggestions() {
             const cleanedTerm = cleanTerm(this.state.value);
             if (cleanedTerm) {
@@ -16,9 +15,9 @@ odoo.define('pao_discuss_channels_access.DiscussChannelOverride', [], function (
                     const fields = ["name"];
                     const results = await this.sequential(async () => {
                         this.state.navigableListProps.isLoading = true;
+                        
                         const res = await this.orm.searchRead("discuss.channel", domain, fields, {
-                            limit: 10,
-                            context: { sudo: true },  // Add context for sudo permissions
+                            limit: 10, context: { sudo: true },
                         });
                         this.state.navigableListProps.isLoading = false;
                         return res;
