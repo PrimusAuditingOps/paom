@@ -1,5 +1,5 @@
 
-odoo.define('pao_discuss_channels_access.custom_feature', function (require) {
+odoo.define('pao_discuss_channels_access.custom_feature', [], function (require) {
     "use strict";
     const { Component } = require("@odoo/owl");
   
