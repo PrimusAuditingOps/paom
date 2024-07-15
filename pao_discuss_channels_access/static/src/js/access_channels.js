@@ -90,8 +90,7 @@ odoo.define('pao_discuss_channels_access.custom_feature', [], function (require)
         }
     }
   
-    // Register the custom component (optional)
-    Component.register('MyChannelSelector', MyChannelSelector);
+
   
     return MyChannelSelector;
   });
