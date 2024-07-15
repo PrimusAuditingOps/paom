@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="Discuss Channel Access Asset" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/pao_discuss_channels_access/static/src/js/access_channels.js"></script>
+        </xpath>
+    </template>
+</odoo>
