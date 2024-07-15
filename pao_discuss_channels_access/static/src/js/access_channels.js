@@ -1,5 +1,5 @@
 
-const ChannelSelector = require('discuss.ChannelSelector');
+import { ChannelSelector } from 'discuss';
 
 export class OverrideChannelSelector extends ChannelSelector {
     // Override the fetchSuggestions function with your custom logic
