@@ -73,7 +73,7 @@
                                                 
                                                 <!--If there are audits on this day, they'll show up as list of elements -->
                                                 <t t-if="day['slots']">
-                                                    <div class="dropdown-toggle o_slots_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <div class="dropdown-toggle o_slots_dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <strong>
                                                         <span t-esc="day['day'].day"/>
                                                     </strong>
@@ -86,7 +86,7 @@
                                                 </t>
                                                 <!--If this is a No labor day, a message with the description will be displayed -->
                                                 <t t-if="day['weekend_cls'] and (not(day['mute_cls']))">
-                                                    <div class="dropdown-toggle o_slots_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <div class="dropdown-toggle o_slots_dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <strong>
                                                         <span t-esc="day['day'].day"/>
                                                     </strong>
