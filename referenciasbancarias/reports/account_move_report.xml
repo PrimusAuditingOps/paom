@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="account_invoice_cuenta_report_inherit" inherit_id="account.report_invoice_document">
-        <xpath expr="//p[@name='payment_communication']" position="replace">
-        </xpath>
+        <!--<xpath expr="//p[@name='payment_communication']" position="replace">
+        </xpath>-->
         <xpath expr="//div[@name='comment']" position="after">
            <t t-if="not o.move_type == 'in_invoice' and o.country_code == 'MX'">
                 <div style="page-break-after: always;">

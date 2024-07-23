@@ -3,12 +3,11 @@
     <template id="sale_report_inherit" inherit_id= "sale.report_saleorder_document">
 		<!-- Do not replace the td, other base module need it to xpath and remmove the td -->
         
-            <!--<xpath expr="//td[@name='td_section_subtotal']" position="replace">
-                <t t-if="doc.country_code == 'MX'">
-                    <td name="td_section_subtotal" colspan="99">
-                    </td>
-                </t>    
-            </xpath>-->
+        <xpath expr="//td[@name='td_section_subtotal']" position="replace">
+            
+            <td name="td_section_subtotal" colspan="99">
+            </td>
+        </xpath>
         
         <xpath expr="//span[@t-field='doc.note']" position="before">
             <t t-if="doc.country_code == 'MX'">
