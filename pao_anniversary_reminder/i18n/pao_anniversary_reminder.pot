@@ -1,0 +1,607 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_anniversary_reminder
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-16 16:19+0000\n"
+"PO-Revision-Date: 2024-07-16 16:19+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#, python-format
+msgid " and provided the following comments: "
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#, python-format
+msgid "%(number_reminders)s reminders have been added today."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields.selection,name:pao_anniversary_reminder.selection__pao_anniversary_reminder__status__contact_1
+msgid "1st Contact"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields.selection,name:pao_anniversary_reminder.selection__pao_anniversary_reminder__status__contact_2
+msgid "2nd Contact"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields.selection,name:pao_anniversary_reminder.selection__pao_anniversary_reminder__status__contact_3
+msgid "3rd Contact"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:mail.template,body_html:pao_anniversary_reminder.mail_template_anniversary_reminder
+msgid ""
+"<p style=\"font-size:12pt; font-family:Tahoma,sans-serif; line-height:1.0;\">\n"
+"                    Dear: {organization}<br><br>\n"
+"        \n"
+"                    I hope this message finds you well. I would like to take this opportunity to thank you for choosing Primus Auditing Ops to conduct \n"
+"                    your third-party audits. The purpose of my email is to inform you that the certificate with number {registry_number} is about to \n"
+"                    expire, and we would like to begin the Certification process.<br><br>\n"
+"\n"
+"                    We are interested in working with you, so it is necessary for you to contact us to schedule your audit. Please remember that \n"
+"                    scheduling in advance gives us the opportunity to assign the dates you propose.<br><br>\n"
+"\n"
+"                    I remain attentive to any questions and thank you in advance for your support.<br><br>\n"
+"                    \n"
+"                    <a class=\"btn btn-primary mx-4\" href=\"%7Baccept_link%7D\" target=\"_blank\">Accept</a>\n"
+"                    <a class=\"btn btn-primary mx-4\" href=\"%7Breject_link%7D\" target=\"_blank\">Decline</a>\n"
+"                    <br><br>\n"
+"\n"
+"                    Best Regards.<br><br>\n"
+"\n"
+"                    \"If you have already established contact with your coordinator, please disregard this email.\"\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:mail.template,subject:pao_anniversary_reminder.mail_template_anniversary_reminder
+msgid "ANNIVERSARY MAIL "
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/controllers/portal.py:0
+#, python-format
+msgid "Accept"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__access_token
+msgid "Access Token"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.actions.act_window,name:pao_anniversary_reminder.pao_anniversary_reminder_action
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_tree
+msgid "Anniversary Reminder"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:mail.template,name:pao_anniversary_reminder.mail_template_anniversary_reminder
+msgid "Anniversary Reminder Template"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.ui.menu,name:pao_anniversary_reminder.menu_item_anniversary_reminder
+msgid "Anniversary Reminders"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model,name:pao_anniversary_reminder.model_pao_anniversary_reminder
+msgid "Anniversary reminder to customers"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.reminder_response_template
+msgid "Audit Offer"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.send_anniversary_reminder_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
+msgid "Confirm"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields.selection,name:pao_anniversary_reminder.selection__pao_anniversary_reminder__status__confirm
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
+msgid "Confirmed"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__attempt
+msgid "Contact Attempt"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__create_uid
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__create_date
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__display_name
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__email_address
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__email_address
+msgid "Email Address"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.send_anniversary_reminder_view_form
+msgid "Enter Message..."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.send_anniversary_reminder_view_form
+msgid "Enter Subject"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "GLOBALG.A.P."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.actions.server,name:pao_anniversary_reminder.cron_anniversay_reminder_customers_ir_actions_server
+msgid "Get customer to remind about audit anniversary"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "HACCP"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the customer has accepted the offer to schedule "
+"their audit%(observations)s. Please contact them to specify the details"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the customer has rejected the offer to schedule "
+"their audit due to the following reasons: %(reasons)s"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__id
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__id
+msgid "ID"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__message_has_error
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields.selection,name:pao_anniversary_reminder.selection__pao_anniversary_reminder__status__progress
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
+msgid "In Progress"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "LPO"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__language_id
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__language_id
+msgid "Language"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__write_uid
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__write_date
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields.selection,name:pao_anniversary_reminder.selection__pao_anniversary_reminder__status__lost
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
+msgid "Lost"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__mail_template_id
+msgid "Mail Template"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__message
+msgid "Message"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "NOP"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__name
+msgid "Name"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__observations
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.reminder_response_template
+msgid "Observations"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__purchase_order_id
+msgid "Order Reference"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__organization_id
+msgid "Organization"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__organization
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__registry_number
+msgid "Organization Name"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields.selection,name:pao_anniversary_reminder.selection__pao_anniversary_reminder__status__pending
+msgid "Pending"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "Primus Standard GAP"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "Primus Standard GMP"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "PrimusGFS"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.reminder_response_template
+msgid "Reasons"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__registrynumber_id
+msgid "Registry Number"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/controllers/portal.py:0
+#, python-format
+msgid "Reject"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__anniversary_reminder_id
+msgid "Reminder"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#: code:addons/pao_anniversary_reminder/models/send_anniversary_reminder.py:0
+#, python-format
+msgid "Reminder #%(attempt)s sent."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.actions.act_window,name:pao_anniversary_reminder.anniversary_reminder_templates_action
+#: model:ir.ui.menu,name:pao_anniversary_reminder.menu_item_anniversary_reminder_mail_templates
+msgid "Reminder Templates"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#, python-format
+msgid "Reminders have been sent."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "SMETA"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__scheme_name
+msgid "Scheme"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__scheme
+msgid "Scheme Name"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.reminder_response_template
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.send_anniversary_reminder_view_form
+msgid "Send"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model,name:pao_anniversary_reminder.model_send_anniversary_reminder
+msgid "Send Anniversary Reminder"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
+msgid "Send Reminder"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#, python-format
+msgid "Send reminder"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.actions.server,name:pao_anniversary_reminder.send_reminders_action_server
+msgid "Send reminders"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__reminder_sender_id
+msgid "Sender"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__service_start_date
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_search
+msgid "Service Start Date"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__status
+msgid "Status"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_anniversary_reminder__subject
+msgid "Subject"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#, python-format
+msgid "Successfully!"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.reminder_exception_page_view
+msgid "This audit offer has already been responded or does not exist."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
+msgid ""
+"This will modify the record status and cannot be undone. Do you want to "
+"continue?"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model:ir.model.fields,help:pao_anniversary_reminder.field_pao_anniversary_reminder__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.response_sent_template
+msgid "Your response has been sent."
+msgstr ""

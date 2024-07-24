@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pao_anniversary_reminder_view_tree" model="ir.ui.view">
+        <field name="name">pao.anniversary.reminder.view.tree</field>
+        <field name="model">pao.anniversary.reminder</field>
+        <field name="arch" type="xml">
+            <tree string="Anniversary Reminder" create="false" default_order="service_start_date desc">
+                <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="organization_id"/>
+                <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="registrynumber_id"/>
+                <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="scheme_name"/>
+                <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="purchase_order_id" widget="man2one"/>
+                <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="service_start_date"/>
+                <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_anniversary_reminder_view_form" model="ir.ui.view">
+        <field name="name">pao.anniversary.reminder.view.form</field>
+        <field name="model">pao.anniversary.reminder</field>
+        <field name="arch" type="xml">
+            <form string="Anniversary Reminder" create="false">
+                <header>
+                    <!-- <button string="Save" invisible="not id or not edit_mode" type="object" class="oe_highlight" name="save_form"/>
+                    <button string="Discard" invisible="not id or not edit_mode" type="object" class="oe_highlight" name="discard_changes"/>
+                    <button string="Edit" invisible="not id or edit_mode" type="object" class="oe_highlight" name="enable_edit_mode"/> -->
+                    <field name="attempt" invisible="1"/>
+                    <button string="Send Reminder" invisible="attempt &gt;= 3 or status in ['progress', 'confirm', 'lost']" type="object" class="oe_highlight" name="send_reminder_action"/>
+
+                    <button string="In Progress" invisible="attempt &gt;= 3 or status in ['progress', 'confirm', 'lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'progress'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
+                    <button string="Confirmed" invisible="attempt &gt;= 3 or status in ['progress', 'confirm', 'lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'confirm'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
+                    <button string="Lost" invisible="attempt &gt;= 3 or status in ['lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'lost'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
+
+                    <button string="Confirm" invisible="status != 'progress'" type="object" class="oe_highlight mx-3" name="confirm_audit"/>
+
+                    <!-- <button string="Get customers" type="object" class="oe_highlight mx-3" name="get_customers_to_remind"/> -->
+
+                    <!-- <field name="status" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"/> -->
+                    <field name="status" widget="statusbar" options="{'fold_field': 'fold'}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <!-- <field name="edit_mode" invisible="1"/> -->
+                        <field name="id" invisible="1"/>
+                        <field name="organization_id"/>
+                        <field name="registrynumber_id"/>
+                        <field name="purchase_order_id"/>
+                        <field name="service_start_date"/>
+                        <field name="email_address"/>
+                        <field name="language_id"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_anniversary_reminder_view_search" model="ir.ui.view">
+        <field name="name">pao.anniversary.reminder.view.search</field>
+        <field name="model">pao.anniversary.reminder</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="group_service_start_date" string="Service Start Date" context="{'group_by':'service_start_date'}"/>
+
+                <separator/>
+
+                <filter name="filter_gfs" string="PrimusGFS" domain="[('scheme_name', 'ilike', 'PrimusGFS')]"/>
+                <filter name="filter_ggap" string="GLOBALG.A.P." domain="[('scheme_name', 'ilike', 'GLOBALG.A.P.')]"/>
+                <filter name="filter_smeta" string="SMETA" domain="[('scheme_name', 'ilike', 'SMETA')]"/>
+                <filter name="filter_nop" string="NOP" domain="[('scheme_name', 'ilike', 'NOP')]"/>
+                <filter name="filter_lpo" string="LPO" domain="[('scheme_name', 'ilike', 'LPO')]"/>
+                <filter name="filter_gap" string="Primus Standard GAP" domain="[('scheme_name', 'ilike', 'Primus Standard GAP')]"/>
+                <filter name="filter_gmp" string="Primus Standard GMP" domain="[('scheme_name', 'ilike', 'Primus Standard GMP')]"/>
+                <filter name="filter_haccp" string="HACCP" domain="[('scheme_name', 'ilike', 'HACCP')]"/>
+
+                <separator/>
+
+                <field name="organization_id"/>
+                <field name="scheme_name"/>
+                <field name="purchase_order_id"/>
+                <field name="service_start_date"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="pao_anniversary_reminder_action" model="ir.actions.act_window">
+        <field name="name">Anniversary Reminder</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pao.anniversary.reminder</field>
+        <field name="context">{'search_default_group_service_start_date': 1}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="send_reminders_action_server" model="ir.actions.server">
+        <field name="name">Send reminders</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="pao_anniversary_reminder.model_pao_anniversary_reminder"/>
+        <field name="binding_model_id" ref="pao_anniversary_reminder.model_pao_anniversary_reminder"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                for rec in records:
+                    action = rec.send_mass_reminders()
+        </field>
+    </record>
+</odoo>
