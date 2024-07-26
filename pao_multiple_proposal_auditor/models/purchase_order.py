@@ -126,9 +126,4 @@ class PurchaseOrder(models.Model):
                 'target': 'new',
             }
         else:
-            return {
-                    'warning': {
-                        'title': "Warning",
-                        'message': _('No auditors were found to carry out the audits.'),
-                    },
-                }
+            raise ValidationError(_('No auditors were found to carry out the audits.'))
