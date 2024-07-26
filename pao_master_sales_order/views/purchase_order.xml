@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_child_orders_view_form" model="ir.ui.view">
+        <field name="name">purchase.order.child.orders.view.form</field>
+        <field name="model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="servicereferralagreement.purchase_order_sale_view_form"/>
+        <field name="arch" type="xml">    
+
+            <field name="sale_order_id" position="attributes">
+                 <attribute name="domain">[('pao_is_a_child_sales_order', '!=', True)]</attribute>
+            </field>
+                    
+        </field>
+        
+    </record>
+</odoo> 
