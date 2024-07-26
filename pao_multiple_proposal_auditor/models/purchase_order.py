@@ -106,19 +106,29 @@ class PurchaseOrder(models.Model):
 
     def send_multiple_proposal(self):
 
+        auditors = self._get_auditor_languages()
+        auditors = self._get_approved_auditor(auditors)
+        auditors = self._get_auditors_without_veto_organization(auditors)
+        auditors = self._get_auditors_without_veto_customer(auditors)
 
-
-
-        return {
-            'name': _('Multiple proposal auditor'),
-            'domain': [],
-            'res_model': 'multiple.proposal.auditor.request',
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'context': {
-                'default_purchase_order_id': self.id,
-                'default_auditor_ids': [35177,32141],
-            },
-            'target': 'new',
-        }
+        if len(auditors) > 0:
+            return {
+                'name': _('Multiple proposal auditor'),
+                'domain': [],
+                'res_model': 'multiple.proposal.auditor.request',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'context': {
+                    'default_purchase_order_id': self.id,
+                    'default_auditor_ids': auditors,
+                },
+                'target': 'new',
+            }
+        else:
+            return {
+                    'warning': {
+                        'title': "Warning",
+                        'message': _('No auditors were found to carry out the audits.'),
+                    },
+                }
