@@ -34,11 +34,11 @@ class PurchaseOrder(models.Model):
     def _get_approved_auditor(self, auditor_ids):
 
         products_ids = []
-        product_len = [ p.product_id.id for p in self.order_line ] 
+        products_ids = [ p.product_id.id for p in self.order_line ] 
+        product_len = len(products_ids)
+        
         params = {}
-        
-
-        
+                
         if product_len > 0 and len(auditor_ids) > 0:
             #Get Approved Auditors
             sql = """
