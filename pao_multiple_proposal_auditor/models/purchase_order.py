@@ -60,13 +60,9 @@ class PurchaseOrder(models.Model):
     
     def _get_auditors_without_veto_organization(self,auditor_ids):
         
-        organization_ids = [] 
+        organization_ids = [ l.organization_id.id for l in self.order_line if l.organization_id ] 
+    
         organization_auditors = []
-
-        for l in self.order_line:
-            organization_ids.append(l.organization_id.id)  
-
-        
 
         if len(organization_ids) > 0 and len(auditor_ids) > 0:
             sql = """
