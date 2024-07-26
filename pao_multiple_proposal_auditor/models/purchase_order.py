@@ -18,7 +18,7 @@ class PurchaseOrder(models.Model):
     def _get_auditor_languages(self):
         auditor_ids = []
         auditors_list = []
-        recPartner = self.env["res.partner"].search([("ado_is_auditor","=", True)])
+        recPartner = self.env["res.partner"].search([("ado_is_auditor","=", True), ("company_id","=",self.company_id)])
         if len(self.language_ids) > 0:
             for r in recPartner:
                 auditors_list.append(r.id)    
@@ -34,9 +34,10 @@ class PurchaseOrder(models.Model):
     def _get_approved_auditor(self, auditor_ids):
 
         products_ids = []
-        product_len = len(products_ids)
+        product_len = [ p.product_id.id for p in self.order_line ] 
         params = {}
         
+
         
         if product_len > 0 and len(auditor_ids) > 0:
             #Get Approved Auditors
@@ -51,14 +52,15 @@ class PurchaseOrder(models.Model):
                 'products_ids': tuple(products_ids),
                 'products_lenght': product_len,
             }
-            #request.env.cr.execute(sql, params)
-            #result = request.env.cr.dictfetchall()
+            self.env.cr.execute(sql, params)
+            result = self.env.cr.dictfetchall()
 
-            #auditor_ids = [r['res_partner_id'] for r in result]
+            auditor_ids = [r['res_partner_id'] for r in result]
         return auditor_ids
     
-    def _get_auditors_without_veto_organization(self,auditor_ids,organization_ids):
+    def _get_auditors_without_veto_organization(self,auditor_ids):
         
+        organization_ids = [ l.organization_id.id for l in self.order_line ] 
 
         organization_auditors = []
 
@@ -73,33 +75,32 @@ class PurchaseOrder(models.Model):
                 'partner_ids': tuple(auditor_ids),
                 'organization_ids': tuple(organization_ids),
             }
-            #request.env.cr.execute(sql, params)
-            #result = request.env.cr.dictfetchall()
+            self.env.cr.execute(sql, params)
+            result = self.env.cr.dictfetchall()
 
-            #organization_auditors = [r['id'] for r in result]
+            organization_auditors = [r['id'] for r in result]
            
         return [auditor for auditor in auditor_ids if auditor not in organization_auditors]
     
-    def _get_auditors_without_veto_customer(self,auditor_ids,sale_order_id):
+    def _get_auditors_without_veto_customer(self,auditor_ids):
         customer_auditors = []
-        if sale_order_id and len(auditor_ids) > 0:
-            rec_sale_order = self.env['sale.order'].browse(sale_order_id)
-            if rec_sale_order.partner_id:
-                sale_partner_id = [rec_sale_order.partner_id.id]
-                sql = """
-                    SELECT DISTINCT res_partner_id AS id FROM 
-                    assignment_auditor_blocked_company_res_partner_rel 
-                    WHERE res_partner_id IN %(partner_ids)s AND 
-                    assignment_blocked_company_id IN %(sale_partner_id)s 
-                """
-                params = {
-                    'partner_ids': tuple(auditor_ids),
-                    'sale_partner_id': tuple(sale_partner_id),
-                }
-                #request.env.cr.execute(sql, params)
-                #result = request.env.cr.dictfetchall()
+        if self.sale_order_id and len(auditor_ids) > 0:
 
-                #customer_auditors = [r['id'] for r in result]
+            sale_partner_id = [self.sale_order_id.partner_id.id]
+            sql = """
+                SELECT DISTINCT res_partner_id AS id FROM 
+                assignment_auditor_blocked_company_res_partner_rel 
+                WHERE res_partner_id IN %(partner_ids)s AND 
+                assignment_blocked_company_id IN %(sale_partner_id)s 
+            """
+            params = {
+                'partner_ids': tuple(auditor_ids),
+                'sale_partner_id': tuple(sale_partner_id),
+            }
+            self.env.cr.execute(sql, params)
+            result = self.env.cr.dictfetchall()
+
+            customer_auditors = [r['id'] for r in result]
             
         return [auditor for auditor in auditor_ids if auditor not in customer_auditors]
 
@@ -117,8 +118,6 @@ class PurchaseOrder(models.Model):
             'view_type': 'form',
             'context': {
                 'default_purchase_order_id': self.id,
-                'default_purchase_order_id': self.id,
-                'default_purchase_order_id': self.id
             },
             'target': 'new',
         }

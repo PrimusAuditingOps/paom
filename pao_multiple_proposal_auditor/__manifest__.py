@@ -20,8 +20,8 @@
     ],
     'data' : [
         #'security/groups.xml',
-        #'security/ir.model.access.csv',
-        #'views/res_partner_views.xml',
+        'security/ir.model.access.csv',
+        'views/purchase_order_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
