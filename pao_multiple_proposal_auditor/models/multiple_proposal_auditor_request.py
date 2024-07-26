@@ -36,7 +36,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
         self.message = self.mail_template_id.body_html
         self.subject = self.mail_template_id.subject
         
-    def send_request(self):
+    def send_multiple_proposal(self):
         self.ensure_one()
 
         """
