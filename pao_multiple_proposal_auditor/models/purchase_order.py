@@ -61,7 +61,7 @@ class PurchaseOrder(models.Model):
     def _get_auditors_without_veto_organization(self,auditor_ids):
         
         organization_ids = [ l.organization_id.id for l in self.order_line ] 
-
+        _logger.error(organization_ids)
         organization_auditors = []
 
         if len(organization_ids) > 0 and len(auditor_ids) > 0:
