@@ -118,6 +118,7 @@ class PurchaseOrder(models.Model):
             'view_type': 'form',
             'context': {
                 'default_purchase_order_id': self.id,
+                'default_auditor_ids': [45,65],
             },
             'target': 'new',
         }
