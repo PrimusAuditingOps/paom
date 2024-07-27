@@ -13,7 +13,17 @@ _logger = getLogger(__name__)
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-
+    audit_status_muilti_proposal = fields.Selection(
+        selection=[
+            ('not_sent', "Not sent"),
+            ('sent', "Sent"),
+            ('done', "Done"),
+        ],
+        default='not_sent',
+        string="Audit status multiple proposal", 
+        readonly=True, 
+        copy=False,
+    )
 
     def _get_auditor_languages(self):
         auditor_ids = []

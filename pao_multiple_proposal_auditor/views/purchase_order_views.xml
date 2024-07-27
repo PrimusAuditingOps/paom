@@ -42,8 +42,10 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='button_done']" position="after">  
-              <button name="send_multiple_proposal" class="oe_highlight" type="object" string="Send multiple proposal" invisible="0"/>        
+            <xpath expr="//button[@name='button_done']" position="after"> 
+              <field name="audit_status_muilti_proposal" invisible="1"/> 
+              <button name="send_multiple_proposal" class="oe_highlight" type="object" string="Send multiple proposal" 
+              invisible="audit_status_muilti_proposal != 'not_sent' OR state != 'draft'"/>        
             </xpath>
         </field>
     </record>
