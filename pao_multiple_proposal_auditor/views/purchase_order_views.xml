@@ -15,7 +15,7 @@
                     <field name="purchase_order_id" invisible="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                     <field name="auditor_ids" placeholder="Write email or search contact..." widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                    
-                    <label for="range_start_date" string="Range Date"/>
+                    <label for="range_start_date" string="Date range"/>
                     <div>
                         <field name="range_start_date" widget="daterange"
                             options="{'end_date_field': 'range_end_date'}"/>
