@@ -13,7 +13,7 @@ class auditor_response_multi_proposal(models.Model):
     _description = 'Auditor response multi-proposal'
 
 
-    auditor_id = fields.Many2One('res.partner', string="Auditor",)
+    auditor_id = fields.Many2one('res.partner', string="Auditor",)
 
     status = fields.Selection(
         selection=[

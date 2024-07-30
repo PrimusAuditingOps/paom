@@ -16,6 +16,7 @@
         'pao_base',
         'purchase',
         'web',
+        'portal',
         'servicereferralagreement',
     ],
     'data' : [
