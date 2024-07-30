@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- FLEET VEHICLE INHERIT VIEWS -->
+
+        <record id="fleet_vehicle_view_inh_view_type" model="ir.ui.view">
+            <field name="name">fleet.vehicle.view.inh.view_type</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='license_plate']" position="after">
+                    <br/>
+                    <label for="number_vehicle" class="oe_edit_only"/>
+                    <h2>
+                        <field name="number_vehicle" class="oe_inline" placeholder="e.g. #1"/>
+                    </h2>
+                </xpath>
+
+                <xpath expr="//field[@name='vin_sn']" position="replace">
+                    <field name="vin_sn" string="VIN"/>
+                </xpath>
+
+                <xpath expr="//field[@name='acquisition_date']" position="replace">
+                    <field name="acquisition_date" string="Registration Date"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
