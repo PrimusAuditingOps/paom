@@ -19,8 +19,8 @@ class WebMultipleProposal(portal.CustomerPortal):
             purchase_order_sudo = self._document_check_access('purchase.order', int(id), access_token=str(token))
             
             recAuditorRes = filter(lambda x: x['auditor_id'].id == request.env.user.partner_id.id, purchase_order_sudo.pao_auditior_response_ids)
-
-            _logger.error(recAuditorRes)
+            for r in recAuditorRes:
+                _logger.error(r["auditor_id"])
             
             _logger.error("entro con user")
         except (AccessError, MissingError):
