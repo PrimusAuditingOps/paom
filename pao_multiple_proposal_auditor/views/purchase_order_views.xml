@@ -48,6 +48,19 @@
               <button name="send_multiple_proposal" class="oe_highlight" type="object" string="Send multiple proposal" 
               invisible="audit_status_muilti_proposal != 'not_sent' or state != 'draft'"/>        
             </xpath>
+
+            
+
+            <page name="purchase_delivery_invoice" position="after">
+                <page string="Auditor's multiple proposal responses">
+                    <field name="pao_auditior_response_ids" readonly="1" widget="many2many">
+                        <tree string="Auditor's multiple proposal responses">
+                            <field name="auditor_id"/>
+                            <field name="status"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
         </field>
     </record>
 
