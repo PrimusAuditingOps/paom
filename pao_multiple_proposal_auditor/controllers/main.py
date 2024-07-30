@@ -20,7 +20,9 @@ class WebMultipleProposal(portal.CustomerPortal):
             
             recAuditorRes = filter(lambda x: x['auditor_id'].id == request.env.user.partner_id.id, purchase_order_sudo.pao_auditior_response_ids)
             for r in recAuditorRes:
+                _logger.error(r)
                 _logger.error(r["auditor_id"])
+                _logger.error(r["status"])
             
             _logger.error("entro con user")
         except (AccessError, MissingError):
