@@ -31,6 +31,8 @@ class MultipleProposalAuditorRequest(models.TransientModel):
         string='Purchase Order',
         ondelete='cascade',
     )
+    range_start_date = fields.Date(string="Range start date", required=True)
+    range_end_date = fields.Date(string="Range end date", required=True)
     @api.onchange('mail_template_id')
     def _change_mail_template(self):
         self.message = self.mail_template_id.body_html
@@ -41,10 +43,16 @@ class MultipleProposalAuditorRequest(models.TransientModel):
         
         auditor_response_vals = []
         for r in self.auditor_ids:
-            auditor_response_vals.append({"auditor_id": r.id, "status": 'not_confirmed', "purchase_id": self.purchase_order_id.id})
+            auditor_response_vals.append({"auditor_id": r.id, "status": 'pending', "purchase_id": self.purchase_order_id.id})
         
         self.env["auditor.response.multi.proposal"].create(auditor_response_vals)
-        self.purchase_order_id.write({"audit_status_muilti_proposal": 'sent'})
+        self.purchase_order_id.write(
+            {
+                "audit_status_muilti_proposal": 'sent', 
+                "multi_proposal_range_start_date": self.range_start_date, 
+                "multi_proposal_range_end_date": self.range_end_date
+            }
+        )
         self.purchase_order_id._portal_ensure_token()
 
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')

@@ -17,11 +17,11 @@ class auditor_response_multi_proposal(models.Model):
 
     status = fields.Selection(
         selection=[
-            ('not_confirmed', "Not confirmed"),
+            ('pending', "Pending"),
             ('accepted', "Accepted"),
             ('declined', "Declined"),
         ],
-        default='not_confirmed',
+        default='pending',
         string="Status", 
         readonly=True, 
         copy=False,

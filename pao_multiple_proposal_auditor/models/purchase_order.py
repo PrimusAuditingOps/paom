@@ -29,6 +29,8 @@ class PurchaseOrder(models.Model):
         inverse_name='purchase_id',
         string='Auditor multiple proposal responses',
     )
+    multi_proposal_range_start_date = fields.Date(string="Range start date")
+    multi_proposal_range_end_date = fields.Date(string="Range end date")
    
 
     def _get_auditor_languages(self):
