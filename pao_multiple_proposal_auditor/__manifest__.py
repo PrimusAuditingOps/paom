@@ -20,8 +20,10 @@
     ],
     'data' : [
         #'security/groups.xml',
+        'data/multiple_proposal_template.xml',
         'security/ir.model.access.csv',
         'views/purchase_order_views.xml',
+
     ],
     'assets': {
         'web.assets_backend': [

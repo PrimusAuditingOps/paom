@@ -38,33 +38,26 @@ class MultipleProposalAuditorRequest(models.TransientModel):
         
     def send_multiple_proposal(self):
         self.ensure_one()
-
-        """
-
-        sa = self.env['pao.sign.sa.agreements.sent'].create({
-            'signer_id': self.signer_id.id,
-            'signer_email': self.signer_id.email,
-            'position': self.position,
-            'registration_numbers_ids': self.registration_numbers_ids,
-            'sale_order_id': self.sale_order_id.id,
-            'subject': self.subject,
-            'message': self.message,
-            'reminder_days': self.reminder_days,
-            'follower_ids': self.follower_ids,
-
-        })
+        
+        auditor_response_vals = []
+        for r in self.auditor_ids:
+            auditor_response_vals.append({"auditor_id": r.id, "status": 'not_confirmed', "purchase_id": self.purchase_order_id.id})
+        
+        self.env["auditor.response.multi.proposal"].create(auditor_response_vals)
+        self.purchase_order_id.write({"audit_status_muilti_proposal": 'sent'})
+        self.purchase_order_id._portal_ensure_token()
 
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        link = url_join(base_url, '/sign/sa/%s/%s' % (sa.id, sa.access_token)),
+        link = url_join(base_url, '/multiple/proposal/%s/%s' % (self.purchase_order_id.id, self.purchase_order_id.access_token)),
 
-        signer_lang = get_lang(self.env, lang_code=self.signer_id.lang).code
+        
        
         for auditor in self.auditor_ids:
             auditor_lang = get_lang(self.env, lang_code=auditor.lang).code
-            body =  self.env['ir.ui.view'].with_context(lang=auditor_lang)._render_template('pao_sign_sa.sa_template_mail_request_followers', 
+            body =  self.env['ir.ui.view'].with_context(lang=auditor_lang)._render_template('pao_multiple_proposal_auditor.pao_multiple_proposal_auditor_template_mail', 
                 {
-                    'record': sa,
-                    'subject': self.subject,
+                    'link': link,
+                    'auditor_name': auditor.name,
                     'body': self.message if self.message != '<p><br></p>' else False,
                 }
             )
@@ -72,8 +65,8 @@ class MultipleProposalAuditorRequest(models.TransientModel):
 
             mail = self._message_send_mail(
                 body, 'mail.mail_notification_light',
-                {'record_name': sa.title},
-                {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
+                {'record_name': ''},
+                {'model_description': _('Audit proposal'), 'company': self.create_uid.company_id},
                 {'email_from': self.create_uid.email_formatted,
                     'author_id': self.create_uid.partner_id.id,
                     'email_to': auditor.email_formatted,
@@ -82,7 +75,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
                 lang=auditor_lang,
             )
 
-        """
+
     def _message_send_mail(self, body, notif_template_xmlid, message_values, notif_values, mail_values, force_send=False, **kwargs):
         
         default_lang = get_lang(self.env, lang_code=kwargs.get('lang')).code

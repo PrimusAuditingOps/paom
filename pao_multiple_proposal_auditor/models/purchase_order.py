@@ -24,6 +24,12 @@ class PurchaseOrder(models.Model):
         readonly=True, 
         copy=False,
     )
+    pao_auditior_response_ids = fields.One2many(
+        comodel_name='auditor.response.multi.proposal',
+        inverse_name='purchase_id',
+        string='Auditor multiple proposal responses',
+    )
+   
 
     def _get_auditor_languages(self):
         auditor_ids = []
