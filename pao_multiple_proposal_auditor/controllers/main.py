@@ -26,7 +26,7 @@ class WebMultipleProposal(portal.CustomerPortal):
                 recAuditorRes = filter(lambda x: x['auditor_id'].id == request.env.user.partner_id.id, purchase_order_sudo.pao_auditior_response_ids)
                 for r in recAuditorRes:
                     if r.status == "pending":
-                        return request.render('pao_multiple_proposal_auditor.multiple_proposal_portal_template', {})
+                        return request.render('pao_multiple_proposal_auditor.multiple_proposal_portal_template', {"purchase":purchase_order_sudo})
                     else:
                         return request.render('pao_multiple_proposal_auditor.pao_multiple_proposal_exception_page_view', {})
 
