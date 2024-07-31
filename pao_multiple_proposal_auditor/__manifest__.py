@@ -24,6 +24,7 @@
         'data/multiple_proposal_template.xml',
         'security/ir.model.access.csv',
         'views/purchase_order_views.xml',
+        'views/portal_multiple_proposal.xml',
 
     ],
     'assets': {
