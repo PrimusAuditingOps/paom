@@ -26,6 +26,9 @@ class auditor_response_multi_proposal(models.Model):
         readonly=True, 
         copy=False,
     )
+    comments = fields.Text(
+        string="Comments", 
+    )
 
     purchase_id = fields.Many2one(
         comodel_name='purchase.order',

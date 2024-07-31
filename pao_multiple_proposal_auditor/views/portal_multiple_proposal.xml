@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="multiple_proposal_portal_template" name="SA Portal Template">
+    <template id="multiple_proposal_portal_template" name="Auditor's proposal">
         <t t-call="web.frontend_layout">
             <!-- Page content -->
             <div id="multiple_proposal_content" class="col-12 col-md-9 justify-content-end">
@@ -33,10 +33,10 @@
                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                     <input type="hidden" name="order_id" t-att-value="purchase.id"/>
                                     <input type="hidden" name="access_token" t-att-value="purchase.access_token"/>
-                                    <label for="travelexpenses">Please add your comments:</label>
-                                    <textarea class="form-control" id="travelexpenses" name="travelexpenses" rows="4"></textarea>
-                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                    <button type="submit" class="btn btn-primary">Decline</button>
+                                    <label for="comments">Please add your comments:</label>
+                                    <textarea class="form-control" id="comments" name="comments" rows="4"></textarea>
+                                    <button type="submit" class="btn btn-primary" value="accept" id="event_accept" name="event_accept">Accept</button>
+                                    <button type="submit" class="btn btn-primary" value="decline" id="event_decline" name="event_decline">Decline</button>
                                 </div>
                             </div>
                         </form>    
@@ -49,4 +49,23 @@
             </div>
         </t>
     </template>
+    <template id="pao_multiple_proposal_exception_page_view" name="Proposal not found">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">The proposal has already been answered or is closed.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="pao_multiple_proposal_response_page_view" name="Auditor's proposal message">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">Thank you, we appreciate your response!</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
 </odoo>
