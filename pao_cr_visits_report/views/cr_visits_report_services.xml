@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_cr_visits_report_services_view_form" model="ir.ui.view">
+        <field name="name">pao.cr.visits.report.services.view.form</field>
+        <field name="model">pao.cr.visits.report.services</field>
+        <field name="arch" type="xml">
+            <form string="CR visits report services Form">
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="short_name"/>
+                    </group>
+                    <notebook>
+                       <page string="Products">
+                            <field name="products_ids" widget="section_and_note_one2many">
+                                <tree string="Registered Products" editable="bottom">
+                                    <control>
+                                        <create name="add_product_control" string="Add a product"/>
+                                    </control>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="list_price_product" widget="monetary"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pao_cr_visits_report_services_view_tree" model="ir.ui.view">
+        <field name="name">pao.cr.visits.report.services.view.tree</field>
+        <field name="model">pao.cr.visits.report.services</field>
+        <field name="arch" type="xml">
+            <tree string="CR Visits Report Services Tree">
+               
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_cr_visits_report_services_action" model="ir.actions.act_window">
+        <field name="name">CR Visits Report services</field>
+        <field name="res_model">pao.cr.visits.report.services</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first CR visits report services
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pao_cr_visits_report_services"
+            name="CR Visits Report services"
+            parent="crm.crm_menu_sales"
+            action="pao_cr_visits_report_services_action"
+            sequence="7"/>
+
+</odoo>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_crm_gain_loss_tracker" model="mail.template">
+            <field name="name">Sale order: CRM test</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">test</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html" type="html">
+                <p style="padding: 0px; font-size: 13px;">
+                    <span>Hello ${object.partner_id.name},</span>
+                    <br/>
+                    <br/>
+                    <span>Thank you for contacting us earlier today.</span>
+                    <br/>
+                    <br/>
+                    <span>
+                        As we discussed, I wanted to provide you with access to the documentation 
+                        related to the PrimusGFS audit. You can find the documents by following the 
+                        link below. Please navigate past the Addendums section and focus on the General 
+                        Regulations, Questions &amp; Expectations, and Interpretation Guidelines. For a 
+                        Cooler/Cooler Cold Storage operation, please note that you will need to undergo 
+                        audits for Module 1: Food Safety Management System, Module 5: Facility, and 
+                        Module 6: HACCP. Module 7: Preventive Control is optional.
+                    </span>
+                    <br/>
+                    <br/>
+                    <a href="https://primusauditingops.com/primusgfs/" target="_blank">
+                        <span>PrimusGFS Documentation</span>
+                    </a>
+                    <br/>
+                    <br/>
+                    <span>
+                        For your convenience, I'm also sharing a link to our 
+                        <a href="https://intranet.primuslabs.com/Toolkit/User/Default.aspx" target="_blank">
+                            <span>Toolkit</span>
+                        </a>, which can be a valuable resource for creating SOPs, logs, forms, and more.
+                    </span>
+                    <br/>
+                    <br/>
+                    <span>
+                        When you're ready to schedule either a Pre-Assessment audit or a regular audit, 
+                        please complete the attached application form. Additionally, please provide a 
+                        HACCP flow chart illustrating the product's journey from receipt at your 
+                        facility to its departure.
+                        <br/>
+                        <br/>
+                        Lastly, I have included a quote for your reference. Should you have any
+                        questions or concerns, please don't hesitate to reach out.
+                        <br/>
+                        <br/>
+                        Kind regards,
+                    </span>
+                </p> 
+            </field>
+            <field name="lang">${object.partner_id.lang}</field>
+        </record>        
+    </data>
+</odoo>

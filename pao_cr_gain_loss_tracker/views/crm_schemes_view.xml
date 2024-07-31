@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_crm_schemes_view_form" model="ir.ui.view">
+        <field name="name">pao.crm.schemes.view.form</field>
+        <field name="model">pao.cr.schemes</field>
+        <field name="arch" type="xml">
+            <form string="CRM Schemes Form">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pao_crm_schemes_view_tree" model="ir.ui.view">
+        <field name="name">pao.crm.schemes.view.tree</field>
+        <field name="model">pao.cr.schemes</field>
+        <field name="arch" type="xml">
+            <tree string="CRM Schemes Tree">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="pao_crm_schemes_action" model="ir.actions.act_window">
+        <field name="name">CRM Schemes</field>
+        <field name="res_model">pao.cr.schemes</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first CRM Scheme
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="pao_crm_schemes_menu"
+        name="CRM Schemes"
+        parent="crm.menu_crm_config_lead"
+        action="pao_crm_schemes_action"
+        groups="sales_team.group_sale_manager"
+        sequence="7"/>
+</odoo>
