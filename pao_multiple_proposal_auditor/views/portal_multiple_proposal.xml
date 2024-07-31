@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="multiple_proposal_portal_template" name="SA Portal Template">
+        <t t-call="web.frontend_layout">
+            <!-- Page content -->
+            <div id="multiple_proposal_content" class="col-12 col-md-9 justify-content-end">
+                
+                <div class="row">
+                    <div class="col-12">
+                        <p style="text-align:justify;">
+                            Please consider the request for the following auditing services, which we thought might be of interest. 
+                            The auditee has provided a tentative request for a specific date(s) for the audit to be performed, 
+                            as noted below: 
+                            <br/>
+                            <span t-field="purchase.multi_proposal_range_start_date"/> - <span t-field="purchase.multi_proposal_range_end_date"/>
+                        </p>
+                        <p style="text-align:justify;">
+                            Let us know your response:
+                            <ul>
+                                <li>
+                                    If you are not available on the date(s) indicated, provide alternate dates and we will see if the auditee 
+                                    is open to negotiation with respect to your availability.
+                                </li>
+                                <li>
+                                    If interested in the audit(s), provide a breakdown of your projected travel expenses per Primus Auditing 
+                                    Operations Expense Policy.
+                                </li>
+                            </ul>
+                        </p>
+                        <form id="multi_proposal_form" method="POST" t-attf-action="/multiple/proposal/response" class="col-md-6" style="margin: auto;">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="order_id" t-att-value="purchase.id"/>
+                                    <input type="hidden" name="access_token" t-att-value="purchase.access_token"/>
+                                    <label for="travelexpenses">Please add your comments:</label>
+                                    <textarea class="form-control" id="travelexpenses" name="travelexpenses" rows="4"></textarea>
+                                    <button type="submit" class="btn btn-primary">Accept</button>
+                                    <button type="submit" class="btn btn-primary">Decline</button>
+                                </div>
+                            </div>
+                        </form>    
+                        <p style="text-align:justify;">
+                            Please see the information below to know auditing service details.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </t>
+    </template>
+</odoo>
