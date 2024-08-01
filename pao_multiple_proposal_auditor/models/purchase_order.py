@@ -122,8 +122,13 @@ class PurchaseOrder(models.Model):
             
         return [auditor for auditor in auditor_ids if auditor not in customer_auditors]
 
+    
+    def close_multiple_proposal(self):
+        self.ensure_one()
+        self.write({"audit_status_muilti_proposal":'done'})
+    
     def send_multiple_proposal(self):
-
+        self.ensure_one()
         auditors = self._get_auditor_languages()
         auditors = self._get_approved_auditor(auditors)
         auditors = self._get_auditors_without_veto_organization(auditors)

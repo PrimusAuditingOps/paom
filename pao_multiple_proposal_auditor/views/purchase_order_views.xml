@@ -53,7 +53,9 @@
               <field name="audit_status_muilti_proposal" invisible="1"/> 
                <field name="state" invisible="1"/> 
               <button name="send_multiple_proposal" class="oe_highlight" type="object" string="Send multiple proposal" 
-              invisible="audit_status_muilti_proposal != 'not_sent' or state != 'draft'"/>        
+              invisible="audit_status_muilti_proposal != 'not_sent' or state != 'draft'"/> 
+              <button name="close_multiple_proposal" class="oe_highlight" type="object" string="Close multiple proposal" 
+              invisible="audit_status_muilti_proposal != 'sent' or state != 'draft'"/>       
             </xpath>
 
             
@@ -64,6 +66,7 @@
                         <tree string="Auditor's multiple proposal responses">
                             <field name="auditor_id"/>
                             <field name="status" widget="badge" decoration-success="status == 'accepted'" decoration-danger="status == 'declined'"/>
+                            <field name="comments"/>
                         </tree>
                     </field>
                 </page>

@@ -29,7 +29,8 @@ class WebMultipleProposal(portal.CustomerPortal):
                         return request.render('pao_multiple_proposal_auditor.multiple_proposal_portal_template', {"purchase":purchase_order_sudo})
                     else:
                         return request.render('pao_multiple_proposal_auditor.pao_multiple_proposal_exception_page_view', {})
-
+            
+            return request.render('pao_multiple_proposal_auditor.pao_multiple_proposal_exception_page_view', {})
 
         except (AccessError, MissingError):
             return request.redirect('/') 
