@@ -56,6 +56,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
         self.purchase_order_id._portal_ensure_token()
 
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        _logger.error(base_url)
         link = url_join(base_url, '/multiple/proposal/%s/%s' % (self.purchase_order_id.id, self.purchase_order_id.access_token)),
 
         _logger.error(link)
