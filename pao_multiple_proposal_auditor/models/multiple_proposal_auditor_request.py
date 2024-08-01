@@ -58,7 +58,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         link = url_join(base_url, '/multiple/proposal/%s/%s' % (self.purchase_order_id.id, self.purchase_order_id.access_token)),
 
-        
+        _logger.error(link)
        
         for auditor in self.auditor_ids:
             auditor_lang = get_lang(self.env, lang_code=auditor.lang).code
