@@ -55,17 +55,13 @@ class MultipleProposalAuditorRequest(models.TransientModel):
         )
         self.purchase_order_id._portal_ensure_token()
 
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        _logger.error(base_url)
-        link = url_join(base_url, '/multiple/proposal/%s/%s' % (self.purchase_order_id.id, self.purchase_order_id.access_token)),
 
-        _logger.error(link)
        
         for auditor in self.auditor_ids:
             auditor_lang = get_lang(self.env, lang_code=auditor.lang).code
             body =  self.env['ir.ui.view'].with_context(lang=auditor_lang)._render_template('pao_multiple_proposal_auditor.pao_multiple_proposal_auditor_template_mail', 
                 {
-                    'link': link,
+                    'link': '/multiple/proposal/%s/%s' % (self.purchase_order_id.id, self.purchase_order_id.access_token),
                     'auditor_name': auditor.name,
                     'body': self.message if self.message != '<p><br></p>' else False,
                 }
