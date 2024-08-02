@@ -29,7 +29,7 @@ class ResPartner(models.Model):
                 result = super(ResPartner, self).create(vals)
                 return result
         else:
-            result = super(ResPartner, self).create(vals)
+            result = super(ResPartner, self).create(vals_list)
             return result
 
 
