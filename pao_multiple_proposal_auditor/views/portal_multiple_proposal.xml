@@ -46,8 +46,9 @@
                             Please see the information below to know auditing service details.
                         </p>
                         <p style="text-align:justify;font-weight:bold;" class="text-center">
-                            State: <span t-field="purchase.audit_state_id"/>  
-                            City: <span t-field="purchase.audit_city_id"/>
+                            <strong>State: </strong><span t-field="purchase.audit_state_id"/>  
+                            <br/>
+                            <strong>City: </strong><span t-field="purchase.audit_city_id"/>
                             <br/>
                             <table class="table">
                                 <thead class="thead-dark" style="text-align:center">
