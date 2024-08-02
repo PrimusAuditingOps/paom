@@ -89,6 +89,8 @@ class PaoAnniversaryReminder(models.Model):
                     'subject': subject,
                     'body_html': message,
                     'email_to': record.email_address,
+                    'email_cc': template.email_cc,
+                    'attachment_ids': template.attachment_ids
                 }
                 mail = self.env['mail.mail'].create(mail_values)
                 mail.sudo().send()
@@ -102,13 +104,15 @@ class PaoAnniversaryReminder(models.Model):
                 
                 title = _("Successfully!")
                 message = _("Reminders have been sent.")
+                
                 return {
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
                     'params': {
+                        'type': 'success',
                         'title': title,
                         'message': message,
-                        'sticky': False,
+                        'next': {'type': 'ir.actions.client', 'tag': 'reload'}
                     }
                 }
     

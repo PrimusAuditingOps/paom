@@ -50,10 +50,13 @@ class SendAnniversaryReminder(models.TransientModel):
         for record in self:
             if record.subject and record.message and record.organization and record.email_address:
                 
+                template = record.mail_template_id
                 mail_values = {
                     'subject': record.subject,
                     'body_html': record.message,
                     'email_to': record.email_address,
+                    'email_cc': template.email_cc,
+                    'attachment_ids': template.attachment_ids
                 }
                 mail = self.env['mail.mail'].create(mail_values)
                 mail.sudo().send()
