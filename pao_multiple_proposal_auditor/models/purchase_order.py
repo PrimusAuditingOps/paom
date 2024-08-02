@@ -41,7 +41,7 @@ class PurchaseOrder(models.Model):
             for r in recPartner:
                 auditors_list.append(r.id)    
                 for l in self.language_ids:
-                    if l not in r.language_ids.ids:
+                    if l.id not in r.language_ids.ids:
                         auditor_ids.append(r.id)
                         break
         else:
