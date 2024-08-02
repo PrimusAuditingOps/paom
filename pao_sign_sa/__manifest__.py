@@ -34,6 +34,7 @@
         'reports/sa_header_footer_lpo_ue.xml',
         'reports/sa_header_footer_sustentabilidad.xml',
         'reports/sa_header_footer_add_ggap.xml',
+        'reports/sa_header_footer_gfs_usa.xml',
         
         # views
         'views/sa_portal_template.xml',
@@ -50,6 +51,7 @@
         'views/sa_agreements_sent.xml',
         'views/sa_sustentabilidad_scheme.xml',
         'views/sa_add_globalgap_scheme.xml',
+        'views/sa_pgfs_scheme_usa.xml',
     ],
     'assets': {
         'web.assets_frontend': [

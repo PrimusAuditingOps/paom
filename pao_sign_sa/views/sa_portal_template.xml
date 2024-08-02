@@ -79,9 +79,17 @@
                             </t>
                         </div>
                         <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/>
+                        
                         <t t-if="rn.scheme == 'PrimusGFS'">
-                            <t t-call="pao_sign_sa.sa_pgfs_scheme">
-                                <t t-set="serviceagreement" t-value="rn"/>
+                            <t t-if="rn.sale_order_id.country_code == 'MX'">
+                                <t t-call="pao_sign_sa.sa_pgfs_scheme">
+                                    <t t-set="serviceagreement" t-value="rn"/>
+                                </t>
+                            </t>
+                            <t t-if="rn.sale_order_id.country_code == 'US'">
+                                <t t-call="pao_sign_sa.sa_pgfs_scheme_usa">
+                                    <t t-set="serviceagreement" t-value="rn"/>
+                                </t>
                             </t>
                         </t>
                         <t t-if="rn.scheme == 'GLOBALG.A.P.'">

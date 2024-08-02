@@ -32,12 +32,22 @@
                
                     <t t-set="values" t-value="values.with_context(lang='es_MX')"/>
                     <t t-if="values.scheme == 'PrimusGFS'">
-                        <t t-call="pao_sign_sa.sa_header_footer_gfs"/>
-                        <div class="page">
-                            <t t-call="pao_sign_sa.sa_pgfs_scheme">
-                                <t t-set="serviceagreement" t-value="values"/>
-                            </t>
-                        </div>
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code == 'MX'">
+                            <t t-call="pao_sign_sa.sa_header_footer_gfs"/>
+                            <div class="page">
+                                <t t-call="pao_sign_sa.sa_pgfs_scheme">
+                                    <t t-set="serviceagreement" t-value="values"/>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code == 'US'">
+                            <t t-call="pao_sign_sa.sa_header_footer_gfs_usa"/>
+                            <div class="page">
+                                <t t-call="pao_sign_sa.sa_pgfs_scheme_usa">
+                                    <t t-set="serviceagreement" t-value="values"/>
+                                </t>
+                            </div>
+                        </t>
                     </t>
                     <t t-if="values.scheme == 'GLOBALG.A.P.'">
                         <t t-call="pao_sign_sa.sa_header_footer_ggap"/>

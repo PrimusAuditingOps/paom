@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_pgfs_scheme_usa">
+        <div id="portal_sa_pfgs_usa_content" t-attf-class="#{'card pb-5' if not print else ''}">
+            <div id="introduction" class="#{'pb-2 pt-3 card-header' if not print else ''}" style="text-align: center;">
+                    <h3><b>PRIMUS AUDITING OPERATIONS PRIMUSGFS SERVICES AGREEMENT</b></h3>
+            </div>
+            <div class="card-body">
+                <p>
+                    Please sign and return this services agreement within 24 hours of receipt. JS Audit Group, Inc., dba 
+                    Primus Auditing Operations (“Primus Auditing Ops”) is not responsible for changes to estimated costs 
+                    or any additional costs incurred when Service Agreements are returned late. All estimates are calculated 
+                    in U.S. dollars.
+                    
+                </p>
+                <div class="row">
+                    <div class="col-12">
+                        <p style="text-align:left;"><b>Organization Name (“Customer”): </b>
+                        <span t-field="serviceagreement.organization_name"/></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p style="text-align:left;"><b>Billing Customer: </b>
+                        <span t-field="serviceagreement.customer_name"/></p>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-6">
+                    <p style="text-align:left;"><b>RFC #: </b><span t-field="serviceagreement.customer_vat"/></p></div>
+                    <div class="col-6">
+                    <p style="text-align:left;"><b>Registration  Number: </b><span t-field="serviceagreement.name"/></p></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-6">
+                    <p style="text-align:left;"><b>Billed In: </b>United States</p></div>
+                    <div class="col-6">
+                    <p style="text-align:left;"><b>Version: </b><span t-field="serviceagreement.version"/></p></div>
+                    
+                </div>
+
+                <br/>
+                <div class="row">
+                    <div class="col-6">
+                    <p style="text-align:left;max-width:400px;"><b>Contact E-mail: </b><span t-field="serviceagreement.contract_email"/></p></div>
+                    <div class="col-6">
+                    <p style="text-align:left;max-width:400px;"><b>Phone #: </b><span t-field="serviceagreement.phone"/></p></div>
+                    
+                </div>
+
+                <br/>
+                <div class="row">
+                    <div class="col-6">
+                    <p style="text-align:left;max-width:400px;"><b>Invoice E-mail: </b><span t-field="serviceagreement.invoice_email"/></p></div>
+                    <div class="col-6">
+                    <p style="text-align:left;max-width:400px;"><b>Tentative Date: </b><span t-field="serviceagreement.start_date"/> - <span t-field="serviceagreement.end_date"/></p></div>  
+                </div>
+
+                <br/>
+                
+                <table class="table">
+                    <thead class="thead-dark" style="text-align:center">
+                        <tr>
+                            <th scope="col">Services</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Audit Fee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <tr t-foreach="serviceagreement.services_ids" t-as="service">
+                            <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal"/>
+                            <td><span t-field="service.name"/></td>
+                            <td style="text-align:right;"><span t-field="service.product_uom_qty"/></td>
+                            <td style="text-align:right;"> <span t-field="service.price_subtotal"/></td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right;" colspan="2" esc="row">Total Services:</th>
+                            <th style="text-align:right;" colspan="1" scope="row">
+                                <strong class="mr16">
+                                    <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': serviceagreement.sign_sa_agreements_id.sale_order_id.currency_id}"/>
+                                </strong>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="page-break-after: always;">
+                </div>
+                <div style="text-align: center;">
+                    <h4 style="text-align:center">
+                        <b><em>Services to be delivered by Primus Auditing Operations</em></b>
+                    </h4>
+                </div>
+                <h4 class="text-center">THIS IS NOT AN INVOICE</h4>
+                <p>
+                    Estimated Travel Expenses: - Travel expenses are estimated and are subject to change based on actual travel expenses incurred.
+                </p>
+                <p>
+                    Travel expenses are on a direct reimbursement basis and include all expenses for transportation, accommodation and meals. 
+                    Whenever possible trips are combined with other business and expenses are divided to reduce the total cost for all of our customers.
+                </p>
+                <p>
+                    <b>1. DELIVERY.</b> Note that audit reports and certificates are sent electronically 
+                    via email. Hardcopies are available.
+                </p>
+                <p>
+                    <b>2. DATA OWNERSHIP.</b> All data submitted by Primus Auditing Ops into the PrimusGFS 
+                    certification system operated by the scheme owner, becomes the property of Azzule Systems 
+                    for use in preparing specific statistical comparisons, and generic use in reports, 
+                    presentations and other materials.
+                </p>
+                <p>
+                    <b>3. LIMITATION OF LIABILITY.</b> Customer hereby releases Primus Auditing Ops and Primus 
+                    Group Inc. and their respective affiliates, from any loss or liability suffered by Customer, 
+                    as defined below, resulting from services performed under this Agreement. Such release shall 
+                    include any actual, incidental, consequential or other damages beyond amounts paid to Primus 
+                    Auditing Ops for auditing performed and/or facilitated by Primus Auditing Ops. Customer 
+                    further acknowledges and agrees that Primus Auditing Ops' liability is limited only to 
+                    audit work performed by it, and the parties expressly acknowledge that Primus Auditing 
+                    Ops is not liable for Customer's commodity, its safety, or quality.
+                </p>
+                <p>
+                    <b>4. GOVERNING LAW / VENUE.</b> This Agreement shall be governed by and construed in 
+                    accordance with the laws of the State of California. In the event that it is necessary to 
+                    institute any action to enforce any right granted herein or to redress any alleged breach 
+                    hereof, then the exclusive venue for such action shall reside with the applicable Superior or 
+                    Municipal Court located in Santa Maria, California.
+                </p>
+                <p>
+                    <b>5. GLOBAL FOOD SAFETY INITIATIVE and PRIMUSGFS.</b> 
+                    Customer expressly acknowledges that Primus Auditing Ops and its auditors are not a governing 
+                    agency, and does not set the industry standards for safety or protocol. Customer also acknowledges 
+                    that PrimusGFS is an audit program benchmarked and governed by the Global Food Safety Initiative's 
+                    (GFSI) standards and promulgated requirements. All results posted by Primus Auditing Ops will be 
+                    based on GFSI criteria. Customer expressly acknowledges that Primus Auditing Ops has not created 
+                    these standards and criteria, but is only acting in accordance with GFSI.
+                    <ul>
+                        <li>
+                            <b>CONSENT TO RELEASE INFORMATION - GFSI AND SCHEME OWNER.</b> 
+                            As part of its requirements for benchmarking Audit schemes to the GFSI standard, GFSI requires 
+                            that all contracting parties for GFSI benchmarked audits authorize the Certification Body to 
+                            make all audit records from Customer's audit available to the Scheme Owner (Azzule) and GFSI. 
+                            By executing this Agreement, Customer hereby consents to and authorizes Primus Auditing Ops to 
+                            release all audit documents to the Scheme Owner and GFSI for internal use purposes. 
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    <b>6. RIGHT TO REFERRAL.</b> 
+                    Customer acknowledges that Primus Auditing Ops is, or may, contract out the auditing services performed for 
+                    Customer. Because an independent auditor is engaged in his/her own independent contracting business and 
+                    is not an employee of Primus Auditing Ops, Primus Auditing Ops will not obtain insurance (professional 
+                    liability, workers' compensation, general liability, auto, etc.) for the auditor or his/her employees. 
+                    Independent auditors agree by a separate referral agreement to obtain his/her own insurance coverage and 
+                    furnish a copy of the certificate of insurance to Primus Auditing Ops. Furthermore, in those instances in 
+                    which an independent auditor is retained, Primus Auditing Ops will be acting in the sole capacity of 
+                    independent contractor and any information or data received will be merely transmitted between parties, 
+                    making no independent judgment, representations or warranties as to the facts, observations or inferences 
+                    made relative to same.
+                </p>
+                <p>
+                    <b>7. AUDIT AND SURVEILLANCE.</b> 
+                    Customer agrees and acknowledges free access is required to be made for scheduled audit, as well as possible 
+                    random surveillance pursuant to PrimusGFS scheme requirements, of customer's operation including but not 
+                    limited to: examination of documentation, records, and access to the equipment, location(s), area(s), 
+                    personnel, and full physical inspection of customer's subcontractors. Customer agrees to allow observers 
+                    from Primus Auditing Ops and/or varying governing bodies if customer's audit or certification is randomly 
+                    selected for surveillance for quality assurance purposes. Customer further agrees to grant free access in 
+                    order to verify continued compliance with certification. Customer acknowledges complaints related to compliance 
+                    must be documented, and subsequent investigation of complaints is mandatory. Documentation of complaints and 
+                    investigation may be subject to inspection during audit or surveillance or at the request or Primus Auditing 
+                    Ops at any time. Customer acknowledges action must be taken in regards to complaints or deficiencies found in 
+                    products that affect certification requirements with accompanying documentation of actions taken. Customer 
+                    acknowledges that its failure to fully comply with this section, either during the time of audit or any other 
+                    time during the certification period, is a material breach of this agreement and can result in Customer's 
+                    certification being revoked without further notification.  Therefore, customer agrees to allow observers 
+                    from Primus Auditing Ops, the Scheme Owner, and/or the Accreditation body to observe the conduct of any 
+                    audit for any reason, including to monitor auditor performance.
+                </p>
+                <p>
+                    <b>8. PRODUCT CERTIFICATION.</b> Customer shall comply with the following:
+                    <ul>
+                        <li>Customer agrees to always fulfill the certification requirements.</li>
+                        <li>Customer shall further comply by implementing appropriate changes when 
+                        they are communicated via Primus Auditing Ops to Customer.</li>
+                        <li>Additionally, customer agrees if certification applies to ongoing 
+                        production that the certified product continues to fulfill 
+                        the product requirements.</li>
+                    </ul>
+                </p>
+                <p>
+                    Request for copies of certification documents for third parties will be provided in their entirety. 
+                    Customer acknowledges it may not make claims in regards to certification that are inconsistent with 
+                    the scope of the audit performed. Furthermore, the customer may not use product certification in a 
+                    manner that is misleading or unauthorized, or in a manner that would damage the reputation of Primus 
+                    Auditing Ops or the PrimusGFS Scheme. Additionally, customer acknowledges that if certification is 
+                    suspended, terminated or revoked customer must discontinue advertising any material in reference to 
+                    such certification and return certification documents.
+                </p>
+                <p>
+                    The customer agrees to inform Primus Auditing Ops, without delay, of changes that may affect its 
+                    ability to conform to the certification requirements. Examples of changes can include but are not limited to:
+                    <ul>
+                        <li>The legal, commercial, organizational status of ownership</li>
+                        <li>Organization and management e.g. key managerial, decision making or technical staff</li>
+                        <li>Modifications to the product or the production method</li>
+                        <li>Contact address and production sales</li>
+                        <li>Major changes to the quality management system</li>
+                    </ul>
+                </p> 
+                <p>
+                    The customer agrees to inform Primus Auditing Ops, without delay, of any significant food safety 
+                    related events including recalls, outbreaks, significant regulatory food safety nonconformities, 
+                    and/or food safety related prosecutions.
+                </p>
+                <p>
+                    <b>9. UNANNOUNCED AUDITS.</b>
+                    GFSI now requires that auditees undergo an unannounced audit on a periodic basis.  Customer hereby 
+                    represents that it acknowledges, understands, and agrees that, in conformance with GFSI requirements, 
+                    and the PrimusGFS General Regulations, Customer is required to, and will cooperate with the unannounced 
+                    audit requirement as described in the PrimusGFS General Regulations.  If Customer has selected, or is 
+                    selected by Primus Auditing Ops, to undergo an unannounced audit, it acknowledges that it must be in 
+                    production and able to accommodate the Customer's audit(s) on any dates not declared as blackout dates. 
+                    Failure by Customer to allow the auditor on site to perform the audit, or otherwise fail to accommodate 
+                    the certification process will result in cancellation of the audit and Customer will be billed, and 
+                    acknowledges it will be liable to Primus Auditing Ops for, a fee in an amount equal to ONE-THIRD (1/3) 
+                    of the Audit Fee indicated in the “Audit Fee/Total Services” box on page 1 of the Agreement.   
+                </p>
+                <p>
+                    <b>10. COMPLIANCE AND MARKS OF CONFORMITY, ADDENDUM “A”.</b>  
+                    The customer must comply with any requirements that may be prescribed in the certification scheme relating 
+                    to the use of marks of conformity, and on information related to the audit. Additionally, in making reference 
+                    to the certification in communication media such as documents, brochures, or other advertising as may be 
+                    permitted, Customer must comply will all Primus Auditing Ops requirements and certification scheme requirements 
+                    for use of Primus Auditing Ops' and the certification scheme's names, marks, and logos. The parties expressly 
+                    agree that the attached Addendum “A”, and all provisions listed therein are hereby incorporated as an addendum 
+                    to this Primus Auditing Operations PrimusGFS Service Agreement.
+                </p>
+                <p>
+                    A violation of the use of the PrimusGFS trademark, as outlined herein and the attached Addendum A shall constitute 
+                    a breach of this Agreement by customer.    In the event that Customer, its employees, or officers, improperly use 
+                    the trademark and logo of PrimusGFS without the consent of Primus Auditing Ops or the scheme owner, Customer shall 
+                    have fifteen (15) calendar days, following written notice from Primus Auditing Ops or the Scheme Owner of the improper 
+                    use, to cure the improper use. If Customer fails to cure the improper use, this Agreement is voidable by Primus Auditing 
+                    Ops, and Customer's certification, and the documents associated therewith, will be immediately revoked.
+                </p>
+                <p>
+                    <b>11. TERM AND TERMINATION,</b>
+                    <br/>
+                    <ul>
+                        <li><u><b>Termination for Cause</b></u> This Service Agreement and the sublicense for use of the PrimusGFS trademark 
+                        granted herein shall be indefinite, ending at the time of expiration of Customer's Certification. If either party fails 
+                        to fulfill any term or condition of this Agreement, such failure shall be considered a breach of this Agreement. 
+                        The breaching party shall have 10 calendar days from the time of receipt of written notice from the other party to cure 
+                        such breach. If after 10 days, the breaching party has not cured the breach, the non-breaching party may terminate this 
+                        Agreement with no further obligations. The 10-day notice provision and termination is not applicable to violation of the 
+                        Trademark use, as described in Section 9 herein - where the cure time upon notice will be 15 days. </li>
+                        <li>
+                        <u><b>Voluntary Termination.</b></u> Either party may voluntarily terminate this Agreement upon fifteen days' written notice 
+                        to the other party.  If this Agreement is terminated by party, all sublicenses and certifications granted by Primus Audit Ops 
+                        to Customer after such termination shall not be valid. Subject to Section 10.c. below, either party may voluntarily terminate 
+                        this Agreement upon fifteen days' written notice to the other party.   If this Agreement is terminated by Customer, 
+                        all sublicenses and certifications granted by Primus Auditing Ops to Customer hereunder shall not be valid past the 
+                        date of Termination.
+                        </li>
+                        <li>
+                        <b>Termination by Customer.</b> Desktop Review Portion of Audit. If Customer voluntarily terminates this Agreement in 
+                        accordance with Section 10.b. above, but after Primus Auditing Ops has begun the Desktop Review portion of the Audit, Customer 
+                        acknowledges and agrees that it shall be responsible for, and pay to Primus Auditing Ops, an amount equal to ONE-THIRD (1/3) of 
+                        the Audit Fee indicated in the “Audit Fee/Total Services” box on page 1 of the Agreement. Failure on Customer's behalf to do so 
+                        is a material breach of this Agreement by Customer.
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    <b>12. PAYMENT AND CANCELLATIONS.</b> The Customer agrees to pay Primus Auditing Ops within 30 days of billing. All services 
+                    rendered by the Company are provided on a non-refundable basis. Customer acknowledges that the Company will make its best effort 
+                    to ensure that all invoices are correctly issued. However, should Customer note any possible errors, Customer agrees to notify our 
+                    Billing Department within 10 days of the issuance of the errant invoice. After 10 days, all invoices will be assumed to be correct, 
+                    and no further billing adjustments will be made.
+                    <br/>
+                    <br/>
+                    A cancellation administration fee of $200.00 may be charged for any audit cancellation within 21 days of the scheduled audit date. 
+                    This cancellation fee excludes any additional expenses related to travel and labor if incurred.
+                </p>
+                 <div style="page-break-after: always;">
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="text-start">
+                            Date: <span t-field="serviceagreement.sign_sa_agreements_id.document_date" widget="date"/>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>"PRIMUS AUDITING OPS"</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>"CUSTOMER"</b>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>JS Audit Group, Inc., a California corporation</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.partner_id.name"/></b>                            
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>By: </b><span t-field="serviceagreement.coordinator_id.name"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>By: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name" t-if="serviceagreement.sign_sa_agreements_id.signer_name"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Audit Coordinator</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Title: </b><span t-field="serviceagreement.sign_sa_agreements_id.position"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Date: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Date: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date" t-if="serviceagreement.sign_sa_agreements_id.signature_date"/>
+                        </p>
+                    </div>  
+                </div>
+                <div style="page-break-after: always;">
+                </div>
+                <div style="text-align: center;">
+                    <h4 style="text-align:center; font-weight:Bold;">Addendum A</h4>
+                    <h4 style="text-align:center; font-weight:Bold;">ADDITIONAL PRIMUSGFS SUBLICENSE AND CERTIFICATION AGREEMENT ADDENDUM</h4>
+                </div>
+                
+                <p>
+                    This addendum (“Exhibit A”) is an addition to, and the terms hereby incorporated into, the Sublicense and Certification 
+                    Agreement for PrimusGFS. Services Agreement (“Agreement”). 
+                    <br/>
+                    <br/>
+                    <u><b>Marks of Conformity</b></u>
+                    <br/>
+                    <br/>
+                    Azzule Systems. is the legal owner of the trademark “PRIMUSGFS” and the logo collectively “PRIMUSGFS”
+                </p>
+                <p>
+                    Contracting Party is granted a non-exclusive and revocable sublicense for use of the PRIMUSGFS trademark, 
+                    logo, and name on the following conditions, all of which Contracting Party acknowledges and agrees to:  
+                </p>
+                <p>
+                    The use of the PRIMUSGFS trademark shall not appear on the product, or consumer packaging, nor shall it 
+                    be used at the point of sell in direct connection to single products. 
+                </p>
+                <p>
+                    Contracting Party may only use the PRIMUSGFS trademarks on pallets that only contain PRIMUSGFS certified produce; 
+                    trademark shall not appear at point of sale in this instance. 
+                </p>
+                <p>
+                    PRIMUSGFS certified producers may use the PRIMUSGFS trademark in business to business communication, and for 
+                    traceability, segregation or identification purposes on site at the production location. 
+                </p>
+                <p>
+                    Trademark use is granted for promotional use on print-outs, flyers, hardware and electronic displays (not directly 
+                    linked to certified product) and in business-to-business communication by retailers, associate and supplier members. 
+                    The trademark shall not be used on promotional items, apparel items, accessories, bags, personal care items or in 
+                    connection with retail store services.
+                </p>
+                <p>
+                    The PRIMUSGFS logo and trademark must be obtained from Primus Auditing Operations, in order to ensure conformance 
+                    with exact corporate color and format, and may only be used in a manner consistent with PRIMUSGFS requirements. 
+                </p>
+                <p>
+                    A violation of the use of the PrimusGFS trademark, as outlined herein and the attached Addendum A shall constitute a 
+                    breach of this Agreement by customer.    In the event that Customer, it's employees, or officers, improperly use 
+                    the trademark and logo of PrimusGFS without the consent of Primus Auditing Ops or the scheme owner, Customer shall 
+                    have fifteen (15) calendar days, following written notice from Primus Auditing Ops or the Scheme Owner of the improper 
+                    use, to cure the improper use. If Customer fails to cure the improper use, this Agreement is voidable by Primus Auditing 
+                    Ops, and Customer's certification, and the documents associated therewith, will be immediately revoked. 
+                </p>
+                <p>
+                    Nothing herein shall be construed to relieve the parties from their respective obligations under the agreement.
+                </p>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>"PRIMUS AUDITING OPS"</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>"CUSTOMER"</b>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b>JS Audit Group, Inc., a California corporation</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.partner_id.name"/></b>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>By: </b><span t-field="serviceagreement.coordinator_id.name"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>By: </b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name" t-if="serviceagreement.sign_sa_agreements_id.signer_name"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Audit Coordinator</b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Title: </b><span t-field="serviceagreement.sign_sa_agreements_id.position"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Date: </b><span t-field="serviceagreement.sign_sa_agreements_id.document_date" widget="date"/>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>Date: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date" t-if="serviceagreement.sign_sa_agreements_id.signature_date"/>
+                        </p>
+                    </div>  
+                </div>
+                
+                <div style="text-align: center;" t-if="print == False">
+                    <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
+                    <ul class="list-inline" style="text-align: center;">
+                        <li class="list-inline-item">Primus Auditing Ops Confidential Document</li>
+                        <li class="list-inline-item">PGFS-016</li>
+                        <li class="list-inline-item">Rev. 12 10/02/2023</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </template>
+</odoo>
