@@ -24,9 +24,6 @@
                     <field name="subject" placeholder="Enter Subject"/>
                     <field name="message" placeholder="Optional Message..."/>
                 </group>
-                <group col="4">
-                    <field name="mail_template_id" options="{'no_create':True, 'create_edit': false,'no_open': True}"/>
-                </group>
                 <footer>
                    <button string="Send" name="send_multiple_proposal" type="object" class="btn-primary"/>
                    <button string="Cancel" class="btn-secondary" special="cancel"/>

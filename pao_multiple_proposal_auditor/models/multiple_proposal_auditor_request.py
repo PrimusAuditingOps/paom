@@ -21,11 +21,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
     message = fields.Html(
         string="Message",
     )
-    mail_template_id = fields.Many2one(
-        string='Mail Template',
-        comodel_name='mail.template',
-        domain = [('model','=','multiple.proposal.auditor.request')],
-    )
+   
     purchase_order_id = fields.Many2one(
         comodel_name='purchase.order',
         string='Purchase Order',
@@ -33,10 +29,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
     )
     range_start_date = fields.Date(string="Range start date", required=True)
     range_end_date = fields.Date(string="Range end date", required=True)
-    @api.onchange('mail_template_id')
-    def _change_mail_template(self):
-        self.message = self.mail_template_id.body_html
-        self.subject = self.mail_template_id.subject
+ 
         
     def send_multiple_proposal(self):
         self.ensure_one()

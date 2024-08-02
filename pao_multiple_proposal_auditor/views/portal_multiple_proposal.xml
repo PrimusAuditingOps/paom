@@ -14,7 +14,7 @@
                             as noted below: 
                         </p>
                         <p class="text-center">
-                            <strong><span t-field="purchase.multi_proposal_range_start_date"/> - <span t-field="purchase.multi_proposal_range_end_date"/></strong>
+                            <h3><strong><span t-field="purchase.multi_proposal_range_start_date"/> - <span t-field="purchase.multi_proposal_range_end_date"/></strong></h3>
                         </p>
                         <p style="text-align:justify;">
                             Let us know your response:
@@ -44,6 +44,10 @@
                         </form>    
                         <p style="text-align:justify;font-weight:bold;" class="text-center">
                             Please see the information below to know auditing service details.
+                        </p>
+                        <p style="text-align:justify;font-weight:bold;" class="text-center">
+                            State: <span t-field="purchase.audit_state_id"/>  
+                            City: <span t-field="purchase.audit_city_id"/>
                             <br/>
                             <table class="table">
                                 <thead class="thead-dark" style="text-align:center">
