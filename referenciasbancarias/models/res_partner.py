@@ -1,6 +1,8 @@
 from odoo.exceptions import ValidationError
 from odoo import fields, models, api, _
+from logging import getLogger
 
+_logger = getLogger(__name__)
 
 
 
@@ -14,6 +16,7 @@ class ResPartner(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        _logger.error(vals_list)
         for vals in vals_list:
             seq = 0
             if (not self.ctm_ref_bank_pesos or not self.ctm_ref_bank_dolares) and (self.company_type == 'company' or vals.get('company_type') == 'company'):
@@ -26,6 +29,7 @@ class ResPartner(models.Model):
     
     def write(self, vals):
         seq = 0
+        _logger.error(vals)
         for rec in self:
             if (not rec.ctm_ref_bank_pesos or not rec.ctm_ref_bank_dolares) and (vals.get('company_type') == 'company' or rec.company_type == 'company'):
                 seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
