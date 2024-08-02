@@ -16,6 +16,7 @@ class ResPartner(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        _logger.error("entro1")
         _logger.error(vals_list)
         for vals in vals_list:
             seq = 0
@@ -29,6 +30,8 @@ class ResPartner(models.Model):
     
     def write(self, vals):
         seq = 0
+
+        _logger.error("entro2")
         _logger.error(vals)
         for rec in self:
             if (not rec.ctm_ref_bank_pesos or not rec.ctm_ref_bank_dolares) and (vals.get('company_type') == 'company' or rec.company_type == 'company'):
