@@ -7,13 +7,13 @@
                 
                 <div class="row">
                     <div class="col-12">
-                        <h3 class="text-center"  style="font-family:'Times New Roman';">Auditing Services Proposal</h3>
+                        <h1 class="text-center"  style="font-family:'Times New Roman';">Auditing Services Proposal</h1>
                         <p style="text-align:justify;">
                             Please consider the request for the following auditing services, which we thought might be of interest. 
                             The auditee has provided a tentative request for a specific date(s) for the audit to be performed, 
                             as noted below: 
                         </p>
-                        <p class="text-center">
+                        <p class="text-center" style="font-family:'Times New Roman';">
                             <h3><strong><span t-field="purchase.multi_proposal_range_start_date"/> - <span t-field="purchase.multi_proposal_range_end_date"/></strong></h3>
                         </p>
                         <p style="text-align:justify;">
@@ -37,8 +37,9 @@
                                     <input type="hidden" name="access_token" t-att-value="purchase.access_token"/>
                                     <label for="comments" style="font-weight:bold;">Please add your comments:</label>
                                     <textarea class="form-control" id="comments" name="comments" required="*" rows="4"></textarea>
-                                    <button type="submit" class="btn btn-success" style="padding:20px;" value="accept" id="event_accept" name="event_accept">Accept</button>
-                                    <button type="submit" class="btn btn-danger" style="padding:20px;" value="decline" id="event_decline" name="event_decline">Decline</button>
+                                    <br/>
+                                    <button type="submit" class="btn btn-success" value="accept" id="event_accept" name="event_accept">Accept</button>
+                                    <button type="submit" class="btn btn-danger" value="decline" id="event_decline" name="event_decline">Decline</button>
                                 </div>
                             </div>
                         </form>    
