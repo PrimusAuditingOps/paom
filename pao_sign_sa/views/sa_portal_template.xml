@@ -79,6 +79,7 @@
                             </t>
                         </div>
                         <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/>
+                        <span t-field="rn.sale_order_id.country_code"/>
                         
                         <t t-if="rn.scheme == 'PrimusGFS'">
                             <t t-if="rn.sale_order_id.country_code == 'MX'">
