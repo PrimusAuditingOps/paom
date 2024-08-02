@@ -18,16 +18,21 @@ class ResPartner(models.Model):
     def create(self, vals_list):
         _logger.error("entro1")
         _logger.error(vals_list)
-        for vals in vals_list:
-            seq = 0
-            if (not self.ctm_ref_bank_pesos or not self.ctm_ref_bank_dolares) and (self.company_type == 'company' or vals.get('company_type') == 'company'):
-                seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
-                if seq:
-                    vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
-                    vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
+        if vals_list:
+            for vals in vals_list:
+                seq = 0
+                if (not self.ctm_ref_bank_pesos or not self.ctm_ref_bank_dolares) and (self.company_type == 'company' or vals.get('company_type') == 'company'):
+                    seq = self.env['ir.sequence'].next_by_code('referenciasbancarias.refbank')
+                    if seq:
+                        vals['ctm_ref_bank_pesos'] = self.generate_reference_pesos(seq)
+                        vals['ctm_ref_bank_dolares'] = self.generate_reference_usd(seq)
+                result = super(ResPartner, self).create(vals)
+                return result
+        else:
             result = super(ResPartner, self).create(vals)
             return result
-    
+
+
     def write(self, vals):
         seq = 0
 
