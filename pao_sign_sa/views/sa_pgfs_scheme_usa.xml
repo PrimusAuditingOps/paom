@@ -450,7 +450,7 @@
                     <div class="col-6">
                         
                         <p style="text-align:center;">
-                            <span t-field="serviceagreement.coordinator_id.name"/>
+                            <span t-field="serviceagreement.coordinator_id.employee_id.name"/>
                             <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.employee_id.es_sign_signature)" t-if="serviceagreement.coordinator_id.employee_id.es_sign_signature"/>
                         </p>
                     </div>
