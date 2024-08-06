@@ -69,9 +69,7 @@ class SASendRequest(models.TransientModel):
                     msg=_("Please enter a date for service of the registration number ")
                     raise ValidationError(msg + rn.name)
                 if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
-                    if not line.coordinator_id.name:
-                        msg=_("Please select a coordinator for service of the registration number ")
-                        raise ValidationError(msg + rn.name)
+                   
                     if not line.coordinator_id.employee_id.es_sign_signature:
                         msg=_("The coordinator doesn't have a signature, please assign a signature for the coordinator ")
                         raise ValidationError(msg + line.coordinator_id.name)
