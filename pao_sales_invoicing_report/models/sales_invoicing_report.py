@@ -46,6 +46,9 @@ class SalesInvoicingReport(models.Model):
     source_id = fields.Many2one('utm.source', 'Source')
     shipper_id = fields.Many2one('pao.shippers', 'Shipper')
     office_id = fields.Many2one('pao.offices', 'Office')
+    state_id = fields.Many2one('res.country.state', 'Address State')
+    
+    
     
     invoice_status = fields.Selection([
         ('upselling', 'Upselling Opportunity'),
@@ -79,7 +82,7 @@ class SalesInvoicingReport(models.Model):
             
             l.product_id as product_id,
             t.uom_id as product_uom,
-            r.state_id,
+            r.state_id as state_id,
             
             count(*) as nbr,
             a.name as name,
