@@ -231,7 +231,7 @@ class SASendRequest(models.TransientModel):
         mail = self._message_send_mail(
             body, 'mail.mail_notification_light',
             {'record_name': sa.title},
-            {'model_description': _('Service Agreement')},
+            {'model_description': _('Service Agreement'), 'company': self.sudo().create_uid.company_id},
             {'email_from': self.create_uid.email_formatted,
                 'author_id': self.create_uid.partner_id.id,
                 'email_to': self.signer_id.email_formatted,
@@ -255,7 +255,7 @@ class SASendRequest(models.TransientModel):
                 mail = self._message_send_mail(
                     body, 'mail.mail_notification_light',
                     {'record_name': sa.title},
-                    {'model_description': _('Service Agreement')},
+                    {'model_description': _('Service Agreement'), 'company': self.sudo().create_uid.company_id},
                     {'email_from': self.create_uid.email_formatted,
                         'author_id': self.create_uid.partner_id.id,
                         'email_to': follower.email_formatted,
