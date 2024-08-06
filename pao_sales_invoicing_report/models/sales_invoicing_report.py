@@ -170,7 +170,7 @@ class SalesInvoicingReport(models.Model):
             partner.commercial_partner_id,
             l.discount,
             c.id,
-            r.state_id,
+            partner.state_id,
             l.id %s
         """ % (groupby)
         return groupby_
