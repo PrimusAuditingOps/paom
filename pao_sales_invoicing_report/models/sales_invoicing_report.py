@@ -82,7 +82,7 @@ class SalesInvoicingReport(models.Model):
             
             l.product_id as product_id,
             t.uom_id as product_uom,
-            r.state_id as state_id,
+            partner.state_id as state_id,
             
             count(*) as nbr,
             a.name as name,
