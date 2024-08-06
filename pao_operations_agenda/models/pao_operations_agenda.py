@@ -180,7 +180,8 @@ class PaoOperationsAgenda(models.Model):
             a.shadow_id,
             a.assessment_id,
             a.state_id,
-            a.city_id
+            a.city_id,
+            a.company_id 
             FROM 
             (
             SELECT 
@@ -245,7 +246,7 @@ class PaoOperationsAgenda(models.Model):
             0 as assessment_id,
             0 as state_id,
             0 as city_id,
-            ado.company_id 
+            ado.company_id as company_id 
             from 
             auditordaysoff_days as ado
              GROUP BY
