@@ -118,51 +118,6 @@ class PaoOperationsAgenda(models.Model):
     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
         with_ = ("WITH %s" % with_clause) if with_clause else ""
 
-        select_ = """
-            row_number() over() as id,
-            po.partner_id as partner_id,
-            po.partner_ref as partner_ref,
-            po.id as order_id,
-            pl.service_start_date as service_start_date,
-            pl.service_end_date as service_end_date,
-            po.coordinator_id as coordinator_id,
-            true as all_day,
-            po.state as state,
-            cg.name as customer_group_id,
-            cpromotor.name as promotor_id,
-            so.partner_id as customer_id,
-            po.shadow_id as shadow_id
-        """
-
-        for field in fields.values():
-            select_ += field
-
-        from_ = """
-                purchase_order_line pl 
-                inner join purchase_order po on (po.id=pl.order_id) 
-                inner join res_partner partner on po.partner_id = partner.id 
-                left join sale_order so on so.id = po.sale_order_id 
-                left join res_partner partnerso on partnerso.id = so.partner_id 
-                left join customergroups_group cg on partnerso.cgg_group_id = cg.id 
-                left join comisionpromotores_promotor cpromotor on partnerso.promotor_id = cpromotor.id 
-                %s
-        """ % from_clause
-
-        groupby_ = """
-            po.partner_id,
-            po.partner_ref,
-            po.id,
-            pl.service_start_date,
-            pl.service_end_date,
-            po.coordinator_id,
-            all_day,
-            po.state, 
-            cg.name, 
-            cpromotor.name,
-            so.partner_id,
-            po.shadow_id %s
-        """ % (groupby)
-
         executequery = """
             SELECT row_number() over() as id,
             a.partner_id,
