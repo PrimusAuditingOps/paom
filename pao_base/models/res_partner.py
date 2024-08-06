@@ -11,6 +11,11 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     city_id = fields.Many2one('res.city', string='City of Address')
+    
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company', required=True, readonly=True,
+        default=lambda self: self.env.company)
 
     @api.onchange('city_id')
     def _onchange_city_id(self):
