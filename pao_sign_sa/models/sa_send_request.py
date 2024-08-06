@@ -64,11 +64,18 @@ class SASendRequest(models.TransientModel):
 
             orderLine = filter(lambda x: x['registrynumber_id'].id == rn.id, self.sale_order_id.order_line)
             msg = ""
+            _logger.error(self.sale_order_id.name)
             for line in orderLine:
                 if not line.service_end_date or not line.service_start_date:
                     msg=_("Please enter a date for service of the registration number ")
                     raise ValidationError(msg + rn.name)
-               
+                if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
+                    if not line.coordinator_id.name:
+                        msg=_("Please select a coordinator for service of the registration number ")
+                        raise ValidationError(msg + rn.name)
+                    if not line.coordinator_id.sign_signature:
+                        msg=_("The coordinator doesn't have a signature, please assign a signature for the coordinator ")
+                        raise ValidationError(msg + line.coordinator_id.name)
 
             if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
                 if not self.sale_order_id.partner_id.vat: 
