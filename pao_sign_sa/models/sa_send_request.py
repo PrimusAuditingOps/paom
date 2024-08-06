@@ -228,10 +228,10 @@ class SASendRequest(models.TransientModel):
         )
         sa.write({'sign_url': url_join(base_url, '/sign/sa/%s/%s' % (sa.id, sa.access_token))})
         
-        mail = self.sudo()._message_send_mail(
+        mail = self._message_send_mail(
             body, 'mail.mail_notification_light',
             {'record_name': sa.title},
-            {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
+            {'model_description': _('Service Agreement')},
             {'email_from': self.create_uid.email_formatted,
                 'author_id': self.create_uid.partner_id.id,
                 'email_to': self.signer_id.email_formatted,
@@ -252,10 +252,10 @@ class SASendRequest(models.TransientModel):
                 )
 
 
-                mail = self.sudo()._message_send_mail(
+                mail = self._message_send_mail(
                     body, 'mail.mail_notification_light',
                     {'record_name': sa.title},
-                    {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
+                    {'model_description': _('Service Agreement')},
                     {'email_from': self.create_uid.email_formatted,
                         'author_id': self.create_uid.partner_id.id,
                         'email_to': follower.email_formatted,
