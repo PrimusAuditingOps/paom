@@ -33,6 +33,8 @@ class SalesInvoicingReport(models.Model):
     team_id = fields.Many2one('crm.team', 'Sales Team', readonly=True)
     pao_old_sales_team_id = fields.Many2one('crm.team', 'Old Sales Team', readonly=True)
     country_id = fields.Many2one('res.country', 'Customer Country', readonly=True)
+    state_id = fields.Many2one('res.state', 'Customer State', readonly=True)
+    city_id = fields.Many2one('res.city', 'Customer City', readonly=True)
     industry_id = fields.Many2one('res.partner.industry', 'Customer Industry', readonly=True)
     commercial_partner_id = fields.Many2one('res.partner', 'Customer Entity', readonly=True)
     state = fields.Selection([
@@ -108,7 +110,9 @@ class SalesInvoicingReport(models.Model):
             sl.service_start_date as order_start_date,
             sl.service_end_date as order_end_date,
             l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
-            c.id as currency_id
+            c.id as currency_id,
+            partner.state_id as state_id,
+            partner.city_id as city_id 
             
         """
 
@@ -166,7 +170,9 @@ class SalesInvoicingReport(models.Model):
             partner.commercial_partner_id,
             l.discount,
             c.id,
-            l.id %s
+            l.id,
+            partner.state_id,
+            partner.city_id %s
         """ % (groupby)
         return groupby_
 
