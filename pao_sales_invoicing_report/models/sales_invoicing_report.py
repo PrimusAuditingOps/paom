@@ -79,6 +79,7 @@ class SalesInvoicingReport(models.Model):
             
             l.product_id as product_id,
             t.uom_id as product_uom,
+            r.state_id,
             
             count(*) as nbr,
             a.name as name,
@@ -166,6 +167,7 @@ class SalesInvoicingReport(models.Model):
             partner.commercial_partner_id,
             l.discount,
             c.id,
+            r.state_id,
             l.id %s
         """ % (groupby)
         return groupby_

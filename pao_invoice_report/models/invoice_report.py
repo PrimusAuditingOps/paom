@@ -102,7 +102,6 @@ class InvoiceReport(models.Model):
             r.id as client_id,
             r.cgg_group_id as group,
             r.promotor_id as promoter,
-            r.state_id,
             
             --details of operations:
             l.product_id as product,
@@ -136,7 +135,7 @@ class InvoiceReport(models.Model):
 
     def _from(self, from_clause=''):
         from_ = """
-                account_move_line l
+                	account_move_line l
                         INNER JOIN account_move a ON a.id = l.move_id
                         INNER JOIN res_currency c ON a.currency_id = c.id
                         --JOIN res_currency_rate cr ON c.id = cr.currency_id AND cr.name = a.invoice_date
