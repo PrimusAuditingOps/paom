@@ -14,11 +14,11 @@ class SaleOrder(models.Model):
         copy= False,
     )
     pao_is_a_child_sales_order = fields.Boolean(
-        string= "Is a child sales order",
+        string= "Is a sub-order sales order",
         default= False,
         copy= False,
     )
-    pao_child_ids = fields.One2many('sale.order', 'pao_parent_id', string='Child Sales Order')
+    pao_child_ids = fields.One2many('sale.order', 'pao_parent_id', string='Sub-order Sales Order')
     pao_parent_id = fields.Many2one('sale.order', string='Master Sales Order', readonly=True, index=True)
 
     pao_is_parent_id_locked = fields.Boolean(
@@ -42,7 +42,6 @@ class SaleOrder(models.Model):
 
 
     def action_conver_to_master(self):
-        _logger.error("entro a convertir")
         self.ensure_one()
         if self.pricelist_id.pao_is_a_shared_cost_list == True:
             self.write({'pao_is_a_master_sales_order': True})
@@ -56,7 +55,7 @@ class SaleOrder(models.Model):
             'res_model': 'sale.order',
             'type': 'ir.actions.act_window',
             'view_mode': 'tree,form',
-            'name': _("Children orders"),
+            'name': _("Sub-orders"),
             'domain': [('id', 'in', ids)],
         }
         return action
@@ -65,7 +64,7 @@ class SaleOrder(models.Model):
     def write(self, vals):
         if self.pao_is_a_master_sales_order and vals.get('state'):
             if vals.get('state') == "cancel" and len(self.pao_child_ids.filtered_domain([('state', '!=', 'cancel')])) > 0:
-                raise ValidationError(_("The MO can't be canceled because it has active child orders."))
+                raise ValidationError(_("The MO can't be canceled because it has active Sub-orders."))
             elif vals.get('state') not in ("draft", "cancel"):
                 raise ValidationError(_("The master order status can't be changed."))
         if self.pao_is_a_child_sales_order and self.pao_parent_id.locked and vals.get('order_line'):

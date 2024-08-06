@@ -64,17 +64,19 @@ class SASendRequest(models.TransientModel):
 
             orderLine = filter(lambda x: x['registrynumber_id'].id == rn.id, self.sale_order_id.order_line)
             msg = ""
+            _logger.error(self.sale_order_id.name)
             for line in orderLine:
-                if not line.service_end_date or not line.service_start_date:
-                    msg=_("Please enter a date for service of the registration number ")
-                    raise ValidationError(msg + rn.name)
-                if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
-                    if not line.coordinator_id.name:
-                        msg=_("Please select a coordinator for service of the registration number ")
+                if line.product_template_id:
+                    if not line.service_end_date or not line.service_start_date:
+                        msg=_("Please enter a date for service of the registration number ")
                         raise ValidationError(msg + rn.name)
-                    if not line.coordinator_id.employee_id.es_sign_signature:
-                        msg=_("The coordinator doesn't have a signature, please assign a signature for the coordinator ")
-                        raise ValidationError(msg + line.coordinator_id.name)
+                    if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
+                        if not line.coordinator_id.name:
+                            msg=_("Please select a coordinator for service of the registration number ")
+                            raise ValidationError(msg + rn.name)
+                        if not line.coordinator_id.sign_signature:
+                            msg=_("The coordinator doesn't have a signature, please assign a signature for the coordinator ")
+                            raise ValidationError(msg + line.coordinator_id.name)
 
             if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
                 if not self.sale_order_id.partner_id.vat: 
@@ -231,7 +233,7 @@ class SASendRequest(models.TransientModel):
         mail = self._message_send_mail(
             body, 'mail.mail_notification_light',
             {'record_name': sa.title},
-            {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
+            {'model_description': _('Service Agreement'), 'company': self.sudo().create_uid.company_id},
             {'email_from': self.create_uid.email_formatted,
                 'author_id': self.create_uid.partner_id.id,
                 'email_to': self.signer_id.email_formatted,
@@ -255,7 +257,7 @@ class SASendRequest(models.TransientModel):
                 mail = self._message_send_mail(
                     body, 'mail.mail_notification_light',
                     {'record_name': sa.title},
-                    {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
+                    {'model_description': _('Service Agreement'), 'company': self.sudo().create_uid.company_id},
                     {'email_from': self.create_uid.email_formatted,
                         'author_id': self.create_uid.partner_id.id,
                         'email_to': follower.email_formatted,

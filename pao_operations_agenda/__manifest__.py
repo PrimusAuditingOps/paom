@@ -18,6 +18,7 @@
     'data': [
         # security
         'security/ir.model.access.csv',
+        'security/ir_rules.xml',
         # data
         # demo
         # reports

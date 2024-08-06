@@ -64,7 +64,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
             mail = self._message_send_mail(
                 body, 'mail.mail_notification_light',
                 {'record_name': ''},
-                {'model_description': _('Audit proposal'), 'company': self.create_uid.company_id},
+                {'model_description': _('Audit proposal'), 'company': self.sudo().create_uid.company_id},
                 {'email_from': self.create_uid.email_formatted,
                     'author_id': self.create_uid.partner_id.id,
                     'email_to': auditor.email_formatted,

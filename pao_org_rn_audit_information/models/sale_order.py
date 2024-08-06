@@ -38,22 +38,26 @@ class SaleOrder(models.Model):
     def _change_so_start_date(self):
         for rec in self:
             for l in rec.order_line:
-                l.write({"service_start_date": rec.service_start_date})
+                if l.product_id:
+                    l.write({"service_start_date": rec.service_start_date})
 
     @api.onchange('service_end_date')
     def _change_so_end_date(self):
         for rec in self:
             for l in rec.order_line:
-                l.write({"service_end_date": rec.service_end_date})
+                if l.product_id:
+                    l.write({"service_end_date": rec.service_end_date})
 
     @api.onchange('organization_id')
     def _change_so_organization_id(self):
         for rec in self:
             for l in rec.order_line:
-                l.write({"organization_id": rec.organization_id.id})
+                if l.product_id:
+                    l.write({"organization_id": rec.organization_id.id})
 
     @api.onchange('registrynumber_id')
     def _change_so_registrynumber_id(self):
         for rec in self:
             for l in rec.order_line:
-                l.write({"registrynumber_id": rec.registrynumber_id.id})
+                if l.product_id:
+                    l.write({"registrynumber_id": rec.registrynumber_id.id})
