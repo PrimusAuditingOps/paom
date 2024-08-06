@@ -33,7 +33,7 @@ class SalesInvoicingReport(models.Model):
     team_id = fields.Many2one('crm.team', 'Sales Team', readonly=True)
     pao_old_sales_team_id = fields.Many2one('crm.team', 'Old Sales Team', readonly=True)
     country_id = fields.Many2one('res.country', 'Customer Country', readonly=True)
-    state_id = fields.Many2one('res.state', 'Customer State', readonly=True)
+    state_id = fields.Many2one('res.country.state', 'Customer State', readonly=True)
     city_id = fields.Many2one('res.city', 'Customer City', readonly=True)
     industry_id = fields.Many2one('res.partner.industry', 'Customer Industry', readonly=True)
     commercial_partner_id = fields.Many2one('res.partner', 'Customer Entity', readonly=True)
