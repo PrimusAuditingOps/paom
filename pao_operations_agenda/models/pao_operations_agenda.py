@@ -53,7 +53,7 @@ class PaoOperationsAgenda(models.Model):
     assessment_id = fields.Many2one('res.partner', 'Assessment', readonly=True)
     state_id = fields.Many2one(comodel_name = "res.country.state", string='Audit State', readonly=True)
     city_id = fields.Many2one(comodel_name = "res.city", string='Audit City', readonly=True)
-
+    company_id = fields.Many2one(comodel_name='res.company', readonly=True)
    
 
     @api.depends('audit_status')
@@ -199,7 +199,8 @@ class PaoOperationsAgenda(models.Model):
             po.shadow_id as shadow_id,
             po.assessment_id as assessment_id,
             po.audit_state_id as state_id,
-            po.audit_city_id as city_id
+            po.audit_city_id as city_id,
+            po.company_id as company_id 
             from 
             purchase_order_line pl 
                 inner join purchase_order po on (po.id=pl.order_id) 
@@ -224,7 +225,8 @@ class PaoOperationsAgenda(models.Model):
             po.shadow_id,
             po.assessment_id,
             po.audit_state_id,
-            po.audit_city_id
+            po.audit_city_id,
+            po.company_id 
             UNION ALL 
             SELECT 
             ado.auditor_id as partner_id,
@@ -242,7 +244,8 @@ class PaoOperationsAgenda(models.Model):
             0 as shadow_id,
             0 as assessment_id,
             0 as state_id,
-            0 as city_id
+            0 as city_id,
+            ado.company_id 
             from 
             auditordaysoff_days as ado
              GROUP BY
@@ -261,7 +264,8 @@ class PaoOperationsAgenda(models.Model):
             shadow_id,
             assessment_id,
             state_id,
-            city_id) as a
+            city_id,
+            ado.company_id ) as a
         """  
         #return '%s (SELECT %s FROM %s GROUP BY %s)' % (with_, select_, from_, groupby_)
         return '%s (%s)' % (with_, executequery)
