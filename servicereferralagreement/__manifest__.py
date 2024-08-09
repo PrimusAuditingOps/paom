@@ -46,6 +46,18 @@
         'reports/header_footer_standard.xml',
         'reports/header_footer_ra_general.xml',
         'reports/header_footer_ra_gfs.xml',
+
+        'reports/header_footer_sustainability_usa.xml',
+        'reports/header_footer_standard_usa.xml',
+        'reports/header_footer_smeta_usa.xml',
+        'reports/header_footer_gfs_usa.xml',
+        'reports/header_footer_fsma_usa.xml',
+        'reports/smeta_usa.xml',
+        'reports/gfs_usa.xml',
+        'reports/fsma_usa.xml',
+        'reports/standard_usa.xml',
+        'reports/sustentabilidad_usa.xml',
+
         'reports/sasaleorder.xml',
         'reports/rapurchaseorder.xml',
         'reports/lpo_ue.xml',
