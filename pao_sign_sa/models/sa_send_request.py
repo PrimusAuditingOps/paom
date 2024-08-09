@@ -79,7 +79,7 @@ class SASendRequest(models.TransientModel):
                             raise ValidationError(msg + line.sudo().coordinator_id.name)
 
             if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
-                if not self.sale_order_id.partner_id.vat: 
+                if self.sale_order_id.country_code == 'MX' and not self.sale_order_id.partner_id.vat: 
                     msg=_("Please enter a VAT for the customer.")
                     raise ValidationError(msg)
                 if not rn.contract_email: 
@@ -122,7 +122,7 @@ class SASendRequest(models.TransientModel):
                 if not rn.audit_duration: 
                     msg=_("Please enter an audit duration for the registration number ")
                     raise ValidationError(msg + rn.name)
-                if not rn.organization_id.rfc: 
+                if self.sale_order_id.country_code == 'MX' and not rn.organization_id.rfc: 
                     msg=_("Please enter a vat for organization of the registration number ")
                     raise ValidationError(msg + rn.name)
                 if not rn.type_of_audit: 
