@@ -20,7 +20,6 @@ class ExpenseSheetInherit(models.Model):
         tracking=True,
     )
     
-    @api.model
     def action_sheet_move_create(self):
         
         if not self.partner_id and not self.employee_id:
