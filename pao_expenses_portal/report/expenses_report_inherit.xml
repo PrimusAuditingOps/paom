@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="expense_report_partner_inherit" customize_show="True" inherit_id="hr_expense.report_expense_sheet" priority="50">
+        <xpath expr="//div[@class='row'][1]" position="replace">
+            <div class="row">
+                <t t-if="o.employee_id">
+                    <div class="col-3 fw-bold">
+                        <span>Employee:</span>
+                    </div>
+                    <div class="col-9 text-muted">
+                        <span t-field="o.employee_id.name"> - </span>
+                    </div>
+                </t>
+                <div class="col-3 fw-bold">
+                    <span>Contact:</span>
+                </div>
+                <div class="col-9 text-muted">
+                    <span t-field="o.partner_id.name"> - </span>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

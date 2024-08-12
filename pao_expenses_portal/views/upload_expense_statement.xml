@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="view_upload_expense_statement_form" model="ir.ui.view">
+        <field name="name">upload.expense.statement.form</field>
+        <field name="model">upload.expense.statement</field>
+        <field name="arch" type="xml">
+            <form string="Upload Account Statement">
+                <group>
+                    <field name="employee_id" invisible="1"/>
+                    <field name="statement_filename" invisible="1"/>
+                    <field name="statement_file" filename="statement_filename" options="{'accepted_file_extensions': '.xlsx, .csv'}"/>
+                </group>
+                <footer>
+                    <button name="action_import_statement" type="object" string="Upload" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_upload_expense_statement" model="ir.actions.act_window">
+        <field name="name">Upload Account Statement</field>
+        <field name="res_model">upload.expense.statement</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_upload_expense_statement" name="Upload Account Statement" parent="hr_expense.menu_hr_expense_my_expenses" sequence="3" action="action_upload_expense_statement"/>
+
+</odoo>
