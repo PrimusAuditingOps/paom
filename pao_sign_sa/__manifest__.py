@@ -12,7 +12,7 @@
     v 1.0
         * Migrated from v14.\n
     """,
-    'depends': ['base','sale','servicereferralagreement','portal'
+    'depends': ['base','sale','servicereferralagreement','portal','pao_org_rn_audit_information'
     ],
     'data': [
         # security

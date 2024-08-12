@@ -54,7 +54,8 @@
                 <div class="row">
                     <div class="col-6">
                     <p style="text-align:left;max-width:400px;"><b>Invoice E-mail: </b><span t-field="serviceagreement.invoice_email"/></p></div>
-                    <div class="col-6">
+                
+                <div class="col-6"  t-if="serviceagreement.sale_order_id.audit_type != 'unannounced'">
                     <p style="text-align:left;max-width:400px;"><b>Tentative Date: </b><span t-field="serviceagreement.start_date"/> - <span t-field="serviceagreement.end_date"/></p></div>  
                 </div>
 
