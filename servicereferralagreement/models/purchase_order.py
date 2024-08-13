@@ -276,7 +276,7 @@ class PurchaseOrder(models.Model):
                         return {
                             'warning': {
                                 'title': "Warning",
-                                'message': _('EL proveedor contiene servicios asignados para la fecha seleccionada en los siguientes pedidos de compra: {0}'.format(purchaseorders)),
+                                'message': _('The supplier has services assigned to the date selected in the purchase orders below: {0}'.format(purchaseorders)),
                             },
                         }
 
@@ -288,7 +288,7 @@ class PurchaseOrder(models.Model):
                     return {
                             'warning': {
                                 'title': "Warning",
-                                'message': _('El pedido de venta {0} no tiene productos disponibles para relacionar con la orden de compra.'.format(pedido)),
+                                'message': _('The sales order {0} has no products available that can be related to the purchase order.'.format(pedido)),
                             },
                         }
 

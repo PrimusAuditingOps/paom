@@ -5,11 +5,6 @@ from odoo import fields, models, api
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    """organization_id = fields.One2many(
-        comodel_name='servicereferralagreement.organization',
-        inverse_name='customer_id',
-        string='Organizations',
-    )"""
 
     organization_ids = fields.Many2many(
         'servicereferralagreement.organization',
