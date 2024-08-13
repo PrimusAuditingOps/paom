@@ -3,7 +3,7 @@
     <template id="sa_pgfs_scheme_usa">
         <div id="portal_sa_pfgs_usa_content" t-attf-class="#{'card pb-5' if not print else ''}">
             <div id="introduction" class="#{'pb-2 pt-3 card-header' if not print else ''}" style="text-align: center;">
-                    <h3><b>PRIMUS AUDITING OPERATIONS PRIMUSGFS SERVICES AGREEMENT</b></h3>
+                    <h3><b>PRIMUS AUDITING OPERATIONS<br/>PRIMUSGFS SERVICES AGREEMENT</b></h3>
             </div>
             <div class="card-body">
                 <p>
@@ -54,14 +54,15 @@
                 <div class="row">
                     <div class="col-6">
                     <p style="text-align:left;max-width:400px;"><b>Invoice E-mail: </b><span t-field="serviceagreement.invoice_email"/></p></div>
-                    <div class="col-6">
+                
+                <div class="col-6"  t-if="serviceagreement.sign_sa_agreements_id.sale_order_id.audit_type != 'unannounced'">
                     <p style="text-align:left;max-width:400px;"><b>Tentative Date: </b><span t-field="serviceagreement.start_date"/> - <span t-field="serviceagreement.end_date"/></p></div>  
                 </div>
 
                 <br/>
                 
-                <table class="table">
-                    <thead class="thead-dark" style="text-align:center">
+                <table class="table" style="font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                    <thead  style="ext-align:center; background-color:black;color:white;">
                         <tr>
                             <th scope="col">Services</th>
                             <th scope="col">Quantity</th>

@@ -67,7 +67,7 @@ class SASendRequest(models.TransientModel):
             _logger.error(self.sale_order_id.name)
             for line in orderLine:
                 if line.product_template_id:
-                    if not line.service_end_date or not line.service_start_date:
+                    if self.sale_order_id.audit_type != 'unannounced' and (not line.service_end_date or not line.service_start_date):
                         msg=_("Please enter a date for service of the registration number ")
                         raise ValidationError(msg + rn.name)
                     if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:

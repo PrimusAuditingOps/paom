@@ -52,7 +52,7 @@ class CustomerPortal(portal.CustomerPortal):
         #_logger.error(request.session['geoip'].get('latitude') or 0.0)
         #_logger.error(request.session['geoip'].get('longitude') or 0.0)
         sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign"})
-        msg = "Se ha firmado el acuerdo " + sa_sudo.title
+        msg = _("The service agreement has been signed %s") % sa_sudo.title
         notification_ids = []
         notification_ids.append((0,0,{
             'res_partner_id':sa_sudo.create_uid.id,
