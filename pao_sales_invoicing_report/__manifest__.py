@@ -10,6 +10,7 @@
         'views/menu_item_accounting_sales_report.xml',
         
         'security/ir.model.access.csv',
+        'security/rules.xml',
     ],
     'license': 'LGPL-3',
 }

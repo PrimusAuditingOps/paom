@@ -8,7 +8,8 @@ class ResPartnerInherit(models.Model):
     
     @api.onchange('email')
     def _onchange_email_stripe(self):
-        email_list = self.email.split(',')
+        email = str(self.email)
+        email_list = email.split(',')
         if len(email_list) > 1:
             return {'warning': {
                 'title': _("Information related to the contact's email"),
