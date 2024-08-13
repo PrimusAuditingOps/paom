@@ -22,7 +22,7 @@
         # views
         'views/pao_child_sales_order_line_view.xml',
         'views/res_partner.xml',
-        'views/product_pricelist.xml',
+        #'views/product_pricelist.xml',
         'views/purchase_order.xml',
     ],
     'license': 'LGPL-3',

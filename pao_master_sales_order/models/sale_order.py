@@ -43,11 +43,13 @@ class SaleOrder(models.Model):
 
     def action_conver_to_master(self):
         self.ensure_one()
+        self.write({'pao_is_a_master_sales_order': True})
+        """
         if self.pricelist_id.pao_is_a_shared_cost_list == True:
             self.write({'pao_is_a_master_sales_order': True})
         else:
             raise ValidationError(_("To convert a quotation to a MO, a Tier4 pricing list has to be selected.")) 
-    
+        """
     def action_view_children_orders(self):
         self.ensure_one()   
         ids = [r['id'] for r in self.pao_child_ids]
