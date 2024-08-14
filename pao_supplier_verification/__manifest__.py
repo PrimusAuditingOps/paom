@@ -9,6 +9,7 @@
     'data': [
         # security
         'security/ir.model.access.csv',
+        'security/rules.xml',
         # data
         'data/branches_data.xml',
         'data/services_data.xml',

@@ -18,6 +18,10 @@ class SupplierService(models.Model):
     _name = "pao.supplier.service"
     _description = "Supplier Service"
     
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company', required=True, readonly=True,
+        default=lambda self: self.env.company)
     name = fields.Char('Name', translate=True, required=True)
     internal_name = fields.Char('Internal Name')
     
@@ -37,4 +41,8 @@ class SupplierBranchOffice(models.Model):
     _name = "pao.supplier.branch.office"
     _description = "Supplier Branch Office"
     
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company', required=True, readonly=True,
+        default=lambda self: self.env.company)
     name = fields.Char('Name', required=True)
