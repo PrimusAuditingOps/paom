@@ -28,8 +28,8 @@
                 <field name="registrynumber_id" domain="[('organization_id', '=', organization_id)]" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="hide"/>
                 <field name="service_start_date" optional="hide"/>
                 <field name="service_end_date" optional="hide"/>
-                <field name="sra_sale_line_ids" widget="many2many_tags" invisible="1"/>
-                <field name ="sra_sale_line_price_unit" invisible="1"/>
+                <field name="sra_sale_line_ids" widget="many2many_tags" column_invisible="True"/>
+                <field name ="sra_sale_line_price_unit" column_invisible="True"/>
             </xpath>
         </field>
     </record>
