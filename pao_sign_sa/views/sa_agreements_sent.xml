@@ -25,7 +25,7 @@
                         <page string="Attachments">
                             <field name="attachment_ids" widget="many2many">
                                 <tree string="Documents">
-                                    <field name="name" invisible="1"/>
+                                    <field name="name" column_invisible="True" invisible="1"/>
                                     <field name="datas" filename="name" widget="binary" string="SA"/>
                                 </tree>
                             </field>

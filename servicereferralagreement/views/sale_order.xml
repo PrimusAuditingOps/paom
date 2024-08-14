@@ -28,8 +28,8 @@
                 <field name="service_start_date" optional="show"/>
                 <field name="service_end_date" optional="show"/>
                 <field name="coordinator_id" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="show"/>
-                <field name="update_number" invisible="1"/>
-                <field name="update_number_coordinator" invisible="1"/>
+                <field name="update_number" column_invisible="True" invisible="1"/>
+                <field name="update_number_coordinator"  column_invisible="True" invisible="1"/>
             </xpath>
         </field>
     </record>
