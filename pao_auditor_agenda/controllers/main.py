@@ -149,12 +149,12 @@ class WebsiteAuditorCalendar(http.Controller):
                         # Se agregó una descripción a los días no laborales
                     
                         for r in days_off:
-                            name = r.name if r.name else 'Día no laboral'
-                            comments = r.comments if r.comments else 'Sin comentarios'
+                            name = r.name if r.name else 'Day off'
+                            comments = r.comments if r.comments else _('No comments')
 
                             weekend_cls.append({
-                                'name': 'Asunto: '+name,
-                                'comments':'Comentarios: '+comments,
+                                'name': _('Subject: ')+name,
+                                'comments':_('Comments: ')+comments,
                                 'color': 'background-color:#e9ecef; font-weight:Bold; word-wrap: break-word;'
                             })
                             """
