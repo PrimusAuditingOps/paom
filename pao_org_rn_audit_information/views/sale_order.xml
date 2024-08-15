@@ -26,15 +26,26 @@
                          
                     </group>
                     <group col="2">
-                        <label for="service_start_date" string="Date"/>
+
+                        <label for="service_start_date" string="Date range"/>
                         <div>
                             <field name="service_start_date" widget="daterange"
                                 options="{'end_date_field': 'service_end_date'}"/>
                         </div>
+                        <field name="service_end_date" invisible="1"/>
+
+
+
+
+                        <!--<label for="service_start_date" string="Date"/>
+                        <div>
+                            <field name="service_start_date" widget="daterange"
+                                options="{'end_date_field': 'service_end_date'}"/>
+                        </div>-->
 	                </group>
-	                <group>
+	                <!--<group>
 	                    <field name="service_end_date" invisible="1"/>
-	                </group>
+	                </group>-->
                 </page>
             </page>
         </field>
