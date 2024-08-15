@@ -59,7 +59,7 @@ class SaleOrderLine(models.Model):
         ondelete='restrict')
     service_start_date = fields.Date(string="Service start date")
     service_end_date = fields.Date(string="Service end date")
-    coordinator_id = fields.Many2one('res.users', string="Coordinator",
+    coordinator_id = fields.Many2one('res.users', string="Operations Specialist",
                                      ondelete='set null', index=True,
                                      domain = [('share','=',False)])
     service_date = fields.Date(compute=_generate_service_date)
