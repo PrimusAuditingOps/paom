@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="send_anniversary_reminder_view_form" model="ir.ui.view">
+        <field name="name">send.anniversary_reminder.view.form</field>
+        <field name="model">send.anniversary.reminder</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="2"> 
+                    <field name="email_address"/>
+                    <field name="subject" placeholder="Enter Subject"/>
+                    <field name="message" placeholder="Enter Message..."/>
+                </group>
+                <group col="4">
+                    <field name="mail_template_id" options="{'no_create':True, 'create_edit': false,'no_open': True}"/>
+                </group>
+                <footer>
+                    <button string="Send" name="send_mail" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

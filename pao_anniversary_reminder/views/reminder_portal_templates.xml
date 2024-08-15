@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="reminder_exception_page_view" name="Audit offer not found">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center my-5 py-5">
+                    <h3 class="d-inline">This audit offer has already been responded or does not exist.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="response_sent_template" name="Response sent">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center my-5 py-5">
+                    <h3 class="d-inline">Your response has been sent.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="reminder_response_template" name="Audit Reminder">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mb-4">
+                    <h3 class="d-inline">
+                        <b>
+                            <t t-esc="action_label"/> Audit Offer
+                        </b>
+                    </h3>
+                </div>
+
+                <form method="POST" t-att-action="action_link">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="action" t-att-value="action"/>
+                    <div class="px-5 mt-4 mb-5">
+                        <div class="mx-4" t-if="action == 'accept'">
+                            <label for="observations">Observations</label>
+                            <textarea class="form-control" name="observations" id="observations" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="mx-4" t-if="action == 'reject'">
+                            <label for="observations">Reasons</label>
+                            <textarea required="true" class="form-control" name="observations" id="observations" cols="30" rows="10"></textarea>
+                        </div>
+
+                        <br/>
+
+                        <div class="text-center mt-4 mb-5">
+                            <button type="submit" class="btn btn-primary mx-3">Send</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </t>
+    </template>
+
+</odoo>
