@@ -59,6 +59,11 @@ class PurchaseOrder(models.Model):
         compute='_get_registration_number', 
         string='Registration number order lines',
         readonly=True)
+    
+    pao_purchase_quantity_allowed = fields.Boolean(compute='_compute_is_purchase_quantity_allowed')
+            
+    def _compute_is_purchase_quantity_allowed(self):
+        self.pao_purchase_quantity_allowed = self.env.user.has_group("servicereferralagreement.allow_modify_purchase_quantity")
  
     def _get_registration_number(self):
         rn = []
