@@ -95,6 +95,7 @@ class WebsiteAuditorCalendar(http.Controller):
                 result_line_assessment, key=lambda x: x.service_end_date, reverse=True)[0]["service_end_date"]
             last_day = last_day_assessment if last_day_assessment and last_day_assessment > last_day else last_day
 
+
         status_list = []
         for status_id in audit_status_ids:
             total = 0
@@ -119,8 +120,11 @@ class WebsiteAuditorCalendar(http.Controller):
             for rec in res_status:
                 status_name = rec.name
                 sts_color = rec.color
-            status_list.append({'id': status_name, 'value': total,
-                               'color': 'background-color:' + status_color[sts_color] + ';'})
+                company = rec.company_id
+            
+            if company == request.env.user.company_id:
+                status_list.append({'id': status_name, 'value': total,
+                                'color': 'background-color:' + status_color[sts_color] + ';'})
 
         domain = [('auditor_id', '=', partner.id), ('end_date', '>=', today)]
         result_auditor_daysoff = request.env['auditordaysoff.days'].sudo().search(
@@ -149,12 +153,12 @@ class WebsiteAuditorCalendar(http.Controller):
                         # Se agregó una descripción a los días no laborales
                     
                         for r in days_off:
-                            name = r.name if r.name else 'Día no laboral'
-                            comments = r.comments if r.comments else 'Sin comentarios'
+                            name = r.name if r.name else _('Day off')
+                            comments = r.comments if r.comments else _('No comments')
 
                             weekend_cls.append({
-                                'name': 'Asunto: '+name,
-                                'comments':'Comentarios: '+comments,
+                                'name': _('Subject: ')+name,
+                                'comments':_('Comments: ')+comments,
                                 'color': 'background-color:#e9ecef; font-weight:Bold; word-wrap: break-word;'
                             })
                             """
@@ -249,7 +253,7 @@ class WebsiteAuditorCalendar(http.Controller):
                     }
 
             months.append({
-                'month': format_datetime(start, 'MMMM Y', locale='es_MX'),
+                'month': format_datetime(start, 'MMMM Y', locale = request.env.context.get('lang')),
                 'weeks': dates
             })
             start = start + relativedelta(months=1)
@@ -272,20 +276,12 @@ class WebsiteAuditorCalendar(http.Controller):
         )
         rafilename = 'RA-'+order_sudo.name+'-'+order_sudo.partner_id.name+'.pdf'
 
-        """
-        domain = [('res_id', '=', id),('name', '=', rafilename),('res_model', '=', 'purchase.order')]
-        attachment_sudo = request.env['ir.attachment'].sudo().search(
-            domain,
-            order="create_date desc", 
-            limit=1
-        )
-        dataAttachment = None
-        for recattachment in attachment_sudo:
-            dataAttachment = recattachment.datas
-        """
-        #pdf = base64.b64decode(dataAttachment or '')
-        pdf = request.env.ref('servicereferralagreement.report_rapurchaseorder').sudo(
-        )._render_qweb_pdf([id])[0]
-        return request.make_response(pdf,
-                                     [('Content-Type', 'application/octet-stream'),
-                                      ('Content-Disposition', content_disposition(rafilename))])
+        # pdf = request.env.ref('servicereferralagreement.report_rapurchaseorder').sudo(
+        # )._render_qweb_pdf([id])[0]
+        
+        pdf = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+            'servicereferralagreement.report_rapurchaseorder',
+            id,
+        )[0]
+        
+        return request.make_response(pdf, [('Content-Type', 'application/octet-stream'), ('Content-Disposition', content_disposition(rafilename))])

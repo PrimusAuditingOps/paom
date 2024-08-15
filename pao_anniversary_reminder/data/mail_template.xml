@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mail_template_anniversary_reminder" model="mail.template">
+            <field name="name">Anniversary Reminder Template</field>
+            <field name="model_id" ref="pao_anniversary_reminder.model_send_anniversary_reminder"/>
+            <field name="subject">ANNIVERSARY MAIL</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt; font-family:Tahoma,sans-serif; line-height:1.0;">
+                    Dear: {organization}<br/><br/>
+        
+                    I hope this message finds you well. I would like to take this opportunity to thank you for choosing Primus Auditing Ops to conduct 
+                    your third-party audits. The purpose of my email is to inform you that the certificate with number {registry_number} is about to 
+                    expire, and we would like to begin the Certification process.<br/><br/>
+
+                    We are interested in working with you, so it is necessary for you to contact us to schedule your audit. Please remember that 
+                    scheduling in advance gives us the opportunity to assign the dates you propose.<br/><br/>
+
+                    I remain attentive to any questions and thank you in advance for your support.<br/><br/>
+                    
+                    <a class="btn btn-primary mx-4" href="{accept_link}" target="_blank">Accept</a>
+                    <a class="btn btn-primary mx-4" href="{reject_link}" target="_blank">Decline</a>
+                    <br/><br/>
+
+                    Best Regards.<br/><br/>
+
+                    "If you have already established contact with your coordinator, please disregard this email."
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

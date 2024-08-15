@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sale_order_commissions_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.commissions.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page name="commissions" string="Commissions">
+                    <field name="commission_ids" nolabel="1">
+                        <tree string="Commissions" editable="bottom">
+                            <field name="user_id" string="Sales Specialist" required="1" options="{'no_create':1}" width="33"/>
+                            <field name="source_id" string="Source" required="1" options="{'no_create':1}" width="33"/>
+                            <field name="commission_percentage" string="Commission Percentage (%)" required="1" width="33"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

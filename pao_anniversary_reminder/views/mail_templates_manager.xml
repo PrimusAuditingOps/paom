@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="anniversary_reminder_templates_action" model="ir.actions.act_window">
+        <field name="name">Reminder Templates</field>
+        <field name="res_model">mail.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('model', '=', 'send.anniversary.reminder')]</field>
+        <field name="context">{'default_model': 'send.anniversary.reminder',}</field>
+    </record>
+    
+</odoo>

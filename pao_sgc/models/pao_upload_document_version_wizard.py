@@ -31,12 +31,12 @@ class PAOUploadDocumentVersion(models.TransientModel):
             
             xml_id = 'approval_category_documents_sgc'
 
-            ir_model_data = self.env['ir.model.data'].search([('model', '=', 'approval.category'),('name', '=', xml_id),], limit=1)
+            ir_model_data = self.env['ir.model.data'].sudo().search([('model', '=', 'approval.category'),('name', '=', xml_id),], limit=1)
 
             category_id = ir_model_data.res_id
             
             request_name = _('REQ: %(document_name)s - Version: %(version)s - Revision: %(revision)s'
-                             ) % {'document_name': self.name, 'version': self.version, 'revision': self.revision_number}
+                            ) % {'document_name': self.name, 'version': self.version, 'revision': self.revision_number}
         
             approval_data = {
                 'request_owner_id': self.create_uid.id,

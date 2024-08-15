@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="source_cold_call" model="commissions.source">
+            <field name="name" >Cold Call</field>
+            <field name="default_percentage">3</field>
+            <field name="internal_name">cold_call</field>
+        </record>
+
+        <record id="source_login_request" model="commissions.source">
+            <field name="name" >Login Request</field>
+            <field name="internal_name">login_request</field>
+        </record>
+
+        <record id="source_cb_switch" model="commissions.source">
+            <field name="name" >CB Switch</field>
+            <field name="internal_name">cb_switch</field>
+        </record>
+
+        <record id="source_referral" model="commissions.source">
+            <field name="name" >Referral</field>
+            <field name="default_percentage">2.5</field>
+            <field name="internal_name">referral</field>
+        </record>
+
+        <record id="source_services" model="commissions.source">
+            <field name="name" >Additional Services</field>
+            <field name="default_percentage">1.5</field>
+            <field name="internal_name">services</field>
+        </record>
+
+        <record id="source_consultant" model="commissions.source">
+            <field name="name" >Consultant</field>
+            <field name="default_percentage">1.5</field>
+            <field name="internal_name">consultant</field>
+        </record>
+
+        <record id="source_shipper" model="commissions.source">
+            <field name="name" >Shipper</field>
+            <field name="default_percentage">2.5</field>
+            <field name="internal_name">shipper</field>
+        </record>
+
+        <record id="source_shceme" model="commissions.source">
+            <field name="name" >Scheme Change</field>
+            <field name="default_percentage">1.5</field>
+            <field name="internal_name">shceme</field>
+        </record>
+
+        <record id="source_inquiry" model="commissions.source">
+            <field name="name" >Customer Inquiry</field>
+            <field name="default_percentage">1.5</field>
+            <field name="internal_name">inquiry</field>
+        </record>
+
+        <record id="source_operations" model="commissions.source">
+            <field name="name" >Additional Operation(s)</field>
+            <field name="default_percentage">1.5</field>
+            <field name="internal_name">operations</field>
+        </record>
+
+    </data>
+</odoo>
