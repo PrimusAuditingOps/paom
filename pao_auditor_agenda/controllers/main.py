@@ -249,7 +249,7 @@ class WebsiteAuditorCalendar(http.Controller):
                     }
 
             months.append({
-                'month': format_datetime(start, 'MMMM Y', locale='es_MX'),
+                'month': format_datetime(start, 'MMMM Y', locale=http.request.env.context.get('lang')),
                 'weeks': dates
             })
             start = start + relativedelta(months=1)
