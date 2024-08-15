@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-11 18:42+0000\n"
-"PO-Revision-Date: 2024-07-11 18:42+0000\n"
+"POT-Creation-Date: 2024-08-15 16:45+0000\n"
+"PO-Revision-Date: 2024-08-15 16:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,6 +55,12 @@ msgid "Commissions Sources"
 msgstr "Fuentes de comisiones"
 
 #. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_commissions_source__company_id
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__company_id
+msgid "Company"
+msgstr ""
+
+#. module: pao_sale_order_comissions
 #: model:commissions.source,name:pao_sale_order_comissions.source_consultant
 msgid "Consultant"
 msgstr "Consultor"
@@ -80,6 +86,11 @@ msgstr "Divisa"
 #: model:commissions.source,name:pao_sale_order_comissions.source_inquiry
 msgid "Customer Inquiry"
 msgstr ""
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_commissions_source__default_percentage
+msgid "Default Percentage (%)"
+msgstr "Porcentaje por defecto (%)"
 
 #. module: pao_sale_order_comissions
 #: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__details
@@ -141,6 +152,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__amount
 msgid "Payment Amount"
 msgstr "Monto de pago"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__date_order
+msgid "Quotation Date"
+msgstr "Fecha de cotización"
 
 #. module: pao_sale_order_comissions
 #: model:commissions.source,name:pao_sale_order_comissions.source_referral
