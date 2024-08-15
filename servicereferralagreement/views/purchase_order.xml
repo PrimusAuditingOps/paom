@@ -31,9 +31,9 @@
                 <field name="sra_sale_line_ids" widget="many2many_tags" column_invisible="True"/>
                 <field name ="sra_sale_line_price_unit" column_invisible="True"/>
             </xpath>
-            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_qty']" position="attributes">
+            <!--<xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_qty']" position="attributes">
                 <attribute name="readonly">parent.sale_order_id and not parent.pao_purchase_quantity_allowed</attribute>
-            </xpath>
+            </xpath>-->
         </field>
     </record>
 </odoo>
