@@ -15,7 +15,7 @@ class SaleOrderCommissionsReport(models.Model):
     specialist = fields.Many2one('res.users', string='Sales Specialist', readonly=True)
     details = fields.Char('Details of operation', compute="_get_details", readonly=True)
     source = fields.Many2one('commissions.source', string="Source")
-    date_order = fields.Date('Qutation Date', readonly=True)
+    date_order = fields.Date('Quotation Date', readonly=True)
     commission_percentage = fields.Float(string="Commission Percentage (%)",digits=(3, 2), readonly=True)
     amount = fields.Monetary(string="Payment Amount", compute="_get_amount", readonly=True, currency_field='currency_id')
     currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
