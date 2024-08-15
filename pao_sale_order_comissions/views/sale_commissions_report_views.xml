@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_comissions_report_tree_view" model="ir.ui.view">
+        <field name="name">sale.comissions.report.tree.view</field>
+        <field name="model">sale.order.commissions.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="order" widget="many2one"/>
+                <field name="specialist"/>
+                <field name="details"/>
+                <field name="source"/>
+                <field name="commission_percentage"/>
+                <field name="amount"/>
+                <field name="currency_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_action_sale_commissions_report" model="ir.actions.act_window">
+        <field name="name">Sales Commissions Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.commissions.report</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+
+
+
+    <record id="source_commissions_tree_view" model="ir.ui.view">
+        <field name="name">source.commissions.tree.view</field>
+        <field name="model">commissions.source</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="source_commissions_form_view" model="ir.ui.view">
+        <field name="name">source.commissions.form.view</field>
+        <field name="model">commissions.source</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="default_percentage"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_action_commissions_sources" model="ir.actions.act_window">
+        <field name="name">Commissions Sources</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">commissions.source</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
