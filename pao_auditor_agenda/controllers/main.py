@@ -272,20 +272,12 @@ class WebsiteAuditorCalendar(http.Controller):
         )
         rafilename = 'RA-'+order_sudo.name+'-'+order_sudo.partner_id.name+'.pdf'
 
-        """
-        domain = [('res_id', '=', id),('name', '=', rafilename),('res_model', '=', 'purchase.order')]
-        attachment_sudo = request.env['ir.attachment'].sudo().search(
-            domain,
-            order="create_date desc", 
-            limit=1
-        )
-        dataAttachment = None
-        for recattachment in attachment_sudo:
-            dataAttachment = recattachment.datas
-        """
-        #pdf = base64.b64decode(dataAttachment or '')
-        pdf = request.env.ref('servicereferralagreement.report_rapurchaseorder').sudo(
-        )._render_qweb_pdf([id])[0]
-        return request.make_response(pdf,
-                                     [('Content-Type', 'application/octet-stream'),
-                                      ('Content-Disposition', content_disposition(rafilename))])
+        # pdf = request.env.ref('servicereferralagreement.report_rapurchaseorder').sudo(
+        # )._render_qweb_pdf([id])[0]
+        
+        pdf = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+            'servicereferralagreement.report_rapurchaseorder',
+            id,
+        )[0]
+        
+        return request.make_response(pdf, [('Content-Type', 'application/octet-stream'), ('Content-Disposition', content_disposition(rafilename))])
