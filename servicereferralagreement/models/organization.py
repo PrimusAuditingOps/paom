@@ -21,7 +21,7 @@ class PaoServicereFerralAgreementOrganization(models.Model):
     rfc = fields.Char(string="RFC", help='Enter RFC')
     country_id = fields.Many2one('res.country', string='Country', help='Select Country',
                                  ondelete='restrict', required=True,
-                                 default = _default_country)  
+                                 default = lambda self: self.env.company.country_id.id)  
     state_id = fields.Many2one('res.country.state', string='State', help='Select State',
                                ondelete='restrict', required=True,
                                domain=[('country_id', '=', -1)])

@@ -37,12 +37,12 @@ class PurchaseOrder(models.Model):
                                    ondelete='restrict')
     sale_order_id = fields.Many2one('sale.order', string='Sale Order',
                                     ondelete='set null')
-    coordinator_id = fields.Many2one('res.users', string="Coordinator",
+    coordinator_id = fields.Many2one('res.users', string="Operations Specialist",
                                      ondelete='set null', index=True,
                                      domain = [('share','=',False)])
     audit_country_id = fields.Many2one('res.country', string='Audit Country',
                                        help='Select Country', ondelete='restrict',
-                                       default = _default_country)  
+                                       default = lambda self: self.env.company.country_id.id)  
     audit_state_id = fields.Many2one('res.country.state', string='Audit State',
                                      help='Select State', ondelete='restrict',
                                      domain=[('country_id', '=', -1)])
