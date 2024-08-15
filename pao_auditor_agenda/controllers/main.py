@@ -95,32 +95,55 @@ class WebsiteAuditorCalendar(http.Controller):
                 result_line_assessment, key=lambda x: x.service_end_date, reverse=True)[0]["service_end_date"]
             last_day = last_day_assessment if last_day_assessment and last_day_assessment > last_day else last_day
 
+        current_company = request.env.user.company_id
+
         status_list = []
         for status_id in audit_status_ids:
             total = 0
+
             res_audits_status = filter(
-                lambda x: x['ac_audit_status'].id == status_id, result_line_audit)
+                lambda x: x['ac_audit_status'].id == status_id and x['company_id'] == current_company.id, 
+                result_line_audit
+            )
             total_audit = reduce(
-                lambda acc, element: acc+int(element['product_qty']), res_audits_status, 0)
+                lambda acc, element: acc + int(element['product_qty']), res_audits_status, 0
+            )
+            
             res_shadow_status = filter(
-                lambda x: x['ac_audit_status'].id == status_id, result_line_shadow)
+                lambda x: x['ac_audit_status'].id == status_id and x['company_id'] == current_company.id, 
+                result_line_shadow
+            )
             total_shadow = reduce(
-                lambda acc, element: acc+int(element['product_qty']), res_shadow_status, 0)
+                lambda acc, element: acc + int(element['product_qty']), res_shadow_status, 0
+            )
+            
             res_assessment_status = filter(
-                lambda x: x['ac_audit_status'].id == status_id, result_line_assessment)
+                lambda x: x['ac_audit_status'].id == status_id and x['company_id'] == current_company.id, 
+                result_line_assessment
+            )
             total_assessment = reduce(
-                lambda acc, element: acc+int(element['product_qty']), res_assessment_status, 0)
+                lambda acc, element: acc + int(element['product_qty']), res_assessment_status, 0
+            )
 
             total = total_audit + total_assessment + total_shadow
 
-            res_status = filter(lambda x: x['id'] == status_id, audit_status)
+            # Filter statuses for the current company
+            res_status = filter(
+                lambda x: x['id'] == status_id and x['company_id'] == current_company.id, 
+                audit_status
+            )
+            
             status_name = ""
             sts_color = 0
             for rec in res_status:
                 status_name = rec.name
                 sts_color = rec.color
-            status_list.append({'id': status_name, 'value': total,
-                               'color': 'background-color:' + status_color[sts_color] + ';'})
+
+            status_list.append({
+                'id': status_name, 
+                'value': total,
+                'color': 'background-color:' + status_color[sts_color] + ';'
+            })
 
         domain = [('auditor_id', '=', partner.id), ('end_date', '>=', today)]
         result_auditor_daysoff = request.env['auditordaysoff.days'].sudo().search(
@@ -249,7 +272,7 @@ class WebsiteAuditorCalendar(http.Controller):
                     }
 
             months.append({
-                'month': format_datetime(start, 'MMMM Y', locale=http.request.env.context.get('lang')),
+                'month': format_datetime(start, 'MMMM Y', locale = request.env.context.get('lang')),
                 'weeks': dates
             })
             start = start + relativedelta(months=1)
