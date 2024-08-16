@@ -4,7 +4,7 @@ class SaleReportInherit(models.Model):
     _inherit="sale.report"
 
     ship_date = fields.Date('Ship Date', readonly=True)
-    organization_id = fields.Many2one('servicereferralagreement.organization', 'Organization', readonly=True)
+    # organization_id = fields.Many2one('servicereferralagreement.organization', 'Organization', readonly=True)
     registry_number_id = fields.Many2one('servicereferralagreement.registrynumber', 'Registry Number', readonly=True)
     audit_date = fields.Date('Audit Date', readonly=True)
     end_date = fields.Date('End Date', readonly=True)
@@ -27,7 +27,7 @@ class SaleReportInherit(models.Model):
         
         group_by_fields += """, 
             s.date_order
-            l.organization_id
+            -- l.organization_id
             l.registrynumber_id
             l.service_start_date
             l.service_end_date
