@@ -33,4 +33,4 @@ class PaoServicereFerralAgreementOrganization(models.Model):
         default=lambda self: self.env.company)
     registry_number_id = fields.One2many('servicereferralagreement.registrynumber',
                                          inverse_name='organization_id',
-                                         string='Registry number')
+                                         string='Registration number')

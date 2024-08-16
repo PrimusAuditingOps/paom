@@ -12,7 +12,7 @@ class SAReport(models.Model):
     quantity = fields.Integer('Quantity', readonly=True)
     organization = fields.Many2one('servicereferralagreement.organization', 'Organization', readonly=True)
     coordinator_id = fields.Many2one('res.users', 'Coordinator', readonly=True)
-    service_registry_number = fields.Many2one('servicereferralagreement.registrynumber', 'Service Registry Number', readonly=True)
+    service_registry_number = fields.Many2one('servicereferralagreement.registrynumber', 'Service Registration Number', readonly=True)
     sa_request_id = fields.Many2one('pao.sign.sa.agreements.sent', 'SA Request', readonly=True)
     state_id = fields.Many2one('res.country.state', 'State', readonly=True)
     sale_order_id = fields.Many2one('sale.order', 'Sale Order', readonly=True)

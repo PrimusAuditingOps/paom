@@ -60,7 +60,7 @@
                 <field name="invoice_status" invisible="1"/>
                 <button name="action_conver_to_master" string="Convert to Master Order" title="Convert to Master Order"
                 type="object" invisible="invoice_status == 'invoiced' or pao_is_a_master_sales_order or pao_is_a_child_sales_order"/>
-                <button name="%(pao_master_sales_order.action_pao_child_sales_order_line)d" string="Create Child Order" title="Create Sub-Order"
+                <button name="%(pao_master_sales_order.action_pao_child_sales_order_line)d" string="Create Sub Order" title="Create Sub-Order"
                 type="action" invisible="pao_is_a_master_sales_order == False" context="{'default_sale_order_id': id}"/>
                 
                 <button name="action_master_order_lock" type="object" string="Lock" help="If the sale is locked, you can not modify it anymore." invisible="locked or not locked and state == 'sale' or pao_is_a_child_sales_order"/>

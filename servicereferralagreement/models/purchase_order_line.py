@@ -30,7 +30,7 @@ class PurchaseOrderLine(models.Model):
                                       help='Select Organization',
                                       ondelete='set null')
     registrynumber_id = fields.Many2one('servicereferralagreement.registrynumber',
-                                        string='Registry number',
+                                        string='Registration number',
                                         ondelete='set null')
     service_start_date = fields.Date(string="Service start date")
     service_end_date = fields.Date(string="Service end date")

@@ -51,7 +51,7 @@ class SaleOrderLine(models.Model):
         ondelete='restrict')
     registrynumber_id = fields.Many2one(
         comodel_name='servicereferralagreement.registrynumber',
-        string='Registry number',
+        string='Registration number',
         ondelete='restrict',
         domain = [('organization_id.id', '=', organization_id)])
     audit_products = fields.Many2many(
