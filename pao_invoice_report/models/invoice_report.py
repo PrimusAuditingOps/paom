@@ -27,12 +27,6 @@ class InvoiceReport(models.Model):
     price_subtotal = fields.Monetary('Original Currency Subtotal', currency_field='currency_id', readonly=True)
     usd_subtotal = fields.Monetary(string='USD Subtotal', compute='_get_usd_price', currency_field='currency_id', readonly=True)
     mxn_subtotal = fields.Monetary(string='MXN Subtotal', compute='_get_mxn_price', currency_field='currency_id', readonly=True)
-    registry_number_id = fields.Many2one('servicereferralagreement.registrynumber', 'Registry Number', readonly=True, compute='_get_sale_order')
-    organization_id = fields.Many2one('servicereferralagreement.organization', 'Organization', readonly=True, compute='_get_sale_order')
-    ship_date = fields.Date('Ship Date', readonly=True, compute='_get_sale_order')
-    audit_date = fields.Date('Audit Date', readonly=True, compute='_get_sale_order')
-    end_date = fields.Date('End Date', readonly=True, compute='_get_sale_order')
-    sale_order_id = fields.Many2one('sale.order', 'Sale Order', readonly=True, compute='_get_sale_order')
     #########################
 
     invoice_partner_name = fields.Char('Invoice partner name', readonly=True)
@@ -64,35 +58,6 @@ class InvoiceReport(models.Model):
     # usd_total = fields.Monetary(related='invoice_id.ad_usd_total', string="USD Total", readonly=True)
     # mxn_net = fields.Monetary(related='invoice_id.ad_mxn_neto', string="MXN Net", readonly=True)
     # mxn_total = fields.Monetary(related='invoice_id.ad_mxn_total', string="MXN Total", readonly=True)
-    
-    def _get_sale_order(self):
-        for record in self:
-            
-            record.sale_order_id = None
-            record.registry_number_id = None
-            record.organization_id = None
-            record.ship_date = None
-            record.end_date = None
-            record.audit_date = None
-            
-            invoice = self.env['account.move'].browse(record.invoice_id.id)
-            if invoice:
-                # Get the related sale orders from the invoice
-                sale_orders = self.env['sale.order'].search([('invoice_ids', 'in', invoice.ids)])
-                if sale_orders:
-                    first_sale_order = sale_orders[0]
-                    
-                    record.sale_order_id = first_sale_order.id
-                    # Fetch the first sale order line
-                    if first_sale_order.order_line:
-                        first_line = first_sale_order.order_line[0]
-                        
-                        if first_line.registrynumber_id:
-                            record.registry_number_id = first_line.registrynumber_id.id
-                            record.organization_id = first_line.organization_id.id
-                        record.ship_date = first_sale_order.date_order
-                        record.audit_date = first_line.service_start_date
-                        record.end_date = first_line.service_end_date
     
     def _get_rate(self):
         for rec in self:
@@ -174,7 +139,6 @@ class InvoiceReport(models.Model):
         from_ = """
                 	account_move_line l
                         INNER JOIN account_move a ON a.id = l.move_id
-                    
                         INNER JOIN res_currency c ON a.currency_id = c.id
                         --JOIN res_currency_rate cr ON c.id = cr.currency_id AND cr.name = a.invoice_date
                         LEFT JOIN crm_team t ON t.id = a.team_id
