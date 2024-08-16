@@ -90,7 +90,7 @@ class InvoiceReport(models.Model):
                         if first_line.registrynumber_id:
                             record.registry_number_id = first_line.registrynumber_id.id
                             record.organization_id = first_line.organization_id.id
-                        record.ship_date = first_line.date_order
+                        record.ship_date = first_sale_order.date_order
                         record.audit_date = first_line.service_start_date
                         record.end_date = first_line.service_end_date
     
