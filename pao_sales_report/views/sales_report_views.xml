@@ -4,7 +4,7 @@
         <record id="sale_report_view_tree_inherit" model="ir.ui.view">
             <field name="name">sale.report.view.tree.inherit</field>
             <field name="model">sale.report</field> 
-            <field name="inherit_id" ref="sale.report.view.tree"/>
+            <field name="inherit_id" ref="sale.sale_report_view_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='order_reference']" position="after">
                     <field name="organization_id"/>
