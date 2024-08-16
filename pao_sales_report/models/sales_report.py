@@ -16,7 +16,7 @@ class SaleReportInherit(models.Model):
             s.date_order as ship_date,
             l.service_start_date as audit_date,
             l.registrynumber_id as registry_number_id,
-            l.organization_id as organization_id, 
+            -- l.organization_id as organization_id, 
             l.service_end_date as end_date
         """
         
