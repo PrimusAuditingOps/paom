@@ -27,11 +27,11 @@ class InvoiceReport(models.Model):
     price_subtotal = fields.Monetary('Original Currency Subtotal', currency_field='currency_id', readonly=True)
     usd_subtotal = fields.Monetary(string='USD Subtotal', compute='_get_usd_price', currency_field='currency_id', readonly=True)
     mxn_subtotal = fields.Monetary(string='MXN Subtotal', compute='_get_mxn_price', currency_field='currency_id', readonly=True)
-    sale_order_id = fields.Many2one('sale.order', 'Sale Order', readonly=True, compute='_get_sale_order')
     registry_number_id = fields.Many2one('servicerreferalagreement.registrynumber', 'Registry Number', readonly=True)
     ship_date = fields.Date('Ship Date', readonly=True)
     end_date = fields.Date('End Date', readonly=True)
     audit_date = fields.Date('Audit Date', readonly=True)
+    sale_order_id = fields.Many2one('sale.order', 'Sale Order', readonly=True, compute='_get_sale_order')
     #########################
 
     invoice_partner_name = fields.Char('Invoice partner name', readonly=True)
