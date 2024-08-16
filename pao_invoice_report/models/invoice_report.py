@@ -27,10 +27,10 @@ class InvoiceReport(models.Model):
     price_subtotal = fields.Monetary('Original Currency Subtotal', currency_field='currency_id', readonly=True)
     usd_subtotal = fields.Monetary(string='USD Subtotal', compute='_get_usd_price', currency_field='currency_id', readonly=True)
     mxn_subtotal = fields.Monetary(string='MXN Subtotal', compute='_get_mxn_price', currency_field='currency_id', readonly=True)
-    registry_number_id = fields.Many2one('servicerreferalagreement.registrynumber', 'Registry Number', readonly=True)
-    ship_date = fields.Date('Ship Date', readonly=True)
-    end_date = fields.Date('End Date', readonly=True)
-    audit_date = fields.Date('Audit Date', readonly=True)
+    registry_number_id = fields.Many2one('servicerreferalagreement.registrynumber', 'Registry Number', readonly=True, compute='_get_sale_order')
+    ship_date = fields.Date('Ship Date', readonly=True, compute='_get_sale_order')
+    end_date = fields.Date('End Date', readonly=True, compute='_get_sale_order')
+    audit_date = fields.Date('Audit Date', readonly=True, compute='_get_sale_order')
     sale_order_id = fields.Many2one('sale.order', 'Sale Order', readonly=True, compute='_get_sale_order')
     #########################
 
@@ -170,11 +170,7 @@ class InvoiceReport(models.Model):
         from_ = """
                 	account_move_line l
                         INNER JOIN account_move a ON a.id = l.move_id
-                        
-                        INNER JOIN sale_order_invoice_rel AS soir ON soir.invoice_id = a.id
-                        
-                        INNER JOIN sale_order AS so ON so.id = soir.order_id
-                        
+                    
                         INNER JOIN res_currency c ON a.currency_id = c.id
                         --JOIN res_currency_rate cr ON c.id = cr.currency_id AND cr.name = a.invoice_date
                         LEFT JOIN crm_team t ON t.id = a.team_id
