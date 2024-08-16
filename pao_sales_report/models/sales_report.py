@@ -12,12 +12,12 @@ class SaleReportInherit(models.Model):
     def _group_by_sale(self):
         group_by_fields = super(SaleReportInherit, self)._group_by_sale()
         
-        group_by_fields += """, 
-            s.date_order
-            -- l.organization_id
-            -- l.registrynumber_id
-            l.service_start_date
-            l.service_end_date
+        group_by_fields += """
+            ,s.date_order
+            ,l.organization_id
+            ,l.registrynumber_id
+            ,l.service_start_date
+            ,l.service_end_date
         """
         
         return group_by_fields
@@ -26,12 +26,12 @@ class SaleReportInherit(models.Model):
     def _select_sale(self):
         select_fields = super(SaleReportInherit, self)._select_sale()
         
-        select_fields += """,
-            s.date_order as ship_date,
-            l.service_start_date as audit_date,
-            -- l.registrynumber_id as registry_number_id,
-            -- l.organization_id as organization_id, 
-            l.service_end_date as end_date
+        select_fields += """
+            ,s.date_order as ship_date,
+            ,l.service_start_date as audit_date,
+            ,l.registrynumber_id as registry_number_id,
+            ,l.organization_id as organization_id, 
+            ,l.service_end_date as end_date
         """
         
         return select_fields
