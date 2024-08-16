@@ -6,7 +6,7 @@
         <field name="model">invoice.report</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="invoice_number"/>
+                <field name="invoice_id" widget="many2one"/>
                 <field name="client_id"/>
                 <field name="group"/>
                 <field name="promoter"/>
