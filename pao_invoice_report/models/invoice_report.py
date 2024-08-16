@@ -28,9 +28,10 @@ class InvoiceReport(models.Model):
     usd_subtotal = fields.Monetary(string='USD Subtotal', compute='_get_usd_price', currency_field='currency_id', readonly=True)
     mxn_subtotal = fields.Monetary(string='MXN Subtotal', compute='_get_mxn_price', currency_field='currency_id', readonly=True)
     registry_number_id = fields.Many2one('servicereferralagreement.registrynumber', 'Registry Number', readonly=True, compute='_get_sale_order')
+    organization_id = fields.Many2one('servicereferralagreement.organization', 'Organization', readonly=True, compute='_get_sale_order')
     ship_date = fields.Date('Ship Date', readonly=True, compute='_get_sale_order')
-    end_date = fields.Date('End Date', readonly=True, compute='_get_sale_order')
     audit_date = fields.Date('Audit Date', readonly=True, compute='_get_sale_order')
+    end_date = fields.Date('End Date', readonly=True, compute='_get_sale_order')
     sale_order_id = fields.Many2one('sale.order', 'Sale Order', readonly=True, compute='_get_sale_order')
     #########################
 
@@ -69,6 +70,7 @@ class InvoiceReport(models.Model):
             
             record.sale_order_id = None
             record.registry_number_id = None
+            record.organization_id = None
             record.ship_date = None
             record.end_date = None
             record.audit_date = None
@@ -87,9 +89,10 @@ class InvoiceReport(models.Model):
                         
                         if first_line.registrynumber_id:
                             record.registry_number_id = first_line.registrynumber_id.id
-                        record.ship_date = first_line.service_end_date
+                            record.organization_id = first_line.organization_id.id
+                        record.ship_date = first_line.date_order
+                        record.audit_date = first_line.service_start_date
                         record.end_date = first_line.service_end_date
-                        record.audit_date = first_line.service_end_date
     
     def _get_rate(self):
         for rec in self:
