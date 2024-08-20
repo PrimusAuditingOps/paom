@@ -22,6 +22,7 @@
         <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="country_code" invisible="1"/>
                 <field name="partner_id" widget="many2one_avatar_user" readonly="state != 'draft'" invisible="not partner_id"/>
                 <field name="purchase_order" readonly="state != 'draft'" invisible="not purchase_order or employee_id or not partner_id.ado_is_auditor"/>
             </xpath>

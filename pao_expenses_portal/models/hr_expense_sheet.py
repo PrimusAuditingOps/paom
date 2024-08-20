@@ -10,6 +10,7 @@ class ExpenseSheetInherit(models.Model):
     purchase_order = fields.Many2one('purchase.order', string='Purchase Order')
     partner_id = fields.Many2one('res.partner', string='Contact')
     expense_scheme_id = fields.Many2one('expense.scheme', string='Scheme', default=None)
+    country_code = fields.Char(related='company_id.country_code', string='Country Code')
     
     employee_id = fields.Many2one(
         'hr.employee',
@@ -30,9 +31,10 @@ class ExpenseSheetInherit(models.Model):
         
         result = super(ExpenseSheetInherit, self).action_sheet_move_create()
         
-        for move in self.account_move_ids:
-            for line in move.line_ids:
-                line.partner_id = line.expense_id.partner_id
+        if self.country_code == 'MX' or not self.employee_id:
+            for move in self.account_move_ids:
+                for line in move.line_ids:
+                    line.partner_id = line.expense_id.partner_id
             
         return result
     
@@ -52,9 +54,10 @@ class ExpenseSheetInherit(models.Model):
         
         bills_vals = super(ExpenseSheetInherit, self)._prepare_bills_vals()
         
-        partner_id = self.employee_id.sudo().work_contact_id.id if self.employee_id else self.partner_id.id
-        # partner_id = self.partner_id.id
-        bills_vals.update({'partner_id': partner_id})
+        if self.country_code == 'MX' or not self.employee_id:
+            partner_id = self.employee_id.sudo().work_contact_id.id if self.employee_id else self.partner_id.id
+            # partner_id = self.partner_id.id
+            bills_vals.update({'partner_id': partner_id})
         
         return bills_vals
     
@@ -68,6 +71,8 @@ class ExpenseInherit(models.Model):
     _inherit = "hr.expense"
     
     partner_id = fields.Many2one('res.partner', string='Contact', required=True, domain=[('ado_is_auditor', '=', False)])
+    
+    country_code = fields.Char(related='company_id.country_code', string='Country Code')
 
     employee_id = fields.Many2one(
         'hr.employee',
@@ -87,8 +92,9 @@ class ExpenseInherit(models.Model):
         
         vals = super(ExpenseInherit, self)._prepare_move_lines_vals()
         
-        expense_name = self.name.split('\n')[0][:64]
-        vals.update({'name': f'{self.employee_id.name if self.employee_id else self.partner_id.name}: {expense_name}',})
+        if self.country_code == 'MX' or not self.employee_id:
+            expense_name = self.name.split('\n')[0][:64]
+            vals.update({'name': f'{self.employee_id.name if self.employee_id else self.partner_id.name}: {expense_name}',})
         
         return vals
     
@@ -98,7 +104,7 @@ class ExpenseInherit(models.Model):
         for record in self:
             
             if 'sheet_id' in values:
-                required_fields = ['product_id', 'partner_id', 'date']
+                required_fields = ['product_id', 'date']
                 missing_fields = []
             
                 # Check which of the required fields are missing in the current record
