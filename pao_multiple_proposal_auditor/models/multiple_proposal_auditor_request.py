@@ -13,7 +13,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
     _description = 'Multiple proposal auditor request'
 
 
-    auditor_ids = fields.Many2many('res.partner', string="Auditores", domain=[("ado_is_auditor","=", True)])
+    auditor_ids = fields.Many2many('res.partner', string="Auditors", domain=[("ado_is_auditor","=", True)])
     subject = fields.Char(
         string="Subject", 
         required=True
