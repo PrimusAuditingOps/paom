@@ -13,22 +13,26 @@ class ExpensesPortal(http.Controller):
     
     def is_user_auditor(self):
         user = request.env.user
-        return user.partner_id.ado_is_auditor
+        return user.partner_id.is_an_in_house_auditor
     
     @http.route('/my/expense_reports', type='http', methods=['GET'], auth='user', website=True, sitemap=False)
     def my_expense_report(self, **kwargs):
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         request.session.pop('error_expense', None)
         
         user = request.env.user
         
-        expense_reports = request.env['hr.expense.sheet'].sudo().search([
-            ('partner_id', '=', user.partner_id.id)
-        ])
+        if request.env.company.country_code == 'MX':
+            expense_reports = request.env['hr.expense.sheet'].sudo().search([
+                ('partner_id', '=', user.partner_id.id)
+            ])
+        else:
+            expense_reports = request.env['hr.expense.sheet'].sudo().search([
+                ('employee_id', '=', user.employee_id.id)
+            ])
         
         return request.render('pao_expenses_portal.my_expense_reports_view', {'expense_reports': expense_reports, 'page_name': 'expense_reports'})
     
@@ -60,8 +64,7 @@ class ExpensesPortal(http.Controller):
     def portal_expense_report_detail(self, report_id=None, **kw):
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         stages_options = request.env['hr.expense.sheet']._fields['state']._description_selection(request.env)
         today = date.today().strftime('%Y-%m-%d')
@@ -108,8 +111,7 @@ class ExpensesPortal(http.Controller):
     
     def _save_expense_sheet(self, kw):
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         request.session.pop('error_expense', None)
         
@@ -118,7 +120,7 @@ class ExpensesPortal(http.Controller):
         purchase_order = kw.get('report_purchase_order')
         scheme = kw.get('scheme')
         
-        values = {'name': summary,'purchase_order': int(purchase_order), 'payment_mode': 'own_account', 'expense_scheme_id': int(scheme)} #{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
+        values = {'name': summary,'purchase_order': int(purchase_order), 'payment_mode': 'company_account', 'expense_scheme_id': int(scheme)} #{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
         
         if self.purchase_order_has_expense_report(purchase_order, id):
             referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
@@ -129,7 +131,10 @@ class ExpensesPortal(http.Controller):
             expense_sheet = request.env['hr.expense.sheet'].browse(int(id))
             expense_sheet.write(values)
         else:
-            values.update({'partner_id': request.env.user.partner_id.id})
+            if request.env.company.country_code == 'MX':
+                values.update({'partner_id': request.env.user.partner_id.id})
+            else:
+                values.update({'employee_id': request.env.user.employee_id.id})
             expense_sheet = request.env['hr.expense.sheet'].sudo().create(values)
             
         return expense_sheet
@@ -179,8 +184,7 @@ class ExpensesPortal(http.Controller):
     def portal_reset_expense_report(self, **kw):
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         report_id = kw.get("report_id")
         
@@ -200,8 +204,7 @@ class ExpensesPortal(http.Controller):
     def portal_delete_expense_report(self, **kw):
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         report_id = kw.get("report_id")
         
@@ -223,8 +226,7 @@ class ExpensesPortal(http.Controller):
         current_route = request.httprequest.path
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         report_id = kw.get("report_id")
         description = kw.get("description")
@@ -239,6 +241,8 @@ class ExpensesPortal(http.Controller):
         
         if partner.st_supplier_taxes_id:
             tax_ids = partner.st_supplier_taxes_id.taxes_id
+        elif request.env.company.country_code != 'MX':
+            tax_ids = None
         else:
             request.session['error_expense'] = _("You don't have supplier taxes defined. Please contact our team to resolve this issue.")
             referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
@@ -249,11 +253,16 @@ class ExpensesPortal(http.Controller):
             'product_id': int(expense_category),
             'date': expense_date,
             'total_amount_currency': float(total),
+            'payment_mode': 'company_account',
             'currency_id': int(currency_id),
-            'partner_id': partner.id,
             'tax_ids': tax_ids
             }
         
+        if request.env.company.country_code == 'MX':
+            values.update({'partner_id': partner.id})
+        else:
+            values.update({'employee_id': request.env.user.employee_id.id})
+
         if not report_id and "wallet" not in current_route:
             return request.redirect('/my/expense_reports')
         elif "wallet" not in current_route:
@@ -285,8 +294,7 @@ class ExpensesPortal(http.Controller):
     def portal_delete_expense(self, **kw):
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         expense_id = kw.get("expense_id")
         unlink = kw.get("unlink")
@@ -317,18 +325,26 @@ class ExpensesPortal(http.Controller):
     def portal_my_wallet(self, **kw):
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         user = request.env.user
         
-        expenses = request.env['hr.expense'].sudo().search([
-            ('partner_id', '=', user.partner_id.id)
-        ])
-        
-        reports = request.env['hr.expense.sheet'].sudo().search([
-            ('partner_id', '=', user.partner_id.id), ('state', '=', 'draft')
-        ])
+        if request.env.company.country_code == 'MX':
+            expenses = request.env['hr.expense'].sudo().search([
+                ('partner_id', '=', user.partner_id.id)
+            ])
+            
+            reports = request.env['hr.expense.sheet'].sudo().search([
+                ('partner_id', '=', user.partner_id.id), ('state', '=', 'draft')
+            ])
+        else:
+            expenses = request.env['hr.expense'].sudo().search([
+                ('employee_id', '=', user.employee_id.id)
+            ])
+            
+            reports = request.env['hr.expense.sheet'].sudo().search([
+                ('employee_id', '=', user.employee_id.id), ('state', '=', 'draft')
+            ])
         
         values = {
                     'reports': reports, 'expenses': expenses, 'page_name': 'wallet_expenses', 
@@ -349,8 +365,7 @@ class ExpensesPortal(http.Controller):
     def portal_add_expense_to_report(self, **kw):
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         request.session.pop('error_expense', None)
         
@@ -379,8 +394,7 @@ class ExpensesPortal(http.Controller):
     def portal_add_receipt_to_expense(self, **kw):
         
         if not self.is_user_auditor():
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            return request.redirect(referer_url)
+            return request.redirect('/my/home')
         
         request.session.pop('error_expense', None)
         

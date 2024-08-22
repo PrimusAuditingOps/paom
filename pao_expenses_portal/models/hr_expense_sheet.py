@@ -31,7 +31,7 @@ class ExpenseSheetInherit(models.Model):
         
         result = super(ExpenseSheetInherit, self).action_sheet_move_create()
         
-        if self.country_code == 'MX' or not self.employee_id:
+        if self.country_code == 'MX':
             for move in self.account_move_ids:
                 for line in move.line_ids:
                     line.partner_id = line.expense_id.partner_id
@@ -54,7 +54,7 @@ class ExpenseSheetInherit(models.Model):
         
         bills_vals = super(ExpenseSheetInherit, self)._prepare_bills_vals()
         
-        if self.country_code == 'MX' or not self.employee_id:
+        if self.country_code == 'MX':
             partner_id = self.employee_id.sudo().work_contact_id.id if self.employee_id else self.partner_id.id
             # partner_id = self.partner_id.id
             bills_vals.update({'partner_id': partner_id})
@@ -92,7 +92,7 @@ class ExpenseInherit(models.Model):
         
         vals = super(ExpenseInherit, self)._prepare_move_lines_vals()
         
-        if self.country_code == 'MX' or not self.employee_id:
+        if self.country_code == 'MX':
             expense_name = self.name.split('\n')[0][:64]
             vals.update({'name': f'{self.employee_id.name if self.employee_id else self.partner_id.name}: {expense_name}',})
         
