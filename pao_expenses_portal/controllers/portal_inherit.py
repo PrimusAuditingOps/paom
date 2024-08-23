@@ -50,6 +50,8 @@ class ExpensesPortal(http.Controller):
         
     def purchase_order_has_expense_report(self, purchase_order_id, report_id):
         
+        if not purchase_order_id or not purchase_order_id.isdigit(): 
+            return False
         report_id = "-1" if not report_id else report_id
         report = request.env['hr.expense.sheet'].sudo().search([
                     ('purchase_order', '=', int(purchase_order_id))
@@ -119,8 +121,12 @@ class ExpensesPortal(http.Controller):
         summary = kw.get('report_summary')
         purchase_order = kw.get('report_purchase_order')
         scheme = kw.get('scheme')
+
+        scheme_id = int(scheme) if scheme and scheme.isdigit() else None
+        purchase_order_id = int(purchase_order) if purchase_order and purchase_order.isdigit() else None
+
         
-        values = {'name': summary,'purchase_order': int(purchase_order), 'payment_mode': 'company_account', 'expense_scheme_id': int(scheme)} #{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
+        values = {'name': summary,'purchase_order': purchase_order_id, 'payment_mode': 'company_account', 'expense_scheme_id': scheme_id} #{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
         
         if self.purchase_order_has_expense_report(purchase_order, id):
             referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
@@ -135,8 +141,13 @@ class ExpensesPortal(http.Controller):
                 values.update({'partner_id': request.env.user.partner_id.id})
             else:
                 values.update({'employee_id': request.env.user.employee_id.id})
+
             expense_sheet = request.env['hr.expense.sheet'].sudo().create(values)
             
+        if purchase_order and purchase_order.isdigit():
+            order = request.env['purchase.order'].sudo().browse(int(purchase_order))
+            order.write({'sheet_id': expense_sheet.id})
+
         return expense_sheet
     
     @http.route(['/my/expense_reports/save'], type='http', auth='user', website=True, methods=['POST'])
@@ -212,8 +223,15 @@ class ExpensesPortal(http.Controller):
             report = request.env['hr.expense.sheet'].browse(int(report_id))
             
             if report.exists():
+                
+                purchase_order_id = report.purchase_order.id if report.purchase_order else None
+                if purchase_order_id:
+                    order = request.env['purchase.order'].sudo().browse(int(purchase_order_id))
+                    order.write({'sheet_id': None})
+
                 report.expense_line_ids.sudo().unlink()
-                report.unlink()
+                report.sudo().unlink()
+
             
             return request.redirect('/my/expense_reports')
 
@@ -270,7 +288,7 @@ class ExpensesPortal(http.Controller):
         
         expense = request.env['hr.expense'].create(values)
         
-        if report_id:
+        if report_id and expense.sheet_id.expense_scheme_id:
             expense.sudo().write({'account_id': expense.sheet_id.expense_scheme_id.property_account_expense_id.id})
         
         for receipt in receipts:
@@ -381,7 +399,8 @@ class ExpensesPortal(http.Controller):
                 invalid_expenses_list.append(expense.name)
             else:
                 expense.sudo().write({'sheet_id': int(report_id)})
-                expense.sudo().write({'account_id': expense.sheet_id.expense_scheme_id.property_account_expense_id.id})
+                if expense.sheet_id.expense_scheme_id:
+                    expense.sudo().write({'account_id': expense.sheet_id.expense_scheme_id.property_account_expense_id.id})
                 
         if len(invalid_expenses_list) > 0: 
             invalid_expenses = ', '.join(map(str, invalid_expenses_list))
