@@ -181,7 +181,7 @@
                     <div class="mb-3 row">
                         <label for="report_purchase_order" class="fw-bold col-sm-2 col-form-label pt-0" t-if="purchase_order_redirect or (report and report.purchase_order)">Purchase order</label>
                         <div class="col-sm-10">
-                            <div t-att-class="'btn-group ' + ('d-none' if not new_report and report and report.purchase_order else '')">
+                            <div t-att-class="'btn-group ' + ('d-none' if not purchase_order_redirect else '')">
                                 <select name="report_purchase_order" t-att-class="'form-select' + (' pe-none' if new_report and purchase_order_redirect else '')" id="report_purchase_order">
                                     <option class="d-none"></option>
                                     <t t-foreach="purchase_orders_account" t-as="order">
@@ -198,8 +198,8 @@
                             </a>
 
                             <script>
-                                var purchase_field = document.getElementById('report_purchase_order')
-                                if purchase_field{
+                                var purchase_field = document.getElementById('report_purchase_order');
+                                if(purchase_field){
                                     purchase_field.addEventListener('change', function() {
                                         var selectedValue = this.value;
                                         link = '/my/purchase/' + selectedValue
