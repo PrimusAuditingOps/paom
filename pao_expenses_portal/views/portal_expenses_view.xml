@@ -6,7 +6,7 @@
             <t t-set="portal_service_category_enable" t-value="True"/>
         </xpath>
         <div id="portal_service_category" position="inside">
-            <t t-if="request.env.user.partner_id.ado_is_auditor" t-call="portal.portal_docs_entry">
+            <t t-if="request.env.user.partner_id.is_an_in_house_auditor" t-call="portal.portal_docs_entry">
                 <t t-set="icon" t-value="'/purchase/static/src/img/rfq.svg'"/>
                 <t t-set="text">Add your travel expenses</t>
                 <t t-set="title">Expenses</t>
@@ -164,7 +164,7 @@
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" t-if="submittable" data-bs-target="#add_expenses">Add expenses</button>
                 <button t-if="submittable" type="submit" class="btn btn-primary" formaction="/my/expense_reports/submit">Submit</button>
                 <t t-if="report">
-                    <button t-if="report.can_reset or report.state in ('submit', 'cancel', 'approve', 'post')" type="submit" class="btn btn-primary" formaction="/my/expense_reports/reset">Reset to Draft</button>
+                    <button t-if="report.state in ('submit', 'cancel', 'approve')" type="submit" class="btn btn-primary" formaction="/my/expense_reports/reset">Reset to Draft</button>
                 </t>
 
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
@@ -179,10 +179,10 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="report_purchase_order" class="fw-bold col-sm-2 col-form-label pt-0">Purchase order</label>
+                        <label for="report_purchase_order" class="fw-bold col-sm-2 col-form-label pt-0" t-if="purchase_order_redirect or (report and report.purchase_order)">Purchase order</label>
                         <div class="col-sm-10">
-                            <div class="btn-group" t-if="new_report or submittable">
-                                <select name="report_purchase_order" t-att-class="'form-select rounded-start rounded-0' + (' pe-none' if new_report and purchase_order_redirect else '')" required="1" id="report_purchase_order">
+                            <div t-att-class="'btn-group ' + ('d-none' if not purchase_order_redirect else '')">
+                                <select name="report_purchase_order" t-att-class="'form-select' + (' pe-none' if new_report and purchase_order_redirect else '')" id="report_purchase_order">
                                     <option class="d-none"></option>
                                     <t t-foreach="purchase_orders_account" t-as="order">
                                         <option t-att-value="order.id" t-att-selected="(report and report.purchase_order and order.id == report.purchase_order.id) or (purchase_order_redirect and int(purchase_order_redirect) == order.id)">
@@ -190,27 +190,30 @@
                                         </option>
                                     </t>
                                 </select>
-                                <a class="btn btn-secondary" id="purchase_redirect" t-att-href="'/my/purchase/'+str(report.purchase_order.id) if report and report.purchase_order else '#'" role="button">➜</a>
+                                <a class="btn btn-secondary d-none" id="purchase_redirect" t-att-href="'/my/purchase/'+str(report.purchase_order.id) if report and report.purchase_order else '#'" role="button">➜</a>
                             </div>
 
-                            <a t-if="not new_report and not submittable" t-att-href="'/my/purchase/'+str(report.purchase_order.id)">
+                            <a t-if="not new_report and report.purchase_order" t-att-href="'/my/purchase/'+str(report.purchase_order.id)">
                                 <t t-esc="report.purchase_order.name"/>
                             </a>
 
                             <script>
-                                document.getElementById('report_purchase_order').addEventListener('change', function() {
-                                    var selectedValue = this.value;
-                                    link = '/my/purchase/' + selectedValue
-                                    document.getElementById('purchase_redirect').setAttribute('href', link);
-                                });
+                                var purchase_field = document.getElementById('report_purchase_order');
+                                if(purchase_field){
+                                    purchase_field.addEventListener('change', function() {
+                                        var selectedValue = this.value;
+                                        link = '/my/purchase/' + selectedValue
+                                        document.getElementById('purchase_redirect').setAttribute('href', link);
+                                    });
+                                }
                             </script>
 
                         </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="mb-3 row d-none">
                         <label for="scheme" class="fw-bold col-sm-2 col-form-label pt-0">Scheme</label>
                         <div class="col-sm-2">
-                            <select name="scheme" class="form-select" required="1" t-if="new_report or submittable">
+                            <select name="scheme" class="form-select" t-if="new_report or submittable">
                                 <option class="d-none"></option>
                                 <t t-foreach="schemes" t-as="scheme">
                                     <option t-att-value="scheme.id" t-att-selected="(report and report.expense_scheme_id and scheme.id == report.expense_scheme_id.id)">
