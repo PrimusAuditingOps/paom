@@ -80,7 +80,7 @@
                         </div>
                          <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/>                        
                         <t t-if="rn.scheme == 'PrimusGFS'">
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code == 'MX'">
+                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR']">
                                 <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/> 
                                 <t t-call="pao_sign_sa.sa_pgfs_scheme">
                                     <t t-set="serviceagreement" t-value="rn"/>
@@ -105,7 +105,7 @@
                             </t>
                         </t>
                         <t t-if="rn.scheme == 'SMETA'">
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code == 'MX'">
+                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR']">
                                 <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/> 
                                 <t t-call="pao_sign_sa.sa_smeta_scheme">
                                     <t t-set="serviceagreement" t-value="rn"/>
@@ -125,7 +125,7 @@
                         </t>
                         <t t-if="rn.scheme == 'Primus Standard GAP' or rn.scheme == 'Primus Standard GMP'">
 
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code == 'MX'">
+                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR']">
                                 <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/> 
                                 <t t-call="pao_sign_sa.sa_primus_standar_scheme">
                                     <t t-set="serviceagreement" t-value="rn"/>
