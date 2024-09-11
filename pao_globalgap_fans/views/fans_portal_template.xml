@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="globalgap_fan_completed_cancel_page_view" name="Request registered">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">The request was completed or canceled!</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="globalgap_fan_registered_page_view" name="Request registered">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">The request was registered, thank you, we appreciate your response!</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="globalgap_fan_signed_page_view" name="Request registered">
+        <t t-call="web.frontend_layout">
+            <div class="m-0 row justify-content-center">
+                <div style="padding-top:10px" class="col-auto">
+                    <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_fr_content">
+                        <div class="card-header">Download</div>
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" t-foreach="documents" t-as="attach">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" title="Download #{attach['name']}" target="_blank" t-attf-href="#{attach['url']}">
+                                            <i class="fa fa-download"></i> 
+                                            <span t-esc="attach['name']"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!--<template id="assets_frontend" inherit_id="website.assets_frontend" name="GLOBALG.A.P. Fans">
+        <xpath expr="." position="inside">
+
+            <script type="text/javascript" src="/pao_globalgap_fans/static/src/js/pao_globalgap_fans.js"/>
+            <script type="text/javascript" src="/pao_globalgap_fans/static/src/js/pao_globalgap_production_site.js"/>
+            <script type="text/javascript" src="/pao_globalgap_fans/static/src/js/pao_globalgap_product_information.js"/>
+            <script type="text/javascript" src="/pao_globalgap_fans/static/src/js/chosen.jquery.min.js"/>
+            <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"/>            
+            <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet"/>
+            <link rel="stylesheet" href="/pao_globalgap_fans/static/src/css/chosen.min.css"/>
+
+          
+
+        </xpath>
+    </template>-->
+    <template id="fan_portal_organization" name="Organization">
+        <t t-call="web.frontend_layout">           
+                <!-- Page content -->
+                    <div id="fan_fillout_content" class="oe_structure oe_empty o_website_fans_organization">
+    
+                        <section class="s_title parallax s_parallax_is_fixed pt24 pb24" data-scroll-background-ratio="1" 
+                        style="background-color:#00ae4d;">
+                            <span class="s_parallax_bg oe_img_bg"/>
+                            <div class="o_we_bg_filter"/>
+                            <div class="container" style="text-align:center;">
+                                <h1 style="color:white;">GLOBALG.A.P APPLICATION REGISTRATION</h1>
+                            </div>
+                        </section>
+                        <section class="s_text_block pt40 pb40 o_colored_level " data-snippet="s_text_block">
+                            <div class="container s_allow_columns">
+                                <div class="row">
+                                    <div class="col-lg-12 col-lg-8 mt-4 mt-lg-0">
+                                        <section class="s_website_form">
+                                            <div class="container">
+                                                <!--data-model_name="mail.mail"-->
+                                                <form id="organization_form" class="o_mark_required o_website_fans_organization_form" action="" method="POST" enctype="multipart/form-data"  data-mark="*" >
+                                                    
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="evaluation_type">
+                                                                    <span class="s_website_form_label_content">Tipo de Evaluación</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <select class="form-control"  optional="false" id="evaluation_type" name="evaluation_type">
+                                                                         <t t-foreach="evaluationtype" t-as="e">
+                                                                             <option t-if="e[0] == data.evaluation_type" selected="" t-att-value="e[0]">
+                                                                                <t t-esc="e[1]"/>
+                                                                            </option>
+                                                                            <option t-else="" t-att-value="e[0]">                         
+                                                                                <t t-esc="e[1]"/>
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="certification_option">
+                                                                    <span class="s_website_form_label_content">Opción de certficación</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <select class="form-control"  optional="false" id="certification_option" name="certification_option">
+                                                                        <t t-foreach="certificationOptions" t-as="c">
+                                                                            <option t-if="c.id == data.certification_option_id.id" selected="" t-att-value="c.id">
+                                                                                <t t-esc="c.name"/>
+                                                                            </option>
+                                                                            <option t-else="" t-att-value="c.id">                         
+                                                                                <t t-esc="c.name" />
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                        <input type="hidden" id="fr_token" name="fr_token" t-att-value="token"/>
+                                                        <input type="hidden" id="fr_id" name="fr_id" t-att-value="id"/>
+                                                        <input type="hidden" name="addons" id="addons" t-att-value="addon_string"/>
+                                                        <div class="mb-0 py-2 col-4 s_website_form_field s_website_form_custom s_website_form_required" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="plmx">
+                                                                    <span class="s_website_form_label_content">PL_México</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="plmx" t-att-value="data.plmx" maxlength="20" type="text" class="form-control s_website_form_input" name="plmx" required="*"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-4 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="ggn">
+                                                                    <span class="s_website_form_label_content">GGN</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="ggn" t-att-value="data.ggn" maxlength="13" type="text" class="form-control s_website_form_input" name="ggn" required="*" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-4 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="globalgap_version">
+                                                                    <span class="s_website_form_label_content">Version</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <select class="form-control"  optional="false" id="globalgap_version" name="globalgap_version">
+                                                                         <t t-foreach="versions" t-as="v">
+                                                                            <option t-if="v.id == data.version_id.id" selected="" t-att-value="v.id">
+                                                                                <t t-esc="v.name"/>
+                                                                            </option>
+                                                                            <option  t-else="" t-att-value="v.id">                         
+                                                                                <t t-esc="v.name" />
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_required" data-type="email">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="addonsgg">
+                                                                    <span class="s_website_form_label_content">Addon</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <t t-foreach="glabalgapaddons" t-as="ggap">
+                                                                        <div>
+                                                                            <input t-if="ggap.id in addon" checked="" type="checkbox" name="addonsgg" t-att-id="ggap.name" t-att-value="ggap.id"/> 
+                                                                            <input t-else="" type="checkbox" name="addonsgg" t-att-id="ggap.name" t-att-value="ggap.id"/> 
+                                                                            <label t-att-for="ggap.name"><t t-esc="ggap.name" /></label>
+                                                                            <input type="hidden" name="grasp_module" id="grasp_module" t-att-value="grasp_module"/>
+                                                                        </div>
+                                                                    </t>
+                                                                </div>                                                            
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <div>
+                                                                    <label class="col-form-label col-sm-auto s_website_form_label" for="evaluation_type">
+                                                                        <span class="s_website_form_label_content">No anunciada </span>
+                                                                    </label>
+                                                                    <input type="checkbox" id="unannounced" name="unannounced" t-att-checked="data.unannounced"/> 
+                                                                </div>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" id="div_grasp_module" style="visibility: hidden;">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="hired_workers">
+                                                                    <span class="s_website_form_label_content">No. de Trabajadores Contratados</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="hired_workers" t-att-value="data.number_of_hired_workers" maxlength="9" type="text" class="form-control s_website_form_input" name="hired_workers"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                         <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="subcontracted_workers">
+                                                                    <span class="s_website_form_label_content">No. de Trabajadores Subcontratados</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="subcontracted_workers" t-att-value="data.number_of_subcontracted_workers" maxlength="9" type="text" class="form-control s_website_form_input" name="subcontracted_workers"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                                             
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="name">
+                                                                    <span class="s_website_form_label_content">Nombre de la entidad legal</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="name" t-att-value="data.name" maxlength="100" type="text" class="form-control s_website_form_input" required="*" name="name"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-3 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="website">
+                                                                    <span class="s_website_form_label_content">Website (Opcional)</span>
+
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="website" t-att-value="data.website" maxlength="100" type="text" class="form-control s_website_form_input"  name="website"/>
+                                                                </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="mb-0 py-2 col-3 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="vat">
+                                                                    <span class="s_website_form_label_content">RFC</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="vat" t-att-value="data.vat" type="text" maxlength="20" class="form-control s_website_form_input" name="vat" required="*"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                                             
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">   
+                                                        <div class="mb-0 py-2 col-8 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="email">
+                                                                    <span class="s_website_form_label_content">Correo eletrónico</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="email" t-att-value="data.email" type="email" maxlength="100" class="form-control s_website_form_input" name="email" required="*"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-4 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="telephone">
+                                                                    <span class="s_website_form_label_content">Teléfono</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="telephone" t-att-value="data.telephone" type="text" maxlength="20" class="form-control s_website_form_input" name="telephone" required="*"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">                                                       
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="previous_cb">
+                                                                    <span class="s_website_form_label_content">Nombre CB previo</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="previous_cb" t-att-value="data.previous_cb" type="text" maxlength="100" class="form-control s_website_form_input" name="previous_cb"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="previous_ggn">
+                                                                    <span class="s_website_form_label_content">GGN previo</span>
+                                                                    
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="previous_ggn" t-att-value="data.previous_ggn"  maxlength="13" type="text"  class="form-control s_website_form_input" name="previous_ggn"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="gln">
+                                                                    <span class="s_website_form_label_content">GLN</span>
+                                                                    
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="gln" t-att-value="data.gln" maxlength="20" type="text"  class="form-control s_website_form_input" name="gln"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <legend  class="w-auto" style="font-weight:bold;text-align:center;color:gray;" >DIRECCIÓN FISCAL DE LA ORGANIZACIÓN</legend>
+                                                     <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-4 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="country">
+                                                                    <span class="s_website_form_label_content">País</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <select class="form-control" optional="false" id="country" name="country" required="*">
+                                                                        <t t-foreach="countries" t-as="c">
+
+                                                                            <option t-if="c.id == data.country_id.id" selected="" required="*" t-att-value="c.id">
+                                                                                <t t-esc="c.name"/>
+                                                                            </option>
+                                                                            <option t-else="" t-att-value="c.id">
+                                                                                <t t-esc="c.name"/>
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>  
+                                                        <div class="mb-0 py-2 col-4 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="state">
+                                                                    <span class="s_website_form_label_content">Estado</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <select class="form-control" optional="false" id="state" name="state" required="*">
+                                                                        <t t-foreach="states" t-as="s">
+                                                                            <option t-if="s.id == data.state_id.id" selected="" t-att-value="s.id" t-att-data-option="s.country_id.id">
+                                                                                <t t-esc="s.name"/>
+                                                                            </option>
+                                                                            <option t-else="" t-att-value="s.id" t-att-data-option="s.country_id.id">
+                                                                                <t t-esc="s.name"/>
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-4 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="city">
+                                                                    <span class="s_website_form_label_content">Ciudad</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <select class="form-control" optional="false" id="city" name="city" required="*">
+                                                                        <t t-foreach="cities" t-as="c">
+                                                                             <option t-if="c.id == data.city_id.id" selected="" t-att-value="c.id"  t-att-data-option="c.state_id.id">
+                                                                                <t t-esc="c.name"/>
+                                                                            </option>
+
+                                                                            <option t-else="" t-att-value="c.id" t-att-data-option="c.state_id.id">
+                                                                                <t t-esc="c.name" />
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>                                     
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="address">
+                                                                    <span class="s_website_form_label_content">Dirección</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="address" t-att-value="data.address" type="text" maxlength="200" class="form-control s_website_form_input" required="*" name="address"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-3 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="colony">
+                                                                    <span class="s_website_form_label_content">Colonia</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="colony" t-att-value="data.colony" class="form-control s_website_form_input" maxlength="100" required="*" name="colony"/>
+                                                                </div>
+                                                            </div>    
+                                                        </div>       
+                                                        <div class="mb-0 py-2 col-3 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="zip">
+                                                                    <span class="s_website_form_label_content">Código Postal</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="zip" t-att-value="data.zip" class="form-control s_website_form_input" maxlength="10" required="*" name="zip"/>
+                                                                </div>
+                                                            </div>    
+                                                        </div>                                                                    
+                                                    </div> 
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_dnone">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label"  for="postal_address">
+                                                                    <span class="s_website_form_label_content">Dirección postal (si es diferente):</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="postal_address" t-att-value="data.postal_address" type="text" maxlength="200" class="form-control s_website_form_input" name="postal_address"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>                                                               
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                        <div class="form-group col-md-12">
+                                                            <button type="button" class="btn btn-info btn-md btn_add_search_address" id="btn_add_search_address">Buscar latitud y longitud</button>
+                                                        </div>
+                                                    </div>                                                  
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="latitude">
+                                                                    <span class="s_website_form_label_content">Latitud</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="latitude" t-att-value="data.latitude" type="text" maxlength="30" class="form-control s_website_form_input" name="latitude" required="*"/>
+                                                                    <p style="font-size:12px; color:gray;">Ingresar latitud en formato decimal ejemplo : 20.6684</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="longitude">
+                                                                    <span class="s_website_form_label_content">Longitud</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="longitude" t-att-value="data.longitude" type="text" maxlength="30" class="form-control s_website_form_input" name="longitude" required="*"/>
+                                                                    <p style="font-size:12px; color:gray;">Ingresar longitud en formato decimal ejemplo : -103.3993</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <head>
+                                                        <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
+                                                        <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet"/>
+                                                    </head>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="col-1"></div>
+                                                        <div class="mb-0 py-2 col-9 s_website_form_field s_website_form_custom text-center" data-type="char">
+                                                            <div id="ubicationMap" style="width:100%; height:400px;"></div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <legend  class="w-auto" style="font-weight:bold;text-align:center;color:gray;" >Informacion de Contacto</legend>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="contact_name">
+                                                                    <span class="s_website_form_label_content">Persona de Contacto <br/>(responsable por la entidad legal)</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="contact_name" t-att-value="data.contact_name" maxlength="100" type="text" class="form-control s_website_form_input" name="contact_name" required="*"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="contact_position">
+                                                                    <span class="s_website_form_label_content">Desempeño o Cargo</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="contact_position" t-att-value="data.contact_position" maxlength="50" type="text" class="form-control s_website_form_input" name="contact_position" required="*"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="contact_telephone">
+                                                                    <span class="s_website_form_label_content">Teléfono de contacto</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="contact_telephone" t-att-value="data.contact_telephone" maxlength="20" type="text" class="form-control s_website_form_input" name="contact_telephone" required="*"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="contact_email">
+                                                                    <span class="s_website_form_label_content">Correo eletrónico</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input id="contact_email"  t-att-value="data.contact_email" maxlength="100" type="email" class="form-control s_website_form_input" name="contact_email" required="*"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                         <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="rights_of_access">
+                                                                    <span class="s_website_form_label_content">De acuerdo a los requisitos del documento 
+                                                                    de las Reglas de Acceso a Datos, (que se adjunta y se localiza en www.globalgap.org/es/documents) 
+                                                                    indicar si:</span>
+                                                                    <span class="s_website_form_mark"> *</span>
+                                                                </label>
+                                                                <div>
+                                                                    <select class="form-control"  optional="false" id="rights_of_access" name="rights_of_access">
+                                                                        <t t-foreach="rightsofaccess" t-as="r">
+                                                                             <option t-if="r[0] == data.rights_of_access" selected="" t-att-value="r[0]">
+                                                                                <t t-esc="r[1]"/>
+                                                                            </option>
+                                                                            <option t-else="" t-att-value="r[0]">                         
+                                                                                <t t-esc="r[1]" />
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="wrapper"></div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-12 s_website_form_submit" style="text-align: center;" data-name="Submit Button">
+                                                            <div style="width: 200px;" class="s_website_form_label"/>
+                                                            <button type="button" id="btn_send_organization" class="btn btn-primary">Guardar y Continuar <span class="fa fa-arrow-right"/></button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>  
+        </t>
+    </template>
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>

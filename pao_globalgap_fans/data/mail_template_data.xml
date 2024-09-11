@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <template id="fans_request_template_mail">
+            <table border="0" cellpadding="0" style="background-color: white; padding: 0px; border-collapse:separate;">
+                <tr>
+                    <td valign="top">
+                        <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                            Estimado/a <t t-esc="record.capturist_id.name"/>
+                            <br/><br/>
+                            A través de este correo le hacemos llegar el <span style="color:blue;">formulario de aplicación para su auditoría GLOBALG.A.P.</span>
+                            <br/><br/>
+                            Para iniciar su proceso de programación por favor, es necesario que llene lo correspondiente a las secciones.
+                            <br/><br/>
+                            Sección 1: Información fiscal de la organización que se auditará.
+                            <br/><br/>
+                            Sección 2: Información del sitio(s) de producción y de la instalación (en caso de que la manipulación ocurra en una instalación).
+                            <br/><br/>
+                            Sección 3: Información general del producto(s) y países destino de exportación.
+                            <br/><br/><br/><br/>
+                            CONSIDERAR: Por favor no olvide indicar Sí o No para cada uno de los siguientes atributos.
+                            <br/><br/>
+                            Producción Paralela (PP): aplica cuando una parte de la producción del mismo producto será certificada y otra no, 
+                            es decir; sitio A de arándano se certificará, mientras el sitio B de arándano no será certificado.
+                            <br/><br/>
+                            Propiedad Paralela (PO): aplica cuando un productor adquiere producto no-certificado que él mismo cultiva bajo certificación.
+                        </p>  
+                    </td>
+                </tr>
+                <tr t-if="body">
+                    <td valign="top">
+                        <div style="margin: 16px 0px 16px 0px; padding: 8px 16px 8px 16px; background-color: #F1F1F1;">
+                            <span>
+                                <t t-raw="body"/>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        <div style="margin:16px auto; text-align:center;">
+                            <a t-att-href="link"
+                                style="padding: 8px 16px 8px 16px; border-radius: 3px; background-color:#875A7B; text-align:center; text-decoration:none; color: #FFFFFF;">
+                                Fill out the application form
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </table>  
+        </template>
+       
+    </data>
+</odoo>

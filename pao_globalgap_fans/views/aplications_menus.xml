@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+<odoo>
+    <menuitem 
+        id="menu_pao_applications" 
+        name="Audit Applications" 
+        web_icon="pao_globalgap_fans,static/description/icon.png"/>
+
+    
+    <menuitem id="menu_global_gap_fans" name="Fans"
+            parent="menu_pao_applications" sequence="1"/>
+    <menuitem id="menu_global_gap_configuration" name="Configuration"
+            parent="menu_pao_applications" sequence="1"/>
+
+     <record id="pao_fans_addon_request_view_form" model="ir.ui.view">
+        <field name="name">pao.fans.addon.request.view.form</field>
+        <field name="model">pao.globalgap.addon</field>
+        <field name="arch" type="xml">
+            <form string="GLOBALG.A.P. Addon">
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="is_grasp_module"/>
+                        <field name="is_fsma_module"/>
+                        
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_fans_addon_request_view_tree" model="ir.ui.view">
+        <field name="name">pao.fans.addon.request.view.tree</field>
+        <field name="model">pao.globalgap.addon</field>
+        <field name="arch" type="xml">
+            <tree string="GLOBALG.A.P. Addon">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="pao_fans_request_view_form" model="ir.ui.view">
+        <field name="name">pao.fans.request.view.form</field>
+        <field name="model">pao.globalgap.fans.request</field>
+        <field name="arch" type="xml">
+            <form string="GLOBALG.A.P. Fans request">
+                <header>
+                    <field name="qa_status" invisible="1"/>
+                    <field name="request_status" widget="statusbar" statusbar_visible="sent,review,signature_request,signed"/>
+                    <button name="action_approve" class="oe_highlight" type="object" string="Approve" invisible="request_status == 'annulled' or qa_status == 'approved'"/>
+                    <button name="resend_fans_request" type="object" string="Correction request" invisible="request_status in ['annulled','draft','signed']"/>
+                    <button name="resend_fans_request" type="object" string="Send request" invisible="request_status != 'draft'"/>
+                    <button name="action_send_to_sign" type="object" string="Send to Sign" invisible="request_status != 'review'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="request_status == 'annulled' or qa_status == 'approved'"/>
+                    <!---->
+                </header>
+                <sheet>
+
+                    <group col="2">
+                        <field name="qa_status"/>
+                        <field name="request_url"/>
+                    </group>
+                    <group col="4">
+                        <field name="title"/>
+                        <field name="capturist_id"/>
+                        <field name="organization_id"/>
+                        <field name="sale_order_id"/>
+                        <!--attrs="{'invisible': [('request_status', 'in', ['sent', 'draft'])]}"-->
+                    </group>
+                    <group col="2">
+                        <field name="attachment_datas" invisible="1"/>
+                        <field name="attachment_name" invisible="1"/>
+                        <field name="attachment_id" invisible="1"/>
+                        <field name="attachment_datas" filename="attachment_name" invisible="request_status != 'signed'"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="pao_fans_request_view_tree" model="ir.ui.view">
+        <field name="name">pao.fans.request.view.tree</field>
+        <field name="model">pao.globalgap.fans.request</field>
+        <field name="arch" type="xml">
+            <tree string="GLOBALG.A.P. Fans request">
+                <field name="title"/>
+                <field name="qa_status"/>
+                <field name="request_status"/>
+                <field name="capturist_id"/>
+                <field name="organization_id"/>
+            </tree>
+        </field>
+    </record>
+   
+     <record id="pao_fans_organization_view_form" model="ir.ui.view">
+        <field name="name">pao.fans.organization.view.form</field>
+        <field name="model">pao.globalgap.organization</field>
+        <field name="arch" type="xml">
+            <form string="Organization">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                        <field name="unannounced"/>
+                    </group>
+                    <group col="4">
+                        <field name="plmx"/>
+                        <field name="globalgap_version"/>
+                        <field name="ggn"/>
+                        <field name="gln"/>
+                        <field name="certification_option"/>
+                        <field name="evaluation_type"/>
+                        <field name="previous_cb"/>
+                        <field name="vat"/>
+                        <field name="addons_ids" widget="many2many_tags"/>
+                    </group>
+                    <group col="2">
+                        <field name="rights_of_access"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page name="address" string="Address">
+                            <group col="4">
+                                <field name="address"/>
+                                <field name="zip"/>
+                                <field name="postal_address"/>
+                                <field name="city_id"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                                <field name="telephone"/>
+                                <field name="email"/>
+                                <field name="latitude"/>
+                                <field name="longitude"/>
+                            </group>
+                        </page>
+                        <page name="contact_info" string="Contact information">
+                            <group col="4">
+                                <field name="contact_name"/>
+                                <field name="contact_position"/>
+                                <field name="contact_telephone"/>
+                                <field name="contact_email"/>
+                            </group>
+                        </page>
+                        <page name="production_site" string="Production site">
+                            <field name="production_site_ids" widget="many2many" context="{'default_organization_id': id}">
+                                <tree string="production site">
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="product_information" string="Product information">
+                            <field name="product_information_ids" widget="many2many" context="{'default_organization_id': id}">
+                                <tree string="product information">
+                                    <field name="product_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                        
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="pao_fans_organization_view_tree" model="ir.ui.view">
+        <field name="name">pao.fans.organization.view.tree</field>
+        <field name="model">pao.globalgap.organization</field>
+        <field name="arch" type="xml">
+            <tree string="GLOBALG.A.P. Organization">
+                <field name="name"/>
+                <field name="plmx"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_fans_globalgap_version_view_form" model="ir.ui.view">
+        <field name="name">pao.fans.globalgap.version.view.form</field>
+        <field name="model">pao.globalgap.version</field>
+        <field name="arch" type="xml">
+            <form string="GLOBALG.A.P. Version">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pao_fans_globalgap_version_view_tree" model="ir.ui.view">
+        <field name="name">pao.fans.globalgap.version.view.tree</field>
+        <field name="model">pao.globalgap.version</field>
+        <field name="arch" type="xml">
+            <tree string="GLOBALG.A.P. Version">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_fans_globalgap_certification_option_view_form" model="ir.ui.view">
+        <field name="name">pao.fans.globalgap.certification.option.view.form</field>
+        <field name="model">pao.globalgap.certification.option</field>
+        <field name="arch" type="xml">
+            <form string="GLOBALG.A.P. Certification Option">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pao_fans_globalgap_certification_option_view_tree" model="ir.ui.view">
+        <field name="name">pao.fans.globalgap.certification.option.view.tree</field>
+        <field name="model">pao.globalgap.certification.option</field>
+        <field name="arch" type="xml">
+            <tree string="GLOBALG.A.P. Certification Option">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+
+    <record id="pao_fans_production_site_view_form" model="ir.ui.view">
+        <field name="name">pao.fans.production.site.view.form</field>
+        <field name="model">pao.globalgap.production.site</field>
+        <field name="arch" type="xml">
+            <form string="Production sites">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="organization_id"/>
+                        <field name="address"/>
+                        <field name="postal_address"/>
+                    </group>
+                    <group col="4">
+                        <field name="zip"/>
+                        <field name="city_id"/>
+                        <field name="state_id"/>
+                        <field name="country_id"/>
+                        <field name="telephone"/>
+                        <field name="email"/>
+                        <field name="latitude"/>
+                        <field name="longitude"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page name="contact_information" string="Contact Information">
+                            <group col="2">
+                                <field name="contact_name"/>
+                                <field name="contact_address"/>
+                            </group>
+                            <group col="4">
+                                <field name="contact_zip"/>
+                                <field name="contact_city_id"/>
+                                <field name="contact_state_id"/>
+                                <field name="contact_country_id"/>
+                                <field name="contact_telephone"/>
+                                <field name="contact_email"/>
+                            </group>
+                        </page>
+                        <page name="products" string="Products">
+                            <field name="product_ids" widget="many2many" context="{'default_production_site_id': id}">
+                                <tree string="Products">
+                                    <field name="product_id"/>
+                                    <field name="hectares_in_production"/>
+                                    <field name="to_certificate"/>
+                                    <field name="parallel_production"/>
+                                    <field name="parallel_property"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                        
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="pao_fans_production_site_view_tree" model="ir.ui.view">
+        <field name="name">pao.fans.production.site.view.tree</field>
+        <field name="model">pao.globalgap.production.site</field>
+        <field name="arch" type="xml">
+            <tree string="Production site">
+                <field name="name"/>
+                <field name="type"/>
+                <field name="organization_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_fans_globalgap_destination_countries_view_form" model="ir.ui.view">
+        <field name="name">pao.fans.globalgap.destination.countries.view.form</field>
+        <field name="model">pao.globalgap.destination.countries</field>
+        <field name="arch" type="xml">
+            <form string="GLOBALG.A.P. Destination countries">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pao_fans_globalgap_destination_countries_view_tree" model="ir.ui.view">
+        <field name="name">pao.fans.globalgap.destination.countries.view.tree</field>
+        <field name="model">pao.globalgap.destination.countries</field>
+        <field name="arch" type="xml">
+            <tree string="GLOBALG.A.P. Destination countries">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+
+    <record id="pao_globalgap_destination_countries_action" model="ir.actions.act_window">
+        <field name="name">GLOBALG.A.P Destination countries</field>
+        <field name="res_model">pao.globalgap.destination.countries</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Destination countries
+            </p>
+        </field>
+    </record>
+
+    <record id="pao_globalgap_certification_option_action" model="ir.actions.act_window">
+        <field name="name">GLOBALG.A.P Certification Option</field>
+        <field name="res_model">pao.globalgap.certification.option</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Certification Option
+            </p>
+        </field>
+    </record>
+
+    <record id="pao_fans_globalgap_version_action" model="ir.actions.act_window">
+        <field name="name">GLOBALG.A.P Version</field>
+        <field name="res_model">pao.globalgap.version</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Version
+            </p>
+        </field>
+    </record>
+
+    <record id="pao_fans_organization_action" model="ir.actions.act_window">
+        <field name="name">GLOBALG.A.P Organization</field>
+        <field name="res_model">pao.globalgap.organization</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Organization
+            </p>
+        </field>
+    </record>
+    
+    <record id="pao_fans_request_action" model="ir.actions.act_window">
+        <field name="name">Fans request</field>
+        <field name="res_model">pao.globalgap.fans.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first fans request
+            </p>
+        </field>
+    </record>
+    <record id="pao_global_gap_addon_action" model="ir.actions.act_window">
+        <field name="name">GLOBALGAP Addon</field>
+        <field name="res_model">pao.globalgap.addon</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Addon
+            </p>
+        </field>
+    </record>
+
+    
+    <menuitem id="menu_global_gap_destination_countries_option" name="Destination countries"
+            parent="menu_global_gap_configuration"
+            action="pao_globalgap_destination_countries_action" sequence="4"/>
+    
+    <menuitem id="menu_global_gap_certification_option" name="Certification Option"
+            parent="menu_global_gap_configuration"
+            action="pao_globalgap_certification_option_action" sequence="2"/>
+
+    <menuitem id="menu_global_gap_version" name="Version"
+            parent="menu_global_gap_configuration"
+            action="pao_fans_globalgap_version_action" sequence="1"/>
+
+    <menuitem id="menu_global_gap_fans_organization" name="Organizations"
+            parent="menu_global_gap_fans"
+            action="pao_fans_organization_action" sequence="4"/>
+
+    <menuitem id="menu_global_gap_addon" name="Addon"
+            parent="menu_global_gap_configuration"
+            action="pao_global_gap_addon_action" sequence="3"/>
+
+     <menuitem id="menu_global_gap_fans_request" name="Fans request"
+            parent="menu_global_gap_fans"
+            action="pao_fans_request_action" sequence="2"/>
+
+
+            
+</odoo>

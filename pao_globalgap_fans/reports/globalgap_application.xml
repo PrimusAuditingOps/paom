@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--<report id="globalgap_application_report" model="pao.globalgap.fans.request" 
+    string="GLOBALG.A.P. certification application" 
+    name="pao_globalgap_fans.report_globalgap_application_view" 
+    file="pao_globalgap_fans.report_globalgap_application" 
+    report_type="qweb-pdf"
+    print_report_name= "'GlobalGAP - Application"/>-->
+    
+
+    <record id="globalgap_application_report" model="ir.actions.report">
+        <field name="name">GLOBALG.A.P. certification application</field>
+        <field name="model">pao.globalgap.fans.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_globalgap_fans.report_globalgap_application_view</field>
+        <field name="report_file">pao_globalgap_fans.report_globalgap_application</field>
+        <field name="print_report_name">'GlobalGAP - Application'</field>
+        <field name="binding_model_id" ref="model_pao_globalgap_fans_request"/>
+        <field name="binding_type">report</field>
+    </record>
+    
+    
+    <template id="report_globalgap_application_view">
+        <t t-call="web.html_container">
+            <div t-attf-class="article o_report_layout_boxed" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id">
+                <!--Header/Footer-->
+                <xpath expr="//head" position="attributes">
+                    <link rel='stylesheet' href="/pao_globalgap_fans/static/src/css/pao_globalgap_fans.css"/>
+                </xpath>
+                <t t-call="pao_globalgap_fans.globagap_application_header_footer"/>
+                <div class="page">
+                    <t t-call="pao_globalgap_fans.globalgap_certification_application"/>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

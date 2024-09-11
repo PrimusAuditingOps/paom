@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <template id="fans_request_signature_mail">
+            <table border="0" cellpadding="0" style="background-color: white; padding: 0px; border-collapse:separate;">
+                <tr>
+                    <td valign="top">
+                        <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                            Estimado/a <t t-esc="record.capturist_id.name"/>
+                            <br/><br/>
+                            A través de este correo le hacemos llegar la solicitud de firma para el registro de aplicación de  <t t-esc="record.fans_request_id.organization_id.name"/>
+                            <br/><br/>
+                        </p>  
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        <div style="margin:16px auto; text-align:center;">
+                            <a t-att-href="link"
+                                style="padding: 8px 16px 8px 16px; border-radius: 3px; background-color:#875A7B; text-align:center; text-decoration:none; color: #FFFFFF;">
+                                Sign
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </table>  
+        </template>
+       
+    </data>
+</odoo>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="fan_portal_production_site" name="Production site">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty o_website_production_site_registration">
+                <section class="s_title parallax s_parallax_is_fixed pt24 pb24" data-scroll-background-ratio="1"
+                style="background-color:#00ae4d;">
+                    <span class="s_parallax_bg oe_img_bg"/>
+                    <div class="o_we_bg_filter"/>
+                    <div class="container" style="text-align:center;">
+                        <h1 style="color:white;">GLOBALG.A.P APPLICATION REGISTRATION</h1>
+                    </div>
+                </section>
+                
+                <section class="s_text_block pt40 pb40 o_colored_level " data-snippet="s_text_block">
+                    <div class="container s_allow_columns">
+                        <div class="row">
+                            <div class="col-lg-12 col-lg-8 mt-4 mt-lg-0">
+                              
+                                <section class="s_website_form">
+                                    <div class="container">
+                                        <form id="production_site_form" class="o_mark_required o_website_production_site_registration_form" action="" method="post" enctype="multipart/form-data"  data-mark="*" >
+                                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <input type="hidden" id="fr_token" name="cr_token" t-att-value="token"/>
+                                                <input type="hidden" id="fr_id" name="cr_id" t-att-value="id"/>
+                                                <div class="mb-0 py-2 col-12 s_website_form_field s_website_form_custom s_website_form_required" data-type="char">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label" for="name">
+                                                            <span class="s_website_form_label_content">Nombre de la entidad legal</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <input id="name" t-att-value="data.name" readonly="true" type="text" class="form-control s_website_form_input" name="name"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <fieldset class="border p-2" style="border-color:#5b5b5b !important;">
+                                                <legend  class="w-auto" style="font-weight:bold;text-align:center" >SITIOS DE PRODUCCIÓN Y UNIDAD DE MANIPULACIÓN</legend>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                    <div class="form-group col-md-12">
+                                                        <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                            <div class="col-sm-6">
+                                                                <input type="radio" checked="true" id="sitio" name="site_type" value="1"/>
+                                                                <label for="sitio">Sitio</label>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <input type="radio" id="phu" name="site_type" value="2"/>
+                                                                <label for="phu">Unidad de Manipulación</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
+                                                    <div class="form-group col-md-12">
+                                                        <label for="productionsite">Nombre del Sitio/Unidad de Manipulación</label>
+                                                        <span class="s_website_form_mark"> *</span>
+                                                        <input type="text" name="productionsite" id="productionsite" maxlength="100" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el nombre del Sitio/Unidad de Manipulación"/>
+                                                    </div>
+                                                </div>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="telephone">Telefono</label>
+                                                        <span class="s_website_form_mark"> *</span>
+                                                        <input type="text" name="telephone" id="telephone" maxlength="20" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el telefono"/>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="email">Email</label>
+                                                        <span class="s_website_form_mark"> *</span>
+                                                        <input type="text" name="email" id="email" maxlength="100" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el Email"/>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                    <div class="form-group col-md-4">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label"  for="sitecountry">
+                                                            <span class="s_website_form_label_content">País</span>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <select class="form-control" optional="false" id="sitecountry" name="sitecountry" required="*">
+                                                                <t t-foreach="countries" t-as="c">
+                                                                    <option t-if="c.id == data.country_id.id" selected="" required="*" t-att-value="c.id">
+                                                                        <t t-esc="c.name"/>
+                                                                    </option>
+                                                                    <option t-else="" t-att-value="c.id">
+                                                                        <t t-esc="c.name"/>
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label"  for="sitestate">
+                                                            <span class="s_website_form_label_content">Estado</span>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <select class="form-control" optional="false" id="sitestate" name="sitestate" required="*">
+                                                                <t t-foreach="states" t-as="s">
+                                                                    <option t-if="s.id == data.state_id.id" selected="" t-att-value="s.id" t-att-data-option="s.country_id.id">
+                                                                        <t t-esc="s.name"/>
+                                                                    </option>
+                                                                    <option t-else="" t-att-value="s.id" t-att-data-option="s.country_id.id">
+                                                                        <t t-esc="s.name"/>
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label"  for="sitecity">
+                                                            <span class="s_website_form_label_content">Ciudad</span>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <select class="form-control" optional="false" id="sitecity" name="sitecity" required="*">
+                                                                <t t-foreach="cities" t-as="c">
+                                                                        <option t-if="c.id == data.city_id.id" selected="" t-att-value="c.id"  t-att-data-option="c.state_id.id">
+                                                                        <t t-esc="c.name"/>
+                                                                    </option>
+
+                                                                    <option t-else="" t-att-value="c.id" t-att-data-option="c.state_id.id">
+                                                                        <t t-esc="c.name" />
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </div>                                            
+                                                </div>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
+                                                     <div class="form-group col-md-9">
+                                                        <label for="address">Dirección</label>
+                                                        <span class="s_website_form_mark"> *</span>
+                                                        <input type="text" name="address" id="address" maxlength="200" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección"/>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="zip">Código postal</label>
+                                                        <span class="s_website_form_mark"> *</span>
+                                                        <input type="text" name="zip" id="zip" maxlength="10" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el código postal"/>
+                                                    </div>
+                                                </div>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
+                                                     <div class="form-group col-md-12">
+                                                        <label for="postal_address">Dirección postal (si es diferente):</label>
+                                                        <input type="text" name="postal_address" id="postal_address" maxlength="200" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección postal"/>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                    <div class="form-group col-md-12">
+                                                        <button type="button" class="btn btn-info btn-md btn_add_search_site_address" id="btn_add_search_site_address">Buscar latitud y longitud</button>
+                                                    </div>
+                                                </div>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="latitude">Latitud</label>
+                                                        <span class="s_website_form_mark"> *</span>
+                                                        <input type="text" name="latitude" id="latitude" maxlength="20" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la latitud"/>
+                                                        <p style="font-size:12px; color:gray;">Ingresar latitud en formato decimal ejemplo : 20.6684</p>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="longitude">Longitud</label>
+                                                        <span class="s_website_form_mark"> *</span>
+                                                        <input type="text" name="longitude" id="longitude" maxlength="20" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la longitud"/>
+                                                        <p style="font-size:12px; color:gray;">Ingresar longitud en formato decimal ejemplo : -103.3993</p>
+                                                    </div> 
+                                                </div>
+                                                
+                                                <head>
+                                                    <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
+                                                    <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet"/>
+                                                </head>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                    <div class="col-1"></div>
+                                                    <div class="mb-0 py-2 col-9 s_website_form_field s_website_form_custom text-center" data-type="char">
+                                                        <div id="ubicationMap" style="width:100%; height:400px;"></div>
+                                                    </div>
+                                                </div>       
+
+                                                <fieldset class="border p-2" style=" border-color:#84d09b !important;margin: 30px;">
+                                                    <legend  class="w-auto" style="font-weight:bold;text-align:center" >Información de Contacto Sitio de Producción/PHU</legend>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
+                                                        <div class="form-group col-md-12">
+                                                            <label for="contactname">Nombre del contacto</label>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                            <input type="text" name="contactname" maxlength="100" id="contactname" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el nombre del contacto"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
+                                                        <div class="form-group col-md-12">
+                                                            <label for="contactaddress">Dirección</label>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                            <input type="text" name="contactaddress" maxlength="200" id="contactaddress" class="form-control s_website_form_input" width="100px" placeholder="Ingrese la dirección"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                        <div class="form-group col-md-4">
+                                                            <label class="col-form-label col-sm-auto s_website_form_label"  for="contaccountry">
+                                                                <span class="s_website_form_label_content">País</span>
+                                                                <span class="s_website_form_mark"> *</span>
+                                                            </label>
+                                                            <div class="col-sm">
+                                                                <select class="form-control" optional="false" id="contaccountry" name="contaccountry" required="*">
+                                                                    <t t-foreach="countries" t-as="c">
+                                                                        <option t-if="c.id == data.country_id.id" selected="" required="*" t-att-value="c.id">
+                                                                            <t t-esc="c.name"/>
+                                                                        </option>
+                                                                        <option t-else="" t-att-value="c.id">
+                                                                            <t t-esc="c.name"/>
+                                                                        </option>
+                                                                    </t>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label class="col-form-label col-sm-auto s_website_form_label"  for="contactstate">
+                                                                <span class="s_website_form_label_content">Estado</span>
+                                                                <span class="s_website_form_mark"> *</span>
+                                                            </label>
+                                                            <div class="col-sm">
+                                                                <select class="form-control" optional="false" id="contactstate" name="contactstate" required="*">
+                                                                    <t t-foreach="states" t-as="s">
+                                                                        <option t-if="s.id == data.state_id.id" selected="" t-att-value="s.id" t-att-data-option="s.country_id.id">
+                                                                            <t t-esc="s.name"/>
+                                                                        </option>
+                                                                        <option t-else="" t-att-value="s.id" t-att-data-option="s.country_id.id">
+                                                                            <t t-esc="s.name"/>
+                                                                        </option>
+                                                                    </t>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label class="col-form-label col-sm-auto s_website_form_label"  for="contaccity">
+                                                                <span class="s_website_form_label_content">Ciudad</span>
+                                                                <span class="s_website_form_mark"> *</span>
+                                                            </label>
+                                                            <div class="col-sm">
+                                                                <select class="form-control" optional="false" id="contaccity" name="contaccity" required="*">
+                                                                    <t t-foreach="cities" t-as="c">
+                                                                            <option t-if="c.id == data.city_id.id" selected="" t-att-value="c.id"  t-att-data-option="c.state_id.id">
+                                                                            <t t-esc="c.name"/>
+                                                                        </option>
+
+                                                                        <option t-else="" t-att-value="c.id" t-att-data-option="c.state_id.id">
+                                                                            <t t-esc="c.name" />
+                                                                        </option>
+                                                                    </t>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                        <div class="form-group col-md-4">
+                                                            <label for="contactzip">Código postal</label>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                            <input type="text" name="contactzip" id="contactzip" maxlength="10" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el código postal"/>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="contacttelephone">Telefono</label>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                            <input type="text" name="contacttelephone" id="contacttelephone" maxlength="20" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el telefono"/>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="contactemail">Email</label>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                            <input type="text" name="contactemail" id="contactemail" maxlength="100" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el Email"/>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset class="border p-2" style=" border-color:#88c1ff !important;margin: 30px;">
+                                                    <legend  class="w-auto" style="font-weight:bold;text-align:center" >PRODUCTOS DEL SITIO DE PRODUCCIÓN Ó PHU</legend>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                        <div class="form-group col-md-3">
+                                                            <label for="product">Producto</label>
+                                                            <select class="form-control" optional="false" id="product" name="product">
+                                                                <t t-foreach="products" t-as="p">
+                                                                    <option t-att-value="p.id">
+                                                                        <t t-esc="p.name" />
+                                                                    </option>
+                                                                </t>
+                                                            </select>                                                        
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label for="hect">Hectáreas en producción</label>
+                                                            <input type="text" name="hect" id="hect" maxlength="15" class="form-control s_website_form_input" width="100px" placeholder="Ingrese las hectáreas en producción"/>
+                                                        </div>
+                                                        <div class="form-group col-md-2">
+                                                            <label for="forcertify">Para certificar</label>
+                                                            <select class="form-control" optional="false" id="forcertify" name="forcertify">
+                                                                <t t-foreach="certificate" t-as="c">
+                                                                    <option t-att-value="c[0]">                         
+                                                                        <t t-esc="c[1]" />
+                                                                    </option>
+                                                                </t>
+                                                               
+                                                            </select> 
+                                                        </div>
+                                                        <div class="form-group col-md-2">
+                                                            <label for="pppo">Producción Paralela</label>
+                                                            <select class="form-control" optional="false" id="pp" name="pp">
+                                                                <t t-foreach="pp" t-as="p">
+                                                                    <option t-att-value="p[0]">                         
+                                                                        <t t-esc="p[1]"/>
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                         <div class="form-group col-md-2">
+                                                            <label for="pppo">Propiedad Paralela</label>
+                                                            <select class="form-control" optional="false" id="po" name="po">
+                                                                <t t-foreach="po" t-as="p">
+                                                                    <option t-att-value="p[0]">                         
+                                                                        <t t-esc="p[1]"/>
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                        <div class="form-group col-md-12">
+                                                            <button type="button" class="btn btn-info btn-md btn_add_products" id="btn_add_products">Añadir producto</button>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="products" id="products" class="form-control s_website_form_input" width="100px" placeholder=""/>
+                                                    <div id="gridProducts"></div>
+                                                    <table id="gridtest"></table>
+                                                </fieldset>
+                                                <br/>
+                                                <br/>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                    <div class="form-group col-md-12">
+                                                        <button type="button" class="btn btn-success btn-md btn_add_production_site" id="btn_add_production_site">Añadir sitio de producción</button>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="site_index" id="site_index" class="form-control s_website_form_input" width="100px" placeholder=""/>
+                                                <input type="hidden" name="sites" id="sites" t-att-value="production_sites" class="form-control s_website_form_input" width="100px" placeholder=""/>
+                                                <div id="gridProductionSite"></div>
+                                                
+
+
+                                            
+                                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                    <div class="mb-0 py-2 col-6 s_website_form_submit" style="text-align: right;" data-name="Submit Button">
+                                                        <div style="width: 200px;" class="s_website_form_label"/>
+                                                        <a t-att-href="back_url" id="btn_back" class="btn btn-primary"><span class="fa fa-arrow-left"/> Atras</a>
+                                                    </div>
+                                                    <div class="mb-0 py-2 col-6 s_website_form_submit" style="text-align: left;" data-name="Submit Button">
+                                                        <div style="width: 200px;" class="s_website_form_label"/>
+                                                         <button type="button" id="btn_send_sites" class="btn btn-primary">Guardar y Continuar <span class="fa fa-arrow-right"/></button>
+                                                        <!--<button type="submit" id="btn_send_sites" class="btn btn-primary">Guardar y Continuar <span class="fa fa-arrow-right"/></button>-->
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </t>
+    </template>
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>

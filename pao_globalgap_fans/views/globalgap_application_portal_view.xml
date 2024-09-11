@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pao_fan_request_exception_page_view" name="Aplication Sign request not found">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5"> 
+                    <h3 class="d-inline">The Application signature request was canceled or does not exist.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="globalgap_application_portal_template" name="GLOBAL.G.A.P. Portal Template">
+        <t t-call="web.frontend_layout">
+            <xpath expr="//head" position="attributes">
+                <link rel='stylesheet' href="/pao_globalgap_fans/static/src/css/pao_globalgap_fans.css"/>
+            </xpath>
+            <!--<div class="m-0 row justify-content-center" t-if="serviceagreement.document_status == 'sign'">
+                <div style="padding-top:10px" class="col-auto">
+                    <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_sa_content">
+                        <div class="card-header">SA</div>
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" t-foreach="documents" t-as="attach">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" title="Download #{attach['name']}" target="_blank" t-attf-href="#{attach['url']}">
+                                            <i class="fa fa-download"></i> 
+                                            <span t-esc="attach['name']"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>-->
+            <div class="row mt16">
+                <div class="col-12 col-md-auto d-print-none ml-md-3">
+                    <div class="card text-center bg-white mb-4 sticky-top" style="top:100px">
+                        <div class="card-header">Signature</div>
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <a role="button" class="btn btn-primary btn-block mb8" data-bs-toggle="modal" data-bs-target="#fanrequestmodalaccept" href="#">
+                                    <i class="fa fa-check"></i> Accept &amp; Sign
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Page content -->
+                <div id="fan_request_content" class="col-12 col-md-9 justify-content-end">
+                    
+                
+                    <t t-call="pao_globalgap_fans.globalgap_certification_application">
+                    </t>              
+
+                    <div id="fan_request_sign_content" class="col-12 col-lg justify-content-end">
+                        <div role="dialog" class="modal fade" id="fanrequestmodalaccept">
+                            <div class="modal-dialog">
+                                <form id="accept" method="POST" class="js_accept_json modal-content js_website_submit_form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <header class="modal-header">
+                                        <h4 class="modal-title">Accept Application Request</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </header>
+                                    <main class="modal-body" id="sa-dialog">
+                                        <p>
+                                            Al firmar, la organización <b><span t-field="fanrequest.organization_id.name"/></b> está 
+                                            certificando que toda la información entregada en este documento es verdadera.
+                                            Cualquier discrepancia encontrada entre la información de este documento y lo 
+                                            que se observe durante la inspección realizada por <b>Primus Auditing Operatios 
+                                            México</b> o <b>GLOBALG.A.P.</b> será motivo de suspensión de la certificación de la 
+                                            organización.
+                                        </p>
+                                        <t t-call="portal.signature_form">
+                                            <t t-set="call_url" t-value="urlAccept"/>
+                                            <t t-set="default_name" t-value="fanrequest.organization_id.contact_name"/>
+                                            <t t-set="font_color" t-value="'darkblue'"/>
+                                        </t>                            
+                                    </main>
+                                </form>
+                            </div>  
+                        </div>
+                    </div>  
+                </div>
+            </div>           
+        </t>
+    </template>
+</odoo>
