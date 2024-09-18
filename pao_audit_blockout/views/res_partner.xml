@@ -6,7 +6,7 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='other_information']" position="after">
+            <xpath expr="//notebook" position="inside">
                 <page string="Blockout Dates" name="blockout_dates">
                     <field name="blockout_dates_ids" widget="one2many_list">
                         <tree string="Blockout Dates" editable="bottom">
