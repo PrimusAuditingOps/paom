@@ -17,7 +17,7 @@ class WebsiteAuditorCalendar(http.Controller):
         statuses_colors = ['transparent', 'Red', 'Orange', 'Yellow', 'Cyan', 'Purple',
                         'Almond', 'Teal', 'Blue', 'Raspberry', 'Green', 'Violet']
         
-        portal_audit_status = request.env['auditconfirmation.auditstate'].sudo().search([("show_in_portal", "=", True)])
+        portal_audit_status = request.env['auditconfirmation.auditstate'].sudo().search([("show_in_portal", "=", True), ('company_id', '=',  request.env.company.id)])
         statuses = []
         
         for status in portal_audit_status:
@@ -33,7 +33,7 @@ class WebsiteAuditorCalendar(http.Controller):
     def get_events(self):
         
         partner = request.env.user.partner_id
-        portal_audit_status = request.env['auditconfirmation.auditstate'].sudo().search([("show_in_portal", "=", True)])
+        portal_audit_status = request.env['auditconfirmation.auditstate'].sudo().search([("show_in_portal", "=", True), ('company_id', '=',  request.env.company.id)])
         statuses_colors = ['transparent', 'Red', 'Orange', 'Yellow', 'Cyan', 'Purple',
                         'Almond', 'Teal', 'Blue', 'Raspberry', 'Green', 'Violet']
         
