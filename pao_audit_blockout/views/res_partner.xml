@@ -9,7 +9,7 @@
             <xpath expr="//page[@name='other_information']" position="after">
                 <page string="Blockout Dates" name="blockout_dates">
                     <field name="blockout_dates_ids" widget="one2many_list">
-                        <tree string="Blockout Dates">
+                        <tree string="Blockout Dates" editable="bottom">
                             <field name="reason"/>
                             <field name="start_date"/>
                             <field name="end_date"/>
