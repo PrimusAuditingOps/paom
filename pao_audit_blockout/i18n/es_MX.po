@@ -1,0 +1,111 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_audit_blockout
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-18 23:31+0000\n"
+"PO-Revision-Date: 2024-09-18 23:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_res_partner__blockout_dates_ids
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_res_users__blockout_dates_ids
+#: model_terms:ir.ui.view,arch_db:pao_audit_blockout.res_partner_blockout_page_inherit_form
+msgid "Blockout Dates"
+msgstr "Fechas bloqueadas"
+
+#. module: pao_audit_blockout
+#: model_terms:ir.ui.view,arch_db:pao_audit_blockout.res_partner_blockout_page_inherit_form
+msgid "Blockout Range"
+msgstr "Rango de bloqueo"
+
+#. module: pao_audit_blockout
+#: model:ir.model,name:pao_audit_blockout.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__end_date
+msgid "End Date"
+msgstr "Fecha fin"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__id
+msgid "ID"
+msgstr ""
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__write_uid
+msgid "Last Updated by"
+msgstr "Última vez actualizado por"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__write_date
+msgid "Last Updated on"
+msgstr "Última vez actualizado el"
+
+#. module: pao_audit_blockout
+#: model:ir.model,name:pao_audit_blockout.model_pao_audit_blockout_dates
+msgid "PAO Audit Blockout Dates"
+msgstr ""
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__partner_id
+msgid "Partner"
+msgstr "Contacto"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__reason
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: pao_audit_blockout
+#: model:ir.model,name:pao_audit_blockout.model_sale_order
+msgid "Sales Order"
+msgstr "Orden de venta"
+
+#. module: pao_audit_blockout
+#: model:ir.model.fields,field_description:pao_audit_blockout.field_pao_audit_blockout_dates__start_date
+msgid "Start Date"
+msgstr "Fecha inicio"
+
+#. module: pao_audit_blockout
+#. odoo-python
+#: code:addons/pao_audit_blockout/models/pao_audit_blockout_dates.py:0
+#, python-format
+msgid "The start date must be before the end date."
+msgstr "La fecha inicio debe ser antes de la fecha fin"
+
+#. module: pao_audit_blockout
+#. odoo-python
+#: code:addons/pao_audit_blockout/models/sale_order.py:0
+#, python-format
+msgid ""
+"You cannot schedule unannounced audits within a range of blockout dates set "
+"by the customer. (Blockout Range: %(start_date)s - %(end_date)s)"
+msgstr ""
+"No puede agendar auditorías no anunciadas en un rango de fechas bloqueadas "
+"por el cliente. (Rango de bloqueo: %(start_date)s - %(end_date)s)"
