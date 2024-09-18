@@ -1,21 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="view_partner_form" model="ir.ui.view">
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[hasclass('o_address_format')]/field[@name='city']" position="before">
-					<field name="city_id" domain="[('country_id', '=', country_id), ('state_id', '=', state_id)]"
-						context="{'default_country_id': country_id, 'default_state_id': state_id}"
-						placeholder="City" options="{'no_open': True}"
-					    class="o_address_state"	readonly="type == 'contact' and parent_id"/>
+	<data>
+		<record id="view_partner_form" model="ir.ui.view">
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//div[hasclass('o_address_format')]/field[@name='city']" position="before">
+					<field name="city_id" domain="[('country_id', '=', country_id), ('state_id', '=', state_id)]" context="{'default_country_id': country_id, 'default_state_id': state_id}" placeholder="City" options="{'no_open': True}" class="o_address_state" readonly="type == 'contact' and parent_id" />
 				</xpath>
 				<xpath expr="//div[hasclass('o_address_format')]/field[@name='city']" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</xpath>
-            </field>
-        </record>
-    </data>
-</odoo>
 
+				<xpath expr="//div[hasclass('o_address_format')][1]" position="replace">
+					<div>
+						<field name="country_id" placeholder="Country" readonly="type == 'contact' and parent_id" options="{'no_open': True, 'no_create': True}" can_create="True" can_write="True" />
+						<div class="o_row">
+							<field name="state_id" style="flex: 2 1 auto" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" readonly="type == 'contact' and parent_id" context="{'default_country_id': country_id}" can_create="True" can_write="True" />
+							<field name="city_id" placeholder="City" style="flex: 2 1 auto" domain="[('country_id', '=', country_id)]" invisible="not country_enforce_cities" readonly="type == 'contact' and parent_id" context="{'default_country_id': country_id, 'default_state_id': state_id, 'default_zipcode': zip}" can_create="True" can_write="True" />
+							<field name="city" placeholder="City" style="flex: 2 1 auto" invisible="country_enforce_cities and (city_id or city in ['', False])" readonly="type == 'contact' and parent_id" />
+							<field name="zip" placeholder="ZIP" style="flex: 1 1 auto" readonly="type == 'contact' and parent_id" />
+						</div>
+						<field name="country_enforce_cities" invisible="1" />
+						<field name="parent_id" invisible="1" can_create="True" can_write="True" />
+						<field name="type" invisible="1" />
+						<field name="street" placeholder="Street..." class="oe_read_only" />
+						<div class="oe_edit_only o_row">
+							<field name="street_name" placeholder="Street" style="flex: 3 1 auto" readonly="type == 'contact' and parent_id" />
+							<field name="street_number" placeholder="House #" style="flex: 1 1 auto" readonly="type == 'contact' and parent_id" />
+							<span>-</span>
+							<field name="street_number2" placeholder="Door #" style="flex: 1 1 auto" readonly="type == 'contact' and parent_id" />
+						</div>
+						<field name="street2" placeholder="Street 2..." readonly="type == 'contact' and parent_id" />
+						<div class="o_row">
+							<field name="l10n_mx_edi_colony" placeholder="Colony..." style="flex: 2 1 auto" readonly="type == 'contact' and parent_id" />
+							<field name="l10n_mx_edi_colony_code" placeholder="Colony Code..." style="flex: 2 1 auto" readonly="type == 'contact' and parent_id" />
+						</div>
+						<div>
+							<field name="l10n_mx_edi_locality_id" placeholder="Locality..." domain="[('state_id','=', state_id)]" options="{'no_create': True}" readonly="type == 'contact' and parent_id" can_create="False" can_write="False" />
+							<field name="l10n_mx_edi_locality" invisible="l10n_mx_edi_locality_id or l10n_mx_edi_locality in ['', False]" readonly="type == 'contact' and parent_id" placeholder="Locality..." />
+						</div>
+					</div>
+				</xpath>
+
+				<xpath expr="//page[@name='contact_addresses']//div[@class='o_address_format']" position="replace">
+					<div>
+						<field name="country_id" placeholder="Country" readonly="type == 'contact' and parent_id" options="{'no_open': True, 'no_create': True}" can_create="True" can_write="True" />
+						<div class="o_row">
+							<field name="state_id" style="flex: 2 1 auto" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" readonly="type == 'contact' and parent_id" context="{'default_country_id': country_id}" can_create="True" can_write="True" />
+							<field name="city_id" placeholder="City" style="flex: 2 1 auto" domain="[('country_id', '=', country_id)]" invisible="not country_enforce_cities" readonly="type == 'contact' and parent_id" context="{'default_country_id': country_id, 'default_state_id': state_id, 'default_zipcode': zip}" can_create="True" can_write="True" />
+							<field name="city" placeholder="City" style="flex: 2 1 auto" invisible="country_enforce_cities and (city_id or city in ['', False])" readonly="type == 'contact' and parent_id" />
+							<field name="zip" placeholder="ZIP" style="flex: 1 1 auto" readonly="type == 'contact' and parent_id" />
+						</div>
+						<field name="country_enforce_cities" invisible="1" />
+						<field name="parent_id" invisible="1" can_create="True" can_write="True" />
+						<field name="type" invisible="1" />
+						<field name="street" placeholder="Street..." class="oe_read_only" />
+						<div class="oe_edit_only o_row">
+							<field name="street_name" placeholder="Street" style="flex: 3 1 auto" readonly="type == 'contact' and parent_id" />
+							<field name="street_number" placeholder="House #" style="flex: 1 1 auto" readonly="type == 'contact' and parent_id" />
+							<span>-</span>
+							<field name="street_number2" placeholder="Door #" style="flex: 1 1 auto" readonly="type == 'contact' and parent_id" />
+						</div>
+						<field name="street2" placeholder="Street 2..." readonly="type == 'contact' and parent_id" />
+						<div class="o_row">
+							<field name="l10n_mx_edi_colony" placeholder="Colony..." style="flex: 2 1 auto" readonly="type == 'contact' and parent_id" />
+							<field name="l10n_mx_edi_colony_code" placeholder="Colony Code..." style="flex: 2 1 auto" readonly="type == 'contact' and parent_id" />
+						</div>
+						<div>
+							<field name="l10n_mx_edi_locality_id" placeholder="Locality..." domain="[('state_id','=', state_id)]" options="{'no_create': True}" readonly="type == 'contact' and parent_id" can_create="False" can_write="False" />
+							<field name="l10n_mx_edi_locality" invisible="l10n_mx_edi_locality_id or l10n_mx_edi_locality in ['', False]" readonly="type == 'contact' and parent_id" placeholder="Locality..." />
+						</div>
+					</div>
+				</xpath>
+
+
+			</field>
+		</record>
+	</data>
+</odoo>
