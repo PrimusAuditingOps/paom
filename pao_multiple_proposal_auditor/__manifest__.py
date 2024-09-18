@@ -18,6 +18,7 @@
         'web',
         'portal',
         'servicereferralagreement',
+        'pao_assignment_auditor',
     ],
     'data' : [
         #'security/groups.xml',

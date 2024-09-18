@@ -36,7 +36,7 @@ class PurchaseOrder(models.Model):
     def _get_auditor_languages(self):
         auditor_ids = []
         auditors_list = []
-        recPartner = self.env["res.partner"].search([("ado_is_auditor","=", True), ("company_id","=",self.company_id.id)])
+        recPartner = self.env["res.partner"].search([("ado_is_auditor","=", True),("is_an_in_house_auditor","=", False), ("company_id","=",self.company_id.id)])
         if len(self.language_ids) > 0:
             for r in recPartner:
                 auditors_list.append(r.id)    
