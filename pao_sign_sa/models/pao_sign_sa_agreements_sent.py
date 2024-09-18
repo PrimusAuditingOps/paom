@@ -70,7 +70,7 @@ class PaoSignSaAgreementsSent(models.Model):
     )
     follower_ids = fields.Many2many('res.partner', string="Copy to")
     position = fields.Char(
-        string="Position", 
+        string="Title", 
         required=True
     )
     signer_name = fields.Char(

@@ -20,7 +20,7 @@ class SASendRequest(models.TransientModel):
     )
     follower_ids = fields.Many2many('res.partner', string="Copy to")
     position = fields.Char(
-        string="Position", 
+        string="Title", 
         required=True
     )
     registration_numbers_ids = fields.Many2many(
