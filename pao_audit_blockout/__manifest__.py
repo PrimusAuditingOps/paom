@@ -15,6 +15,7 @@
     ],
     'data': [
         # security
+        'security/ir.model.access.csv',
         # data
         # demo
         # reports
