@@ -13,7 +13,7 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
         ondelete='restrict',
     )
     uncovered_production_area = fields.Float(
-        string="Uncovered production area",
+        string="Área de producción",
         digits=(16, 4),
     )
     covered_production_area = fields.Float(
