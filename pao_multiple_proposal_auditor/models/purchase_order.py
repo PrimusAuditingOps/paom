@@ -5,6 +5,7 @@ import calendar
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError, UserError
 from logging import getLogger
+from odoo.tools import get_lang
 
 _logger = getLogger(__name__)
 
@@ -126,6 +127,31 @@ class PurchaseOrder(models.Model):
     def close_multiple_proposal(self):
         self.ensure_one()
         self.write({"audit_status_muilti_proposal":'done'})
+
+        for proposal in self.pao_auditior_response_ids.filtered(lambda line: line.status == 'pending'):
+
+            auditor_lang = get_lang(self.env, lang_code=proposal.auditor_id.lang).code
+            body =  self.env['ir.ui.view'].with_context(lang=auditor_lang)._render_template('pao_multiple_proposal_auditor.pao_multiple_proposal_auditor_canceled_template_mail', 
+                {
+                    'auditor_name': proposal.auditor_id.name,
+                    'multi_proposal_id': self.id,
+                }
+            )
+
+
+            mail = self._message_send_mp_mail(
+                body, 'mail.mail_notification_light',
+                {'record_name': ''},
+                {'model_description': _('Audit proposal'), 'company': self.sudo().create_uid.company_id},
+                {'email_from': self.create_uid.email_formatted,
+                    'author_id': self.create_uid.partner_id.id,
+                    'email_to': proposal.auditor_id.email_formatted,
+                    'subject': _("Canceled proposal")},
+                force_send=True,
+                lang=auditor_lang,
+            )
+
+
     
     def send_multiple_proposal(self):
         self.ensure_one()
@@ -150,3 +176,21 @@ class PurchaseOrder(models.Model):
             }
         else:
             raise ValidationError(_('No auditors were found to carry out the audits.'))
+
+
+
+    def _message_send_mp_mail(self, body, notif_template_xmlid, message_values, notif_values, mail_values, force_send=False, **kwargs):
+
+        default_lang = get_lang(self.env, lang_code=kwargs.get('lang')).code
+        lang = kwargs.get('lang', default_lang)
+        sign_request = self.with_context(lang=lang)
+        msg = sign_request.env['mail.message'].sudo().new(dict(body=body, **message_values))
+        body_html =  self.env['ir.ui.view'].with_context(lang=lang)._render_template(notif_template_xmlid, 
+            dict(message=msg, **notif_values)
+        )
+        body_html = sign_request.env['mail.render.mixin']._replace_local_links(body_html)
+
+        mail = sign_request.env['mail.mail'].sudo().create(dict(body_html=body_html, state='outgoing', **mail_values))
+        if force_send:
+            mail.send()
+        return mail
