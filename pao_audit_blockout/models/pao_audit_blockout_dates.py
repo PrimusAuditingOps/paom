@@ -7,7 +7,7 @@ _logger = getLogger(__name__)
 class SaleOrder(models.Model):
     _name='pao.audit.blockout.dates'
     _description = 'PAO Audit Blockout Dates'
-    _order = 'start_date'
+    _order = 'start_date desc'
 
     reason = fields.Char(string="Reason")
     start_date = fields.Date(string="Start Date", required=True)
