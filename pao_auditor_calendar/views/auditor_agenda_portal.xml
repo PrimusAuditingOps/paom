@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_auditor_calendar" name="Auditor Calendar" customize_show="True" inherit_id="portal.portal_my_home" priority="80">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <div class="o_portal_category row g-2 mt-2" id="auditor_calendar_option">
+                <t t-if="request.env.user.partner_id.ado_is_auditor" t-call="portal.portal_docs_entry">
+                    <t t-set="icon" t-value="'/pao_auditor_calendar/static/src/img/calendar_agenda.svg'"/>
+                    <t t-set="title">Agenda</t>
+                    <t t-set="url" t-value="'/auditor_agenda'"/>
+                    <t t-set="text">The days when an auditor will have purchase orders</t>
+                    <t t-set="config_card" t-value="True"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_breadcrumbs_auditor_agenda" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'auditor_agenda'" class="breadcrumb-item">Auditor's Agenda</li>
+        </xpath>
+    </template>
+
+    <template id="auditor_agenda_calendar_portal_view" name="Auditor Agenda">
+        <t t-call="portal.portal_layout">
+
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Auditor's Agenda</t>
+            </t>
+
+            <link rel="stylesheet" href="/pao_auditor_calendar/static/src/css/custom_check.css"/>
+            <link rel="stylesheet" href="/pao_auditor_calendar/static/src/css/custom_agenda.css"/>
+
+            <link rel='stylesheet' href='/pao_auditor_calendar/static/src/css/fullcalendar_core_4.2.0_main.min.css'/>
+            <link rel='stylesheet' href='/pao_auditor_calendar/static/src/css/fullcalendar_daygrid_4.3.0.main.min.css'/>
+            <link rel="stylesheet" href="/pao_auditor_calendar/static/src/css/fullcalendar_list_4.2.0_main.min.css"/>
+            <link rel="stylesheet" href="/pao_auditor_calendar/static/src/css/fullcalendar_timegrid_4.2.0_main.min.css"/>
+
+            <script src='/pao_auditor_calendar/static/src/js/jquery-3.7.1.min.js'></script>
+            <script src='/pao_auditor_calendar/static/src/js/calendar_events.js'></script>
+
+            <div class="px-4 mx-5 py-3 rounded shadow-sm d-flex justify-content-around overflow-auto align-items-center" id="legend" style="background-color: #e7e7e7;">
+                <div class="input-group my-1 w-25">
+                    <input type="month" id="start_date" class="form-control" t-att-value="start_date"/>
+                    <button class="btn btn-primary" id="search_date" type="button">Search</button>
+                </div>
+
+                <!-- <button id="add_days_off_button" class="btn btn-secondary my-1 mx-2 text-nowrap" data-bs-toggle="modal" data-bs-target="#addDaysModal" type="button">Add days off</button> -->
+
+                <div class="d-flex flex-wrap justify-content-around w-100">
+                    <input type="checkbox" class="btn-check check-toggle" id="check-days_off" checked="1" autocomplete="off"/>
+                    <label class="badge m-1" style="--border-color: #ababab; --background-color: #ababab;" for="check-days_off">Days off</label>
+
+                    <t t-foreach="statuses" t-as="status">
+                        <input type="checkbox" class="btn-check check-toggle" t-att-id="'check-' + status.get('name')" checked="1" autocomplete="off"/>
+                        <label class="badge m-1" t-att-style="'--border-color: ' + (status.get('color', 'Black')) + '; --background-color: ' + (status.get('color', 'Black')) + ';'" t-att-for="'check-' + status.get('name')">
+                            <t t-esc="status.get('name')"/>
+                        </label>
+                    </t>
+                </div>
+            </div>
+
+
+            <div class="p-5" id="calendar"></div>
+            <input type="hidden" id="lang" t-att-value="lang"/>
+
+            <!-- Bootstrap Modal -->
+            <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <hr/>
+                        <div class="modal-body">
+                            <!-- Data injected via Javascript -->
+                            <label class="fw-bold" for="event_name_value">Summary: </label>
+                            <span id="event_name_value"></span>
+                            <span class="d-none" id="odoo_id"></span>
+                            <br/>
+                            <div id="days_off_section">
+                                <label class="fw-bold" for="event_start_value">Start Date: </label>
+                                <span class="me-2" id="event_start_value"></span>
+                                <span class="d-none" id="raw_start_date"></span>
+                                <label class="fw-bold" for="event_end_value">End Date: </label>
+                                <span id="event_end_value"></span>
+                                <span class="d-none" id="raw_end_date"></span>
+                                <br/>
+                                <label class="fw-bold" for="comments">Comments: </label>
+                                <span id="comments"></span>
+                            </div>
+
+                            <div id="audits_section">
+                                <label class="fw-bold" for="customer">Customer: </label>
+                                <span id="customer"></span>
+                                <br/>
+                                <label class="fw-bold" for="coordinator">Coordinator: </label>
+                                <span id="coordinator"></span>
+                                <br/>
+
+                                <label class="fw-bold" for="event_audit_location_value">Audit Location: </label>
+                                <span class="me-2" id="event_audit_location_value"></span>
+
+                                <label class="fw-bold" for="event_audit_type_value">Audit Status: </label>
+                                <span id="event_audit_type_value"></span>
+
+                                <hr/>
+                                <div class="overflow-auto">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="text-center align-content-center">Service</th>
+                                                <th scope="col" class="text-center align-content-center">Organization</th>
+                                                <th scope="col" class="text-center align-content-center">Registry Number</th>
+                                                <th scope="col" class="text-center align-content-center">Start Date</th>
+                                                <th scope="col" class="text-center align-content-center">End Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="audit_details">
+                                            <!-- Data injected via Javascript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <div id="div_event_options">
+                                <button id="edit_event_button" type="button" class="btn btn-primary me-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ConfirmDeleteEvent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <a id="download_ra_button" type="button" class="btn btn-primary me-3" href="#">
+                                Download RA
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="ms-1 bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
+                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0"></path>
+                                </svg>
+                            </a>
+                            <button id="close_event_details_button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="ConfirmDeleteEvent" tabindex="-1" aria-labelledby="ConfirmDeleteEventLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body modal-body text-center fw-bold mt-4">
+                            Are you sure you want to delete this event?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="delete_event_button" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="addDaysModal" tabindex="-1" aria-labelledby="addDaysModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="eventModalLabel">Set days off</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <hr/>
+                        <div class="alert alert-danger mx-5" id="modalErrorAlert" role="alert">
+                            <span id="messageErrorAlert"></span>
+                        </div>
+                        <form id="add_days_off_form">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="modal-body mx-3">
+
+                                <input type="hidden" id="dayoff_id" name="dayoff_id"/>
+
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-group col-sm-12 mb-3 flex-column d-flex">
+                                        <label class="fw-bold" for="summary">Summary</label>
+                                        <input type="text" class="form-control" id="summary" name="summary" required="1"/>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-group col-sm-6 mb-3 flex-column d-flex">
+                                        <label class="fw-bold" for="day_off_start_date">Start Date</label>
+                                        <input type="date" class="form-control" id="day_off_start_date" name="day_off_start_date" required="1"/>
+                                    </div>
+                                    <div class="form-group col-sm-6 mb-3 flex-column d-flex">
+                                        <label class="fw-bold" for="end_date">End Date</label>
+                                        <input type="date" class="form-control" id="end_date" name="end_date" required="1"/>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-group col-sm-12 mb-3 flex-column d-flex">
+                                        <label class="fw-bold" for="day_off_comments">Comments</label>
+                                        <textarea class="form-control" id="day_off_comments" name="day_off_comments" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script src='/pao_auditor_calendar/static/src/js/fullcalendar_core_4.2.0_main.min.js'></script>
+            <script src='/pao_auditor_calendar/static/src/js/fullcalendar_daygrid_4.2.0_main.js'></script>
+            <script src='/pao_auditor_calendar/static/src/js/fullcalendar_interaction_4.2.0_main.js'></script>
+            <script src="/pao_auditor_calendar/static/src/js/fullcalendar_list_4.2.0_main.min.js"></script>
+            <script src="/pao_auditor_calendar/static/src/js/fullcalendar_timegrid_4.2.0_main.min.js"></script>
+
+            <!-- <script src='/pao_auditor_calendar/static/src/js/moment_2.29.1.min.js'></script> -->
+        </t>
+    </template>
+
+</odoo>
