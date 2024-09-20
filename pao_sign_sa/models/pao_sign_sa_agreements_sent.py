@@ -144,7 +144,7 @@ class PaoSignSaAgreementsSent(models.Model):
         'Signature name',
         copy=False,
     )
-
+    
     coordinator_signature = fields.Binary(
         string="Coordinator Signature", 
         copy=False,
