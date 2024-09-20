@@ -56,6 +56,7 @@ class MultipleProposalAuditorRequest(models.TransientModel):
                 {
                     'link': '/multiple/proposal/%s/%s' % (self.purchase_order_id.id, self.purchase_order_id.access_token),
                     'auditor_name': auditor.name,
+                    'multi_proposal_id': self.purchase_order_id.id,
                     'body': self.message if self.message != '<p><br></p>' else False,
                 }
             )

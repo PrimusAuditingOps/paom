@@ -6,7 +6,7 @@
                 <td valign="top">
                     <div>
                         Hello <strong><t t-esc="auditor_name"/></strong> <br/>
-                        <strong>Primus Auditing Ops</strong> sent you a proposal for auditing services, 
+                        <strong>Primus Auditing Ops</strong> sent you a proposal <strong>#<t t-esc="multi_proposal_id"/></strong> for auditing services, 
                         please click on the next button to display it:
                         <br/>
                         <br/>
@@ -39,6 +39,26 @@
                     </span>
                 </div>
             </td></tr>
+        </table>
+    </template>
+
+    <template id="pao_multiple_proposal_auditor_canceled_template_mail">
+        <table border="0" cellpadding="0" style="background-color: white; padding: 0px; border-collapse:separate;">
+            <tr>
+                <td valign="top">
+                    <div>
+                        Hello <strong><t t-esc="auditor_name"/></strong> <br/>
+                        <strong>Primus Auditing Ops</strong> informs you that proposal <strong>#<t t-esc="multi_proposal_id"/></strong> has been closed.
+                        <br/>
+                        <br/>
+                    </div>
+                    
+                    <div>
+                        <br/>
+                        <strong>Thank you.</strong>
+                    </div>
+                </td>
+            </tr>
         </table>
     </template>
     
