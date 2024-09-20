@@ -194,7 +194,7 @@
                                         </p>
                                         <t t-call="portal.signature_form">
                                             <t t-set="call_url" t-value="urlAccept"/>
-                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name"/>
+                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name if signer == 'customer' else ''"/>
                                             <t t-set="font_color" t-value="'darkblue'"/>
                                         </t>                            
                                     </main>

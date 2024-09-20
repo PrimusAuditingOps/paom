@@ -15,12 +15,15 @@ _logger = getLogger(__name__)
 class CustomerPortal(portal.CustomerPortal):
 
     
-    @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>/accept'], type='json', auth="public", website=True)
+    @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>/accept', '/coordinator_sign/sa/<int:sa_id>/<string:sa_token>/accept'], type='json', auth="public", website=True)
     def portal_sa_accept(self, sa_id, sa_token, name=None, signature=None):
         try:
             sa_sudo = self._document_check_access('pao.sign.sa.agreements.sent', sa_id, access_token=sa_token)
         except (AccessError, MissingError):
             return request.redirect('/')
+        
+        current_path = request.httprequest.path
+        signer = 'customer' if current_path.startswith('/sign/sa') else 'coordinator'
         
         lang = sa_sudo.signer_id.lang or sa_sudo.create_uid.lang
         sa_sudo.with_context(lang=lang)
@@ -29,8 +32,11 @@ class CustomerPortal(portal.CustomerPortal):
         today = requested_tz.fromutc(datetime.utcnow())
 
         signature_date = today
-        sa_sudo.write({"signature": signature, "signer_name": name, "signature_date": signature_date})
 
+        if signer == 'customer':
+            sa_sudo.write({"signature": signature, "signer_name": name, "signature_date": signature_date})
+        else:
+            sa_sudo.write({"coordinator_signature": signature})
         
         attachment_list = []
         for rn_sa in sa_sudo.registration_number_to_sign_ids:
@@ -51,8 +57,9 @@ class CustomerPortal(portal.CustomerPortal):
         #_logger.error(request.httprequest.remote_addr) 
         #_logger.error(request.session['geoip'].get('latitude') or 0.0)
         #_logger.error(request.session['geoip'].get('longitude') or 0.0)
-        sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign"})
-        msg = _("The service agreement has been signed %s") % sa_sudo.title
+        sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign" if signer == 'coordinator' else 'partially_sign'})
+        signer_label = _('Coordinator') if signer == 'coordinator' else _('Customer')
+        msg = _("The service agreement has been signed by the %(signer)s. %(title)s)") % {'signer': signer_label, 'title': sa_sudo.title}
         notification_ids = []
         notification_ids.append((0,0,{
             'res_partner_id':sa_sudo.create_uid.id,
@@ -66,27 +73,33 @@ class CustomerPortal(portal.CustomerPortal):
 
 
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        prefix = '/sign/sa' if signer == 'customer' else '/coordinator_sign/sa'
         return {
             'force_refresh': True,
-            'redirect_url':  url_join(base_url, '/sign/sa/%s/%s' % (sa_id, sa_token))
+            'redirect_url':  url_join(base_url, '%s/%s/%s' % (prefix, sa_id, sa_token))
         }
 
-    @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>'], type='http', auth="public", website=True)
+    @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>', '/coordinator_sign/sa/<int:sa_id>/<string:sa_token>'], type='http', auth="public", website=True)
     def portal_sign_sa(self, report_type=None, sa_id=False, sa_token=None, download=False, **kw):
         
         try:
             sa_sudo = self._document_check_access('pao.sign.sa.agreements.sent', sa_id, access_token=sa_token)
         except (AccessError, MissingError):
             return request.redirect('/')
+
+        current_path = request.httprequest.path
+        signer = 'customer' if current_path.startswith('/sign/sa') else 'coordinator'
         
         documents = []
         url = ""
  
         lang = sa_sudo.signer_id.lang or sa_sudo.create_uid.lang
         
-        if sa_sudo.document_status == "sent":
-            url = '/sign/sa/'+str(sa_id)+'/'+sa_token+'/accept'
-        elif sa_sudo.document_status == "sign":
+        if sa_sudo.document_status == "sent" and signer == 'customer':
+            url = '/sign/sa/' + str(sa_id) + '/' + sa_token + '/accept'
+        elif sa_sudo.document_status == "partially_sign" and signer == 'coordinator':
+            url = '/coordinator_sign/sa/' + str(sa_id) + '/' + sa_token + '/accept'
+        elif (signer == 'customer' and sa_sudo.document_status in ["sign", "partially_sign"]) or (signer == 'coordinator' and sa_sudo.document_status == "sign") :
             url = request.env['ir.config_parameter'].sudo().get_param('web.base.url') 
             for attach in sa_sudo.attachment_ids:
                 if not attach.access_token:
@@ -99,4 +112,4 @@ class CustomerPortal(portal.CustomerPortal):
             return request.render('pao_sign_sa.pao_sign_sa_exception_page_view', {})
 
         
-        return request.render('pao_sign_sa.sa_portal_template', {"serviceagreement": sa_sudo, "print": False, "urlAccept": url, "documents": documents })
+        return request.render('pao_sign_sa.sa_portal_template', {"serviceagreement": sa_sudo, "signer": signer, "print": False, "urlAccept": url, "documents": documents })
