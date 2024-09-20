@@ -7,6 +7,7 @@
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='default_code']" position="after">
+                    <field name="country_code" invisible="1"/>
                     <field name="internal_search_code" invisible="country_code != 'US'"/>
                </xpath>
             </field>
