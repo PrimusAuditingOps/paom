@@ -88,6 +88,8 @@ class PurchaseOrder(models.Model):
                 rec.order_line = None
                 rec.sale_order_id = None
                 rec.audit_fee_id = None
+            if self.company_id.country_code in ["US"] and self.partner_id:
+                self.order_line._compute_price_unit_and_date_planned_and_name()
 
     @api.onchange('audit_fee_id')
     def _onchange_audit_fee_id(self):
