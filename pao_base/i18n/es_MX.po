@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-18 16:46+0000\n"
-"PO-Revision-Date: 2024-09-18 16:46+0000\n"
+"POT-Creation-Date: 2024-09-20 17:20+0000\n"
+"PO-Revision-Date: 2024-09-20 17:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -108,6 +108,12 @@ msgid "ID"
 msgstr ""
 
 #. module: pao_base
+#: model:ir.model.fields,field_description:pao_base.field_product_product__internal_search_code
+#: model:ir.model.fields,field_description:pao_base.field_product_template__internal_search_code
+msgid "Internal Search Code"
+msgstr "Código interno de búsqueda"
+
+#. module: pao_base
 #: model:ir.model.fields,field_description:pao_base.field_res_city__write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
@@ -135,7 +141,7 @@ msgstr ""
 #. module: pao_base
 #: model:ir.model,name:pao_base.model_product_template
 msgid "Product"
-msgstr "Plantilla de producto"
+msgstr ""
 
 #. module: pao_base
 #: model_terms:ir.ui.view,arch_db:pao_base.view_city_filter_view

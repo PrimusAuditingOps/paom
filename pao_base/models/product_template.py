@@ -9,6 +9,7 @@ class ProductTemplate(models.Model):
         default=lambda self: self.env.company)
     
     internal_search_code = fields.Char('Internal Search Code')
+    country_code = fields.Char(related='company_id.country_code')
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
