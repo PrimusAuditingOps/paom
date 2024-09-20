@@ -151,7 +151,34 @@ class PurchaseOrder(models.Model):
                 lang=auditor_lang,
             )
 
+    
+    def resend_multiple_proposal(self):
+        self.ensure_one()
 
+        for proposal in self.pao_auditior_response_ids.filtered(lambda line: line.status == 'pending'):
+
+            auditor_lang = get_lang(self.env, lang_code=proposal.auditor_id.lang).code
+            body =  self.env['ir.ui.view'].with_context(lang=auditor_lang)._render_template('pao_multiple_proposal_auditor.pao_multiple_proposal_auditor_template_mail', 
+                {
+                    'link': '/multiple/proposal/%s/%s' % (self.id, self.access_token),
+                    'auditor_name': proposal.auditor_id.name,
+                    'multi_proposal_id': self.id,
+                    'body':'<p><br></p>',
+                }
+            )
+
+
+            mail = self._message_send_mp_mail(
+                body, 'mail.mail_notification_light',
+                {'record_name': ''},
+                {'model_description': _('Audit proposal'), 'company': self.sudo().create_uid.company_id},
+                {'email_from': self.create_uid.email_formatted,
+                    'author_id': self.create_uid.partner_id.id,
+                    'email_to': proposal.auditor_id.email_formatted,
+                    'subject': _("Audit proposal")},
+                force_send=True,
+                lang=auditor_lang,
+            )
     
     def send_multiple_proposal(self):
         self.ensure_one()

@@ -52,7 +52,9 @@
               <button name="send_multiple_proposal" class="oe_highlight" type="object" string="Send multiple proposal" 
               invisible="audit_status_muilti_proposal != 'not_sent' or state != 'draft'"/> 
               <button name="close_multiple_proposal" class="oe_highlight" type="object" string="Close multiple proposal" 
-              invisible="audit_status_muilti_proposal != 'sent' or state != 'draft'"/>       
+              invisible="audit_status_muilti_proposal != 'sent'"/> 
+              <button name="resend_multiple_proposal" class="oe_highlight" type="object" string="Resend multiple proposal" 
+              invisible="audit_status_muilti_proposal != 'sent'"/>      
             </xpath>
 
             
