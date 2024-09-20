@@ -22,6 +22,7 @@
     'data' : [
         'security/ir.model.access.csv',
         'views/res_city_views.xml',
+        'views/product_template.xml',
         'views/res_country_views.xml',
         'views/res_partner_views.xml',
         'views/ir_module_views.xml',
