@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-     
+    
+    <template id="pao_sign_sa_coordinator_not_logged_in_page_view" name="Sign request not found">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">You need to be logged in to sign this document.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
     <template id="pao_sign_sa_exception_page_view" name="Sign request not found">
         <t t-call="web.frontend_layout">
             <div class="container pt-5">

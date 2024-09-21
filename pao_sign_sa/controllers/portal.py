@@ -92,7 +92,7 @@ class CustomerPortal(portal.CustomerPortal):
 
         if signer == 'coordinator' and request.env.user._is_public():
             # Redirect to login page if the user is not logged in
-            return request.render('pao_sign_sa.pao_sign_sa_exception_page_view', {})
+            return request.render('pao_sign_sa.pao_sign_sa_coordinator_not_logged_in_page_view', {})
         
         documents = []
         url = ""
