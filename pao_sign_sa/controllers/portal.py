@@ -89,6 +89,10 @@ class CustomerPortal(portal.CustomerPortal):
 
         current_path = request.httprequest.path
         signer = 'customer' if current_path.startswith('/sign/sa') else 'coordinator'
+
+        if signer == 'coordinator' and request.env.user._is_public():
+            # Redirect to login page if the user is not logged in
+            return request.render('pao_sign_sa.pao_sign_sa_exception_page_view', {})
         
         documents = []
         url = ""
