@@ -176,6 +176,16 @@ class PaoSignSaAgreementsSent(models.Model):
                 title_sa += rn.name  if title_sa == "" else ", " + rn.name
             rec.title = title_sa
     
+    def action_coordinator_sign(self):
+        self.ensure_one()
+
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return {
+            'type': 'ir.actions.act_url',
+            'url': url_join(base_url, '/coordinator_sign/sa/%s/%s' % (self.id, self.access_token)),
+            'target': 'new',  # Opens the URL in a new tab
+        }
+    
     def action_resend(self):
         self.ensure_one()
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')

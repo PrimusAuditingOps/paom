@@ -63,7 +63,7 @@ class CustomerPortal(portal.CustomerPortal):
         else:
             sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign" if signer == 'customer' else sa_sudo.document_status})
 
-        signer_label = _('Coordinator') if signer == 'coordinator' else _('Customer')
+        signer_label = _('coordinator') if signer == 'coordinator' else _('customer')
         msg = _("The service agreement has been signed by the %(signer)s. %(title)s)") % {'signer': signer_label, 'title': sa_sudo.title}
         notification_ids = []
         notification_ids.append((0,0,{
