@@ -7,8 +7,9 @@
             <form string="Agreements Form">
                 <header>
                     <field name="document_status" invisible="1"/>
-                    <button name="action_resend" type="object" string="Resend" invisible="document_status in ['sign', 'cancel']"/>
-                    <button name="action_cancel" type="object" string="Cancel" invisible="document_status in ['sign', 'cancel']"/>
+                    <button name="action_resend" type="object" string="Resend" invisible="document_status in ['partially_sign', 'sign', 'cancel']"/>
+                    <button name="action_coordinator_sign" type="object" string="Coordinator's signature" invisible="document_status not in ['partially_sign']"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="document_status in ['partially_sign', 'sign', 'cancel']"/>
                 </header>
                 <sheet>
                     <group col="2">

@@ -266,8 +266,11 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:center;">
+                        <!-- <p style="text-align:center;">
                             <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.sign_signature)" t-if="serviceagreement.coordinator_id.sign_signature"/>
+                        </p> -->
+                        <p style="text-align:center;">
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.coordinator_signature)" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature"/>
                         </p>
                     </div>
                     <div class="col-6">
@@ -278,8 +281,11 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:left;">
+                        <!-- <p style="text-align:left;">
                             <b>By: </b><span t-field="serviceagreement.coordinator_id.name"/>
+                        </p> -->
+                        <p style="text-align:left;">
+                            <b>By: </b><span t-field="serviceagreement.sign_sa_agreements_id.coordinator_name" t-if="serviceagreement.sign_sa_agreements_id.coordinator_name"/>
                         </p>
                     </div>
                     <div class="col-6">
@@ -302,8 +308,11 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:left;">
+                        <!-- <p style="text-align:left;">
                             <b>Date: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
+                        </p> -->
+                        <p style="text-align:left;">
+                            <b>Date: </b> <span t-field="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" widget="date"/>
                         </p>
                     </div>
                     <div class="col-6">
@@ -442,8 +451,11 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:center;">
+                        <!-- <p style="text-align:center;">
                             <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.sign_signature)" t-if="serviceagreement.coordinator_id.sign_signature"/>
+                        </p> -->
+                        <p style="text-align:center;">
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.coordinator_signature)" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature"/>
                         </p>
                     </div>
                     <div class="col-6">
@@ -454,8 +466,11 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:left;">
+                        <!-- <p style="text-align:left;">
                             <b>By: </b><span t-field="serviceagreement.coordinator_id.name"/>
+                        </p> -->
+                        <p style="text-align:left;">
+                            <b>By: </b><span t-field="serviceagreement.sign_sa_agreements_id.coordinator_name" t-if="serviceagreement.sign_sa_agreements_id.coordinator_name"/>
                         </p>
                     </div>
                     <div class="col-6">
@@ -478,8 +493,11 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:left;">
+                        <!-- <p style="text-align:left;">
                             <b>Date: </b><span t-field="serviceagreement.sign_sa_agreements_id.document_date" widget="date"/>
+                        </p> -->
+                        <p style="text-align:left;">
+                            <b>Date: </b> <span t-field="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" widget="date"/>
                         </p>
                     </div>
                     <div class="col-6">

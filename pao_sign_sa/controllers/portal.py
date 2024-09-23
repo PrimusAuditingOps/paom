@@ -36,7 +36,7 @@ class CustomerPortal(portal.CustomerPortal):
         if signer == 'customer':
             sa_sudo.write({"signature": signature, "signer_name": name, "signature_date": signature_date})
         else:
-            sa_sudo.write({"coordinator_signature": signature})
+            sa_sudo.write({"coordinator_signature": signature, "coordinator_name": name, "coordinator_signature_date": signature_date})
         
         attachment_list = []
         for rn_sa in sa_sudo.registration_number_to_sign_ids:
@@ -57,12 +57,13 @@ class CustomerPortal(portal.CustomerPortal):
         #_logger.error(request.httprequest.remote_addr) 
         #_logger.error(request.session['geoip'].get('latitude') or 0.0)
         #_logger.error(request.session['geoip'].get('longitude') or 0.0)
-        if request.env.company.country_code == 'US':
+        _logger.warning(sa_sudo.sale_order_id.company_id.country_code)
+        if sa_sudo.sale_order_id.company_id.country_code == 'US':
             sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign" if signer == 'coordinator' else 'partially_sign'})
         else:
             sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign" if signer == 'customer' else sa_sudo.document_status})
 
-        signer_label = _('Coordinator') if signer == 'coordinator' else _('Customer')
+        signer_label = _('coordinator') if signer == 'coordinator' else _('customer')
         msg = _("The service agreement has been signed by the %(signer)s. %(title)s)") % {'signer': signer_label, 'title': sa_sudo.title}
         notification_ids = []
         notification_ids.append((0,0,{
