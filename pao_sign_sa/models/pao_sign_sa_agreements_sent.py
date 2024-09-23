@@ -150,6 +150,9 @@ class PaoSignSaAgreementsSent(models.Model):
         copy=False,
     )
 
+    coordinator_name = fields.Char(string="Coordinator Name", copy=False)
+    coordinator_signature_date = fields.Date(string="Coordinator's signature date", copy=False)
+
     signature = fields.Binary(
         string="Signature", 
         copy=False,

@@ -36,7 +36,7 @@ class CustomerPortal(portal.CustomerPortal):
         if signer == 'customer':
             sa_sudo.write({"signature": signature, "signer_name": name, "signature_date": signature_date})
         else:
-            sa_sudo.write({"coordinator_signature": signature})
+            sa_sudo.write({"coordinator_signature": signature, "coordinator_name": name, "coordinator_signature_date": signature_date})
         
         attachment_list = []
         for rn_sa in sa_sudo.registration_number_to_sign_ids:
