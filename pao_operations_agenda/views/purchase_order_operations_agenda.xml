@@ -11,6 +11,8 @@
                 <field name="order_id"/>
                 <field name="state_id"/>
                 <field name="city_id"/>
+                <field name="language_ids" widget="many2many_tags"/>
+                
                 <field name="coordinator_id"/>
                 <field name="customer_group_id"/>
                 <field name="promotor_id"/>
