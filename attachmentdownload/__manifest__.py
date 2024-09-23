@@ -14,7 +14,8 @@
         * Migrated from v14.\n
     """,
     'depends': [
-        'account'
+        'account',
+        'pao_mxn_currency_group'
     ],
     'data' : [
         'data/attachment_data.xml',
