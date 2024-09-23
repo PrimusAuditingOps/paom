@@ -57,7 +57,11 @@ class CustomerPortal(portal.CustomerPortal):
         #_logger.error(request.httprequest.remote_addr) 
         #_logger.error(request.session['geoip'].get('latitude') or 0.0)
         #_logger.error(request.session['geoip'].get('longitude') or 0.0)
-        sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign" if signer == 'coordinator' else 'partially_sign'})
+        if request.env.company.country_code == 'US':
+            sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign" if signer == 'coordinator' else 'partially_sign'})
+        else:
+            sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign" if signer == 'customer' else sa_sudo.document_status})
+
         signer_label = _('Coordinator') if signer == 'coordinator' else _('Customer')
         msg = _("The service agreement has been signed by the %(signer)s. %(title)s)") % {'signer': signer_label, 'title': sa_sudo.title}
         notification_ids = []
@@ -71,13 +75,8 @@ class CustomerPortal(portal.CustomerPortal):
         #sa_sudo.write({'signature_name': name, 'signature': signature, 'document_status': 'sign'})
         #signature_date 
 
-
-        base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        prefix = '/sign/sa' if signer == 'customer' else '/coordinator_sign/sa'
-        return {
-            'force_refresh': True,
-            'redirect_url':  url_join(base_url, '%s/%s/%s' % (prefix, sa_id, sa_token))
-        }
+        current_url = request.httprequest.url
+        return request.redirect(current_url)
 
     @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>', '/coordinator_sign/sa/<int:sa_id>/<string:sa_token>'], type='http', auth="public", website=True)
     def portal_sign_sa(self, report_type=None, sa_id=False, sa_token=None, download=False, **kw):
