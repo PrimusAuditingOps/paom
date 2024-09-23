@@ -288,13 +288,6 @@
                 </p>
                  <div style="page-break-after: always;">
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="text-start">
-                            Date: <span t-field="serviceagreement.sign_sa_agreements_id.document_date" widget="date"/>
-                        </p>
-                    </div>
-                </div>
 
                 <div class="row">
                     <div class="col-6">
@@ -335,7 +328,7 @@
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>By: </b><span t-field="serviceagreement.coordinator_id.name"/>
+                            <b>By: </b><span t-field="serviceagreement.sign_sa_agreements_id.coordinator_name" t-if="serviceagreement.sign_sa_agreements_id.coordinator_name"/>
                         </p>
                     </div>
                     <div class="col-6">
@@ -359,7 +352,7 @@
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Date: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
+                            <b>Date: </b> <span t-field="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" widget="date"/>
                         </p>
                     </div>
                     <div class="col-6">
