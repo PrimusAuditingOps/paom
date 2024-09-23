@@ -182,7 +182,7 @@ class PaoSignSaAgreementsSent(models.Model):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         return {
             'type': 'ir.actions.act_url',
-            'url': url_join(base_url, '/coordinator_sign/sa/%s/%s' % (self.id, self.access_token)),
+            'url': '/coordinator_sign/sa/%s/%s' % (self.id, self.access_token),
             'target': 'new',  # Opens the URL in a new tab
         }
     
