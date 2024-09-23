@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-     
+    
+    <template id="pao_sign_sa_coordinator_not_logged_in_page_view" name="Coordinator Not Logged In">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">You need to be logged in to sign this document.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
     <template id="pao_sign_sa_exception_page_view" name="Sign request not found">
         <t t-call="web.frontend_layout">
             <div class="container pt-5">
@@ -21,7 +31,7 @@
                 <link rel='stylesheet' href="/pao_sign_sa/static/src/css/pao_sign_sa.css"/>
             </xpath>
 
-            <div class="m-0 row justify-content-center" t-if="serviceagreement.document_status == 'sign'">
+            <div class="m-0 row justify-content-center" t-if="(serviceagreement.document_status in ['sign','partially_sign'] and signer == 'customer') or (serviceagreement.document_status == 'sign' and signer == 'coordinator')">
                 <div style="padding-top:10px" class="col-auto">
                     <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_sa_content">
                         <div class="card-header">SA</div>
@@ -43,7 +53,7 @@
 
 
 
-            <div class="row mt16" t-if="serviceagreement.document_status == 'sent'">
+            <div class="row mt16" t-if="(serviceagreement.document_status == 'sent' and signer == 'customer') or (serviceagreement.document_status == 'partially_sign' and signer == 'coordinator')">
                 <div class="col-12 col-md-auto d-print-none ml-md-3">
                     <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_sa_content">
                         <div class="card-header">Signature</div>
@@ -194,7 +204,7 @@
                                         </p>
                                         <t t-call="portal.signature_form">
                                             <t t-set="call_url" t-value="urlAccept"/>
-                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name"/>
+                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name if signer == 'customer' else request.env.user.partner_id.name"/>
                                             <t t-set="font_color" t-value="'darkblue'"/>
                                         </t>                            
                                     </main>

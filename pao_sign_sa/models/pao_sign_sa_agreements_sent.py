@@ -110,7 +110,8 @@ class PaoSignSaAgreementsSent(models.Model):
     document_status = fields.Selection(
         selection=[
             ('sent', "Sent"),
-            ('sign', "Signed"),
+            ('partially_sign', "Partially signed"),
+            ('sign', "Completely signed"),
             ('cancel', "Cancelled"),
             ('exception', "Mail Failed"),
         ],
@@ -143,6 +144,12 @@ class PaoSignSaAgreementsSent(models.Model):
         'Signature name',
         copy=False,
     )
+    
+    coordinator_signature = fields.Binary(
+        string="Coordinator Signature", 
+        copy=False,
+    )
+
     signature = fields.Binary(
         string="Signature", 
         copy=False,

@@ -13,9 +13,6 @@ class ProductTemplate(models.Model):
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
-        # if not self.env.context.get('display_prm_customer_number', False):
-        #     return super(ProductTemplate, self).name_search(name, args, operator, limit)
-
         args = args or []
         domain = args + []
         if name:
