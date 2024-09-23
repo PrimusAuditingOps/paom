@@ -24,8 +24,8 @@ class SalesInvoicingReport(models.Model):
     
     usd_total = fields.Monetary(string='USD Total', currency_field='currency_id', readonly=True)
     usd_untaxed_total =  fields.Monetary(string='USD Untaxed Total', currency_field='currency_id', readonly=True)
-    mxn_total = fields.Monetary(string='MXN Total', currency_field='currency_id', readonly=True)
-    mxn_untaxed_total = fields.Monetary(string='MXN Untaxed Total', currency_field='currency_id', readonly=True)
+    mxn_total = fields.Monetary(string='MXN Total', currency_field='currency_id', groups=('pao_mxn_currency_group.mxn_currency_group'), readonly=True)
+    mxn_untaxed_total = fields.Monetary(string='MXN Untaxed Total', currency_field='currency_id',  groups=('pao_mxn_currency_group.mxn_currency_group'), readonly=True)
     
     product_tmpl_id = fields.Many2one('product.template', 'Product', readonly=True)
     categ_id = fields.Many2one('product.category', 'Product Category', readonly=True)
