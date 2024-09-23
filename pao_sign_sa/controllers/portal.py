@@ -75,8 +75,10 @@ class CustomerPortal(portal.CustomerPortal):
         #sa_sudo.write({'signature_name': name, 'signature': signature, 'document_status': 'sign'})
         #signature_date 
 
-        current_url = request.httprequest.url
-        return request.redirect(current_url)
+        return {
+            'force_refresh': True,
+            'redirect_url':  request.httprequest.url
+        }
 
     @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>', '/coordinator_sign/sa/<int:sa_id>/<string:sa_token>'], type='http', auth="public", website=True)
     def portal_sign_sa(self, report_type=None, sa_id=False, sa_token=None, download=False, **kw):
