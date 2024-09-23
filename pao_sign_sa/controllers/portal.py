@@ -57,6 +57,7 @@ class CustomerPortal(portal.CustomerPortal):
         #_logger.error(request.httprequest.remote_addr) 
         #_logger.error(request.session['geoip'].get('latitude') or 0.0)
         #_logger.error(request.session['geoip'].get('longitude') or 0.0)
+        _logger.warning(request.env.company.country_code)
         if request.env.company.country_code == 'US':
             sa_sudo.write({"attachment_ids": [(6, 0, attachment_list)], "document_status": "sign" if signer == 'coordinator' else 'partially_sign'})
         else:

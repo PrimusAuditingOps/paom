@@ -451,7 +451,7 @@
                     <div class="col-6">
                         
                         <p style="text-align:center;">
-                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.coordinator_signature)" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature"/>
                         </p>
                     </div>
                     <div class="col-6">
