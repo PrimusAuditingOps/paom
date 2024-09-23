@@ -7,6 +7,7 @@
         <field name="inherit_id" ref="account.view_invoice_tree"/>
             <field name="arch" type="xml">
                 <field name="move_type" position="after">
+                    <field name="country_code" column_invisible="country_code != 'MX'" invisible="country_code != 'MX'"/>
                     <field name="ad_usd_neto" sum="Total" column_invisible="country_code != 'MX'" invisible="country_code != 'MX'" optional="hide"/>
                     <field name="ad_usd_iva" sum="Total" column_invisible="country_code != 'MX'"  invisible="country_code != 'MX'" optional="hide"/>
                     <field name="ad_usd_total" sum="Total" column_invisible="country_code != 'MX'"  invisible="country_code != 'MX'" optional="hide"/>
