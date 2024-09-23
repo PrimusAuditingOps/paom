@@ -75,10 +75,10 @@ class CustomerPortal(portal.CustomerPortal):
         #sa_sudo.write({'signature_name': name, 'signature': signature, 'document_status': 'sign'})
         #signature_date 
 
-        return {
-            'force_refresh': True,
-            'redirect_url':  request.httprequest.url
-        }
+        base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        prefix = '/sign/sa' if signer == 'customer' else '/coordinator_sign/sa'
+
+        return request.redirect(url_join(base_url, '%s/%s/%s' % (prefix, sa_id, sa_token)))
 
     @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>', '/coordinator_sign/sa/<int:sa_id>/<string:sa_token>'], type='http', auth="public", website=True)
     def portal_sign_sa(self, report_type=None, sa_id=False, sa_token=None, download=False, **kw):
