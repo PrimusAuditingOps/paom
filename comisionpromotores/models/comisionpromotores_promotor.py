@@ -32,3 +32,6 @@ class ComisionpromotoresPromotor(models.Model):
         required=True, index=True,
         default=lambda self: self.env.company) 
     
+    scheme_ids = fields.Many2many('servicereferralagreement.scheme', string="Schemes")
+    
+    
