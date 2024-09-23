@@ -31,7 +31,8 @@ class SaleOrder(models.Model):
         ('all_sign', "SA Fully Signed"),
             ],
         default = 'no_sa_request',
-        compute='_get_sa_status'
+        compute='_get_sa_status',
+        store=True
     )           
 
     @api.depends('pao_agreements_ids')
