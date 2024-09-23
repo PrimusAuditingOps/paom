@@ -12,7 +12,7 @@ class PaoOperationsAgenda(models.Model):
     _auto = False
     _rec_name = 'combination'
     _order = 'service_start_date desc'
-
+   
 
     id = fields.Integer('ID', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Auditor', readonly=True)
@@ -54,7 +54,7 @@ class PaoOperationsAgenda(models.Model):
     state_id = fields.Many2one(comodel_name = "res.country.state", string='Audit State', readonly=True)
     city_id = fields.Many2one(comodel_name = "res.city", string='Audit City', readonly=True)
     company_id = fields.Many2one(comodel_name='res.company', readonly=True)
-   
+    language_ids = fields.Many2many(related='order_id.language_ids', readonly=True)
 
     @api.depends('audit_status')
     def _get_color(self):

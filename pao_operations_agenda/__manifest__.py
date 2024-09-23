@@ -13,7 +13,7 @@
         * Migrated from v14.\n
     """,
     'depends': ['base','sale','purchase','account','comisionpromotores','customergroups','auditordaysoff',
-        'auditconfirmation','servicereferralagreement'
+        'auditconfirmation','servicereferralagreement','pao_assignment_auditor'
     ],
     'data': [
         # security
