@@ -46,7 +46,7 @@ class UploadExpenseStatement(models.TransientModel):
             else:
                 send_notification_to_user = True
             
-            if self.env.company.country_code not in ('MX', 'US', 'CR'):
+            if self.env.company.country_code not in ('MX', 'US', 'CR', 'CL'):
                 raise UserError(_('This process is not available for your company. Please contact IT support.'))
             
             
@@ -91,7 +91,7 @@ class UploadExpenseStatement(models.TransientModel):
 
         if self.env.company.country_code == 'MX':
             first_row = 8
-        elif self.env.company.country_code in ['US','CR']:
+        elif self.env.company.country_code in ['US','CR', 'CL']:
             first_row = 1
             
         for x in range(first_row-1):
@@ -109,7 +109,7 @@ class UploadExpenseStatement(models.TransientModel):
             
             if self.env.company.country_code == 'MX':
                 expense = self._process_mexico_format(row)
-            elif self.env.company.country_code in ['US','CR']:
+            elif self.env.company.country_code in ['US','CR', 'CL']:
                 expense = self._process_usa_format(row)
                 
             if expense:   
@@ -126,7 +126,7 @@ class UploadExpenseStatement(models.TransientModel):
         
         if self.env.company.country_code == 'MX':
             first_row = 8
-        elif self.env.company.country_code in ['US','CR']:
+        elif self.env.company.country_code in ['US','CR', 'CL']:
             first_row = 1
             
         headers = worksheet.row_values(first_row-1)
@@ -139,7 +139,7 @@ class UploadExpenseStatement(models.TransientModel):
             row = worksheet.row_values(rownum)
             if self.env.company.country_code == 'MX':
                 expense = self._process_mexico_format(row)
-            elif self.env.company.country_code in ['US','CR']:
+            elif self.env.company.country_code in ['US','CR', 'CL']:
                 expense = self._process_usa_format(row)
                 
             if expense:   
@@ -150,7 +150,7 @@ class UploadExpenseStatement(models.TransientModel):
     def _check_format(self, headers):
         if self.env.company.country_code == 'MX':
             placeholder = ['SEC','Concepto/Referencia','Cargo','Abono','Saldo']
-        elif self.env.company.country_code in ['US','CR']:
+        elif self.env.company.country_code in ['US','CR', 'CL']:
             placeholder = ['Date','Transaction','Name','Memo','Amount']
         
         for header, expected in zip(headers, placeholder):
