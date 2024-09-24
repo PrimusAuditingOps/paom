@@ -20,6 +20,7 @@
         # reports
         # views
         'views/sale_order.xml',
+        'views/account_move_tree_view.xml',
     ],
     'license': 'LGPL-3',
 }

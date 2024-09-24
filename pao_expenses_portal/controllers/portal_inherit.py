@@ -27,11 +27,13 @@ class ExpensesPortal(http.Controller):
         
         if request.env.company.country_code == 'MX':
             expense_reports = request.env['hr.expense.sheet'].sudo().search([
-                ('partner_id', '=', user.partner_id.id)
+                ('partner_id', '=', user.partner_id.id),
+                ('company_id', '=', request.env.company.id)
             ])
         else:
             expense_reports = request.env['hr.expense.sheet'].sudo().search([
-                ('employee_id', '=', user.employee_id.id)
+                ('employee_id', '=', user.employee_id.id),
+                ('company_id', '=', request.env.company.id)
             ])
         
         return request.render('pao_expenses_portal.my_expense_reports_view', {'expense_reports': expense_reports, 'page_name': 'expense_reports'})

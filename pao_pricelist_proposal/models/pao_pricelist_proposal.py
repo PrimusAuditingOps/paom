@@ -86,7 +86,7 @@ class PriceListProposal(models.Model):
     def send_proposal_action(self):
         if self.proposal_status == 'draft' and self.authorized:
             
-            self.pricelist_proposal_manager_id = self.env['hr.employee'].sudo().search([('pricelist_proposal_manager', '=', True)], limit=1)
+            self.pricelist_proposal_manager_id = self.env['hr.employee'].sudo().search([('pricelist_proposal_manager', '=', True), ('company_id', '=', self.env.company.id)], limit=1)
             
             if not self.pricelist_proposal_manager_id:
                 raise ValidationError(_("No employee in charge of pricelist proposals was found."))
