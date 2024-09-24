@@ -21,6 +21,7 @@ class AccountMoveInherit(models.Model):
                 move.organization = sale_order.organization_id.name
                 move.registry_number = sale_order.registrynumber_id.name
             else:
-                move.audit_date = False
+                move.audit_start_date = False
+                move.audit_end_date = False
                 move.organization = False
                 move.registry_number = False
