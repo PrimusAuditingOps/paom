@@ -17,7 +17,8 @@
     'depends': [
         'base',
         'contacts',
-        'l10n_mx_edi'
+        'l10n_mx_edi',
+        'pao_org_rn_audit_information'
     ],
     'data' : [
         'security/ir.model.access.csv',
