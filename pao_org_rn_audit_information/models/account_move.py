@@ -11,11 +11,11 @@ class ResPartner(models.Model):
     organization = fields.Char(string="Organization", compute="_compute_audit_information_fields", store=True)
     registry_number = fields.Char(string="Registry Number", compute="_compute_audit_information_fields", store=True)
                 
-    @api.depends('line_ids.sale_line_ids.order_id')
+    @api.depends('invoice_line_ids.sale_line_ids.order_id')
     def _compute_audit_information_fields(self):
         for move in self:
             # Fetch the related sale order if available
-            sale_orders = move.line_ids.mapped('sale_line_ids.order_id')
+            sale_orders = move.invoice_line_ids.mapped('sale_line_ids.order_id')
             _logger.warning(sale_orders)
             if sale_orders:
                 # Use the first sale order found, or adjust if you expect multiple orders
