@@ -9,7 +9,6 @@ class ResPartner(models.Model):
     organization = fields.Char(string="Organization", compute="_get_organization", store=True)
     registry_number = fields.Char(string="Registry Number", compute="_get_registry_number", store=True)
     
-    @api.depends('line_ids.sale_line_ids.order_id')
     def _get_audit_date(self):
         source_orders = self.line_ids.sale_line_ids.order_id
         
@@ -17,7 +16,6 @@ class ResPartner(models.Model):
         if source_orders:
             self.audit_date = source_orders[0].service_start_date
     
-    @api.depends('line_ids.sale_line_ids.order_id')
     def _get_organization(self):
         source_orders = self.line_ids.sale_line_ids.order_id
         
@@ -26,7 +24,6 @@ class ResPartner(models.Model):
             organization = source_orders[0].organization_id
             self.organization = organization.name if organization else None
             
-    @api.depends('line_ids.sale_line_ids.order_id')
     def _get_registry_number(self):
         source_orders = self.line_ids.sale_line_ids.order_id
         
