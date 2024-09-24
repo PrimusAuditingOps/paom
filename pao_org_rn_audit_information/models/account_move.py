@@ -9,6 +9,7 @@ class ResPartner(models.Model):
     organization = fields.Char(string="Organization", compute="_compute_audit_information_fields", store=True)
     registry_number = fields.Char(string="Registry Number", compute="_compute_audit_information_fields", store=True)
 
+    @api.depends('invoice_line_ids')
     def _compute_audit_information_fields(self):
         for record in self:
             # Assuming 'invoice_origin' links to the sale order name
