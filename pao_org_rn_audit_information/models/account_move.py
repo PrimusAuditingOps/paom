@@ -1,5 +1,6 @@
 from odoo import api, models, fields
 from odoo.tools.translate import _
+_logger = getLogger(__name__)
 
 
 class ResPartner(models.Model):
@@ -14,12 +15,13 @@ class ResPartner(models.Model):
         for move in self:
             # Fetch the related sale order if available
             sale_orders = move.line_ids.mapped('sale_line_ids.order_id')
+            _logger.warning(sale_orders)
             if sale_orders:
                 # Use the first sale order found, or adjust if you expect multiple orders
                 sale_order = sale_orders[0]
-                move.audit_date = sale_order.audit_date
-                move.organization = sale_order.organization
-                move.registry_number = sale_order.registry_number
+                move.audit_date = sale_order.serive_start_date
+                move.organization = sale_order.organization_id.name
+                move.registry_number = sale_order.registrynumber_id.name
             else:
                 move.audit_date = False
                 move.organization = False
