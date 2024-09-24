@@ -164,7 +164,8 @@ class ExpensesPortal(http.Controller):
     
     def _get_expense_manager(self):
         manager = request.env['hr.employee'].sudo().search([
-            ('expenses_manager','=',True)
+            ('expenses_manager','=',True),
+            ('company_id', '=', request.env.company.id)
         ], limit=1)
         return manager.user_id.id if manager else None
     
