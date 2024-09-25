@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-01 20:24+0000\n"
-"PO-Revision-Date: 2024-08-01 20:24+0000\n"
+"POT-Creation-Date: 2024-09-25 00:40+0000\n"
+"PO-Revision-Date: 2024-09-25 00:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -187,6 +187,12 @@ msgid "Contact"
 msgstr "Contacto"
 
 #. module: pao_expenses_portal
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense__country_code
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense_sheet__country_code
+msgid "Country Code"
+msgstr "Código de país"
+
+#. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
 msgid "Create Expense Report"
 msgstr "Crear reporte de gastos"
@@ -287,6 +293,7 @@ msgstr "Fecha de gasto"
 
 #. module: pao_expenses_portal
 #: model:ir.model,name:pao_expenses_portal.model_hr_expense_sheet
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_purchase_order__sheet_id
 msgid "Expense Report"
 msgstr "Reporte de gastos"
 
@@ -382,9 +389,10 @@ msgstr "Un solo empleado puede ser gerente de gastos."
 #. module: pao_expenses_portal
 #: model:ir.model,name:pao_expenses_portal.model_product_product
 msgid "Product Variant"
-msgstr "Variante del producto"
+msgstr "Variantes de producto"
 
 #. module: pao_expenses_portal
+#: model:ir.model,name:pao_expenses_portal.model_purchase_order
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense_sheet__purchase_order
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
 msgid "Purchase Order"
@@ -463,6 +471,25 @@ msgid "The Contact must have the supplier taxes defined."
 msgstr "El contacto debe tener definidos los impuestos del proveedor."
 
 #. module: pao_expenses_portal
+#: model:ir.model.fields,help:pao_expenses_portal.field_hr_expense__country_code
+#: model:ir.model.fields,help:pao_expenses_portal.field_hr_expense_sheet__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+
+#. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid ""
+"The current user does not have an employee registered, it is necessary to "
+"have one to continue with the process."
+msgstr ""
+"El usuario actual no tiene un empleado registrado, es necesario tener uno "
+"para continuar con el proceso."
+
+#. module: pao_expenses_portal
 #. odoo-python
 #: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
 #, python-format
@@ -479,7 +506,8 @@ msgstr ""
 #: code:addons/pao_expenses_portal/models/upload_statement.py:0
 #, python-format
 msgid "The format of the uploaded file is incorrect, please try again"
-msgstr "El formato del archivo cargado es incorrecto, por favor intente de nuevo."
+msgstr ""
+"El formato del archivo cargado es incorrecto, por favor intente de nuevo."
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
@@ -502,7 +530,9 @@ msgstr "Actualmente no hay gastos en este reporte."
 #, python-format
 msgid ""
 "This process is not available for your company. Please contact IT support."
-msgstr "Este proceso no está disponible para su empresa. Por favor, contacte con el soporte de TI."
+msgstr ""
+"Este proceso no está disponible para su empresa. Por favor, contacte con el "
+"soporte de TI."
 
 #. module: pao_expenses_portal
 #. odoo-python
@@ -531,7 +561,9 @@ msgstr ""
 msgid ""
 "Unsupported file format. Please upload a CSV or Excel file with a correct "
 "format."
-msgstr "Formato de archivo no soportado. Por favor, cargue un archivo CSV o Excel con el formato correcto."
+msgstr ""
+"Formato de archivo no soportado. Por favor, cargue un archivo CSV o Excel "
+"con el formato correcto."
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.view_upload_expense_statement_form
@@ -558,6 +590,11 @@ msgstr "Subir estado de cuenta de gastos"
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense__uploaded_by_statement
 msgid "Uploaded By Statement"
 msgstr "Subido por estado de cuenta"
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.purchase_order_create_expense_report
+msgid "View expense report"
+msgstr "Ver reporte de gastos"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.portal_breadcrumbs_expense

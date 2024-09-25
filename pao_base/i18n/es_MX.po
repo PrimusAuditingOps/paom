@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-20 17:20+0000\n"
-"PO-Revision-Date: 2024-09-20 17:20+0000\n"
+"POT-Creation-Date: 2024-09-25 00:40+0000\n"
+"PO-Revision-Date: 2024-09-25 00:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_base.view_partner_form
 msgid "<span>-</span>"
 msgstr ""
+
+#. module: pao_base
+#: model_terms:ir.ui.view,arch_db:pao_base.account_move_billing_person_form_view
+#: model_terms:ir.ui.view,arch_db:pao_base.account_move_billing_person_search_view
+msgid "Billing Person"
+msgstr "Responsable de facturación"
 
 #. module: pao_base
 #: model:ir.actions.act_window,name:pao_base.action_res_city_tree
@@ -68,6 +74,12 @@ msgstr "Contacto"
 #: model_terms:ir.ui.view,arch_db:pao_base.view_partner_form
 msgid "Country"
 msgstr "País"
+
+#. module: pao_base
+#: model:ir.model.fields,field_description:pao_base.field_product_product__country_code
+#: model:ir.model.fields,field_description:pao_base.field_product_template__country_code
+msgid "Country Code"
+msgstr ""
 
 #. module: pao_base
 #: model:ir.model.fields,field_description:pao_base.field_res_city__create_uid
@@ -168,6 +180,14 @@ msgstr "Calle 2..."
 #: model_terms:ir.ui.view,arch_db:pao_base.view_partner_form
 msgid "Street..."
 msgstr "Calle..."
+
+#. module: pao_base
+#: model:ir.model.fields,help:pao_base.field_product_product__country_code
+#: model:ir.model.fields,help:pao_base.field_product_template__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
 
 #. module: pao_base
 #: model_terms:ir.ui.view,arch_db:pao_base.view_partner_form
