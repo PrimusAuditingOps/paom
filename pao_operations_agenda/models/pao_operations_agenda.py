@@ -222,7 +222,8 @@ class PaoOperationsAgenda(models.Model):
             assessment_id,
             state_id,
             city_id,
-            ado.company_id ) as a
+            ado.company_id,
+            ado.comments) as a
         """  
         #return '%s (SELECT %s FROM %s GROUP BY %s)' % (with_, select_, from_, groupby_)
         return '%s (%s)' % (with_, executequery)
