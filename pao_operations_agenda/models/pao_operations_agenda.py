@@ -122,6 +122,7 @@ class PaoOperationsAgenda(models.Model):
             SELECT row_number() over() as id,
             a.partner_id,
             a.partner_ref,
+            a.dayoff_comments,
             a.order_id,
             a.service_start_date,
             a.service_end_date,
@@ -142,6 +143,7 @@ class PaoOperationsAgenda(models.Model):
             SELECT 
             po.partner_id as partner_id,
             po.partner_ref as partner_ref,
+            '' as dayoff_comments,
             po.id as order_id,
             pl.service_start_date as service_start_date,
             pl.service_end_date as service_end_date,
@@ -184,7 +186,7 @@ class PaoOperationsAgenda(models.Model):
             po.audit_city_id,
             po.company_id 
             UNION ALL 
-            SELECT 
+            SELECT
             ado.auditor_id as partner_id,
             ado.name as partner_ref,
             ado.comments as dayoff_comments,
