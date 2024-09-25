@@ -3,6 +3,7 @@ from odoo.http import request
 import logging
 import io
 import zipfile
+import base64
 from odoo.addons.web.controllers.main import content_disposition
 
 _logger = logging.getLogger(__name__)
@@ -46,16 +47,16 @@ class ServiceAgreementsPortal(http.Controller):
         # Crear el archivo ZIP
         with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
             for attachment in agreement.attachment_ids:
-                # Descargar el contenido del adjunto
-                file_data = attachment.datas
+                # Descargar el contenido del adjunto y decodificar el archivo en base64
+                file_data = base64.b64decode(attachment.datas)
                 file_name = attachment.name
 
                 # Añadir el archivo al zip
-                zip_file.writestr(file_name, file_data.decode('base64'))
+                zip_file.writestr(file_name, file_data)
 
         # Preparar la respuesta
         zip_buffer.seek(0)
-        zip_filename = 'SA_%s.zip' % agreement.name.replace(' ', '_')
+        zip_filename = 'Service_Agreements_Attachments_%s.zip' % agreement.name.replace(' ', '_')
         return request.make_response(
             zip_buffer.getvalue(),
             [
