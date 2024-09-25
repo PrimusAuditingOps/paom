@@ -9,7 +9,7 @@ import xlrd
 from datetime import date
 
 _logger = logging.getLogger(__name__)
-class ExpensesPortal(http.Controller):
+class ServiceAgreementsPortal(http.Controller):
     
     def is_user_auditor(self):
         user = request.env.user
