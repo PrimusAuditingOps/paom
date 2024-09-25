@@ -66,7 +66,7 @@
                     <t t-foreach="service_agreements" t-as="agreement">
                         <tr>
                             <td>
-                                <span t-field="agreement.name"/>
+                                <span t-field="agreement.title"/>
                             </td>
                             <td>
                                 <span t-field="agreement.document_status"/>
