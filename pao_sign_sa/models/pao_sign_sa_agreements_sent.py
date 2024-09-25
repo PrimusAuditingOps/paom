@@ -103,6 +103,9 @@ class PaoSignSaAgreementsSent(models.Model):
         ondelete='cascade',
         required=True,
     )
+    
+    so_partner_id = fields.Many2one(related='sale.order_id.partner_id')
+    
     reminder_days = fields.Integer(
         string = 'Reminder days',
         default = 0,

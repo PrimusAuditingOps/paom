@@ -7,7 +7,7 @@ class ResPartnerInherit(models.Model):
     
     pao_agreements_ids = fields.One2many(
         comodel_name='pao.sign.sa.agreements.sent',
-        inverse_name='sale_order_id.partner_id',
+        inverse_name='so_partner_id',
         string='Agrements',
     )
     
