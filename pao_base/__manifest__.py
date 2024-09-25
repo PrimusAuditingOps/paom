@@ -26,7 +26,7 @@
         'views/res_country_views.xml',
         'views/res_partner_views.xml',
         'views/ir_module_views.xml',
-        'views/account_move.xml',
+        # 'views/account_move.xml',
     ],
     'assets': {
         'web.report_assets_common': [
