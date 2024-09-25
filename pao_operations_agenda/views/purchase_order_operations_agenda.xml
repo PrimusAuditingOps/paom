@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    
+
     <record id="pao_operations_agenda_view_calendar" model="ir.ui.view">
         <field name="name">pao.operations.agenda.view.calendar</field>
         <field name="model">pao.operations.agenda</field>
         <field name="arch" type="xml">
-            <calendar string="Auditor Calendar" date_start="service_start_date" date_stop="service_end_date" 
-             color="color" hide_time="True" hide_date="True" mode="month" all_day="all_day"> 
-                <field name="audit_status"/>
-                <field name="order_id"/>
-                <field name="state_id"/>
-                <field name="city_id"/>
-                <field name="language_ids" widget="many2many_tags"/>
-                
-                <field name="coordinator_id"/>
-                <field name="customer_group_id"/>
-                <field name="promotor_id"/>
-                <field name="products"/>
+            <calendar string="Auditor Calendar" date_start="service_start_date" date_stop="service_end_date" color="color" hide_time="True" hide_date="True" mode="month" all_day="all_day">
+                <field name="state" invisible="1"/>
+                <field name="dayoff_comments" invisible="state != 'dayoff'"/>
+                <field name="audit_status" invisible="state == 'dayoff'"/>
+                <field name="order_id" invisible="state == 'dayoff'"/>
+                <field name="state_id" invisible="state == 'dayoff'"/>
+                <field name="city_id" invisible="state == 'dayoff'"/>
+                <field name="language_ids" widget="many2many_tags" invisible="state == 'dayoff'"/>
+
+                <field name="coordinator_id" invisible="state == 'dayoff'"/>
+                <field name="customer_group_id" invisible="state == 'dayoff'"/>
+                <field name="promotor_id" invisible="state == 'dayoff'"/>
+                <field name="products" invisible="state == 'dayoff'"/>
             </calendar>
         </field>
     </record>
-    
+
     <record id="pao_operations_agenda_search" model="ir.ui.view">
         <field name="name">Search Agenda</field>
         <field name="model">pao.operations.agenda</field>
@@ -32,7 +33,7 @@
                 <field name="customer_id"/>
                 <field name="shadow_id"/>
                 <field name="assessment_id"/>
-                
+
                 <filter string="Active Audits" name="state" domain="[('state','!=','cancel')]" />
             </search>
         </field>
@@ -45,12 +46,8 @@
         <field name="view_mode">calendar</field>
         <field name="context">{"search_default_state":1}</field>
     </record>
-    
 
-    <menuitem id="pao_operations_agenda_menu"
-            name="Auditor Agenda"
-            parent="purchase.menu_procurement_management"
-            action="pao_operations_agenda_action"
-            sequence="21"/>
+
+    <menuitem id="pao_operations_agenda_menu" name="Auditor Agenda" parent="purchase.menu_procurement_management" action="pao_operations_agenda_action" sequence="21"/>
 
 </odoo>
