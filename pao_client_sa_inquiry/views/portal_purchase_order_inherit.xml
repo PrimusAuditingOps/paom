@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="purchase_order_create_expense_report" customize_show="True" inherit_id="purchase.portal_my_purchase_order" priority="50">
+        <xpath expr="//div[hasclass('o_portal_contact_details')]" position="after">
+            <a class="btn btn-primary mt-4" t-if="request.env.user.partner_id.ado_is_auditor and (order.ac_audit_status.name == 'Confirmada' or order.ac_audit_status.name == 'Confirmed') and not order.sheet_id" t-att-href="'/my/expense_reports/new?purchase_order=' + str(order.id)">Create expense report</a>
+            <a class="btn btn-primary mt-4" t-if="order.sheet_id" t-att-href="'/my/expense_reports/' + str(order.sheet_id.id)">View expense report</a>
+        </xpath>
+    </template>
+
+    <template id="purchase_order_list_expense_details" customize_show="True" inherit_id="purchase.portal_my_purchase_orders" priority="50">
+        <xpath expr="//t[@t-call='portal.portal_table']/thead/tr[hasclass('active')]/th[1]" position="after">
+            <th>
+                <span class='d-none d-md-inline'>Vendor Reference</span>
+                <span class='d-block d-md-none'>Vendor Ref.</span>
+            </th>
+            <th>
+                <span class='d-none d-md-inline'>Sales Order Customer</span>
+                <span class='d-block d-md-none'>Customer</span>
+            </th>
+        </xpath>
+
+        <xpath expr="//t[@t-call='portal.portal_table']/t/tr/td[1]" position="after">
+            <td><t t-esc="order.partner_ref"/></td>
+            <td>
+                <t t-if="order.sale_order_id" t-esc="order.sudo().sale_order_id.partner_id.name"/>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>
