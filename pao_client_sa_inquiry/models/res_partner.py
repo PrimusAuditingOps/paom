@@ -31,6 +31,6 @@ class ResPartnerInherit(models.Model):
             'view_mode': 'tree,form',
             'name': _("Service Agreements - %s", self.display_name),
             # 'domain': [('so_partner_id', 'in', [self.id] + self.child_ids.ids)],
-            'domain': [('id', 'in', self.pao_agreements_ids)],
+            'domain': [('id', 'in', self.pao_agreements_ids.ids)],
         }
         return action
