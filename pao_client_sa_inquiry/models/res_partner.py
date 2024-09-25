@@ -30,7 +30,9 @@ class ResPartnerInherit(models.Model):
             'type': 'ir.actions.act_window',
             'view_mode': 'tree,form',
             'name': _("Service Agreements - %s", self.display_name),
-            # 'domain': [('so_partner_id', 'in', [self.id] + self.child_ids.ids)],
             'domain': [('id', 'in', self.pao_agreements_ids.ids)],
+            'context': {
+                'display_sale_order': True,
+            }
         }
         return action
