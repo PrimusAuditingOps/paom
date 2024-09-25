@@ -56,7 +56,7 @@ class ServiceAgreementsPortal(http.Controller):
 
         # Preparar la respuesta
         zip_buffer.seek(0)
-        zip_filename = 'Service_Agreements_Attachments_%s.zip' % agreement.name.replace(' ', '_')
+        zip_filename = 'Service_Agreements_Attachments_%s.zip' % agreement.title.replace(' ', '_')
         return request.make_response(
             zip_buffer.getvalue(),
             [
