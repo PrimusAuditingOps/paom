@@ -26,7 +26,7 @@ class ServiceAgreementsPortal(http.Controller):
         
         service_agreements = request.env['pao.sign.sa.agreements.sent'].sudo().search([
             ('signer_id', 'in', [partner_id.id] + partner_id.child_ids.ids),
-            ('document_status', '!=', 'cancel' )
+            ('document_status', 'not in', ('cancel', 'exception') )
         ])
         
         return request.render('pao_client_sa_inquiry.my_service_agreements_view', {'service_agreements': service_agreements, 'page_name': 'partner_sa_list'})

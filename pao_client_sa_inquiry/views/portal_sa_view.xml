@@ -59,7 +59,6 @@
                         <th>Summary</th>
                         <th>Document Status</th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,10 +71,8 @@
                                 <span t-field="agreement.document_status"/>
                             </td>
                             <td>
-                                <a class="btn btn-primary" t-att-href="agreement.sign_url">Sign SA</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-primary" t-att-href="'/my_service_agreements/download/attachments/' + str(agreement.id)">Download SA</a>
+                                <a t-if="agreement.document_status == 'sent'" class="btn btn-primary" target="_blank" t-att-href="agreement.sign_url">Sign SA</a>
+                                <a t-if="agreement.document_status not in ('sent', 'cancel', 'exception')" class="btn btn-primary" t-att-href="'/my_service_agreements/download/attachments/' + str(agreement.id)">Download SA</a>
                             </td>
                         </tr>
                     </t>
