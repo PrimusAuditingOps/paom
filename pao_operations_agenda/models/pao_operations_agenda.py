@@ -12,7 +12,6 @@ class PaoOperationsAgenda(models.Model):
     _auto = False
     _rec_name = 'combination'
     _order = 'service_start_date desc'
-   
 
     id = fields.Integer('ID', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Auditor', readonly=True)
@@ -44,6 +43,7 @@ class PaoOperationsAgenda(models.Model):
         comodel_name='auditconfirmation.auditstate',
         readonly = True,
     )
+    dayoff_comments = fields.Char(string="Day Off Comments", readonly=True)
     color = fields.Integer(string="color", compute="_get_color")
     customer_group_id = fields.Text(string="Group", readonly=True)
     promotor_id = fields.Text(string="Promotor", readonly=True)
@@ -107,8 +107,8 @@ class PaoOperationsAgenda(models.Model):
                     else:
                         for x in range(0,len(listproduct)):
                             if listproduct[x].get("id") == p.id:
-                               listproduct[x] = {"id": p.id, "name": p.name, "qty": listproduct[x].get("qty") + r.product_qty}
-                               break
+                                listproduct[x] = {"id": p.id, "name": p.name, "qty": listproduct[x].get("qty") + r.product_qty}
+                                break
             for prod in listproduct:
                 productname = productname + '\n' + prod.get("name") + ' - ' + str(prod.get("qty"))
             
@@ -122,6 +122,7 @@ class PaoOperationsAgenda(models.Model):
             SELECT row_number() over() as id,
             a.partner_id,
             a.partner_ref,
+            a.dayoff_comments,
             a.order_id,
             a.service_start_date,
             a.service_end_date,
@@ -142,6 +143,7 @@ class PaoOperationsAgenda(models.Model):
             SELECT 
             po.partner_id as partner_id,
             po.partner_ref as partner_ref,
+            '' as dayoff_comments,
             po.id as order_id,
             pl.service_start_date as service_start_date,
             pl.service_end_date as service_end_date,
@@ -184,27 +186,28 @@ class PaoOperationsAgenda(models.Model):
             po.audit_city_id,
             po.company_id 
             UNION ALL 
-            SELECT 
+            SELECT
             ado.auditor_id as partner_id,
             ado.name as partner_ref,
-            0 as order_id,
+            ado.comments as dayoff_comments,
+            false as order_id,
             ado.start_date as service_start_date,
             ado.end_date as service_end_date,
-            0 as coordinator_id,
+            false as coordinator_id,
             true as all_day,
             'dayoff' as state,
-            0 as audit_status,
+            false as audit_status,
             '' as customer_group_id,
             '' as promotor_id,
-            0 as customer_id,
-            0 as shadow_id,
-            0 as assessment_id,
-            0 as state_id,
-            0 as city_id,
+            false as customer_id,
+            false as shadow_id,
+            false as assessment_id,
+            false as state_id,
+            false as city_id,
             ado.company_id as company_id 
             from 
             auditordaysoff_days as ado
-             GROUP BY
+            GROUP BY
             partner_id,
             partner_ref,
             order_id,
@@ -221,7 +224,8 @@ class PaoOperationsAgenda(models.Model):
             assessment_id,
             state_id,
             city_id,
-            ado.company_id ) as a
+            ado.company_id,
+            ado.comments) as a
         """  
         #return '%s (SELECT %s FROM %s GROUP BY %s)' % (with_, select_, from_, groupby_)
         return '%s (%s)' % (with_, executequery)
