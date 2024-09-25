@@ -26,7 +26,7 @@ class ServiceAgreementsPortal(http.Controller):
         
         service_agreements = request.env['pao.sign.sa.agreements.sent'].sudo().search([
             ('signer_id', 'in', [partner_id.id] + partner_id.child_ids.ids),
-            ('document_status', 'not in', ('cancel', 'exception') )
+            ('document_status', 'not in', ('cancel', 'exception'))
         ])
         
         return request.render('pao_client_sa_inquiry.my_service_agreements_view', {'service_agreements': service_agreements, 'page_name': 'partner_sa_list'})
@@ -38,7 +38,7 @@ class ServiceAgreementsPortal(http.Controller):
         agreement = request.env['pao.sign.sa.agreements.sent'].sudo().browse(id)
 
         # Verificar que exista el registro
-        if not agreement or not agreement.attachment_ids:
+        if not agreement or not agreement.attachment_ids or agreement.signer_id.id != request.env.user.partner_id:
             return request.not_found()
 
         # Crear un buffer para el archivo zip

@@ -68,7 +68,21 @@
                                 <span t-field="agreement.title"/>
                             </td>
                             <td>
-                                <span t-field="agreement.document_status"/>
+                                <t t-if="agreement.document_status == 'sign'">
+                                    <span class="'badge rounded-pill text-bg-success">
+                                        <span t-field="agreement.document_status"/>
+                                    </span>
+                                </t>
+                                <t t-elif="agreement.document_status == 'sent'">
+                                    <span class="'badge rounded-pill text-bg-info">
+                                        <span t-field="agreement.document_status"/>
+                                    </span>
+                                </t>
+                                <t t-if="agreement.document_status == 'partially_sign'">
+                                    <span class="'badge rounded-pill text-bg-secondary">
+                                        <span t-field="agreement.document_status"/>
+                                    </span>
+                                </t>
                             </td>
                             <td>
                                 <a t-if="agreement.document_status == 'sent'" class="btn btn-primary" target="_blank" t-att-href="agreement.sign_url">Sign SA</a>
