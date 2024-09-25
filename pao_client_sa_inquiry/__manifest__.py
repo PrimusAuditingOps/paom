@@ -11,7 +11,7 @@
         # 'views/expense_scheme_views.xml',
         # 'views/hr_expense_sheet_view.xml',
         # 'views/hr_expense_view.xml',
-        # 'views/portal_expenses_view.xml',
+        'views/portal_sa_view.xml',
         # 'views/portal_purchase_order_inherit.xml',
         # 'views/product_category_expense_inherit.xml',
         # 'views/upload_expense_statement.xml',
