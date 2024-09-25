@@ -13,11 +13,11 @@ class AccountMove(models.Model):
                 payment = self.env['payment.link.wizard'].create(
                         {
                             'res_model': "account.move",
-                            'res_id': self.id,
-                            'amount': self.amount_residual,
-                            'amount_max': self.amount_residual,
-                            'currency_id': self.currency_id.id,
-                            'partner_id': self.partner_id.id,
+                            'res_id': rec.id,
+                            'amount': rec.amount_residual,
+                            'amount_max': rec.amount_residual,
+                            'currency_id': rec.currency_id.id,
+                            'partner_id': rec.partner_id.id,
 
                         }
                     )
