@@ -75,7 +75,7 @@
                                 <a class="btn btn-primary" t-att-href="agreement.sign_url">Sign SA</a>
                             </td>
                             <td>
-                                <a class="btn btn-primary" t-attf-href="'/my_service_agreements/download/attachments/' + str(agreement.id)">Download SA</a>
+                                <a class="btn btn-primary" t-att-href="'/my_service_agreements/download/attachments/' + str(agreement.id)">Download SA</a>
                             </td>
                         </tr>
                     </t>
