@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-26 17:09+0000\n"
-"PO-Revision-Date: 2024-09-26 17:09+0000\n"
+"POT-Creation-Date: 2024-09-26 20:34+0000\n"
+"PO-Revision-Date: 2024-09-26 20:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,43 +16,42 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: pao_client_sa_inquiry
-#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
-msgid ""
-"<span class=\"badge rounded-pill text-bg-info\">\n"
-"                                        Awaiting your signature\n"
-"                                    </span>"
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.res_partner_sa_button_view_form
+msgid "<span class=\"o_stat_text\">SA</span>"
 msgstr ""
-"<span class=\"badge rounded-pill text-bg-info\">\n"
-"                                        En espera de tu firma\n"
-"                                    </span>"
-
 
 #. module: pao_client_sa_inquiry
 #: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
 msgid ""
-"<span class=\"badge rounded-pill text-bg-secondary\">\n"
+"<span style=\"white-space: normal\" class=\"badge rounded-pill text-bg-info\">\n"
+"                                        Awaiting your signature\n"
+"                                    </span>"
+msgstr ""
+"<span style=\"white-space: normal\" class=\"badge rounded-pill text-bg-info\">\n"
+"                                        En espera de tu firma\n"
+"                                    </span>"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid ""
+"<span style=\"white-space: normal\" class=\"badge rounded-pill text-bg-secondary\">\n"
 "                                        Awaiting coordinator's signature\n"
 "                                    </span>"
 msgstr ""
-"<span class=\"badge rounded-pill text-bg-secondary\">\n"
+"<span style=\"white-space: normal\" class=\"badge rounded-pill text-bg-secondary\">\n"
 "                                        En espera de firma de coordinador\n"
 "                                    </span>"
 
 #. module: pao_client_sa_inquiry
 #: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
 msgid ""
-"<span class=\"badge rounded-pill text-bg-success\">\n"
+"<span style=\"white-space: normal\" class=\"badge rounded-pill text-bg-success\">\n"
 "                                        Fully Sign\n"
 "                                    </span>"
 msgstr ""
-"<span class=\"badge rounded-pill text-bg-success\">\n"
+"<span style=\"white-space: normal\" class=\"badge rounded-pill text-bg-success\">\n"
 "                                        Firmado completamente\n"
 "                                    </span>"
-
-#. module: pao_client_sa_inquiry
-#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.res_partner_sa_button_view_form
-msgid "<span class=\"o_stat_text\">SA</span>"
-msgstr ""
 
 #. module: pao_client_sa_inquiry
 #: model:ir.model.fields,field_description:pao_client_sa_inquiry.field_res_partner__pao_agreements_ids
@@ -149,4 +148,4 @@ msgstr "No hay acuerdos de servicio actualmente para su cuenta."
 #: code:addons/pao_client_sa_inquiry/controllers/portal_inherit.py:0
 #, python-format
 msgid "Your pending signatures"
-msgstr "Tus firmas pendientes" 
+msgstr "Tus firmas pendientes"
