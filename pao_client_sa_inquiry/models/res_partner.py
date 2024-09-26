@@ -22,6 +22,7 @@ class ResPartnerInherit(models.Model):
             related_agreements = record.env['pao.sign.sa.agreements.sent'].search([
                 ('signer_id', 'in', [record.id] + record.child_ids.ids),
                 ('document_status', '!=', 'cancel' ),
+                ('company_id', 'in', record.env.user.company_ids.ids)
             ])
             record.pao_agreements_ids = related_agreements
             record.pao_agrements_count = len(record.pao_agreements_ids)
