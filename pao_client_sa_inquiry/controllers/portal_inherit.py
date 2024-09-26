@@ -38,7 +38,7 @@ class ServiceAgreementsPortal(http.Controller):
         agreement = request.env['pao.sign.sa.agreements.sent'].sudo().browse(id)
 
         # Verificar que exista el registro
-        if not agreement or not agreement.attachment_ids or agreement.signer_id.id != request.env.user.partner_id.id:
+        if not agreement or not agreement.attachment_ids or agreement.signer_id.id != request.env.user.partner_id:
             return request.not_found()
 
         # Crear un buffer para el archivo zip
