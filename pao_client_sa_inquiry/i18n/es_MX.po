@@ -1,0 +1,152 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_client_sa_inquiry
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-26 17:09+0000\n"
+"PO-Revision-Date: 2024-09-26 17:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid ""
+"<span class=\"badge rounded-pill text-bg-info\">\n"
+"                                        Awaiting your signature\n"
+"                                    </span>"
+msgstr ""
+"<span class=\"badge rounded-pill text-bg-info\">\n"
+"                                        En espera de tu firma\n"
+"                                    </span>"
+
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid ""
+"<span class=\"badge rounded-pill text-bg-secondary\">\n"
+"                                        Awaiting coordinator's signature\n"
+"                                    </span>"
+msgstr ""
+"<span class=\"badge rounded-pill text-bg-secondary\">\n"
+"                                        En espera de firma de coordinador\n"
+"                                    </span>"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid ""
+"<span class=\"badge rounded-pill text-bg-success\">\n"
+"                                        Fully Sign\n"
+"                                    </span>"
+msgstr ""
+"<span class=\"badge rounded-pill text-bg-success\">\n"
+"                                        Firmado completamente\n"
+"                                    </span>"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.res_partner_sa_button_view_form
+msgid "<span class=\"o_stat_text\">SA</span>"
+msgstr ""
+
+#. module: pao_client_sa_inquiry
+#: model:ir.model.fields,field_description:pao_client_sa_inquiry.field_res_partner__pao_agreements_ids
+#: model:ir.model.fields,field_description:pao_client_sa_inquiry.field_res_users__pao_agreements_ids
+msgid "Agrements"
+msgstr "Acuerdos"
+
+#. module: pao_client_sa_inquiry
+#. odoo-python
+#: code:addons/pao_client_sa_inquiry/controllers/portal_inherit.py:0
+#, python-format
+msgid "All"
+msgstr "Todo"
+
+#. module: pao_client_sa_inquiry
+#: model:ir.model,name:pao_client_sa_inquiry.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid "Creation Date"
+msgstr "Fecha de creación"
+
+#. module: pao_client_sa_inquiry
+#. odoo-python
+#: code:addons/pao_client_sa_inquiry/controllers/portal_inherit.py:0
+#, python-format
+msgid "Date"
+msgstr "Fecha"
+
+#. module: pao_client_sa_inquiry
+#. odoo-python
+#: code:addons/pao_client_sa_inquiry/controllers/portal_inherit.py:0
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+#, python-format
+msgid "Document Status"
+msgstr "Estado del documento"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid "Download"
+msgstr "Descargar"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.portal_my_home_service_agreements
+msgid "Manage your service agreements"
+msgstr "Administra tus acuerdos de servicio"
+
+#. module: pao_client_sa_inquiry
+#: model:ir.model.fields,field_description:pao_client_sa_inquiry.field_res_partner__pao_agrements_count
+#: model:ir.model.fields,field_description:pao_client_sa_inquiry.field_res_users__pao_agrements_count
+msgid "Pao Agrements Count"
+msgstr ""
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.portal_breadcrumbs_service_agreements
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.portal_my_home_service_agreements
+msgid "Service Agreements"
+msgstr "Acuerdos de servicio"
+
+#. module: pao_client_sa_inquiry
+#. odoo-python
+#: code:addons/pao_client_sa_inquiry/models/res_partner.py:0
+#, python-format
+msgid "Service Agreements - %s"
+msgstr ""
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid "Sign"
+msgstr "Firmar"
+
+#. module: pao_client_sa_inquiry
+#. odoo-python
+#: code:addons/pao_client_sa_inquiry/controllers/portal_inherit.py:0
+#, python-format
+msgid "Signed by you"
+msgstr "Firmado por ti"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: pao_client_sa_inquiry
+#: model_terms:ir.ui.view,arch_db:pao_client_sa_inquiry.my_service_agreements_view
+msgid "There are currently no service agreements for your account."
+msgstr "No hay acuerdos de servicio actualmente para su cuenta."
+
+#. module: pao_client_sa_inquiry
+#. odoo-python
+#: code:addons/pao_client_sa_inquiry/controllers/portal_inherit.py:0
+#, python-format
+msgid "Your pending signatures"
+msgstr "Tus firmas pendientes" 

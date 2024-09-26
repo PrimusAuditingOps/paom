@@ -39,9 +39,9 @@
                 <thead>
                     <tr class="active">
                         <th>Summary</th>
-                        <th>Creation Date</th>
+                        <th class="col-sm-1">Creation Date</th>
                         <th class="text-center">Document Status</th>
-                        <th></th>
+                        <th class="col-2"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,7 +70,7 @@
                                     </span>
                                 </t>
                             </td>
-                            <td class="text-center d-flex">
+                            <td class="d-flex justify-content-center">
                                 <a t-if="agreement.document_status == 'sent'" class="btn btn-primary" target="_blank" t-att-href="agreement.sign_url">
                                     Sign
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 1 16 16">
