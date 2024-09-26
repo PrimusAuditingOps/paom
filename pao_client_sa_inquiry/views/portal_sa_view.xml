@@ -69,17 +69,17 @@
                             </td>
                             <td>
                                 <t t-if="agreement.document_status == 'sign'">
-                                    <span class="'badge rounded-pill text-bg-success">
+                                    <span class="badge rounded-pill text-bg-success">
                                         <span t-field="agreement.document_status"/>
                                     </span>
                                 </t>
                                 <t t-elif="agreement.document_status == 'sent'">
-                                    <span class="'badge rounded-pill text-bg-info">
+                                    <span class="badge rounded-pill text-bg-info">
                                         <span t-field="agreement.document_status"/>
                                     </span>
                                 </t>
-                                <t t-if="agreement.document_status == 'partially_sign'">
-                                    <span class="'badge rounded-pill text-bg-secondary">
+                                <t t-elif="agreement.document_status == 'partially_sign'">
+                                    <span class="badge rounded-pill text-bg-secondary">
                                         <span t-field="agreement.document_status"/>
                                     </span>
                                 </t>
@@ -94,64 +94,5 @@
             </table>
         </t>
     </template>
-
-    <!-- <template id="my_service_agreements_view" name="My Service Agreements">
-        <t t-call="portal.portal_layout">
-
-            <t t-set="breadcrumbs_searchbar" t-value="True"/>
-            <t t-call="portal.portal_searchbar">
-                <t t-set="title">Service Agreements</t>
-            </t>
-
-            <table t-if="service_agreements" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover">
-                <thead>
-                    <tr class="active">
-                        <th>
-                            <span class='d-none d-md-inline'>Expense Report Summary</span>
-                            <span class='d-block d-md-none'>Ref.</span>
-                        </th>
-                        <th>Purchase Order</th>
-                        <th class="text-end">Total (<span t-esc="currency"></span>)
-                        </th>
-                        <th class="text-center">Status</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <t t-foreach="service_agreements" t-as="agreement">
-                    <tr>
-                        <td style="cursor:pointer" t-att-onclick="'window.location.href=\'/my/expense_reports/' + str(report.id) +'\''">
-                            <span t-field="report.name"/>
-                        </td>
-                        <td style="cursor:pointer" t-att-onclick="'window.location.href=\'/my/expense_reports/' + str(report.id) +'\''">
-                            <span t-field="report.purchase_order.name"/>
-                        </td>
-                        <td class="text-end" style="cursor:pointer" t-att-onclick="'window.location.href=\'/my/expense_reports/' + str(report.id) +'\''">
-                            <span t-field="report.total_amount"/>
-                        </td>
-                        <td class="text-center" style="cursor:pointer" t-att-onclick="'window.location.href=\'/my/expense_reports/' + str(report.id) +'\''">
-                            <span t-field="report.state"/>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary" t-if="report.state in ('draft', 'submit')" type="button" data-bs-toggle="modal" t-att-data-bs-target="'#delete_report_' + str(report.id)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
-                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                </t>
-
-            </table>
-            <div t-if="not service_agreements" class="alert alert-warning mt-4" role="alert">
-                There are currently no service agreements related to your account.
-            </div>
-
-            <br/>
-            <br/>
-            <br/>
-
-        </t>
-    </template> -->
 
 </odoo>
