@@ -24,8 +24,8 @@ class ServiceAgreementsPortal(http.Controller):
     def _get_sa_searchbar_filters(self):
         return {
             'all': {'label': _('All'), 'domain': []},
-            'pending': {'label': _('Pending'), 'domain': [('document_status', '=', 'sent')]},
-            'sign': {'label': _('Signed'), 'domain': [('document_status', 'in', ('sign', 'partially_sign'))]},
+            'pending': {'label': _('Your pending signatures'), 'domain': [('document_status', '=', 'sent')]},
+            'sign': {'label': _('Signed by you'), 'domain': [('document_status', 'in', ('sign', 'partially_sign'))]},
         }
     
     

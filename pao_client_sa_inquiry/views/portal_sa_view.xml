@@ -36,12 +36,11 @@
                 <p class="alert alert-warning">There are currently no service agreements for your account.</p>
             </t>
             <t t-if="service_agreements" t-call="portal.portal_table">
-            <!-- <table t-if="service_agreements" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover"> -->
                 <thead>
                     <tr class="active">
                         <th>Summary</th>
                         <th>Creation Date</th>
-                        <th>Document Status</th>
+                        <th class="text-center">Document Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -54,26 +53,38 @@
                             <td>
                                 <span t-field="agreement.document_date"/>
                             </td>
-                            <td style="font-size: larger !important">
-                                <t t-if="agreement.document_status == 'sign'">
-                                    <span class="badge rounded-pill text-bg-success">
-                                        <span t-field="agreement.document_status"/>
-                                    </span>
-                                </t>
+                            <td class="text-center" style="font-size: larger !important">
                                 <t t-elif="agreement.document_status == 'sent'">
                                     <span class="badge rounded-pill text-bg-info">
-                                        <span t-field="agreement.document_status"/>
+                                        Awaiting your signature
                                     </span>
                                 </t>
                                 <t t-elif="agreement.document_status == 'partially_sign'">
                                     <span class="badge rounded-pill text-bg-secondary">
-                                        <span t-field="agreement.document_status"/>
+                                        Awaiting coordinator's signature
+                                    </span>
+                                </t>
+                                <t t-if="agreement.document_status == 'sign'">
+                                    <span class="badge rounded-pill text-bg-success">
+                                        Fully Sign
                                     </span>
                                 </t>
                             </td>
-                            <td>
-                                <a t-if="agreement.document_status == 'sent'" class="btn btn-primary" target="_blank" t-att-href="agreement.sign_url">Sign SA</a>
-                                <a t-if="agreement.document_status not in ('sent', 'cancel', 'exception')" class="btn btn-primary" t-att-href="'/my_service_agreements/download/attachments/' + str(agreement.id)">Download SA</a>
+                            <td class="text-center d-flex">
+                                <a t-if="agreement.document_status == 'sent'" class="btn btn-primary" target="_blank" t-att-href="agreement.sign_url">
+                                    Sign
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 1 16 16">
+                                        <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                    </svg>
+                                </a>
+                                <a t-if="agreement.document_status not in ('sent', 'cancel', 'exception')" class="btn btn-primary" t-att-href="'/my_service_agreements/download/attachments/' + str(agreement.id)">
+                                    Download
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 1 16 16">
+                                        <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                    </svg>
+                                </a>
                             </td>
                         </tr>
                     </t>
