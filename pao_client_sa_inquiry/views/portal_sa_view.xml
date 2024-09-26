@@ -69,17 +69,17 @@
                             </td>
                             <td>
                                 <t t-if="agreement.document_status == 'sign'">
-                                    <span t-att-class="'badge rounded-pill text-bg-success">
+                                    <span class="badge rounded-pill text-bg-success">
                                         <span t-field="agreement.document_status"/>
                                     </span>
                                 </t>
                                 <t t-elif="agreement.document_status == 'sent'">
-                                    <span t-att-class="'badge rounded-pill text-bg-info">
+                                    <span class="badge rounded-pill text-bg-info">
                                         <span t-field="agreement.document_status"/>
                                     </span>
                                 </t>
                                 <t t-if="agreement.document_status == 'partially_sign'">
-                                    <span t-att-class="'badge rounded-pill text-bg-secondary">
+                                    <span class="badge rounded-pill text-bg-secondary">
                                         <span t-field="agreement.document_status"/>
                                     </span>
                                 </t>
