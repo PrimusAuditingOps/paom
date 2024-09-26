@@ -29,7 +29,7 @@ class ServiceAgreementsPortal(http.Controller):
     
     
     @http.route('/my/service_agreements', type='http', methods=['GET'], auth='user', website=True, sitemap=False)
-    def my_service_agreements(self, sortby='date', filterby='all', **kwargs):
+    def my_service_agreements(self, sortby=None, filterby=None, **kwargs):
         
         if not self.user_has_sa():
             return request.redirect('/my/home')
@@ -60,6 +60,8 @@ class ServiceAgreementsPortal(http.Controller):
             'page_name': 'partner_sa_list', 
             'searchbar_sortings': searchbar_sortings, 
             'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
+            'sortby': sortby,
+            'filterby': filterby,
         })
     
     
