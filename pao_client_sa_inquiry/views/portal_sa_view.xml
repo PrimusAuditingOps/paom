@@ -21,24 +21,6 @@
 
             <li t-if="page_name == 'partner_sa_list'" class="breadcrumb-item">Service Agreements</li>
 
-            <!-- <t t-if="page_name == 'expense_report_form_view'">
-                <li class="breadcrumb-item">
-                    <a href="/my/expense_reports">Expense Reports</a>
-                </li>
-                <li t-if="report" class="breadcrumb-item">
-                    <t t-out="report.name"/>
-                </li>
-            </t>
-
-            <t t-if="page_name == 'wallet_expenses'">
-                <li class="breadcrumb-item">
-                    <a href="/my/expense_reports">Expense Reports</a>
-                </li>
-                <li class="breadcrumb-item">
-                    Wallet
-                </li>
-            </t> -->
-
         </xpath>
     </template>
 

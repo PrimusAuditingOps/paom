@@ -5,6 +5,7 @@ import io
 import zipfile
 import base64
 from odoo.addons.web.controllers.main import content_disposition
+from odoo.addons.portal.controllers.portal import pager
 from collections import OrderedDict
 
 _logger = logging.getLogger(__name__)
@@ -28,8 +29,8 @@ class ServiceAgreementsPortal(http.Controller):
         }
     
     
-    @http.route('/my/service_agreements', type='http', methods=['GET'], auth='user', website=True, sitemap=False)
-    def my_service_agreements(self, sortby=None, filterby=None, **kwargs):
+    @http.route(['/my/service_agreements', '/my/service_agreements/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
+    def my_service_agreements(self, page=1, sortby=None, filterby=None, url='/my/service_agreements', **kwargs):
         
         if not self.user_has_sa():
             return request.redirect('/my/home')
@@ -53,12 +54,21 @@ class ServiceAgreementsPortal(http.Controller):
             ('document_status', 'not in', ('cancel', 'exception'))
         ]
         
-        service_agreements = request.env['pao.sign.sa.agreements.sent'].sudo().search(domain, order=order)
+        page_detail = pager(
+            url = url,
+            total = len(service_agreements),
+            page = page,
+            step = 10,
+            url_args = {'sortby': sortby}
+        )
+        
+        service_agreements = request.env['pao.sign.sa.agreements.sent'].sudo().search(domain, order=order, limit=10, offset=page_detail['offset'])
         
         return request.render('pao_client_sa_inquiry.my_service_agreements_view', {
             'service_agreements': service_agreements, 
             'page_name': 'partner_sa_list',
-            'default_url': '/my/service_agreements',
+            'pager': page_detail,
+            'default_url': url,
             'searchbar_sortings': searchbar_sortings, 
             'sortby': sortby,
             'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
