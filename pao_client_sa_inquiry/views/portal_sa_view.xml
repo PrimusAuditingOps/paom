@@ -54,7 +54,7 @@
                                 <span t-field="agreement.document_date"/>
                             </td>
                             <td class="text-center" style="font-size: larger !important">
-                                <t t-elif="agreement.document_status == 'sent'">
+                                <t t-if="agreement.document_status == 'sent'">
                                     <span class="badge rounded-pill text-bg-info">
                                         Awaiting your signature
                                     </span>
@@ -64,7 +64,7 @@
                                         Awaiting coordinator's signature
                                     </span>
                                 </t>
-                                <t t-if="agreement.document_status == 'sign'">
+                                <t t-elif="agreement.document_status == 'sign'">
                                     <span class="badge rounded-pill text-bg-success">
                                         Fully Sign
                                     </span>
