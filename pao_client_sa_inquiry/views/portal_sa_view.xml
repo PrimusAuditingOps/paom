@@ -57,6 +57,7 @@
                 <thead>
                     <tr class="active">
                         <th>Summary</th>
+                        <th>Creation Date</th>
                         <th>Document Status</th>
                         <th></th>
                     </tr>
@@ -68,6 +69,9 @@
                                 <span t-field="agreement.title"/>
                             </td>
                             <td>
+                                <span t-field="agreement.document_date"/>
+                            </td>
+                            <td style="font-size: larger !important">
                                 <t t-if="agreement.document_status == 'sign'">
                                     <span class="badge rounded-pill text-bg-success">
                                         <span t-field="agreement.document_status"/>
