@@ -35,7 +35,8 @@
             <t t-if="not service_agreements">
                 <p class="alert alert-warning">There are currently no service agreements for your account.</p>
             </t>
-            <table t-if="service_agreements" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover">
+            <t t-if="service_agreements" t-call="portal.portal_table">
+            <!-- <table t-if="service_agreements" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover"> -->
                 <thead>
                     <tr class="active">
                         <th>Summary</th>

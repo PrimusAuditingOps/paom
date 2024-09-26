@@ -43,7 +43,6 @@ class ServiceAgreementsPortal(http.Controller):
         order = searchbar_sortings[sortby]['order']
         
         searchbar_filters = self._get_sa_searchbar_filters()
-        # default filter by value
         if not filterby:
             filterby = 'all'
         domain = searchbar_filters[filterby]['domain']
