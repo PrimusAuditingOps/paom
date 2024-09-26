@@ -50,7 +50,8 @@ class ServiceAgreementsPortal(http.Controller):
         partner_id = request.env.user.partner_id
         domain += [
             ('signer_id', 'in', [partner_id.id] + partner_id.child_ids.ids),
-            ('document_status', 'not in', ('cancel', 'exception'))
+            ('document_status', 'not in', ('cancel', 'exception')),
+            ('company_id', 'in', request.env.user.company_ids.ids)
         ]
         
         page_detail = pager(

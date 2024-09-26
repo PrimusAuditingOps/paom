@@ -167,6 +167,8 @@ class PaoSignSaAgreementsSent(models.Model):
         inverse_name='sign_sa_agreements_id',
         string='Registration number IDs',
     )
+    
+    company_id = fields.Many2one(related="sale_order_id.company_id")
 
 
     @api.depends('registration_numbers_ids')
