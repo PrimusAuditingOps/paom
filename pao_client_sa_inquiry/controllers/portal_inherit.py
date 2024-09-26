@@ -56,7 +56,7 @@ class ServiceAgreementsPortal(http.Controller):
         
         page_detail = pager(
             url = url,
-            total = len(service_agreements),
+            total = request.env['pao.sign.sa.agreements.sent'].sudo().search_count(domain),
             page = page,
             step = 10,
             url_args = {'sortby': sortby}
