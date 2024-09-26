@@ -29,7 +29,7 @@ class ServiceAgreementsPortal(http.Controller):
     
     
     @http.route('/my/service_agreements', type='http', methods=['GET'], auth='user', website=True, sitemap=False)
-    def my_service_agreements(self, sortby=None, filterby=None, **kwargs):
+    def my_service_agreements(self, sortby='date', filterby='all', **kwargs):
         
         if not self.user_has_sa():
             return request.redirect('/my/home')
