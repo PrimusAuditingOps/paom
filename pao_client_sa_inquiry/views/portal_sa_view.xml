@@ -39,7 +39,7 @@
                 <thead>
                     <tr class="active">
                         <th>Summary</th>
-                        <th class="col-sm-1">Creation Date</th>
+                        <th class="text-center col-sm-1">Creation Date</th>
                         <th class="text-center">Document Status</th>
                         <th class="col-2"></th>
                     </tr>
@@ -50,22 +50,22 @@
                             <td>
                                 <span t-field="agreement.title"/>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <span t-field="agreement.document_date"/>
                             </td>
                             <td class="text-center" style="font-size: larger !important">
                                 <t t-if="agreement.document_status == 'sent'">
-                                    <span class="badge rounded-pill text-bg-info">
+                                    <span style="white-space: normal" class="badge rounded-pill text-bg-info">
                                         Awaiting your signature
                                     </span>
                                 </t>
                                 <t t-elif="agreement.document_status == 'partially_sign'">
-                                    <span class="badge rounded-pill text-bg-secondary">
+                                    <span style="white-space: normal" class="badge rounded-pill text-bg-secondary">
                                         Awaiting coordinator's signature
                                     </span>
                                 </t>
                                 <t t-elif="agreement.document_status == 'sign'">
-                                    <span class="badge rounded-pill text-bg-success">
+                                    <span style="white-space: normal" class="badge rounded-pill text-bg-success">
                                         Fully Sign
                                     </span>
                                 </t>
