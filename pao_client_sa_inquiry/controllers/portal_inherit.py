@@ -57,10 +57,11 @@ class ServiceAgreementsPortal(http.Controller):
         
         return request.render('pao_client_sa_inquiry.my_service_agreements_view', {
             'service_agreements': service_agreements, 
-            'page_name': 'partner_sa_list', 
+            'page_name': 'partner_sa_list',
+            'default_url': '/my/service_agreements',
             'searchbar_sortings': searchbar_sortings, 
-            'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
             'sortby': sortby,
+            'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
             'filterby': filterby,
         })
     
