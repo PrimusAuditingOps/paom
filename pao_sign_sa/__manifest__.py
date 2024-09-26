@@ -17,6 +17,7 @@
     'data': [
         # security
         'security/ir.model.access.csv',
+        'security/rules.xml',
         # data
         'data/sa_data.xml',
         'data/cron_data.xml',
