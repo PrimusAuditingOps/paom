@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="pao_price_in_house_auditor_tree" model="ir.ui.view">
+        <field name="name">pao.price.in.house.auditor.tree</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="price" position="after">
+                    <field name="pao_price_in_house_auditor" string="Price For In House Auditor"/>
+                </field>
+            </field>
+    </record>
+</odoo>

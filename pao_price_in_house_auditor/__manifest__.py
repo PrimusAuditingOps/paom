@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'PAO Proce In House Auditor',
+    'name': 'PAO Price In House Auditor',
     'version': '17.0.0.1.0',
     'author': 'samuel castro',
     'category': '',
@@ -19,6 +19,7 @@
         # demo
         # reports
         # views
+        'views/product_supplierinfo.xml'
     ],
     'license': 'LGPL-3',
 }
