@@ -7,7 +7,7 @@ class ResPartnerInherit(models.Model):
     
     pao_agreements_ids = fields.One2many(
         comodel_name='pao.sign.sa.agreements.sent',
-        inverse_name='so_partner_id',
+        inverse_name='signer_id',
         compute='_compute_agreements',
         string='Agrements',
     )
@@ -19,7 +19,11 @@ class ResPartnerInherit(models.Model):
     @api.depends('pao_agreements_ids')
     def _compute_agreements(self):
         for record in self:
-            related_agreements = record.env['pao.sign.sa.agreements.sent'].search([('so_partner_id', 'in', [record.id] + record.child_ids.ids), ('document_status', '!=', 'cancel' )])
+            related_agreements = record.env['pao.sign.sa.agreements.sent'].search([
+                ('signer_id', 'in', [record.id] + record.child_ids.ids),
+                ('document_status', '!=', 'cancel' ),
+                ('company_id', 'in', record.env.user.company_ids.ids)
+            ])
             record.pao_agreements_ids = related_agreements
             record.pao_agrements_count = len(record.pao_agreements_ids)
             
