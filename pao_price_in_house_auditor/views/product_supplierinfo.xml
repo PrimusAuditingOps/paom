@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
             <field name="arch" type="xml">
                 <field name="price" position="after">
-                    <field name="pao_price_in_house_auditor"  readonly="not pao_is_an_in_house_auditor"  string="Price For In House Auditor"/>
+                    <field name="pao_price_in_house_auditor"  string="Price For In House Auditor"/>
                 </field>
             </field>
     </record>
