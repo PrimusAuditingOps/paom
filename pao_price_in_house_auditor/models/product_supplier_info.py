@@ -18,6 +18,8 @@ class ProductSupplierInfor(models.Model):
             _logger.error("asads")
             _logger.error(rec.pao_is_an_in_house_auditor)
             _logger.error(rec.partner_id)
+            _logger.error(rec.partner_id.name)
+            _logger.error(rec.partner_id.is_an_in_house_auditor)
             if not rec.pao_is_an_in_house_auditor:
                 rec.pao_price_in_house_auditor = 0.00
 
