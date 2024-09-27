@@ -11,7 +11,7 @@
     'description': """
     
     """,
-    'depends': ['base','purchase','product'
+    'depends': ['base','purchase','product','pao_assignment_auditor'
     ],
     'data': [
         # security
