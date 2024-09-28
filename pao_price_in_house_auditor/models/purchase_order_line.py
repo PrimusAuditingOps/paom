@@ -16,11 +16,13 @@ class PurchaseOrderLine(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id_in_house_auditor(self):
         for rec in self:
-           
+            _logger.error(rec.product_id._origin.id)
             if not rec.product_id._origin.id:
+                _logger.error("entro not")
                 rec.pao_price_in_house_auditor = 0.00
                 return
             else:
+                _logger.error("entro else")
                 product = self.env["product.product"].search([("id","=",rec.product_id._origin.id)])
                 params = rec._get_select_sellers_params()
                 seller = product._select_seller(
