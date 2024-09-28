@@ -21,4 +21,5 @@ class AccountMove(models.Model):
 
                         }
                     )
-                rec.pao_payment_link = payment.link
+                if payment.link:
+                    rec.pao_payment_link = payment.link
