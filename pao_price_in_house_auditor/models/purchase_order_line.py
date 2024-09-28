@@ -16,7 +16,7 @@ class PurchaseOrderLine(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id_in_house_auditor(self):
         for rec in self:
-            _logger.error(rec._origin.product_id)
+            _logger.error(rec._origin.product_id._origin)
             if not rec._origin.product_id:
                 rec.pao_price_in_house_auditor = 0.00
                 return
