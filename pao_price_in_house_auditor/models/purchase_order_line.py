@@ -2,7 +2,10 @@ from datetime import datetime, timedelta
 from odoo import fields, models, api
 from odoo.tools.float_utils import  float_round
 import dateutil.parser
+from logging import getLogger
 
+
+_logger = getLogger(__name__)
 
 
 class PurchaseOrderLine(models.Model):
@@ -13,6 +16,7 @@ class PurchaseOrderLine(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id_in_house_auditor(self):
         for rec in self:
+            _logger.error(rec)
             if not rec.product_id:
                 rec.pao_price_in_house_auditor = 0.00
                 return
