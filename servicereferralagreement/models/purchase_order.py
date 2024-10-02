@@ -94,7 +94,7 @@ class PurchaseOrder(models.Model):
     @api.onchange('audit_fee_id')
     def _onchange_audit_fee_id(self):
         for rec in self:
-            if self.company_id.country_code in ["MX","CR"]:
+            if self.company_id.country_code in ["MX","CR","CL"]:
                 percentagevendor = 0.00
                 if rec.partner_id and rec.audit_fee_id and rec.sale_order_id:
                     for recorderline in rec.order_line:
@@ -199,7 +199,7 @@ class PurchaseOrder(models.Model):
                                         if  fee.audit_fees_id.id == recpurchase.audit_fee_id.id:
                                             percentagevendor = fee.audit_percentage
                             
-                            if recpurchase.sale_order_id.company_id.country_code in ["MX","CR"] and percentagevendor and percentagevendor > 0:
+                            if recpurchase.sale_order_id.company_id.country_code in ["MX","CR","CL"] and percentagevendor and percentagevendor > 0:
                                 priceunit = round((line.price_unit * percentagevendor) / 100,2)
                                 if recpurchase.currency_id:
                                     if not recpurchase.currency_id == recpurchase.sale_order_id.pricelist_id.currency_id:

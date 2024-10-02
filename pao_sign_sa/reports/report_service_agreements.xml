@@ -32,7 +32,7 @@
                
                     <t t-set="values" t-value="values.with_context(lang='es_MX')"/>
                     <t t-if="values.scheme == 'PrimusGFS'">
-                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR']">
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
                             <t t-call="pao_sign_sa.sa_header_footer_gfs"/>
                             <div class="page">
                                 <t t-call="pao_sign_sa.sa_pgfs_scheme">
@@ -68,7 +68,7 @@
                         </div>
                     </t>
                     <t t-if="values.scheme == 'SMETA'">
-                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR']">
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
                             <t t-call="pao_sign_sa.sa_header_footer_smeta"/>
                             <div class="page">
                                 <t t-call="pao_sign_sa.sa_smeta_scheme">
@@ -97,7 +97,7 @@
                     <t t-if="values.scheme == 'Primus Standard GAP' or values.scheme == 'Primus Standard GMP'">
                         
 
-                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR']">
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
                             <t t-call="pao_sign_sa.sa_header_footer_standard"/>
                             <div class="page">
                                 <t t-call="pao_sign_sa.sa_primus_standar_scheme">
