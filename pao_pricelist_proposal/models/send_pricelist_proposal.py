@@ -29,7 +29,7 @@ class SendPricelistProposal(models.TransientModel):
                 template = self.env.ref('pao_pricelist_proposal.mail_template_pricelist_proposal')
                 
                 
-                customer_lang = self.customer_ids[0].lang if self.customer_ids[0] else self.pricelist_proposal_id.create_uid.lang
+                customer_lang = self.customer_ids[0].lang if self.customer_ids else self.pricelist_proposal_id.create_uid.lang
                 context = {'lang': customer_lang}
                 
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
