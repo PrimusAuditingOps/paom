@@ -25,7 +25,7 @@ class ProductTemplateInherit(models.Model):
 
             # Ensure translations are also set
             for lang in self.env['res.lang'].search([]).mapped('code'):
-                translated_name = record.with_context(lang=lang).name_get()[0][1]
+                translated_name = record.with_context(lang=lang).name_get()
                 if not translated_name.strip():
                     raise ValidationError(
                         _("Please set a translated name for the language: %s") % lang
