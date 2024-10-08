@@ -26,8 +26,8 @@ class ProductTemplateInherit(models.Model):
 
     def _check_name_translations(self, vals):
         # Check if the name is set in each active language
-        if 'name' in vals and not vals['name']:
-            raise ValidationError("Please set a name before saving the product.")
+        # if 'name' in vals and not vals['name']:
+        #     raise ValidationError("Please set a name before saving the product.")
 
         # Ensure translations are also set
         for lang in self.env['res.lang'].search([]).mapped('code'):
