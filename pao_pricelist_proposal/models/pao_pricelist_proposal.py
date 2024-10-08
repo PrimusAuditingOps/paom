@@ -14,7 +14,7 @@ class PriceListProposal(models.Model):
     
     base_pricelist = fields.Many2one('product.pricelist', string="Base pricelist", readonly=True)
     
-    create_employee_id = fields.Many2one('hr.employee', default= lambda self: self.create_uid.employee_id)
+    create_employee_id = fields.Many2one('hr.employee')
     
     origin_product_pricelist_id = fields.Many2one('product.pricelist', string="Product Price List Origin", readonly=True)
     
@@ -96,6 +96,8 @@ class PriceListProposal(models.Model):
                                     % {'base_pricelist_name': record.base_pricelist.name, 'formatted_missing_items': formatted_missing_items})
     
     def authorize_proposal_action(self):
+        
+        self.create_employee_id = self.create_uid.employee_id
         
         self._compare_base_pricelist_items()
         
