@@ -67,14 +67,31 @@ class PriceListProposal(models.Model):
     
     def request_approval(self):
         if not self.authorized:
+            self._compare_base_pricelist_items()
             self.authorization_request_sent = True
             self.origin_product_pricelist_id.request_proposal_approval()
             
     def reset_draft_action(self):
         self.proposal_status = 'draft'
         self.authorized = False
+        
+    def _compare_base_pricelist_items(self):
+        
+        missing_items = []
+        for item in self.item_ids:
+            base_item = self.base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)[0]
+            
+            if not base_item:
+                missing_items.append(item.name)
+                
+        if len(missing_items) > 0:
+            formatted_missing_items = "\n- ".join(missing_items)
+            raise ValidationError(_("The following items were not found in the base price list (%(base_pricelist_name)s). To continue, please add them to the base price list:\n%(formatted_missing_items)s") 
+                                % {'base_pricelist_name': self.base_pricelist.name, 'formatted_missing_items': formatted_missing_items})
     
     def authorize_proposal_action(self):
+        
+        self._compare_base_pricelist_items()
         
         mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.create_uid.id}">@{self.create_uid.name}</a>'
         
