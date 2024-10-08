@@ -329,7 +329,7 @@
 
             <div t-if="submittable" class="modal fade" id="add_expenses" tabindex="-1" aria-labelledby="add_expenses_label" aria-hidden="true">
                 <div class="modal-dialog">
-                    <form method="POST" action="/my/expense/new" enctype="multipart/form-data">
+                    <form method="POST" action="/my/expense/new" id="new_expense_form" enctype="multipart/form-data">
                         <input type="hidden" name="report_id" t-att-value="report.id"/>
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-content">
@@ -402,10 +402,22 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary" type="submit">Save</button>
+                                <button class="btn btn-primary" id="new_expense_button_form" type="submit">Save</button>
                             </div>
                         </div>
                     </form>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const form0 = document.getElementById('new_expense_form');
+                            const submitButton0 = document.getElementById('new_expense_button_form');
+
+                            form0.addEventListener('submit', function() {
+                                // Disable the submit button to prevent multiple submissions
+                                submitButton0.disabled = true;
+                            });
+                        });
+                    </script>
                 </div>
             </div>
 
@@ -511,7 +523,7 @@
 
                     <div class="modal fade" t-att-id="'add_receipt_' + str(expense.id)" tabindex="-1" aria-labelledby="add_receipt_label" aria-hidden="true">
                         <div class="modal-dialog">
-                            <form action="/my/wallet/add_receipt_to_expense" method="POST" enctype="multipart/form-data">
+                            <form action="/my/wallet/add_receipt_to_expense" id="add_receipt_to_expense_form" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="expense_id" t-att-value="expense.id"/>
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <div class="modal-content">
@@ -528,10 +540,22 @@
                                             </div>
                                         </div>
 
-                                        <button class="btn btn-primary mt-3" type="submit">Save</button>
+                                        <button class="btn btn-primary mt-3" id="add_receipt_to_expense_button_form" type="submit">Save</button>
                                     </div>
                                 </div>
                             </form>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const form1 = document.getElementById('add_receipt_to_expense_form');
+                                    const submitButton1 = document.getElementById('add_receipt_to_expense_button_form');
+
+                                    form1.addEventListener('submit', function() {
+                                        // Disable the submit button to prevent multiple submissions
+                                        submitButton1.disabled = true;
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </t>
@@ -540,7 +564,7 @@
 
             <div class="modal fade" id="create_expense" tabindex="-1" aria-labelledby="create_expense_label" aria-hidden="true">
                 <div class="modal-dialog">
-                    <form method="POST" action="/my/wallet_expense/new" enctype="multipart/form-data">
+                    <form method="POST" action="/my/wallet_expense/new" id="new_wallet_expense_form" enctype="multipart/form-data">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-content">
                             <div class="modal-header">
@@ -612,10 +636,22 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary" type="submit">Save</button>
+                                <button class="btn btn-primary" id="new_wallet_expense_button_form" type="submit">Save</button>
                             </div>
                         </div>
                     </form>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const form2 = document.getElementById('new_wallet_expense_form');
+                            const submitButton2 = document.getElementById('new_wallet_expense_button_form');
+
+                            form2.addEventListener('submit', function() {
+                                // Disable the submit button to prevent multiple submissions
+                                submitButton2.disabled = true;
+                            });
+                        });
+                    </script>
                 </div>
             </div>
 
