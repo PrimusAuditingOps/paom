@@ -75,7 +75,6 @@ class PriceListProposal(models.Model):
         self.proposal_status = 'draft'
         self.authorized = False
     
-    @api.multi
     def _compare_base_pricelist_items(self):
         for record in self:
             missing_items = []
