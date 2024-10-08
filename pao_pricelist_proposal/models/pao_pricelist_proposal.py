@@ -17,7 +17,7 @@ class PriceListProposal(models.Model):
     origin_product_pricelist_id = fields.Many2one('product.pricelist', string="Product Price List Origin", readonly=True)
     
     country_group_ids = fields.Many2many('res.country.group', 'pao_pricelist_proposal_res_country_group_rel',
-                         'pao_pricelist_proposal_id', 'res_country_group_id', string='Country Groups')
+                        'pao_pricelist_proposal_id', 'res_country_group_id', string='Country Groups')
 
     item_ids = fields.One2many('product.proposal.item', 'pricelist_id', 'Pricelist Items')
     

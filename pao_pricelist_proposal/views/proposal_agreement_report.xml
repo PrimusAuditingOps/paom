@@ -138,6 +138,7 @@
                                 <br/>
                                 <b>
                                     <t t-esc="proposal.create_uid.employee_id.job_title" t-if="proposal.create_uid.employee_id"/>
+                                    <t t-esc="proposal.create_uid.employee_ids[0].job_title" t-if="proposal.create_uid.employee_ids"/>
                                 </b>
                             </p>
                         </div>
