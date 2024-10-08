@@ -74,6 +74,10 @@ class PriceListProposal(models.Model):
     def reset_draft_action(self):
         self.proposal_status = 'draft'
         self.authorized = False
+        
+    def _generate_pdf_report(self):
+        self._compare_base_pricelist_items()
+        return self.env.ref('pao_pricelist_proposal.report_proposal_agreement').report_action(self)
     
     def _compare_base_pricelist_items(self):
         for record in self:

@@ -8,7 +8,7 @@
         <field name="binding_model_id" ref="model_pao_pricelist_proposal"/>
         <field name="state">code</field>
         <field name="code">
-            action = env['pao.pricelist.proposal'].browse(record.id)._compare_base_pricelist_items()
+            action = env['pao.pricelist.proposal'].browse(record.id)._generate_pdf_report()
         </field>
     </record>
 
