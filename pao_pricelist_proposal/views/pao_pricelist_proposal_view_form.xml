@@ -9,6 +9,8 @@
                     <field name="authorized" invisible="1"/>
                     <field name="authorization_request_sent" invisible="1"/>
                     <button string="Cancel" invisible="proposal_status in ['cancel', 'complete']" type="object" class="oe_highlight" name="cancel_proposal_action"/>
+                    <button string="Reset to draft" invisible="proposal_status != 'sent'" type="object" class="oe_highlight" name="reset_draft_action" groups="pao_pricelist_proposal.pricelist_proposal_authorizer"/>
+                    <button string="Resend" invisible="proposal_status != 'sent'" type="object" class="oe_highlight" name="send_proposal_action"/>
                     <button string="Send" invisible="proposal_status != 'draft' or not authorized" type="object" class="oe_highlight" name="send_proposal_action"/>
                     <button string="Request authorization" type="object" class="oe_highlight" name="request_approval" invisible="authorization_request_sent or authorized or proposal_status != 'draft'"/>
                     <button string="Authorize proposal" type="object" class="oe_highlight" name="authorize_proposal_action" invisible="authorized or proposal_status != 'draft'" groups="pao_pricelist_proposal.pricelist_proposal_authorizer"/>

@@ -68,6 +68,9 @@ class PriceListProposal(models.Model):
         if not self.authorized:
             self.authorization_request_sent = True
             self.origin_product_pricelist_id.request_proposal_approval()
+            
+    def reset_draft_action(self):
+        self.proposal_status = 'draft'
     
     def authorize_proposal_action(self):
         

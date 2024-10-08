@@ -5,7 +5,7 @@ class SendPricelistProposal(models.TransientModel):
     _name = 'send.pricelist.proposal'
     _description = 'Pricelist send proposal'
 
-    customer_id = fields.Many2one('res.partner', string="Customer",required=True)
+    customer_ids = fields.Many2many('res.partner', string="Customer",required=True)
     subject = fields.Char(string="Subject", required=True)
     message = fields.Html(string="Message", required=True)
     pricelist_proposal_id = fields.Many2one('pao.pricelist.proposal', string="Pricelist Proposal", readonly=True)
@@ -19,7 +19,7 @@ class SendPricelistProposal(models.TransientModel):
         default = lambda self: self.env.ref('pao_pricelist_proposal.mail_template_pricelist_proposal')
     )
     
-    @api.onchange('mail_template_id', 'customer_id', 'message_proposal_template_id')
+    @api.onchange('mail_template_id', 'customer_ids', 'message_proposal_template_id')
     def _set_mail_values(self):
         for record in self:
             if record.mail_template_id:
@@ -28,12 +28,14 @@ class SendPricelistProposal(models.TransientModel):
                 
                 template = self.env.ref('pao_pricelist_proposal.mail_template_pricelist_proposal')
                 
-                customer_lang = self.customer_id.lang if self.customer_id else self.pricelist_proposal_id.create_uid.lang
+                
+                customer_lang = self.customer_ids[0].lang if self.customer_ids[0] else self.pricelist_proposal_id.create_uid.lang
                 context = {'lang': customer_lang}
                 
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 link = url_join(base_url, '/pricelist_proposal/%s/%s' % (record.pricelist_proposal_id.id, record.pricelist_proposal_id.access_token))
-                customer_name = record.customer_id.display_name if record.customer_id else '____________'
+                
+                customer_name = ", ".join(self.customer_ids.mapped("display_name")) if record.customer_ids else '____________'
                 specialist = record.pricelist_proposal_id.create_uid.name
                 message_proposal_template = record.message_proposal_template_id.with_context(context).template if record.message_proposal_template_id else '________________________'
                 
@@ -51,19 +53,19 @@ class SendPricelistProposal(models.TransientModel):
                 
     def send_mail(self):
         for record in self:
-            if record.subject and record.message and record.customer_id:
+            if record.subject and record.message and record.customer_ids:
                 
-                email_address = record.customer_id.email_formatted
+                customer_emails = ', '.join([customer.email_formatted for customer in record.customer_ids])
                 
                 mail_values = {
                     'subject': record.subject,
                     'body_html': record.message,
-                    'email_to': email_address,
+                    'email_to': customer_emails,
                 }
                 mail = self.env['mail.mail'].create(mail_values)
                 mail.send()
                 record.pricelist_proposal_id.proposal_status = 'sent'
-                record.pricelist_proposal_id.customer_id = self.customer_id.id
+                record.pricelist_proposal_id.customer_ids = self.customer_ids.id
                 record.pricelist_proposal_id.proposal_terms = self.proposal_terms.id
                 record.pricelist_proposal_id.message_proposal_template_id = self.message_proposal_template_id.id
                 

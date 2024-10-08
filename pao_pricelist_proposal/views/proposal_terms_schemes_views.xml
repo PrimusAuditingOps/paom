@@ -19,7 +19,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="terms_and_conditions" widget="html"/>
+                        <field name="terms_and_conditions" widget="html" options="{'codeview': True}"/>
                     </group>
                 </sheet>
             </form>
@@ -53,7 +53,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="template"/>
+                        <field name="template" widget="html" options="{'codeview': True}"/>
                     </group>
                 </sheet>
             </form>
