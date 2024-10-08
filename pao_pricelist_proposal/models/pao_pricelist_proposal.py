@@ -71,6 +71,7 @@ class PriceListProposal(models.Model):
             
     def reset_draft_action(self):
         self.proposal_status = 'draft'
+        self.authorized = False
     
     def authorize_proposal_action(self):
         
