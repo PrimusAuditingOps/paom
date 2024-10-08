@@ -34,7 +34,7 @@ class PriceListProposal(models.Model):
     proposal_status = fields.Selection(string="Status", default="draft", 
         selection=[
             ('draft', 'Draft'),
-            ('authorized', 'Authorized')
+            ('authorized', 'Authorized'),
             ('sent', 'Sent'),
             ('accept', 'Accepted'),
             ('reject', 'Rejected'),
