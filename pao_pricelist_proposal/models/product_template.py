@@ -1,4 +1,4 @@
-from odoo import models, fields, api, _
+from odoo import models, _
 from odoo.exceptions import ValidationError
 
 class ProductTemplateInherit(models.Model):
@@ -11,22 +11,24 @@ class ProductTemplateInherit(models.Model):
         # Set the name field to an empty string in the copied record
         default['name'] = ''
         # Call the super method with the updated default values
-        return super(ProductTemplateInherit, self.with_context(skip_name_check=True)).copy(default)
+        return super(ProductTemplateInherit, self).copy(default)
     
-    @api.constrains('name')
-    def _check_name_and_translations(self):
-        # Skip validation if the context has skip_name_check
-        if self.env.context.get('skip_name_check'):
-            return
+    def write(self, vals):
+        if 'name' in vals:
+            # Validate translations only when the `name` field is modified
+            self._check_translations_set() 
+        return super(ProductTemplateInherit, self).write(vals)
 
+    def _check_translations_set(self):
         for record in self:
-            if not record.name.strip():
-                raise ValidationError(_("Please set a name for the copied product."))
-
-            # Ensure translations are also set
-            for lang in self.env['res.lang'].search([]).mapped('code'):
-                translated_name = record.with_context(lang=lang).name_get()[0]
-                if not translated_name.strip():
-                    raise ValidationError(
-                        _("Please set a translated name for the language: %s") % lang
-                    )
+            translations = record.with_context(active_test=False).env['ir.translation'].search([
+                ('name', '=', 'product.template,name'),
+                ('res_id', '=', record.id),
+                ('lang', '!=', False)  # Only check non-default languages
+            ])
+            for translation in translations:
+                if not translation.value:
+                    # Raise an error if any translation is empty
+                    raise ValidationError(_(
+                        "The translation for the field 'name' in language '%s' cannot be empty after creation."
+                    ) % translation.lang)
