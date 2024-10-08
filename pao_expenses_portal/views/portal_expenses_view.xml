@@ -361,6 +361,17 @@
                                 </div>
 
                                 <div class="mb-3 row">
+                                    <label for="payment_mode" class="fw-bold col-sm-3 col-form-label">Paid By</label>
+                                    <div class="col-sm-9">
+                                        <select name="payment_mode" class="form-select" required="1">
+                                            <option class="d-none" selected="1"></option>
+                                            <option value="own_account">Employee (to reimburse)</option>
+                                            <option value="company_account">Company</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
                                     <label for="expense_date" class="fw-bold col-sm-3 col-form-label">Expense Date</label>
                                     <div class="col-sm-9">
                                         <input type="date" class="form-control" name="expense_date" t-att-max="today" required="1"/>
@@ -555,6 +566,17 @@
                                                     <t t-esc="category.name"/>
                                                 </option>
                                             </t>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="payment_mode" class="fw-bold col-sm-3 col-form-label">Paid By</label>
+                                    <div class="col-sm-9">
+                                        <select name="payment_mode" class="form-select" required="1">
+                                            <option class="d-none" selected="1"></option>
+                                            <option value="own_account">Employee (to reimburse)</option>
+                                            <option value="company_account">Company</option>
                                         </select>
                                     </div>
                                 </div>

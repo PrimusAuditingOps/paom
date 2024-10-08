@@ -128,7 +128,12 @@ class ExpensesPortal(http.Controller):
         purchase_order_id = int(purchase_order) if purchase_order and purchase_order.isdigit() else None
 
         
-        values = {'name': summary,'purchase_order': purchase_order_id, 'payment_mode': 'company_account', 'expense_scheme_id': scheme_id} #{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
+        values = {
+                    'name': summary,
+                    'purchase_order': purchase_order_id, 
+                    # 'payment_mode': 'company_account', ##{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
+                    'expense_scheme_id': scheme_id
+                } 
         
         if self.purchase_order_has_expense_report(purchase_order, id):
             referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
@@ -256,6 +261,7 @@ class ExpensesPortal(http.Controller):
         description = kw.get("description")
         expense_category = kw.get("expense_category")
         expense_date = kw.get("expense_date")
+        payment_mode = kw.get("payment_mode")
         receipts = request.httprequest.files.getlist("receipt")
         total = kw.get("total")
         currency_id = kw.get("currency_id")
@@ -277,7 +283,7 @@ class ExpensesPortal(http.Controller):
             'product_id': int(expense_category),
             'date': expense_date,
             'total_amount_currency': float(total),
-            'payment_mode': 'company_account',
+            'payment_mode': payment_mode if payment_mode else 'company_account',
             'currency_id': int(currency_id),
             'tax_ids': tax_ids
             }

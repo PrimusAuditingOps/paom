@@ -16,7 +16,7 @@ class ProposalTemplates(models.Model):
     _description="Proposal Templates"
     
     name = fields.Char("Name")
-    template = fields.Text(string="Template", required=True, translate=True)
+    template = fields.Html(string="Template", required=True, translate=True)
     
     
     
