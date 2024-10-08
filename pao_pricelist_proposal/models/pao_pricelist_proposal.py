@@ -79,7 +79,7 @@ class PriceListProposal(models.Model):
         
         missing_items = []
         for item in self.item_ids:
-            base_item = self.base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)[0]
+            base_item = self.base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)
             
             if not base_item:
                 missing_items.append(item.name)
