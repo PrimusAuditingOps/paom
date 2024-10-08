@@ -34,6 +34,7 @@ class PriceListProposal(models.Model):
     proposal_status = fields.Selection(string="Status", default="draft", 
         selection=[
             ('draft', 'Draft'),
+            ('authorized', 'Authorized')
             ('sent', 'Sent'),
             ('accept', 'Accepted'),
             ('reject', 'Rejected'),
@@ -85,6 +86,7 @@ class PriceListProposal(models.Model):
         
         self.origin_product_pricelist_id.notify_action(message)
         
+        self.proposal_status = 'authorized'
         self.authorized = True
     
     def send_proposal_action(self):
