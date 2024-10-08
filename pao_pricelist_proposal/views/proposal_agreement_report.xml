@@ -11,12 +11,6 @@
         <field name="print_report_name">'Proposal Agreement'</field>
         <field name="binding_model_id" ref="pao_pricelist_proposal.model_pao_pricelist_proposal"/>
         <field name="binding_type">report</field>
-        <field name="multi">False</field>
-        <field name="wont_deactivate">True</field>
-        <field name="report_action">
-            model="pao.pricelist.proposal"
-            method="_compare_base_pricelist_items"
-        </field>
     </record>
 
     <template id="proposal_agreement">
@@ -30,6 +24,7 @@
                     </div>
                 </div>
 
+                <t t-set="dummy" t-value="proposal._compare_base_pricelist_items()"/>
                 <!-- <t t-if="pricelist.pricelist_agreement_id">
                     
                     <t t-set="proposal" t-value="pricelist.pricelist_agreement_id"/> -->
