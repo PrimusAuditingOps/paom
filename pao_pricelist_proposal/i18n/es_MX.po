@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0+e-20240104\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-26 15:56+0000\n"
-"PO-Revision-Date: 2024-03-26 15:56+0000\n"
+"POT-Creation-Date: 2024-10-08 21:46+0000\n"
+"PO-Revision-Date: 2024-10-08 21:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -42,9 +42,11 @@ msgstr "<b>Propuesta de precios preferenciales</b>"
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
 msgid ""
-"<br/><br/>\n"
+"<br/>\n"
+"                <br/>\n"
 "                    You can view the preferred pricing proposal below.\n"
-"                    <br/><br/>"
+"                <br/>\n"
+"                <br/>"
 msgstr ""
 "<br/><br/>\n"
 "                    Puede visualizar la propuesta de precios preferenciales a continuación.\n"
@@ -79,13 +81,21 @@ msgstr "<span class=\"o_stat_value\">Propuesta</span>"
 #. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
 msgid ""
-"<span><b>Av Lázaro Cárdenas Número Exterior 3478 Colonia Chapalita Guadalajara Jalisco, C.P. 44500</b></span>\n"
+"<span>\n"
+"                        <b>Av Lázaro Cárdenas Número Exterior 3478 Colonia Chapalita Guadalajara Jalisco, C.P. 44500</b>\n"
+"                    </span>\n"
 "                    <br/>\n"
 "                    <span>\n"
 "                        <b>USA:</b> HQ Santa Maria, CA  •  Brandon, FL  •  <b>Mexico:</b> Guadalajara  •  Culiacán  •  Uruapan  •  \n"
 "                        <b>Costa Rica:</b> San José  •  <b>Chile:</b> Viña del Mar\n"
 "                    </span>"
 msgstr ""
+"<span><b>Av Lázaro Cárdenas Número Exterior 3478 Colonia Chapalita Guadalajara Jalisco, C.P. 44500</b></span>\n"
+"                    <br/>\n"
+"                    <span>\n"
+"                        <b>USA:</b> HQ Santa Maria, CA  •  Brandon, FL  •  <b>Mexico:</b> Guadalajara  •  Culiacán  •  Uruapan  •  \n"
+"                        <b>Costa Rica:</b> San José  •  <b>Chile:</b> Viña del Mar\n"
+"                    </span>"
 
 #. module: pao_pricelist_proposal
 #: model:mail.template,body_html:pao_pricelist_proposal.mail_template_pricelist_proposal
@@ -216,6 +226,11 @@ msgid "Authorize proposal"
 msgstr "Autorizar propuesta"
 
 #. module: pao_pricelist_proposal
+#: model:ir.model.fields.selection,name:pao_pricelist_proposal.selection__pao_pricelist_proposal__proposal_status__authorized
+msgid "Authorized"
+msgstr "Autorizado"
+
+#. module: pao_pricelist_proposal
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
 msgid "Availability"
 msgstr "Disponibilidad"
@@ -296,6 +311,11 @@ msgid "Country Groups"
 msgstr "Grupos de países"
 
 #. module: pao_pricelist_proposal
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__create_employee_id
+msgid "Create Employee"
+msgstr ""
+
+#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__create_uid
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__create_uid
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_proposal_templates__create_uid
@@ -321,7 +341,7 @@ msgstr "Moneda"
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__customer_id
-#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__customer_id
+#: model:ir.model.fields,field_description:pao_pricelist_proposal.field_send_pricelist_proposal__customer_ids
 msgid "Customer"
 msgstr "Cliente"
 
@@ -693,6 +713,11 @@ msgid "Other Pricelist"
 msgstr "Otra tarifa"
 
 #. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_pao_pricelist_proposal
+msgid "PAO Pricelist Proposal Model"
+msgstr ""
+
+#. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__percent_price
 msgid "Percentage Price"
 msgstr "Porcentaje de precio"
@@ -836,6 +861,7 @@ msgid "Pricelists"
 msgstr "Tarifas"
 
 #. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_product_template
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__product_tmpl_id
 msgid "Product"
 msgstr "Producto"
@@ -849,6 +875,11 @@ msgstr "Categoría de producto"
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__origin_product_pricelist_id
 msgid "Product Price List Origin"
 msgstr "Tarifa de producto origen"
+
+#. module: pao_pricelist_proposal
+#: model:ir.model,name:pao_pricelist_proposal.model_product_proposal_item
+msgid "Product Pricelist Item"
+msgstr ""
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_product_proposal_item__product_id
@@ -875,11 +906,16 @@ msgstr "Propuesta"
 #. module: pao_pricelist_proposal
 #. odoo-python
 #: code:addons/pao_pricelist_proposal/controllers/portal.py:0
-#: model:ir.actions.report,name:pao_pricelist_proposal.report_proposal_agreement
+#: model:ir.actions.server,name:pao_pricelist_proposal.action_proposal_agreement_report
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__proposal_agreement_id
 #, python-format
 msgid "Proposal Agreement"
 msgstr "Acuerdo de propuesta"
+
+#. module: pao_pricelist_proposal
+#: model:ir.actions.report,name:pao_pricelist_proposal.report_proposal_agreement
+msgid "Proposal Agreement PDF Action"
+msgstr ""
 
 #. module: pao_pricelist_proposal
 #: model:ir.model,name:pao_pricelist_proposal.model_proposal_templates
@@ -903,15 +939,31 @@ msgid "Reason for rejection"
 msgstr "Motivo de rechazo"
 
 #. module: pao_pricelist_proposal
-#: model:proposal.templates,template:pao_pricelist_proposal.pricelist_template_season_2024
+#: model_terms:proposal.templates,template:pao_pricelist_proposal.pricelist_template_season_2024
 msgid ""
-"Reiterating our gratitude for your trust in considering us as your third-party audit services provider in agri-food safety, we are pleased to present the proposal of preferential prices for your audits during the 2023-2024 season.\n"
-"            "
+"Reiterating our gratitude for your trust in considering us as your third-"
+"party audit services provider in agri-food safety, we are pleased to present"
+" the proposal of preferential prices for your audits during the 2023-2024 "
+"season."
 msgstr ""
-"Reiterando nuestro agradecimiento por su confianza al considerarnos su "
-"proveedor de servicios en auditorías de tercera parte en inocuidad "
-"agroalimentaria, le hacemos llegar la propuesta de precios preferenciales "
-"para sus auditorías durante la temporada 2023-2024. esp"
+"Queremos aprovechar de compartir algunas características y ventajas de nuestros servicios:\n"
+"<br><br>\n"
+"1. Nuestro servicio considera el reporte completo de auditorías y acciones correctivas para PrimusGFS, GLOBALG.A.P. IFA y Addendum de FSMA PSA, lo cual cumple con las exigencias reglamentarias para USA, y le da un valor de transparencia a su programa de inocuidad, de manera de dar respuesta a cualquier mercado.\n"
+"<br><br>\n"
+"\n"
+"2. Nuestros reportes de auditoría cuentan con una herramienta de traducción automática gratuita para PrimusGFS, GLOBALG.A.P. IFA y FSMA, los cuales se pueden vincular a aquellos usuarios de la Plataforma de Azzule para administras la información a través de la cadena de suministro par PrimusGFS, puede usted ligar la auditoría al momento del registro a sus distribuidores / compradores, para poder dar seguimiento a su proceso.\n"
+"<br><br>\n"
+"\n"
+"3. Contamos con un Departamento de Calidad en Chile, altamente calificado y disponible para atender todas sus dudas, y consultas técnicas de sus procesos de auditorías.\n"
+"<br><br>\n"
+"\n"
+"Todo lo antes descrito no se traduce en un costo adicional por nuestros servicios, si no más bien, hemos estructurado una forma profesional de trabajo, entendiendo las necesidades de nuestros clientes y de la industria.\n"
+"\n"
+"<br><br>\n"
+"Les pedimos que por favor revise la cotización adjunta y que se ponga en contacto para resolver cualquier duda que tenga acerca del proceso de auditoría. \n"
+"\n"
+"\n"
+"Quedamos atentos."
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__reject_reasons
@@ -927,6 +979,16 @@ msgstr "Rechazado"
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
 msgid "Request authorization"
 msgstr "Solicitar autorización"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Resend"
+msgstr "Reenviar"
+
+#. module: pao_pricelist_proposal
+#: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
+msgid "Reset to draft"
+msgstr "Restablecer a borrador"
 
 #. module: pao_pricelist_proposal
 #: model:ir.model.fields,field_description:pao_pricelist_proposal.field_pao_pricelist_proposal__activity_user_id
@@ -1099,7 +1161,16 @@ msgstr "Términos y condiciones"
 #. module: pao_pricelist_proposal
 #: model:ir.ui.menu,name:pao_pricelist_proposal.proposal_terms_schemes_menu_item
 msgid "Terms and Conditions"
-msgstr "Términos y condiciones de tarifas"
+msgstr "Términos y condiciones"
+
+#. module: pao_pricelist_proposal
+#. odoo-python
+#: code:addons/pao_pricelist_proposal/models/pao_pricelist_proposal.py:0
+#, python-format
+msgid ""
+"The following items were not found in the base pricelist (%(base_pricelist_name)s). To continue, please add them to the base pricelist:\n"
+"%(formatted_missing_items)s"
+msgstr ""
 
 #. module: pao_pricelist_proposal
 #. odoo-python
@@ -1140,9 +1211,11 @@ msgstr "Historial de comunicación de sitio web"
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.proposal_agreement
 msgid ""
 "Without further ado, we remain available for any questions or comments.\n"
-"                    <br/><br/>\n"
+"                    <br/>\n"
+"                    <br/>\n"
 "                    Sincerely\n"
-"                    <br/><br/>"
+"                    <br/>\n"
+"                    <br/>"
 msgstr ""
 "Sin otro particular quedamos para cualquier duda o comentario.\n"
 "                    <br/><br/>\n"
@@ -1169,13 +1242,3 @@ msgstr "Su respuesta ha sido enviada."
 #: model_terms:ir.ui.view,arch_db:pao_pricelist_proposal.pao_pricelist_proposal_view_form
 msgid "e.g. USD Retailers"
 msgstr "ej. USD Minoristas"
-
-#. module: pao_pricelist_proposal
-#: model:ir.model,name:pao_pricelist_proposal.model_pao_pricelist_proposal
-msgid "pao.pricelist.proposal"
-msgstr ""
-
-#. module: pao_pricelist_proposal
-#: model:ir.model,name:pao_pricelist_proposal.model_product_proposal_item
-msgid "product.proposal.item"
-msgstr ""
