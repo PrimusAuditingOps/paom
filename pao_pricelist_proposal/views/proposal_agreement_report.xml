@@ -2,6 +2,16 @@
 <odoo>
     <!-- <report id="report_proposal_agreement" model="pao.pricelist.proposal" string="Proposal Agreement" name="pao_pricelist_proposal.proposal_agreement" file="pao_pricelist_proposal.agreement" report_type="qweb-pdf" /> -->
 
+    <record id="action_proposal_agreement_report" model="ir.actions.server">
+        <field name="name">Generate Proposal Agreement</field>
+        <field name="model_id" ref="model_pao_pricelist_proposal"/>
+        <field name="binding_model_id" ref="model_pao_pricelist_proposal"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = env['pao.pricelist.proposal'].browse(record.id)._compare_base_pricelist_items()
+        </field>
+    </record>
+
     <record id="report_proposal_agreement" model="ir.actions.report">
         <field name="name">Proposal Agreement</field>
         <field name="model">pao.pricelist.proposal</field>
