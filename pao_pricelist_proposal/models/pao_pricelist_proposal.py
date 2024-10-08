@@ -74,20 +74,21 @@ class PriceListProposal(models.Model):
     def reset_draft_action(self):
         self.proposal_status = 'draft'
         self.authorized = False
-        
+    
+    @api.multi
     def _compare_base_pricelist_items(self):
-        
-        missing_items = []
-        for item in self.item_ids:
-            base_item = self.base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)
-            
-            if not base_item:
-                missing_items.append(item.name)
+        for record in self:
+            missing_items = []
+            for item in record.item_ids:
+                base_item = record.base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)
                 
-        if len(missing_items) > 0:
-            formatted_missing_items = " • " + "\n • ".join(missing_items)
-            raise ValidationError(_("The following items were not found in the base pricelist (%(base_pricelist_name)s). To continue, please add them to the base pricelist:\n%(formatted_missing_items)s") 
-                                % {'base_pricelist_name': self.base_pricelist.name, 'formatted_missing_items': formatted_missing_items})
+                if not base_item:
+                    missing_items.append(item.name)
+                    
+            if len(missing_items) > 0:
+                formatted_missing_items = " • " + "\n • ".join(missing_items)
+                raise ValidationError(_("The following items were not found in the base pricelist (%(base_pricelist_name)s). To continue, please add them to the base pricelist:\n%(formatted_missing_items)s") 
+                                    % {'base_pricelist_name': record.base_pricelist.name, 'formatted_missing_items': formatted_missing_items})
     
     def authorize_proposal_action(self):
         
