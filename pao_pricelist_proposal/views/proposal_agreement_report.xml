@@ -3,7 +3,7 @@
     <!-- <report id="report_proposal_agreement" model="pao.pricelist.proposal" string="Proposal Agreement" name="pao_pricelist_proposal.proposal_agreement" file="pao_pricelist_proposal.agreement" report_type="qweb-pdf" /> -->
 
     <record id="action_proposal_agreement_report" model="ir.actions.server">
-        <field name="name">Generate Proposal Agreement</field>
+        <field name="name">Proposal Agreement</field>
         <field name="model_id" ref="model_pao_pricelist_proposal"/>
         <field name="binding_model_id" ref="model_pao_pricelist_proposal"/>
         <field name="state">code</field>
@@ -13,13 +13,12 @@
     </record>
 
     <record id="report_proposal_agreement" model="ir.actions.report">
-        <field name="name">Proposal Agreement</field>
+        <field name="name">Proposal Agreement PDF Action</field>
         <field name="model">pao.pricelist.proposal</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">pao_pricelist_proposal.proposal_agreement</field>
         <field name="report_file">pao_pricelist_proposal.proposal_agreement</field>
         <field name="print_report_name">'Proposal Agreement'</field>
-        <field name="binding_model_id" ref="pao_pricelist_proposal.model_pao_pricelist_proposal"/>
         <field name="binding_type">report</field>
     </record>
 
