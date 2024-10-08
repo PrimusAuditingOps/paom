@@ -129,7 +129,7 @@
                         </div>
                         <div style="width: 30% !important" class="mx-2">
                             <p class="text-center">
-                                <img class="img img-responsive" style="width: 200px; heigth: auto;" t-att-src="image_data_uri(proposal.create_uid.employee_id.es_sign_signature)" t-if="proposal.create_uid.employee_id"/>
+                                <img class="img img-responsive" style="width: 200px; heigth: auto;" t-att-src="image_data_uri(proposal.create_employee_id.es_sign_signature)" t-if="proposal.create_employee_id"/>
                             </p>
                             <p class="text-center" style="border-top: 1px solid black;">
                                 <b>
@@ -137,8 +137,7 @@
                                 </b>
                                 <br/>
                                 <b>
-                                    <t t-esc="proposal.create_uid.employee_id.job_title" t-if="proposal.create_uid.employee_id"/>
-                                    <t t-esc="proposal.create_uid.employee_ids[0].job_title" t-if="proposal.create_uid.employee_ids"/>
+                                    <t t-esc="proposal.create_employee_id.job_title" t-if="proposal.create_employee_id"/>
                                 </b>
                             </p>
                         </div>

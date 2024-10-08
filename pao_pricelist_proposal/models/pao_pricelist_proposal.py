@@ -14,6 +14,8 @@ class PriceListProposal(models.Model):
     
     base_pricelist = fields.Many2one('product.pricelist', string="Base pricelist", readonly=True)
     
+    create_employee_id = fields.Many2one('hr.employee', default= lambda self: self.create_uid.employee_id)
+    
     origin_product_pricelist_id = fields.Many2one('product.pricelist', string="Product Price List Origin", readonly=True)
     
     country_group_ids = fields.Many2many('res.country.group', 'pao_pricelist_proposal_res_country_group_rel',
