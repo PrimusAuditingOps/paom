@@ -9,6 +9,6 @@ class ProductTemplateInherit(models.Model):
         # Ensure default is a dictionary, if not already provided
         default = dict(default or {})
         # Set the name field to an empty string in the copied record
-        default['name'] = ''
+        default['name'] = None
         # Call the super method with the updated default values
         return super(ProductTemplateInherit, self).copy(default)
