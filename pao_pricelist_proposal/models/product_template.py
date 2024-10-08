@@ -11,22 +11,22 @@ class ProductTemplateInherit(models.Model):
         # Set the name field to an empty string in the copied record
         default['name'] = ''
         # Call the super method with the updated default values
-        return super(ProductTemplateInherit, self).copy(default)
+        return super(ProductTemplateInherit, self.with_context(skip_name_check=True)).copy(default)
     
-    @api.model
-    def create(self, vals):
-        self._check_name_translations(vals)
-        return super(ProductTemplateInherit, self).create(vals)
+    @api.constrains('name')
+    def _check_name_and_translations(self):
+        # Skip validation if the context has skip_name_check
+        if self.env.context.get('skip_name_check'):
+            return
 
-    def write(self, vals):
-        self._check_name_translations(vals)
-        return super(ProductTemplateInherit, self).write(vals)
+        for record in self:
+            if not record.name.strip():
+                raise ValidationError(_("Please set a name for the copied product."))
 
-    def _check_name_translations(self, vals):
-        # Ensure translations are also set
-        for lang in self.env['res.lang'].search([]).mapped('code'):
-            translated_name = self.with_context(lang=lang).name_get()[0][1]
-            if not translated_name.strip():
-                raise ValidationError(
-                    f"Please set a translated name for the language: {lang}"
-                )
+            # Ensure translations are also set
+            for lang in self.env['res.lang'].search([]).mapped('code'):
+                translated_name = record.with_context(lang=lang).name_get()[0][1]
+                if not translated_name.strip():
+                    raise ValidationError(
+                        _("Please set a translated name for the language: %s") % lang
+                    )
