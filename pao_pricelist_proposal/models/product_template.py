@@ -13,16 +13,20 @@ class ProductTemplateInherit(models.Model):
         # Call the super method with the updated default values
         return super(ProductTemplateInherit, self).copy(default)
     
-    @api.constrains('name')
-    def _check_name_and_translations(self):
-        for record in self:
-            if not record.name.strip():
-                raise ValidationError("Please set a name for the copied product.")
+    @api.model
+    def create(self, vals):
+        self._check_name_translations(vals)
+        return super(ProductTemplateInherit, self).create(vals)
 
-            # Ensure translations are also set
-            for lang in self.env['res.lang'].search([]).mapped('code'):
-                translated_name = record.with_context(lang=lang).name_get()[0][1]
-                if not translated_name.strip():
-                    raise ValidationError(
-                        f"Please set a translated name for the language: {lang}"
-                    )
+    def write(self, vals):
+        self._check_name_translations(vals)
+        return super(ProductTemplateInherit, self).write(vals)
+
+    def _check_name_translations(self, vals):
+        # Ensure translations are also set
+        for lang in self.env['res.lang'].search([]).mapped('code'):
+            translated_name = self.with_context(lang=lang).name_get()[0][1]
+            if not translated_name.strip():
+                raise ValidationError(
+                    f"Please set a translated name for the language: {lang}"
+                )
