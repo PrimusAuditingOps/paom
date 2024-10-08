@@ -85,8 +85,8 @@ class PriceListProposal(models.Model):
                 missing_items.append(item.name)
                 
         if len(missing_items) > 0:
-            formatted_missing_items = "\n- ".join(missing_items)
-            raise ValidationError(_("The following items were not found in the base price list (%(base_pricelist_name)s). To continue, please add them to the base price list:\n%(formatted_missing_items)s") 
+            formatted_missing_items = " • " + "\n • ".join(missing_items)
+            raise ValidationError(_("The following items were not found in the base pricelist (%(base_pricelist_name)s). To continue, please add them to the base pricelist:\n%(formatted_missing_items)s") 
                                 % {'base_pricelist_name': self.base_pricelist.name, 'formatted_missing_items': formatted_missing_items})
     
     def authorize_proposal_action(self):
