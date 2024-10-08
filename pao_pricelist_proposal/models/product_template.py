@@ -1,5 +1,5 @@
-from odoo import models, _
-from odoo.exceptions import ValidationError
+from odoo import models, api, _
+from odoo.exceptions import UserError
 
 class ProductTemplateInherit(models.Model):
 
@@ -13,22 +13,11 @@ class ProductTemplateInherit(models.Model):
         # Call the super method with the updated default values
         return super(ProductTemplateInherit, self).copy(default)
     
-    def write(self, vals):
-        if 'name' in vals:
-            # Validate translations only when the `name` field is modified
-            self._check_translations_set() 
-        return super(ProductTemplateInherit, self).write(vals)
-
-    def _check_translations_set(self):
-        for record in self:
-            translations = record.with_context(active_test=False).env['ir.translation'].search([
-                ('name', '=', 'product.template,name'),
-                ('res_id', '=', record.id),
-                ('lang', '!=', False)  # Only check non-default languages
-            ])
-            for translation in translations:
-                if not translation.value:
-                    # Raise an error if any translation is empty
-                    raise ValidationError(_(
-                        "The translation for the field 'name' in language '%s' cannot be empty after creation."
-                    ) % translation.lang)
+    @api.constrains("name")
+    def _check_existing_record_translations(self):
+        if self._origin:  # Check if the record is an existing one
+            default_lang = self.env.lang
+            for lang in self.env.langs:
+                if lang.code != default_lang:
+                    if not self.with_context(lang=lang.code).name:
+                        raise UserError("Translations for 'Name' are missing in language '%s'. Please set them before updating the record." % lang.code)
