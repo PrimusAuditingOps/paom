@@ -87,7 +87,7 @@ class PriceListProposal(models.Model):
         self.authorized = True
     
     def send_proposal_action(self):
-        if self.proposal_status == 'draft' and self.authorized:
+        if self.authorized:
             
             self.pricelist_proposal_manager_id = self.env['hr.employee'].sudo().search([('pricelist_proposal_manager', '=', True), ('company_id', '=', self.env.company.id)], limit=1)
             
