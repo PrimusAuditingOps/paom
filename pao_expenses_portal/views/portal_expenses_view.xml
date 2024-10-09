@@ -253,7 +253,7 @@
                         <th class="text-end">Description</th>
                         <th class="text-end">Customer to Reinvoice</th>
                         <th class="text-end">Taxes</th>
-                        <th class="text-end">Paid By</th>
+                        <th class="text-center">Paid By</th>
                         <th class="text-end">Subtotal (<span t-esc="currency"></span>)
                         </th>
                         <th t-if="submittable"></th>
@@ -276,7 +276,7 @@
                         <td class="text-end">
                             <span t-field="expense.tax_ids"/>
                         </td>
-                        <td class="text-end">
+                        <td class="text-center">
                             <span t-field="expense.payment_mode"/>
                         </td>
                         <td class="text-end">
