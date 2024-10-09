@@ -376,10 +376,12 @@ class ExpensesPortal(http.Controller):
                 ('employee_id', '=', user.employee_id.id), ('state', '=', 'draft')
             ])
         
+        today = date.today().strftime('%Y-%m-%d')
         values = {
                     'reports': reports, 'expenses': expenses, 'page_name': 'wallet_expenses', 
                     'currency': request.env.company.currency_id.name, 
-                    'categories': self.get_categories(), 'currencies': self.get_currencies()
+                    'categories': self.get_categories(), 'currencies': self.get_currencies(),
+                    'today': today
                 }
         
         error_expense = request.session.get('error_expense')
