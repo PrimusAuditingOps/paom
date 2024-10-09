@@ -23,7 +23,7 @@ class PriceListProposal(models.Model):
 
     item_ids = fields.One2many('product.proposal.item', 'pricelist_id', 'Pricelist Items')
     
-    customer_ids = fields.Many2many('res.partner', string="Customer")
+    customer_id = fields.Many2one('res.partner', string="Customer")
     
     proposal_terms =  fields.Many2one('proposal.terms.schemes', string="Terms & Conditions")
     
@@ -230,12 +230,11 @@ class PriceListProposal(models.Model):
         message=_('The pricelist %(pricelist_name)s has been updated.') % {'pricelist_name': self.origin_product_pricelist_id.name}
         channels=('Operaciones', 'Finanzas', 'Relaciones Comerciales', 'Cobranza')
         
-        for customer in self.customer_ids:
-            customer.message_post(
-                body=message,
-                # partner_ids=channel.channel_partner_ids.ids,
-            )
-            
+        self.customer_id.message_post(
+            body=message,
+            # partner_ids=channel.channel_partner_ids.ids,
+        )
+        
         odoo_bot = self.env.ref('base.partner_root')
         
         for channel_name in channels:
@@ -246,7 +245,7 @@ class PriceListProposal(models.Model):
             
     def _generate_proposal_agreement(self):
         
-        customer_lang = self.customer_ids[0].lang if self.customer_ids else self.create_uid.lang
+        customer_lang = self.customer_id.lang if self.customer_id else self.create_uid.lang
         context = {'lang': customer_lang}
         
         pdf = self.env['ir.actions.report'].sudo().with_context(context)._render_qweb_pdf(
