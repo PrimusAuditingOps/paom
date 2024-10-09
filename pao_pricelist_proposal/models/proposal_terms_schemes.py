@@ -17,10 +17,19 @@ class ProposalTemplates(models.Model):
     
     name = fields.Char("Name")
     template = fields.Html(string="Template", required=True, translate=True)
-    attachment_ids = fields.Many2many(
+    attachment_ids = fields.One2many(
+        comodel_name='ir.attachment',
+        inverse_name='res_id',
         string='Attachments',
-        comodel_name='ir.attachment'
+        domain=[('res_model', '=', 'proposal.templates')]
     )
+    # attachment_ids = fields.Many2many(
+    #     'ir.attachment', 
+    #     'pao_sign_sa_agreements_sent_ir_attachments_rel',
+    #     'agreements_sent_id', 
+    #     'attachment_id', 
+    #     'Attachments'
+    # )
     
     
     
