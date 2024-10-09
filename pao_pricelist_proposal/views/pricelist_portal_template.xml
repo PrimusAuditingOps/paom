@@ -79,7 +79,7 @@
                                     <t t-set="base_item" t-value="base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)[0]"/>
                                     <tr>
                                         <td class="col-md-7">
-                                            <t t-esc="item.product_tmpl_id.display_name"/>
+                                            <t t-esc="item.product_id.display_name"/>
                                         </td>
                                         <td>
                                             <t t-esc="'${:,.2f}'.format(base_item.fixed_price)"/>
