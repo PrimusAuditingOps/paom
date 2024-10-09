@@ -16,6 +16,7 @@ class UploadExpenseStatement(models.TransientModel):
     employee_id = fields.Many2one('hr.employee')
     statement_file = fields.Binary('Account Statement', required=True)
     statement_filename  = fields.Char('File Name')
+    process_run = fields.Boolean(default=False)
 
     def write(self, vals):
         try:
@@ -38,6 +39,9 @@ class UploadExpenseStatement(models.TransientModel):
     
     def action_import_statement(self):
         try:
+            if self.process_run:
+                return
+            
             send_notification_to_user = False
             odoo_bot = self.env.ref('base.partner_root')
             
@@ -81,8 +85,8 @@ class UploadExpenseStatement(models.TransientModel):
                     'next': {'type': 'ir.actions.act_window_close'},
                 }
             }
-        
-        return {'type': 'ir.actions.client', 'tag': 'reload'}
+        self.process_run = True
+        # return {'type': 'ir.actions.client', 'tag': 'reload'}
     
     def _process_csv_file(self, file_content):
         reader = csv.reader(file_content.decode('utf-8').splitlines())  # Decode for CSV handling
