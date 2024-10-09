@@ -20,7 +20,7 @@ class ProposalTemplates(models.Model):
     attachment_ids = fields.One2many(
         comodel_name='ir.attachment',
         inverse_name='res_id',
-        string='Attachments',
+        string='Attach Files',
         domain=[('res_model', '=', 'proposal.templates')]
     )
     

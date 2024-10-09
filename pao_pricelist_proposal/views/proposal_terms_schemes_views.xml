@@ -54,7 +54,7 @@
                     <group>
                         <field name="name"/>
                         <field name="template" widget="html" options="{'codeview': True}"/>
-                        <field name="attachment_ids" widget="many2many_binary"/>
+                        <field name="attachment_ids" string="" widget="many2many_binary"/>
                     </group>
                 </sheet>
             </form>
