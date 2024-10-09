@@ -23,13 +23,6 @@ class ProposalTemplates(models.Model):
         string='Attachments',
         domain=[('res_model', '=', 'proposal.templates')]
     )
-    # attachment_ids = fields.Many2many(
-    #     'ir.attachment', 
-    #     'pao_sign_sa_agreements_sent_ir_attachments_rel',
-    #     'agreements_sent_id', 
-    #     'attachment_id', 
-    #     'Attachments'
-    # )
     
     
     
