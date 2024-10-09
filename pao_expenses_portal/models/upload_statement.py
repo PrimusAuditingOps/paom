@@ -86,7 +86,7 @@ class UploadExpenseStatement(models.TransientModel):
                 }
             }
         self.process_run = True
-        # return {'type': 'ir.actions.client', 'tag': 'reload'}
+        return {'type': 'ir.actions.client', 'tag': 'reload'}
     
     def _process_csv_file(self, file_content):
         reader = csv.reader(file_content.decode('utf-8').splitlines())  # Decode for CSV handling
