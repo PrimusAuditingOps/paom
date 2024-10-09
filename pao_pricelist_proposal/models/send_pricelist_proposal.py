@@ -66,7 +66,7 @@ class SendPricelistProposal(models.TransientModel):
                 mail = self.env['mail.mail'].create(mail_values)
                 mail.send()
                 record.pricelist_proposal_id.proposal_status = 'sent'
-                record.pricelist_proposal_id.customer_id = self.customer_ids[0].id
+                record.pricelist_proposal_id.customer_ids = self.customer_ids
                 record.pricelist_proposal_id.proposal_terms = self.proposal_terms.id
                 record.pricelist_proposal_id.message_proposal_template_id = self.message_proposal_template_id.id
                 
