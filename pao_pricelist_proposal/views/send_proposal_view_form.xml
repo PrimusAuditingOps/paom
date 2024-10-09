@@ -7,7 +7,7 @@
             <form>
                 <group col="2">
                     <field name="customer_id" placeholder="Write email or search contact..." options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <!-- <field name="cc_customer_ids" widget="many2many_tags" placeholder="CC Addresses." options="{'no_quick_create': True, 'no_create_edit' : True}"/> -->
+                    <field name="cc_customer_ids" widget="many2many_tags" placeholder="CC Addresses." options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                     <field name="subject" placeholder="Enter Subject"/>
                     <field name="message" placeholder="Optional Message..."/>
                 </group>

@@ -6,7 +6,7 @@ class SendPricelistProposal(models.TransientModel):
     _description = 'Pricelist send proposal'
 
     customer_id = fields.Many2one('res.partner', string="Customer",required=True)
-    cc_customer_ids = fields.Many2one('res.partner', string="CC")
+    cc_customer_ids = fields.Many2many('res.partner', string="CC")
     subject = fields.Char(string="Subject", required=True)
     message = fields.Html(string="Message", required=True)
     pricelist_proposal_id = fields.Many2one('pao.pricelist.proposal', string="Pricelist Proposal", readonly=True)
