@@ -79,7 +79,7 @@
                                     <tr>
                                         <td class="col-md-7">
                                             <t t-esc="item.product_id.display_name" t-if="item.product_id and item.applied_on == '0_product_variant'"/>
-                                            <t t-esc="item.product_tmpl_id.display_name" t-if="item.product_tmpl_id and item.applied_on == '1_product'"/>
+                                            <t t-esc="item.product_tmpl_id.name" t-if="item.product_tmpl_id and item.applied_on == '1_product'"/>
                                         </td>
                                         <td>
                                             <t t-esc="'${:,.2f}'.format(base_item.fixed_price)" t-if="base_item"/>
