@@ -61,6 +61,7 @@ class SendPricelistProposal(models.TransientModel):
                     'subject': record.subject,
                     'body_html': record.message,
                     'email_to': customer_emails,
+                    'attachment_ids': record.message_proposal_template_id.attachment_ids
                 }
                 mail = self.env['mail.mail'].create(mail_values)
                 mail.send()

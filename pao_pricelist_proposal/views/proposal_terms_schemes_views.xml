@@ -54,6 +54,7 @@
                     <group>
                         <field name="name"/>
                         <field name="template" widget="html" options="{'codeview': True}"/>
+                        <field name="attachment_ids" widget="many2many_binary"/>
                     </group>
                 </sheet>
             </form>
@@ -69,6 +70,6 @@
 
 
     <menuitem id="pricelist_terms_templates" name="Pricelists" parent="sale.menu_sale_config" sequence="11"/>
-        <menuitem id="proposal_terms_schemes_menu_item" name="Terms and Conditions" parent="pricelist_terms_templates" sequence="1" action="proposal_terms_schemes_action"/>
-        <menuitem id="proposal_templates_menu_item" name="Templates" parent="pricelist_terms_templates" sequence="2" action="proposal_templates_action"/>
+    <menuitem id="proposal_terms_schemes_menu_item" name="Terms and Conditions" parent="pricelist_terms_templates" sequence="1" action="proposal_terms_schemes_action"/>
+    <menuitem id="proposal_templates_menu_item" name="Templates" parent="pricelist_terms_templates" sequence="2" action="proposal_templates_action"/>
 </odoo>

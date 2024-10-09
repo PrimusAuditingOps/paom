@@ -17,6 +17,7 @@ class ProposalTemplates(models.Model):
     
     name = fields.Char("Name")
     template = fields.Html(string="Template", required=True, translate=True)
+    attachment_ids = fields.Many2one('ir.attachment')
     
     
     
