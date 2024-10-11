@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="crm_cr_cb_view_form" model="ir.ui.view">
+        <field name="name">crm.cr.cb.view.form</field>
+        <field name="model">pao.cr.cb</field>
+        <field name="arch" type="xml">
+            <form string="CB Form">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cr_cb_view_tree" model="ir.ui.view">
+        <field name="name">cr.cb.view.tree</field>
+        <field name="model">pao.cr.cb</field>
+        <field name="arch" type="xml">
+            <tree string="CB Tree">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="cr_cb_action" model="ir.actions.act_window">
+        <field name="name">CB</field>
+        <field name="res_model">pao.cr.cb</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first CB
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="cr_cb_menu"
+        name="CB"
+        parent="crm.menu_crm_config_lead"
+        action="cr_cb_action"
+        groups="sales_team.group_sale_manager"
+        sequence="8"/>
+</odoo>

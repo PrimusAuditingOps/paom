@@ -70,7 +70,7 @@ class PaoSignSaAgreementsSent(models.Model):
     )
     follower_ids = fields.Many2many('res.partner', string="Copy to")
     position = fields.Char(
-        string="Position", 
+        string="Title", 
         required=True
     )
     signer_name = fields.Char(
@@ -103,6 +103,7 @@ class PaoSignSaAgreementsSent(models.Model):
         ondelete='cascade',
         required=True,
     )
+    
     reminder_days = fields.Integer(
         string = 'Reminder days',
         default = 0,
@@ -110,7 +111,8 @@ class PaoSignSaAgreementsSent(models.Model):
     document_status = fields.Selection(
         selection=[
             ('sent', "Sent"),
-            ('sign', "Signed"),
+            ('partially_sign', "Partially signed"),
+            ('sign', "Completely signed"),
             ('cancel', "Cancelled"),
             ('exception', "Mail Failed"),
         ],
@@ -143,6 +145,15 @@ class PaoSignSaAgreementsSent(models.Model):
         'Signature name',
         copy=False,
     )
+    
+    coordinator_signature = fields.Binary(
+        string="Coordinator Signature", 
+        copy=False,
+    )
+
+    coordinator_name = fields.Char(string="Coordinator Name", copy=False)
+    coordinator_signature_date = fields.Date(string="Coordinator's signature date", copy=False)
+
     signature = fields.Binary(
         string="Signature", 
         copy=False,
@@ -156,6 +167,8 @@ class PaoSignSaAgreementsSent(models.Model):
         inverse_name='sign_sa_agreements_id',
         string='Registration number IDs',
     )
+    
+    company_id = fields.Many2one(related="sale_order_id.company_id")
 
 
     @api.depends('registration_numbers_ids')
@@ -165,6 +178,16 @@ class PaoSignSaAgreementsSent(models.Model):
             for rn in rec.registration_numbers_ids:
                 title_sa += rn.name  if title_sa == "" else ", " + rn.name
             rec.title = title_sa
+    
+    def action_coordinator_sign(self):
+        self.ensure_one()
+
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/coordinator_sign/sa/%s/%s' % (self.id, self.access_token),
+            'target': 'new',  # Opens the URL in a new tab
+        }
     
     def action_resend(self):
         self.ensure_one()

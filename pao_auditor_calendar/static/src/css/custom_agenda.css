@@ -1,0 +1,86 @@
+
+.fc-event-container, .fc-list-item{
+    cursor: pointer !important;
+}
+
+.fc-event{
+    border: 1px solid #a7a7a7 !important;
+}
+
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .fc-toolbar.fc-header-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .fc .fc-toolbar button {
+        flex: 1;
+        margin-bottom: 5px; /* Add space between buttons */
+        font-size: 14px; /* Smaller font for smaller screens */
+    }
+
+    .fc .fc-center {
+        margin-bottom: 10px;
+    }
+    
+    .fc-toolbar .fc-left, .fc-toolbar{
+        margin-bottom: 10px; /* Space between different sections */
+        text-align: center !important;
+    }
+
+    .fc-right{
+        text-align: center !important;
+    }
+
+    /* Make the calendar title responsive */
+    .fc-toolbar .fc-center h2 {
+        font-size: 18px;
+    }
+}
+
+
+
+
+
+
+
+#legend .input-group {
+    display: flex;
+    justify-content: center;
+    min-width: 250px !important;
+}
+
+#legend .badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    align-self: center;
+}
+
+@media (max-width: 768px) {
+    #legend {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #legend .input-group {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #legend .badge {
+        width: 100%;
+        text-align: center;
+    }
+
+
+    #calendar{
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .fc-scroller{
+        height: inherit !important;
+    }
+}

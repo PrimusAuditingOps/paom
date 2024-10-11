@@ -7,15 +7,16 @@
             <form string="Agreements Form">
                 <header>
                     <field name="document_status" invisible="1"/>
-                    <button name="action_resend" type="object" string="Resend" invisible="document_status in ['sign', 'cancel']"/>
-                    <button name="action_cancel" type="object" string="Cancel" invisible="document_status in ['sign', 'cancel']"/>
+                    <button name="action_resend" type="object" string="Resend" invisible="document_status in ['partially_sign', 'sign', 'cancel']"/>
+                    <button name="action_coordinator_sign" type="object" string="Coordinator's signature" invisible="document_status not in ['partially_sign']"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="document_status in ['partially_sign', 'sign', 'cancel']"/>
                 </header>
                 <sheet>
                     <group col="2">
                         <field name="signer_id"/>
                         <field name="registration_numbers_ids" widget="many2many_tags"/>
                         <field name="document_status"/>
-                        
+                        <field name="sign_url"/>
                     </group>
                     <div>
                             <b><span class="oe_inline">Mail Status: </span></b>
@@ -25,7 +26,7 @@
                         <page string="Attachments">
                             <field name="attachment_ids" widget="many2many">
                                 <tree string="Documents">
-                                    <field name="name" invisible="1"/>
+                                    <field name="name" column_invisible="True" invisible="1"/>
                                     <field name="datas" filename="name" widget="binary" string="SA"/>
                                 </tree>
                             </field>
@@ -42,6 +43,7 @@
             <tree string="Service Agreements Tree">
                 <field name="title"/>
                 <field name="document_status" decoration-success="document_status == 'sign'" decoration-warning="document_status == 'exception'" decoration-info="document_status == 'sent'" widget="badge"/>
+                <field name="sale_order_id" widget="many2one" column_invisible="not context.get('display_sale_order',False)"/>
             </tree>
         </field>
     </record>

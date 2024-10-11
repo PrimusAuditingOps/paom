@@ -16,7 +16,13 @@ class ProposalTemplates(models.Model):
     _description="Proposal Templates"
     
     name = fields.Char("Name")
-    template = fields.Text(string="Template", required=True, translate=True)
+    template = fields.Html(string="Template", required=True, translate=True)
+    attachment_ids = fields.One2many(
+        comodel_name='ir.attachment',
+        inverse_name='res_id',
+        string='Attach Files',
+        domain=[('res_model', '=', 'proposal.templates')]
+    )
     
     
     

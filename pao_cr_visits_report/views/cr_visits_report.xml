@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_cr_visits_report_view_form" model="ir.ui.view">
+        <field name="name">pao.cr.visits.report.view.form</field>
+        <field name="model">pao.cr.visits.report</field>
+        <field name="arch" type="xml">
+            <form string="CR visits report Form">
+                <sheet>
+                    <group col="4">
+                        <field name="audit_scheme"/>
+                        <field name="coordinator_name"/>    
+                        <field name="audit_id"/>
+                        <field name="month"/>
+                        <field name="audit_date"/>
+                        <field name="year"/>
+                        <field name="cb"/>
+                        <field name="registration_number"/>
+                        <field name="organization_name"/>
+                        <field name="commodities"/>
+                        <field name="contact_name"/>
+                        <field name="email"/>
+                        <field name="country"/>
+                        <field name="state"/>
+                        <field name="city"/>
+                        <field name="locations"/>
+                        <field name="operation_type"/>
+                        <field name="shipper"/>
+                        <field name="value"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_cr_visits_report_view_tree" model="ir.ui.view">
+        <field name="name">pao.cr.visits.report.view.tree</field>
+        <field name="model">pao.cr.visits.report</field>
+        <field name="arch" type="xml">
+            <tree string="CR Visits Report Tree" decoration-danger="customer_search_status == '0'" decoration-success="customer_search_status == '1'">
+                <field name="audit_scheme"/>
+                <field name="coordinator_name"/>    
+                <field name="audit_id"/>
+                <field name="month"/>
+                <field name="audit_date"/>
+                <field name="year"/>
+                <field name="cb"/>
+                <field name="registration_number"/>
+                <field name="organization_name"/>
+                <field name="customer_search_status"/>
+                <field name="commodities"/>
+                <field name="contact_name"/>
+                <field name="email"/>
+                <field name="country"/>
+                <field name="state"/>
+                <field name="city"/>
+                <field name="locations"/>
+                <field name="operation_type"/>
+                <field name="operation_short_type"/>
+                <field name="shipper"/>
+                <field name="value"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_cr_visits_report_view_graph" model="ir.ui.view">
+        <field name="name">pao.cr.visits.report.view.graph</field>
+        <field name="model">pao.cr.visits.report</field>
+        <field name="arch" type="xml">
+            <graph string="CR Visits Report">
+                <field name="cb" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="pao_cr_visits_report_view_pivot" model="ir.ui.view">
+        <field name="name">pao.cr.visits.report.view.pivot</field>
+        <field name="model">pao.cr.visits.report</field>
+        <field name="arch" type="xml">
+            <pivot string="CR Visits Report Analysis">
+                <field name="state" type="row"/>
+                <field name="audit_date" interval="month" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="pao_cr_visits_report_action" model="ir.actions.act_window">
+        <field name="name">CR Visits Report</field>
+        <field name="res_model">pao.cr.visits.report</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first CR visits report
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pao_cr_visits_report"
+            name="CR Visits Report"
+            parent="crm.crm_menu_sales"
+            action="pao_cr_visits_report_action"
+            sequence="6"/>
+
+</odoo>

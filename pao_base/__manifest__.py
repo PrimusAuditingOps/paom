@@ -16,14 +16,17 @@
     """,
     'depends': [
         'base',
-        'contacts'
+        'contacts',
+        'l10n_mx_edi',
     ],
     'data' : [
         'security/ir.model.access.csv',
         'views/res_city_views.xml',
+        'views/product_template.xml',
         'views/res_country_views.xml',
         'views/res_partner_views.xml',
         'views/ir_module_views.xml',
+        'views/account_move.xml',
     ],
     'assets': {
         'web.report_assets_common': [

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   
+
+
+
+
+
+    <record id="multiple_proposal_request_view_form" model="ir.ui.view">
+        <field name="name">multiple.proposal.request.view.form</field>
+        <field name="model">multiple.proposal.auditor.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="2"> 
+                    <field name="purchase_order_id" invisible="1" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="auditor_ids" placeholder="Write email or search contact..." domain="[('id','=',False)]" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                   
+                    <label for="range_start_date" string="Date range"/>
+                    <div>
+                        <field name="range_start_date" widget="daterange"
+                            options="{'end_date_field': 'range_end_date'}"/>
+                    </div>
+                    <field name="range_start_date" invisible="1"/>
+                    <field name="subject" placeholder="Enter Subject"/>
+                    <field name="message" placeholder="Optional Message..."/>
+                </group>
+                <footer>
+                   <button string="Send" name="send_multiple_proposal" type="object" class="btn-primary"/>
+                   <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_send_multiple_proposal" model="ir.actions.act_window">
+        <field name="name">Multiple proposal auditor</field>
+        <field name="res_model">multiple.proposal.auditor.request</field>
+        <field name="target">new</field>
+        <field name="view_mode">form</field>
+    </record>
+
+
+    <record id="purchase_order_multiple_proposal_view_form" model="ir.ui.view">
+        <field name="name">purchase.order.multiple.proposal.view.form</field>
+        <field name="model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_done']" position="after"> 
+              <field name="audit_status_muilti_proposal" invisible="1"/> 
+               <field name="state" invisible="1"/> 
+              <button name="send_multiple_proposal" class="oe_highlight" type="object" string="Send multiple proposal" 
+              invisible="audit_status_muilti_proposal != 'not_sent' or state != 'draft'"/> 
+              <button name="close_multiple_proposal" class="oe_highlight" type="object" string="Close multiple proposal" 
+              invisible="audit_status_muilti_proposal != 'sent'"/> 
+              <button name="resend_multiple_proposal" class="oe_highlight" type="object" string="Resend multiple proposal" 
+              invisible="audit_status_muilti_proposal != 'sent'"/>      
+            </xpath>
+
+            
+
+            <page name="purchase_delivery_invoice" position="after">
+                <page string="Auditor's multiple proposal responses" invisible="not pao_auditior_response_ids">
+                    <field name="pao_auditior_response_ids" readonly="1" widget="many2many">
+                        <tree string="Auditor's multiple proposal responses">
+                            <field name="auditor_id"/>
+                            <field name="status" widget="badge" decoration-success="status == 'accepted'" decoration-danger="status == 'declined'"/>
+                            <field name="comments"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+
+
+
+
+</odoo>

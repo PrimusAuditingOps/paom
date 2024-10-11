@@ -30,7 +30,7 @@ class PurchaseOrderLine(models.Model):
                                       help='Select Organization',
                                       ondelete='set null')
     registrynumber_id = fields.Many2one('servicereferralagreement.registrynumber',
-                                        string='Registry number',
+                                        string='Registration number',
                                         ondelete='set null')
     service_start_date = fields.Date(string="Service start date")
     service_end_date = fields.Date(string="Service end date")
@@ -108,7 +108,7 @@ class PurchaseOrderLine(models.Model):
                 return {
                     'warning': {
                         'title': "Warning",
-                        'message': _('EL proveedor contiene servicios asignados para la fecha seleccionada en los siguientes pedidos de compra: {0}'.format(purchaseorders)),
+                        'message': _('The supplier has services assigned to the date selected in the purchase orders below: {0}'.format(purchaseorders)),
                     },
                 }
 

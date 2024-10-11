@@ -12,6 +12,7 @@ class InvoiceReport(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
     currency_rate = fields.Char('Currency Rate', compute='_get_rate', readonly=True)
     invoice_id = fields.Many2one('account.move', 'Invoice', readonly=True)
+    company_id = fields.Many2one('res.company', 'Company', readonly=True)
     
     id = fields.Integer("ID", readonly=True)
     invoice_number = fields.Char('Invoice number', readonly=True)
@@ -99,6 +100,7 @@ class InvoiceReport(models.Model):
         select_ = """
             l.id as id,
             a.name as invoice_number,
+            a.company_id,
             r.id as client_id,
             r.cgg_group_id as group,
             r.promotor_id as promoter,
@@ -162,6 +164,7 @@ class InvoiceReport(models.Model):
             l.id
             ,a.name
             ,r.id
+            ,a.company_id
             ,r.cgg_group_id
             ,r.promotor_id
             ,l.product_id

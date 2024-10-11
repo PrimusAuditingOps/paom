@@ -32,12 +32,23 @@
                
                     <t t-set="values" t-value="values.with_context(lang='es_MX')"/>
                     <t t-if="values.scheme == 'PrimusGFS'">
-                        <t t-call="pao_sign_sa.sa_header_footer_gfs"/>
-                        <div class="page">
-                            <t t-call="pao_sign_sa.sa_pgfs_scheme">
-                                <t t-set="serviceagreement" t-value="values"/>
-                            </t>
-                        </div>
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
+                            <t t-call="pao_sign_sa.sa_header_footer_gfs"/>
+                            <div class="page">
+                                <t t-call="pao_sign_sa.sa_pgfs_scheme">
+                                    <t t-set="serviceagreement" t-value="values"/>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code == 'US'">
+                            <t t-set="values" t-value="values.with_context(lang='en_US')"/>
+                            <t t-call="pao_sign_sa.sa_header_footer_gfs_usa"/>
+                            <div class="page">
+                                <t t-call="pao_sign_sa.sa_pgfs_scheme_usa">
+                                    <t t-set="serviceagreement" t-value="values"/>
+                                </t>
+                            </div>
+                        </t>
                     </t>
                     <t t-if="values.scheme == 'GLOBALG.A.P.'">
                         <t t-call="pao_sign_sa.sa_header_footer_ggap"/>
@@ -57,12 +68,23 @@
                         </div>
                     </t>
                     <t t-if="values.scheme == 'SMETA'">
-                        <t t-call="pao_sign_sa.sa_header_footer_smeta"/>
-                        <div class="page">
-                            <t t-call="pao_sign_sa.sa_smeta_scheme">
-                                <t t-set="serviceagreement" t-value="values"/>
-                            </t>
-                        </div>
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
+                            <t t-call="pao_sign_sa.sa_header_footer_smeta"/>
+                            <div class="page">
+                                <t t-call="pao_sign_sa.sa_smeta_scheme">
+                                    <t t-set="serviceagreement" t-value="values"/>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code == 'US'">
+                            <t t-set="values" t-value="values.with_context(lang='en_US')"/>
+                            <t t-call="pao_sign_sa.sa_header_footer_smeta_usa"/>
+                            <div class="page">
+                                <t t-call="pao_sign_sa.sa_smeta_scheme_usa">
+                                    <t t-set="serviceagreement" t-value="values"/>
+                                </t>
+                            </div>
+                        </t>
                     </t>
                     <t t-if="values.scheme == 'NOP-LPO' or values.scheme == 'LPO'">
                         <t t-call="pao_sign_sa.sa_header_footer_nop_lpo"/>
@@ -73,12 +95,25 @@
                         </div>
                     </t>
                     <t t-if="values.scheme == 'Primus Standard GAP' or values.scheme == 'Primus Standard GMP'">
-                        <t t-call="pao_sign_sa.sa_header_footer_standard"/>
-                        <div class="page">
-                            <t t-call="pao_sign_sa.sa_primus_standar_scheme">
-                                <t t-set="serviceagreement" t-value="values"/>
-                            </t>
-                        </div>
+                        
+
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
+                            <t t-call="pao_sign_sa.sa_header_footer_standard"/>
+                            <div class="page">
+                                <t t-call="pao_sign_sa.sa_primus_standar_scheme">
+                                    <t t-set="serviceagreement" t-value="values"/>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-if="values.sign_sa_agreements_id.sale_order_id.country_code == 'US'">
+                            <t t-set="values" t-value="values.with_context(lang='en_US')"/>
+                            <t t-call="pao_sign_sa.sa_header_footer_standard_usa"/>
+                            <div class="page">
+                                <t t-call="pao_sign_sa.sa_primus_standar_scheme_usa">
+                                    <t t-set="serviceagreement" t-value="values"/>
+                                </t>
+                            </div>
+                        </t>
                     </t>
                     <t t-if="values.scheme == 'LPO-UE'">
                         <t t-call="pao_sign_sa.sa_header_footer_lpo_ue"/>
@@ -100,6 +135,24 @@
                         <t t-call="pao_sign_sa.sa_header_footer_sustentabilidad"/>
                         <div class="page">
                             <t t-call="pao_sign_sa.sa_sustentabilidad_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'Sustainability'">
+                        <t t-set="values" t-value="values.with_context(lang='en_US')"/>
+                        <t t-call="pao_sign_sa.sa_header_footer_sustainability_usa"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_sustainability_scheme_usa">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="values.scheme == 'FSMA'">
+                        <t t-set="values" t-value="values.with_context(lang='en_US')"/>
+                        <t t-call="pao_sign_sa.sa_header_footer_fsma_usa"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_fsma_scheme_usa">
                                 <t t-set="serviceagreement" t-value="values"/>
                             </t>
                         </div>

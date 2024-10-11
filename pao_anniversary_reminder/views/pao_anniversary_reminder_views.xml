@@ -8,7 +8,7 @@
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="organization_id"/>
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="registrynumber_id"/>
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="scheme_name"/>
-                <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="purchase_order_id" widget="man2one"/>
+                <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="purchase_order_id" widget="many2one"/>
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="service_start_date"/>
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="status"/>
             </tree>

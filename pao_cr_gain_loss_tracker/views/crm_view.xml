@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_tracker_view_tree" model="ir.ui.view">
+        <field name="name">crm.tracker.view.tree</field>
+        <field name="model">crm.lead</field>
+        <field name="priority">20</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="pao_scheme_id" optional="hide"/>
+                <field name="pao_origination_month" optional="hide"/>
+                <field name="pao_origination_year" optional="hide"/>
+                <field name="date_open" optional="hide"/>
+                <field name="pao_current_customer_partner" optional="hide"/>
+                <field name="pao_quoute_number" optional="hide"/>
+                <field name="pao_gain_or_loss" optional="hide"/>
+                <field name="lost_reason_id" optional="hide"/>
+                <field name="date_closed" optional="hide"/>
+                <field name="pao_closed_month" optional="hide"/>
+                <field name="pao_gain_loss_month" optional="hide"/>
+                <field name="pao_gain_loss_date" optional="hide"/>
+                <field name="pao_number_of_audits" optional="hide"/>
+                <field name="pao_city_id_partner" optional="hide"/>
+                <field name="pao_state_id_partner" optional="hide"/>
+                <field name="pao_country_id_partner" optional="hide"/>
+                <field name="pao_previous_cb_partner" optional="hide"/>
+                <field name="pao_new_cb_partner" optional="hide"/>
+                <field name="coordinator_id" optional="hide"/>  
+                <field name="pao_consultant_referral" optional="hide"/>  
+                <field name="description" optional="hide"/>  
+                              
+                
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+
+
+    
+    
+    
+    
+    
+     
+     
+    
+    
+    
+    
+    
+    
+    

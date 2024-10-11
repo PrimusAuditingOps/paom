@@ -6,13 +6,13 @@
         <field name="type">tree</field>
         <field name="inherit_id" ref="account.view_invoice_tree"/>
             <field name="arch" type="xml">
-                <field name="move_type" position="after"> 
-                    <field name="ad_usd_neto" sum="Total" optional="hide"/>
-                    <field name="ad_usd_iva" sum="Total" optional="hide"/>
-                    <field name="ad_usd_total" sum="Total" optional="hide"/>
-                    <field name="ad_mxn_neto" sum="Total"  optional="hide"/>
-                    <field name="ad_mxn_iva" sum="Total" optional="hide"/>
-                    <field name="ad_mxn_total" sum="Total" optional="hide"/>
+                <field name="move_type" position="after">
+                    <field name="ad_usd_neto" sum="Total" groups="pao_mxn_currency_group.mxn_currency_group" optional="hide"/>
+                    <field name="ad_usd_iva" sum="Total"   groups="pao_mxn_currency_group.mxn_currency_group" optional="hide"/>
+                    <field name="ad_usd_total" sum="Total"   groups="pao_mxn_currency_group.mxn_currency_group" optional="hide"/>
+                    <field name="ad_mxn_neto" sum="Total"   groups="pao_mxn_currency_group.mxn_currency_group" optional="hide"/>
+                    <field name="ad_mxn_iva" sum="Total"   groups="pao_mxn_currency_group.mxn_currency_group" optional="hide"/>
+                    <field name="ad_mxn_total" sum="Total"   groups="pao_mxn_currency_group.mxn_currency_group" optional="hide"/>
                 </field>
             </field>
     </record>

@@ -24,8 +24,8 @@ class SalesInvoicingReport(models.Model):
     
     usd_total = fields.Monetary(string='USD Total', currency_field='currency_id', readonly=True)
     usd_untaxed_total =  fields.Monetary(string='USD Untaxed Total', currency_field='currency_id', readonly=True)
-    mxn_total = fields.Monetary(string='MXN Total', currency_field='currency_id', readonly=True)
-    mxn_untaxed_total = fields.Monetary(string='MXN Untaxed Total', currency_field='currency_id', readonly=True)
+    mxn_total = fields.Monetary(string='MXN Total', currency_field='currency_id', groups=('pao_mxn_currency_group.mxn_currency_group'), readonly=True)
+    mxn_untaxed_total = fields.Monetary(string='MXN Untaxed Total', currency_field='currency_id',  groups=('pao_mxn_currency_group.mxn_currency_group'), readonly=True)
     
     product_tmpl_id = fields.Many2one('product.template', 'Product', readonly=True)
     categ_id = fields.Many2one('product.category', 'Product Category', readonly=True)
@@ -33,8 +33,6 @@ class SalesInvoicingReport(models.Model):
     team_id = fields.Many2one('crm.team', 'Sales Team', readonly=True)
     pao_old_sales_team_id = fields.Many2one('crm.team', 'Old Sales Team', readonly=True)
     country_id = fields.Many2one('res.country', 'Customer Country', readonly=True)
-    state_id = fields.Many2one('res.country.state', 'Customer State', readonly=True)
-    city_id = fields.Many2one('res.city', 'Customer City', readonly=True)
     industry_id = fields.Many2one('res.partner.industry', 'Customer Industry', readonly=True)
     commercial_partner_id = fields.Many2one('res.partner', 'Customer Entity', readonly=True)
     state = fields.Selection([
@@ -48,6 +46,9 @@ class SalesInvoicingReport(models.Model):
     source_id = fields.Many2one('utm.source', 'Source')
     shipper_id = fields.Many2one('pao.shippers', 'Shipper')
     office_id = fields.Many2one('pao.offices', 'Office')
+    state_id = fields.Many2one('res.country.state', 'Address State')
+    
+    
     
     invoice_status = fields.Selection([
         ('upselling', 'Upselling Opportunity'),
@@ -81,6 +82,7 @@ class SalesInvoicingReport(models.Model):
             
             l.product_id as product_id,
             t.uom_id as product_uom,
+            partner.state_id as state_id,
             
             count(*) as nbr,
             a.name as name,
@@ -110,9 +112,7 @@ class SalesInvoicingReport(models.Model):
             sl.service_start_date as order_start_date,
             sl.service_end_date as order_end_date,
             l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
-            c.id as currency_id,
-            partner.state_id as state_id,
-            partner.city_id as city_id 
+            c.id as currency_id
             
         """
 
@@ -170,9 +170,8 @@ class SalesInvoicingReport(models.Model):
             partner.commercial_partner_id,
             l.discount,
             c.id,
-            l.id,
             partner.state_id,
-            partner.city_id %s
+            l.id %s
         """ % (groupby)
         return groupby_
 

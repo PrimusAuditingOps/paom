@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- PRM CONTACT COMMODITY VIEWS -->
+
+        <record model="ir.ui.view" id="prm_contact_commodity_form">
+            <field name="name">prm_contact_commodity_form</field>
+            <field name="model">prm.contact.commodity</field>
+            <field name="arch" type="xml">
+                <form name="Commodities">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="prm_contact_commodity_tree">
+            <field name="name">prm_contact_commodity_tree</field>
+            <field name="model">prm.contact.commodity</field>
+            <field name="arch" type="xml">
+                <tree name="Commodities">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="prm_contact_commodity_action" model="ir.actions.act_window">
+            <field name="name">Commodities</field>
+            <field name="res_model">prm.contact.commodity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="prm_contact_commodity_menu" name="Commodities" action="prm_contact_commodity_action" parent="contacts.res_partner_menu_config" sequence="4"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+/* Define the default check styles */
+.check-toggle + label {
+    background-color: white !important;
+    border: 1px solid !important;
+    cursor: pointer;
+}
+
+/* Apply custom properties for unchecked state */
+.check-toggle + label {
+    color: var(--border-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* When checked, use custom properties */
+.check-toggle:checked + label {
+    background-color: var(--background-color) !important;
+    border-color: var(--border-color) !important;
+    color: white !important;
+}

@@ -4,16 +4,21 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-04 18:45+0000\n"
-"PO-Revision-Date: 2024-07-04 18:45+0000\n"
+"POT-Creation-Date: 2024-08-16 19:12+0000\n"
+"PO-Revision-Date: 2024-08-16 19:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__audit_date
+msgid "Audit Date"
+msgstr ""
 
 #. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__state__cancel
@@ -28,6 +33,11 @@ msgstr ""
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__client_id
 msgid "Client ID"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__company_id
+msgid "Company"
 msgstr ""
 
 #. module: pao_invoice_report
@@ -48,6 +58,11 @@ msgstr ""
 #. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__state__draft
 msgid "Draft"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__end_date
+msgid "End Date"
 msgstr ""
 
 #. module: pao_invoice_report
@@ -92,6 +107,7 @@ msgstr ""
 
 #. module: pao_invoice_report
 #: model:ir.actions.act_window,name:pao_invoice_report.pao_action_invoice_report
+#: model:ir.model,name:pao_invoice_report.model_invoice_report
 msgid "Invoice Report"
 msgstr ""
 
@@ -121,11 +137,6 @@ msgid "Invoicing Report"
 msgstr ""
 
 #. module: pao_invoice_report
-#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__mxn_subtotal
 msgid "MXN Subtotal"
 msgstr ""
@@ -133,6 +144,11 @@ msgstr ""
 #. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__not_paid
 msgid "Not Paid"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__organization_id
+msgid "Organization"
 msgstr ""
 
 #. module: pao_invoice_report
@@ -191,8 +207,18 @@ msgid "Quotation salesperson"
 msgstr ""
 
 #. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__registry_number_id
+msgid "Registry Number"
+msgstr ""
+
+#. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__reversed
 msgid "Reversed"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__sale_order_id
+msgid "Sale Order"
 msgstr ""
 
 #. module: pao_invoice_report
@@ -206,6 +232,11 @@ msgid "Scheme"
 msgstr ""
 
 #. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__ship_date
+msgid "Ship Date"
+msgstr ""
+
+#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__state
 msgid "Status"
 msgstr ""
@@ -213,9 +244,4 @@ msgstr ""
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__usd_subtotal
 msgid "USD Subtotal"
-msgstr ""
-
-#. module: pao_invoice_report
-#: model:ir.model,name:pao_invoice_report.model_invoice_report
-msgid "invoice.report"
 msgstr ""

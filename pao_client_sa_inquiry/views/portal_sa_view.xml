@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_service_agreements" name="Show Service Agreements" customize_show="True" inherit_id="portal.portal_my_home" priority="50">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_service_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_service_category" position="inside">
+            <t t-if="len(request.env.user.partner_id.pao_agreements_ids) > 0" t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/purchase/static/src/img/rfq.svg'"/>
+                <t t-set="text">Manage your service agreements</t>
+                <t t-set="title">Service Agreements</t>
+                <t t-set="url" t-value="'/my/service_agreements'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_breadcrumbs_service_agreements" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+
+            <li t-if="page_name == 'partner_sa_list'" class="breadcrumb-item">Service Agreements</li>
+
+        </xpath>
+    </template>
+
+
+    <template id="my_service_agreements_view" name="My Service Agreements">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Service Agreements</t>
+            </t>
+            <t t-if="not service_agreements">
+                <p class="alert alert-warning">There are currently no service agreements for your account.</p>
+            </t>
+            <t t-if="service_agreements" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Summary</th>
+                        <th class="text-center col-sm-1">Creation Date</th>
+                        <th class="text-center">Document Status</th>
+                        <th class="col-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="service_agreements" t-as="agreement">
+                        <tr>
+                            <td>
+                                <span t-field="agreement.title"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="agreement.document_date"/>
+                            </td>
+                            <td class="text-center" style="font-size: larger !important">
+                                <t t-if="agreement.document_status == 'sent'">
+                                    <span style="white-space: normal" class="badge rounded-pill text-bg-info">
+                                        Awaiting your signature
+                                    </span>
+                                </t>
+                                <t t-elif="agreement.document_status == 'partially_sign'">
+                                    <span style="white-space: normal" class="badge rounded-pill text-bg-secondary">
+                                        Awaiting coordinator's signature
+                                    </span>
+                                </t>
+                                <t t-elif="agreement.document_status == 'sign'">
+                                    <span style="white-space: normal" class="badge rounded-pill text-bg-success">
+                                        Fully Sign
+                                    </span>
+                                </t>
+                            </td>
+                            <td class="d-flex justify-content-center">
+                                <a t-if="agreement.document_status == 'sent'" class="btn btn-primary" target="_blank" t-att-href="agreement.sign_url">
+                                    Sign
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 1 16 16">
+                                        <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                    </svg>
+                                </a>
+                                <a t-if="agreement.document_status not in ('sent', 'cancel', 'exception')" class="btn btn-primary" t-att-href="'/my_service_agreements/download/attachments/' + str(agreement.id)">
+                                    Download
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 1 16 16">
+                                        <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+</odoo>

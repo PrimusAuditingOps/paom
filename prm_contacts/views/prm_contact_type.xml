@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- PRM CONTACT TYPE VIEWS -->
+
+        <record model="ir.ui.view" id="prm_contact_type_form">
+            <field name="name">prm_contact_type_form</field>
+            <field name="model">prm.contact.type</field>
+            <field name="arch" type="xml">
+                <form name="Contact type">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="prm_contact_type_tree">
+            <field name="name">prm_contact_type_tree</field>
+            <field name="model">prm.contact.type</field>
+            <field name="arch" type="xml">
+                <tree name="Contact type">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="prm_contact_type_action" model="ir.actions.act_window">
+            <field name="name">Contact type</field>
+            <field name="res_model">prm.contact.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="prm_contact_type_menu" name="Contact type" action="prm_contact_type_action" parent="contacts.res_partner_menu_config" sequence="4"/>
+
+    </data>
+</odoo>

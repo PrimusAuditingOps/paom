@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Multi - Company Rules -->
+    <record id="pao_operation_agenda_comp_rule" model="ir.rule">
+        <field name="name">Operations agenda multi-company</field>
+        <field name="model_id" ref="model_pao_operations_agenda"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>   
+
+</odoo>

@@ -37,12 +37,12 @@ class PurchaseOrder(models.Model):
                                    ondelete='restrict')
     sale_order_id = fields.Many2one('sale.order', string='Sale Order',
                                     ondelete='set null')
-    coordinator_id = fields.Many2one('res.users', string="Coordinator",
+    coordinator_id = fields.Many2one('res.users', string="Operations Specialist",
                                      ondelete='set null', index=True,
                                      domain = [('share','=',False)])
     audit_country_id = fields.Many2one('res.country', string='Audit Country',
                                        help='Select Country', ondelete='restrict',
-                                       default = _default_country)  
+                                       default = lambda self: self.env.company.country_id.id)  
     audit_state_id = fields.Many2one('res.country.state', string='Audit State',
                                      help='Select State', ondelete='restrict',
                                      domain=[('country_id', '=', -1)])
@@ -59,6 +59,11 @@ class PurchaseOrder(models.Model):
         compute='_get_registration_number', 
         string='Registration number order lines',
         readonly=True)
+    
+    pao_purchase_quantity_allowed = fields.Boolean(compute='_compute_is_purchase_quantity_allowed')
+            
+    def _compute_is_purchase_quantity_allowed(self):
+        self.pao_purchase_quantity_allowed = self.env.user.has_group("servicereferralagreement.allow_modify_purchase_quantity")
  
     def _get_registration_number(self):
         rn = []
@@ -83,11 +88,13 @@ class PurchaseOrder(models.Model):
                 rec.order_line = None
                 rec.sale_order_id = None
                 rec.audit_fee_id = None
+            if self.company_id.country_code in ["US"] and self.partner_id:
+                self.order_line._compute_price_unit_and_date_planned_and_name()
 
     @api.onchange('audit_fee_id')
     def _onchange_audit_fee_id(self):
         for rec in self:
-            if self.company_id.country_code == "MX":
+            if self.company_id.country_code in ["MX","CR","CL"]:
                 percentagevendor = 0.00
                 if rec.partner_id and rec.audit_fee_id and rec.sale_order_id:
                     for recorderline in rec.order_line:
@@ -123,38 +130,14 @@ class PurchaseOrder(models.Model):
             if not recpurchase.sale_order_id:
                 return
             else:
-                if recpurchase.sale_order_id.company_id.country_code == "MX":
-                    purchase_line = [(5, 0, 0)]
-                    domain = [('id','!=',recpurchase._origin.id),('sale_order_id','=',recpurchase.sale_order_id.id),('sale_order_id','=',recpurchase.sale_order_id.id),('state','!=','cancel')]
-                    recorpurchase = self.env['purchase.order'].search(domain)
-                    for rec in recorpurchase:
-                        for line in rec.order_line:
-                            if line.registrynumber_id.id:
-                                ind = 0
-                                for lis in listdic:
-                                    nr = 0
-                                    idpro = 0
-                                    qty = 0
-                                    for k,v in lis.items():
-                                        if k == 'nr':
-                                            nr = v
-                                        if k == 'prod':
-                                            idpro = v
-                                        if k == 'qty':
-                                            qty = v
-                                    if nr == line.registrynumber_id.id and idpro == line.product_id.id:
-                                        listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': qty + line.product_uom_qty}
-                                        notexist = False
-                                        break
-                                    ind= ind + 1                        
-                                if notexist:
-                                    listdic.append({'nr': line.registrynumber_id.id, 'qty': line.product_uom_qty, 'prod': line.product_id.id})
-                                notexist=True
-                    for line in recpurchase.sale_order_id.order_line:
-                        if line.product_template_id.can_be_commissionable:
-                            add= True
-                            ind = 0 
-                            cantproduct = line.product_uom_qty
+                
+                purchase_line = [(5, 0, 0)]
+                domain = [('id','!=',recpurchase._origin.id),('sale_order_id','=',recpurchase.sale_order_id.id),('sale_order_id','=',recpurchase.sale_order_id.id),('state','!=','cancel')]
+                recorpurchase = self.env['purchase.order'].search(domain)
+                for rec in recorpurchase:
+                    for line in rec.order_line:
+                        if line.registrynumber_id.id:
+                            ind = 0
                             for lis in listdic:
                                 nr = 0
                                 idpro = 0
@@ -167,60 +150,84 @@ class PurchaseOrder(models.Model):
                                     if k == 'qty':
                                         qty = v
                                 if nr == line.registrynumber_id.id and idpro == line.product_id.id:
-                                    if cantproduct <= qty:
-                                        add = False
-                                        listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': qty - cantproduct}
-                                    else:
-                                        add = True
-                                        cantproduct = cantproduct - qty
-                                        listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': 0}
+                                    listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': qty + line.product_uom_qty}
+                                    notexist = False
                                     break
-                                ind= ind + 1
-                            if add:
-                                hasregistration = True
-                                dateplanned = datetime.now()
-                                priceunit = 0.0
-                                if recpurchase.date_planned:
-                                    dateplanned = recpurchase.date_planned
+                                ind= ind + 1                        
+                            if notexist:
+                                listdic.append({'nr': line.registrynumber_id.id, 'qty': line.product_uom_qty, 'prod': line.product_id.id})
+                            notexist=True
+                for line in recpurchase.sale_order_id.order_line:
+                    if line.product_template_id.can_be_commissionable:
+                        add= True
+                        ind = 0 
+                        cantproduct = line.product_uom_qty
+                        for lis in listdic:
+                            nr = 0
+                            idpro = 0
+                            qty = 0
+                            for k,v in lis.items():
+                                if k == 'nr':
+                                    nr = v
+                                if k == 'prod':
+                                    idpro = v
+                                if k == 'qty':
+                                    qty = v
+                            if nr == line.registrynumber_id.id and idpro == line.product_id.id:
+                                if cantproduct <= qty:
+                                    add = False
+                                    listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': qty - cantproduct}
                                 else:
-                                    if recpurchase.date_order:
-                                        dateplanned = recpurchase.date_order
+                                    add = True
+                                    cantproduct = cantproduct - qty
+                                    listdic[ind] = {'nr': nr, 'prod': idpro, 'qty': 0}
+                                break
+                            ind= ind + 1
+                        if add:
+                            hasregistration = True
+                            dateplanned = datetime.now()
+                            priceunit = 0.0
+                            if recpurchase.date_planned:
+                                dateplanned = recpurchase.date_planned
+                            else:
+                                if recpurchase.date_order:
+                                    dateplanned = recpurchase.date_order
+                            
+                            if recpurchase.partner_id:
+                                if recpurchase.audit_fee_id:
+                                    for fee in recpurchase.partner_id.audit_fee_percentages_ids:
+                                        if  fee.audit_fees_id.id == recpurchase.audit_fee_id.id:
+                                            percentagevendor = fee.audit_percentage
+                            
+                            if recpurchase.sale_order_id.company_id.country_code in ["MX","CR","CL"] and percentagevendor and percentagevendor > 0:
+                                priceunit = round((line.price_unit * percentagevendor) / 100,2)
+                                if recpurchase.currency_id:
+                                    if not recpurchase.currency_id == recpurchase.sale_order_id.pricelist_id.currency_id:
+                                        domain = [('currency_id','=',recpurchase.currency_id.id)]
+                                        recexchangerateauditor = self.env['servicereferralagreement.auditorexchangerate'].search(domain)
+                                        for recrate in recexchangerateauditor:
+                                            priceunit = recrate.exchange_rate * priceunit
                                 
-                                if recpurchase.partner_id:
-                                    if recpurchase.audit_fee_id:
-                                        for fee in recpurchase.partner_id.audit_fee_percentages_ids:
-                                            if  fee.audit_fees_id.id == recpurchase.audit_fee_id.id:
-                                                percentagevendor = fee.audit_percentage
-                                
-                                if percentagevendor and percentagevendor > 0:
-                                    priceunit = round((line.price_unit * percentagevendor) / 100,2)
-                                    if recpurchase.currency_id:
-                                        if not recpurchase.currency_id == recpurchase.sale_order_id.pricelist_id.currency_id:
-                                            domain = [('currency_id','=',recpurchase.currency_id.id)]
-                                            recexchangerateauditor = self.env['servicereferralagreement.auditorexchangerate'].search(domain)
-                                            for recrate in recexchangerateauditor:
-                                                priceunit = recrate.exchange_rate * priceunit
-                                    
-                                data = {
-                                    'name': line.name,
-                                    'price_unit': priceunit,
-                                    'product_uom_qty': cantproduct,
-                                    'product_qty': cantproduct,
-                                    'product_id': line.product_id.id,
-                                    'product_uom': line.product_uom.id,
-                                    'date_planned': dateplanned,
-                                    'organization_id': line.organization_id.id,
-                                    'registrynumber_id': line.registrynumber_id.id,
-                                    'service_start_date': line.service_start_date,
-                                    'service_end_date': line.service_end_date,
-                                    'sra_sale_line_ids': [(6, 0, [line.id])],
-                                }                         
-                                purchase_line.append((0,0,data))
-                                dictfechas = {}
-                                if line.service_start_date:
-                                    dictfechas = {'fechainicio': line.service_start_date, 'fechafin': line.service_end_date}
-                                    if dictfechas not in listfecha:
-                                        listfecha.append(dictfechas)
+                            data = {
+                                'name': line.name,
+                                'price_unit': priceunit,
+                                'product_uom_qty': cantproduct,
+                                'product_qty': cantproduct,
+                                'product_id': line.product_id.id,
+                                'product_uom': line.product_uom.id,
+                                'date_planned': dateplanned,
+                                'organization_id': line.organization_id.id,
+                                'registrynumber_id': line.registrynumber_id.id,
+                                'service_start_date': line.service_start_date,
+                                'service_end_date': line.service_end_date,
+                                'sra_sale_line_ids': [(6, 0, [line.id])],
+                            }                         
+                            purchase_line.append((0,0,data))
+                            dictfechas = {}
+                            if line.service_start_date:
+                                dictfechas = {'fechainicio': line.service_start_date, 'fechafin': line.service_end_date}
+                                if dictfechas not in listfecha:
+                                    listfecha.append(dictfechas)
                 if  hasregistration and purchase_line:
                     recpurchase.order_line=purchase_line
                     recpurchase.order_line._compute_tax_id()
@@ -276,7 +283,7 @@ class PurchaseOrder(models.Model):
                         return {
                             'warning': {
                                 'title': "Warning",
-                                'message': _('EL proveedor contiene servicios asignados para la fecha seleccionada en los siguientes pedidos de compra: {0}'.format(purchaseorders)),
+                                'message': _('The supplier has services assigned to the date selected in the purchase orders below: {0}'.format(purchaseorders)),
                             },
                         }
 
@@ -288,7 +295,7 @@ class PurchaseOrder(models.Model):
                     return {
                             'warning': {
                                 'title': "Warning",
-                                'message': _('El pedido de venta {0} no tiene productos disponibles para relacionar con la orden de compra.'.format(pedido)),
+                                'message': _('The sales order {0} has no products available that can be related to the purchase order.'.format(pedido)),
                             },
                         }
 

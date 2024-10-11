@@ -21,8 +21,10 @@ class WebsiteAuditorCalendar(http.Controller):
 
     @http.route(['/calendar/auditordates'], type='http', auth="user", website=True)
     def calendar_appointment(self, startdate=None, failed=False, **kwargs):
-        status_color = ['transparent', 'Red', 'Orange', 'Yellow', 'Light blue', 'Dark purple',
-                        'Salmon pink', 'Medium blue', 'Dark blue', 'Fushia', 'Green', 'Purple']
+        # status_color = ['transparent', 'Red', 'Orange', 'Yellow', 'Light blue', 'Dark purple',
+        #                 'Salmon pink', 'Medium blue', 'Dark blue', 'Fushia', 'Green', 'Purple']
+        status_color = ['transparent', 'Red', 'Orange', 'Yellow', 'Cyan', 'Purple',
+                        'Almond', 'Teal', 'Blue', 'Raspberry', 'Green', 'Violet']
         #Employee = request.env['hr.employee'].sudo().browse(int(employee_id)) if employee_id else None
         requested_tz = pytz.timezone('America/Mexico_City')
         #today = requested_tz.fromutc(datetime.utcnow())
@@ -95,6 +97,7 @@ class WebsiteAuditorCalendar(http.Controller):
                 result_line_assessment, key=lambda x: x.service_end_date, reverse=True)[0]["service_end_date"]
             last_day = last_day_assessment if last_day_assessment and last_day_assessment > last_day else last_day
 
+
         status_list = []
         for status_id in audit_status_ids:
             total = 0
@@ -119,8 +122,11 @@ class WebsiteAuditorCalendar(http.Controller):
             for rec in res_status:
                 status_name = rec.name
                 sts_color = rec.color
-            status_list.append({'id': status_name, 'value': total,
-                               'color': 'background-color:' + status_color[sts_color] + ';'})
+                company = rec.company_id
+            
+            if company == request.env.user.company_id:
+                status_list.append({'id': status_name, 'value': total,
+                                'color': 'background-color:' + status_color[sts_color] + ';'})
 
         domain = [('auditor_id', '=', partner.id), ('end_date', '>=', today)]
         result_auditor_daysoff = request.env['auditordaysoff.days'].sudo().search(
@@ -149,12 +155,12 @@ class WebsiteAuditorCalendar(http.Controller):
                         # Se agregó una descripción a los días no laborales
                     
                         for r in days_off:
-                            name = r.name if r.name else 'Día no laboral'
-                            comments = r.comments if r.comments else 'Sin comentarios'
+                            name = r.name if r.name else _('Day off')
+                            comments = r.comments if r.comments else _('No comments')
 
                             weekend_cls.append({
-                                'name': 'Asunto: '+name,
-                                'comments':'Comentarios: '+comments,
+                                'name': _('Subject: ')+name,
+                                'comments':_('Comments: ')+comments,
                                 'color': 'background-color:#e9ecef; font-weight:Bold; word-wrap: break-word;'
                             })
                             """
@@ -249,7 +255,7 @@ class WebsiteAuditorCalendar(http.Controller):
                     }
 
             months.append({
-                'month': format_datetime(start, 'MMMM Y', locale='es_MX'),
+                'month': format_datetime(start, 'MMMM Y', locale = request.env.context.get('lang')),
                 'weeks': dates
             })
             start = start + relativedelta(months=1)

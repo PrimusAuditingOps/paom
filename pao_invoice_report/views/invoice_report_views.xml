@@ -6,7 +6,7 @@
         <field name="model">invoice.report</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="invoice_number"/>
+                <field name="invoice_id" widget="many2one"/>
                 <field name="client_id"/>
                 <field name="group"/>
                 <field name="promoter"/>
@@ -16,7 +16,7 @@
                 <field name="currency_id"/>
                 <field name="currency_rate"/>
                 <field name="price_subtotal"/>
-                <field name="mxn_subtotal"/>
+                <field name="mxn_subtotal" groups="pao_mxn_currency_group.mxn_currency_group"/>
                 <field name="invoice_partner_name"/>
                 <field name="fiscal_folio"/>
                 <field name="invoice_date"/>

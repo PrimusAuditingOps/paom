@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sale_order_audit_information_view_form" model="ir.ui.view">
+        <field name="name">sale.order.audit.information.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <page name="other_information" position="after">
+                <page string="Audit Information">
+                    <field name="enable_organization_ids" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="audit_type"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="organization_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+               
+                        </group>
+                        <group>
+                            <field name="registrynumber_id" domain ="[('organization_id', '=', organization_id)]" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+      
+                        </group>
+                         
+                    </group>
+                    <group col="2">
+
+                        <label for="service_start_date" string="Date range"/>
+                        <div>
+                            <field name="service_start_date" widget="daterange"
+                                options="{'end_date_field': 'service_end_date'}"/>
+                        </div>
+                        <field name="service_end_date" invisible="1"/>
+
+
+
+
+                        <!--<label for="service_start_date" string="Date"/>
+                        <div>
+                            <field name="service_start_date" widget="daterange"
+                                options="{'end_date_field': 'service_end_date'}"/>
+                        </div>-->
+	                </group>
+	                <!--<group>
+	                    <field name="service_end_date" invisible="1"/>
+	                </group>-->
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-03 07:13+0000\n"
-"PO-Revision-Date: 2023-04-03 07:13+0000\n"
+"POT-Creation-Date: 2024-09-25 16:27+0000\n"
+"PO-Revision-Date: 2024-09-25 16:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Todo el día"
 #. module: pao_operations_agenda
 #: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__assessment_id
 msgid "Assessment"
-msgstr "Assessment"
+msgstr ""
 
 #. module: pao_operations_agenda
 #: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__city_id
@@ -39,6 +39,11 @@ msgstr "Ciudad de Auditoría"
 #: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__state_id
 msgid "Audit State"
 msgstr "Estado de Auditoría"
+
+#. module: pao_operations_agenda
+#: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__language_ids
+msgid "Audit language requested"
+msgstr "Lenguaje de auditoría solicitado"
 
 #. module: pao_operations_agenda
 #: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__audit_status
@@ -73,6 +78,11 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: pao_operations_agenda
+#: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: pao_operations_agenda
 #: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__coordinator_id
 msgid "Coordinator"
 msgstr "Coordinador"
@@ -83,6 +93,7 @@ msgid "Customer"
 msgstr "Cliente"
 
 #. module: pao_operations_agenda
+#. odoo-python
 #: code:addons/pao_operations_agenda/models/pao_operations_agenda.py:0
 #: model:ir.model.fields.selection,name:pao_operations_agenda.selection__pao_operations_agenda__state__dayoff
 #, python-format
@@ -90,9 +101,14 @@ msgid "Day Off"
 msgstr "Día libre"
 
 #. module: pao_operations_agenda
+#: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__dayoff_comments
+msgid "Day Off Comments"
+msgstr "Comentarios de día libre"
+
+#. module: pao_operations_agenda
 #: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nombre a mostrar"
 
 #. module: pao_operations_agenda
 #: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__customer_group_id
@@ -102,11 +118,6 @@ msgstr "Grupo"
 #. module: pao_operations_agenda
 #: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda__id
 msgid "ID"
-msgstr ""
-
-#. module: pao_operations_agenda
-#: model:ir.model.fields,field_description:pao_operations_agenda.field_pao_operations_agenda____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: pao_operations_agenda

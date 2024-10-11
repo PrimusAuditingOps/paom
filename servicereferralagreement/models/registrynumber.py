@@ -8,7 +8,7 @@ class PaoServicereFerralAgreementRegistryNumber(models.Model):
     _name = 'servicereferralagreement.registrynumber'
     _description = 'Modelo para manejar el catalogo de numero de registro de las organizaciones'
 
-    name = fields.Char(string="Registry number", help='Enter registry number',
+    name = fields.Char(string="Registration number", help='Enter registry number',
                        required= True)
     scheme_id = fields.Many2one('servicereferralagreement.scheme',
                                 string='Scheme', help='Select scheme',
@@ -32,7 +32,7 @@ class PaoServicereFerralAgreementRegistryNumber(models.Model):
     def _action_prevent_registry_number_duplication(self):
         for rec in self:
             registry_numbers= rec.env['servicereferralagreement.registrynumber'].search(
-                [('name', '=', rec.name), ('id', '!=', rec.id)])
+                [('company_id', '=', rec.company_id.id),('name', '=', rec.name), ('id', '!=', rec.id)])
             if registry_numbers:
                 raise ValidationError("¡This registry number already exists in the database!. Please add a different one.")
             

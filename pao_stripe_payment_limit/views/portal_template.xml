@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="payment_not_available" name="Payment not available">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center my-5 py-5">
+                    <h3 class="d-inline">This payment is no longer available.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

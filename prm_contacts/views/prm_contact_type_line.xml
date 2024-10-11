@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- PRM CONTACT TYPE LINE VIEWS -->
+
+        <record model="ir.ui.view" id="prm_contact_type_line_form">
+            <field name="name">prm_contact_type_line_form</field>
+            <field name="model">prm.contact.type.line</field>
+            <field name="arch" type="xml">
+                <form name="Contact type">
+                    <group>
+                        <field name="type_count"/>
+                        <field name="type_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="prm_contact_type_line_tree">
+            <field name="name">prm_contact_type_line_tree</field>
+            <field name="model">prm.contact.type.line</field>
+            <field name="arch" type="xml">
+                <tree name="Contact type">
+                    <field name="type_count"/>
+                    <field name="type_id"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

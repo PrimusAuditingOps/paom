@@ -11,6 +11,9 @@ class ProductPriceList(models.Model):
     existing_proposal = fields.Boolean(string="Existing pricelist proposal", default=False)
             
     def create_pricelist_proposal(self):
+        
+        base_pricelist = self.env['product.pricelist'].search([], order='sequence', limit=1)
+        
         pricelist_proposal = self.env['pao.pricelist.proposal']
         for record in self:
             proposal_values = {}
@@ -22,7 +25,7 @@ class ProductPriceList(models.Model):
             proposal_values['discount_policy'] = record.discount_policy
             proposal_values['origin_product_pricelist_id'] = record.id
             proposal_values['base_url'] = self.env['ir.config_parameter'].sudo().get_param('web.base.url') + '/pao_pricelist_proposal/static/src/img/pao_logo.png'
-            proposal_values['base_pricelist'] = self.env['product.pricelist'].search([], order='sequence', limit=1).id
+            proposal_values['base_pricelist'] = base_pricelist.id
             
             new_record = pricelist_proposal.create(proposal_values)
             
@@ -50,7 +53,7 @@ class ProductPriceList(models.Model):
             'res_id': new_record.id,
             'target': 'current',
         }
-    
+        
     def action_view_existing_proposal(self):
         self.ensure_one()     
         action = {

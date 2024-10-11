@@ -13,7 +13,6 @@ class PaoOperationsAgenda(models.Model):
     _rec_name = 'combination'
     _order = 'service_start_date desc'
 
-
     id = fields.Integer('ID', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Auditor', readonly=True)
     partner_ref = fields.Char('Auditor Reference', readonly=True)
@@ -44,6 +43,7 @@ class PaoOperationsAgenda(models.Model):
         comodel_name='auditconfirmation.auditstate',
         readonly = True,
     )
+    dayoff_comments = fields.Char(string="Day Off Comments", readonly=True)
     color = fields.Integer(string="color", compute="_get_color")
     customer_group_id = fields.Text(string="Group", readonly=True)
     promotor_id = fields.Text(string="Promotor", readonly=True)
@@ -53,8 +53,8 @@ class PaoOperationsAgenda(models.Model):
     assessment_id = fields.Many2one('res.partner', 'Assessment', readonly=True)
     state_id = fields.Many2one(comodel_name = "res.country.state", string='Audit State', readonly=True)
     city_id = fields.Many2one(comodel_name = "res.city", string='Audit City', readonly=True)
-
-   
+    company_id = fields.Many2one(comodel_name='res.company', readonly=True)
+    language_ids = fields.Many2many(related='order_id.language_ids', readonly=True)
 
     @api.depends('audit_status')
     def _get_color(self):
@@ -107,8 +107,8 @@ class PaoOperationsAgenda(models.Model):
                     else:
                         for x in range(0,len(listproduct)):
                             if listproduct[x].get("id") == p.id:
-                               listproduct[x] = {"id": p.id, "name": p.name, "qty": listproduct[x].get("qty") + r.product_qty}
-                               break
+                                listproduct[x] = {"id": p.id, "name": p.name, "qty": listproduct[x].get("qty") + r.product_qty}
+                                break
             for prod in listproduct:
                 productname = productname + '\n' + prod.get("name") + ' - ' + str(prod.get("qty"))
             
@@ -118,55 +118,11 @@ class PaoOperationsAgenda(models.Model):
     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
         with_ = ("WITH %s" % with_clause) if with_clause else ""
 
-        select_ = """
-            row_number() over() as id,
-            po.partner_id as partner_id,
-            po.partner_ref as partner_ref,
-            po.id as order_id,
-            pl.service_start_date as service_start_date,
-            pl.service_end_date as service_end_date,
-            po.coordinator_id as coordinator_id,
-            true as all_day,
-            po.state as state,
-            cg.name as customer_group_id,
-            cpromotor.name as promotor_id,
-            so.partner_id as customer_id,
-            po.shadow_id as shadow_id
-        """
-
-        for field in fields.values():
-            select_ += field
-
-        from_ = """
-                purchase_order_line pl 
-                inner join purchase_order po on (po.id=pl.order_id) 
-                inner join res_partner partner on po.partner_id = partner.id 
-                left join sale_order so on so.id = po.sale_order_id 
-                left join res_partner partnerso on partnerso.id = so.partner_id 
-                left join customergroups_group cg on partnerso.cgg_group_id = cg.id 
-                left join comisionpromotores_promotor cpromotor on partnerso.promotor_id = cpromotor.id 
-                %s
-        """ % from_clause
-
-        groupby_ = """
-            po.partner_id,
-            po.partner_ref,
-            po.id,
-            pl.service_start_date,
-            pl.service_end_date,
-            po.coordinator_id,
-            all_day,
-            po.state, 
-            cg.name, 
-            cpromotor.name,
-            so.partner_id,
-            po.shadow_id %s
-        """ % (groupby)
-
         executequery = """
             SELECT row_number() over() as id,
             a.partner_id,
             a.partner_ref,
+            a.dayoff_comments,
             a.order_id,
             a.service_start_date,
             a.service_end_date,
@@ -180,12 +136,14 @@ class PaoOperationsAgenda(models.Model):
             a.shadow_id,
             a.assessment_id,
             a.state_id,
-            a.city_id
+            a.city_id,
+            a.company_id 
             FROM 
             (
             SELECT 
             po.partner_id as partner_id,
             po.partner_ref as partner_ref,
+            '' as dayoff_comments,
             po.id as order_id,
             pl.service_start_date as service_start_date,
             pl.service_end_date as service_end_date,
@@ -199,7 +157,8 @@ class PaoOperationsAgenda(models.Model):
             po.shadow_id as shadow_id,
             po.assessment_id as assessment_id,
             po.audit_state_id as state_id,
-            po.audit_city_id as city_id
+            po.audit_city_id as city_id,
+            po.company_id as company_id 
             from 
             purchase_order_line pl 
                 inner join purchase_order po on (po.id=pl.order_id) 
@@ -224,11 +183,13 @@ class PaoOperationsAgenda(models.Model):
             po.shadow_id,
             po.assessment_id,
             po.audit_state_id,
-            po.audit_city_id
+            po.audit_city_id,
+            po.company_id 
             UNION ALL 
-            SELECT 
+            SELECT
             ado.auditor_id as partner_id,
             ado.name as partner_ref,
+            ado.comments as dayoff_comments,
             0 as order_id,
             ado.start_date as service_start_date,
             ado.end_date as service_end_date,
@@ -242,10 +203,11 @@ class PaoOperationsAgenda(models.Model):
             0 as shadow_id,
             0 as assessment_id,
             0 as state_id,
-            0 as city_id
+            0 as city_id,
+            ado.company_id as company_id 
             from 
             auditordaysoff_days as ado
-             GROUP BY
+            GROUP BY
             partner_id,
             partner_ref,
             order_id,
@@ -261,7 +223,9 @@ class PaoOperationsAgenda(models.Model):
             shadow_id,
             assessment_id,
             state_id,
-            city_id) as a
+            city_id,
+            ado.company_id,
+            ado.comments) as a
         """  
         #return '%s (SELECT %s FROM %s GROUP BY %s)' % (with_, select_, from_, groupby_)
         return '%s (%s)' % (with_, executequery)
