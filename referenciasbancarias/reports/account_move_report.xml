@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="account_invoice_cuenta_report_inherit" inherit_id="account.report_invoice_document">
-        <!--<xpath expr="//p[@name='payment_communication']" position="replace"position="replace"
+        <!--<xpath expr="//p[@name='payment_communication']" position="replace">
+        </xpath>-->
+        <xpath expr="//div[@name='comment']" position="after">
+           <t t-if="not o.move_type == 'in_invoice' and o.country_code == 'MX'">
+                <div style="page-break-after: always;">
+                </div>
+                <table class="table">
                     <tr>
                         <th colspan="4" class="text-center" style="border: 1px solid black; background-color:white;"><h5><b>Datos Cuenta En Mexico</b></h5></th>
 
@@ -113,6 +119,5 @@
                 </table>
             </t>
         </xpath>
-    -->
     </template>
 </odoo>
