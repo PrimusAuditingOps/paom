@@ -5,7 +5,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='country_code']" position="after">
+            <xpath expr="//field[@name='invoice_date']" position="after">
                 <field name="audit_start_date" string="Audit Dates" widget="daterange" options="{'end_date_field': 'audit_end_date'}"/>
                 <field name="organization"/>
                 <field name="registry_number"/>
