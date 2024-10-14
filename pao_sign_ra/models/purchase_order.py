@@ -5,33 +5,26 @@ from odoo.exceptions import ValidationError
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
     
+    ra_sent = fields.Boolean(default=False)
+    ra_document_ids = fields.One2many(
+        comodel_name='ra.document',
+        inverse_name='purchase_order_id',
+        string="RA Documents",
+    )
+    
     def send_referral_agreement_action(self):
         '''
         This function opens a window to compose an email, with the edi purchase template message loaded by default
         '''
         self.ensure_one()
-        template_id = False
-        # ir_model_data = self.env['ir.model.data']
-        # try:
-        #     if self.env.context.get('send_rfq', False):
-        #         template_id = ir_model_data._xmlid_lookup('purchase.email_template_edi_purchase')[1]
-        #     else:
-        #         template_id = ir_model_data._xmlid_lookup('purchase.email_template_edi_purchase_done')[1]
-        # except ValueError:
-        #     template_id = False
-        # try:
-        #     compose_form_id = ir_model_data._xmlid_lookup('mail.email_compose_message_wizard_form')[1]
-        # except ValueError:
-        #     compose_form_id = False
         ctx = dict(self.env.context or {})
         ctx.update({
             'default_model': 'purchase.order',
             'default_res_ids': self.ids,
-            'default_template_id': template_id,
+            'default_template_id': False,
             'default_composition_mode': 'comment',
             'default_email_layout_xmlid': "mail.mail_notification_layout_with_responsible_signature",
             'force_email': True,
-            'mark_rfq_as_sent': True,
         })
 
         # In the case of a RFQ or a PO, we want the "View..." button in line with the state of the
@@ -44,17 +37,12 @@ class PurchaseOrder(models.Model):
                 lang = template._render_lang([ctx['default_res_id']])[ctx['default_res_id']]
 
         self = self.with_context(lang=lang)
-        # if self.state in ['draft', 'sent']:
-        #     ctx['model_description'] = _('Request for Quotation')
-        # else:
-        #     ctx['model_description'] = _('Purchase Order')
 
         return {
             'name': _('Send RA'),
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'send.ra.wizard',
-            # 'views': [(compose_form_id, 'form')],
             'view_id': self.env.ref('pao_sign_ra.send_ra_wizard_view_form').id,
             'target': 'new',
             'context': ctx,

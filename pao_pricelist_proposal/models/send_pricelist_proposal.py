@@ -58,6 +58,7 @@ class SendPricelistProposal(models.TransientModel):
                 
                 email_to = record.customer_id.email_formatted
                 
+                cc = None
                 if record.cc_customer_ids:
                     cc = ', '.join([cc_customer.email_formatted for cc_customer in record.cc_customer_ids])
                 
@@ -65,7 +66,7 @@ class SendPricelistProposal(models.TransientModel):
                     'subject': record.subject,
                     'body_html': record.message,
                     'email_to': email_to,
-                    'email_cc': cc if cc else None,
+                    'email_cc': cc,
                     'attachment_ids': record.message_proposal_template_id.attachment_ids
                 }
                 mail = self.env['mail.mail'].create(mail_values)

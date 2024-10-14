@@ -24,13 +24,14 @@ class SendRaWizard(models.Model):
     
     
     def action_send_mail(self):
-        ids =  str(self.res_ids).strip('[]')
-        ids =  ids.split(',')
+        ids = str(self.res_ids).strip('[]')
+        ids = ids.split(',')
         ids = [int(id.strip()) for id in ids]
         
         for id in ids:
             po = self.env['purchase.order'].browse(id)
+            po.ra_sent = True
             po.ac_request_travel_expenses = self.ac_request_travel_expenses
             
-        return super(SendRaWizard, self).action_send_mail()
+        super(SendRaWizard, self).action_send_mail()
     
