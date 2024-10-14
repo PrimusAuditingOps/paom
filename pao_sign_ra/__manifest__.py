@@ -8,7 +8,7 @@
     ],
     'data' : [
         # 'security/groups.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         # 'security/ir_rules.xml',
         # 'views/res_partner.xml',
         'views/purchase_order.xml',
