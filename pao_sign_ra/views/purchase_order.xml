@@ -7,7 +7,7 @@
     <field name="inherit_id" ref="purchase.purchase_order_form"/>
     <field name="arch" type="xml">
 
-      <xpath expr="//button[@name='action_rfq_send']" position="after">
+      <xpath expr="//button[@name='button_confirm']" position="after">
         <button name="send_referral_agreement_action" invisible="state != 'sent'" string="Send RA" type="object"/>
       </xpath>
 

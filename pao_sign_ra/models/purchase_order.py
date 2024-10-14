@@ -11,7 +11,7 @@ class PurchaseOrder(models.Model):
         '''
         self.ensure_one()
         template_id = False
-        ir_model_data = self.env['ir.model.data']
+        # ir_model_data = self.env['ir.model.data']
         # try:
         #     if self.env.context.get('send_rfq', False):
         #         template_id = ir_model_data._xmlid_lookup('purchase.email_template_edi_purchase')[1]
@@ -19,10 +19,10 @@ class PurchaseOrder(models.Model):
         #         template_id = ir_model_data._xmlid_lookup('purchase.email_template_edi_purchase_done')[1]
         # except ValueError:
         #     template_id = False
-        try:
-            compose_form_id = ir_model_data._xmlid_lookup('mail.email_compose_message_wizard_form')[1]
-        except ValueError:
-            compose_form_id = False
+        # try:
+        #     compose_form_id = ir_model_data._xmlid_lookup('mail.email_compose_message_wizard_form')[1]
+        # except ValueError:
+        #     compose_form_id = False
         ctx = dict(self.env.context or {})
         ctx.update({
             'default_model': 'purchase.order',
@@ -53,9 +53,9 @@ class PurchaseOrder(models.Model):
             'name': _('Send RA'),
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'views': [(compose_form_id, 'form')],
-            'view_id': compose_form_id,
+            'res_model': 'send.ra.wizard',
+            # 'views': [(compose_form_id, 'form')],
+            'view_id': self.env.ref('pao_sign_ra.send_ra_wizard_view_form').id,
             'target': 'new',
             'context': ctx,
         }
