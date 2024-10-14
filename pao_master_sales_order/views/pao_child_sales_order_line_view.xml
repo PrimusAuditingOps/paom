@@ -50,7 +50,8 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">    
             <xpath expr="//button[@name='%(pao_sign_sa.action_sa_send_request)d']" position="attributes">
-                <attribute name="invisible">pao_is_a_master_sales_order == True or pao_is_a_child_sales_order and not pao_is_parent_id_locked</attribute>  
+                <field name="country_code" invisible="1"/>
+                <attribute name="invisible">country_code != 'US' or pao_is_a_master_sales_order == True or pao_is_a_child_sales_order and not pao_is_parent_id_locked</attribute>  
             </xpath>              
             <xpath expr="//button[@name='action_cancel']" position="after">  
 
@@ -59,18 +60,19 @@
                 <field name="pao_is_a_child_sales_order" invisible="1"/>
                 <field name="invoice_status" invisible="1"/>
                 <button name="action_conver_to_master" string="Convert to Master Order" title="Convert to Master Order"
-                type="object" invisible="invoice_status == 'invoiced' or pao_is_a_master_sales_order or pao_is_a_child_sales_order"/>
+                type="object" invisible="country_code != 'US' or invoice_status == 'invoiced' or pao_is_a_master_sales_order or pao_is_a_child_sales_order"/>
                 <button name="%(pao_master_sales_order.action_pao_child_sales_order_line)d" string="Create Sub Order" title="Create Sub-Order"
-                type="action" invisible="pao_is_a_master_sales_order == False" context="{'default_sale_order_id': id}"/>
+                type="action" invisible="country_code != 'US' or pao_is_a_master_sales_order == False" context="{'default_sale_order_id': id}"/>
                 
-                <button name="action_master_order_lock" type="object" string="Lock" help="If the sale is locked, you can not modify it anymore." invisible="locked or not locked and state == 'sale' or pao_is_a_child_sales_order"/>
+                <button name="action_master_order_lock" type="object" string="Lock" help="If the sale is locked, you can not modify it anymore." 
+                invisible="country_code != 'US' or locked or not locked and state == 'sale' or pao_is_a_child_sales_order"/>
             </xpath> 
              <field name="payment_term_id" position="after">
-                <field name="pao_parent_id" invisible="pao_is_a_child_sales_order == False"/>
+                <field name="pao_parent_id" invisible="country_code != 'US' or pao_is_a_child_sales_order == False"/>
             </field>
              <div name="button_box" position="inside">
                 <button name="action_view_children_orders" type="object" class="oe_stat_button" 
-                icon="fa-files-o" invisible="pao_children_orders_count == 0">
+                icon="fa-files-o" invisible="country_code != 'US' or pao_children_orders_count == 0">
                      <div class="o_field_widget o_stat_info">
                         <span class="o_stat_value"><field name="pao_children_orders_count"/></span>
                         <span class="o_stat_text">Sub-Orders</span>
@@ -78,8 +80,8 @@
                 </button> 
             </div>
              <div name="button_box" position="after">
-                <widget style="opacity: 0.3;" name="web_ribbon" text="Master Order" bg_color="bg-success" tooltip="Master Order" invisible="pao_is_a_master_sales_order == False"/>
-                <widget style="opacity: 0.3;" name="web_ribbon" text="Sub-Order" bg_color="bg-warning" tooltip="Sub-Order" invisible="pao_is_a_child_sales_order == False"/>
+                <widget style="opacity: 0.3;" name="web_ribbon" text="Master Order" bg_color="bg-success" tooltip="Master Order" invisible="country_code != 'US' or pao_is_a_master_sales_order == False"/>
+                <widget style="opacity: 0.3;" name="web_ribbon" text="Sub-Order" bg_color="bg-warning" tooltip="Sub-Order" invisible="country_code != 'US' or pao_is_a_child_sales_order == False"/>
             </div>
 
 
