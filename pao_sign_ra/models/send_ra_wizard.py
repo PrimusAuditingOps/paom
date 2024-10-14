@@ -14,3 +14,8 @@ class SendRaWizard(models.Model):
         'wizard_id', 'attachment_id', string='Attachments',
         compute='_compute_attachment_ids', readonly=False, store=True)
     
+    partner_ids = fields.Many2many(
+        'res.partner', 'send_ra_wizard_res_partner_rel',
+        'wizard_id', 'partner_id', 'Additional Contacts',
+        compute='_compute_partner_ids', readonly=False, store=True)
+    
