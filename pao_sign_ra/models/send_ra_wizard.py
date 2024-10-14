@@ -24,7 +24,7 @@ class SendRaWizard(models.Model):
     
     
     def action_send_mail(self):
-        _logger.warning(self.res_ids)
+        _logger.warning("..." + str(self.res_ids) + "...")
         # po.ac_request_travel_expenses = self.ac_request_travel_expenses
         return super(SendRaWizard, self).action_send_mail()
     
