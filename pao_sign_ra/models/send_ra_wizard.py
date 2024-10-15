@@ -21,6 +21,14 @@ class SendRaWizard(models.Model):
         required=True
     )
     
+    @api.model
+    def default_get(self, fields):
+        res = super(SendRaWizard, self).default_get(fields)
+        
+        self.set_domain()
+
+        return res
+    
     # @api.onchange('purchase_order_id')
     def set_domain(self):
         _logger.warning("changing")
