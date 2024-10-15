@@ -17,26 +17,26 @@ class SendRaWizard(models.Model):
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
-        # domain=lambda self: self.get_domain(),
-        domain="[('id', '=', False)]",
+        domain=lambda self: self.get_domain(),
         required=True
     )
     
-    @api.depends('purchase_order_id')
-    def _compute_domain(self):
-        for record in self:
-            if record.purchase_order_id:
-                listnumbers = []
-                for line in record.purchase_order_id.order_line:
-                    if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
-                        listnumbers.append(line.registrynumber_id.id)
-                record.pao_registration_numbers_ids = [(6, 0, listnumbers)]  # Update domain with new IDs
-            else:
-                record.pao_registration_numbers_ids = [(5, 0, 0)]  # Clear domain if purchase_order_id is empty
-
     @api.onchange('purchase_order_id')
-    def _onchange_purchase_order_id(self):
-        self._compute_domain()  # Trigger domain update on change
+    def _onchange_field_a(self):
+        if self.purchase_order_id:
+            # Set the domain based on the value of field_a
+            return {
+                'domain': {
+                    'pao_registration_numbers_ids': [('id', 'in', self.get_domain)]
+                }
+            }
+        else:
+            # Clear the domain if field_a is not set
+            return {
+                'domain': {
+                    'pao_registration_numbers_ids': []
+                }
+            }
     
     @api.model
     def get_domain(self):
@@ -45,9 +45,10 @@ class SendRaWizard(models.Model):
             for line in self.purchase_order.order_line:
                 if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
                     listnumbers.append(line.registrynumber_id.id)
-        domain = [('id', 'in', listnumbers)]
-        _logger.warning(domain)
-        return domain
+        return listnumbers
+        # domain = [('id', 'in', listnumbers)]
+        # _logger.warning(domain)
+        # return domain
     
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
