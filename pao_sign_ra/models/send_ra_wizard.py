@@ -24,14 +24,13 @@ class SendRaWizard(models.Model):
         'servicereferralagreement.registrynumber',
         'filtered_registration_numbers_registry_number_rel',
         string='Registration Numbers',
+        readonly=True
     )
     @api.model
     def default_get(self, fields):
         res = super(SendRaWizard, self).default_get(fields)
         
-        # Get the purchase_order_id from the context or any other source
         purchase_order_id = self.env.context.get('default_purchase_order_id')
-        _logger.warning(purchase_order_id)
         if purchase_order_id:
             purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
             listnumbers = []
@@ -40,27 +39,9 @@ class SendRaWizard(models.Model):
                 if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
                     listnumbers.append(line.registrynumber_id.id)
 
-            _logger.warning(listnumbers)  # Log the registration numbers
-            
-            # Set the domain for the Many2many field in the wizard context
             res['filtered_registration_numbers'] = [(6, 0, listnumbers)]
         
         return res
-    
-    # @api.model
-    # def get_domain(self, po_id):
-    #     listnumbers = []
-    #     _logger.warning(po_id)
-    #     po = self.env['purchase.order'].browse(int(po_id))
-    #     if po:
-    #         for line in po.order_line:
-    #             if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
-    #                 listnumbers.append(line.registrynumber_id.id)
-    #     _logger.warning(listnumbers)
-    #     return listnumbers
-    #     # domain = [('id', 'in', listnumbers)]
-    #     # _logger.warning(domain)
-    #     # return domain
     
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
