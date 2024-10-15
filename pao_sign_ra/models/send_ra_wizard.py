@@ -46,7 +46,7 @@ class SendRaWizard(models.Model):
         
         # Get the purchase_order_id from the context or any other source
         _logger.warning(self.purchase_order_id)
-        if self.purchase_order_id.purchase_order_idorder_id:
+        if self.purchase_order_id:
             listnumbers = []
 
             for line in self.purchase_order_id.order_line:

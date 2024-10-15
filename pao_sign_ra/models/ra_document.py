@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class RADocument(models.Model):
     _name = 'ra.document'
+    _description = 'RA Document'
     
     name = fields.Char('Name')
     status = fields.Selection(selection=[('sent', 'Sent'), ('sign', 'Signed'), ('cancel', 'Cancelled')], string="Status")
