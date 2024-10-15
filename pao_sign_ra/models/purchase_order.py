@@ -17,10 +17,12 @@ class PurchaseOrder(models.Model):
         This function opens a window to compose an email, with the edi purchase template message loaded by default
         '''
         self.ensure_one()
+        
         ctx = dict(self.env.context or {})
         ctx.update({
             'default_model': 'purchase.order',
             'default_res_ids': self.ids,
+            'default_purchase_order_id': self.id,
             'default_template_id': False,
             'default_composition_mode': 'comment',
             'default_email_layout_xmlid': "mail.mail_notification_layout_with_responsible_signature",

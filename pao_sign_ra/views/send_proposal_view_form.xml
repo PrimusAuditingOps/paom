@@ -39,6 +39,7 @@
                     </div>
                     <field name="subject" required="True"/>
                     <field name="ac_request_travel_expenses"/>
+                    <field name="pao_registration_numbers_ids" widget="many2many_tags"/>
                 </group>
                 <field name="can_edit_body" invisible="1"/>
                 <div invisible="composition_mode == 'mass_mail'">

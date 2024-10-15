@@ -10,7 +10,16 @@ class SendRaWizard(models.Model):
     _inherit="mail.compose.message"
     _description = 'Send RA Wizard'
     
-    ac_request_travel_expenses = fields.Boolean(default=True, string="Request Travel Expenses")
+    purchase_order_id = fields.Many2one('purchase.order', required=True)
+    
+    request_travel_expenses = fields.Boolean(default=True, string="Request Travel Expenses")
+    
+    pao_registration_numbers_ids = fields.Many2many(
+        comodel_name='servicereferralagreement.registrynumber',
+        string='Registration Numbers',
+        domain=[('id', 'in', lambda self: self._get_registration_numbers_domain())],
+        required=True
+    )  
     
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
@@ -24,14 +33,20 @@ class SendRaWizard(models.Model):
     
     
     def action_send_mail(self):
-        ids = str(self.res_ids).strip('[]')
-        ids = ids.split(',')
-        ids = [int(id.strip()) for id in ids]
-        
-        for id in ids:
-            po = self.env['purchase.order'].browse(id)
-            po.ra_sent = True
-            po.ac_request_travel_expenses = self.ac_request_travel_expenses
+        if self.purchase_order_id:
+            self.purchase_order_id.ra_sent = True
+            self.purchase_order_id.ac_request_travel_expenses = self.request_travel_expenses
+            # CREATE RA_DOCUMENT AND LINK IT TO PO
             
         super(SendRaWizard, self).action_send_mail()
+        
+    def _get_registration_numbers_domain(self):
+        for rec in self:
+            listnumbers = []
+
+            for line in rec.purchase_order_id.order_line:
+                if line.registrynumber_id:
+                    if line.registrynumber_id.id not in listnumbers:
+                            listnumbers.append(line.registrynumber_id.id) 
+            return listnumbers
     
