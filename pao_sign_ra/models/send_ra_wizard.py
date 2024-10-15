@@ -14,13 +14,13 @@ class SendRaWizard(models.Model):
     
     request_travel_expenses = fields.Boolean(default=True, string="Request Travel Expenses")
     
+    
     filtered_registration_numbers = fields.Many2many(
         'servicereferralagreement.registrynumber',
         'filtered_registration_numbers_registry_number_rel',
         string='Registration Numbers',
-        default = lambda self: self._get_registration_numbers()
+        compute='_compute_registration_number_ids'
     )
-    
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
@@ -69,7 +69,8 @@ class SendRaWizard(models.Model):
         
     #     return res
     
-    def _get_registration_numbers(self):
+    @api.depends('purchase_order_id')
+    def _compute_registration_number_ids(self):
         for rec in self:
             listnumbers = []
 
@@ -82,5 +83,5 @@ class SendRaWizard(models.Model):
                         if line.registrynumber_id.id not in listnumbers:
                                 listnumbers.append(line.registrynumber_id.id)
             _logger.warning(listnumbers)
-            return listnumbers
+            rec.filtered_registration_numbers = [(6, 0, listnumbers)]
     
