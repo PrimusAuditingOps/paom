@@ -17,21 +17,26 @@ class SendRaWizard(models.Model):
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
-        domain=lambda self: self.get_domain(),
+        # domain=lambda self: self.get_domain(),
+        domain="[('id', '=', False)]",
         required=True
     )
     
+    @api.depends('purchase_order_id')
+    def _compute_domain(self):
+        for record in self:
+            if record.purchase_order_id:
+                listnumbers = []
+                for line in record.purchase_order_id.order_line:
+                    if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
+                        listnumbers.append(line.registrynumber_id.id)
+                record.pao_registration_numbers_ids = [(6, 0, listnumbers)]  # Update domain with new IDs
+            else:
+                record.pao_registration_numbers_ids = [(5, 0, 0)]  # Clear domain if purchase_order_id is empty
+
     @api.onchange('purchase_order_id')
     def _onchange_purchase_order_id(self):
-        # Trigger the domain update when the purchase order is set
-        return {'domain': {'pao_registration_numbers_ids': self.get_domain()}}
-    
-    @api.model
-    def default_get(self, fields):
-        res = super(SendRaWizard, self).default_get(fields)
-        if 'purchase_order_id' in self.env.context:
-            res['purchase_order_id'] = self.env.context['purchase_order_id']
-        return res
+        self._compute_domain()  # Trigger domain update on change
     
     @api.model
     def get_domain(self):
