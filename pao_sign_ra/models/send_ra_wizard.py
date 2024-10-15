@@ -19,7 +19,6 @@ class SendRaWizard(models.Model):
         'servicereferralagreement.registrynumber',
         'filtered_registration_numbers_registry_number_rel',
         string='Registration Numbers',
-        compute='_compute_registration_number_ids'
     )
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
@@ -28,7 +27,7 @@ class SendRaWizard(models.Model):
         required=True
     )
     
-    def get_domain():
+    def get_domain(self):
         return [('id', 'in', [1,2,3])]
     
     attachment_ids = fields.Many2many(
