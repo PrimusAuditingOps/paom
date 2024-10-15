@@ -14,12 +14,18 @@ class SendRaWizard(models.Model):
     
     request_travel_expenses = fields.Boolean(default=True, string="Request Travel Expenses")
     
+    filtered_registration_numbers = fields.Many2many(
+        comodel_name='servicereferralagreement.registrynumber',
+        string='Registration Numbers',
+        default = lambda self: self._get_registration_numbers()
+    )
+    
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
-        domain=lambda self: self._get_registration_numbers_domain(),
+        domain=[('id', 'in', lambda self: self.filtered_registration_numbers.ids)],
         required=True
-    )  
+    )
     
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
@@ -62,8 +68,7 @@ class SendRaWizard(models.Model):
         
     #     return res
     
-    @api.model
-    def _get_registration_numbers_domain(self):
+    def _get_registration_numbers(self):
         for rec in self:
             listnumbers = []
 
@@ -76,5 +81,5 @@ class SendRaWizard(models.Model):
                         if line.registrynumber_id.id not in listnumbers:
                                 listnumbers.append(line.registrynumber_id.id)
             _logger.warning(listnumbers)
-            return [('id', 'in', listnumbers)]
+            return listnumbers
     
