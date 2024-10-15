@@ -10,7 +10,7 @@ class SendRaWizard(models.Model):
     _inherit="mail.compose.message"
     _description = 'Send RA Wizard'
     
-    purchase_order_id = fields.Many2one('purchase.order', required=True)
+    purchase_order_id = fields.Many2one('purchase.order', required=True, default=1)
     
     request_travel_expenses = fields.Boolean(default=True, string="Request Travel Expenses")
     
@@ -23,6 +23,7 @@ class SendRaWizard(models.Model):
     
     @api.onchange('purchase_order_id')
     def _onchange_field_a(self):
+        _logger.warning("changing")
         if self.purchase_order_id:
             # Set the domain based on the value of field_a
             return {
