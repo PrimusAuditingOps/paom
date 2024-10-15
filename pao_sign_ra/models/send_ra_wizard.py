@@ -56,6 +56,7 @@ class SendRaWizard(models.Model):
             for line in po.order_line:
                 if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
                     listnumbers.append(line.registrynumber_id.id)
+        _logger.warning(listnumbers)
         return listnumbers
         # domain = [('id', 'in', listnumbers)]
         # _logger.warning(domain)
