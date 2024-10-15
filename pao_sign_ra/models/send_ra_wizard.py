@@ -50,7 +50,7 @@ class SendRaWizard(models.Model):
 
     @api.model
     def default_get(self, fields):
-        res = super(YourWizardModel, self).default_get(fields)
+        res = super(SendRaWizard, self).default_get(fields)
         purchase_order_id = self.env.context.get('default_purchase_order_id')
 
         _logger.warning(f"Purchase Order ID in default_get: {purchase_order_id}")  # Log the purchase order ID for debugging
