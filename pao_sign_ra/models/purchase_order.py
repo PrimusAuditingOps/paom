@@ -49,3 +49,4 @@ class PurchaseOrder(models.Model):
             'target': 'new',
             'context': ctx,
         }
+    
