@@ -24,7 +24,7 @@ class SendRaWizard(models.Model):
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
-        domain=[('id', 'in', filtered_registration_numbers.ids)],
+        domain=[('id', 'in', filtered_registration_numbers)],
         required=True
     )
     
