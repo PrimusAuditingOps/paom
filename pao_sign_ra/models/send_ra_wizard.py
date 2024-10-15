@@ -21,30 +21,21 @@ class SendRaWizard(models.Model):
         required=True
     )
     
+    @api.onchange('purchase_order_id')
+    def _onchange_purchase_order_id(self):
+        # Trigger the domain update when the purchase order is set
+        return {'domain': {'pao_registration_numbers_ids': self.get_domain()}}
+    
     @api.model
     def get_domain(self):
-        domain = [('id', 'in', [1,2,3])]
+        listnumbers = []
+        if self.purchase_order_id:
+            for line in self.purchase_order.order_line:
+                if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
+                    listnumbers.append(line.registrynumber_id.id)
+        domain = [('id', 'in', listnumbers)]
         _logger.warning(domain)
-        
-        if self.res_ids:
-            ids = str(self.res_ids).strip('[]')
-            ids = ids.split(',')
-            ids = [int(id.strip()) for id in ids]
-            
-            purchase_orders = self.env['purchase.order'].browse(ids)
-            
-            _logger.warning(purchase_orders)
-            listnumbers = []
-            for purchase_order in purchase_orders:
-                for line in purchase_order.order_line:
-                    if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
-                        listnumbers.append(line.registrynumber_id.id)
-
-                _logger.warning(listnumbers)  # Log the registration numbers
-            
-            domain = [('id', 'in', listnumbers)]
-            _logger.warning(domain)
-            return domain
+        return domain
     
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
@@ -64,3 +55,4 @@ class SendRaWizard(models.Model):
             # CREATE RA_DOCUMENT AND LINK IT TO PO
             
         super(SendRaWizard, self).action_send_mail()
+    
