@@ -7,7 +7,7 @@ class RADocument(models.Model):
     
     name = fields.Char('Name')
     status = fields.Selection(selection=[('sent', 'Sent'), ('sign', 'Signed'), ('cancel', 'Cancelled')], string="Status")
-    attachment_ids = fields.Many2many('ir.attachments', string="Attachments")
+    attachment_ids = fields.Many2many('ir.attachment', string="Attachments")
     
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
