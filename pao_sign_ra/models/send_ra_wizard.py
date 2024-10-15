@@ -39,7 +39,7 @@ class SendRaWizard(models.Model):
             
         super(SendRaWizard, self).action_send_mail()
     
-    @api.onchange('purchase_order_id')
+    @api.depends('purchase_order_id')
     def _onchange_purchase_order_id(self):
         # Set the domain dynamically based on a condition or logic
         result = self._get_registration_numbers_domain()
