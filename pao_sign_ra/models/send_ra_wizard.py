@@ -32,8 +32,7 @@ class SendRaWizard(models.Model):
         _logger.warning(domain)
         
         purchase_order_id = self.env.context.get('default_purchase_order_id')
-        _logger.warning(purchase_order_id)
-        _logger.warning(self.purchase_order_id)
+        _logger.warning(self.purchase_order_id.id)
         listnumbers = []
         if purchase_order_id:
             purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
