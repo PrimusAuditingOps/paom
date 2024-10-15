@@ -28,7 +28,19 @@ class SendRaWizard(models.Model):
     )
     
     def get_domain(self):
-        return [('id', 'in', [1,2,3])]
+        purchase_order_id = self.env.context.get('default_purchase_order_id')
+        _logger.warning(purchase_order_id)
+        if purchase_order_id:
+            purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
+            listnumbers = []
+
+            for line in purchase_order.order_line:
+                if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
+                    listnumbers.append(line.registrynumber_id.id)
+
+            _logger.warning(listnumbers)  # Log the registration numbers
+        
+        return [('id', 'in', listnumbers)]
     
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
