@@ -21,8 +21,8 @@ class SendRaWizard(models.Model):
         required=True
     )
     
-    @api.onchange('purchase_order_id')
-    def _onchange_field_a(self):
+    # @api.onchange('purchase_order_id')
+    def set_domain(self):
         _logger.warning("changing")
         if self.purchase_order_id:
             # Set the domain based on the value of field_a
