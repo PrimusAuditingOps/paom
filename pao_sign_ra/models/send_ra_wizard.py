@@ -17,6 +17,7 @@ class SendRaWizard(models.Model):
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
+        domain=lambda self: self._get_registration_numbers_domain(),
         required=True
     )  
     
@@ -39,12 +40,7 @@ class SendRaWizard(models.Model):
             
         super(SendRaWizard, self).action_send_mail()
     
-    @api.depends('purchase_order_id')
-    def _onchange_purchase_order_id(self):
-        # Set the domain dynamically based on a condition or logic
-        result = self._get_registration_numbers_domain()
-        return {'domain': {'pao_registration_numbers_ids': result}}
-    
+    @api.model
     def _get_registration_numbers_domain(self):
         for rec in self:
             listnumbers = []
