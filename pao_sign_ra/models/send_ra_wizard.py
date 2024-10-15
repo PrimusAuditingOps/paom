@@ -45,11 +45,13 @@ class SendRaWizard(models.Model):
         res = super(SendRaWizard, self).default_get(fields)
         
         # Get the purchase_order_id from the context or any other source
-        _logger.warning(self.purchase_order_id)
-        if self.purchase_order_id:
+        purchase_order_id = self.env.context.get('default_purchase_order_id')
+        _logger.warning(purchase_order_id)
+        if purchase_order_id:
+            purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
             listnumbers = []
 
-            for line in self.purchase_order_id.order_line:
+            for line in purchase_order.order_line:
                 if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
                     listnumbers.append(line.registrynumber_id.id)
 
