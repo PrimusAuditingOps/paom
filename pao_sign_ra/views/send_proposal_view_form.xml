@@ -40,7 +40,7 @@
                     <field name="subject" required="True"/>
                     <field name="request_travel_expenses"/>
                     <field name="filtered_registration_numbers" invisible="1"/>
-                    <field name="registration_numbers_ids" widget="many2many_tags" domain="[('id', 'in', filtered_registration_numbers )]"/>
+                    <field name="pao_registration_numbers_ids" widget="many2many_tags" domain="[('id', 'in', filtered_registration_numbers)]"/>
                 </group>
                 <field name="can_edit_body" invisible="1"/>
                 <div invisible="composition_mode == 'mass_mail'">
