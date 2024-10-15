@@ -51,6 +51,7 @@ class SendRaWizard(models.Model):
     @api.model
     def get_domain(self, po_id):
         listnumbers = []
+        _logger.warning(po_id)
         po = self.env['purchase.order'].browse(int(po_id))
         if po:
             for line in po.order_line:
