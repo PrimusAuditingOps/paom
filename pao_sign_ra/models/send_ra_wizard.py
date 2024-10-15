@@ -27,6 +27,13 @@ class SendRaWizard(models.Model):
         return {'domain': {'pao_registration_numbers_ids': self.get_domain()}}
     
     @api.model
+    def default_get(self, fields):
+        res = super(SendRaWizard, self).default_get(fields)
+        if 'purchase_order_id' in self.env.context:
+            res['purchase_order_id'] = self.env.context['purchase_order_id']
+        return res
+    
+    @api.model
     def get_domain(self):
         listnumbers = []
         if self.purchase_order_id:
