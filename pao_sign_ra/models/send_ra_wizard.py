@@ -32,11 +32,12 @@ class SendRaWizard(models.Model):
     # @api.onchange('purchase_order_id')
     def set_domain(self):
         _logger.warning("changing")
-        if self.purchase_order_id:
+        po_id = self.env.context.get("default_purchase_order_id")
+        if po_id:
             # Set the domain based on the value of field_a
             return {
                 'domain': {
-                    'pao_registration_numbers_ids': [('id', 'in', self.get_domain)]
+                    'pao_registration_numbers_ids': [('id', 'in', self.get_domain(po_id))]
                 }
             }
         else:
@@ -48,10 +49,11 @@ class SendRaWizard(models.Model):
             }
     
     @api.model
-    def get_domain(self):
+    def get_domain(self, po_id):
         listnumbers = []
-        if self.purchase_order_id:
-            for line in self.purchase_order.order_line:
+        po = self.env['purchase.order'].browse(int(po_id))
+        if po:
+            for line in po.order_line:
                 if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
                     listnumbers.append(line.registrynumber_id.id)
         return listnumbers
