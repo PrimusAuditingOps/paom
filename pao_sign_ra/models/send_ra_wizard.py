@@ -26,6 +26,22 @@ class SendRaWizard(models.Model):
         string='Registration Numbers',
         readonly=True
     )
+    
+    @api.model
+    def get_domain(self, po_id):
+        listnumbers = []
+        _logger.warning(po_id)
+        po = self.env['purchase.order'].browse(int(po_id))
+        if po:
+            for line in po.order_line:
+                if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
+                    listnumbers.append(line.registrynumber_id.id)
+        _logger.warning(listnumbers)
+        # return listnumbers
+        domain = [('id', 'in', listnumbers)]
+        _logger.warning(domain)
+        return domain
+    
     @api.model
     def default_get(self, fields):
         res = super(SendRaWizard, self).default_get(fields)
