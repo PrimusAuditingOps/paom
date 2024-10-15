@@ -17,7 +17,7 @@ class SendRaWizard(models.Model):
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
-        domain=[('id', 'in', lambda self: self._get_registration_numbers_domain())],
+        domain=lambda self: self._get_registration_numbers_domain(),
         required=True
     )  
     
@@ -47,6 +47,6 @@ class SendRaWizard(models.Model):
             for line in rec.purchase_order_id.order_line:
                 if line.registrynumber_id:
                     if line.registrynumber_id.id not in listnumbers:
-                            listnumbers.append(line.registrynumber_id.id) 
-            return listnumbers
+                            listnumbers.append(line.registrynumber_id.id)
+            return [('id', 'in', listnumbers)]
     
