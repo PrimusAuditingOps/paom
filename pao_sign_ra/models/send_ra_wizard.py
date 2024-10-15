@@ -39,7 +39,13 @@ class SendRaWizard(models.Model):
             # CREATE RA_DOCUMENT AND LINK IT TO PO
             
         super(SendRaWizard, self).action_send_mail()
-        
+    
+    @api.onchange('purchase_order_id')
+    def _onchange_purchase_order_id(self):
+        # Set the domain dynamically based on a condition or logic
+        result = self._get_registration_numbers_domain()
+        return {'domain': {'pao_registration_numbers_ids': result}}
+    
     def _get_registration_numbers_domain(self):
         for rec in self:
             listnumbers = []
