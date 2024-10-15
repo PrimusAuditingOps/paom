@@ -15,7 +15,8 @@ class SendRaWizard(models.Model):
     request_travel_expenses = fields.Boolean(default=True, string="Request Travel Expenses")
     
     filtered_registration_numbers = fields.Many2many(
-        comodel_name='servicereferralagreement.registrynumber',
+        'servicereferralagreement.registrynumber',
+        'filtered_registration_numbers_registry_number_rel',
         string='Registration Numbers',
         default = lambda self: self._get_registration_numbers()
     )
@@ -23,7 +24,7 @@ class SendRaWizard(models.Model):
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
-        domain=[('id', 'in', lambda self: self.filtered_registration_numbers.ids)],
+        domain=[('id', 'in', filtered_registration_numbers.ids)],
         required=True
     )
     
