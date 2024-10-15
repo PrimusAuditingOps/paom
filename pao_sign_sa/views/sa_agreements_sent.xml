@@ -14,6 +14,7 @@
                 <sheet>
                     <group col="2">
                         <field name="signer_id"/>
+                        <field name="filtered_registration_numbers" invisible="1"/>
                         <field name="registration_numbers_ids" widget="many2many_tags" domain="[('id', 'in', filtered_registration_numbers )]"/>
                         <field name="document_status"/>
                         <field name="sign_url"/>
