@@ -30,9 +30,9 @@ class SendRaWizard(models.Model):
     def get_domain(self):
         purchase_order_id = self.env.context.get('default_purchase_order_id')
         _logger.warning(purchase_order_id)
+        listnumbers = []
         if purchase_order_id:
             purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
-            listnumbers = []
 
             for line in purchase_order.order_line:
                 if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
