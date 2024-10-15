@@ -17,9 +17,48 @@ class SendRaWizard(models.Model):
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
-        domain=lambda self: self.get_domain(),
+        # domain=lambda self: self.get_domain(),
         required=True
     )
+    
+    @api.onchange('purchase_order_id')
+    def _onchange_purchase_order_id(self):
+        if self.purchase_order_id:
+            listnumbers = []
+            purchase_order = self.purchase_order_id  # Use the Many2one field directly
+
+            # Collect registration numbers from order lines
+            for line in purchase_order.order_line:
+                if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
+                    listnumbers.append(line.registrynumber_id.id)
+
+            _logger.warning(f"List of Registration Numbers: {listnumbers}")  # Log the registration numbers
+
+            # Set the domain for the Many2many field based on the collected numbers
+            return {
+                'domain': {
+                    'pao_registration_numbers_ids': [('id', 'in', listnumbers)]
+                }
+            }
+        else:
+            # If no purchase order is selected, clear the domain
+            return {
+                'domain': {
+                    'pao_registration_numbers_ids': []
+                }
+            }
+
+    @api.model
+    def default_get(self, fields):
+        res = super(YourWizardModel, self).default_get(fields)
+        purchase_order_id = self.env.context.get('default_purchase_order_id')
+
+        _logger.warning(f"Purchase Order ID in default_get: {purchase_order_id}")  # Log the purchase order ID for debugging
+        
+        if purchase_order_id:
+            res['purchase_order_id'] = purchase_order_id  # Pre-fill the purchase order field
+
+        return res
     
     @api.model
     def get_domain(self):
