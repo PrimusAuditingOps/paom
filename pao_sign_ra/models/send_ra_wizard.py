@@ -26,24 +26,25 @@ class SendRaWizard(models.Model):
         domain = [('id', 'in', [1,2,3])]
         _logger.warning(domain)
         
-        ids = str(self.res_ids).strip('[]')
-        ids = ids.split(',')
-        ids = [int(id.strip()) for id in ids]
-        
-        purchase_orders = self.env['purchase.order'].browse(ids)
-        
-        _logger.warning(purchase_orders)
-        listnumbers = []
-        for purchase_order in purchase_orders:
-            for line in purchase_order.order_line:
-                if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
-                    listnumbers.append(line.registrynumber_id.id)
+        if self.res_ids:
+            ids = str(self.res_ids).strip('[]')
+            ids = ids.split(',')
+            ids = [int(id.strip()) for id in ids]
+            
+            purchase_orders = self.env['purchase.order'].browse(ids)
+            
+            _logger.warning(purchase_orders)
+            listnumbers = []
+            for purchase_order in purchase_orders:
+                for line in purchase_order.order_line:
+                    if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
+                        listnumbers.append(line.registrynumber_id.id)
 
-            _logger.warning(listnumbers)  # Log the registration numbers
-        
-        domain = [('id', 'in', listnumbers)]
-        _logger.warning(domain)
-        return domain
+                _logger.warning(listnumbers)  # Log the registration numbers
+            
+            domain = [('id', 'in', listnumbers)]
+            _logger.warning(domain)
+            return domain
     
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
