@@ -21,6 +21,7 @@ class SendRaWizard(models.Model):
         required=True
     )
     
+    @api.model
     def get_domain(self):
         domain = [('id', 'in', [1,2,3])]
         _logger.warning(domain)
