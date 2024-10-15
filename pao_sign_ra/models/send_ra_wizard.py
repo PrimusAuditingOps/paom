@@ -47,41 +47,25 @@ class SendRaWizard(models.Model):
             
         super(SendRaWizard, self).action_send_mail()
         
-    # @api.model
-    # def default_get(self, fields):
-    #     res = super(SendRaWizard, self).default_get(fields)
+    @api.model
+    def default_get(self, fields):
+        res = super(SendRaWizard, self).default_get(fields)
         
-    #     # Get the purchase_order_id from the context or any other source
-    #     purchase_order_id = self.env.context.get('default_purchase_order_id')
-    #     _logger.warning(purchase_order_id)
-    #     if purchase_order_id:
-    #         purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
-    #         listnumbers = []
-
-    #         for line in purchase_order.order_line:
-    #             if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
-    #                 listnumbers.append(line.registrynumber_id.id)
-
-    #         _logger.warning(listnumbers)  # Log the registration numbers
-            
-    #         # Set the domain for the Many2many field in the wizard context
-    #         res['pao_registration_numbers_ids'] = [(6, 0, listnumbers)]
-        
-    #     return res
-    
-    @api.depends('purchase_order_id')
-    def _compute_registration_number_ids(self):
-        for rec in self:
+        # Get the purchase_order_id from the context or any other source
+        purchase_order_id = self.env.context.get('default_purchase_order_id')
+        _logger.warning(purchase_order_id)
+        if purchase_order_id:
+            purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
             listnumbers = []
 
-            purchase_order_id = self.env.context.get('default_purchase_order_id')
-            _logger.warning(purchase_order_id)
-            if purchase_order_id:
-                purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
-                for line in purchase_order.order_line:
-                    if line.registrynumber_id:
-                        if line.registrynumber_id.id not in listnumbers:
-                                listnumbers.append(line.registrynumber_id.id)
-            _logger.warning(listnumbers)
-            rec.filtered_registration_numbers = [(6, 0, listnumbers)]
+            for line in purchase_order.order_line:
+                if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
+                    listnumbers.append(line.registrynumber_id.id)
+
+            _logger.warning(listnumbers)  # Log the registration numbers
+            
+            # Set the domain for the Many2many field in the wizard context
+            res['filtered_registration_numbers'] = [(6, 0, listnumbers)]
+        
+        return res
     
