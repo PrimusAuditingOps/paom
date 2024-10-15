@@ -48,5 +48,6 @@ class SendRaWizard(models.Model):
                 if line.registrynumber_id:
                     if line.registrynumber_id.id not in listnumbers:
                             listnumbers.append(line.registrynumber_id.id)
+            _logger.warning(listnumbers)
             return [('id', 'in', listnumbers)]
     
