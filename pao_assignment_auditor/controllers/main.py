@@ -293,7 +293,8 @@ class webAuditorAssignment(http.Controller):
         auditors_not_available_list = []
         if not orderid:
             orderid = 0
-            
+        _logger.error("orderCountry")
+        _logger.error(orderCountry)
         if len(auditor_ids) > 0:
 
             for dates in datelist:
