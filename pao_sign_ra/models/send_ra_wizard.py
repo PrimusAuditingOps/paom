@@ -27,20 +27,7 @@ class SendRaWizard(models.Model):
         readonly=True
     )
     
-    @api.model
-    def get_domain(self, po_id):
-        listnumbers = []
-        _logger.warning(po_id)
-        po = self.env['purchase.order'].browse(int(po_id))
-        if po:
-            for line in po.order_line:
-                if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
-                    listnumbers.append(line.registrynumber_id.id)
-        _logger.warning(listnumbers)
-        # return listnumbers
-        domain = [('id', 'in', listnumbers)]
-        _logger.warning(domain)
-        return domain
+    template_id = fields.Many2one('mail.template', domain=[('model', '=', 'send.ra.wizard')])
     
     @api.model
     def default_get(self, fields):
@@ -49,13 +36,13 @@ class SendRaWizard(models.Model):
         purchase_order_id = self.env.context.get('default_purchase_order_id')
         if purchase_order_id:
             purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
-            listnumbers = []
+            arr_ids = []
 
             for line in purchase_order.order_line:
-                if line.registrynumber_id and line.registrynumber_id.id not in listnumbers:
-                    listnumbers.append(line.registrynumber_id.id)
+                if line.registrynumber_id and line.registrynumber_id.id not in arr_ids:
+                    arr_ids.append(line.registrynumber_id.id)
 
-            res['filtered_registration_numbers'] = [(6, 0, listnumbers)]
+            res['filtered_registration_numbers'] = [(6, 0, arr_ids)]
         
         return res
     

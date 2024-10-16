@@ -17,15 +17,12 @@ class SignRAPortal(CustomerPortal):
 
     @http.route('/confirm/<string:token>/<string:idresponse>', type='http', auth="public", website=True)
     def action_confirm_audit(self, token, idresponse, **kwargs):
-        #assert idresponse in ('1','2'), "Incorrect id"
         
         purchaseconfirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search(['&',('ac_access_token', '=', token),'|',('ac_consumed','=',False),('ac_audit_confirmation_status','=', '3')])
         if not purchaseconfirmation or idresponse not in ('1','2','3'): 
             return request.not_found()
         purchase =  request.env['purchase.order'].sudo().search([('id', '=', purchaseconfirmation.ac_id_purchase)])
-        notice = ""
-        # if purchase.ac_request_travel_expenses:
-        #     notice = _("After agreeing and signing, you will be prompted to enter travel expenses.")
+        
         lang = purchase.partner_id.lang or get_lang(request.env).code
         access_token = purchase._portal_ensure_token()
         if idresponse == '1':
@@ -33,11 +30,12 @@ class SignRAPortal(CustomerPortal):
                 pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(purchase.id)+"&ra_verification=1"
                 return request.redirect(pageredirect)
             else:
-                return request.env['ir.ui.view'].with_context(lang=lang)._render_template('auditconfirmation.audit_confirmation_external_page_view', 
+                return request.env['ir.ui.view'].with_context(lang=lang)._render_template('auditconfirmation.external_auditor_sign_portal_view', 
                 {
-                    'signname': purchase.partner_id.name,
-                    'urlconfirm': purchase.get_portal_url(suffix='/accept/audit'),
-                    'notice': notice
+                    'signer': purchase.partner_id.name,
+                    'urlAccept': purchase.get_portal_url(suffix='/accept/audit'),
+                    "serviceagreement": purchaseconfirmation,
+                    "documents": documents
                 })
         else:
             return request.env['ir.ui.view'].with_context(lang=lang)._render_template('auditconfirmation.audit_rejected_external_page_view', 
@@ -61,7 +59,7 @@ class SignRAPortal(CustomerPortal):
             pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(purchase.id)
         else:
             pageredirect = "/response/message"
-         
+        
         _message_post_helper(
             'purchase.order', purchase.id, _('The auditor has accepted the audit.'),
             attachments=[],

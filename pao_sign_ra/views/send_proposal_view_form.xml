@@ -4,7 +4,7 @@
         <field name="name">send.ra.wizard.view.form</field>
         <field name="model">send.ra.wizard</field>
         <field name="arch" type="xml">
-            <form string="Compose Email" class="pt-0 pb-0 o_mail_composer_form" js_class="mail_composer_form" delete="False">
+            <form string="Send RA" class="pt-0 pb-0 o_mail_composer_form" js_class="mail_composer_form" delete="False">
                 <group>
                     <!-- truly invisible fields for control and options -->
                     <field name="author_id" invisible="1"/>
@@ -31,11 +31,11 @@
                     <field name="subtype_is_log" invisible="1"/>
                     <field name="use_exclusion_list" invisible="1"/>
                     <!-- visible wizard -->
-                    <field name="email_from" invisible="composition_mode != 'mass_mail'" on_change="1"/>
+                    <field name="email_from" invisible="composition_mode != 'mass_mail'"/>
                     <label for="partner_ids" string="Recipients" invisible="composition_mode != 'comment' or subtype_is_log"/>
                     <div invisible="composition_mode != 'comment' or subtype_is_log">
                         <span name="document_followers_text" invisible="not model or composition_mode == 'mass_mail'">Followers of the document and</span>
-                        <field name="partner_ids" widget="many2many_tags_email" placeholder="Add contacts to notify..." options="{'no_quick_create': True}" context="{'show_email':True, 'form_view_ref': 'base.view_partner_simple_form'}" can_create="True" can_write="True"/>
+                        <field name="partner_ids" widget="many2many_tags_email" placeholder="Add contacts to notify..." options="{'no_quick_create': True}" context="{'show_email':True, 'form_view_ref': 'base.view_partner_simple_form'}"/>
                     </div>
                     <field name="subject" required="True"/>
                     <field name="request_travel_expenses"/>
@@ -44,29 +44,29 @@
                 </group>
                 <field name="can_edit_body" invisible="1"/>
                 <div invisible="composition_mode == 'mass_mail'">
-                    <field name="body" class="oe-bordered-editor" placeholder="Write your message here..." options="{'style-inline': true}" readonly="not can_edit_body" force_save="1"/>
+                    <field name="body" class="oe-bordered-editor" placeholder="Write your message here..." options="{'style-inline': true}" readonly="not can_edit_body"/>
                     <group>
-                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" can_create="True" can_write="True"/>
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
                     </group>
                     <group>
-                        <field name="template_id" string="Load template" options="{'no_create': True}" class="w-50" context="{'default_model': model, 'default_body_html': body, 'default_subject': subject}" on_change="1" can_create="True" can_write="True"/>
+                        <field name="template_id" string="Load template" options="{'no_create': True}" class="w-50" context="{'default_model': model, 'default_body_html': body, 'default_subject': subject}"/>
                     </group>
                 </div>
                 <notebook invisible="composition_mode != 'mass_mail'">
                     <page string="Content" name="page_content">
                         <div>
-                            <field name="body" class="oe-bordered-editor" placeholder="Write your message here..." options="{'style-inline': true}" readonly="not can_edit_body" force_save="1"/>
+                            <field name="body" class="oe-bordered-editor" placeholder="Write your message here..." options="{'style-inline': true}" readonly="not can_edit_body"/>
                             <group>
-                                <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" can_create="True" can_write="True"/>
+                                <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
                             </group>
                             <group>
-                                <field name="template_id" string="Load template" options="{'no_create': True}" class="w-50" context="{'default_model': model, 'default_body_html': body, 'default_subject': subject}" on_change="1" can_create="True" can_write="True"/>
+                                <field name="template_id" string="Load template" required="1" options="{'no_create': True}" class="w-50" context="{'default_model': model, 'default_body_html': body, 'default_subject': subject}"/>
                             </group>
                         </div>
                     </page>
                     <page string="Settings" name="page_settings">
                         <!-- mass mailing -->
-                        <field name="reply_to_force_new" invisible="1" on_change="1"/>
+                        <field name="reply_to_force_new" invisible="1"/>
                         <field name="reply_to_mode" invisible="composition_mode != 'mass_mail'" widget="radio"/>
                         <group>
                             <field name="reply_to" string="Reply-to Address" placeholder="e.g: &quot;info@mycompany.odoo.com&quot;" invisible="reply_to_mode == 'update' or composition_mode != 'mass_mail'" required="reply_to_mode != 'update' and composition_mode == 'mass_mail'"/>
