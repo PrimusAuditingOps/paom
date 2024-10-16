@@ -7,12 +7,12 @@
         <field name="inherit_id" ref="account.view_invoice_tree"/>
             <field name="arch" type="xml">
                 <field name="move_type" position="after"> 
-                    <field name="ad_usd_neto" sum="Total" column_invisible="country_code != 'MX'" invisible="country_code != 'MX'" optional="hide"/>
-                    <field name="ad_usd_iva" sum="Total" column_invisible="country_code != 'MX'"  invisible="country_code != 'MX'" optional="hide"/>
-                    <field name="ad_usd_total" sum="Total" column_invisible="country_code != 'MX'"  invisible="country_code != 'MX'" optional="hide"/>
-                    <field name="ad_mxn_neto" sum="Total" column_invisible="country_code != 'MX'"  invisible="country_code != 'MX'" optional="hide"/>
-                    <field name="ad_mxn_iva" sum="Total" column_invisible="country_code != 'MX'"  invisible="country_code != 'MX'" optional="hide"/>
-                    <field name="ad_mxn_total" sum="Total" column_invisible="country_code != 'MX'"  invisible="country_code != 'MX'" optional="hide"/>
+                    <field name="ad_usd_neto" sum="Total" optional="hide"/>
+                    <field name="ad_usd_iva" sum="Total" optional="hide"/>
+                    <field name="ad_usd_total" sum="Total"  optional="hide"/>
+                    <field name="ad_mxn_neto" optional="hide"/>
+                    <field name="ad_mxn_iva"  optional="hide"/>
+                    <field name="ad_mxn_total" sum="Total"  optional="hide"/>
                 </field>
             </field>
     </record>
