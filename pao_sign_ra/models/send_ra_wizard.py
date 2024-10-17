@@ -54,16 +54,16 @@ class SendRaWizard(models.Model):
             arr_ids = []
 
             for line in purchase_order.order_line:
-                if line.registrynumber_id and line.registrynumber_id.id not in arr_ids and self._is_registration_number_available(line.registrynumber_id.id):
+                if line.registrynumber_id and line.registrynumber_id.id not in arr_ids and self._is_registration_number_available(line.registrynumber_id.id, purchase_order_id.id):
                     arr_ids.append(line.registrynumber_id.id)
 
             res['available_registration_numbers_ids'] = [(6, 0, arr_ids)]
         
         return res
 
-    def _is_registration_number_available(self, registration_number_id):
+    def _is_registration_number_available(self, registration_number_id, po_id):
         _logger.warning("CHECK")
-        ra_documents = self.env['ra.document'].search([('purchase_order_id', '=', self.purchase_order_id.id), ('status', '!=', 'cancel')])
+        ra_documents = self.env['ra.document'].search([('purchase_order_id', '=', po_id), ('status', '!=', 'cancel')])
         _logger.warning(ra_documents)
         for document in ra_documents:
             for document_registration_number in document.pao_registration_numbers_ids:
