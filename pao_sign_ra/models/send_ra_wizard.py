@@ -41,11 +41,14 @@ class SendRaWizard(models.Model):
         readonly=True
     )
     
-    template_id = fields.Many2one('mail.template', domain=[('model', '=', 'send.ra.wizard')])
+    ra_templates_ids = fields.Many2many('mail.template', readonly=True)
     
     @api.model
     def default_get(self, fields):
         res = super(SendRaWizard, self).default_get(fields)
+        
+        ra_templates = self.env['ra.mail.templates'].search()
+        res['ra_templates_ids'] = [(6, 0, ra_templates.mapped('template_id.id'))]
         
         purchase_order_id = self.env.context.get('default_purchase_order_id')
         resend_action = self.env.context.get('resend_action')
@@ -62,18 +65,11 @@ class SendRaWizard(models.Model):
         return res
 
     def _is_registration_number_available(self, registration_number_id, po_id):
-        _logger.warning("CHECK")
         ra_documents = self.env['ra.document'].search([('purchase_order_id', '=', po_id), ('status', '!=', 'cancel')])
-        _logger.warning(ra_documents)
         for document in ra_documents:
             for document_registration_number in document.pao_registration_numbers_ids:
-                _logger.warning(document_registration_number.name)
-                _logger.warning(document_registration_number.id)
-                _logger.warning(document.status)
                 if document_registration_number.id == registration_number_id:
-                    _logger.warning("False")
                     return False
-        _logger.warning("True")
         return True
     
     def action_send_mail(self):

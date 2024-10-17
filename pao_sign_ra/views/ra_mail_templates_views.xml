@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="ra_templates_tree_view" model="ir.ui.view">
+        <field name="name">ra.templates.tree.view</field>
+        <field name="model">ra.templates</field>
+        <field name="arch" type="xml">
+            <tree string="RA Templates Manager" editable="bottom">
+                <field name="template_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ra_templates_action" model="ir.actions.act_window">
+        <field name="name">RA Templates Manager</field>
+        <field name="res_model">ra.mail.templates</field>
+        <field name="view_mode">tree</field>
+        <!-- <field name="domain">[('model', '=', 'send.anniversary.reminder')]</field>
+        <field name="context">{'default_model': 'send.anniversary.reminder',}</field> -->
+    </record>
+
+    <menuitem id="menu_item_ra_mail_templates_manager" name="RA Templates Manager" parent="purchase.menu_purchase_config" action="ra_templates_action"/>
+    
+</odoo>
