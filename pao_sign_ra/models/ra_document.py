@@ -38,6 +38,24 @@ class RADocument(models.Model):
         required=True,
     )
     
+    def action_accept_url(self):
+        self.ensure_one()
+        token = self.purchase_order_id.get_confirmation_access_token()
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/confirm/%s/1' % (token),
+            'target': 'new'
+        }
+        
+    def action_reject_url(self):
+        self.ensure_one()
+        token = self.purchase_order_id.get_confirmation_access_token()
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/confirm/%s/2' % (token),
+            'target': 'new'
+        }
+    
     def _set_document_name(self):
         for rec in self:
             registration_numbers_names = rec.pao_registration_numbers_ids.mapped('name')

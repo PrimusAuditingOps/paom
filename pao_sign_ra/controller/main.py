@@ -10,7 +10,6 @@ from odoo.exceptions import AccessError, MissingError, ValidationError
 from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.portal.controllers.portal import pager as portal_pager, CustomerPortal
 
-
 _logger = logging.getLogger(__name__)
 
 class SignRAPortal(CustomerPortal):
