@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_audit_availability_confirm" model="mail.template">
+            <field name="name">Solicitud de verificación de disponibilidad (RA) </field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="subject">Verificación de disponibilidad (RA)</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="report_template_ids" eval="[(4, ref('servicereferralagreement.report_rapurchaseorder'))]"/>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="body_html" type="html">
+                <table style="padding:16px 0 0 0;box-sizing:border-box;caption-side:bottom;padding-top:16px;background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #000000; width: 100%; border-collapse:separate;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;" align="center">
+                                <table style="box-sizing: border-box; caption-side: bottom; padding: 16px; background-color: white; color: #000000; border-collapse: separate; font-family: Verdana, Arial, sans-serif;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                        
+                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;min-width:590px;" align="center">
+                                                <table style="box-sizing: border-box; caption-side: bottom; min-width: 590px; padding: 0px 8px; border-collapse: separate; color: #000000; font-family: Verdana, Arial, sans-serif;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;" valign="middle">
+                                                                <span style="font-size:10px;">
+                                                                </span>
+                                                                <br>
+                                                                <span style="font-size:20px;text-align: justify;">
+                                                                    <b style="box-sizing:border-box;font-weight:bolder;">Verificación de disponibilidad (RA)</b>
+                                                                </span>
+                                                                <br>
+                                                            </td>
+                                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;" valign="middle" align="right">
+                                                                <img src="/logo.png" style="box-sizing:border-box;vertical-align:middle;padding:0px;margin: 0px; height: auto; width: 80px;" alt="logo" width="80">
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                            <td colspan="2" style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:center;">
+                                                                <hr style="border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-color:currentcolor;border-bottom-color:currentcolor;border-right-color:currentcolor;border-top-color:currentcolor;border-style:none;border-left-width:medium;border-bottom-width:medium;border-right-width:medium;border-top-width:medium;box-sizing: border-box; height: 1px; opacity: 0.25; color: #000000; background-color: #cccccc; border: medium none; clear: both; display: block; font-size: 0px; min-height: 1px; line-height: 0; margin: 16px 0px;" width="100%">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;min-width:590px;" align="center">
+
+                                                <table style="box-sizing: border-box; caption-side: bottom; min-width: 590px; background-color: white; padding: 0px 8px; border-collapse: separate; color: #000000; font-family: Verdana, Arial, sans-serif;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:justify;">
+                                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;" valign="top">
+                                                                <div style="color:blue ;">
+                                                                    Este correo no representa una confirmación del servicio de auditoría y <b style="box-sizing:border-box;font-weight:bolder;">no sustituye</b>&nbsp;la
+                                                                    &nbsp;asignación&nbsp;que se emite directamente desde las&nbsp;<b style="box-sizing:border-box;font-weight:bolder;">plataformas de auditoría correspondiente (Azzule o SEDEX).</b>
+                                                                    <br>
+                                                                    <br>
+                                                                </div>
+                                                                <div>
+                                                                    Estimado(a) <t t-out="object.partner_id.name">,<br><br>
+                                                                    <div>Por medio de este correo solicitamos la confirmación de su
+                                                                        disponibilidad para las siguientes auditorías:</div> <br>
+                                                                </t></div>
+                                                                <div style="display:table;">
+                                                                    <div style="display:table-header-group;">
+                                                                        <div style="display:table-row;">
+                                                                            <div style="display:table-cell;">
+                                                                                <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            </font></div><font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;">
+                                                                                <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            </font></div><font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                        </font></font></div><font class="text-black" style="box-sizing: border-box; color: #ffffff;"><font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                    </font></font></div><font class="text-black" style="box-sizing: border-box; color: #ffffff;"><font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+
+                                                                    <t t-foreach="object.order_line" t-as="line">
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b style="box-sizing:border-box;font-weight:bolder;">Organización - </b><t t-out="line.organization_id.name or
+                                                                                'N/A'">
+                                                                            </t></div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b style="box-sizing:border-box;font-weight:bolder;">Servicio - </b><t t-out="line.name or 'N/A'">
+                                                                            </t></div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b style="box-sizing:border-box;font-weight:bolder;">Cantidad - </b><t t-out="line.product_qty or 'N/A'">
+                                                                            </t></div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b style="box-sizing:border-box;font-weight:bolder;">Fecha inicio - </b><t t-out="line.service_start_date or
+                                                                                'N/A'">
+                                                                                <b style="box-sizing:border-box;font-weight:bolder;">Fecha fin - </b><t t-out="line.service_end_date or 'N/A'">
+                                                                            </t></t></div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <br>
+                                                                    </div>
+                                                                    </t>
+                                                                    <div style="display:table-row;">
+                                                                        <br>
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;"><b style="box-sizing:border-box;font-weight:bolder;">Especialista de Operaciones:
+                                                                                </b><t t-out="object.coordinator_id.name or 'N/A'">
+                                                                            </t></div>
+                                                                        </font>
+                                                                    </div>
+
+                                                                    <div style="display:table-row;">
+                                                                        <br>
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;"><b style="box-sizing:border-box;font-weight:bolder;">Estado
+                                                                                    de auditoría -
+                                                                                </b><t t-out="object.audit_state_id.name or 'N/A'">
+                                                                            </t></div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;"><b style="box-sizing:border-box;font-weight:bolder;">Ciudad
+                                                                                    de auditoría -
+                                                                                </b><t t-out="object.audit_city_id.name or 'N/A'">
+                                                                            </t></div>
+                                                                        </font>
+                                                                    </div>
+                                                                    <t t-if="object.shadow_id">
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;"><b style="box-sizing:border-box;font-weight:bolder;">Sombra -
+                                                                                </b><t t-out="object.shadow_id.name or ''">
+                                                                            </t></div>
+                                                                        </font>
+                                                                    </div>
+                                                                    </t>
+                                                                    <t t-if="object.assessment_id">
+                                                                    <div style="display:table-row;">
+                                                                        <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                            <div style="display:table-cell;width:400px;">
+                                                                                <b style="box-sizing:border-box;font-weight:bolder;">Assessment -
+                                                                                </b><t t-out="object.assessment_id.name or ''">
+                                                                            </t></div>
+                                                                        </font>
+                                                                    </div>
+                                                                    </t>
+                                                                </font></font></div><font class="text-black" style="box-sizing: border-box; color: #ffffff;"><font class="text-black" style="box-sizing: border-box; color: #ffffff;">
+                                                                <br>
+                                                                <p style="margin:0px 0 16px 0;box-sizing:border-box;padding:0px;">
+                                                                    <font class="text-black" style="box-sizing: border-box; color: #ffffff;"><b style="box-sizing:border-box;font-weight:bolder;">Honorarios: </b></font>
+                                                                    <font style="color:#ff0000;">Ver Referral Agreement
+                                                                        adjunto.</font>
+                                                                    <br><br>
+                                                                    <font style="color:#ff0000;">"Al dar clic en aceptar, 
+                                                                        usted confirma que está de acuerdo con el honorario y 
+                                                                        acepta las condiciones del servicio estipuladas en
+                                                                        el Referral Agreement"</font>
+                                                                    <br>
+                                                                    <br>
+                                                                </p>
+                                                            </font></font></td>
+                                                        </tr>
+                                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                                <br>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                                <div style="margin:16px 0px 16px 0px;">
+                                                                    <t t-set="access_token" t-value="object.get_confirmation_access_token()"></t>
+                                                                    <br>
+                                                                    <a style="box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-attf-href="/confirm/{{ access_token }}/1">Aceptar
+                                                                    </a>
+                                                                    <a style="box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-attf-href="/confirm/{{ access_token }}/2">Declinar&nbsp;</a>
+                                                                    <br><br>
+                                                                    Si acepta la realización del servicio, seleccione “Aceptar” y
+                                                                    proporcione un estimado de viáticos en caso de requerirse.
+                                                                    <br><br>
+                                                                    Si no cuenta con disponibilidad para este servicio seleccione el
+                                                                    botón "Declinar" y
+                                                                    agregue un comentario breve con los motivos por los cuales no
+                                                                    cuenta con disponibilidad.
+                                                                    <br><br>
+                                                                    Quedamos a sus órdenes para cualquier duda relacionada con la 
+                                                                    presente en el correo electrónico&nbsp;&nbsp;<a href="mailto:auditmx@pao-mx.com" style="text-decoration:none;box-sizing:border-box;color:#008f8c;">auditmx@pao-mx.com </a>&nbsp;o 
+                                                                    directamente con su Especialista de Operaciones.
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:center;">
+                                                                <hr style="border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-color:currentcolor;border-bottom-color:currentcolor;border-right-color:currentcolor;border-top-color:currentcolor;border-style:none;border-left-width:medium;border-bottom-width:medium;border-right-width:medium;border-top-width:medium;box-sizing: border-box; height: 1px; opacity: 0.25; color: #000000; background-color: #cccccc; border: medium none; clear: both; display: block; font-size: 0px; min-height: 1px; line-height: 0; margin: 16px 0px;" width="100%">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;min-width:590px;" align="center">
+                                                <table style="box-sizing: border-box; caption-side: bottom; min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px; border-collapse: separate; color: #000000; font-family: Verdana, Arial, sans-serif;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                                    <tbody style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;min-width:590px;" align="center">
+                                <table style="box-sizing: border-box; caption-side: bottom; min-width: 590px; background-color: #f1f1f1; color: #000000; padding: 8px; border-collapse: separate; font-family: Verdana, Arial, sans-serif;" width="590" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                        <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
+                                            <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:center;font-size: 13px;">
+
+                                                <br>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </field>
+        </record>
+    </data>
+</odoo>

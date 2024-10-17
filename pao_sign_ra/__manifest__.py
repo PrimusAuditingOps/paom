@@ -4,11 +4,12 @@
     'author': 'Manuel Uzueta',
     'website': 'https://www.paomx.com',
     'depends': [
-        'auditconfirmation'
+        'auditconfirmation', 'servicereferralagreement'
     ],
     'data' : [
         # 'security/groups.xml',
         'security/ir.model.access.csv',
+        'data/ra_availability_mail_template.xml',
         # 'security/ir_rules.xml',
         # 'views/res_partner.xml',
         'views/purchase_order.xml',
