@@ -62,11 +62,18 @@ class SendRaWizard(models.Model):
         return res
 
     def _is_registration_number_available(self, registration_number_id):
-        ra_documents = self.env['ra.document'].search([('purchase_order_id', '=', self.purchase_order_id.id)])
+        _logger.warning("CHECK")
+        ra_documents = self.env['ra.document'].search([('purchase_order_id', '=', self.purchase_order_id.id), ('status', '!=', 'cancel')])
+        _logger.warning(ra_documents)
         for document in ra_documents:
             for document_registration_number in document.pao_registration_numbers_ids:
-                if document_registration_number.id == registration_number_id and document_registration_number.status != 'cancel':
+                _logger.warning(document_registration_number.name)
+                _logger.warning(document_registration_number.id)
+                _logger.warning(document_registration_number.status)
+                if document_registration_number.id == registration_number_id:
+                    _logger.warning("False")
                     return False
+        _logger.warning("True")
         return True
     
     def action_send_mail(self):
