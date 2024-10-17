@@ -24,11 +24,11 @@
                                                             <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;" valign="middle">
                                                                 <span style="font-size:10px;">
                                                                 </span>
-                                                                <br>
+                                                                <br/>
                                                                 <span style="font-size:20px;text-align: justify;">
                                                                     <b style="box-sizing:border-box;font-weight:bolder;">Verificación de disponibilidad (RA)</b>
                                                                 </span>
-                                                                <br>
+                                                                <br/>
                                                             </td>
                                                             <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;" valign="middle" align="right">
                                                                 <img src="/logo.png" style="box-sizing:border-box;vertical-align:middle;padding:0px;margin: 0px; height: auto; width: 80px;" alt="logo" width="80">
@@ -54,13 +54,13 @@
                                                                 <div style="color:blue ;">
                                                                     Este correo no representa una confirmación del servicio de auditoría y <b style="box-sizing:border-box;font-weight:bolder;">no sustituye</b>&nbsp;la
                                                                     &nbsp;asignación&nbsp;que se emite directamente desde las&nbsp;<b style="box-sizing:border-box;font-weight:bolder;">plataformas de auditoría correspondiente (Azzule o SEDEX).</b>
-                                                                    <br>
-                                                                    <br>
+                                                                    <br/>
+                                                                    <br/>
                                                                 </div>
                                                                 <div>
-                                                                    Estimado(a) <t t-out="object.partner_id.name">,<br><br>
+                                                                    Estimado(a) <t t-out="object.partner_id.name">,<br/><br/>
                                                                     <div>Por medio de este correo solicitamos la confirmación de su
-                                                                        disponibilidad para las siguientes auditorías:</div> <br>
+                                                                        disponibilidad para las siguientes auditorías:</div> <br/>
                                                                 </t></div>
                                                                 <div style="display:table;">
                                                                     <div style="display:table-header-group;">
@@ -107,11 +107,11 @@
                                                                         </font>
                                                                     </div>
                                                                     <div style="display:table-row;">
-                                                                        <br>
+                                                                        <br/>
                                                                     </div>
                                                                     </t>
                                                                     <div style="display:table-row;">
-                                                                        <br>
+                                                                        <br/>
                                                                         <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
                                                                             <div style="display:table-cell;width:400px;"><b style="box-sizing:border-box;font-weight:bolder;">Especialista de Operaciones:
                                                                                 </b><t t-out="object.coordinator_id.name or 'N/A'">
@@ -120,7 +120,7 @@
                                                                     </div>
 
                                                                     <div style="display:table-row;">
-                                                                        <br>
+                                                                        <br/>
                                                                         <font class="text-black" style="box-sizing: border-box; color: #ffffff;">
                                                                             <div style="display:table-cell;width:400px;"><b style="box-sizing:border-box;font-weight:bolder;">Estado
                                                                                     de auditoría -
@@ -156,43 +156,43 @@
                                                                     </div>
                                                                     </t>
                                                                 </font></font></div><font class="text-black" style="box-sizing: border-box; color: #ffffff;"><font class="text-black" style="box-sizing: border-box; color: #ffffff;">
-                                                                <br>
+                                                                <br/>
                                                                 <p style="margin:0px 0 16px 0;box-sizing:border-box;padding:0px;">
                                                                     <font class="text-black" style="box-sizing: border-box; color: #ffffff;"><b style="box-sizing:border-box;font-weight:bolder;">Honorarios: </b></font>
                                                                     <font style="color:#ff0000;">Ver Referral Agreement
                                                                         adjunto.</font>
-                                                                    <br><br>
+                                                                    <br/><br/>
                                                                     <font style="color:#ff0000;">"Al dar clic en aceptar, 
                                                                         usted confirma que está de acuerdo con el honorario y 
                                                                         acepta las condiciones del servicio estipuladas en
                                                                         el Referral Agreement"</font>
-                                                                    <br>
-                                                                    <br>
+                                                                    <br/>
+                                                                    <br/>
                                                                 </p>
                                                             </font></font></td>
                                                         </tr>
                                                         <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
                                                             <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
-                                                                <br>
+                                                                <br/>
                                                             </td>
                                                         </tr>
                                                         <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
                                                             <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
                                                                 <div style="margin:16px 0px 16px 0px;">
                                                                     <t t-set="access_token" t-value="object.get_confirmation_access_token()"></t>
-                                                                    <br>
+                                                                    <br/>
                                                                     <a style="box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-attf-href="/confirm/{{ access_token }}/1">Aceptar
                                                                     </a>
                                                                     <a style="box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-attf-href="/confirm/{{ access_token }}/2">Declinar&nbsp;</a>
-                                                                    <br><br>
+                                                                    <br/><br/>
                                                                     Si acepta la realización del servicio, seleccione “Aceptar” y
                                                                     proporcione un estimado de viáticos en caso de requerirse.
-                                                                    <br><br>
+                                                                    <br/><br/>
                                                                     Si no cuenta con disponibilidad para este servicio seleccione el
                                                                     botón "Declinar" y
                                                                     agregue un comentario breve con los motivos por los cuales no
                                                                     cuenta con disponibilidad.
-                                                                    <br><br>
+                                                                    <br/><br/>
                                                                     Quedamos a sus órdenes para cualquier duda relacionada con la 
                                                                     presente en el correo electrónico&nbsp;&nbsp;<a href="mailto:auditmx@pao-mx.com" style="text-decoration:none;box-sizing:border-box;color:#008f8c;">auditmx@pao-mx.com </a>&nbsp;o 
                                                                     directamente con su Especialista de Operaciones.
@@ -233,7 +233,7 @@
                                         <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
                                             <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:center;font-size: 13px;">
 
-                                                <br>
+                                                <br/>
                                             </td>
                                         </tr>
                                     </tbody>
