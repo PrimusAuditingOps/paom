@@ -31,7 +31,7 @@ class SignRAPortal(CustomerPortal):
                 return request.redirect('/ra_request/sign/'+str(id)+'/'+str(token))
     
     @http.route('/ra_request/travel_expenses/<int:id>/<string:token>', type='http', auth='public', website=True)
-    def ra_request_portal(self, id, token):
+    def ra_travel_expenses_view_portal(self, id, token):
         try:
             ra_document = self._document_check_access('ra.document', id, access_token=token)
         except (AccessError, MissingError):
@@ -42,7 +42,7 @@ class SignRAPortal(CustomerPortal):
     
     
     @http.route('/ra_request/sign/<int:id>/<string:token>', type='http', auth='public', website=True)
-    def ra_request_portal(self, id, token):
+    def ra_sign_view_portal(self, id, token):
         try:
             ra_document = self._document_check_access('ra.document', id, access_token=token)
         except (AccessError, MissingError):
@@ -52,7 +52,7 @@ class SignRAPortal(CustomerPortal):
         return request.render('pao_sign_ra.sign_ra_preview_portal_view', {'accept_link': accept_link})
     
     @http.route('/ra_request/submit_travel_expenses/<int:id>/<string:token>', type='http', methods=['POST'], auth='public', website=True)
-    def ra_request_portal(self, id, token, **kwargs):
+    def ra_travel_expenses_submit_portal(self, id, token, **kwargs):
         try:
             ra_document = self._document_check_access('ra.document', id, access_token=token)
         except (AccessError, MissingError):
@@ -70,7 +70,7 @@ class SignRAPortal(CustomerPortal):
         return request.redirect('/ra_request/sign/'+str(id)+'/'+str(token))
     
     @http.route('/ra_request/submit_sign/<int:id>/<string:token>', type='http', methods='POST', auth='public', website=True)
-    def ra_request_portal(self, id, token):
+    def ra_sign_submit_portal(self, id, token):
         try:
             ra_document = self._document_check_access('ra.document', id, access_token=token)
         except (AccessError, MissingError):
