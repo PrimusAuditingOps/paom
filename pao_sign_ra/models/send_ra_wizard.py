@@ -54,7 +54,7 @@ class SendRaWizard(models.Model):
             arr_ids = []
 
             for line in purchase_order.order_line:
-                if line.registrynumber_id and line.registrynumber_id.id not in arr_ids and self._is_registration_number_available(line.registrynumber_id.id, purchase_order_id.id):
+                if line.registrynumber_id and line.registrynumber_id.id not in arr_ids and self._is_registration_number_available(line.registrynumber_id.id, purchase_order_id):
                     arr_ids.append(line.registrynumber_id.id)
 
             res['available_registration_numbers_ids'] = [(6, 0, arr_ids)]
