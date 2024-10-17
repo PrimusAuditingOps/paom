@@ -5,14 +5,32 @@ from odoo.exceptions import ValidationError
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
     
-    ra_sent = fields.Boolean(default=False)
     ra_document_ids = fields.One2many(
         comodel_name='ra.document',
         inverse_name='purchase_order_id',
         string="RA Documents",
+        domain=[('status', '!=', 'cancel')]
     )
+    ra_documents_count = fields.Integer(compute="_get_ra_documents_count")
     
-    def send_referral_agreement_action(self):
+    def _get_ra_documents_count(self):
+        for rec in self:
+            rec.ra_documents_count = len(rec.ra_document_ids)
+            # ra_documents = self.ra_document_ids.filtered(lambda ra: ra.status != 'cancel')
+            # rec.ra_documents_count = len(ra_documents)
+            
+    def action_view_linked_ra(self):
+        self.ensure_one()  
+        action = {
+            'res_model': 'ra.document',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'name': _("Referral Agreements - %s", self.name),
+            'domain': [('purchase_order_id', '=', self.id)],
+        }
+        return action
+    
+    def send_referral_agreement_action(self, resend_action=False, registration_numbers_ids=None, request_travel_expenses=True):
         '''
         This function opens a window to compose an email, with the edi purchase template message loaded by default
         '''
@@ -23,15 +41,15 @@ class PurchaseOrder(models.Model):
             'default_model': 'purchase.order',
             'default_res_ids': self.ids,
             'default_purchase_order_id': self.id,
+            'default_resend_action': resend_action,
+            'default_registration_numbers_to_sign_ids': registration_numbers_ids,
+            'default_request_travel_expenses': request_travel_expenses,
             'default_template_id': False,
             'default_composition_mode': 'comment',
             'default_email_layout_xmlid': "mail.mail_notification_layout_with_responsible_signature",
             'force_email': True,
         })
 
-        # In the case of a RFQ or a PO, we want the "View..." button in line with the state of the
-        # object. Therefore, we pass the model description in the context, in the language in which
-        # the template is rendered.
         lang = self.env.context.get('lang')
         if {'default_template_id', 'default_model', 'default_res_id'} <= ctx.keys():
             template = self.env['mail.template'].browse(ctx['default_template_id'])

@@ -52,10 +52,8 @@
         <t t-call="web.frontend_layout">
 
             <t t-set="serviceagreement" t-value="serviceagreement.with_context(lang='es_MX')"/>
-            <!-- <xpath expr="//head" position="attributes">
-                <link rel='stylesheet' href="/pao_sign_sa/static/src/css/pao_sign_sa.css"/>
-            </xpath> -->
 
+            <!-- display download button -->
             <div class="m-0 row justify-content-center" t-if="(serviceagreement.document_status in ['sign','partially_sign'] and signer == 'customer') or (serviceagreement.document_status == 'sign' and signer == 'coordinator')">
                 <div style="padding-top:10px" class="col-auto">
                     <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_sa_content">
@@ -99,6 +97,37 @@
                         </ul>
                     </div>
                 </div>
+
+                <div id="sa_sign_content" class="col-12 col-lg justify-content-end">
+                        <div role="dialog" class="modal fade" id="modalaccept">
+                            <!--t-if="sale_order._has_to_be_signed(True)"-->
+                            <div class="modal-dialog">
+                                <form id="accept" method="POST" class="js_accept_json modal-content js_website_submit_form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <header class="modal-header">
+                                        <h4 class="modal-title">Accept Service Agreement</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </header>
+                                    <main class="modal-body" id="sa-dialog">
+                                        <p>
+                                            <span>By signing this proposal, I agree to the following terms:</span>
+                                            <ul>
+                                                <li>
+                                                    <span>Agree to the fee and service conditions stipulated in the Service Agreement.</span>
+                                                </li>
+                                            </ul>
+                                        </p>
+                                        <t t-call="portal.signature_form">
+                                            <t t-set="call_url" t-value="urlAccept"/>
+                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name if signer == 'customer' else request.env.user.partner_id.name"/>
+                                            <t t-set="font_color" t-value="'darkblue'"/>
+                                        </t>
+                                    </main>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 <!-- Page content -->
                 <div id="sa_content" class="col-12 col-md-9 justify-content-end">
 
@@ -208,37 +237,6 @@
                             </t>
                         </t>
                         <t t-set="flag" t-value="1"/>
-                    </div>
-
-
-                    <div id="sa_sign_content" class="col-12 col-lg justify-content-end">
-                        <div role="dialog" class="modal fade" id="modalaccept">
-                            <!--t-if="sale_order._has_to_be_signed(True)"-->
-                            <div class="modal-dialog">
-                                <form id="accept" method="POST" class="js_accept_json modal-content js_website_submit_form">
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <header class="modal-header">
-                                        <h4 class="modal-title">Accept Service Agreement</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </header>
-                                    <main class="modal-body" id="sa-dialog">
-                                        <p>
-                                            <span>By signing this proposal, I agree to the following terms:</span>
-                                            <ul>
-                                                <li>
-                                                    <span>Agree to the fee and service conditions stipulated in the Service Agreement.</span>
-                                                </li>
-                                            </ul>
-                                        </p>
-                                        <t t-call="portal.signature_form">
-                                            <t t-set="call_url" t-value="urlAccept"/>
-                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name if signer == 'customer' else request.env.user.partner_id.name"/>
-                                            <t t-set="font_color" t-value="'darkblue'"/>
-                                        </t>
-                                    </main>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

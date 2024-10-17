@@ -10,41 +10,11 @@ class SendRaWizard(models.Model):
     _inherit="mail.compose.message"
     _description = 'Send RA Wizard'
     
-    purchase_order_id = fields.Many2one('purchase.order', required=True, default=1)
+    purchase_order_id = fields.Many2one('purchase.order', required=True)
     
-    request_travel_expenses = fields.Boolean(default=True, string="Request Travel Expenses")
+    ra_document_id = fields.Many2one('ra.document', default=None)
     
-    pao_registration_numbers_ids = fields.Many2many(
-        comodel_name='servicereferralagreement.registrynumber',
-        string='Registration Numbers',
-        required=True
-    )
-    
-    filtered_registration_numbers = fields.Many2many(
-        'servicereferralagreement.registrynumber',
-        'filtered_registration_numbers_registry_number_rel',
-        string='Registration Numbers',
-        readonly=True
-    )
-    
-    template_id = fields.Many2one('mail.template', domain=[('model', '=', 'send.ra.wizard')])
-    
-    @api.model
-    def default_get(self, fields):
-        res = super(SendRaWizard, self).default_get(fields)
-        
-        purchase_order_id = self.env.context.get('default_purchase_order_id')
-        if purchase_order_id:
-            purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
-            arr_ids = []
-
-            for line in purchase_order.order_line:
-                if line.registrynumber_id and line.registrynumber_id.id not in arr_ids:
-                    arr_ids.append(line.registrynumber_id.id)
-
-            res['filtered_registration_numbers'] = [(6, 0, arr_ids)]
-        
-        return res
+    resend_action = fields.Boolean(default=False)
     
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
@@ -56,12 +26,60 @@ class SendRaWizard(models.Model):
         'wizard_id', 'partner_id', 'Additional Contacts',
         compute='_compute_partner_ids', readonly=False, store=True)
     
+    request_travel_expenses = fields.Boolean(default=True, string="Request Travel Expenses")
+    
+    registration_numbers_to_sign_ids = fields.Many2many(
+        comodel_name='servicereferralagreement.registrynumber',
+        string='Registration Numbers',
+        required=True
+    )
+    
+    available_registration_numbers_ids = fields.Many2many(
+        'servicereferralagreement.registrynumber',
+        'available_registration_numbers_registration_number_rel',
+        string='Registration Numbers',
+        readonly=True
+    )
+    
+    template_id = fields.Many2one('mail.template', domain=[('model', '=', 'send.ra.wizard')])
+    
+    @api.model
+    def default_get(self, fields):
+        res = super(SendRaWizard, self).default_get(fields)
+        
+        purchase_order_id = self.env.context.get('default_purchase_order_id')
+        resend_action = self.env.context.get('resend_action')
+        if purchase_order_id and not resend_action:
+            purchase_order = self.env['purchase.order'].browse(int(purchase_order_id))
+            arr_ids = []
+
+            for line in purchase_order.order_line:
+                if line.registrynumber_id and line.registrynumber_id.id not in arr_ids and self._is_registration_number_available(line.registrynumber_id.id):
+                    arr_ids.append(line.registrynumber_id.id)
+
+            res['available_registration_numbers_ids'] = [(6, 0, arr_ids)]
+        
+        return res
+
+    def _is_registration_number_available(self, registration_number_id):
+        ra_documents = self.env['ra.document'].search([('purchase_order_id', '=', self.purchase_order_id.id)])
+        for document in ra_documents:
+            for document_registration_number in document.pao_registration_numbers_ids:
+                if document_registration_number.id == registration_number_id and document_registration_number.status != 'cancel':
+                    return False
+        return True
     
     def action_send_mail(self):
         if self.purchase_order_id:
-            self.purchase_order_id.ra_sent = True
-            self.purchase_order_id.ac_request_travel_expenses = self.request_travel_expenses
-            # CREATE RA_DOCUMENT AND LINK IT TO PO
+            # self.purchase_order_id.ac_request_travel_expenses = self.request_travel_expenses
+            if self.resend_action:
+                self.ra_document_id.request_travel_expenses = self.request_travel_expenses
+            else:
+                self.env["ra.document"].create({
+                    'pao_registration_numbers_ids': self.registration_numbers_to_sign_ids,
+                    'purchase_order_id': self.purchase_order_id.id,
+                    'request_travel_expenses': self.request_travel_expenses
+                })
             
         super(SendRaWizard, self).action_send_mail()
     

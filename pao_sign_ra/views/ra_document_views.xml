@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ra_document_tree_view" model="ir.ui.view">
+        <field name="name">ra.document.tree.view</field>
+        <field name="model">ra.document</field>
+        <field name="arch" type="xml">
+            <tree string="Referral Agreements" create="false">
+                <field name="name"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ra_document_search_view" model="ir.ui.view">
+        <field name="name">ra.document.search.view</field>
+        <field name="model">ra.document</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <separator/>
+                <filter name="group_status" string="Status" context="{'group_by':'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="ra_document_form_view" model="ir.ui.view">
+        <field name="name">ra.document.form.view</field>
+        <field name="model">ra.document</field>
+        <field name="arch" type="xml">
+            <form string="Referral Agreement" create="false">
+            <header>
+                    <button string="Resend" invisible="status != 'sent'" type="object" class="oe_highlight" name="action_resend"/>
+                    <button string="Cancel" invisible="status != 'sent'" type="object" class="oe_highlight" name="action_cancel" confirm="This will cancel this RA, and you will need to create a new one to send it back to the customer. Continue?"/>
+                    <field name="status" widget="statusbar" options="{'fold_field': 'fold'}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Document Information">
+                            <field name="name" readonly="1"/>
+                            <field name="request_travel_expenses" readonly="status != 'sent"/>
+                            <field name="pao_registration_numbers_ids" readonly="1" widget="many2many_tags"/>
+                            <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

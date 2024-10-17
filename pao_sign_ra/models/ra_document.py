@@ -6,8 +6,20 @@ class RADocument(models.Model):
     _name = 'ra.document'
     _description = 'RA Document'
     
-    name = fields.Char('Name')
-    status = fields.Selection(selection=[('sent', 'Sent'), ('sign', 'Signed'), ('cancel', 'Cancelled')], string="Status")
+    name = fields.Char('Name', compute="_set_document_name", store=True)
+    status = fields.Selection(
+        string="Status", 
+        default="sent",
+        selection=[
+            ('sent', 'Sent'), 
+            ('sign', 'Signed'),
+            ('reject', 'Rejected'), 
+            ('cancel', 'Cancelled')
+        ]
+    )
+    
+    request_travel_expenses = fields.Boolean(string="Request Travel Expenses", readonly=True)
+    
     attachment_ids = fields.Many2many('ir.attachment', string="Attachments")
     
     pao_registration_numbers_ids = fields.Many2many(
@@ -23,8 +35,15 @@ class RADocument(models.Model):
         required=True,
     )
     
+    def _set_document_name(self):
+        for rec in self:
+            registration_numbers_names = rec.pao_registration_numbers_ids.mapped('name')
+            rec.name = rec.purchase_order_id.name + ' - ' + (', '.join(registration_numbers_names))
+    
     def action_resend(self):
-        self.purchase_order_id.send_referral_agreement_action()
+        if self.status == 'sent':
+            self.purchase_order_id.send_referral_agreement_action(resend_action=True, registration_numbers_ids=self.pao_registration_numbers_ids, request_travel_expenses = self.request_travel_expenses)
     
     def action_cancel(self):
-        self.status = 'cancel'
+        if self.status == 'sent':
+            self.status = 'cancel'
