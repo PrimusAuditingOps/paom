@@ -1,6 +1,7 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
 from logging import getLogger
+import uuid
 
 _logger = getLogger(__name__)
 
@@ -21,7 +22,15 @@ class RADocument(models.Model):
         ]
     )
     
+    access_token = fields.Char(
+        'Access Token', 
+        default=lambda self: self._get_access_token(),
+        copy=False,
+    )
+    
     request_travel_expenses = fields.Boolean(string="Request Travel Expenses", readonly=True)
+    
+    travel_expenses_posted = fields.Boolean(default=False)
     
     attachment_ids = fields.Many2many('ir.attachment', string="Attachments")
     
@@ -38,12 +47,15 @@ class RADocument(models.Model):
         required=True,
     )
     
+    @api.model
+    def _get_access_token(self):
+        return uuid.uuid4().hex
+    
     def action_accept_url(self):
         self.ensure_one()
-        token = self.purchase_order_id.get_confirmation_access_token()
         return {
             'type': 'ir.actions.act_url',
-            'url': '/confirm/%s/1' % (token),
+            'url': '/ra_request/accept/%s/%s' % (self.id, self.access_token),
             'target': 'new'
         }
         

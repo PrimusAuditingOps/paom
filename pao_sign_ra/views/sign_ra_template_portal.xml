@@ -1,249 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <template id="external_auditor_sign_portal_view" name="Audit Confirmation">
-        <!-- <t t-call="web.frontend_layout">
-            <div class="col-md-12">
-                <div class="oe_structure container mb128">
-                    <div class="col-md-6" style="margin: auto;">
-                        <input type="hidden" name="prueba1" t-att-value="urlconfirm"/>
-                        <br/>
-                        <p>
-                            <span>By signing this proposal, you agree to the following terms:</span>
-                            <ul>
-                                <li>
-                                    <span>Agree to the fee and service conditions stipulated in the Referral Agreement.</span>
-                                </li>
-                            </ul>
-                        </p>
-                        <p>
-                            <b>
-                                <span style="font-size:13px; color:#ff890d;" t-esc="notice"/>
-                            </b>
-                        </p>
-                        <div>
-                            <a role="button" class="btn btn-primary btn-block mb8" data-bs-toggle="modal" data-bs-target="#modalaccept" href="#">
-                                <i class="fa fa-check"/>
-                                <t> Accept &amp; Sign</t>
-                            </a>
-                        </div>
-                        <div role="dialog" class="modal fade" id="modalaccept">
-                            <div class="modal-dialog">
-                                <form id="accept" method="POST" class="js_accept_json modal-content js_website_submit_form">
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <header class="modal-header">
-                                        <h4 class="modal-title">Accept &amp; Sign</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </header>
-                                    <main class="modal-body" id="sign-dialog">
-                                        <t t-call="portal.signature_form">
-                                            <t t-set="call_url" t-value="urlconfirm"/>
-                                            <t t-set="default_name" t-value="signname"/>
-                                            <t t-set="font_color" t-value="'darkblue'"/>
-                                        </t>
-                                    </main>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </t> -->
-
+    <template id="process_complete_ra_request_portal_view" name="RA Signature Request">
         <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center my-5 py-5">
+                    <t t-if="ra_status == 'error'">
+                        <h3 class="d-inline">There was an error processing your response. Please try again.</h3>
+                    </t>
+                    <t t-if="ra_status == 'cancel'">
+                        <h3 class="d-inline">The RA signature request was canceled or does not exist.</h3>
+                    </t>
+                    <t t-if="ra_status == 'reject'">
+                        <h3 class="d-inline">Thank you for your response. If you anything else please contact our staff.</h3>
+                    </t>
+                    <t t-if="ra_status == 'sign'">
+                        <h3 class="d-inline">Thank you for your response.</h3>
+                        <!-- ADD DOWNLOAD RA BUTTON -->
+                    </t>
 
-            <t t-set="serviceagreement" t-value="serviceagreement.with_context(lang='es_MX')"/>
-
-            <!-- display download button -->
-            <div class="m-0 row justify-content-center" t-if="(serviceagreement.document_status in ['sign','partially_sign'] and signer == 'customer') or (serviceagreement.document_status == 'sign' and signer == 'coordinator')">
-                <div style="padding-top:10px" class="col-auto">
-                    <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_sa_content">
-                        <div class="card-header">SA</div>
-                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
-                            <li class="list-group-item flex-grow-1">
-                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" t-foreach="documents" t-as="attach">
-                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
-                                        <a class="btn btn-secondary btn-block o_download_btn" title="Download #{attach['name']}" target="_blank" t-attf-href="#{attach['url']}">
-                                            <i class="fa fa-download"></i>
-                                            <span t-esc="attach['name']"/>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
-
-
-
-            <div class="row mt16" t-if="(serviceagreement.document_status == 'sent' and signer == 'customer') or (serviceagreement.document_status == 'partially_sign' and signer == 'coordinator')">
-                <div class="col-12 col-md-auto d-print-none ml-md-3">
-                    <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_sa_content">
-                        <div class="card-header">Signature</div>
-                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
-                            <li class="list-group-item flex-grow-1">
-                                <a role="button" class="btn btn-primary btn-block mb8" data-bs-toggle="modal" data-bs-target="#modalaccept" href="#">
-                                    <i class="fa fa-check"></i> Accept &amp; Sign
-                                </a>
-                                <!--data-toggle="modal" data-target="#modalaccept" href="#"-->
-                                <div t-foreach="serviceagreement.registration_number_to_sign_ids" t-as="rn" t-if="len(serviceagreement.registration_number_to_sign_ids) > 1">
-                                    <br/>
-                                    <a t-attf-href="##{rn.name}">
-                                        <p style="max-width:200px; text-align:center">Ir al <span t-esc="rn.name"/>
-                                        </p>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div id="sa_sign_content" class="col-12 col-lg justify-content-end">
-                        <div role="dialog" class="modal fade" id="modalaccept">
-                            <!--t-if="sale_order._has_to_be_signed(True)"-->
-                            <div class="modal-dialog">
-                                <form id="accept" method="POST" class="js_accept_json modal-content js_website_submit_form">
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <header class="modal-header">
-                                        <h4 class="modal-title">Accept Service Agreement</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </header>
-                                    <main class="modal-body" id="sa-dialog">
-                                        <p>
-                                            <span>By signing this proposal, I agree to the following terms:</span>
-                                            <ul>
-                                                <li>
-                                                    <span>Agree to the fee and service conditions stipulated in the Service Agreement.</span>
-                                                </li>
-                                            </ul>
-                                        </p>
-                                        <t t-call="portal.signature_form">
-                                            <t t-set="call_url" t-value="urlAccept"/>
-                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name if signer == 'customer' else request.env.user.partner_id.name"/>
-                                            <t t-set="font_color" t-value="'darkblue'"/>
-                                        </t>
-                                    </main>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                <!-- Page content -->
-                <div id="sa_content" class="col-12 col-md-9 justify-content-end">
-
-                    <t t-set="flag" t-value= "0"/>
-
-
-                    <div t-foreach="serviceagreement.registration_number_to_sign_ids" class="reportsa" t-as="rn">
-
-                        <div t-att-id="rn.name" style="background-color:transparent;">
-                            <t t-if="flag > 0">
-                                <br/>
-                                <br/>
-                                <br/>
-                            </t>
-                        </div>
-                        <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/>
-                        <t t-if="rn.scheme == 'PrimusGFS'">
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
-                                <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/>
-                                <t t-call="pao_sign_sa.sa_pgfs_scheme">
-                                    <t t-set="serviceagreement" t-value="rn"/>
-                                </t>
-                            </t>
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code == 'US'">
-                                <t t-set="rn" t-value="rn.with_context(lang='en_US')"/>
-                                <t t-call="pao_sign_sa.sa_pgfs_scheme_usa">
-                                    <t t-set="serviceagreement" t-value="rn"/>
-                                </t>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'GLOBALG.A.P.'">
-                            <t t-call="pao_sign_sa.sa_globalgap_scheme">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'NOP'">
-                            <t t-set="rn" t-value="rn.with_context(lang='en_US')"/>
-                            <t t-call="pao_sign_sa.sa_nop_scheme">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'SMETA'">
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
-                                <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/>
-                                <t t-call="pao_sign_sa.sa_smeta_scheme">
-                                    <t t-set="serviceagreement" t-value="rn"/>
-                                </t>
-                            </t>
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code == 'US'">
-                                <t t-set="rn" t-value="rn.with_context(lang='en_US')"/>
-                                <t t-call="pao_sign_sa.sa_smeta_scheme_usa">
-                                    <t t-set="serviceagreement" t-value="rn"/>
-                                </t>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'NOP-LPO' or rn.scheme == 'LPO'">
-                            <t t-call="pao_sign_sa.sa_nop_lpo_scheme">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'Primus Standard GAP' or rn.scheme == 'Primus Standard GMP'">
-
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code in ['MX','CR','CL']">
-                                <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/>
-                                <t t-call="pao_sign_sa.sa_primus_standar_scheme">
-                                    <t t-set="serviceagreement" t-value="rn"/>
-                                </t>
-                            </t>
-                            <t t-if="rn.sign_sa_agreements_id.sale_order_id.country_code == 'US'">
-                                <t t-set="rn" t-value="rn.with_context(lang='en_US')"/>
-                                <t t-call="pao_sign_sa.sa_primus_standar_scheme_usa">
-                                    <t t-set="serviceagreement" t-value="rn"/>
-                                </t>
-                            </t>
-
-                        </t>
-                        <t t-if="rn.scheme == 'LPO-UE'">
-                            <t t-call="pao_sign_sa.sa_lpo_ue_scheme">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'HACCP'">
-                            <t t-call="pao_sign_sa.sa_haccp_scheme">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'Sustentabilidad'">
-                            <t t-call="pao_sign_sa.sa_sustentabilidad_scheme">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'Sustainability'">
-                            <t t-set="rn" t-value="rn.with_context(lang='en_US')"/>
-                            <t t-call="pao_sign_sa.sa_sustainability_scheme_usa">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'Add-GLOBALG.A.P.'">
-                            <t t-call="pao_sign_sa.sa_add_globalgap_scheme">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-if="rn.scheme == 'FSMA'">
-                            <t t-set="rn" t-value="rn.with_context(lang='en_US')"/>
-                            <t t-call="pao_sign_sa.sa_fsma_scheme_usa">
-                                <t t-set="serviceagreement" t-value="rn"/>
-                            </t>
-                        </t>
-                        <t t-set="flag" t-value="1"/>
-                    </div>
-                </div>
-            </div>
-
-
-
         </t>
     </template>
 
+    <template id="travel_expenses_portal_view" name="Travel Expenses Form">
+        <t t-call="web.frontend_layout">
+            <div class="col-md-12" style="top:20px;">
+                <div class="oe_structure container mb128">
+                    <form id="travel_expenses_form" method="POST" t-att-action="submit_travel_expenses_link" class="col-md-6" style="margin: auto;">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <label for="travelexpenses">Please add your detailed travel expenses:</label>
+                                <textarea class="form-control" id="travel_expenses" name="travel_expenses" rows="4"></textarea>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="sign_ra_preview_portal_view" name="Ra Signature Form">
+        <xpath expr="//head" position="inside">
+            <style>
+                ul {
+                    font-family: sans-serif !important;
+                }
+            </style>
+        </xpath>
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mb-4">
+                    <h3 class="d-inline">
+                        <b>Sign RA</b>
+                    </h3>
+                </div>
+
+                <br/>
+
+                <div class="d-flex justify-content-center mt-4 mb-5">
+                    <button data-bs-toggle="modal" data-bs-target="#accept_sign_ra" class="btn btn-primary mx-3">Accept</button>
+                </div>
+
+                <div class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form method="POST">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Sign RA</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <t t-call="portal.signature_form">
+                                        <t t-set="call_url" t-value="accept_link"/>
+                                        <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
+                                        <t t-set="font_color" t-value="'darkblue'"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
 </odoo>
