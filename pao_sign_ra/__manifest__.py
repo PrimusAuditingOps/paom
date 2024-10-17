@@ -14,6 +14,7 @@
         # 'views/res_partner.xml',
         'views/purchase_order.xml',
         'views/ra_mail_templates_views.xml',
+        'views/sign_ra_template_portal.xml',
         'views/ra_document_views.xml',
         'views/send_ra_view_form.xml',
     ],
