@@ -47,7 +47,7 @@ class SendRaWizard(models.Model):
     def default_get(self, fields):
         res = super(SendRaWizard, self).default_get(fields)
         
-        ra_templates = self.env['ra.mail.templates'].search()
+        ra_templates = self.env['ra.mail.templates'].search([])
         res['ra_templates_ids'] = [(6, 0, ra_templates.mapped('template_id.id'))]
         
         purchase_order_id = self.env.context.get('default_purchase_order_id')
