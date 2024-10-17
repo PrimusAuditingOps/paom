@@ -13,7 +13,7 @@
         # 'views/res_partner.xml',
         'views/purchase_order.xml',
         'views/ra_document_views.xml',
-        'views/send_proposal_view_form.xml',
+        'views/send_ra_view_form.xml',
     ],
 
     'installable': True,
