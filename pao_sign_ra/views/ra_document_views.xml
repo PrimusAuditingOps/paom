@@ -28,19 +28,21 @@
         <field name="model">ra.document</field>
         <field name="arch" type="xml">
             <form string="Referral Agreement" create="false">
-            <header>
+                <header>
                     <button string="Resend" invisible="status != 'sent'" type="object" class="oe_highlight" name="action_resend"/>
                     <button string="Cancel" invisible="status != 'sent'" type="object" class="oe_highlight" name="action_cancel" confirm="This will cancel this RA, and you will need to create a new one to send it back to the customer. Continue?"/>
                     <field name="status" widget="statusbar" options="{'fold_field': 'fold'}"/>
                 </header>
                 <sheet>
-                    <group>
-                        <group string="Document Information">
+                    <div class="oe_title">
+                        <h1>
                             <field name="name" readonly="1"/>
-                            <field name="request_travel_expenses" readonly="status != 'sent'"/>
-                            <field name="pao_registration_numbers_ids" readonly="1" widget="many2many_tags"/>
-                            <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" readonly="1"/>
-                        </group>
+                        </h1>
+                    </div>
+                    <group string="Document Details">
+                        <field name="request_travel_expenses" readonly="status != 'sent'"/>
+                        <field name="pao_registration_numbers_ids" readonly="1" widget="many2many_tags"/>
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" readonly="1"/>
                     </group>
                 </sheet>
             </form>

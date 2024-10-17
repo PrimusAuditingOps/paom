@@ -16,8 +16,6 @@ class PurchaseOrder(models.Model):
     def _get_ra_documents_count(self):
         for rec in self:
             rec.ra_documents_count = len(rec.ra_document_ids)
-            # ra_documents = self.ra_document_ids.filtered(lambda ra: ra.status != 'cancel')
-            # rec.ra_documents_count = len(ra_documents)
             
     def action_view_linked_ra(self):
         self.ensure_one()  
