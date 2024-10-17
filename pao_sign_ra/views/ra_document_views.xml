@@ -31,8 +31,8 @@
                 <header>
                     <button string="Resend" invisible="status != 'sent'" type="object" class="oe_highlight" name="action_resend"/>
                     <button string="Cancel" invisible="status != 'sent'" type="object" class="oe_highlight" name="action_cancel" confirm="This will cancel this RA request, and you will need to create a new one to send it back to the customer."/>
-                    <button string="Accept" class="oe_highlight" name="action_accept_url" groups="base.group_system"/>
-                    <button string="Reject" class="oe_highlight" name="action_reject_url" groups="base.group_system"/>
+                    <button string="Accept" class="oe_highlight" type="object" name="action_accept_url" groups="base.group_system"/>
+                    <button string="Reject" class="oe_highlight" type="object" name="action_reject_url" groups="base.group_system"/>
                     <field name="status" widget="statusbar" options="{'fold_field': 'fold'}"/>
                 </header>
                 <sheet>
