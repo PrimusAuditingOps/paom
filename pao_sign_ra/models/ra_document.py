@@ -46,7 +46,7 @@ class RADocument(models.Model):
     def action_resend(self):
         if self.status == 'sent':
             _logger.warning("SE INTENTA")
-            return self.purchase_order_id.send_referral_agreement_action(resend_action=True, registration_numbers_ids=self.pao_registration_numbers_ids, request_travel_expenses = self.request_travel_expenses)
+            return self.purchase_order_id.send_referral_agreement_action(resend_action=True, registration_numbers_ids=self.pao_registration_numbers_ids.ids, request_travel_expenses = self.request_travel_expenses)
         _logger.warning("sin exito")
     
     def action_cancel(self):
