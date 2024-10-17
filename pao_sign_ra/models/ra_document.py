@@ -1,5 +1,8 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
+from logging import getLogger
+
+_logger = getLogger(__name__)
 
 
 class RADocument(models.Model):
@@ -42,7 +45,9 @@ class RADocument(models.Model):
     
     def action_resend(self):
         if self.status == 'sent':
+            _logger.warning("SE INTENTA")
             self.purchase_order_id.send_referral_agreement_action(resend_action=True, registration_numbers_ids=self.pao_registration_numbers_ids, request_travel_expenses = self.request_travel_expenses)
+        _logger.warning("sin exito")
     
     def action_cancel(self):
         if self.status == 'sent':
