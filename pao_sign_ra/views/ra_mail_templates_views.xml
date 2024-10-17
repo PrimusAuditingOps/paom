@@ -3,7 +3,7 @@
 
     <record id="ra_templates_tree_view" model="ir.ui.view">
         <field name="name">ra.templates.tree.view</field>
-        <field name="model">ra.templates</field>
+        <field name="model">ra.mail.templates</field>
         <field name="arch" type="xml">
             <tree string="RA Templates Manager" editable="bottom">
                 <field name="template_id"/>
