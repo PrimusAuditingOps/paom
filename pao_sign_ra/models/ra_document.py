@@ -6,7 +6,7 @@ class RADocument(models.Model):
     _name = 'ra.document'
     _description = 'RA Document'
     
-    name = fields.Char('Name', compute="_set_document_name", store=True)
+    name = fields.Char('Name', compute="_set_document_name")
     status = fields.Selection(
         string="Status", 
         default="sent",
