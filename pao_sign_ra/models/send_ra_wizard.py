@@ -69,7 +69,7 @@ class SendRaWizard(models.Model):
             for document_registration_number in document.pao_registration_numbers_ids:
                 _logger.warning(document_registration_number.name)
                 _logger.warning(document_registration_number.id)
-                _logger.warning(document_registration_number.status)
+                _logger.warning(document.status)
                 if document_registration_number.id == registration_number_id:
                     _logger.warning("False")
                     return False
