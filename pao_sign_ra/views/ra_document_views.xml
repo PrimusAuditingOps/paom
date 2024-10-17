@@ -37,7 +37,7 @@
                     <group>
                         <group string="Document Information">
                             <field name="name" readonly="1"/>
-                            <field name="request_travel_expenses" readonly="status != 'sent"/>
+                            <field name="request_travel_expenses" readonly="status != 'sent'"/>
                             <field name="pao_registration_numbers_ids" readonly="1" widget="many2many_tags"/>
                             <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" readonly="1"/>
                         </group>
