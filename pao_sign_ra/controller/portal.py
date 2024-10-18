@@ -137,6 +137,12 @@ class SignRAPortal(portal.CustomerPortal):
         requested_tz = pytz.timezone('America/Mexico_City')
         today = requested_tz.fromutc(datetime.utcnow())
         
+        auditconfirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search([('ac_id_purchase','=',ra_document.purchase_order_id.id)])
+        
+        if auditconfirmation and auditconfirmation.ac_audit_confirmation_status == '0':
+            auditconfirmation.write({'ac_audit_confirmation_status': '1'})
+            ra_document.purchase_order_id.write({'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
+        
         pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
             'servicereferralagreement.report_rapurchaseorder',
             ra_document.purchase_order_id.id,
@@ -158,11 +164,6 @@ class SignRAPortal(portal.CustomerPortal):
             'status': 'sign'
         })
         
-        auditconfirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search([('ac_id_purchase','=',ra_document.purchase_order_id.id)])
-        
-        if auditconfirmation and auditconfirmation.ac_audit_confirmation_status == '0':
-            ra_document.purchase_order_id.write({'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
-            auditconfirmation.write({'ac_audit_confirmation_status': '1'})
 
         return {
             'force_refresh': True,
