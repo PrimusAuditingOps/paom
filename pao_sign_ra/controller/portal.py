@@ -160,6 +160,8 @@ class SignRAPortal(portal.CustomerPortal):
         
         _logger.warning(name)
         
+        _logger.warning(ra_document.purchase_order_id.ac_audit_confirmation_status)
+        
         if ra_document.purchase_order_id.ac_audit_confirmation_status == '0':
             ra_document.purchase_order_id.write({'ac_audit_confirmation_status': '1', 'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
 
