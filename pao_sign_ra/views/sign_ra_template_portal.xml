@@ -70,12 +70,12 @@
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Sign RA</h5>
+                                    <h5 class="modal-title">Sign RA</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <t t-call="portal.signature_form">
-                                        <t t-set="call_url" t-value="submit_travel_expenses_link"/>
+                                        <t t-set="call_url" t-value="accept_link"/>
                                         <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
                                         <t t-set="font_color" t-value="'darkblue'"/>
                                     </t>
