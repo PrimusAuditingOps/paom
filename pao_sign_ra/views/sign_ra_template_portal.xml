@@ -64,22 +64,20 @@
                     <button data-bs-toggle="modal" data-bs-target="#accept_sign_ra" class="btn btn-primary mx-3">Accept</button>
                 </div>
 
-                <div class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
+                <div role="dialog" class="modal fade" id="accept_sign_ra">
                     <div class="modal-dialog">
-                        <form id="sign_ra_form" method="POST">
+                        <form id="sign_ra_form" method="POST" class="js_accept_json modal-content js_website_submit_form">
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Sign RA</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <t t-call="portal.signature_form">
-                                        <t t-set="call_url" t-value="accept_link"/>
-                                        <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
-                                        <t t-set="font_color" t-value="'darkblue'"/>
-                                    </t>
-                                </div>
+                            <header class="modal-header">
+                                <h4 class="modal-title">Sign RA</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </header>
+                            <div class="modal-body" id="sign-dialog">
+                                <t t-call="portal.signature_form">
+                                    <t t-set="call_url" t-value="accept_link"/>
+                                    <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
+                                    <t t-set="font_color" t-value="'darkblue'"/>
+                                </t>
                             </div>
                         </form>
                     </div>
