@@ -60,9 +60,13 @@
                             </b>
                         </h2>
                         <!-- Sign Button -->
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accept_sign_ra" id="sign-pdf-btn" style="white-space: nowrap;">
+                        <button t-if="ra_status == 'sent'" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accept_sign_ra" id="sign-pdf-btn" style="white-space: nowrap;">
                             Accept and Sign
                         </button>
+
+                        <a t-if="ra_status == 'sign'" id="download_ra_button" type="button" class="btn btn-primary" t-att-href="download_link">
+                            Download RA
+                        </a>
                     </div>
                 </div>
 
@@ -85,7 +89,7 @@
 
             </div>
 
-            <div class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
+            <div t-if="ra_status == 'sent'" class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

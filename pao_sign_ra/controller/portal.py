@@ -4,6 +4,7 @@ from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
 from odoo.addons.portal.controllers import portal
 from odoo.addons.portal.controllers.mail import _message_post_helper
+from odoo.addons.web.controllers.main import content_disposition
 from datetime import datetime
 import pytz
 import base64
@@ -34,7 +35,16 @@ class SignRAPortal(portal.CustomerPortal):
         if not ra_document:
             return request.redirect('/')
         
-        if ra_document.status != 'sent':
+        if ra_document.status == 'sign':
+            pdf_data = self._generate_ra_preview(ra_document)
+            download_link = f'/sign_ra/download_ra/{ra_document.purchase_order_id.id}'
+            return request.render('pao_sign_ra.sign_ra_preview_portal_view', {
+                'download_link': download_link,
+                'pdf_preview_data': pdf_data,
+                'purchase_order': ra_document.purchase_order_id,
+                'ra_status': ra_document.status
+            })
+        elif ra_document.status != 'sent':
             # ADD MISSING PARAMETERS...DOWNLOAD, ETC
             return request.render('pao_sign_ra.process_complete_ra_request_portal_view', {
                 'ra_status': ra_document.status
@@ -114,7 +124,8 @@ class SignRAPortal(portal.CustomerPortal):
             return request.render('pao_sign_ra.sign_ra_preview_portal_view', {
                 'accept_link': accept_link,
                 'pdf_preview_data': pdf_data,
-                'purchase_order': ra_document.purchase_order_id
+                'purchase_order': ra_document.purchase_order_id,
+                'ra_status': ra_document.status
             })
 
     @http.route('/ra_request/submit_sign/<int:id>/<string:token>', type='json', methods=['POST'], auth='public', website=True)
@@ -126,7 +137,26 @@ class SignRAPortal(portal.CustomerPortal):
         requested_tz = pytz.timezone('America/Mexico_City')
         today = requested_tz.fromutc(datetime.utcnow())
         
-        ra_document.write({'status': 'sign'})
+        pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+            'servicereferralagreement.report_rapurchaseorder',
+            ra_document.purchase_order_id.id,
+        )[0]
+
+        # Create an attachment record
+        attachment = request.env['ir.attachment'].create({
+            'name': 'Referral Agreement - %s.pdf' % ra_document.name,
+            'type': 'binary',
+            'datas': base64.b64encode(pdf_content),
+            'res_model': 'ra.document',  # Replace with your model name
+            'res_id': ra_document.id,  # The record ID to which the attachment belongs
+            'mimetype': 'application/pdf',
+        })
+
+        # Update the record's attachment_ids
+        ra_document.write({
+            'attachment_ids': [(4, attachment.id)],
+            'status': 'sign'
+        })
         
         _logger.warning(name)
         
@@ -137,3 +167,22 @@ class SignRAPortal(portal.CustomerPortal):
             'force_refresh': True,
             'redirect_url': f'/ra_request/accept/{id}/{token}'
         }
+        
+        
+        
+        
+        
+    '''Method to download RA'''
+    
+    @http.route('/sign_ra/download_ra/<int:id>', type='http', auth="user", website=True)
+    def download_ra(self, id=None, **kwargs):
+
+        order_sudo = request.env['purchase.order'].sudo().search([('id', '=', id)])
+        rafilename = 'RA-'+order_sudo.name+'-'+order_sudo.partner_id.name+'.pdf'
+        
+        pdf = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+            'servicereferralagreement.report_rapurchaseorder',
+            id,
+        )[0]
+        
+        return request.make_response(pdf, [('Content-Type', 'application/octet-stream'), ('Content-Disposition', content_disposition(rafilename))])
