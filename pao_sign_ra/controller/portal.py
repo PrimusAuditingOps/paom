@@ -1,10 +1,8 @@
 import logging
-
 from odoo import http, _
 from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
 from odoo.addons.portal.controllers import portal
-from werkzeug.urls import url_join
 from odoo.addons.portal.controllers.mail import _message_post_helper
 import base64
 
@@ -12,101 +10,112 @@ _logger = logging.getLogger(__name__)
 
 class SignRAPortal(portal.CustomerPortal):
 
+    def _get_ra_document(self, model, id, token):
+        """Utility method to retrieve the RA document and handle access errors."""
+        try:
+            return self._document_check_access(model, id, access_token=token)
+        except (AccessError, MissingError):
+            return None
+
+    def _redirect_to(self, endpoint, id, token):
+        """Utility method to simplify redirection with formatted URL."""
+        return request.redirect(f'/ra_request/{endpoint}/{id}/{token}')
+    
+    
+    
+
+    '''Method to redirect to the appropriate step'''
+    
     @http.route('/ra_request/accept/<int:id>/<string:token>', type='http', auth='public', website=True)
     def ra_request_portal(self, id, token):
-        try:
-            ra_document = self._document_check_access('ra.document', id, access_token=token)
-        except (AccessError, MissingError):
+        ra_document = self._get_ra_document('ra.document', id, token)
+        if not ra_document:
             return request.redirect('/')
         
         if ra_document.status != 'sent':
             # ADD MISSING PARAMETERS...DOWNLOAD, ETC
-            return request.render('pao_sign_ra.process_complete_ra_request_portal_view', {'ra_status': ra_document.status})
+            return request.render('pao_sign_ra.process_complete_ra_request_portal_view', {
+                'ra_status': ra_document.status
+            })
+        
+        if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
+            return self._redirect_to('travel_expenses', id, token)
         else:
-            if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
-                return request.redirect('/ra_request/travel_expenses/'+str(id)+'/'+str(token))
-            else:
-                return request.redirect('/ra_request/sign/'+str(id)+'/'+str(token))
+            return self._redirect_to('sign', id, token)
+        
+        
+        
+        
+        
+
+    '''Methods for handling the travel expenses form'''
     
     @http.route('/ra_request/travel_expenses/<int:id>/<string:token>', type='http', auth='public', website=True)
     def ra_travel_expenses_view_portal(self, id, token):
-        try:
-            ra_document = self._document_check_access('ra.document', id, access_token=token)
-        except (AccessError, MissingError):
+        ra_document = self._get_ra_document('ra.document', id, token)
+        if not ra_document:
             return request.redirect('/')
         
         if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
-            submit_travel_expenses_link = '/ra_request/submit_travel_expenses/'+str(id)+'/'+str(token)
-            return request.render('pao_sign_ra.travel_expenses_portal_view', {'submit_travel_expenses_link': submit_travel_expenses_link})
+            submit_travel_expenses_link = f'/ra_request/submit_travel_expenses/{id}/{token}'
+            return request.render('pao_sign_ra.travel_expenses_portal_view', {
+                'submit_travel_expenses_link': submit_travel_expenses_link
+            })
         else:
-            return request.redirect('/ra_request/accept/'+str(id)+'/'+str(token))
-    
-    @http.route('/ra_request/sign/<int:id>/<string:token>', type='http', auth='public', website=True)
-    def ra_sign_view_portal(self, id, token):
-        try:
-            ra_document = self._document_check_access('ra.document', id, access_token=token)
-        except (AccessError, MissingError):
-            return request.redirect('/')
-        
-        if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
-            return request.redirect('/ra_request/accept/'+str(id)+'/'+str(token))
-        else:
-            accept_link = '/ra_request/submit_sign/'+str(id)+'/'+str(token)
-            return request.render('pao_sign_ra.sign_ra_preview_portal_view', {'accept_link': accept_link})
-    
+            return self._redirect_to('accept', id, token)
+
     @http.route('/ra_request/submit_travel_expenses/<int:id>/<string:token>', type='http', methods=['POST'], auth='public', website=True)
     def ra_travel_expenses_submit_portal(self, id, token, **kwargs):
-        try:
-            ra_document = self._document_check_access('ra.document', id, access_token=token)
-        except (AccessError, MissingError):
+        ra_document = self._get_ra_document('ra.document', id, token)
+        if not ra_document:
             return request.redirect('/')
         
         travel_expenses = kwargs.get('travel_expenses')
         po_token = ra_document.purchase_order_id._portal_ensure_token()
-        
+
         _message_post_helper(
-            'purchase.order', ra_document.purchase_order_id.id, _('Travel Expenses: %s') % (travel_expenses),
+            'purchase.order', ra_document.purchase_order_id.id, _('Travel Expenses: %s') % travel_expenses,
             attachments=[],
-            **({'token': po_token} if po_token else {})).sudo()
-        
+            **({'token': po_token} if po_token else {})
+        ).sudo()
+
         ra_document.write({'travel_expenses_posted': True})
         
-        return request.redirect('/ra_request/sign/'+str(id)+'/'+str(token))
+        return self._redirect_to('sign', id, token)
     
+    
+    
+    
+    
+
+    '''Methods for handling the RA signature form'''
+    
+    @http.route('/ra_request/sign/<int:id>/<string:token>', type='http', auth='public', website=True)
+    def ra_sign_view_portal(self, id, token):
+        ra_document = self._get_ra_document('ra.document', id, token)
+        if not ra_document:
+            return request.redirect('/')
+        
+        if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
+            return self._redirect_to('accept', id, token)
+        else:
+            accept_link = f'/ra_request/submit_sign/{id}/{token}'
+            return request.render('pao_sign_ra.sign_ra_preview_portal_view', {
+                'accept_link': accept_link
+            })
+
     @http.route('/ra_request/submit_sign/<int:id>/<string:token>', type='json', methods=['POST'], auth='public', website=True)
     def ra_sign_submit_portal(self, id, token):
-        try:
-            ra_document = self._document_check_access('ra.document', id, access_token=token)
-        except (AccessError, MissingError):
+        ra_document = self._get_ra_document('ra.document', id, token)
+        if not ra_document:
             return request.redirect('/')
         
         ra_document.write({'status': 'sign'})
+        
         if ra_document.purchase_order_id.ac_audit_confirmation_status == '0':
             ra_document.purchase_order_id.write({'ac_audit_confirmation_status': '1'})
-        
+
         return {
             'force_refresh': True,
-            'redirect_url':  '/ra_request/accept/'+str(id)+'/'+str(token)
+            'redirect_url': f'/ra_request/accept/{id}/{token}'
         }
-    
-    # @http.route(['/pricelist_proposal/<int:id>/<string:token>/accept'], type='json', auth="public", website=True)
-    # def proposal_portal_accept(self, id, token, signature):
-    #     if not signature:
-    #         redirect_link = '/pricelist_proposal/%s/%s' % (id, token)
-    #         return request.redirect(redirect_link)
-        
-    #     try:
-    #         proposal_sudo = self._document_check_access('pao.pricelist.proposal', id, access_token=token)
-    #     except (AccessError, MissingError):
-    #         return request.redirect('/')
-        
-    #     proposal_sudo.signature = signature
-    #     accept_proposal = proposal_sudo.accept_proposal_action()
-        
-    #     if accept_proposal:
-    #         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
-    #         redirect_link = url_join(base_url, '/pricelist_proposal/%s/%s' % (id, token))
-    #         return {
-    #             'force_refresh': True,
-    #             'redirect_url':  redirect_link
-    #         }
