@@ -74,7 +74,7 @@ class SignRAPortal(portal.CustomerPortal):
             return request.redirect('/')
         
         ra_document.write({'status': 'sign'})
-        return request.render('pao_sign_ra.process_complete_ra_request_portal_view', {'ra_status': ra_document.status})
+        return request.redirect('/ra_request/accept/'+str(id)+'/'+str(token))
     
     # @http.route(['/pricelist_proposal/<int:id>/<string:token>/accept'], type='json', auth="public", website=True)
     # def proposal_portal_accept(self, id, token, signature):
