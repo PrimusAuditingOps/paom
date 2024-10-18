@@ -98,7 +98,7 @@ class SignRAPortal(portal.CustomerPortal):
             'servicereferralagreement.report_rapurchaseorder',
             ra_document.purchase_order_id.id,
         )[0]
-        return pdf_content
+        return base64.b64encode(pdf_content).decode('utf-8')
     
     @http.route('/ra_request/sign/<int:id>/<string:token>', type='http', auth='public', website=True)
     def ra_sign_view_portal(self, id, token):
