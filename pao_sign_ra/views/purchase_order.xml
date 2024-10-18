@@ -8,6 +8,7 @@
     <field name="arch" type="xml">
 
       <xpath expr="//button[@name='button_confirm']" position="after">
+        <field name="ra_sent" invisible="1"/>
         <button name="send_referral_agreement_action" invisible="state != 'sent' or not ac_is_an_auditor or ra_sent" string="Send RA" type="object"/>
       </xpath>
 
