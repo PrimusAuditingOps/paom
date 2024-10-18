@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <t t-call="portal.signature_form">
-                                        <t t-set="call_url" t-value="accept_link"/>
+                                        <t t-set="call_url" t-value="submit_travel_expenses_link"/>
                                         <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
                                         <t t-set="font_color" t-value="'darkblue'"/>
                                     </t>
