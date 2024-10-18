@@ -158,12 +158,11 @@ class SignRAPortal(portal.CustomerPortal):
             'status': 'sign'
         })
         
-        _logger.warning(name)
+        auditconfirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search([('ac_id_purchase','=',ra_document.purchase_order_id.id)])
         
-        _logger.warning(ra_document.purchase_order_id.ac_audit_confirmation_status)
-        
-        if ra_document.purchase_order_id.ac_audit_confirmation_status == '0':
-            ra_document.purchase_order_id.write({'ac_audit_confirmation_status': '1', 'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
+        if auditconfirmation and auditconfirmation.ac_audit_confirmation_status == '0':
+            ra_document.purchase_order_id.write({'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
+            auditconfirmation.write({'ac_audit_confirmation_status': '1'})
 
         return {
             'force_refresh': True,
