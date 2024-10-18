@@ -1,18 +1,15 @@
 import logging
 
-from odoo import http
+from odoo import http, _
+from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
-import pytz
-from datetime import datetime
-from odoo.tools.translate import _
-from odoo.tools.misc import get_lang
-from odoo.exceptions import AccessError, MissingError, ValidationError
-from odoo.addons.portal.controllers.mail import _message_post_helper
-from odoo.addons.portal.controllers.portal import pager as portal_pager, CustomerPortal
+from odoo.addons.portal.controllers import portal
+from werkzeug.urls import url_join
+import base64
 
 _logger = logging.getLogger(__name__)
 
-class SignRAPortal(CustomerPortal):
+class SignRAPortal(portal.CustomerPortal):
 
     @http.route('/ra_request/accept/<int:id>/<string:token>', type='http', auth='public', website=True)
     def ra_request_portal(self, id, token):
