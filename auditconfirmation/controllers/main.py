@@ -61,7 +61,7 @@ class ConfirmPurchase(CustomerPortal):
             pageredirect = "/response/travel/expenses?access_token="+access_token+"&number="+str(purchase.id)
         else:
             pageredirect = "/response/message"
-         
+        
         _message_post_helper(
             'purchase.order', purchase.id, _('The auditor has accepted the audit.'),
             attachments=[],

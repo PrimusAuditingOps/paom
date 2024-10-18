@@ -5,6 +5,7 @@ from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
 from odoo.addons.portal.controllers import portal
 from werkzeug.urls import url_join
+from odoo.addons.portal.controllers.mail import _message_post_helper
 import base64
 
 _logger = logging.getLogger(__name__)
@@ -56,11 +57,12 @@ class SignRAPortal(portal.CustomerPortal):
             return request.redirect('/')
         
         travel_expenses = kwargs.get('travel_expenses')
+        po_token = ra_document.purchase_order_id._portal_ensure_token()
         
-        # _message_post_helper(
-        #     'purchase.order', ra_document.purchase_order_id.id, _('Travel Expenses: %s') % (travel_expenses),
-        #     attachments=[],
-        #     **({'token': token} if token else {})).sudo()
+        _message_post_helper(
+            'purchase.order', ra_document.purchase_order_id.id, _('Travel Expenses: %s') % (travel_expenses),
+            attachments=[],
+            **({'token': po_token} if po_token else {})).sudo()
         
         ra_document.write({'travel_expenses_posted': True})
         
@@ -74,6 +76,9 @@ class SignRAPortal(portal.CustomerPortal):
             return request.redirect('/')
         
         ra_document.write({'status': 'sign'})
+        if ra_document.purchase_order_id.ac_audit_confirmation_status == '0':
+            ra_document.purchase_order_id.write({'ac_audit_confirmation_status': '1'})
+        
         return {
             'force_refresh': True,
             'redirect_url':  '/ra_request/accept/'+str(id)+'/'+str(token)
