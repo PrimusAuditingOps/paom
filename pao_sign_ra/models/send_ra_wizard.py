@@ -73,10 +73,10 @@ class SendRaWizard(models.Model):
     
     def action_send_mail(self):
         if self.purchase_order_id:
-            # self.purchase_order_id.ac_request_travel_expenses = self.request_travel_expenses
             if self.resend_action:
                 self.ra_document_id.request_travel_expenses = self.request_travel_expenses
             else:
+                self.purchase_order_id.ra_sent = True
                 self.env["ra.document"].create({
                     'pao_registration_numbers_ids': self.available_registration_numbers_ids,
                     'purchase_order_id': self.purchase_order_id.id,
