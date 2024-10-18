@@ -51,18 +51,30 @@
             </style>
         </xpath>
         <t t-call="web.frontend_layout">
-            <div class="container pt-5">
-                <div class="text-center mb-4">
-                    <h3 class="d-inline">
-                        <b>Sign RA</b>
-                    </h3>
+            <div class="container-fluid" style="max-width: 100%; padding: 15px;">
+                <div class="row">
+                    <!-- Header Section with Title and Sign Button -->
+                    <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="pdf-title" style="flex-grow: 1; word-wrap: break-word;">
+                            <b>Referral Agreement for <t t-esc="purchase_order.name"/>
+                            </b>
+                        </h2>
+                        <!-- Sign Button -->
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accept_sign_ra" id="sign-pdf-btn" style="white-space: nowrap;">
+                            Accept and Sign
+                        </button>
+                    </div>
                 </div>
 
-                <br/>
-
-                <!-- RA Preview as PDF -->
-                <iframe t-if="pdf_preview_data" t-att-src="'data:application/pdf;base64,' + pdf_preview_data+ '#toolbar=0'" width="100%" height="600px">
-                </iframe>
+                <!-- Responsive PDF Viewer Section -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="embed-responsive embed-responsive-16by9" style="border: 1px solid #ccc;">
+                            <!--PDF iframe with responsive width/height and no toolbar -->
+                            <iframe class="shadow" t-if="pdf_preview_data" t-att-src="'data:application/pdf;base64,' + pdf_preview_data+ '#toolbar=0'" width="100%" height="800px"/>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- RA Preview as Web Content -->
                 <!-- <div class="ra-report-preview">
@@ -71,28 +83,24 @@
                     </t>
                 </div> -->
 
-                <div class="d-flex justify-content-center mt-4 mb-5">
-                    <button data-bs-toggle="modal" data-bs-target="#accept_sign_ra" class="btn btn-primary mx-3">Accept</button>
-                </div>
+            </div>
 
-                <div class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Sign RA</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <t t-call="portal.signature_form">
-                                    <t t-set="call_url" t-value="accept_link"/>
-                                    <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
-                                    <t t-set="font_color" t-value="'darkblue'"/>
-                                </t>
-                            </div>
+            <div class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Sign RA</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        </div>
+                        <div class="modal-body">
+                            <t t-call="portal.signature_form">
+                                <t t-set="call_url" t-value="accept_link"/>
+                                <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
+                                <t t-set="font_color" t-value="'darkblue'"/>
+                            </t>
                         </div>
                     </div>
                 </div>
-
             </div>
         </t>
     </template>
