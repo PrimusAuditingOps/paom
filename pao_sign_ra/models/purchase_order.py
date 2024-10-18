@@ -31,7 +31,7 @@ class PurchaseOrder(models.Model):
     
     def notify_ra_request_progress(self, message):
         odoo_bot = self.env.ref('base.partner_root')
-        self.customer_id.message_post(
+        self.message_post(
             body=message,
             message_type='notification',
             subtype_xmlid='mail.mt_comment',
