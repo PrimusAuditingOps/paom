@@ -24,17 +24,4 @@
 
     </field>
   </record>
-
-  <record id="purchase_order_hide_travel_expenses_view_form" model="ir.ui.view">
-    <field name="name">purchase.order.hide.travel.expenses.view.form</field>
-    <field name="model">purchase.order</field>
-    <field name="type">form</field>
-    <field name="inherit_id" ref="auditconfirmation.purchase_order_confirmation_view_form"/>
-    <field name="arch" type="xml">
-      <xpath expr="//field[@name='ac_request_travel_expenses']" position="attributes">
-        <attribute name="invisible" value="1"></attribute>
-      </xpath>
-    </field>
-  </record>
-
 </odoo>

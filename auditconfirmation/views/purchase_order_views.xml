@@ -13,7 +13,7 @@
 	            <div class="oe_clear" invisible="not ac_is_an_auditor"/>
                 <field name="ac_is_an_auditor" invisible="1"/>
                 <field name="ac_audit_status" invisible="not ac_is_an_auditor"/>
-                <field name="ac_request_travel_expenses" invisible="not ac_is_an_auditor"/>
+                <!-- <field name="ac_request_travel_expenses" invisible="not ac_is_an_auditor"/> -->
             </field>
             <xpath expr="//button[@name='button_done']" position="after">  
               <button name="create_audit_state" class="oe_highlight" type="object" string="Change audit status" invisible="not ac_is_an_auditor"/>        
