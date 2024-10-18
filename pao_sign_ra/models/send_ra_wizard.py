@@ -31,7 +31,6 @@ class SendRaWizard(models.Model):
     registration_numbers_to_sign_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
         string='Registration Numbers',
-        required=True
     )
     
     available_registration_numbers_ids = fields.Many2many(
@@ -79,7 +78,7 @@ class SendRaWizard(models.Model):
                 self.ra_document_id.request_travel_expenses = self.request_travel_expenses
             else:
                 self.env["ra.document"].create({
-                    'pao_registration_numbers_ids': self.registration_numbers_to_sign_ids,
+                    'pao_registration_numbers_ids': self.available_registration_numbers_ids,
                     'purchase_order_id': self.purchase_order_id.id,
                     'request_travel_expenses': self.request_travel_expenses
                 })

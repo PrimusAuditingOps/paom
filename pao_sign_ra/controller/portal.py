@@ -37,7 +37,7 @@ class SignRAPortal(portal.CustomerPortal):
         
         if ra_document.status == 'sign':
             pdf_data = self._generate_ra_preview(ra_document)
-            download_link = f'/sign_ra/download_ra/{ra_document.purchase_order_id.id}'
+            download_link = f'/sign_ra/download_ra/{ra_document.purchase_order_id.id}/{token}'
             return request.render('pao_sign_ra.sign_ra_preview_portal_view', {
                 'download_link': download_link,
                 'pdf_preview_data': pdf_data,
@@ -174,8 +174,11 @@ class SignRAPortal(portal.CustomerPortal):
         
     '''Method to download RA'''
     
-    @http.route('/sign_ra/download_ra/<int:id>', type='http', auth="user", website=True)
-    def download_ra(self, id=None, **kwargs):
+    @http.route('/sign_ra/download_ra/<int:id>/<string:token>', type='http', auth="public", website=True)
+    def download_ra(self, id, token, **kwargs):
+        ra_document = self._get_ra_document('ra.document', id, token)
+        if not ra_document:
+            return request.redirect('/')
 
         order_sudo = request.env['purchase.order'].sudo().search([('id', '=', id)])
         rafilename = 'RA-'+order_sudo.name+'-'+order_sudo.partner_id.name+'.pdf'

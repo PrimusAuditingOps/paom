@@ -8,7 +8,7 @@
     <field name="arch" type="xml">
 
       <xpath expr="//button[@name='button_confirm']" position="after">
-        <button name="send_referral_agreement_action" invisible="state != 'sent'" string="Send RA" type="object"/>
+        <button name="send_referral_agreement_action" invisible="state != 'sent' or not ac_is_an_auditor" string="Send RA" type="object"/>
       </xpath>
 
       <div name="button_box" position="inside">
@@ -24,4 +24,17 @@
 
     </field>
   </record>
+
+  <record id="purchase_order_hide_travel_expenses_view_form" model="ir.ui.view">
+    <field name="name">purchase.order.hide.travel.expenses.view.form</field>
+    <field name="model">purchase.order</field>
+    <field name="type">form</field>
+    <field name="inherit_id" ref="auditconfirmation.purchase_order_confirmation_view_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='ac_request_travel_expenses']" position="attributes">
+        <attribute name="invisible" value="1"></attribute>
+      </xpath>
+    </field>
+  </record>
+
 </odoo>

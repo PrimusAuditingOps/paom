@@ -42,7 +42,7 @@
                     <field name="request_travel_expenses"/>
                     <field name="ra_templates_ids" invisible="1"/>
                     <field name="available_registration_numbers_ids" invisible="1"/>
-                    <field name="registration_numbers_to_sign_ids" readonly="resend_action" widget="many2many_tags" options="{'no_create':True, 'create_edit': false, 'no_open': True}" domain="[('id', 'in', available_registration_numbers_ids)]"/>
+                    <field name="registration_numbers_to_sign_ids" invisible="1" readonly="resend_action" widget="many2many_tags" options="{'no_create':True, 'create_edit': false, 'no_open': True}" domain="[('id', 'in', available_registration_numbers_ids)]"/>
                 </group>
                 <field name="can_edit_body" invisible="1"/>
                 <div invisible="composition_mode == 'mass_mail'">
