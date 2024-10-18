@@ -113,7 +113,8 @@ class SignRAPortal(portal.CustomerPortal):
             accept_link = f'/ra_request/submit_sign/{id}/{token}'
             return request.render('pao_sign_ra.sign_ra_preview_portal_view', {
                 'accept_link': accept_link,
-                'pdf_preview_data': pdf_data
+                'pdf_preview_data': pdf_data,
+                'purchase_order': ra_document.purchase_order_id
             })
 
     @http.route('/ra_request/submit_sign/<int:id>/<string:token>', type='json', methods=['POST'], auth='public', website=True)
