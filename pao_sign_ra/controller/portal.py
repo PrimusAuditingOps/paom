@@ -35,9 +35,11 @@ class SignRAPortal(portal.CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect('/')
         
-        submit_travel_expenses_link = '/ra_request/submit_travel_expenses/'+str(id)+'/'+str(token)
-        return request.render('pao_sign_ra.travel_expenses_portal_view', {'submit_travel_expenses_link': submit_travel_expenses_link})
-    
+        if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
+            submit_travel_expenses_link = '/ra_request/submit_travel_expenses/'+str(id)+'/'+str(token)
+            return request.render('pao_sign_ra.travel_expenses_portal_view', {'submit_travel_expenses_link': submit_travel_expenses_link})
+        else:
+            return request.redirect('/ra_request/accept/'+str(id)+'/'+str(token))
     
     @http.route('/ra_request/sign/<int:id>/<string:token>', type='http', auth='public', website=True)
     def ra_sign_view_portal(self, id, token):
@@ -46,8 +48,11 @@ class SignRAPortal(portal.CustomerPortal):
         except (AccessError, MissingError):
             return request.redirect('/')
         
-        accept_link = '/ra_request/submit_sign/'+str(id)+'/'+str(token)
-        return request.render('pao_sign_ra.sign_ra_preview_portal_view', {'accept_link': accept_link})
+        if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
+            return request.redirect('/ra_request/accept/'+str(id)+'/'+str(token))
+        else:
+            accept_link = '/ra_request/submit_sign/'+str(id)+'/'+str(token)
+            return request.render('pao_sign_ra.sign_ra_preview_portal_view', {'accept_link': accept_link})
     
     @http.route('/ra_request/submit_travel_expenses/<int:id>/<string:token>', type='http', methods=['POST'], auth='public', website=True)
     def ra_travel_expenses_submit_portal(self, id, token, **kwargs):
