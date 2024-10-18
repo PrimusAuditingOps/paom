@@ -94,7 +94,10 @@ class SignRAPortal(portal.CustomerPortal):
     
     def _generate_ra_pdf(self, ra_document):
         """Generates the RA PDF using the existing report template."""
-        pdf_content = request.env.ref('servicereferralagreement.report_rapurchaseorder')._render_qweb_pdf([ra_document.purchase_order_id.id])[0]
+        pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+            'servicereferralagreement.report_rapurchaseorder',
+            id,
+        )[0]
         return base64.b64encode(pdf_content).decode('utf-8')
     
     @http.route('/ra_request/sign/<int:id>/<string:token>', type='http', auth='public', website=True)
