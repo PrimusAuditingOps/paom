@@ -11,7 +11,7 @@
                         <h3 class="d-inline">The RA signature request was canceled or does not exist.</h3>
                     </t>
                     <t t-if="ra_status == 'reject'">
-                        <h3 class="d-inline">Thank you for your response. If you anything else please contact our staff.</h3>
+                        <h3 class="d-inline">Thank you for your response. If you need anything else please contact our staff.</h3>
                     </t>
                     <t t-if="ra_status == 'sign'">
                         <h3 class="d-inline">Thank you for your response.</h3>
@@ -59,6 +59,10 @@
                 </div>
 
                 <br/>
+
+                <!-- PDF Preview -->
+                <iframe t-if="pdf_preview_data" src="data:application/pdf;base64,#{pdf_preview_data}" width="100%" height="600px">
+                </iframe>
 
                 <div class="d-flex justify-content-center mt-4 mb-5">
                     <button data-bs-toggle="modal" data-bs-target="#accept_sign_ra" class="btn btn-primary mx-3">Accept</button>
