@@ -29,6 +29,16 @@ class PurchaseOrder(models.Model):
         }
         return action
     
+    def notify_ra_request_progress(self, message):
+        odoo_bot = self.env.ref('base.partner_root')
+        self.customer_id.message_post(
+            body=message,
+            message_type='notification',
+            subtype_xmlid='mail.mt_comment',
+            notify=True,
+            author_id=odoo_bot.id
+        )
+    
     def send_referral_agreement_action(self, resend_action=False, registration_numbers_ids=None, request_travel_expenses=True):
         '''
         This function opens a window to compose an email, with the edi purchase template message loaded by default

@@ -3,7 +3,6 @@ from odoo import http, _
 from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
 from odoo.addons.portal.controllers import portal
-from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.web.controllers.main import content_disposition
 from datetime import datetime
 import pytz
@@ -83,14 +82,9 @@ class SignRAPortal(portal.CustomerPortal):
             return request.redirect('/')
         
         travel_expenses = kwargs.get('travel_expenses')
-        po_token = ra_document.purchase_order_id._portal_ensure_token()
         
-        _message_post_helper(
-            'purchase.order', ra_document.purchase_order_id.id, _('Travel Expenses: %s') % travel_expenses,
-            attachments=[],
-            **({'token': po_token} if po_token else {})
-        ).sudo()
-
+        message=_('The auditor has submitted their travel expenses: %s') % travel_expenses
+        ra_document.purchase_order_id.notify_ra_request_progress(message)
         ra_document.write({'travel_expenses_posted': True})
         
         return self._redirect_to('sign', id, token)
@@ -163,6 +157,9 @@ class SignRAPortal(portal.CustomerPortal):
             'attachment_ids': [(4, attachment.id)],
             'status': 'sign'
         })
+        
+        message=_('The auditor has signed and accepted the RA.')
+        ra_document.purchase_order_id.notify_ra_request_progress(message)
         
 
         return {
