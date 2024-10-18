@@ -92,13 +92,13 @@ class SignRAPortal(portal.CustomerPortal):
 
     '''Methods for handling the RA signature form'''
     
-    def _generate_ra_pdf(self, ra_document):
+    def _generate_ra_preview(self, ra_document):
         """Generates the RA PDF using the existing report template."""
         pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
             'servicereferralagreement.report_rapurchaseorder',
             ra_document.purchase_order_id.id,
         )[0]
-        return base64.b64encode(pdf_content).decode('utf-8')
+        return pdf_content
     
     @http.route('/ra_request/sign/<int:id>/<string:token>', type='http', auth='public', website=True)
     def ra_sign_view_portal(self, id, token):
@@ -109,7 +109,7 @@ class SignRAPortal(portal.CustomerPortal):
         if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
             return self._redirect_to('accept', id, token)
         else:
-            pdf_data = self._generate_ra_pdf(ra_document)
+            pdf_data = self._generate_ra_preview(ra_document)
             accept_link = f'/ra_request/submit_sign/{id}/{token}'
             return request.render('pao_sign_ra.sign_ra_preview_portal_view', {
                 'accept_link': accept_link,
