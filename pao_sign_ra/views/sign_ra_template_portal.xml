@@ -66,20 +66,22 @@
 
                 <div class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Sign RA</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <form method="POST">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Sign RA</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <t t-call="portal.signature_form">
+                                        <t t-set="call_url" t-value="accept_link"/>
+                                        <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
+                                        <t t-set="font_color" t-value="'darkblue'"/>
+                                    </t>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                <t t-call="portal.signature_form">
-                                    <t t-set="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <t t-set="call_url" t-value="accept_link"/>
-                                    <t t-set="default_name" t-value="request.env.user.partner_id.name"/>
-                                    <t t-set="font_color" t-value="'darkblue'"/>
-                                </t>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
 
