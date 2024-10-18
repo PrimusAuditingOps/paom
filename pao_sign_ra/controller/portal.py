@@ -66,7 +66,7 @@ class SignRAPortal(portal.CustomerPortal):
         
         return request.redirect('/ra_request/sign/'+str(id)+'/'+str(token))
     
-    @http.route('/ra_request/submit_sign/<int:id>/<string:token>', type='http', auth='public', website=True)
+    @http.route('/ra_request/submit_sign/<int:id>/<string:token>', type='http', methods=['POST'], auth='public', website=True)
     def ra_sign_submit_portal(self, id, token):
         try:
             ra_document = self._document_check_access('ra.document', id, access_token=token)
