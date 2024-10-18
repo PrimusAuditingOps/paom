@@ -143,7 +143,7 @@ class SignRAPortal(portal.CustomerPortal):
         )[0]
 
         # Create an attachment record
-        attachment = request.env['ir.attachment'].create({
+        attachment = request.env['ir.attachment'].sudo().create({
             'name': 'Referral Agreement - %s.pdf' % ra_document.name,
             'type': 'binary',
             'datas': base64.b64encode(pdf_content),
