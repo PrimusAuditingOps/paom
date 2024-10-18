@@ -42,7 +42,7 @@
         </t>
     </template>
 
-    <template id="sign_ra_preview_portal_view" name="Ra Signature Form">
+    <template id="sign_ra_preview_portal_view" name="RA Signature Form">
         <xpath expr="//head" position="inside">
             <style>
                 ul {
@@ -66,7 +66,7 @@
 
                 <div class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
                     <div class="modal-dialog">
-                        <form method="POST">
+                        <form id="sign_ra_form" method="POST">
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="modal-content">
                                 <div class="modal-header">
