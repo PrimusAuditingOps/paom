@@ -60,10 +60,10 @@ class SignRAPortal(CustomerPortal):
         
         travel_expenses = kwargs.get('travel_expenses')
         
-        _message_post_helper(
-            'purchase.order', ra_document.purchase_order_id.id, _('Travel Expenses: %s') % (travel_expenses),
-            attachments=[],
-            **({'token': token} if token else {})).sudo()
+        # _message_post_helper(
+        #     'purchase.order', ra_document.purchase_order_id.id, _('Travel Expenses: %s') % (travel_expenses),
+        #     attachments=[],
+        #     **({'token': token} if token else {})).sudo()
         
         ra_document.write({'travel_expenses_posted': True})
         
