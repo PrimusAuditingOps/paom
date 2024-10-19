@@ -36,7 +36,7 @@ class SignRAPortal(portal.CustomerPortal):
         
         if ra_document.status == 'sign':
             pdf_data = self._generate_ra_preview(ra_document)
-            download_link = f'/sign_ra/download_ra/{ra_document.purchase_order_id.id}/{token}'
+            download_link = f'/sign_ra/download_ra/{ra_document.id}/{token}'
             return request.render('pao_sign_ra.sign_ra_preview_portal_view', {
                 'download_link': download_link,
                 'pdf_preview_data': pdf_data,
@@ -179,12 +179,11 @@ class SignRAPortal(portal.CustomerPortal):
         if not ra_document:
             return request.redirect('/')
 
-        order_sudo = request.env['purchase.order'].sudo().search([('id', '=', id)])
-        rafilename = 'RA-'+order_sudo.name+'-'+order_sudo.partner_id.name+'.pdf'
+        rafilename = 'RA-'+ra_document.purchase_order_id.name+'-'+ra_document.purchase_order_id.partner_id.name+'.pdf'
         
         pdf = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
             'servicereferralagreement.report_rapurchaseorder',
-            id,
+            ra_document.purchase_order_id.name.id,
         )[0]
         
         return request.make_response(pdf, [('Content-Type', 'application/octet-stream'), ('Content-Disposition', content_disposition(rafilename))])

@@ -34,7 +34,7 @@ class PurchaseOrder(models.Model):
         self.message_post(
             body=message,
             message_type='notification',
-            subtype_xmlid='mail.mt_comment',
+            # subtype_xmlid='mail.mt_comment',
             author_id=odoo_bot.id
         )
     
