@@ -183,7 +183,7 @@ class SignRAPortal(portal.CustomerPortal):
         
         pdf = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
             'servicereferralagreement.report_rapurchaseorder',
-            ra_document.purchase_order_id.name.id,
+            ra_document.purchase_order_id.id,
         )[0]
         
         return request.make_response(pdf, [('Content-Type', 'application/octet-stream'), ('Content-Disposition', content_disposition(rafilename))])
