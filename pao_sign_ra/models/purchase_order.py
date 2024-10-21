@@ -62,7 +62,7 @@ class PurchaseOrder(models.Model):
             'default_registration_numbers_to_sign_ids': registration_numbers_ids,
             'default_request_travel_expenses': request_travel_expenses,
             'default_template_id': False,
-            'default_composition_mode': 'comment',
+            'default_composition_mode': 'mass_mail',
             'default_email_layout_xmlid': "mail.mail_notification_layout_with_responsible_signature",
             'force_email': True,
         })
