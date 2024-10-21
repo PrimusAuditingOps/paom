@@ -8,6 +8,7 @@ _logger = getLogger(__name__)
 
 class RADocument(models.Model):
     _name = 'ra.document'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'RA Document'
     
     name = fields.Char('Name', compute="_set_document_name")

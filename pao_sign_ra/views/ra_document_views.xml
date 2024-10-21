@@ -27,7 +27,7 @@
         <field name="name">ra.document.form.view</field>
         <field name="model">ra.document</field>
         <field name="arch" type="xml">
-            <form string="Referral Agreement" create="false" delete="false">
+            <form string="Referral Agreement" create="false" delete="false" attachments="true">
                 <header>
                     <button string="Resend" invisible="status != 'sent'" type="object" class="oe_highlight" name="action_resend"/>
                     <button string="Cancel" invisible="status != 'sent'" type="object" class="oe_highlight" name="action_cancel" confirm="This will cancel this RA request, and you will need to create a new one to send it back to the customer."/>
@@ -47,6 +47,10 @@
                         <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2" readonly="1"/>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>
