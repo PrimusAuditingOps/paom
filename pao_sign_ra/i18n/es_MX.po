@@ -1,0 +1,910 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_sign_ra
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-21 19:57+0000\n"
+"PO-Revision-Date: 2024-10-21 19:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.purchase_order_send_ra_view_form
+msgid "<span class=\"o_stat_text\">RA</span>"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid ""
+"<span name=\"document_followers_text\" invisible=\"not model or "
+"composition_mode == 'mass_mail'\">Followers of the document and</span>"
+msgstr ""
+"<span name=\"document_followers_text\" invisible=\"not model or "
+"composition_mode == 'mass_mail'\">Seguidores del documento y</span>"
+
+#. module: pao_sign_ra
+#: model:mail.template,body_html:pao_sign_ra.email_template_audit_availability_confirm
+msgid ""
+"<table style=\"padding:16px 0 0 0;box-sizing:border-box;caption-side:bottom;padding-top:16px;background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #000000; width: 100%; border-collapse:separate;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
+"                    <tbody style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\" align=\"center\">\n"
+"                                <table style=\"box-sizing: border-box; caption-side: bottom; padding: 16px; background-color: white; color: #000000; border-collapse: separate; font-family: Verdana, Arial, sans-serif;\" width=\"590\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
+"                                    <tbody style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                        \n"
+"                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;min-width:590px;\" align=\"center\">\n"
+"                                                <table style=\"box-sizing: border-box; caption-side: bottom; min-width: 590px; padding: 0px 8px; border-collapse: separate; color: #000000; font-family: Verdana, Arial, sans-serif;\" width=\"590\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
+"                                                    <tbody style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\" valign=\"middle\">\n"
+"                                                                <span style=\"font-size:10px;\">\n"
+"                                                                </span>\n"
+"                                                                <br>\n"
+"                                                                <span style=\"font-size:20px;text-align: justify;\">\n"
+"                                                                    <b style=\"box-sizing:border-box;font-weight:bolder;\">Verificación de disponibilidad (RA)</b>\n"
+"                                                                </span>\n"
+"                                                                <br>\n"
+"                                                            </td>\n"
+"                                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\" valign=\"middle\" align=\"right\">\n"
+"                                                                <img src=\"/logo.png\" style=\"box-sizing:border-box;vertical-align:middle;padding:0px;margin: 0px; height: auto; width: 80px;\" alt=\"logo\" width=\"80\">\n"
+"                                                            </td>\n"
+"                                                        </tr>\n"
+"                                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                            <td colspan=\"2\" style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:center;\">\n"
+"                                                                <hr style=\"border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-color:currentcolor;border-bottom-color:currentcolor;border-right-color:currentcolor;border-top-color:currentcolor;border-style:none;border-left-width:medium;border-bottom-width:medium;border-right-width:medium;border-top-width:medium;box-sizing: border-box; height: 1px; opacity: 0.25; color: #000000; background-color: #cccccc; border: medium none; clear: both; display: block; font-size: 0px; min-height: 1px; line-height: 0; margin: 16px 0px;\" width=\"100%\">\n"
+"                                                            </td>\n"
+"                                                        </tr>\n"
+"                                                    </tbody>\n"
+"                                                </table>\n"
+"                                            </td>\n"
+"                                        </tr>\n"
+"                                        \n"
+"                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;min-width:590px;\" align=\"center\">\n"
+"\n"
+"                                                <table style=\"box-sizing: border-box; caption-side: bottom; min-width: 590px; background-color: white; padding: 0px 8px; border-collapse: separate; color: #000000; font-family: Verdana, Arial, sans-serif;\" width=\"590\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
+"                                                    <tbody style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:justify;\">\n"
+"                                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\" valign=\"top\">\n"
+"                                                                <div style=\"color:blue ;\">\n"
+"                                                                    Este correo no representa una confirmación del servicio de auditoría y <b style=\"box-sizing:border-box;font-weight:bolder;\">no sustituye</b> la \n"
+"                                                                    asignación que se emite directamente desde las <b style=\"box-sizing:border-box;font-weight:bolder;\">plataformas de auditoría correspondiente (Azzule o SEDEX).</b>\n"
+"                                                                    <br>\n"
+"                                                                    <br>\n"
+"                                                                </div>\n"
+"                                                                <div>\n"
+"                                                                    Estimado(a) <t t-out=\"object.partner_id.name\">,<br><br>\n"
+"                                                                    <div>Por medio de este correo solicitamos la confirmación de su\n"
+"                                                                        disponibilidad para las siguientes auditorías:</div> <br>\n"
+"                                                                </t></div>\n"
+"                                                                <div style=\"display:table;\">\n"
+"                                                                    <div style=\"display:table-header-group;\">\n"
+"                                                                        <div style=\"display:table-row;\">\n"
+"                                                                            <div style=\"display:table-cell;\">\n"
+"                                                                                <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            </font></div><font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;\">\n"
+"                                                                                <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            </font></div><font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                        </font></font></div><font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\"><font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                    </font></font></div><font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\"><font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"\n"
+"                                                                    <t t-foreach=\"object.order_line\" t-as=\"line\">\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\">\n"
+"                                                                                <b style=\"box-sizing:border-box;font-weight:bolder;\">Organización - </b><t t-out=\"line.organization_id.name or                                                                                 'N/A'\">\n"
+"                                                                            </t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\">\n"
+"                                                                                <b style=\"box-sizing:border-box;font-weight:bolder;\">Servicio - </b><t t-out=\"line.name or 'N/A'\">\n"
+"                                                                            </t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\">\n"
+"                                                                                <b style=\"box-sizing:border-box;font-weight:bolder;\">Cantidad - </b><t t-out=\"line.product_qty or 'N/A'\">\n"
+"                                                                            </t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\">\n"
+"                                                                                <b style=\"box-sizing:border-box;font-weight:bolder;\">Fecha inicio - </b><t t-out=\"line.service_start_date or                                                                                 'N/A'\">\n"
+"                                                                                <b style=\"box-sizing:border-box;font-weight:bolder;\">Fecha fin - </b><t t-out=\"line.service_end_date or 'N/A'\">\n"
+"                                                                            </t></t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <br>\n"
+"                                                                    </div>\n"
+"                                                                    </t>\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <br>\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\"><b style=\"box-sizing:border-box;font-weight:bolder;\">Especialista de Operaciones:\n"
+"                                                                                </b><t t-out=\"object.coordinator_id.name or 'N/A'\">\n"
+"                                                                            </t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <br>\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\"><b style=\"box-sizing:border-box;font-weight:bolder;\">Estado\n"
+"                                                                                    de auditoría -\n"
+"                                                                                </b><t t-out=\"object.audit_state_id.name or 'N/A'\">\n"
+"                                                                            </t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\"><b style=\"box-sizing:border-box;font-weight:bolder;\">Ciudad\n"
+"                                                                                    de auditoría -\n"
+"                                                                                </b><t t-out=\"object.audit_city_id.name or 'N/A'\">\n"
+"                                                                            </t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"                                                                    <t t-if=\"object.shadow_id\">\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\"><b style=\"box-sizing:border-box;font-weight:bolder;\">Sombra -\n"
+"                                                                                </b><t t-out=\"object.shadow_id.name or ''\">\n"
+"                                                                            </t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"                                                                    </t>\n"
+"                                                                    <t t-if=\"object.assessment_id\">\n"
+"                                                                    <div style=\"display:table-row;\">\n"
+"                                                                        <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                            <div style=\"display:table-cell;width:400px;\">\n"
+"                                                                                <b style=\"box-sizing:border-box;font-weight:bolder;\">Assessment -\n"
+"                                                                                </b><t t-out=\"object.assessment_id.name or ''\">\n"
+"                                                                            </t></div>\n"
+"                                                                        </font>\n"
+"                                                                    </div>\n"
+"                                                                    </t>\n"
+"                                                                </font></font></div><font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\"><font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\">\n"
+"                                                                <br>\n"
+"                                                                <p style=\"margin:0px 0 16px 0;box-sizing:border-box;padding:0px;\">\n"
+"                                                                    <font class=\"text-black\" style=\"box-sizing: border-box; color: #ffffff;\"><b style=\"box-sizing:border-box;font-weight:bolder;\">Honorarios: </b></font>\n"
+"                                                                    <font style=\"color:#ff0000;\">Ver Referral Agreement\n"
+"                                                                        adjunto.</font>\n"
+"                                                                    <br><br>\n"
+"                                                                    <font style=\"color:#ff0000;\">\"Al dar clic en aceptar, \n"
+"                                                                        usted confirma que está de acuerdo con el honorario y \n"
+"                                                                        acepta las condiciones del servicio estipuladas en\n"
+"                                                                        el Referral Agreement\"</font>\n"
+"                                                                    <br>\n"
+"                                                                    <br>\n"
+"                                                                </p>\n"
+"                                                            </font></font></td>\n"
+"                                                        </tr>\n"
+"                                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                                <br>\n"
+"                                                            </td>\n"
+"                                                        </tr>\n"
+"                                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                                <div style=\"margin:16px 0px 16px 0px;\">\n"
+"                                                                    <t t-set=\"ra_id\" t-value=\"object.get_ra_document('id')\"></t>\n"
+"                                                                    <t t-set=\"ra_token\" t-value=\"object.get_ra_document('token')\"></t>\n"
+"                                                                    <br>\n"
+"                                                                    <a style=\"box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;\" t-attf-href=\"/ra_request/response/{{ ra_id }}/{{ ra_token }}\">Aceptar\n"
+"                                                                    </a>\n"
+"                                                                    <a style=\"box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;\" t-attf-href=\"/ra_request/decline/{{ ra_id }}/{{ ra_token }}\">Declinar</a>\n"
+"                                                                    <br><br>\n"
+"                                                                    Si acepta la realización del servicio, seleccione “Aceptar” y\n"
+"                                                                    proporcione un estimado de viáticos en caso de requerirse.\n"
+"                                                                    <br><br>\n"
+"                                                                    Si no cuenta con disponibilidad para este servicio seleccione el\n"
+"                                                                    botón \"Declinar\" y\n"
+"                                                                    agregue un comentario breve con los motivos por los cuales no\n"
+"                                                                    cuenta con disponibilidad.\n"
+"                                                                    <br><br>\n"
+"                                                                    Quedamos a sus órdenes para cualquier duda relacionada con la \n"
+"                                                                    presente en el correo electrónico  <a href=\"mailto:auditmx@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">auditmx@pao-mx.com</a> o \n"
+"                                                                    directamente con su Especialista de Operaciones.\n"
+"                                                                </div>\n"
+"\n"
+"                                                            </td>\n"
+"                                                        </tr>\n"
+"\n"
+"\n"
+"                                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:center;\">\n"
+"                                                                <hr style=\"border-image-width:1;border-image-source:none;border-image-slice:100%;border-image-repeat:stretch;border-image-outset:0;border-left-color:currentcolor;border-bottom-color:currentcolor;border-right-color:currentcolor;border-top-color:currentcolor;border-style:none;border-left-width:medium;border-bottom-width:medium;border-right-width:medium;border-top-width:medium;box-sizing: border-box; height: 1px; opacity: 0.25; color: #000000; background-color: #cccccc; border: medium none; clear: both; display: block; font-size: 0px; min-height: 1px; line-height: 0; margin: 16px 0px;\" width=\"100%\">\n"
+"                                                            </td>\n"
+"                                                        </tr>\n"
+"                                                    </tbody>\n"
+"                                                </table>\n"
+"                                            </td>\n"
+"                                        </tr>\n"
+"                                        \n"
+"                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;min-width:590px;\" align=\"center\">\n"
+"                                                <table style=\"box-sizing: border-box; caption-side: bottom; min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px; border-collapse: separate; color: #000000; font-family: Verdana, Arial, sans-serif;\" width=\"590\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
+"                                                    <tbody style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"\n"
+"                                                    </tbody>\n"
+"                                                </table>\n"
+"                                            </td>\n"
+"                                        </tr>\n"
+"                                    </tbody>\n"
+"                                </table>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                        \n"
+"                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;min-width:590px;\" align=\"center\">\n"
+"                                <table style=\"box-sizing: border-box; caption-side: bottom; min-width: 590px; background-color: #f1f1f1; color: #000000; padding: 8px; border-collapse: separate; font-family: Verdana, Arial, sans-serif;\" width=\"590\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
+"                                    <tbody style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                        <tr style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;\">\n"
+"                                            <td style=\"border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;text-align:center;font-size: 13px;\">\n"
+"\n"
+"                                                <br>\n"
+"                                            </td>\n"
+"                                        </tr>\n"
+"                                    </tbody>\n"
+"                                </table>\n"
+"                            </td>\n"
+"                        </tr>\n"
+"                    </tbody>\n"
+"                </table>\n"
+"            "
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+msgid "Accept"
+msgstr "Aceptar"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.sign_ra_preview_portal_view
+msgid "Accept and Sign"
+msgstr "Aceptar y firmar"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__access_token
+msgid "Access Token"
+msgstr "Token de acceso"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__res_domain
+msgid "Active domain"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Add contacts to notify..."
+msgstr "Agregar contactos para notificar..."
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__email_add_signature
+msgid "Add signature"
+msgstr "Agregar firma"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__partner_ids
+msgid "Additional Contacts"
+msgstr "Contactos adicionales"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__record_alias_domain_id
+msgid "Alias Domain"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_reject_portal_view
+msgid "Are you sure you want to decline the RA?"
+msgstr "¿Está seguro que desea declinar el RA?"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Attach a file"
+msgstr "Adjuntar archivo"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__attachment_ids
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__attachment_ids
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__author_id
+msgid "Author"
+msgstr "Autor"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__author_id
+msgid ""
+"Author of the message. If not set, email_from may hold an email address that"
+" did not match any partner."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__composition_batch
+msgid "Batch composition"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__body_has_template_value
+msgid "Body content is the same as the template"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__can_edit_body
+msgid "Can Edit Body"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields.selection,name:pao_sign_ra.selection__ra_document__status__cancel
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__use_exclusion_list
+msgid "Check Exclusion List"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.sign_ra_preview_portal_view
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__record_company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__composition_mode
+msgid "Composition mode"
+msgstr "Modo de composición"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__reply_to_force_new
+msgid "Considers answers as new thread"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Content"
+msgstr "Contenido"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__body
+msgid "Contents"
+msgstr "Contenidos"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__create_uid
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__create_uid
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__create_date
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__create_date
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__auto_delete
+msgid "Delete Emails"
+msgstr "Eliminar emails"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+msgid "Details"
+msgstr "Detalles"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__display_name
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__display_name
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.sign_ra_preview_portal_view
+msgid "Download RA"
+msgstr "Descargar RA"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__email_layout_xmlid
+msgid "Email Notification Layout"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__email_from
+msgid ""
+"Email address of the sender. This field is set when no matching partner is "
+"found and replaces the author_id field in the chatter."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__email_from
+msgid "From"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__id
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__id
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__scheduled_date
+msgid ""
+"In comment mode: if set, postpone notifications sending. In mass mail mode: "
+"if sent, send emails after that date. This date is considered as being in "
+"UTC timezone."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__is_mail_template_editor
+msgid "Is Editor"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__subtype_is_log
+msgid "Is a log"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__auto_delete_keep_log
+msgid "Keep Message Copy"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__auto_delete_keep_log
+msgid ""
+"Keep a copy of the email content if emails are removed (mass mailing only)"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__lang
+msgid "Language"
+msgstr "Lenguaje"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__write_uid
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__write_uid
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Última vez actualizado por"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__write_date
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__write_date
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__write_date
+msgid "Last Updated on"
+msgstr "Última vez actualizo el"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Load template"
+msgstr "Cargar plantilla"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__mail_activity_type_id
+msgid "Mail Activity Type"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__reply_to_force_new
+msgid ""
+"Manage answers as new incoming emails instead of replies going to the same "
+"thread."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__message_type
+msgid ""
+"Message type: email for email message, notification for system message, "
+"comment for other messages such as user replies"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__lang
+msgid ""
+"Optional translation language (ISO code) to select when sending out an "
+"email. If not set, the english version will be used. This should usually be "
+"a placeholder expression that provides the appropriate language, e.g. {{ "
+"object.partner_id.lang }}."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__reply_to_mode
+msgid ""
+"Original Discussion: Answers go in the original document discussion thread. \n"
+" Another Email Address: Answers go to the email address mentioned in the tracking message-id instead of original document discussion thread. \n"
+" This has an impact on the generated message-id."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__mail_server_id
+msgid "Outgoing mail server"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__parent_id
+msgid "Parent Message"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.travel_expenses_portal_view
+msgid "Please add your detailed travel expenses:"
+msgstr "Por favor capture el detalle de viáticos:"
+
+#. module: pao_sign_ra
+#: model:ir.model,name:pao_sign_ra.model_purchase_order
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__purchase_order_id
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__purchase_order_id
+msgid "Purchase Order"
+msgstr "Orden de compra"
+
+#. module: pao_sign_ra
+#: model:ir.model,name:pao_sign_ra.model_ra_mail_templates
+msgid "RA Allowed Email Templates"
+msgstr "Plantillas de Correo Electrónico Permitidas para RA"
+
+#. module: pao_sign_ra
+#: model:ir.model,name:pao_sign_ra.model_ra_document
+msgid "RA Document"
+msgstr "Documento RA"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_purchase_order__ra_document_ids
+msgid "RA Documents"
+msgstr "Documentos RA"
+
+#. module: pao_sign_ra
+#: model:ir.actions.act_window,name:pao_sign_ra.ra_templates_action
+#: model:ir.ui.menu,name:pao_sign_ra.menu_item_ra_mail_templates_manager
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_templates_tree_view
+msgid "RA Templates Manager"
+msgstr "Administrador de Plantillas RA"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__ra_document_id
+msgid "Ra Document"
+msgstr "Documento RA"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_purchase_order__ra_documents_count
+msgid "Ra Documents Count"
+msgstr "Conteo de documentos RA"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_purchase_order__ra_sent
+msgid "Ra Sent"
+msgstr "RA enviado"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__ra_templates_ids
+msgid "Ra Templates"
+msgstr "Plantillas RA"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Recipients"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__record_name
+msgid "Record Name"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+msgid "Referral Agreement"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.sign_ra_preview_portal_view
+msgid "Referral Agreement for"
+msgstr "Referral Agreement para"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_tree_view
+msgid "Referral Agreements"
+msgstr ""
+
+#. module: pao_sign_ra
+#. odoo-python
+#: code:addons/pao_sign_ra/models/purchase_order.py:0
+#, python-format
+msgid "Referral Agreements - %s"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__pao_registration_numbers_ids
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__available_registration_numbers_ids
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__registration_numbers_to_sign_ids
+msgid "Registration Numbers"
+msgstr "Números de registro"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+msgid "Reject"
+msgstr "Rechazar"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields.selection,name:pao_sign_ra.selection__ra_document__status__reject
+msgid "Rejected"
+msgstr "Rechazado"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__res_ids
+msgid "Related Document IDs"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__model
+msgid "Related Document Model"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__render_model
+msgid "Rendering Model"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__reply_to_mode
+msgid "Replies"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__reply_to
+msgid "Reply To"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__reply_to
+msgid ""
+"Reply email address. Setting the reply_to bypasses the automatic thread "
+"creation."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Reply-to Address"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__request_travel_expenses
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__request_travel_expenses
+msgid "Request Travel Expenses"
+msgstr "Solicitar gastos de viaje"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+msgid "Resend"
+msgstr "Reenviar"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__resend_action
+msgid "Resend Action"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__res_domain_user_id
+msgid "Responsible"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__scheduled_date
+msgid "Scheduled Date"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Send"
+msgstr "Enviar"
+
+#. module: pao_sign_ra
+#. odoo-python
+#: code:addons/pao_sign_ra/models/purchase_order.py:0
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.purchase_order_send_ra_view_form
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+#, python-format
+msgid "Send RA"
+msgstr "Enviar RA"
+
+#. module: pao_sign_ra
+#: model:ir.model,name:pao_sign_ra.model_send_ra_wizard
+msgid "Send RA Wizard"
+msgstr "Wizar Enviar RA"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__force_send
+msgid "Send mailing or notifications directly"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields.selection,name:pao_sign_ra.selection__ra_document__status__sent
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Settings"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.sign_ra_preview_portal_view
+msgid "Sign RA"
+msgstr "Firmar RA"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields.selection,name:pao_sign_ra.selection__ra_document__status__sign
+msgid "Signed"
+msgstr "Firmado"
+
+#. module: pao_sign_ra
+#: model:mail.template,name:pao_sign_ra.email_template_audit_availability_confirm
+msgid "Solicitud de verificación de disponibilidad (RA) "
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__status
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_search_view
+msgid "Status"
+msgstr "Estado"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__subject
+msgid "Subject"
+msgstr "Asunto"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.travel_expenses_portal_view
+msgid "Submit"
+msgstr "Enviar"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__subtype_id
+msgid "Subtype"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__template_id
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.process_complete_ra_request_portal_view
+msgid ""
+"Thank you for your response. If you need anything else please contact our "
+"staff."
+msgstr ""
+"Gracias por su respuesta. Si necesita algo más por favor comuníquese con "
+"nuestro staff."
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.process_complete_ra_request_portal_view
+msgid "The RA signature request was canceled or does not exist."
+msgstr "La solicitud de firma de RA fue cancelada o no existe."
+
+#. module: pao_sign_ra
+#. odoo-python
+#: code:addons/pao_sign_ra/controller/portal.py:0
+#, python-format
+msgid "The auditor has declined the RA."
+msgstr "El auditor rechazó el RA"
+
+#. module: pao_sign_ra
+#. odoo-python
+#: code:addons/pao_sign_ra/controller/portal.py:0
+#, python-format
+msgid "The auditor has signed and accepted the RA."
+msgstr "El auditor ha firmado y aceptado el RA."
+
+#. module: pao_sign_ra
+#. odoo-python
+#: code:addons/pao_sign_ra/controller/portal.py:0
+#, python-format
+msgid "The auditor has submitted their travel expenses: %s"
+msgstr "El auditor ha enviado sus gastos de viaje: %s"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.process_complete_ra_request_portal_view
+msgid "There was an error processing your response. Please try again."
+msgstr "Ocurrió un error procesando su respuesta. Por favor, inténtalo de nuevo."
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__auto_delete
+msgid ""
+"This option permanently removes any track of email after it's been sent, "
+"including from the Technical menu in the Settings, in order to preserve "
+"storage space of your Odoo database."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+msgid ""
+"This will cancel this RA request, and you will need to create a new one to "
+"send it back to the customer."
+msgstr ""
+"Esto cancelará la solicitud de RA, y necesitarás crear una nueva para "
+"enviársela de nuevo al contacto."
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__model_is_thread
+msgid "Thread-Enabled"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__travel_expenses_posted
+msgid "Travel Expenses Posted"
+msgstr "Gastos de viaje publicados"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__message_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__template_id
+msgid "Use template"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__res_domain_user_id
+msgid "Used as context used to evaluate composer domain"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model:mail.template,subject:pao_sign_ra.email_template_audit_availability_confirm
+msgid "Verificación de disponibilidad (RA)"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "Write your message here..."
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_reject_portal_view
+msgid "Yes, cancel"
+msgstr "Si, cancelar"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form
+msgid "e.g: \"info@mycompany.odoo.com\""
+msgstr ""
