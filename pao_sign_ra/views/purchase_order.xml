@@ -13,6 +13,7 @@
       </xpath>
 
       <div name="button_box" position="inside">
+        <field name="ra_documents_count" invisible="1"/>
         <button name="action_view_linked_ra" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="ra_documents_count == 0">
           <div class="o_field_widget o_stat_info">
             <!-- <span class="o_stat_value">
