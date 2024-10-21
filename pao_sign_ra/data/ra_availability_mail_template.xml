@@ -179,11 +179,12 @@
                                                         <tr style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
                                                             <td style="border-style:solid;box-sizing:border-box;border-left-width:0px;border-bottom-width:0px;border-right-width:0px;border-top-width:0px;border-left-color:inherit;border-bottom-color:inherit;border-right-color:inherit;border-top-color:inherit;">
                                                                 <div style="margin:16px 0px 16px 0px;">
-                                                                    <t t-set="access_token" t-value="object.get_confirmation_access_token()"></t>
+                                                                    <t t-set="ra_id" t-value="object.get_ra_document('id')"></t>
+                                                                    <t t-set="ra_token" t-value="object.get_ra_document('token')"></t>
                                                                     <br/>
-                                                                    <a style="box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-attf-href="/confirm/{{ access_token }}/1">Aceptar
+                                                                    <a style="box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-attf-href="/ra_request/response/{{ ra_id }}/{{ ra_token }}">Aceptar
                                                                     </a>
-                                                                    <a style="box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-attf-href="/confirm/{{ access_token }}/2">Declinar</a>
+                                                                    <a style="box-sizing:border-box;background-color:#875A7B;padding: 8px 16px 8px 16px; margin: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;" t-attf-href="/ra_request/decline/{{ ra_id }}/{{ ra_token }}">Declinar</a>
                                                                     <br/><br/>
                                                                     Si acepta la realización del servicio, seleccione “Aceptar” y
                                                                     proporcione un estimado de viáticos en caso de requerirse.

@@ -14,9 +14,8 @@ class SignRAPortal(portal.CustomerPortal):
 
     def _get_ra_document(self, model, id, token):
         """Utility method to retrieve the RA document and handle access errors."""
-        ra_document = request.env['ra.document'].sudo().search([('purchase_order_id','=',int(id)), ('access_token','=',str(token))])
         try:
-            return self._document_check_access(model, ra_document.id, access_token=token)
+            return self._document_check_access(model, id, access_token=token)
         except (AccessError, MissingError):
             return None
 

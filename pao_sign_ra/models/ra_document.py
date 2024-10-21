@@ -55,16 +55,15 @@ class RADocument(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_url',
-            'url': '/ra_request/response/%s/%s' % (self.purchase_order_id.id, self.access_token),
+            'url': '/ra_request/response/%s/%s' % (self.id, self.access_token),
             'target': 'new'
         }
         
     def action_reject_url(self):
         self.ensure_one()
-        token = self.purchase_order_id.get_confirmation_access_token()
         return {
             'type': 'ir.actions.act_url',
-            'url': '/confirm/%s/2' % (token),
+            'url': '/ra_request/decline/%s/%s' % (self.id, self.access_token),
             'target': 'new'
         }
     
@@ -80,3 +79,6 @@ class RADocument(models.Model):
     def action_cancel(self):
         if self.status == 'sent':
             self.status = 'cancel'
+            
+            if self.purchase_order_id.ra_documents_count <= 0:
+                self.purchase_order_id.ra_sent = False

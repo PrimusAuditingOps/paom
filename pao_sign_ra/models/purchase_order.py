@@ -37,6 +37,15 @@ class PurchaseOrder(models.Model):
             # subtype_xmlid='mail.mt_comment',
             author_id=odoo_bot.id
         )
+        
+    def get_ra_document(self, attribute):
+        if not self.ra_document_ids:
+            return ''
+        else:
+            if attribute == 'id':
+                return str(self.ra_document_ids[0].id)
+            elif attribute == 'token':
+                return str(self.ra_document_ids[0].access_token)
     
     def send_referral_agreement_action(self, resend_action=False, registration_numbers_ids=None, request_travel_expenses=True):
         '''

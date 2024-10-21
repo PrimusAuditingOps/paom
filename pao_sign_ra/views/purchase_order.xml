@@ -9,15 +9,15 @@
 
       <xpath expr="//button[@name='button_confirm']" position="after">
         <field name="ra_sent" invisible="1"/>
-        <button name="send_referral_agreement_action" invisible="state != 'sent' or not ac_is_an_auditor or ra_sent" string="Send RA" type="object"/>
+        <button name="send_referral_agreement_action" invisible="not ac_is_an_auditor or ra_sent" string="Send RA" type="object"/>
       </xpath>
 
       <div name="button_box" position="inside">
         <button name="action_view_linked_ra" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="ra_documents_count == 0">
           <div class="o_field_widget o_stat_info">
-            <span class="o_stat_value">
+            <!-- <span class="o_stat_value">
               <field name="ra_documents_count"/>
-            </span>
+            </span> -->
             <span class="o_stat_text">RA</span>
           </div>
         </button>
