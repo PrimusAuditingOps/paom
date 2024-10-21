@@ -19,7 +19,7 @@ class PurchaseOrder(models.Model):
             rec.ra_documents_count = len(rec.ra_document_ids)
             
     def action_view_linked_ra(self):
-        self.ensure_one()  
+        self.ensure_one()
         action = {
             'res_model': 'ra.document',
             'type': 'ir.actions.act_window',
@@ -40,7 +40,7 @@ class PurchaseOrder(models.Model):
         
     def get_ra_document(self, attribute):
         if not self.ra_document_ids:
-            return ''
+            return '0'
         else:
             if attribute == 'id':
                 return str(self.ra_document_ids[0].id)

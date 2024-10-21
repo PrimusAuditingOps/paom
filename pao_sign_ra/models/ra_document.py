@@ -82,3 +82,11 @@ class RADocument(models.Model):
             
             if self.purchase_order_id.ra_documents_count <= 0:
                 self.purchase_order_id.ra_sent = False
+                
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'purchase.order',
+                'view_mode': 'form',
+                'res_id': self.purchase_order_id.id, 
+                'target': 'current', 
+            }
