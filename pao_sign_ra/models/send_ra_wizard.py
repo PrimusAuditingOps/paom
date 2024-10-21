@@ -73,7 +73,7 @@ class SendRaWizard(models.Model):
     
     def action_send_mail(self):
         if self.purchase_order_id:
-            self.purchase_order_id.get_confirmation_access_token(self)
+            self.purchase_order_id.get_confirmation_access_token()
             if self.resend_action:
                 self.ra_document_id.request_travel_expenses = self.request_travel_expenses
             else:
