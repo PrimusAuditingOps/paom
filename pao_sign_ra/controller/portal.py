@@ -66,9 +66,7 @@ class SignRAPortal(portal.CustomerPortal):
         
         if ra_document.status == 'sent':
             confirm_reject_link = f'/ra_request/confirm_decline/{id}/{token}'
-            return request.render('pao_sign_ra.ra_reject_portal_view', {
-                'confirm_reject_link': confirm_reject_link
-            })
+            return request.render('pao_sign_ra.ra_reject_portal_view', {'confirm_reject_link': confirm_reject_link})
         else:
             return self._redirect_to('response', id, token)
         
@@ -172,29 +170,29 @@ class SignRAPortal(portal.CustomerPortal):
             auditconfirmation.write({'ac_audit_confirmation_status': '1'})
             ra_document.purchase_order_id.write({'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
         
-        pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
-            'servicereferralagreement.report_rapurchaseorder',
-            ra_document.purchase_order_id.id,
-        )[0]
+            pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                'servicereferralagreement.report_rapurchaseorder',
+                ra_document.purchase_order_id.id,
+            )[0]
 
-        # Create an attachment record
-        attachment = request.env['ir.attachment'].sudo().create({
-            'name': 'Referral Agreement - %s.pdf' % ra_document.name,
-            'type': 'binary',
-            'datas': base64.b64encode(pdf_content),
-            'res_model': 'ra.document',
-            'res_id': ra_document.id,  # The record ID to which the attachment belongs
-            'mimetype': 'application/pdf',
-        })
+            # Create an attachment record
+            attachment = request.env['ir.attachment'].sudo().create({
+                'name': 'Referral Agreement - %s.pdf' % ra_document.name,
+                'type': 'binary',
+                'datas': base64.b64encode(pdf_content),
+                'res_model': 'ra.document',
+                'res_id': ra_document.id,  # The record ID to which the attachment belongs
+                'mimetype': 'application/pdf',
+            })
 
-        # Update the record's attachment_ids
-        ra_document.write({
-            'attachment_ids': [(4, attachment.id)],
-            'status': 'sign'
-        })
-        
-        message=_('The auditor has signed and accepted the RA.')
-        ra_document.purchase_order_id.notify_ra_request_progress(message)
+            # Update the record's attachment_ids
+            ra_document.write({
+                'attachment_ids': [(4, attachment.id)],
+                'status': 'sign'
+            })
+            
+            message=_('The auditor has signed and accepted the RA.')
+            ra_document.purchase_order_id.notify_ra_request_progress(message)
 
         return {
             'force_refresh': True,
