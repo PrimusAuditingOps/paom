@@ -23,6 +23,7 @@ class PurchaseOrder(models.Model):
         return {
             'res_model': 'ra.document',
             'type': 'ir.actions.act_window',
+            'name': _("Referral Agreements - %s", self.name),
             'view_mode': 'tree,form' if len(self.ra_document_ids) > 1 else 'form',
             'res_id': self.ra_document_ids[0].id if len(self.ra_document_ids) == 1 else False,
             'domain': [('purchase_order_id', '=', self.id), ('status', '!=', 'cancel')],
