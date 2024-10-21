@@ -20,7 +20,6 @@ class PurchaseOrder(models.Model):
             
     def action_view_linked_ra(self):
         self.ensure_one()
-        
         return {
             'res_model': 'ra.document',
             'type': 'ir.actions.act_window',
