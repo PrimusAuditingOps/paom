@@ -82,6 +82,8 @@ class SendRaWizard(models.Model):
                     'purchase_order_id': self.purchase_order_id.id,
                     'request_travel_expenses': self.request_travel_expenses
                 })
+                
+        super(SendRaWizard, self)._compute_body()
             
         super(SendRaWizard, self).action_send_mail()
     
