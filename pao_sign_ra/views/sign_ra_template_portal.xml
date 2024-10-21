@@ -37,6 +37,24 @@
         </t>
     </template>
 
+    <template id="ra_reject_portal_view" name="Reject RA Confirmation">
+        <t t-call="web.frontend_layout">
+            <div class="col-md-12" style="top:20px;">
+                <div class="oe_structure container mb128">
+                    <form id="reject_form" method="POST" t-att-action="confirm_reject_link" class="col-md-6" style="margin: auto;">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <h2>Are you sure you want to decline the RA?</h2>
+                                <button type="submit" class="btn btn-primary">Yes, cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
     <template id="sign_ra_preview_portal_view" name="RA Signature Form">
         <xpath expr="//head" position="inside">
             <style>
@@ -59,7 +77,7 @@
                             Accept and Sign
                         </button>
 
-                        <a t-if="ra_status == 'sign'" id="download_ra_button" type="button" class="btn btn-primary" t-att-href="download_link">
+                        <a t-if="ra_status == 'sign'" id="download_ra_button" type="button" class="btn btn-primary" style="white-space: nowrap;" t-att-href="download_link">
                             Download RA
                         </a>
                     </div>

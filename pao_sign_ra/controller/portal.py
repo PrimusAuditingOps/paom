@@ -14,8 +14,9 @@ class SignRAPortal(portal.CustomerPortal):
 
     def _get_ra_document(self, model, id, token):
         """Utility method to retrieve the RA document and handle access errors."""
+        ra_document = request.env['ra.document'].sudo().search([('purchase_order_id','=',int(id)), ('access_token','=',str(token))])
         try:
-            return self._document_check_access(model, id, access_token=token)
+            return self._document_check_access(model, ra_document.id, access_token=token)
         except (AccessError, MissingError):
             return None
 
@@ -28,7 +29,7 @@ class SignRAPortal(portal.CustomerPortal):
 
     '''Method to redirect to the appropriate step'''
     
-    @http.route('/ra_request/accept/<int:id>/<string:token>', type='http', auth='public', website=True)
+    @http.route('/ra_request/response/<int:id>/<string:token>', type='http', auth='public', website=True)
     def ra_request_portal(self, id, token):
         ra_document = self._get_ra_document('ra.document', id, token)
         if not ra_document:
@@ -44,7 +45,6 @@ class SignRAPortal(portal.CustomerPortal):
                 'ra_status': ra_document.status
             })
         elif ra_document.status != 'sent':
-            # ADD MISSING PARAMETERS...DOWNLOAD, ETC
             return request.render('pao_sign_ra.process_complete_ra_request_portal_view', {
                 'ra_status': ra_document.status
             })
@@ -53,6 +53,42 @@ class SignRAPortal(portal.CustomerPortal):
             return self._redirect_to('travel_expenses', id, token)
         else:
             return self._redirect_to('sign', id, token)
+        
+        
+        
+        
+    '''Methods for handling rejected RA'''
+    
+    @http.route('/ra_request/decline/<int:id>/<string:token>', type='http', auth='public', website=True)
+    def ra_request_decline_portal(self, id, token):
+        ra_document = self._get_ra_document('ra.document', id, token)
+        if not ra_document:
+            return request.redirect('/')
+        
+        if ra_document.status == 'sent':
+            confirm_reject_link = f'/ra_request/confirm_decline/{id}/{token}'
+            return request.render('pao_sign_ra.ra_reject_portal_view', {
+                'confirm_reject_link': confirm_reject_link
+            })
+        else:
+            return self._redirect_to('response', id, token)
+        
+    @http.route('/ra_request/confirm_decline/<int:id>/<string:token>', type='http', methods=['POST'], auth='public', website=True)
+    def ra_request_confirm_decline_portal(self, id, token):
+        ra_document = self._get_ra_document('ra.document', id, token)
+        if not ra_document:
+            return request.redirect('/')
+        
+        auditconfirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search([('ac_id_purchase','=',ra_document.purchase_order_id.id)])
+        
+        if auditconfirmation and auditconfirmation.ac_audit_confirmation_status == '0':
+            auditconfirmation.write({'ac_audit_confirmation_status': '2'})
+            ra_document.write({'status': 'reject'})
+        
+        message=_('The auditor has declined the RA.')
+        ra_document.purchase_order_id.notify_ra_request_progress(message)
+        
+        return self._redirect_to('response', id, token)
         
         
         
@@ -73,7 +109,7 @@ class SignRAPortal(portal.CustomerPortal):
                 'submit_travel_expenses_link': submit_travel_expenses_link
             })
         else:
-            return self._redirect_to('accept', id, token)
+            return self._redirect_to('response', id, token)
 
     @http.route('/ra_request/submit_travel_expenses/<int:id>/<string:token>', type='http', methods=['POST'], auth='public', website=True)
     def ra_travel_expenses_submit_portal(self, id, token, **kwargs):
@@ -111,7 +147,7 @@ class SignRAPortal(portal.CustomerPortal):
             return request.redirect('/')
         
         if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
-            return self._redirect_to('accept', id, token)
+            return self._redirect_to('response', id, token)
         else:
             pdf_data = self._generate_ra_preview(ra_document)
             accept_link = f'/ra_request/submit_sign/{id}/{token}'
@@ -147,7 +183,7 @@ class SignRAPortal(portal.CustomerPortal):
             'name': 'Referral Agreement - %s.pdf' % ra_document.name,
             'type': 'binary',
             'datas': base64.b64encode(pdf_content),
-            'res_model': 'ra.document',  # Replace with your model name
+            'res_model': 'ra.document',
             'res_id': ra_document.id,  # The record ID to which the attachment belongs
             'mimetype': 'application/pdf',
         })
@@ -160,11 +196,10 @@ class SignRAPortal(portal.CustomerPortal):
         
         message=_('The auditor has signed and accepted the RA.')
         ra_document.purchase_order_id.notify_ra_request_progress(message)
-        
 
         return {
             'force_refresh': True,
-            'redirect_url': f'/ra_request/accept/{id}/{token}'
+            'redirect_url': f'/ra_request/response/{id}/{token}'
         }
         
         

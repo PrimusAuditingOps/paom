@@ -55,7 +55,7 @@ class RADocument(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_url',
-            'url': '/ra_request/accept/%s/%s' % (self.id, self.access_token),
+            'url': '/ra_request/response/%s/%s' % (self.purchase_order_id.id, self.access_token),
             'target': 'new'
         }
         
