@@ -144,7 +144,7 @@
                             <span t-esc="doc.partner_id.name"/>
                         </p>
                         <p>
-                            <t t-if="doc.partner_id.signature">
+                            <t t-if="doc.sra_audit_signature">
                                 <img t-att-src="'data:image/png;base64,%s' % (doc.sra_audit_signature)" alt="Signature" style="width: 200px; height: 100px;"/>
                             </t>
                             <span>__________________________</span>                            <!-- Line for signature, always present -->
