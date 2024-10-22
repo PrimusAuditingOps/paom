@@ -47,7 +47,8 @@ class SendRaWizard(models.Model):
         res = super(SendRaWizard, self).default_get(fields)
         
         ra_templates = self.env['ra.mail.templates'].search([])
-        res['ra_templates_ids'] = [(6, 0, ra_templates.mapped('template_id.id'))]
+        if ra_templates:
+            res['ra_templates_ids'] = [(6, 0, ra_templates.mapped('template_id.id'))]
         
         purchase_order_id = self.env.context.get('default_purchase_order_id')
         resend_action = self.env.context.get('resend_action')
@@ -86,7 +87,7 @@ class SendRaWizard(models.Model):
                     'request_travel_expenses': self.request_travel_expenses
                 })
         
-        # Re-render template with the values of the RA documents related to the PO
+        # Re-compute template with the values of the RA documents related to the PO
         super(SendRaWizard, self)._compute_body()
             
         super(SendRaWizard, self).action_send_mail()
