@@ -52,7 +52,8 @@
                         </p>
                         <p>
                             <strong>Phone #:</strong>
-                            <span t-field="first_line.registrynumber_id.phone"/>
+                            <span t-if="first_line.registrynumber_id.phone" t-field="first_line.registrynumber_id.phone"/>
+                            <span t-else=""> - </span>
                         </p>
                         <p>
                             <strong>Invoice E-mail:</strong>
@@ -156,7 +157,7 @@
                         <!-- Primus Auditing Operations Signature and Coordinator Name -->
                         <p>
                             <strong>Primus Auditing Operations:</strong>
-                            <span t-field="doc.coordinator_id.name"/>
+                            <span t-field="doc.coordinator_id"/>
                         </p>
                         <p>
                             <t t-if="doc.coordinator_id.employee_ids[0]">
