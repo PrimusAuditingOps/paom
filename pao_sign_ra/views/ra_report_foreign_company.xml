@@ -36,7 +36,8 @@
                         </p>
                         <p>
                             <strong>Billing Customer:</strong>
-                            <span t-field="first_line.sra_customer_id"/>
+                            <span t-if="first_line.sra_customer_id" t-field="first_line.sra_customer_id"/>
+                            <span t-else=""> - </span>
                         </p>
                         <p>
                             <strong>Registration Number:</strong>
@@ -157,7 +158,7 @@
                         <!-- Primus Auditing Operations Signature and Coordinator Name -->
                         <p>
                             <strong>Primus Auditing Operations:</strong>
-                            <span t-field="doc.coordinator_id"/>
+                            <span t-esc="doc.coordinator_id"/>
                         </p>
                         <p>
                             <t t-if="doc.coordinator_id.employee_ids[0]">
