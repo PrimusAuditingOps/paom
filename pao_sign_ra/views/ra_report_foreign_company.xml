@@ -24,43 +24,43 @@
                         <t t-set="first_line" t-value="doc.order_line[0]"/>
 
                         <p>
-                            <strong>JS Audit Group, Inc., as Primus Auditing Operations (“Primus”)</strong> hereby agrees to engage
-                            <span t-esc="doc.partner_id.name"/>(“Auditor”) to perform audit services as specified below with the
+                            <strong>JS Audit Group, Inc., as Primus Auditing Operations ("Primus")</strong> hereby agrees to engage
+                            <span t-esc="doc.partner_id.name"/>("Auditor") to perform audit services as specified below with the
                             full details shown on the audit appointment document:
                         </p>
 
                         <!-- Fetch Organization Name, Billing Customer, Registration Number from Purchase Order Line -->
                         <p>
                             <strong>Organization Name (Customer):</strong>
-                            <span t-esc="first_line.organization_id.name"/>
+                            <span t-field="first_line.organization_id.name"/>
                         </p>
                         <p>
                             <strong>Billing Customer:</strong>
-                            <span t-esc="first_line.sra_customer_id"/>
+                            <span t-field="first_line.sra_customer_id."/>
                         </p>
                         <p>
                             <strong>Registration Number:</strong>
-                            <span t-esc="first_line.registrynumber_id"/>
+                            <span t-field="first_line.registrynumber_id"/>
                         </p>
                         <p>
                             <strong>Billed In:</strong>
-                            <span t-esc="doc.currency_id.name"/>
+                            <span t-field="doc.currency_id.name"/>
                         </p>
                         <p>
                             <strong>Contract E-mail:</strong>
-                            <span t-esc="first_line.registrynumber_id.contract_email"/>
+                            <span t-field="first_line.registrynumber_id.contract_email"/>
                         </p>
                         <p>
                             <strong>Phone #:</strong>
-                            <span t-esc="first_line.registrynumber_id.phone"/>
+                            <span t-field="first_line.registrynumber_id.phone"/>
                         </p>
                         <p>
                             <strong>Invoice E-mail:</strong>
-                            <span t-esc="first_line.registrynumber_id.contract_email"/>
+                            <span t-field="first_line.registrynumber_id.contract_email"/>
                         </p>
                         <p>
                             <strong>Agreed Date:</strong>
-                            <span t-esc="doc.date_order"/>
+                            <span t-field="doc.date_order"/>
                         </p>
                     </t>
 
@@ -89,10 +89,10 @@
                                         <span t-esc="line.product_qty"/>
                                     </td>
                                     <td>
-                                        <span t-esc="line.price_unit" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        <span t-esc="line.price_unit"/>
                                     </td>
                                     <td>
-                                        <span t-esc="line.price_subtotal" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        <span t-esc="line.price_subtotal"/>
                                     </td>
                                 </tr>
                             </t>
@@ -141,11 +141,11 @@
                         <!-- Independent Auditor Signature and Name -->
                         <p>
                             <strong>Independent Auditor:</strong>
-                            <span t-esc="doc.partner_id.name"/>
+                            <span t-field="doc.partner_id.name"/>
                         </p>
                         <p>
                             <t t-if="doc.sra_audit_signature">
-                                <img t-att-src="'data:image/png;base64,%s' % (doc.sra_audit_signature)" alt="Signature" style="width: 200px; height: 100px;"/>
+                                <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.sra_audit_signature)"/>
                             </t>
                             <span>__________________________</span>                            <!-- Line for signature, always present -->
                         </p>
@@ -156,11 +156,11 @@
                         <!-- Primus Auditing Operations Signature and Coordinator Name -->
                         <p>
                             <strong>Primus Auditing Operations:</strong>
-                            <span t-esc="doc.coordinator_id.name"/>
+                            <span t-field="doc.coordinator_id.name"/>
                         </p>
                         <p>
                             <t t-if="doc.coordinator_id.employee_ids[0]">
-                                <img t-att-src="'data:image/png;base64,%s' % (doc.coordinator_id.employee_ids[0].es_sign_signature)" alt="Signature" style="width: 200px; height: 100px;"/>
+                                <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.coordinator_id.employee_ids[0].es_sign_signature)"/>
                             </t>
                             <span>__________________________</span>                            <!-- Line for signature, always present -->
                         </p>
