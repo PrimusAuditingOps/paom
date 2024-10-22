@@ -158,7 +158,7 @@
                         <!-- Primus Auditing Operations Signature and Coordinator Name -->
                         <p>
                             <strong>Primus Auditing Operations:</strong>
-                            <span t-esc="doc.coordinator_id"/>
+                            <span t-esc="doc.coordinator_id.name"/>
                         </p>
                         <p>
                             <t t-if="doc.coordinator_id.employee_ids[0]">
