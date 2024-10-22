@@ -53,6 +53,9 @@ class PurchaseOrder(models.Model):
         '''
         self.ensure_one()
         
+        if not self.coordinator_id:
+            raise ValidationError(_("You must select a coordinator to proceed with the process."))
+        
         ctx = dict(self.env.context or {})
         ctx.update({
             'default_model': 'purchase.order',

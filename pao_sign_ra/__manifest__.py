@@ -10,6 +10,7 @@
         # 'security/groups.xml',
         'security/ir.model.access.csv',
         'data/ra_availability_mail_template.xml',
+        'data/ra_mail_templates_default.xml.xml',
         # 'security/ir_rules.xml',
         # 'views/res_partner.xml',
         'views/purchase_order.xml',

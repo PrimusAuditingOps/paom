@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="default_ra_mail_template" model="ra.mail.templates">
+            <field name="sequence">1</field>
+            <field name="template_id" ref="email_template_audit_availability_confirm"/>
+        </record>
+    </data>
+</odoo>

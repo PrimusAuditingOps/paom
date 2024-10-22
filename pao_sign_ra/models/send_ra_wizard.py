@@ -73,7 +73,9 @@ class SendRaWizard(models.Model):
     
     def action_send_mail(self):
         if self.purchase_order_id:
+            # Method in the PO to generate an auditconfirmation which works to manage the status of the audit confirmation from the auditor
             self.purchase_order_id.get_confirmation_access_token()
+            
             if self.resend_action:
                 self.ra_document_id.request_travel_expenses = self.request_travel_expenses
             else:
