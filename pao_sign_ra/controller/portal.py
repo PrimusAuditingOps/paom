@@ -172,9 +172,11 @@ class SignRAPortal(portal.CustomerPortal):
         if auditconfirmation and auditconfirmation.ac_audit_confirmation_status == '0':
             auditconfirmation.write({'ac_audit_confirmation_status': '1'})
             ra_document.purchase_order_id.write({'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
-        
+
+            country_code = ra_document.purchase_order_id.company_id.country_code
+            template = 'servicereferralagreement.report_rapurchaseorder' if country_code == 'MX' else 'pao_sign_ra.ra_report_foreign_company_template_action'
             pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
-                'servicereferralagreement.report_rapurchaseorder',
+                template,
                 ra_document.purchase_order_id.id,
             )[0]
 
