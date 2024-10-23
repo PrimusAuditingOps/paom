@@ -132,7 +132,7 @@ class SignRAPortal(portal.CustomerPortal):
     def _generate_ra_preview(self, ra_document):
         """Generates the RA PDF using the existing report template."""
         country_code = ra_document.purchase_order_id.company_id.country_code
-        template = 'servicereferralagreement.report_rapurchaseorder' if country_code == 'MX' else 'ra_report_foreign_company_template_action'
+        template = 'servicereferralagreement.report_rapurchaseorder' if country_code == 'MX' else 'pao_sign_ra.ra_report_foreign_company_template_action'
         
         pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
             template,
@@ -215,7 +215,7 @@ class SignRAPortal(portal.CustomerPortal):
             return request.redirect('/')
         
         country_code = ra_document.purchase_order_id.company_id.country_code
-        template = 'servicereferralagreement.report_rapurchaseorder' if country_code == 'MX' else 'ra_report_foreign_company_template_action'
+        template = 'servicereferralagreement.report_rapurchaseorder' if country_code == 'MX' else 'pao_sign_ra.ra_report_foreign_company_template_action'
 
         rafilename = 'RA-'+ra_document.purchase_order_id.name+'-'+ra_document.purchase_order_id.partner_id.name+'.pdf'
         
