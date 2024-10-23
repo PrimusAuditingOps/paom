@@ -39,7 +39,7 @@ class PurchaseOrder(models.Model):
                                     ondelete='set null')
     coordinator_id = fields.Many2one('res.users', string="Operations Specialist",
                                      ondelete='set null', index=True,
-                                     domain = [('share','=',False), ('company_id', '=', lambda self:self.env.company.id)])
+                                     domain = "[('share','=',False), ('company_id', '=', company_id)]")
     audit_country_id = fields.Many2one('res.country', string='Audit Country',
                                        help='Select Country', ondelete='restrict',
                                        default = lambda self: self.env.company.country_id.id)  
