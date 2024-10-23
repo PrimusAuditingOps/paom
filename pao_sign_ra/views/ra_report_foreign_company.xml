@@ -14,163 +14,222 @@
 
     <template id="ra_report_foreign_company_template">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="doc">
-                <div class="page">
-                    <h3 style="text-align: center;">PRIMUS AUDITING OPERATIONS</h3>
-                    <h4 style="text-align: center;">INDEPENDENT AUDITOR REFERRAL AGREEMENT</h4>
-
-                    <!-- Fetch data from the first line of purchase.order.line for these fields -->
-                    <t t-if="doc.order_line">
-                        <t t-set="first_line" t-value="doc.order_line[0]"/>
-
-                        <p>
-                            <strong>JS Audit Group, Inc., as Primus Auditing Operations ("Primus")</strong> hereby agrees to engage
-                            <span t-esc="doc.partner_id.name"/>("Auditor") to perform audit services as specified below with the
-                            full details shown on the audit appointment document:
-                        </p>
-
-                        <!-- Fetch Organization Name, Billing Customer, Registration Number from Purchase Order Line -->
-                        <p>
-                            <strong>Organization Name (Customer):</strong>
-                            <span t-field="first_line.organization_id.name"/>
-                        </p>
-                        <p>
-                            <strong>Billing Customer:</strong>
-                            <span t-if="first_line.sra_customer_id" t-field="first_line.sra_customer_id"/>
-                            <span t-else=""> - </span>
-                        </p>
-                        <p>
-                            <strong>Registration Number:</strong>
-                            <span t-field="first_line.registrynumber_id"/>
-                        </p>
-                        <p>
-                            <strong>Billed In:</strong>
-                            <span t-field="doc.currency_id.name"/>
-                        </p>
-                        <p>
-                            <strong>Contract E-mail:</strong>
-                            <span t-field="first_line.registrynumber_id.contract_email"/>
-                        </p>
-                        <p>
-                            <strong>Phone #:</strong>
-                            <span t-if="first_line.registrynumber_id.phone" t-field="first_line.registrynumber_id.phone"/>
-                            <span t-else=""> - </span>
-                        </p>
-                        <p>
-                            <strong>Invoice E-mail:</strong>
-                            <span t-field="first_line.registrynumber_id.contract_email"/>
-                        </p>
-                        <p>
-                            <strong>Agreed Date:</strong>
-                            <span t-field="doc.date_order"/>
-                        </p>
-                    </t>
-
-                    <!-- Table for Services (from Purchase Order Lines) -->
-                    <h5>Operation Name and Services</h5>
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Description</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="doc.order_line" t-as="line">
-                                <tr>
-                                    <td>
-                                        <span t-esc="line.product_id.name"/>
-                                    </td>
-                                    <td>
-                                        <span t-esc="line.name"/>
-                                    </td>
-                                    <td>
-                                        <span t-esc="line.product_qty"/>
-                                    </td>
-                                    <td>
-                                        <span t-esc="line.price_unit"/>
-                                    </td>
-                                    <td>
-                                        <span t-esc="line.price_subtotal"/>
-                                    </td>
-                                </tr>
-                            </t>
-                        </tbody>
-                    </table>
-
-                    <!-- Section 1: Expenses -->
-                    <h5>1. EXPENSES</h5>
-                    <p>Primus will reimburse Auditor for expenses per its established expense policy. Proof of receipts must be
-                        provided to Primus for reimbursement. Auditor hereby agrees to check with Primus’ coordinator for special instructions.
-                    </p>
-
-                    <!-- Section 2: Delivery of Audit Results -->
-                    <h5>2. DELIVERY OF AUDIT RESULTS</h5>
-                    <p>Audit results must be submitted to Primus by the end of the seventh full business day after audit performance.
-                        Late submissions are subject to penalties as outlined.
-                    </p>
-
-                    <!-- Section 3: Data Ownership -->
-                    <h5>3. DATA OWNERSHIP</h5>
-                    <p>All data submitted to the Primus system becomes the property of Primus Auditing Operations for statistical
-                        comparisons, reports, and other materials.
-                    </p>
-
-                    <!-- Section 4: Limitation of Liability -->
-                    <h5>4. LIMITATION OF LIABILITY AND INDEMNITY</h5>
-                    <p>Client hereby releases JS Audit Group, Inc. from any liability due to incorrect information provided by the Auditor.
-                        Auditor agrees to indemnify Primus from claims arising from inaccurate information.
-                    </p>
-
-                    <!-- Section 5: Independent Contractor Status -->
-                    <h5>5. INDEPENDENT CONTRACTOR STATUS</h5>
-                    <p>The Auditor is acknowledged as an independent contractor and is responsible for obtaining insurance and
-                        following all applicable laws for performing the services outlined in this agreement.
-                    </p>
-
-                    <!-- Section 6: Governing Law -->
-                    <h5>6. GOVERNING LAW / VENUE</h5>
-                    <p>This agreement is governed by the laws of California, and any legal actions will be resolved in courts located
-                        in Santa Maria, California.
-                    </p>
-
-                    <!-- Auditor and Primus Signatures -->
-                    <br/>
-                    <div>
-                        <!-- Independent Auditor Signature and Name -->
-                        <p>
-                            <strong>Independent Auditor:</strong>
-                            <span t-field="doc.partner_id.name"/>
-                        </p>
-                        <p>
-                            <t t-if="doc.sra_audit_signature">
-                                <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.sra_audit_signature)"/>
-                            </t>
-                            <span>__________________________</span>                            <!-- Line for signature, always present -->
-                        </p>
-                        <p>Date Signed: <span>______________________</span>
-                            <span t-esc="time.strftime('%Y-%m-%d')"/>
-                        </p>                        <!-- Date and line -->
-
-                        <!-- Primus Auditing Operations Signature and Coordinator Name -->
-                        <p>
-                            <strong>Primus Auditing Operations:</strong>
-                            <span t-esc="doc.coordinator_id.name"/>
-                        </p>
-                        <p>
-                            <t t-if="doc.coordinator_id.employee_ids[0]">
-                                <img style="width:327px; heigth:327px;" t-att-src="image_data_uri(doc.coordinator_id.employee_ids[0].es_sign_signature)"/>
-                            </t>
-                            <span>__________________________</span>                            <!-- Line for signature, always present -->
-                        </p>
-                        <p>Date Signed: <span>______________________</span>
-                            <span t-esc="time.strftime('%Y-%m-%d')"/>
-                        </p>                        <!-- Date and line -->
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="header">
+                        <div class="row mb8">
+                            <div class="col-6">
+                                <img src="pao_sign_ra/static/src/img/logo.png" style="width:230px; height:auto; object-position: 0 -15px;" alt="Primus Logo"/>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman" rel="stylesheet"/>
+                    <div class="mt-0 pt-0" style="text-align: justify; font-family: 'Times New Roman', Times, serif !important; font-size: 16px;">
+                        <div class="text-center w-100 mb-4">
+                            <strong>
+                            <span style="font-size: 22px !important; display: inline-block;">PRIMUS AUDITING OPERATIONS</span>
+                            <br/>
+                            <span style="font-size: 22px !important; display: inline-block;">INDEPENDENT AUDITOR REFERRAL AGREEMENT</span>
+                            </strong>
+                        </div>
+    
+                        <!-- Fetch data from the first line of purchase.order.line for these fields -->
+                        <t t-if="doc.order_line">
+                            <t t-set="first_line" t-value="doc.order_line[0]"/>
+    
+                            <p>
+                                <strong>JS Audit Group, Inc., as Primus Auditing Operations ("Primus")</strong> hereby agrees to engage
+                                <span t-esc="doc.partner_id.name"/> ("Auditor") to perform audit services as specified below with the
+                                full details shown on the audit appointment document:
+                            </p>
+    
+                            <!-- Fetch Organization Name, Billing Customer, Registration Number from Purchase Order Line -->
+                            <p>
+                                <strong>Organization Name (Customer):</strong>
+                                <span t-field="first_line.organization_id.name"/>
+                            </p>
+                            <p>
+                                <strong>Billing Customer:</strong>
+                                <span t-if="first_line.sra_customer_id" t-field="first_line.sra_customer_id"/>
+                                <span t-else=""> - </span>
+                            </p>
+                            <div class="d-flex">
+                                <p  class="w-50">
+                                    <strong>Billed In:</strong>
+                                    <span t-field="doc.currency_id.name"/>
+                                </p>
+                                <p class="w-50">
+                                    <strong>Registration Number:</strong>
+                                    <span t-field="first_line.registrynumber_id"/>
+                                </p>
+                            </div>
+                            <div class="d-flex">
+                                <p class="w-50">
+                                    <strong>Contract E-mail:</strong>
+                                    <span t-field="first_line.registrynumber_id.contract_email"/>
+                                </p>
+                                <p class="w-50">
+                                    <strong>Phone #:</strong>
+                                    <span t-if="first_line.registrynumber_id.phone" t-field="first_line.registrynumber_id.phone"/>
+                                    <span t-else=""> - </span>
+                                </p>
+                            </div>
+                            <div class="d-flex">
+                                <p class="w-50 text-center">
+                                    <strong>Invoice E-mail:</strong>
+                                    <span t-field="first_line.registrynumber_id.contract_email"/>
+                                </p>
+                                <p class="w-50">
+                                    <strong>Agreed Date:</strong>
+                                    <span t-field="doc.date_order"/>
+                                </p>
+                            </div>
+    
+    
+                        </t>
+    
+                        <table class="table" style="width: 100%; text-align: left; border-collapse: collapse;">
+                            <thead style="background: black; color: white;">
+                                <tr>
+                                    <th style="text-align: center;">Services</th>
+                                    <th style="text-align: center;">Quantity</th>
+                                    <th style="text-align: center;">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.order_line" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="line.product_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line.product_qty"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.price_subtotal"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        
+                        <div class="d-flex">
+                            <p class="w-50"></p>
+                            <p style="text-align: right;" class="w-50">
+                                Total Services: <span t-field="doc.amount_total"/>
+                            </p>
+                        </div>
+    
+                        <!-- Section 1: Expenses -->
+                        <p>
+                            <strong>1. EXPENSES. </strong>Primus will reimburse Auditor for expenses per its established expense policy (unless specific arrangements are made to meet Costco pricing limitations)
+                            , which the auditor acknowledges receiving. <span class="text-decoration-underline fw-bold fst-italic">Proof of receipts must be provided to Primus for reimbursement.</span> 
+                            Auditor hereby agrees to check with Primus’ coordinator for special instructions.
+                        </p>
+    
+                        <!-- Section 2: Delivery of Audit Results -->
+                        <p>
+                            <strong>2. DELIVERY OF AUDIT RESULTS.</strong> Auditor hereby agrees to the following penalty clause:
+                        </p>
+                        <p>
+                            Primus is contractually bound to deliver audit information to its clients as early as three days from date of performance. 
+                            <span class="text-decoration-underline fw-bold fst-italic">Therefore, audit results must be submitted to Primus by the end of the seventh full business day after audit performance. </span>
+                            In the event that audit report is not submitted as per the last sentence the penalty shall be assessed against the Audit Fee 
+                            at the rate of 10% of the gross Primus-auditee contract rate; this charge to be repeated each day thereafter until the report 
+                            is submitted (this excludes report rejected by the audit QA System)
+                        </p>
+                        <p class="fst-italic">
+                            For example, this would mean that a contract providing for a $1,000 fee payable to Primus would bear a penalty of $100 per day as a 
+                            reduction of the fee payable to the auditor.  In addition to the fee reduction, Primus will very closely assess the future use of the 
+                            auditor due to late delivery.
+                        </p>
+    
+                        <!-- Section 3: Data Ownership -->
+                        <p>
+                            <strong>3. DATA OWNERSHIP. </strong><span class="fst-italic">All data submitted to the Primus system becomes the property of 
+                            Primus Auditing Operations for statistical comparisons, reports, and other materials.</span>
+                        </p>
+    
+                        <!-- Section 4: Limitation of Liability -->
+                        <p>
+                            <strong>4. LIMITATION OF LIABILITY AND INDEMNITY. </strong>Client hereby releases JS Audit Group, Inc. and its affiliates 
+                            from any loss or liability suffered by Auditor due to Primus’ use of incorrect information provided by Auditor pursuant 
+                            to this Agreement, other than incorrect information developed and posted solely by Primus.  Auditor agrees to indemnify, 
+                            defend and hold Primus free and harmless from any claims from third parties resulting from inaccurate or incorrect information 
+                            provided or collected by Auditor and provided to Primus for use with its auditing program.
+                        </p>
+    
+                        <!-- Section 5: Independent Contractor Status -->
+                        <p>
+                            <strong>5. INDEPENDENT CONTRACTOR STATUS. </strong>Auditor further acknowledges he / she is acting in the role of independent 
+                            contractor in providing services to Primus clients. Auditor warrants and represents that he / she has complied with all Federal, 
+                            state and local laws regarding business permits and licenses that may be required for him / her to perform the work as set forth 
+                            in this Agreement. Auditor shall supply, at his / her sole expense, all equipment, tools, materials and or supplies to accomplish 
+                            the work to be performed. Neither Federal, nor state, nor local income tax shall be withheld or paid on behalf of the Auditor or 
+                            his / her employees. Because Auditor is engaged in his / her own independent contracting business and is not an employee of Primus, 
+                            Primus will not obtain insurance (professional liability, workers compensation, general liability, auto, etc.) for the Auditor or 
+                            his / her employees. Auditor agrees to obtain his / her own insurance coverage and furnish a copy of the certificate of insurance 
+                            naming Primus as an additional insured. Reference Cert-051 Insurance Requirements.
+                        </p>
+    
+                        <!-- Section 6: Governing Law -->
+                        <p>
+                            <strong>6. GOVERNING LAW / VENUE. </strong>This Agreement shall be governed by and construed in accordance with the laws of the 
+                            State of California. In the event that it is necessary to institute any action to enforce any right granted herein or to redress any 
+                            alleged breach hereof, then the exclusive venue for such action shall reside with the applicable Superior or Municipal Court located 
+                            in Santa Maria, California.
+                        </p>
+                        
+                        <p>
+                            <strong>7. </strong>Primus will bill and send audit report to client. Auditor will bill Primus for their services per this agreement.
+                        </p>
+                        
+                        <p>Independent Auditor</p>
+                        <div class="d-flex text-center">
+                            <div>
+                                <div class="mb-2" style="border-bottom: 1px solid black; height:70px; width:327px; background-color: transparent;">
+                                    <img style="width:327px; heigth:auto" t-if="doc.sra_audit_signature" t-att-src="image_data_uri(doc.sra_audit_signature)"/>
+                                </div>
+                                Auditor                                    
+                            </div>
+                            <div class="ms-5" style="height: 70px; background-color: transparent; margin-top: 53px;">
+                                <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-esc="time.strftime('%Y-%m-%d')"/>
+                                Date Signed                          
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <p>Primus Auditing Operations</p>
+                            <p>By:</p>
+                            <div class="d-flex text-center">
+                                <div class="text-center">
+                                    <div class="mb-2" style="border-bottom: 1px solid black; height:70px; width:327px; background-color: transparent;">
+                                        <img style="width:250px; auto" t-if="doc.coordinator_id.employee_ids[0]" t-att-src="image_data_uri(doc.coordinator_id.employee_ids[0].es_sign_signature)"/>
+                                    </div>
+                                    Audit Coordinator                                  
+                                </div>
+                                <div class="ms-5" style="height: 70px; background-color: transparent; margin-top: 53px;">
+                                    <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-esc="time.strftime('%Y-%m-%d')"/>
+                                    Date Signed                          
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                    <div class="footer o_boxed_footer pt-3">
+                        <div class="text-center" style="font-family: 'Times New Roman', Times, serif !important;">
+                            <ul class="list-inline text-nowrap w-100" style="font-family: 'Times New Roman', Times, serif !important;">
+                                <li class="list-inline-item w-25">Primus Auditing Ops Document</li>
+                                <li class="list-inline-item w-25">Cert-T001</li>
+                                <li class="list-inline-item w-25">Rev. 4</li>
+                                <li class="list-inline-item w-25">10/02/2023</li>
+                            </ul>
+                            <!--<div t-if="report_type == 'pdf'">-->
+                            <!--    Page: <span class="page"/> / <span class="topage"/>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </t>
             </t>
         </t>
     </template>
