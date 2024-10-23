@@ -56,6 +56,9 @@ class PurchaseOrder(models.Model):
         if not self.coordinator_id:
             raise ValidationError(_("You must select a coordinator to proceed with the process."))
         
+        if not self.coordinator_id.employee_ids[0].es_sign_signature:
+            raise ValidationError(_("The coordinator doesn't have a registered signature."))
+        
         ctx = dict(self.env.context or {})
         ctx.update({
             'default_model': 'purchase.order',
