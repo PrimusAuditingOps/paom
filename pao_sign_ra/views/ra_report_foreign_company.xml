@@ -16,16 +16,22 @@
         <t t-call="web.html_container">
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="doc">
+                    <style>
+                        @font-face{
+                            font-family: 'Times New Roman';
+                            font-style: normal;
+                            src:url('/servicereferralagreement/static/src/fonts/times-new-roman-14.ttf') format('truetype');
+                        }
+                    </style>
                     <div class="header">
                         <div class="row mb8">
-                            <div class="col-6">
+                            <div class="col-6 mt-5">
                                 <img src="pao_sign_ra/static/src/img/logo.png" style="width:230px; height:auto; object-position: 0 -15px;" alt="Primus Logo"/>
                             </div>
                         </div>
                     </div>
-                    <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman" rel="stylesheet"/>
                     <div class="mt-0 pt-0" style="text-align: justify; font-family: 'Times New Roman', Times, serif !important; font-size: 16px;">
-                        <div class="text-center w-100 mb-4">
+                        <div class="text-center w-100 mb-5">
                             <strong>
                             <span style="font-size: 22px !important; display: inline-block;">PRIMUS AUDITING OPERATIONS</span>
                             <br/>
@@ -45,7 +51,7 @@
     
                             <!-- Fetch Organization Name, Billing Customer, Registration Number from Purchase Order Line -->
                             <p>
-                                <strong>Organization Name (Customer):</strong>
+                                <strong>Organization Name ("Customer"):</strong>
                                 <span t-field="first_line.organization_id.name"/>
                             </p>
                             <p>
@@ -54,7 +60,7 @@
                                 <span t-else=""> - </span>
                             </p>
                             <div class="d-flex">
-                                <p  class="w-50">
+                                <p class="w-50">
                                     <strong>Billed In:</strong>
                                     <span t-field="doc.currency_id.name"/>
                                 </p>
@@ -75,7 +81,7 @@
                                 </p>
                             </div>
                             <div class="d-flex">
-                                <p class="w-50 text-center">
+                                <p class="w-50">
                                     <strong>Invoice E-mail:</strong>
                                     <span t-field="first_line.registrynumber_id.contract_email"/>
                                 </p>
@@ -114,7 +120,7 @@
                         </table>
                         
                         <div class="d-flex">
-                            <p class="w-50"></p>
+                            <p class="w-50"/>
                             <p style="text-align: right;" class="w-50">
                                 Total Services: <span t-field="doc.amount_total"/>
                             </p>
@@ -218,7 +224,7 @@
                     </div>
                     <div class="footer o_boxed_footer pt-3">
                         <div class="text-center" style="font-family: 'Times New Roman', Times, serif !important;">
-                            <ul class="list-inline text-nowrap w-100" style="font-family: 'Times New Roman', Times, serif !important;">
+                            <ul class="list-inline text-nowrap w-100">
                                 <li class="list-inline-item w-25">Primus Auditing Ops Document</li>
                                 <li class="list-inline-item w-25">Cert-T001</li>
                                 <li class="list-inline-item w-25">Rev. 4</li>
