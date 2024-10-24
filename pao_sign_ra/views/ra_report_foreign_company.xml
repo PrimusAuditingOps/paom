@@ -137,10 +137,10 @@
                         </p>
                         <p>
                             Primus is contractually bound to deliver audit information to its clients as early as three days from date of performance. 
-                            <span class="text-decoration-underline fw-bold fst-italic">Therefore, audit results must be submitted to Primus by the end of the seventh full business day after audit performance. </span>
-                            In the event that audit report is not submitted as per the last sentence the penalty shall be assessed against the Audit Fee 
-                            at the rate of 10% of the gross Primus-auditee contract rate; this charge to be repeated each day thereafter until the report 
-                            is submitted (this excludes report rejected by the audit QA System)
+                            <span class="text-decoration-underline fw-bold fst-italic">Therefore, audit results must be submitted to Primus by the end of 
+                            the seventh full business day after audit performance.</span> In the event that audit report is not submitted as per the last 
+                            sentence the penalty shall be assessed against the Audit Fee at the rate of 10% of the gross Primus-auditee contract rate; 
+                            this charge to be repeated each day thereafter until the report is submitted (this excludes report rejected by the audit QA System)
                         </p>
                         <p class="fst-italic">
                             For example, this would mean that a contract providing for a $1,000 fee payable to Primus would bear a penalty of $100 per day as a 
@@ -206,7 +206,7 @@
                             <p>Primus Auditing Operations</p>
                             <p>By:</p>
                             <div class="d-flex text-center">
-                                <div class="text-center">
+                                <div>
                                     <div class="mb-2" style="border-bottom: 1px solid black; height:70px; width:327px; background-color: transparent;">
                                         <img style="width:250px; auto" t-if="doc.coordinator_id.employee_ids[0]" t-att-src="image_data_uri(doc.coordinator_id.employee_ids[0].es_sign_signature)"/>
                                     </div>
