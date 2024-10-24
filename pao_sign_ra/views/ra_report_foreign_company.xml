@@ -26,7 +26,7 @@
                     <div class="header">
                         <div class="row mb8">
                             <div class="col-6 mt-5">
-                                <img src="pao_sign_ra/static/src/img/logo.png" style="width:230px; height:auto; object-position: 0 -15px;" alt="Primus Logo"/>
+                                <img src="pao_sign_ra/static/src/img/logo.png" style="width:230px; height:auto;" alt="Primus Logo"/>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,6 @@
                                 full details shown on the audit appointment document:
                             </p>
     
-                            <!-- Fetch Organization Name, Billing Customer, Registration Number from Purchase Order Line -->
                             <p>
                                 <strong>Organization Name ("Customer"):</strong>
                                 <span t-field="first_line.organization_id.name"/>
@@ -72,7 +71,7 @@
                             <div class="d-flex">
                                 <p class="w-50">
                                     <strong>Contract E-mail:</strong>
-                                    <span t-field="first_line.registrynumber_id.contract_email"/>
+                                    <span class="text-lowercase" t-field="first_line.registrynumber_id.contract_email"/>
                                 </p>
                                 <p class="w-50">
                                     <strong>Phone #:</strong>
@@ -83,7 +82,7 @@
                             <div class="d-flex">
                                 <p class="w-50">
                                     <strong>Invoice E-mail:</strong>
-                                    <span t-field="first_line.registrynumber_id.contract_email"/>
+                                    <span class="text-lowercase" t-field="first_line.registrynumber_id.contract_email"/>
                                 </p>
                                 <p class="w-50">
                                     <strong>Agreed Date:</strong>
@@ -91,15 +90,14 @@
                                 </p>
                             </div>
     
-    
                         </t>
     
-                        <table class="table" style="width: 100%; text-align: left; border-collapse: collapse;">
+                        <table class="table" class="w-100 text-start" style="border-collapse: collapse;">
                             <thead style="background: black; color: white;">
                                 <tr>
-                                    <th style="text-align: center;">Services</th>
-                                    <th style="text-align: center;">Quantity</th>
-                                    <th style="text-align: center;">Price</th>
+                                    <th class="text-center">Services</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Price</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,7 +119,7 @@
                         
                         <div class="d-flex">
                             <p class="w-50"/>
-                            <p style="text-align: right;" class="w-50">
+                            <p class="w-50 text-end">
                                 Total Services: <span t-field="doc.amount_total"/>
                             </p>
                         </div>
