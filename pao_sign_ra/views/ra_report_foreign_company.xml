@@ -44,7 +44,7 @@
                             <t t-set="first_line" t-value="doc.order_line[0]"/>
     
                             <p>
-                                <strong>JS Audit Group, Inc., as Primus Auditing Operations ("Primus")</strong> hereby agrees to engage
+                                JS Audit Group, Inc., as Primus Auditing Operations ("Primus") hereby agrees to engage
                                 <span t-esc="doc.partner_id.name"/> ("Auditor") to perform audit services as specified below with the
                                 full details shown on the audit appointment document:
                             </p>
@@ -82,7 +82,7 @@
                             <div class="d-flex">
                                 <p class="w-50">
                                     <strong>Invoice E-mail:</strong>
-                                    <span  t-if="first_line.sra_customer_id" class="text-lowercase" t-field="first_line.sra_customer_id.email"/>
+                                    <span t-if="first_line.sra_customer_id" class="text-lowercase" t-field="first_line.sra_customer_id.email"/>
                                     <span t-else=""> - </span>
                                 </p>
                                 <p class="w-50">
@@ -198,14 +198,13 @@
                                 Auditor                                    
                             </div>
                             <div class="ms-5" style="height: 70px; background-color: transparent; margin-top: 53px;">
-                                <div class="mb-2 px-3" style="border-bottom: 1px solid black;">
-                                    <span t.if="doc.sra_audit_signature_date" t-field="doc.sra_audit_signature_date"/>
-                                </div>
+                                <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-if="doc.sra_audit_signature_date" t-field="doc.sra_audit_signature_date"/>
+                                <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-else=""><![CDATA[&nbsp;]]></div>
                                 Date Signed                          
                             </div>
                         </div>
                         
-                        <div>
+                        <div class="mt-4">
                             <p>Primus Auditing Operations</p>
                             <p>By:</p>
                             <div class="d-flex text-center">
@@ -216,7 +215,8 @@
                                     Audit Coordinator                                  
                                 </div>
                                 <div class="ms-5" style="height: 70px; background-color: transparent; margin-top: 53px;">
-                                    <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-field="doc.today"/>
+                                    <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-if="doc.sra_audit_signature_date" t-field="doc.sra_audit_signature_date"/>
+                                    <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-else="" t-field="doc.today"/>
                                     Date Signed                          
                                 </div>
                             </div>
