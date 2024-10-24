@@ -61,7 +61,7 @@
                             <div class="d-flex">
                                 <p class="w-50">
                                     <strong>Billed In:</strong>
-                                    <span t-field="doc.currency_id.name"/>
+                                    <span t-field="doc.company_id.country_id.name"/>
                                 </p>
                                 <p class="w-50">
                                     <strong>Registration Number:</strong>
@@ -82,11 +82,12 @@
                             <div class="d-flex">
                                 <p class="w-50">
                                     <strong>Invoice E-mail:</strong>
-                                    <span class="text-lowercase" t-field="first_line.registrynumber_id.contract_email"/>
+                                    <span  t-if="first_line.sra_customer_id" class="text-lowercase" t-field="first_line.sra_customer_id.email"/>
+                                    <span t-else=""> - </span>
                                 </p>
                                 <p class="w-50">
                                     <strong>Agreed Date:</strong>
-                                    <span t-field="doc.date_order"/>
+                                    <span t-field="first_line.service_start_date"/>
                                 </p>
                             </div>
     
