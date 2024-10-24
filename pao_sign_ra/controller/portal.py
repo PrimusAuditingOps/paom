@@ -146,6 +146,10 @@ class SignRAPortal(portal.CustomerPortal):
         if not ra_document:
             return request.redirect('/')
         
+        requested_tz = pytz.timezone('America/Mexico_City')
+        today = requested_tz.fromutc(datetime.utcnow())
+        ra_document.purchase_order_id.today = today
+        
         if ra_document.request_travel_expenses and not ra_document.travel_expenses_posted:
             return self._redirect_to('response', id, token)
         else:

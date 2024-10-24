@@ -13,6 +13,8 @@ class PurchaseOrder(models.Model):
     )
     ra_documents_count = fields.Integer(compute="_get_ra_documents_count")
     
+    today = fields.Date(store=False)
+
     def _get_ra_documents_count(self):
         for rec in self:
             rec.ra_documents_count = len(rec.ra_document_ids)

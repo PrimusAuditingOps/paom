@@ -198,7 +198,9 @@
                                 Auditor                                    
                             </div>
                             <div class="ms-5" style="height: 70px; background-color: transparent; margin-top: 53px;">
-                                <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-esc="time.strftime('%Y-%m-%d')"/>
+                                <div class="mb-2 px-3" style="border-bottom: 1px solid black;">
+                                    <span t.if="doc.sra_audit_signature_date" t-field="doc.sra_audit_signature_date"/>
+                                </div>
                                 Date Signed                          
                             </div>
                         </div>
@@ -214,7 +216,7 @@
                                     Audit Coordinator                                  
                                 </div>
                                 <div class="ms-5" style="height: 70px; background-color: transparent; margin-top: 53px;">
-                                    <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-esc="time.strftime('%Y-%m-%d')"/>
+                                    <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-field="doc.today"/>
                                     Date Signed                          
                                 </div>
                             </div>
