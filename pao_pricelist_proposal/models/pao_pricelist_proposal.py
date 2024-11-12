@@ -207,7 +207,7 @@ class PriceListProposal(models.Model):
         odoo_bot = self.env.ref('base.partner_root')
         
         for channel_name in channels:
-            channel = self.env['discuss.channel'].search([('name', 'ilike', channel_name)]) 
+            channel = self.env['discuss.channel'].search([('name', '=', channel_name), ('channel_type', '=',' channel')], limit=1)
             if channel:
                 channel.sudo().message_post(body=message, message_type='comment', subtype_xmlid='mail.mt_comment', author_id=odoo_bot.id)
                 # notification = ('<a href="#" data-oe-model="pao.customer.registration" class="o_redirect" data-oe-id="%s">#%s</a>') % (cr_sudo.id, cr_sudo.res_partner_id.name,)

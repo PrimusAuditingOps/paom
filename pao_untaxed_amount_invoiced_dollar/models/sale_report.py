@@ -26,7 +26,7 @@ class SaleReport(models.Model):
         from_sale_ = super(SaleReport, self)._from_sale()
         from_sale_ += """ 
             LEFT JOIN res_currency_rate prcr 
-                ON (prcr.name::date = s.date_order::date and prcr.currency_id = 2)
+                ON (prcr.name::date = s.date_order::date and prcr.currency_id = 2) and prcr.company_id = s.company_id
         """
         return from_sale_
 

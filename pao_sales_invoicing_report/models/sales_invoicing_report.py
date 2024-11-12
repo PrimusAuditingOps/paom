@@ -131,8 +131,8 @@ class SalesInvoicingReport(models.Model):
                         inner join product_product p on (l.product_id = p.id)
                             left join product_template t on (p.product_tmpl_id = t.id)
                     inner join res_currency c on (c.id = l.currency_id)
-                        left join res_currency_rate r on (c.id = r.currency_id) and r.name = a.invoice_date
-                        left join res_currency_rate prcr on (prcr.name::date = a.invoice_date::date and prcr.currency_id = 2)
+                        left join res_currency_rate r on (c.id = r.currency_id) and r.name = a.invoice_date and r.company_id = a.company_id
+			            left join res_currency_rate prcr on (prcr.name::date = a.invoice_date::date and prcr.currency_id = 2) and prcr.company_id = a.company_id
                 %s
         """ % from_clause
         return from_
