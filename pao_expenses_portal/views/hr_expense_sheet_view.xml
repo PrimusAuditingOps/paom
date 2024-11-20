@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_expense_sheet_tree_view_inherit" model="ir.ui.view">
+        <field name="name">hr.expense.sheet.tree.view.inherit</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="groups"></attribute>
+            </xpath>
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="partner_id" widget="many2one_avatar_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_expense_sheet_form_view_inherit" model="ir.ui.view">
+        <field name="name">hr.expense.sheet.form.view.inherit</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="country_code" invisible="1"/>
+                <field name="partner_id" widget="many2one_avatar_user" readonly="state != 'draft'" invisible="not partner_id"/>
+                <field name="purchase_order" readonly="state != 'draft'" invisible="not purchase_order or employee_id or not partner_id.ado_is_auditor"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

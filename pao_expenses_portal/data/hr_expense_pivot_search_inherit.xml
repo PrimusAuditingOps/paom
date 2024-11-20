@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="inherit_hr_expense_view_search" model="ir.ui.view">
+            <field name="name">hr.expense.view.search.inherit</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/filter[@name='employee']" position="after">
+                    <filter string="Contact" name="contact" domain="[]" context="{'group_by': 'partner_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
