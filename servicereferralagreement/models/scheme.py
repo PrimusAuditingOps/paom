@@ -7,7 +7,7 @@ class PaoServicereFerralAgreementScheme(models.Model):
     _description = 'Modelo para manejar el catalogo de esquemas'
     _sql_constraints = [
         ('uc_name_version',
-         'UNIQUE(name,version)',
+         'UNIQUE(name,version,company_id)',
          "There is already a schema with this version"),
     ]
 
