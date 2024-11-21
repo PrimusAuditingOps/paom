@@ -8,7 +8,7 @@ class PaoServicereFerralAgreementOrganization(models.Model):
 
     _sql_constraints = [
         ('uc_name_organization',
-         'UNIQUE(name)',
+         'UNIQUE(name,company_id)',
          "There is already a organization with this name"),
     ]
 
