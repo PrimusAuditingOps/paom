@@ -15,6 +15,7 @@ class SalesInvoicingReport(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
     
     name = fields.Char('Invoice Reference', readonly=True)
+    account_id = fields.Many2one('account.account', 'Account', readonly=True)
     invoice_date = fields.Date('Invoice Date', readonly=True)
     product_id = fields.Many2one('product.product', 'Product Variant', readonly=True)
     product_uom = fields.Many2one('uom.uom', 'Unit of Measure', readonly=True)
@@ -82,6 +83,7 @@ class SalesInvoicingReport(models.Model):
             l.product_id as product_id,
             t.uom_id as product_uom,
             
+            l.account_id as account_id,
             count(*) as nbr,
             a.name as name,
             a.invoice_date as invoice_date,
@@ -170,6 +172,7 @@ class SalesInvoicingReport(models.Model):
             partner.commercial_partner_id,
             l.discount,
             c.id,
+            l.account_id,
             l.id,
             partner.state_id,
             partner.city_id %s
