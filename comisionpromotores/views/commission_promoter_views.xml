@@ -10,6 +10,7 @@
                         <field name="name"/>
                         <field name="porcentaje"/>
                         <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>    
+                        <field name="scheme_ids" widget="many2many_tags"/>
                     </group>
                     <notebook>
                         <page string="Customer">

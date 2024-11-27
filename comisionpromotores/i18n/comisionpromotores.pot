@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 20:55+0000\n"
-"PO-Revision-Date: 2024-01-16 11:55+0000\n"
+"POT-Creation-Date: 2024-11-26 17:13+0000\n"
+"PO-Revision-Date: 2024-11-26 17:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,17 @@ msgstr ""
 
 #. module: comisionpromotores
 #: model:ir.model.fields,field_description:comisionpromotores.field_comisionpromotores_promotor__porcentaje
-msgid "Commission percentage"
+msgid "Commission Percentage"
+msgstr ""
+
+#. module: comisionpromotores
+#: model:ir.model.fields,field_description:comisionpromotores.field_comisionpromotores_promotor__company_id
+msgid "Company"
+msgstr ""
+
+#. module: comisionpromotores
+#: model:ir.model,name:comisionpromotores.model_res_partner
+msgid "Contact"
 msgstr ""
 
 #. module: comisionpromotores
@@ -49,32 +59,18 @@ msgid "Detail of Operations"
 msgstr ""
 
 #. module: comisionpromotores
-#: model:ir.model.fields,field_description:comisionpromotores.field_account_move__display_name
 #: model:ir.model.fields,field_description:comisionpromotores.field_comisionpromotores_promotor__display_name
-#: model:ir.model.fields,field_description:comisionpromotores.field_res_partner__display_name
-#: model:ir.model.fields,field_description:comisionpromotores.field_sale_report__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: comisionpromotores
-#: model:ir.model.fields,field_description:comisionpromotores.field_account_move__id
 #: model:ir.model.fields,field_description:comisionpromotores.field_comisionpromotores_promotor__id
-#: model:ir.model.fields,field_description:comisionpromotores.field_res_partner__id
-#: model:ir.model.fields,field_description:comisionpromotores.field_sale_report__id
 msgid "ID"
 msgstr ""
 
 #. module: comisionpromotores
 #: model:ir.model,name:comisionpromotores.model_account_move
 msgid "Journal Entry"
-msgstr ""
-
-#. module: comisionpromotores
-#: model:ir.model.fields,field_description:comisionpromotores.field_account_move____last_update
-#: model:ir.model.fields,field_description:comisionpromotores.field_comisionpromotores_promotor____last_update
-#: model:ir.model.fields,field_description:comisionpromotores.field_res_partner____last_update
-#: model:ir.model.fields,field_description:comisionpromotores.field_sale_report____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: comisionpromotores
@@ -85,11 +81,6 @@ msgstr ""
 #. module: comisionpromotores
 #: model:ir.model.fields,field_description:comisionpromotores.field_comisionpromotores_promotor__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: comisionpromotores
-#: model:ir.model,name:comisionpromotores.model_res_partner
-msgid "Modelo para agregar referencias bancarias al modelo res.partner"
 msgstr ""
 
 #. module: comisionpromotores
@@ -137,6 +128,11 @@ msgid "Promoters"
 msgstr ""
 
 #. module: comisionpromotores
+#: model_terms:ir.ui.view,arch_db:comisionpromotores.account_move_search_inherit_promotor
+msgid "Promotor"
+msgstr ""
+
+#. module: comisionpromotores
 #: model_terms:ir.ui.view,arch_db:comisionpromotores.comisionpromotores_view_form
 msgid "Registered Customers"
 msgstr ""
@@ -144,6 +140,11 @@ msgstr ""
 #. module: comisionpromotores
 #: model:ir.model,name:comisionpromotores.model_sale_report
 msgid "Sales Analysis Report"
+msgstr ""
+
+#. module: comisionpromotores
+#: model:ir.model.fields,field_description:comisionpromotores.field_comisionpromotores_promotor__scheme_ids
+msgid "Schemes"
 msgstr ""
 
 #. module: comisionpromotores
