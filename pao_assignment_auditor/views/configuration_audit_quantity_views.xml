@@ -38,9 +38,9 @@
                         
                     </div>
                     <notebook>
-                        <page string="Audits quantity per month" name="audits_quantity" invisible="option != 'month'">
+                        <page string="Audits Quantity Per Month" name="audits_quantity" invisible="option != 'month'">
                             <field name="audits_quantity_per_month_ids" widget="many2many" context="{'default_configuration_id': id}">
-                                <tree string="Audits quantity per month">
+                                <tree string="Audits Quantity Per Month">
                                     <field name="month"/>
                                     <field name="audit_quantity"/>
                                 </tree>

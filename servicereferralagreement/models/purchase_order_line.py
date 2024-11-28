@@ -30,10 +30,10 @@ class PurchaseOrderLine(models.Model):
                                       help='Select Organization',
                                       ondelete='set null')
     registrynumber_id = fields.Many2one('servicereferralagreement.registrynumber',
-                                        string='Registry number',
+                                        string='Registration number',
                                         ondelete='set null')
-    service_start_date = fields.Date(string="Service start date")
-    service_end_date = fields.Date(string="Service end date")
+    service_start_date = fields.Date(string="Service Start Date")
+    service_end_date = fields.Date(string="Service End Date")
     referral_date = fields.Date(compute= _generate_referral_date)
     update_number = fields.Integer(default= 0, copy=False)
     sra_customer_id = fields.Many2one(related='order_id.sale_order_id.partner_id')  
@@ -43,9 +43,9 @@ class PurchaseOrderLine(models.Model):
                                          string='Sales Order Lines')
     sra_sale_line_product_audit_ids = fields.Many2many(
         related="sra_sale_line_ids.audit_products",
-        string="Audit products")
+        string="Audit Products")
     sra_sale_line_price_unit = fields.Float(related='sra_sale_line_ids.price_unit',
-                                            string="Price unit")
+                                            string="Price Unit")
     sra_subtotal_iva = fields.Monetary(compute= _generate_subtotal,
                                        string="Subtotal Iva")
 
@@ -108,7 +108,7 @@ class PurchaseOrderLine(models.Model):
                 return {
                     'warning': {
                         'title': "Warning",
-                        'message': _('EL proveedor contiene servicios asignados para la fecha seleccionada en los siguientes pedidos de compra: {0}'.format(purchaseorders)),
+                        'message': _('The supplier has services assigned to the date selected in the purchase orders below: {0}'.format(purchaseorders)),
                     },
                 }
 

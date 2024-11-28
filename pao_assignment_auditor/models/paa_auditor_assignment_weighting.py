@@ -8,12 +8,12 @@ class PaaAuditorAssignmentWeighting(models.Model):
     _description = 'Auditor assignment weighting'
 
     name = fields.Char(string='Weighting', default='Ponderacíon', translate=True)
-    scheme_ranking = fields.Integer(default=0, required=True, string="Scheme ranking")
+    scheme_ranking = fields.Integer(default=0, required=True, string="Scheme Ranking")
     location = fields.Integer(default=0, required=True, string="Location")
     audit_quantity_target = fields.Integer(default=0, required=True,
-                                           string="Audits quantity target")
+                                           string="Audits Quantity Target")
     audit_honorarium_target = fields.Integer(default=0, required=True,
-                                             string="Audits honorarium target")
+                                             string="Audits Honorarium Target")
     state_ids = fields.Many2many('res.country.state', 'pao_assignment_auditor_weighting_res_country_state_rel',
                          'weighting_id', 'res_country_state_id', string='States')
 

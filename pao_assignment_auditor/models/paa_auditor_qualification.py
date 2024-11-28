@@ -21,14 +21,14 @@ class PaaAuditorQualification(models.Model):
     audit_qty_qualification = fields.Float(default=0.00, required=True,
                                            string= "Audit Quantity Qualification")
     audit_honorarium_qualification = fields.Float(default=0.00, required=True,
-                                                  string= "Audit honorarium Qualification")
+                                                  string= "Audit Honorarium Qualification")
     qualification = fields.Float(default=0.00, required=True, string="Qualification")
     ref_user_id = fields.Integer(string='User ID')
-    assigned_auditor_id = fields.Integer(string="Assigned auditor id", default=0) 
+    assigned_auditor_id = fields.Integer(string="Assigned Auditor ID", default=0) 
     assigned_auditor_position = fields.Integer(string="Pos Reference", default=0) 
     assigned_auditor_qualification = fields.Float(default=0.00, string="Qual Reference") 
-    day_without_audits = fields.Integer(string="Days without audits", default=0) 
-    day_color = fields.Char(string="Day color", default="") 
+    day_without_audits = fields.Integer(string="Days Without Audits", default=0) 
+    day_color = fields.Char(string="Day Color", default="") 
     is_in_house = fields.Selection(
         [('0', 'Normal'), ('1', 'In house')], 
         'In House', 

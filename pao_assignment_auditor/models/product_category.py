@@ -8,5 +8,5 @@ class ProductCategory(models.Model):
     paa_schem_id = fields.Many2one('paa.assignment.auditor.scheme',
                                    string='Scheme',
                                    ondelete='set null')
-    paa_is_an_audit = fields.Boolean(string='Is a category of audits',
+    paa_is_an_audit = fields.Boolean(string='Is a Category of Audits',
                                      default=False)

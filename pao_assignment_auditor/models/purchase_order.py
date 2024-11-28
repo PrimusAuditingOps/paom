@@ -18,11 +18,11 @@ class PurchaseOrder(models.Model):
     assigned_auditor_qualification = fields.Float(default=0.00,
                                                   string="Qual Reference") 
     paa_is_auditor = fields.Boolean(related='partner_id.ado_is_auditor', string="Is Auditor")
-    language_ids = fields.Many2many('res.lang', string="Audit language requested")
+    language_ids = fields.Many2many('res.lang', string="Audit Language Requested")
     pao_auditor_top_ids = fields.One2many(
         comodel_name='paoassignmentauditor.auditor.qualification.top',
         inverse_name='order_id',
-        string='Top 10 Auditor qualification',
+        string='Top 10 Auditor Qualification',
     )
 
     @api.onchange('assigned_auditor_id')

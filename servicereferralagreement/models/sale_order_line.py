@@ -51,15 +51,15 @@ class SaleOrderLine(models.Model):
         ondelete='restrict')
     registrynumber_id = fields.Many2one(
         comodel_name='servicereferralagreement.registrynumber',
-        string='Registry number',
+        string='Registration Number',
         ondelete='restrict',
         domain = [('organization_id.id', '=', organization_id)])
     audit_products = fields.Many2many(
         comodel_name='servicereferralagreement.auditproducts',
         ondelete='restrict')
-    service_start_date = fields.Date(string="Service start date")
-    service_end_date = fields.Date(string="Service end date")
-    coordinator_id = fields.Many2one('res.users', string="Coordinator",
+    service_start_date = fields.Date(string="Service Start Date")
+    service_end_date = fields.Date(string="Service End Date")
+    coordinator_id = fields.Many2one('res.users', string="Operations Specialist",
                                      ondelete='set null', index=True,
                                      domain = [('share','=',False)])
     service_date = fields.Date(compute=_generate_service_date)

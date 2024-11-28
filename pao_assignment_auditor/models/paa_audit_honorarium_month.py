@@ -27,10 +27,10 @@ class PaaAuditorAssignmentAuditsHonorariumPertMonth(models.Model):
         copy=False,
     )
     currency_id = fields.Many2one('res.currency', string='Currency')
-    audit_honorarium_total = fields.Monetary(string="Total honorarium of audits",
+    audit_honorarium_total = fields.Monetary(string="Total Honorarium of Audits",
                                              currency_field='currency_id',
                                              default=0)
     configuration_id = fields.Many2one('paoassignmentauditor.configuration.audit.honorarium',
-                                       string='configuration',
+                                       string='Configuration',
                                        ondelete='set null')
    

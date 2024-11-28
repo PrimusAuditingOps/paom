@@ -28,14 +28,14 @@
                     </field>
                 </page>
                 
-                <page string="Ranking schemes" name="ranking_schemes" groups="pao_assignment_auditor.schemes_ranking_group" invisible="not ado_is_auditor">
+                <page string="Ranking Schemes" name="ranking_schemes" groups="pao_assignment_auditor.schemes_ranking_group" invisible="not ado_is_auditor">
                     <field name="paa_rating_scheme_ids" widget="many2many" domain="[('partner_id', '=', id)]" context="{'default_partner_id': id}">
-                        <tree string="Registered Ranking schemes">
+                        <tree string="Registered Ranking Schemes">
                             <field name="name"/>
                         </tree>
                     </field>
                 </page>
-                <page string="Season goal" name="season_goal" groups="pao_assignment_auditor.schemes_ranking_group" invisible="not ado_is_auditor">
+                <page string="Season Goal" name="season_goal" groups="pao_assignment_auditor.schemes_ranking_group" invisible="not ado_is_auditor">
                     <group>
                         <group name="auditors_goal" string="Auditor's Goal">
                             <field name="paa_audit_quantity" class="oe_inline"/>

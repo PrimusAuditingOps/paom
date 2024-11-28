@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="multiple_proposal_portal_template" name="Auditor's proposal">
+        <t t-call="web.frontend_layout">
+            <!-- Page content -->
+            <div id="multiple_proposal_content" class="col-12 text-center" style="padding:40px; font-family:'Times New Roman';">
+                
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center"  style="font-family:'Times New Roman';">Auditing Services Proposal</h1>
+                        <p style="text-align:justify;">
+                            Please consider the request for the following auditing services, which we thought might be of interest. 
+                            The auditee has provided a tentative request for a specific date(s) for the audit to be performed, 
+                            as noted below: 
+                        </p>
+                        <p class="text-center" style="font-family:'Times New Roman';">
+                            <h3><strong><span t-field="purchase.multi_proposal_range_start_date"/> - <span t-field="purchase.multi_proposal_range_end_date"/></strong></h3>
+                        </p>
+                        <p style="text-align:justify;">
+                            Let us know your response:
+                            <ul>
+                                <li>
+                                    If you are not available on the date(s) indicated, provide alternate dates and we will see if the auditee 
+                                    is open to negotiation with respect to your availability.
+                                </li>
+                                <li>
+                                    If interested in the audit(s), provide a breakdown of your projected travel expenses per Primus Auditing 
+                                    Operations Expense Policy.
+                                </li>
+                            </ul>
+                        </p>
+                        <form id="multi_proposal_form" method="POST" t-attf-action="/multiple/proposal/response" class="col-md-6" style="margin: auto;">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="order_id" t-att-value="purchase.id"/>
+                                    <input type="hidden" name="access_token" t-att-value="purchase.access_token"/>
+                                    <label for="comments" style="font-weight:bold;">Please add your comments:</label>
+                                    <textarea class="form-control" id="comments" name="comments" required="*" rows="4"></textarea>
+                                    <br/>
+                                    <button type="submit" class="btn btn-success" value="accept" id="event_accept" name="event_accept">Accept</button>
+                                    <button type="submit" class="btn btn-danger" value="decline" id="event_decline" name="event_decline">Decline</button>
+                                    
+                                </div>
+                            </div>
+                        </form> 
+                        <br/>  
+                        <p style="text-align:justify;font-weight:bold;" class="text-center">
+                            Please see the information below to know auditing service details.
+                        </p>
+                        <p style="text-align:justify;font-weight:bold;" class="text-center">
+                            <strong>State: </strong><span t-field="purchase.audit_state_id"/>  
+                            <br/>
+                            <strong>City: </strong><span t-field="purchase.audit_city_id"/>
+                            <br/>
+                            <table class="table">
+                                <thead class="thead-dark" style="text-align:center">
+                                    <tr>
+                                        <th scope="col">Service</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Organization</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="purchase.order_line" t-as="service">
+                                        <td><span t-field="service.name"/></td>
+                                        <td><span t-field="service.product_qty"/></td>
+                                        <td><span t-field="service.organization_id"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </t>
+    </template>
+    <template id="pao_multiple_proposal_exception_page_view" name="Proposal not found">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">The proposal has already been answered or is closed.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="pao_multiple_proposal_response_page_view" name="Auditor's proposal message">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">Thank you, we appreciate your response!</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

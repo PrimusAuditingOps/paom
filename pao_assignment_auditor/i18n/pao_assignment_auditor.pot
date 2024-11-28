@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-10 00:26+0000\n"
-"PO-Revision-Date: 2024-04-10 00:26+0000\n"
+"POT-Creation-Date: 2024-11-27 23:53+0000\n"
+"PO-Revision-Date: 2024-11-27 23:53+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: pao_assignment_auditor
+#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.assignment_auditor_qualification_tree
+msgid ""
+"An in-house auditor should be assigned to this purchase order, are you sure?"
+msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditshonorariumpermonth__month__04
@@ -32,7 +38,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__assigned_auditor_id
-msgid "Assigned auditor id"
+msgid "Assigned Auditor ID"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -77,6 +83,21 @@ msgid "Assignment Auditor Weighting Form"
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__audit_honorarium_qualification
+msgid "Audit Honorarium Qualification"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.ui.menu,name:pao_assignment_auditor.assignment_auditor_audit_honorarium_configuration_purchase
+msgid "Audit Honorarium Setting"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order__language_ids
+msgid "Audit Language Requested"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__audit_qty_qualification
 msgid "Audit Quantity Qualification"
 msgstr ""
@@ -84,16 +105,6 @@ msgstr ""
 #. module: pao_assignment_auditor
 #: model:ir.ui.menu,name:pao_assignment_auditor.assignment_auditor_configuration_purchase
 msgid "Audit Quantity Setting"
-msgstr ""
-
-#. module: pao_assignment_auditor
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__audit_honorarium_qualification
-msgid "Audit honorarium Qualification"
-msgstr ""
-
-#. module: pao_assignment_auditor
-#: model:ir.ui.menu,name:pao_assignment_auditor.assignment_auditor_audit_honorarium_configuration_purchase
-msgid "Audit honorarium Setting"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -108,6 +119,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__auditor_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__auditor_id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_schemeranking__partner_id
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_honorarium__option__auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_quantity__option__auditor
@@ -121,7 +133,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.assignment_auditor_configuration_audit_honorarium_view_tree
-msgid "Auditor Assignment Audit honorarium Setting"
+msgid "Auditor Assignment Audit Honorarium Setting"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -165,6 +177,11 @@ msgid "Auditor assignment Qualification"
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model:ir.model,name:pao_assignment_auditor.model_paoassignmentauditor_auditor_qualification_top
+msgid "Auditor assignment Qualification Top"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model:ir.model,name:pao_assignment_auditor.model_paoassignmentauditor_weighting
 msgid "Auditor assignment weighting"
 msgstr ""
@@ -175,29 +192,35 @@ msgid "Auditor's Goal"
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__language_ids
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__language_ids
+msgid "Auditor's Languages"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.assignment_auditor_configuration_audit_honorarium_view_form
-msgid "Audits honorarium per month"
+msgid "Audits Honorarium Per Month"
 msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__audit_honorarium_target
-msgid "Audits honorarium target"
+msgid "Audits Honorarium Target"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.assignment_auditor_configuration_view_form
+msgid "Audits Quantity Per Month"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__audit_quantity_target
+msgid "Audits Quantity Target"
 msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__audits_honorarium_per_month_ids
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_quantity__audits_quantity_per_month_ids
-msgid "Audits per month"
-msgstr ""
-
-#. module: pao_assignment_auditor
-#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.assignment_auditor_configuration_view_form
-msgid "Audits quantity per month"
-msgstr ""
-
-#. module: pao_assignment_auditor
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__audit_quantity_target
-msgid "Audits quantity target"
+msgid "Audits per Month"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -218,14 +241,10 @@ msgid "Blocked Customers"
 msgstr ""
 
 #. module: pao_assignment_auditor
-#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
-msgid "Blocked Organizations"
-msgstr ""
-
-#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__paa_blocked_organizations_ids
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__paa_blocked_organizations_ids
-msgid "Blocked organizations"
+#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
+msgid "Blocked Organizations"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -238,6 +257,12 @@ msgstr ""
 #. module: pao_assignment_auditor
 #: model:ir.model,name:pao_assignment_auditor.model_res_city
 msgid "City"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__configuration_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__configuration_id
+msgid "Configuration"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -269,6 +294,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__create_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__create_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__create_uid
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__create_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__create_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__create_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__create_uid
@@ -282,6 +308,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__create_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__create_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__create_date
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__create_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__create_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__create_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__create_date
@@ -294,19 +321,23 @@ msgstr ""
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__currency_id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__currency_id
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__paa_currency_id
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__paa_currency_id
 msgid "Currency"
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__paa_currency_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__paa_currency_id
+msgid "Currency Information"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__day_color
-msgid "Day color"
+msgid "Day Color"
 msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__day_without_audits
-msgid "Days without audits"
+msgid "Days Without Audits"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -323,6 +354,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__display_name
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__display_name
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__display_name
@@ -373,6 +405,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__id
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__id
@@ -388,13 +421,29 @@ msgid "ID Reference"
 msgstr ""
 
 #. module: pao_assignment_auditor
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_product_category__paa_is_an_audit
-msgid "Is a category of audits"
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__is_in_house
+msgid "In House"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditor_qualification__is_in_house__1
+msgid "In house"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__is_an_in_house_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__is_an_in_house_auditor
+msgid "Is An In House Auditor"
 msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order__paa_is_auditor
-msgid "Is an auditor"
+msgid "Is Auditor"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_product_category__paa_is_an_audit
+msgid "Is a Category of Audits"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -431,6 +480,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__write_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__write_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__write_uid
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__write_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__write_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__write_uid
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__write_uid
@@ -444,6 +494,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_assignment_auditor__write_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__write_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__write_date
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__write_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__write_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__write_date
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__write_date
@@ -499,6 +550,11 @@ msgid "No available auditors found."
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditor_qualification__is_in_house__0
+msgid "Normal"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditshonorariumpermonth__month__11
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditsquantitypermonth__month__11
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_honorarium__season_end_month__11
@@ -533,6 +589,11 @@ msgid "Option"
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__total_to_pay
+msgid "Payment"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #. odoo-javascript
 #: code:addons/pao_assignment_auditor/static/src/js/search_auditor.js:0
 #, python-format
@@ -547,6 +608,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__position
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__position
 msgid "Position"
 msgstr ""
 
@@ -557,6 +619,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model,name:pao_assignment_auditor.model_purchase_order
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__order_id
 msgid "Purchase Order"
 msgstr ""
 
@@ -568,6 +631,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__qualification
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__qualification
 msgid "Qualification"
 msgstr ""
 
@@ -578,7 +642,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
-msgid "Ranking schemes"
+msgid "Ranking Schemes"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -598,7 +662,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
-msgid "Registered Ranking schemes"
+msgid "Registered Ranking Schemes"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -615,7 +679,13 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__scheme_ranking
-msgid "Scheme ranking"
+msgid "Scheme Ranking"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__paa_rating_scheme_ids
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__paa_rating_scheme_ids
+msgid "Scheme Rating"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -647,18 +717,26 @@ msgid "Season"
 msgstr ""
 
 #. module: pao_assignment_auditor
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__season_end_month
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_quantity__season_end_month
-msgid "Season end month"
+msgid "Season End Month"
 msgstr ""
 
 #. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
-msgid "Season goal"
+msgid "Season Goal"
 msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__season_start_month
+msgid "Season Start Month"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__season_end_month
+msgid "Season end month"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_quantity__season_start_month
 msgid "Season start month"
 msgstr ""
@@ -677,6 +755,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_quantity__season_end_month__09
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_quantity__season_start_month__09
 msgid "September"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__state_ids
+msgid "States"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -707,11 +790,31 @@ msgid "Third Trimester"
 msgstr ""
 
 #. module: pao_assignment_auditor
+#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.purchase_order_assignment_auditor_view_form
+msgid "Top 10"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.purchase_order_assignment_auditor_view_form
+msgid "Top 10 Auditor Assignation"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order__pao_auditor_top_ids
+msgid "Top 10 Auditor Qualification"
+msgstr ""
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__total_audits
+msgid "Total Audits"
+msgstr ""
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__audit_honorarium_total
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__audit_honorarium_total
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__paa_audits_honorarium_total
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__paa_audits_honorarium_total
-msgid "Total honorarium of audits"
+msgid "Total Honorarium of Audits"
 msgstr ""
 
 #. module: pao_assignment_auditor
@@ -722,6 +825,7 @@ msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__ref_user_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification_top__ref_user_id
 msgid "User ID"
 msgstr ""
 
@@ -742,18 +846,6 @@ msgstr ""
 #. module: pao_assignment_auditor
 #: model:ir.actions.act_window,name:pao_assignment_auditor.assignment_auditor_action
 msgid "assignment_auditor"
-msgstr ""
-
-#. module: pao_assignment_auditor
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__configuration_id
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__configuration_id
-msgid "configuration"
-msgstr ""
-
-#. module: pao_assignment_auditor
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_partner__paa_rating_scheme_ids
-#: model:ir.model.fields,field_description:pao_assignment_auditor.field_res_users__paa_rating_scheme_ids
-msgid "scheme rating"
 msgstr ""
 
 #. module: pao_assignment_auditor

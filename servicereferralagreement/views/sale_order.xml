@@ -11,6 +11,7 @@
              	<field name="coordinator_id"/>
              	<field name="registration_number_order_lines_ids" invisible="1"/>
              	<field name="registration_number_print" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('id', 'in', registration_number_order_lines_ids )]"/>
+                <field name="country_code" invisible="1"/>
             </field>
             <page name="other_information" position="after">
                 <page string="Purchase Orders">
@@ -23,13 +24,14 @@
             </page>
             <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
                 <field name="audit_products" widget="many2many_tags" options="{'color_field': 'color','no_quick_create': True, 'no_create_edit' : True}"/>
-                <field name="organization_id" domain="[('id', 'in', parent.enable_organization_ids )]" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="show"/>
+                <field name="organization_id" column_invisible="parent.country_code != 'US'" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="show"/>
+                <field name="organization_id" column_invisible="parent.country_code == 'US'"  domain="[('id', 'in', parent.enable_organization_ids )]" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="show"/>
                 <field name="registrynumber_id" domain="[('organization_id', '=', organization_id)]" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="show"/>
                 <field name="service_start_date" optional="show"/>
                 <field name="service_end_date" optional="show"/>
                 <field name="coordinator_id" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="show"/>
-                <field name="update_number" invisible="1"/>
-                <field name="update_number_coordinator" invisible="1"/>
+                <field name="update_number" column_invisible="True" invisible="1"/>
+                <field name="update_number_coordinator"  column_invisible="True" invisible="1"/>
             </xpath>
         </field>
     </record>

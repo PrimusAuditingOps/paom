@@ -18,7 +18,8 @@
                     <group name="Assignment">
                          <field name="assigned_auditor_id" readonly="1"/> 
                          <field name="assigned_auditor_position" readonly="1"/> 
-                         <field name="assigned_auditor_qualification" readonly="1"/>    
+                         <field name="assigned_auditor_qualification" readonly="1"/>   
+                         <field name="country_code" readonly="1"/>  
                     </group>
             </group>
             <field name="partner_id" position="before">
@@ -29,10 +30,9 @@
                 <field name="language_ids" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
             </field>
             <page name="purchase_delivery_invoice" position="after">
-                <page string="Top 10 Auditor Assignation">
+                <page string="Top 10 Auditor Assignation" invisible="not pao_auditor_top_ids">
                     <field name="pao_auditor_top_ids" readonly="1" widget="many2many">
                         <tree string="Top 10">
-                            <field name="position"/>
                             <field name="auditor_id"/>
                             <field name="qualification"/>
                         </tree>

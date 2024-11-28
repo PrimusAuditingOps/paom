@@ -8,7 +8,7 @@ class PaoServicereFerralAgreementRegistryNumber(models.Model):
     _name = 'servicereferralagreement.registrynumber'
     _description = 'Modelo para manejar el catalogo de numero de registro de las organizaciones'
 
-    name = fields.Char(string="Registry number", help='Enter registry number',
+    name = fields.Char(string="Registration Number", help='Enter registry number',
                        required= True)
     scheme_id = fields.Many2one('servicereferralagreement.scheme',
                                 string='Scheme', help='Select scheme',
@@ -17,10 +17,10 @@ class PaoServicereFerralAgreementRegistryNumber(models.Model):
     organization_id = fields.Many2one('servicereferralagreement.organization',
                                       string='Organization', help='Select organization',
                                       ondelete='set null')
-    type_of_audit = fields.Char(string="Type of audit")
-    audit_scope = fields.Char(string="Audit scope")
-    audit_duration = fields.Char(string="Audit duration")
-    client_requirements = fields.Char(string="Client requirements")
+    type_of_audit = fields.Char(string="Type of Audit")
+    audit_scope = fields.Char(string="Audit Scope")
+    audit_duration = fields.Char(string="Audit Duration")
+    client_requirements = fields.Char(string="Client Requirements")
     contract_email = fields.Text(string="Contract E-mail")
     phone = fields.Text(string="Phone")
     company_id = fields.Many2one(
@@ -32,7 +32,7 @@ class PaoServicereFerralAgreementRegistryNumber(models.Model):
     def _action_prevent_registry_number_duplication(self):
         for rec in self:
             registry_numbers= rec.env['servicereferralagreement.registrynumber'].search(
-                [('name', '=', rec.name), ('id', '!=', rec.id)])
+                [('company_id', '=', rec.company_id.id),('name', '=', rec.name), ('id', '!=', rec.id)])
             if registry_numbers:
                 raise ValidationError("¡This registry number already exists in the database!. Please add a different one.")
             

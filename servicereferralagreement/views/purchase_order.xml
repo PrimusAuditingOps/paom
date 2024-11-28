@@ -9,11 +9,11 @@
             <field name="partner_ref" position="after">
                 <field name="sale_order_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                 <field name="country_code" invisible="1"/>
-                <field name="audit_fee_id" invisible="country_code != 'MX'" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'company_id': company_id}"/>
+                <field name="audit_fee_id" invisible="country_code == 'US'" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'company_id': company_id}"/>
                 <field name="coordinator_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                 <field name="registration_number_order_lines_ids" invisible="1"/>
                 <field name="registration_number_print" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('id', 'in', registration_number_order_lines_ids )]"/>
-            
+                <field name="pao_purchase_quantity_allowed" invisible="1"/>
             </field>
             <!--<group name="invoice_info" position="after">
                 <group name="purchase_location">
@@ -28,9 +28,12 @@
                 <field name="registrynumber_id" domain="[('organization_id', '=', organization_id)]" options="{'no_quick_create': True, 'no_create_edit' : True}" optional="hide"/>
                 <field name="service_start_date" optional="hide"/>
                 <field name="service_end_date" optional="hide"/>
-                <field name="sra_sale_line_ids" widget="many2many_tags" invisible="1"/>
-                <field name ="sra_sale_line_price_unit" invisible="1"/>
+                <field name="sra_sale_line_ids" widget="many2many_tags" column_invisible="True"/>
+                <field name ="sra_sale_line_price_unit" column_invisible="True"/>
             </xpath>
+            <!--<xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_qty']" position="attributes">
+                <attribute name="readonly">parent.sale_order_id and not parent.pao_purchase_quantity_allowed</attribute>
+            </xpath>-->
         </field>
     </record>
 </odoo>

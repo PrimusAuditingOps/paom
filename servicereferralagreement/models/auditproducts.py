@@ -15,7 +15,7 @@ class PaoServicereFerralAgreementAuditproducts(models.Model):
     def _get_default_color(self):
         return randint(1, 11)
 
-    name = fields.Char(string='Audit product', help='Enter Audit product',
+    name = fields.Char(string='Audit Product', help='Enter Audit product',
                        required= True, translate=True)
     color =fields.Integer(string='Color Index', default=_get_default_color)
     company_id = fields.Many2one(

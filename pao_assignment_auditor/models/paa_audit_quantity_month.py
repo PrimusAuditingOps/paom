@@ -29,5 +29,5 @@ class PaaAuditorAssignmentAuditsPertMonth(models.Model):
 
     audit_quantity = fields.Integer(string="Number of Audit", default=0)
     configuration_id = fields.Many2one('paoassignmentauditor.configuration.audit.quantity',
-                                       string='configuration', ondelete='set null')
+                                       string='Configuration', ondelete='set null')
    

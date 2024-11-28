@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
     purchase_order_id = fields.One2many('purchase.order', inverse_name='sale_order_id',
                                         string='Purchase Order')
     enable_organization_ids = fields.Many2many(related='partner_id.organization_ids')
-    coordinator_id = fields.Many2one('res.users', string="Coordinator",
+    coordinator_id = fields.Many2one('res.users', string="Operations Specialist",
                                      ondelete='set null', index=True,
                                      domain = [('share','=',False)])
     registration_number_order_lines_ids = fields.Many2many(

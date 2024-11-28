@@ -33,7 +33,7 @@ class PaaConfigurationAuditHonorarium(models.Model):
             ("11", "November"),
             ("12", "December"),
         ],
-        string="Season start month", 
+        string="Season Start Month", 
         copy=False)
     season_end_month = fields.Selection(
         selection=[
@@ -55,9 +55,9 @@ class PaaConfigurationAuditHonorarium(models.Model):
     audits_honorarium_per_month_ids = fields.One2many(
         comodel_name='paoassignmentauditor.auditshonorariumpermonth',
         inverse_name='configuration_id',
-        string='Audits per month')
+        string='Audits per Month')
     currency_id = fields.Many2one('res.currency', string='Currency')
-    audit_honorarium_total = fields.Monetary(string="Total honorarium of audits",
+    audit_honorarium_total = fields.Monetary(string="Total Honorarium of Audits",
                                              currency_field='currency_id',
                                              default=0)
     first_month_audit_honorarium= fields.Integer(string="First Trimester",

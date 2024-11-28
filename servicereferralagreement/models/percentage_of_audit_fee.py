@@ -18,10 +18,10 @@ class servicereferralagreementPercentageOfAuditFee(models.Model):
         default=lambda self: self.env.company)
     
     audit_fees_id = fields.Many2one('servicereferralagreement.auditfees',
-                                    string='Audit type', help='Select Audit type',
+                                    string='Audit Type', help='Select Audit type',
                                     ondelete='restrict', required=True,
                                     domain="[('company_id', 'in', (False, company_id))]")
     audit_percentage  = fields.Float(default = 0.00, digits=(12,3), required = True,
-                                     string= "Audit percentage")
+                                     string= "Audit Percentage")
     
     

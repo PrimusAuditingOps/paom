@@ -12,7 +12,7 @@ class PaoServicereFerralAgreementAuditFees(models.Model):
          'UNIQUE(name)',
          "There is already a audit type with this name"),
     ]
-    name = fields.Char(string="Audit type", required= True)
+    name = fields.Char(string="Audit Type", required= True)
     company_id = fields.Many2one(
         comodel_name='res.company',
         required=True, index=True,

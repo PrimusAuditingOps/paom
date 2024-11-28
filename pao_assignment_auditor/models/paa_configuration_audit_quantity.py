@@ -49,12 +49,12 @@ class PaaConfigurationAuditQuantity(models.Model):
             ("11", "November"),
             ("12", "December"),
         ],
-        string="Season end month", 
+        string="Season End Month", 
         copy=False)
     audits_quantity_per_month_ids = fields.One2many(
         comodel_name='paoassignmentauditor.auditsquantitypermonth',
         inverse_name='configuration_id',
-        string='Audits per month',
+        string='Audits per Month',
     )
     audit_quantity = fields.Integer(string="Number of Audit", default=0)
     first_month_audit_quantity = fields.Integer(string="First Trimester",
