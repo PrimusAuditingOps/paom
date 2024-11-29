@@ -1,0 +1,174 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* prm_contacts
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-21 18:01+0000\n"
+"PO-Revision-Date: 2024-06-21 18:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: prm_contacts
+#: model:ir.actions.act_window,name:prm_contacts.prm_contact_commodity_action
+#: model:ir.model.fields,field_description:prm_contacts.field_res_partner__commodity_ids
+#: model:ir.model.fields,field_description:prm_contacts.field_res_users__commodity_ids
+#: model:ir.ui.menu,name:prm_contacts.prm_contact_commodity_menu
+#: model_terms:ir.ui.view,arch_db:prm_contacts.prm_res_partner_form_inh
+msgid "Commodities"
+msgstr "Mercancías"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_res_partner__prm_company_id
+#: model:ir.model.fields,field_description:prm_contacts.field_res_users__prm_company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: prm_contacts
+#: model:ir.model,name:prm_contacts.model_res_partner
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__partner_id
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: prm_contacts
+#: model:ir.actions.act_window,name:prm_contacts.prm_contact_type_action
+#: model:ir.ui.menu,name:prm_contacts.prm_contact_type_menu
+msgid "Contact type"
+msgstr "Tipo de contacto"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_commodity__create_uid
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_shipper__create_uid
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type__create_uid
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_commodity__create_date
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_shipper__create_date
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type__create_date
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_res_partner__prm_customer_number
+#: model:ir.model.fields,field_description:prm_contacts.field_res_users__prm_customer_number
+msgid "Customer No"
+msgstr "Número de cliente"
+
+#. module: prm_contacts
+#: model:ir.model.constraint,message:prm_contacts.constraint_res_partner_res_partner_unique_customer_num
+msgid "Customer number is already registered"
+msgstr "Número de cliente ya está registrado"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_commodity__display_name
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_shipper__display_name
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type__display_name
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_commodity__id
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_shipper__id
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type__id
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__id
+msgid "ID"
+msgstr ""
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_commodity__write_uid
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_shipper__write_uid
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type__write_uid
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_commodity__write_date
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_shipper__write_date
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type__write_date
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__write_date
+msgid "Last Updated on"
+msgstr "Última modificación en"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_commodity__name
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_shipper__name
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__type_count
+msgid "Number"
+msgstr "Número"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_prm_contact_type_line__type_id
+msgid "Operation Type"
+msgstr "Tipo de Operación"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_res_partner__prm_type_ids
+#: model:ir.model.fields,field_description:prm_contacts.field_res_users__prm_type_ids
+msgid "Operation Types"
+msgstr "Tipo de Operación"
+
+#. module: prm_contacts
+#: model_terms:ir.ui.view,arch_db:prm_contacts.prm_res_partner_form_inh
+msgid "Operations"
+msgstr "Operaciones"
+
+#. module: prm_contacts
+#: model_terms:ir.ui.view,arch_db:prm_contacts.prm_res_partner_form_inh
+msgid "Operations Types"
+msgstr "Tipo de Operaciones"
+
+#. module: prm_contacts
+#: model:ir.model,name:prm_contacts.model_prm_contact_commodity
+msgid "PRM CONTACT COMMODITY"
+msgstr "PRM Mercancía de contacto"
+
+#. module: prm_contacts
+#: model:ir.model,name:prm_contacts.model_prm_contact_shipper
+msgid "PRM CONTACT SHIPPER"
+msgstr "PRM Distribuidor de contacto"
+
+#. module: prm_contacts
+#: model:ir.model,name:prm_contacts.model_prm_contact_type
+msgid "PRM CONTACT TYPE"
+msgstr "PRM Tipo de contacto"
+
+#. module: prm_contacts
+#: model:ir.model,name:prm_contacts.model_prm_contact_type_line
+msgid "PRM CONTACT TYPE LINE"
+msgstr "PRM Línea de tipo de contacto"
+
+#. module: prm_contacts
+#: model:ir.model.fields,field_description:prm_contacts.field_res_partner__prm_registration_number
+#: model:ir.model.fields,field_description:prm_contacts.field_res_users__prm_registration_number
+msgid "Registration number"
+msgstr "Número de registro"
+
+#. module: prm_contacts
+#: model_terms:ir.ui.view,arch_db:prm_contacts.prm_res_partner_form_inh
+msgid "Shipper"
+msgstr "Distribuidor"
+
+#. module: prm_contacts
+#: model:ir.actions.act_window,name:prm_contacts.prm_contact_shipper_action
+#: model:ir.model.fields,field_description:prm_contacts.field_res_partner__prm_shipper_ids
+#: model:ir.model.fields,field_description:prm_contacts.field_res_users__prm_shipper_ids
+#: model:ir.ui.menu,name:prm_contacts.prm_contact_shipper_menu
+msgid "Shippers"
+msgstr "Distribuidores"

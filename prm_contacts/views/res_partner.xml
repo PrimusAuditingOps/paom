@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- RES PARTNER INHERIT VIEWS -->
+
+        <record id="prm_res_partner_form_inh" model="ir.ui.view">
+            <field name="name">prm.res.partner.form.inh</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//span[@name='address_name']" position="before">
+                    <field name="prm_customer_number" invisible="company_type != 'company' or 'US' not in fiscal_country_codes"/>
+                    <field name="prm_company_id" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//div[@name='vat_vies_container']" position="after">
+                    <field name="prm_registration_number" invisible="'US' not in fiscal_country_codes"/>
+                </xpath>
+
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Operations" invisible="'US' not in fiscal_country_codes">
+                        <separator string="Operations Types"/>
+                        <field name="prm_type_ids">
+                            <tree name="Operations Types" editable="top">
+                                <field name="type_count"/>
+                                <field name="type_id"/>
+                            </tree>
+                        </field>
+                        <separator string="Commodities"/>
+                        <field name="commodity_ids"/>
+                    </page>
+                    <page string="Shipper">
+                        <field name="prm_shipper_ids"/>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
