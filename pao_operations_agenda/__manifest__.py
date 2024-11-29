@@ -13,16 +13,18 @@
         * Migrated from v14.\n
     """,
     'depends': ['base','sale','purchase','account','comisionpromotores','customergroups','auditordaysoff',
-        'auditconfirmation','servicereferralagreement'
+        'auditconfirmation','servicereferralagreement','pao_assignment_auditor'
     ],
     'data': [
         # security
         'security/ir.model.access.csv',
+        'security/ir_rules.xml',
         # data
         # demo
         # reports
         # views
         'views/purchase_order_operations_agenda.xml',
+        'views/purchase_order_views.xml',
     ],
     'license': 'LGPL-3',
 }
