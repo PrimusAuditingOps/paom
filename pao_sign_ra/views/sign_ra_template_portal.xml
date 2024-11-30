@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="process_complete_ra_request_portal_view" name="RA Signature Request">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center my-5 py-5">
+                    <t t-if="ra_status == 'error'">
+                        <h3 class="d-inline">There was an error processing your response. Please try again.</h3>
+                    </t>
+                    <t t-if="ra_status == 'cancel'">
+                        <h3 class="d-inline">The RA signature request was canceled or does not exist.</h3>
+                    </t>
+                    <t t-if="ra_status == 'reject'">
+                        <h3 class="d-inline">Thank you for your response. If you need anything else please contact our staff.</h3>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="travel_expenses_portal_view" name="Travel Expenses Form">
+        <t t-call="web.frontend_layout">
+            <div class="col-md-12" style="top:20px;">
+                <div class="oe_structure container mb128">
+                    <form id="travel_expenses_form" method="POST" t-att-action="submit_travel_expenses_link" class="col-md-6" style="margin: auto;">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <label for="travelexpenses">Please add your detailed travel expenses:</label>
+                                <textarea class="form-control" id="travel_expenses" name="travel_expenses" rows="4"></textarea>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="ra_reject_portal_view" name="Reject RA Confirmation">
+        <t t-call="web.frontend_layout">
+            <div class="col-md-12" style="top:20px;">
+                <div class="oe_structure container mb128">
+                    <form id="reject_form" method="POST" t-att-action="confirm_reject_link" class="col-md-6" style="margin: auto;">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <h2>Are you sure you want to decline the RA?</h2>
+                                <button type="submit" class="btn btn-primary">Yes, cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="sign_ra_preview_portal_view" name="RA Signature Form">
+        <xpath expr="//head" position="inside">
+            <style>
+                ul {
+                    font-family: sans-serif !important;
+                }
+            </style>
+        </xpath>
+        <t t-call="web.frontend_layout">
+            <div class="container-fluid" style="max-width: 100%; padding: 15px;">
+                <div class="row">
+                    <!-- Header Section with Title and Sign Button -->
+                    <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="pdf-title" style="flex-grow: 1; word-wrap: break-word;">
+                            <b>Referral Agreement for <t t-esc="purchase_order.name"/>
+                            </b>
+                        </h2>
+                        <!-- Sign Button -->
+                        <button t-if="ra_status == 'sent'" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accept_sign_ra" id="sign-pdf-btn" style="white-space: nowrap;">
+                            Accept and Sign
+                        </button>
+
+                        <a t-if="ra_status == 'sign'" id="download_ra_button" type="button" class="btn btn-primary" style="white-space: nowrap;" t-att-href="download_link">
+                            Download RA
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Responsive PDF Viewer Section -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="embed-responsive embed-responsive-16by9" style="border: 1px solid #ccc;">
+                            <!--PDF iframe with responsive width/height and no toolbar -->
+                            <iframe class="shadow" t-if="pdf_preview_data" t-att-src="'data:application/pdf;base64,' + pdf_preview_data+ '#toolbar=0'" width="100%" height="800px"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RA Preview as Web Content -->
+                <!-- <div class="ra-report-preview">
+                    <t t-call="servicereferralagreement.report_rapurchaseorder_view">
+                        <t t-set="docs" t-value="[purchase_order]"/>
+                    </t>
+                </div> -->
+
+            </div>
+
+            <div t-if="ra_status == 'sent'" class="modal fade" id="accept_sign_ra" tabindex="-1" aria-labelledby="accept_sign_ra_label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Sign RA</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        </div>
+                        <div class="modal-body">
+                            <t t-call="portal.signature_form">
+                                <t t-set="call_url" t-value="accept_link"/>
+                                <t t-set="default_name" t-value="purchase_order.partner_id.name"/>
+                                <t t-set="font_color" t-value="'darkblue'"/>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

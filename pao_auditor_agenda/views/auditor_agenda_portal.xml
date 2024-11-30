@@ -3,7 +3,7 @@
 
     <template id="portal_my_home_auditor_agenda" name="Show Auditor Agenda" customize_show="True" inherit_id="portal.portal_my_home" priority="80">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
-            <t t-if="isanauditor == True">
+            <t t-if="isanauditor == True and request.env.user.company_id.country_code == 'MX'">
 				<div class="o_portal_category row g-2 mt-2" id="portal_agenda_category">
 	                <t t-call="portal.portal_docs_entry">
 						<t t-set="icon" t-value="'/pao_auditor_agenda/static/src/img/agenda.jpeg'"/>
