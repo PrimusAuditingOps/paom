@@ -33,4 +33,7 @@ class PaaAuditorAssignmentAuditsHonorariumPertMonth(models.Model):
     configuration_id = fields.Many2one('paoassignmentauditor.configuration.audit.honorarium',
                                        string='Configuration',
                                        ondelete='set null')
-   
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)

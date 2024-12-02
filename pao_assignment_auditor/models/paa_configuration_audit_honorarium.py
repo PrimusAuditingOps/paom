@@ -69,6 +69,11 @@ class PaaConfigurationAuditHonorarium(models.Model):
     fourth_month_audit_honorarium = fields.Integer(string="Fourth Trimester",
                                                    default=0)
 
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)
+    
     @api.onchange('season_start_month')
     def _change_season_start_month(self):
         for rec in self:

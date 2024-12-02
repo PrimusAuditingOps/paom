@@ -30,6 +30,7 @@
     'data' : [
         'security/groups.xml',
         'security/ir.model.access.csv',
+        'security/ir_rules.xml',
         'views/res_partner_views.xml',
         'views/res_city_views.xml',
         'views/assignment_auditor_views.xml',

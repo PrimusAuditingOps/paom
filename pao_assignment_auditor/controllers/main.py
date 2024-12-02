@@ -19,23 +19,23 @@ _logger = getLogger(__name__)
 class webAuditorAssignment(http.Controller):
     
     @http.route(['/auditor_assignment'], type='json', auth='user', methods=['POST'])
-    def search_auditors(self, dates=None, startdates=None, products=None, organizations= None, saleorderid = None, orderid=None, cityid=None, stateid = None, auditquantity=0.00, languages = None, orderCountry = None, failed=False, **kwargs):
+    def search_auditors(self, dates=None, startdates=None, products=None, organizations= None, saleorderid = None, orderid=None, cityid=None, stateid = None, auditquantity=0.00, languages = None, orderCountry = None, orderCompany = None, failed=False, **kwargs):
         user_id = request.env.context.get('uid')
-        weightings = self._get_weighting()
+        weightings = self._get_weighting(orderCompany[0])
         auditors_list = []
         scheme_rating_list = []
         audit_quantity_list = []
         audit_honorarium_list = []
         auditor_localization_list = []
         startdates = self._convert_startdates(startdates)
-        _logger.error(stateid)
+
         view_id = 0
         if weightings:
             location = weightings.location
             scheme_ranking = weightings.scheme_ranking
             audit_quantity_target = weightings.audit_quantity_target
             audit_honorarium_target = weightings.audit_honorarium_target
-            auditors_list = self._get_approved_auditor(products)
+            auditors_list = self._get_approved_auditor(products,orderCompany[0])
             auditors_list = self._get_auditor_languages(auditors_list, languages)
             auditors_list = self._get_auditors_without_veto_organization(auditors_list,organizations)
             auditors_list = self._get_auditors_without_veto_customer(auditors_list,saleorderid)
@@ -55,9 +55,9 @@ class webAuditorAssignment(http.Controller):
                 if scheme_ranking > 0:
                     scheme_rating_list = self._get_auditor_scheme_rating(auditors_list, schemes_ids, scheme_ranking)
                 if audit_quantity_target > 0:
-                    audit_quantity_list = self._get_auditor_audit_quantity_target(auditors_list,audit_quantity_target,first_date_list, orderid)
+                    audit_quantity_list = self._get_auditor_audit_quantity_target(auditors_list,audit_quantity_target,first_date_list, orderid,orderCompany[0])
                 if audit_honorarium_target > 0:
-                    audit_honorarium_list = self._get_auditor_audit_honorarium_target(auditors_list,audit_honorarium_target,first_date_list, orderid)
+                    audit_honorarium_list = self._get_auditor_audit_honorarium_target(auditors_list,audit_honorarium_target,first_date_list, orderid,orderCompany[0])
 
 
 
@@ -180,9 +180,9 @@ class webAuditorAssignment(http.Controller):
         return days
 
 
-    def _get_weighting(self):
+    def _get_weighting(self,orderCompany):
 
-        recweighting = request.env['paoassignmentauditor.weighting'].search([], limit=1)
+        recweighting = request.env['paoassignmentauditor.weighting'].search([("company_id","=",orderCompany)], limit=1)
         for rec in recweighting:
             return rec
         return {}
@@ -200,7 +200,7 @@ class webAuditorAssignment(http.Controller):
                         break
         return [auditor for auditor in auditors_list if auditor not in auditor_ids]
 
-    def _get_approved_auditor(self, products_ids):
+    def _get_approved_auditor(self, products_ids, orderCompany):
 
         auditor_ids = []
         
@@ -209,8 +209,11 @@ class webAuditorAssignment(http.Controller):
         
         #Get Auditors
         sql = """
-            SELECT id as id FROM res_partner WHERE ado_is_auditor = TRUE
+            SELECT id as id FROM res_partner WHERE ado_is_auditor = TRUE and company_id = %(company_id)s
         """
+        params = {
+                'company_id': orderCompany,
+            }
         request.env.cr.execute(sql, params)
         result = request.env.cr.dictfetchall()
         auditor_ids = [r['id'] for r in result]
@@ -293,8 +296,6 @@ class webAuditorAssignment(http.Controller):
         auditors_not_available_list = []
         if not orderid:
             orderid = 0
-        _logger.error("orderCountry")
-        _logger.error(orderCountry)
         if len(auditor_ids) > 0:
 
             for dates in datelist:
@@ -516,9 +517,9 @@ class webAuditorAssignment(http.Controller):
                 first_date_list.append(firsDayMonth)
         return first_date_list
 
-    def _get_auditor_audit_quantity_target(self, auditors_list, weighting, date_list, order_id):
+    def _get_auditor_audit_quantity_target(self, auditors_list, weighting, date_list, order_id, orderCompany):
         auditor_audit_quantity_target_list = []
-        recconfiguration = self._get_configuration_audit_quantity()
+        recconfiguration = self._get_configuration_audit_quantity(orderCompany)
         
         for rec in recconfiguration:
             season_start_month = int(rec.season_start_month)
@@ -534,9 +535,9 @@ class webAuditorAssignment(http.Controller):
             
         return auditor_audit_quantity_target_list
     
-    def _get_configuration_audit_quantity(self):
+    def _get_configuration_audit_quantity(self,orderCompany):
 
-        recauditconf = request.env['paoassignmentauditor.configuration.audit.quantity'].search([], limit=1)
+        recauditconf = request.env['paoassignmentauditor.configuration.audit.quantity'].search([("company_id","=",orderCompany)], limit=1)
         for rec in recauditconf:
             return rec
         return {}
@@ -715,10 +716,10 @@ class webAuditorAssignment(http.Controller):
         
         return qualification
 
-    def _get_auditor_audit_honorarium_target(self, auditors_list, weighting, date_list, order_id):
+    def _get_auditor_audit_honorarium_target(self, auditors_list, weighting, date_list, order_id, orderCompany):
         auditor_audit_honorarium_target_list = []
 
-        recconfiguration = self._get_configuration_audit_honorarium()
+        recconfiguration = self._get_configuration_audit_honorarium(orderCompany)
         
         for rec in recconfiguration:
             season_start_month = int(rec.season_start_month)
@@ -737,9 +738,9 @@ class webAuditorAssignment(http.Controller):
         
         return auditor_audit_honorarium_target_list
     
-    def _get_configuration_audit_honorarium(self):
+    def _get_configuration_audit_honorarium(self, orderCompany):
 
-        recweighting = request.env['paoassignmentauditor.configuration.audit.honorarium'].search([], limit=1)
+        recweighting = request.env['paoassignmentauditor.configuration.audit.honorarium'].search([("company_id","=",orderCompany)], limit=1)
         for rec in recweighting:
             return rec
         return {}

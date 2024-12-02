@@ -79,6 +79,7 @@ class SearchAuditors extends Component {
         var cityid = recordData.audit_city_id[0];
 		var stateid = recordData.audit_state_id[0];
 		var orderCountry = recordData.country_code;
+		var orderCompany = recordData.company_id;
         var auditquantity = 0;
         var order_line = this.props.record.data.order_line;
 		var d = this.props.record.data.language_ids;
@@ -150,6 +151,7 @@ class SearchAuditors extends Component {
 					'auditquantity': auditquantity,
 					'languages':languages,
 					'orderCountry': orderCountry,
+					'orderCompany': orderCompany,
 	        	});
 	            if ( datas.auditors.length > 0 ){
 			        this.action.doAction({

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Multi - Company Rules -->
+    <record id="paoassignmentauditor_auditshonorariumpermonth_comp_rule" model="ir.rule">
+        <field name="name">audits honorarium per month multi-company</field>
+        <field name="model_id" ref="model_paoassignmentauditor_auditshonorariumpermonth"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="paoassignmentauditor_auditsquantitypermonth_comp_rule" model="ir.rule">
+        <field name="name">audits quantity per month multi-company</field>
+        <field name="model_id" ref="model_paoassignmentauditor_auditsquantitypermonth"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="paoassignmentauditor_weighting_comp_rule" model="ir.rule">
+        <field name="name">weighting multi-company</field>
+        <field name="model_id" ref="model_paoassignmentauditor_weighting"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="paoassignmentauditor_configuration_audit_honorarium_comp_rule" model="ir.rule">
+        <field name="name">configuration audit honorarium multi-company</field>
+        <field name="model_id" ref="model_paoassignmentauditor_configuration_audit_honorarium"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="paoassignmentauditor_configuration_audit_quantity_comp_rule" model="ir.rule">
+        <field name="name">configuration audit quantity multi-company</field>
+        <field name="model_id" ref="model_paoassignmentauditor_configuration_audit_quantity"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="paoassignmentauditor_auditor_scheme_comp_rule" model="ir.rule">
+        <field name="name">auditor scheme multi-company</field>
+        <field name="model_id" ref="model_paa_assignment_auditor_scheme"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+   
+    
+
+    
+
+</odoo>

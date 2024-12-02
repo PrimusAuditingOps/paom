@@ -17,6 +17,11 @@ class PaaAuditorAssignmentWeighting(models.Model):
     state_ids = fields.Many2many('res.country.state', 'pao_assignment_auditor_weighting_res_country_state_rel',
                          'weighting_id', 'res_country_state_id', string='States')
 
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)
+
     @api.constrains('scheme_ranking',
                     'location',
                     'audit_quantity_target',

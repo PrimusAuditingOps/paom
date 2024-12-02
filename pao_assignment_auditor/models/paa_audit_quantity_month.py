@@ -30,4 +30,7 @@ class PaaAuditorAssignmentAuditsPertMonth(models.Model):
     audit_quantity = fields.Integer(string="Number of Audit", default=0)
     configuration_id = fields.Many2one('paoassignmentauditor.configuration.audit.quantity',
                                        string='Configuration', ondelete='set null')
-   
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)
