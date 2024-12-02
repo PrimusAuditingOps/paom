@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Multi - Company Rules -->
+    <record id="pao_cr_gain_loss_tracker_cb_comp_rule" model="ir.rule">
+        <field name="name">CR gain loss tracker cb multi-company</field>
+        <field name="model_id" ref="model_pao_cr_cb"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="pao_cr_gain_loss_tracker_schemes_comp_rule" model="ir.rule">
+        <field name="name">CR gain loss tracker schemes multi-company</field>
+        <field name="model_id" ref="model_pao_cr_schemes"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    
+
+</odoo>
