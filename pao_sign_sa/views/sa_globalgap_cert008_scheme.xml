@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sa_globalgap_cert008_scheme">
+        <div id="portal_sa_globalgap_cert008_content" t-attf-class="#{'card pb-5' if not print else ''}">
+
+            <div id="introduction" class="pb-2 pt-3 card-header bg-white" style="text-align: center;" t-if="print == False">
+                <h3><b>SERVICE AGREEMENT FOR THE CERTIFICATION PROGRAM</b></h3>
+            </div>
+
+            <div class="card-body">
+                <p>
+                    <b>
+                        Please sign and return the agreement within 24 hours upon reception. Primus
+                        Auditing Ops is not responsible for changes in estimated costs or additional costs
+                        incurred when the service agreement is returned after the deadline.
+                    </b>
+                </p>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Client<br/>(Person or Organization receiving the service): </b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <br/>
+                            <span t-field="serviceagreement.organization_name"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Billing Address: </b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-field="serviceagreement.organization_address"/>, 
+                            <span t-field="serviceagreement.organization_city"/>, 
+                            <span t-field="serviceagreement.organization_state"/>, 
+                            <span t-field="serviceagreement.organization_country"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Telephone - Fax: </b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-field="serviceagreement.phone"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Email: </b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-field="serviceagreement.contract_email"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Number of Purchase Order (if necessary): </b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.name"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Audit performed in accordance with <br/>(IFA GLOBALG.A.P./Cadena de Custodia): </b>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <b>aqui que va es la duda</b>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12"  t-if="serviceagreement.sign_sa_agreements_id.sale_order_id.audit_type != 'unannounced'">
+                        <p style="text-align:left;max-width:400px;"><b>Agreed date for the service: </b><span t-field="serviceagreement.start_date"/> - <span t-field="serviceagreement.end_date"/></p> 
+                    </div>
+                </div>
+
+                <t t-set="product_currency" t-value="[]"/>
+                <t t-set="product_c" t-value="[]"/>
+
+                <t t-foreach="serviceagreement.services_ids" t-as="l">
+                    <t t-if="l.currency_id.id not in product_c">
+                            <t t-set="product_currency" t-value="product_currency+[l.currency_id]"/>
+                            <t t-set="product_c" t-value="product_c+[l.currency_id.id]"/>
+                    </t>
+                </t>
+                
+
+                <t t-foreach="product_currency" t-as="currency">
+
+                    <table class="table">
+                        <thead class="thead-dark" style="text-align:center;background-color:black; color: white !important;">
+                            <tr style="background-color:black; color: white !important;">
+                                <th scope="col"><span style="color: white !important;">Services</span></th>
+                                <th scope="col"><span style="color: white !important;">Quantity</span></th>
+                                <th scope="col"><span style="color: white !important;">Fee</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="current_subtotal" t-value="0"/>
+                            <tr t-foreach="serviceagreement.services_ids.filtered(lambda item: item.currency_id.id == currency.id)" t-as="service">
+                                <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal"/>
+                                <td><span t-field="service.name"/></td>
+                                <td style="text-align:right;"><span t-field="service.product_uom_qty"/></td>
+                                <td style="text-align:right;"> <span t-field="service.price_subtotal"/></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align:right;" colspan="2" esc="row">estimated total (<span t-field="currency.name"/>):</th>
+                                <th style="text-align:right;" colspan="1" scope="row">
+                                    <strong class="mr16">
+                                        <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                    </strong>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </t>
+
+               
+                <div style="page-break-after: always;">
+                </div>
+                <p>
+                    <sup>1</sup> A cancellation fee will be applied for the cancellation of the audit within 15 days from the date of the scheduled audit. 
+                    These charges would include all expenses related to travel and work.
+                    <br/>
+                    <sup>2</sup> Travel charges include lodging, meals and transportation costs. Whenever possible, trips will be combined with other matters 
+                    (audits) that will divide the cost of our clients.
+                </p>
+                <p>
+                    <b>
+                        The customer agrees to pay Primus Auditing Ops the indicated and invoiced values, within 30 days from the date of invoicing.
+                    </b>
+                </p>
+                <p> 
+                    <br/>
+                    <b>Prepared by:</b> <span t-field="serviceagreement.coordinator_id"/>
+                    <br/>
+                </p>
+                <p>
+                    The undersigned Katherine Legua, as the legal representative of the certification body Primus Auditing Ops 
+                    and <b><span t-field="serviceagreement.sign_sa_agreements_id.signer_id.name"/></b>, as the Legal Representative 
+                    of <b><span t-field="serviceagreement.organization_name"/></b>, agree to sign this contract that will be governed 
+                    by the following clauses:
+                </p>
+
+                <p>
+                     <ol>
+                        <li>
+                            The petitioner has voluntarily requested the certification to Primus Chile S.p.A.
+                        </li>
+                        <li>
+                            Following the GLOBALG.A.P Scheme Integrated farm Assurance - Fruits and vegetables.
+                        </li>
+                        <li>
+                            Requesting a certification does not guarantee obtaining a positive decision from Primus Chile S.p.A.
+                        </li>
+                        <li>
+                            The petitioner declares that he/she has read, understood and applied the certification standards in the legal entity.
+                        </li>
+                        <li>
+                            Primus Chile S.p.A. accepts evaluating all requests under this certification program to the extent of all its 
+                            administrative capacities, without distinction of race, nationality, size of the unit.
+                        </li>
+                        <li>
+                            If Primus Chile S.p.A. has evidence to believe that a petitioner has voluntarily violated the certification standards 
+                            or made false statements, then Primus Chile S.p.A. can deny or withdraw the certification without previously issuing 
+                            a notification of non-compliance.
+                        </li>
+                    </ol>
+                </p>
+
+
+
+                <p>
+                    I. Obligations of the Contracting Party (CP).
+                    <ol>
+                        <li>
+                            Comply with the procedures established by Primus Chile S.p.A. for the audit registration process.
+                        </li>
+                        <li>
+                            Maintain compliance with the requirements of the certification scheme at all times during the entire period of 
+                            validity of the certificate.
+                        </li>
+                        <li>
+                            Allow free access of inspectors/auditors during the normal working day to their production centers, offices, employees 
+                            and all books and records related to the audited scheme, which are necessary to prove compliance or application of 
+                            the audited scheme either in audits that have been scheduled as well as for unannounced audits.
+                        </li>
+                        <li>
+                            If a contractor intervenes in the production, Primus Chile S.p.A is authorized to carry out a complete physical audit 
+                            of a contractor's facilities. The CP must ensure that the subcontractor allows, on request, the free access stipulated 
+                            in the previous clause.
+                        </li>
+                        <li>
+                            Keep a records system that demonstrates compliance with the applicable certification scheme and keep those records 
+                            according to the requirements of the corresponding standard.
+                        </li>
+                        <li>
+                            Without delay, notify the certification body of the changes that may affect its ability to comply with the requirements 
+                            of the certification: Example changes in the legal status, organization or ownership, contact addresses or production 
+                            sites, modification of products.
+                        </li>
+                        <li>
+                            Do not hide information that could affect the outcome of the certification process.
+                        </li>
+                        <li>
+                            Provide the Certification Body with access to information on the handling of complaints from clients or the owner of 
+                            the certification scheme, related to compliance with the audited scheme.
+                        </li>
+                        <li>
+                            Keep records of complaints regarding compliance with certification requirements and making such records available to 
+                            the certification body when requested. Records of actions taken to resolve complaints must also be kept.
+                        </li>
+                        <li>
+                            The participation of observers during the audit process must be requested to the CP by the CB and the participation 
+                            of observers is only allowed if they have been authorized by the audited entity.
+                        </li>
+                    </ol>
+                </p>
+
+                <p>
+                    II. Obligations of Primus Chile S.p.A.
+                    <ol>
+                        <li>
+                           Provide the petitioner all the necessary information and documentation to carry out the registration process, 
+                           prior to the start of the formal certification process.
+                        </li>
+                        <li>
+                            Inform the petitioner about changes in the applicable rules and procedures.
+                        </li>
+                        <li>
+                            Maintain an open and effective communication with the CP.
+                        </li>
+                        <li>
+                            Maintain confidentiality regarding the information provided by the CP. Only the owners of the scheme and/or 
+                            Primus Chile S.p.A accreditation body will have access to this information.
+                        </li>
+                        <li>
+                            Provide a professional, impartial and non-discriminatory service.
+                        </li>
+                        <li>
+                            Refuse to provide service when there is a conflict of interest.
+                        </li>
+                        <li>
+                            Notify the owner of the scheme in case of non-compliance, penalties and suspensions of the contracting party.
+                        </li>
+                        <li>
+                           Request authorization from the contracting party for the participation of observers during the audit process. 
+                           The participation of observers will be only allowed if they have been authorized by the audited entity. 
+                           The observers of the Accreditation Body constitute a single exception, in which case the Contracting Party will 
+                           be informed, but cannot refuse to have an observer of the accreditation body participating in the audit 
+                           carried out by the Certification body.
+                        </li>
+                    </ol>
+                </p>
+
+                <p>
+                   III. Regarding this certification contract.
+                    <ol>
+                        <li>
+                           This contract is valid for one year from the signature thereof and will be automatically renewed unless a 
+                           voluntary withdrawal by the contracting party is presented. In this case the petitioner will communicate 
+                           it in writing at least 3 months in advance.
+                        </li>
+                        <li>
+                            Primus Chile SpA reserves the right to deny or withdraw the certification if the petitioner does not comply 
+                            with the applicable regulations or if they cannot prove that they are complying with them, if they do not 
+                            comply with those established in the sublicense contracts when requested by the owner of the scheme. Also, 
+                            in case the petitioner does not comply with the obligations established in this contract including 
+                            timely payment for the service provided.
+                        </li>
+                        
+                    </ol>
+                </p>
+
+                <p>
+                    IV. Other Issues. <br/>
+                    Use of logos, stamps and certificates.
+
+                    <ol>
+                        <li>
+                            The Contracting Party must make correct use of the certificate, logos and identification numbers generated 
+                            as a result of the certification process. 
+                        </li>
+                        <li>
+                            The Contracting Party must provide truthful and consistent information on the scope of its certification.. 
+                        </li>
+                        <li>
+                            The Contracting Party provides copies of the certification documents and these must be complete.
+                        </li>
+                        <li>
+                           The Contracting Party must make use of the logos and trademarks of the owner of the scheme in accordance with 
+                           the provisions of the sub-license agreement.
+                        </li>
+                        <li>
+                            During the period of suspension or once the certification is completed, the Contracting Party cannot make use 
+                            of the logo / trademark of GLOBALG.A.P, of the license / Certificate or any other document that has any relation 
+                            with the Audited Scheme in relation to the suspended product.
+                        </li>
+                        <li>
+                            The inappropriate use of references to the certification scheme, or the misleading use of licenses, certificates, 
+                            compliance marks or any other mechanism to indicate that a product is certified, found in the documentation or 
+                            in other publicity, may be sanctioned by the certification body.
+                        </li>
+                    </ol>
+                </p>
+
+                <p>
+                    V. Payment.
+                    <br/>
+                    <br/>
+                    The requesting party agrees to pay the fee established in the quote previously sent and reviewed by the petitioner. 
+                    Such quote will not include the estimated expenses for tickets, transportation, lodging and food for the inspectors/auditors.
+                    <br/>
+                    <br/>
+                    If the certification was not granted or the petitioner decides to withdraw from it, they must pay all the expenses quoted, 
+                    and travel and administrative expenses that have already been made.
+                </p>
+
+                <p>
+                    VI. Appeals and Disputes.
+                    <br/>
+                    <br/>
+                    Appeals, claims and disputes filed by the applicant or other parties must be made and are subject to the appeals procedure 
+                    of Primus Chile S.p.A.
+                </p>
+
+               
+                <div class="row">
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                            <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.coordinator_signature)" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature"/>
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                        </p>
+                    </div>  
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                            <img class="img img-responsive" style="width:327px; heigth:327px;" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.signature)" t-if="serviceagreement.sign_sa_agreements_id.signature"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                            <b>Legal Representative</b><span t-field="serviceagreement.sign_sa_agreements_id.coordinator_name" t-if="serviceagreement.sign_sa_agreements_id.coordinator_name"/>
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                            <b>Legal Representative</b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name" t-if="serviceagreement.sign_sa_agreements_id.signer_name"/>
+                        </p>
+                    </div>  
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                            <b>Date</b><span t-field="serviceagreement.sign_sa_agreements_id.signer_name" t-if="serviceagreement.sign_sa_agreements_id.signer_name"/>
+                        </p>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                            <b>Client</b>
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                            <b>Primus Chile S.p.A.</b>
+                        </p>
+                    </div> 
+                    <div class="col-4">
+                        <p style="text-align:center;">
+                           
+                        </p>
+                    </div>  
+                </div>                
+                <p>
+                    For legal persons, you must attach evidence that the person who signs as a legal representative has legal power of signature 
+                    granted by the organization you represent. Example Incorporation of a company in Chile; Social contract in Brazil or other 
+                    document that in your country verifies the name of the legal representative.
+                </p>
+               
+                
+                <div t-if="print == False">
+                    <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
+                    <ul class="list-inline" style="text-align: center;">
+                        <li class="list-inline-item">CERT-008E</li>
+                        <li class="list-inline-item">Revisado por Jefe Aseguramiento Calidad</li>
+                        <li class="list-inline-item">Fecha</li>
+                        <li class="list-inline-item">22 de noviembre 2021</li>
+                        <li class="list-inline-item">Revisión</li>
+                    </ul>
+                    <ul class="list-inline" style="text-align: center;">
+                        <li class="list-inline-item"></li>
+                        <li class="list-inline-item">Aprobado por Gerente General</li>
+                        <li class="list-inline-item">Fecha</li>
+                        <li class="list-inline-item">23 de noviembre 2021</li>
+                        <li class="list-inline-item">5</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </template>
+</odoo>

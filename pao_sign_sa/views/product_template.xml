@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_price_currency_sa_view_form" model="ir.ui.view">
+        <field name="name">product.template.price.currency.sa.view.form</field>
+        <field name="model">product.template</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <page name="purchase" position="after">
+                <page string="Product Price and Currency in SA" name="product_price_currency_sa">
+                    <group name="group_price_sa">
+                        <field name="pao_product_price_sa" class="oe_inline" widget="monetary" options="{'currency_field': 'pao_currency_sa_id', 'field_digits': True}"/>
+                        <field name="pao_currency_sa_id" required="pao_product_price_sa > 0"/>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

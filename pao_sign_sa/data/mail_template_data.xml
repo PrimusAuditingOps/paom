@@ -40,6 +40,39 @@
                 </p>         
             </field>
         </record>
+        <record id="email_template_sa_globalgap_chile" model="mail.template">
+            <field name="name">GLOBALG.A.P. Chile</field>
+            <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>
+            <field name="subject">Solicitud de firma</field>
+            <field name="body_html" type="html">
+                <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                    Estimado cliente:<br/><br/>
+                    Gracias por elegir a Primus Auditing Operations como su Organismo de Certificación.<br/><br/>
+
+                    Para confirmar su auditoría GLOBALG.A.P. se requiere la firma de Sublicencia y Acuerdo de Servicios adjunto:<br/><br/>
+                    
+                    <b>ACUERDO DE SERVICIOS DE PROGRAMA DE CERTIFICACIÓN</b><br/><br/>
+
+                    Este documento incluye el alcance de la auditoría, costos y cláusulas contractuales para la prestación del
+                    servicio solicitado. Es necesario contar con el Acuerdo de Servicios firmado <u>con 7 días de anticipación</u> a
+                    la fecha programada para el servicio.<br/><br/>
+
+                    Para preguntas o inquietudes con respecto a su proceso comuníquese por correo electrónico a <a href="mailto:auditmx@pao-mx.com">auditqacl@pao-cl.com</a><br/><br/>
+
+                    Para revisar la documentación del esquema GLOBALG.A.P., haga click <a href="https://www.globalgap.org/es/documents/" target="_blank">aquí</a>.<br/><br/>
+
+                    Para obtener información adicional del Comprador, consulte en nuestra página web el Programa de Compradores
+                    <a href="https://primusauditingops.com/index.php/es/services-2/buyer-programs" target="_blank">aquí.</a><br/><br/>
+
+                    Saludos cordiales<br/><br/>
+
+                    NOTA: Antes de firmar el documento, por favor, revise y confirme que todos sus datos estén correctos.<br/><br/>
+
+                    <u><em>En caso de no contar con este documento firmado previo a la fecha de auditoría, Primus Auditing Operations se 
+                        reserva el derecho de reprogramar el servicio con previo aviso.</em></u>
+                </p>         
+            </field>
+        </record>
         <record id="email_template_sa_primusgfs" model="mail.template">
             <field name="name">PRIMUSGFS</field>
             <field name="model_id" ref="pao_sign_sa.model_sa_send_request"/>

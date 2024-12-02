@@ -70,7 +70,7 @@ class PaoSignSaAgreementsSent(models.Model):
     )
     follower_ids = fields.Many2many('res.partner', string="Copy to")
     position = fields.Char(
-        string="Position", 
+        string="Title", 
         required=True
     )
     signer_name = fields.Char(
@@ -103,6 +103,7 @@ class PaoSignSaAgreementsSent(models.Model):
         ondelete='cascade',
         required=True,
     )
+    
     reminder_days = fields.Integer(
         string = 'Reminder days',
         default = 0,
@@ -110,7 +111,8 @@ class PaoSignSaAgreementsSent(models.Model):
     document_status = fields.Selection(
         selection=[
             ('sent', "Sent"),
-            ('sign', "Signed"),
+            ('partially_sign', "Partially signed"),
+            ('sign', "Completely signed"),
             ('cancel', "Cancelled"),
             ('exception', "Mail Failed"),
         ],
@@ -143,6 +145,15 @@ class PaoSignSaAgreementsSent(models.Model):
         'Signature name',
         copy=False,
     )
+    
+    coordinator_signature = fields.Binary(
+        string="Coordinator Signature", 
+        copy=False,
+    )
+
+    coordinator_name = fields.Char(string="Coordinator Name", copy=False)
+    coordinator_signature_date = fields.Date(string="Coordinator's signature date", copy=False)
+
     signature = fields.Binary(
         string="Signature", 
         copy=False,
@@ -156,7 +167,19 @@ class PaoSignSaAgreementsSent(models.Model):
         inverse_name='sign_sa_agreements_id',
         string='Registration number IDs',
     )
+    
+    company_id = fields.Many2one(related="sale_order_id.company_id")
 
+    country_format = fields.Selection(
+        default=lambda self: self.env.company.country_code, 
+        selection=[
+            ('US', 'United States'),
+            ('MX', 'México'),
+            ('CR', 'Costa Rica'),
+            ('CL', 'Chile'),
+        ],
+        string="Country Template",
+    )
 
     @api.depends('registration_numbers_ids')
     def _get_name_sa(self):
@@ -165,6 +188,16 @@ class PaoSignSaAgreementsSent(models.Model):
             for rn in rec.registration_numbers_ids:
                 title_sa += rn.name  if title_sa == "" else ", " + rn.name
             rec.title = title_sa
+    
+    def action_coordinator_sign(self):
+        self.ensure_one()
+
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/coordinator_sign/sa/%s/%s' % (self.id, self.access_token),
+            'target': 'new',  # Opens the URL in a new tab
+        }
     
     def action_resend(self):
         self.ensure_one()
@@ -259,3 +292,48 @@ class PaoSignSaAgreementsSent(models.Model):
         if force_send:
             mail.send()
         return mail
+
+
+    def sign_sa_action(self): 
+            
+        mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.create_uid.id}">@{self.create_uid.name}</a>'
+
+        sales_order_link = _('<a href="#" data-oe-model="sale.order" data-oe-id="%(order_id)d">%(order_name)s</a>'
+                        ) % {'order_id': self.sale_order_id.id, 'order_name': self.sale_order_id.name}
+
+        message = _('Hello %(mention_html)s, the SA of %(order_link)s has been signed by the customer.'
+                ) % {'order_link': sales_order_link, 'mention_html': mention_html}
+              
+        message = self.sale_order_id.message_post(
+            body=message,
+            partner_ids=[self.create_uid.partner_id.id],
+            body_is_html = True
+        )
+        
+        self.sale_order_id.message_notify(
+            message_id=message.id,
+        )
+    def send_sa_to_customer(self):
+        self.ensure_one()
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        signer_lang = get_lang(self.env, lang_code=self.signer_id.lang).code
+        
+        body =  self.env['ir.ui.view'].with_context(lang=signer_lang)._render_template('pao_sign_sa.sa_template_fully_signed', 
+            {
+                'record': self,
+                'link': url_join(base_url, '/sign/sa/%s/%s' % (self.id, self.access_token)),
+                'subject': _('Fully Signed Service Agreement'),
+                'body': False,
+            }
+        )
+        self._message_send_mail(
+            body, 'mail.mail_notification_light',
+            {'record_name': self.title},
+            {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
+            {'email_from': self.create_uid.email_formatted,
+                'author_id': self.create_uid.partner_id.id,
+                'email_to': self.signer_id.email_formatted,
+                'subject': _('Fully Signed Service Agreement')},
+            force_send=True,
+            lang=signer_lang,
+        )

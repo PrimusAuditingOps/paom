@@ -20,7 +20,7 @@ class SASendRequest(models.TransientModel):
     )
     follower_ids = fields.Many2many('res.partner', string="Copy to")
     position = fields.Char(
-        string="Position", 
+        string="Title", 
         required=True
     )
     registration_numbers_ids = fields.Many2many(
@@ -35,7 +35,7 @@ class SASendRequest(models.TransientModel):
 
     message = fields.Html(
         string="Message",
-    )
+    )  
     mail_template_id = fields.Many2one(
         string='Mail Template',
         comodel_name='mail.template',
@@ -53,6 +53,18 @@ class SASendRequest(models.TransientModel):
     enable_registration_numbers_ids = fields.Many2many(
         related="sale_order_id.pao_registration_numbers_ids",
     )
+
+    country_format = fields.Selection(
+        default=lambda self: self.env.company.country_code, 
+        selection=[
+            ('US', 'United States'),
+            ('MX', 'México'),
+            ('CR', 'Costa Rica'),
+            ('CL', 'Chile'),
+        ],
+        string="Country Template",
+        required=True,
+    )
     @api.onchange('mail_template_id')
     def _change_mail_template(self):
         self.message = self.mail_template_id.body_html
@@ -64,20 +76,22 @@ class SASendRequest(models.TransientModel):
 
             orderLine = filter(lambda x: x['registrynumber_id'].id == rn.id, self.sale_order_id.order_line)
             msg = ""
+            _logger.error(self.sale_order_id.name)
             for line in orderLine:
-                if not line.service_end_date or not line.service_start_date:
-                    msg=_("Please enter a date for service of the registration number ")
-                    raise ValidationError(msg + rn.name)
-                if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
-                    if not line.coordinator_id.name:
-                        msg=_("Please select a coordinator for service of the registration number ")
+                if line.product_template_id:
+                    if self.sale_order_id.audit_type != 'unannounced' and (not line.service_end_date or not line.service_start_date):
+                        msg=_("Please enter a date for service of the registration number ")
                         raise ValidationError(msg + rn.name)
-                    if not line.coordinator_id.employee_id.es_sign_signature:
-                        msg=_("The coordinator doesn't have a signature, please assign a signature for the coordinator ")
-                        raise ValidationError(msg + line.coordinator_id.name)
+                    if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
+                        if not line.sudo().coordinator_id.name:
+                            msg=_("Please select a coordinator for service of the registration number ")
+                            raise ValidationError(msg + rn.name)
+                        if not line.sudo().coordinator_id.sign_signature:
+                            msg=_("The coordinator doesn't have a signature, please assign a signature for the coordinator ")
+                            raise ValidationError(msg + line.sudo().coordinator_id.name)
 
             if rn.scheme_id.name in ["PrimusGFS", "Primus Standard GMP", "Primus Standard GAP", "NOP", "SMETA"]:
-                if not self.sale_order_id.partner_id.vat: 
+                if self.sale_order_id.country_code == 'MX' and not self.sale_order_id.partner_id.vat: 
                     msg=_("Please enter a VAT for the customer.")
                     raise ValidationError(msg)
                 if not rn.contract_email: 
@@ -120,7 +134,7 @@ class SASendRequest(models.TransientModel):
                 if not rn.audit_duration: 
                     msg=_("Please enter an audit duration for the registration number ")
                     raise ValidationError(msg + rn.name)
-                if not rn.organization_id.rfc: 
+                if self.sale_order_id.country_code == 'MX' and not rn.organization_id.rfc: 
                     msg=_("Please enter a vat for organization of the registration number ")
                     raise ValidationError(msg + rn.name)
                 if not rn.type_of_audit: 
@@ -129,7 +143,9 @@ class SASendRequest(models.TransientModel):
                 if not rn.audit_scope: 
                     msg=_("Please enter an audit scope for the registration number ")
                     raise ValidationError(msg + rn.name)
-        
+            if rn.scheme_id.name == "GLOBALG.A.P." and self.country_format != "MX":
+                raise ValidationError(_("The service agreement format for the GLOBALG.A.P. scheme is not yet available, please perform this SA manually."))    
+
     def send_request(self):
         self.ensure_one()
         self._validate_fields_sa()
@@ -143,6 +159,7 @@ class SASendRequest(models.TransientModel):
             'position': self.position,
             'registration_numbers_ids': self.registration_numbers_ids,
             'sale_order_id': self.sale_order_id.id,
+            'country_format': self.country_format,
             'subject': self.subject,
             'message': self.message,
             'document_date': today,
@@ -174,8 +191,8 @@ class SASendRequest(models.TransientModel):
                 service = self.env['pao.registration.number.services'].create({
                     'name': line.name,
                     'product_uom_qty': line.product_uom_qty,
-                    'currency_id': self.sale_order_id.currency_id.id,
-                    'price_subtotal': line.price_subtotal,
+                    'currency_id': self.sale_order_id.currency_id.id if line.product_template_id.pao_product_price_sa <= 0 else line.product_template_id.pao_currency_sa_id.id,
+                    'price_subtotal': line.price_subtotal if line.product_template_id.pao_product_price_sa <= 0 else line.product_template_id.pao_product_price_sa,
                 })
                 services.append(service.id)  
 
@@ -231,7 +248,7 @@ class SASendRequest(models.TransientModel):
         mail = self._message_send_mail(
             body, 'mail.mail_notification_light',
             {'record_name': sa.title},
-            {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
+            {'model_description': _('Service Agreement'), 'company': self.sudo().create_uid.company_id},
             {'email_from': self.create_uid.email_formatted,
                 'author_id': self.create_uid.partner_id.id,
                 'email_to': self.signer_id.email_formatted,
@@ -255,7 +272,7 @@ class SASendRequest(models.TransientModel):
                 mail = self._message_send_mail(
                     body, 'mail.mail_notification_light',
                     {'record_name': sa.title},
-                    {'model_description': _('Service Agreement'), 'company': self.create_uid.company_id},
+                    {'model_description': _('Service Agreement'), 'company': self.sudo().create_uid.company_id},
                     {'email_from': self.create_uid.email_formatted,
                         'author_id': self.create_uid.partner_id.id,
                         'email_to': follower.email_formatted,
