@@ -11,7 +11,11 @@ class AccountMove(models.Model):
             rec.pao_payment_link = ""
             if rec.country_code == "US":
                 if rec.amount_residual > 0:
-                    payment = self.env['payment.link.wizard'].create(
+
+                    payment = self.env['payment.link.wizard'].with_context(
+                                active_id= rec.id,
+                                active_model="account.move",
+                            ).create(
                             {
                                 'res_model': "account.move",
                                 'res_id': rec.id,
