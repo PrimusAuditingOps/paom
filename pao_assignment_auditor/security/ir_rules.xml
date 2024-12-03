@@ -34,6 +34,12 @@
         <field name="model_id" ref="model_paa_assignment_auditor_scheme"/>
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
+
+    <record id="paoassignmentauditor_schemeranking_comp_rule" model="ir.rule">
+        <field name="name">schemeranking multi-company</field>
+        <field name="model_id" ref="model_paoassignmentauditor_schemeranking"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
    
     
 

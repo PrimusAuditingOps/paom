@@ -20,3 +20,8 @@ class PaaSchemesRanking(models.Model):
                                ondelete='set null')
     rating = fields.Float(default=0.00, digits=(12,2), required=True,
                           string="Rating Scheme")
+    
+    company_id = fields.Many2one(
+        comodel_name='res.company', 
+        required=True, index=True,
+        default=lambda self: self.env.company)
