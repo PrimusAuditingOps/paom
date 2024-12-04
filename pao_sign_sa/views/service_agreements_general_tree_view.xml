@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_sign_sa_agreements_sent_general_tree_view" model="ir.ui.view">
+        <field name="name">pao.sign.sa.agreements.sent.general.tree.view</field>
+        <field name="model">pao.sign.sa.agreements.sent</field>
+        <field name="arch" type="xml">
+            <tree string="Service Agreements" default_order="create_date desc">
+                <field name="sale_order_id" widget="many2one"/>
+                <field name="title" string="Name"/>
+                <field name="coordinator_name" string="Signed by Coordinator"/>
+                <field name="create_uid" string="Sender"/>
+                <field name="create_date" string="Date sent"/>
+                <field name="signer_id"/>
+                <field name="document_status" decoration-success="document_status == 'sign'" decoration-warning="document_status == 'exception'" decoration-info="document_status == 'sent'" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_action_sa_general_view" model="ir.actions.act_window">
+        <field name="name">Service Agreements</field>
+        <field name="res_model">pao.sign.sa.agreements.sent</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="pao_sign_sa_agreements_sent_general_tree_view"/>
+    </record>
+
+    <menuitem id="menu_item_sa_general_view" sequence="21" name="Service Agreements" parent="sale.sale_order_menu" action="pao_action_sa_general_view"/>
+</odoo>

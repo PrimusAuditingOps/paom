@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-23 22:36+0000\n"
-"PO-Revision-Date: 2024-10-23 22:36+0000\n"
+"POT-Creation-Date: 2024-12-03 22:48+0000\n"
+"PO-Revision-Date: 2024-12-03 22:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
+msgid "&amp;nbsp;"
+msgstr ""
 
 #. module: pao_sign_ra
 #: model:ir.actions.report,print_report_name:pao_sign_ra.ra_report_foreign_company_template_action
@@ -141,13 +146,6 @@ msgstr ""
 #. module: pao_sign_ra
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
 msgid "<strong>Invoice E-mail:</strong>"
-msgstr ""
-
-#. module: pao_sign_ra
-#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
-msgid ""
-"<strong>JS Audit Group, Inc., as Primus Auditing Operations "
-"(\"Primus\")</strong> hereby agrees to engage"
 msgstr ""
 
 #. module: pao_sign_ra
@@ -559,6 +557,7 @@ msgid "Close"
 msgstr "Cerrar"
 
 #. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__company_id
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__record_company_id
 msgid "Company"
 msgstr "Empresa"
@@ -584,6 +583,11 @@ msgid "Contents"
 msgstr "Contenidos"
 
 #. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__coordinator_id
+msgid "Coordinator"
+msgstr "Coordinador"
+
+#. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__create_uid
 #: model:ir.model.fields,field_description:pao_sign_ra.field_ra_mail_templates__create_uid
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__create_uid
@@ -601,6 +605,11 @@ msgstr "Creado el"
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
 msgid "Date Signed"
 msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_general_tree_view
+msgid "Date sent"
+msgstr "Fecha de envío"
 
 #. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__auto_delete
@@ -723,6 +732,13 @@ msgstr ""
 #. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__subtype_is_log
 msgid "Is a log"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
+msgid ""
+"JS Audit Group, Inc., as Primus Auditing Operations (\"Primus\") hereby "
+"agrees to engage"
 msgstr ""
 
 #. module: pao_sign_ra
@@ -895,10 +911,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
 msgid ""
 "Primus is contractually bound to deliver audit information to its clients as early as three days from date of performance. \n"
-"                            <span class=\"text-decoration-underline fw-bold fst-italic\">Therefore, audit results must be submitted to Primus by the end of the seventh full business day after audit performance. </span>\n"
-"                            In the event that audit report is not submitted as per the last sentence the penalty shall be assessed against the Audit Fee \n"
-"                            at the rate of 10% of the gross Primus-auditee contract rate; this charge to be repeated each day thereafter until the report \n"
-"                            is submitted (this excludes report rejected by the audit QA System)"
+"                            <span class=\"text-decoration-underline fw-bold fst-italic\">Therefore, audit results must be submitted to Primus by the end of \n"
+"                            the seventh full business day after audit performance.</span> In the event that audit report is not submitted as per the last \n"
+"                            sentence the penalty shall be assessed against the Audit Fee at the rate of 10% of the gross Primus-auditee contract rate; \n"
+"                            this charge to be repeated each day thereafter until the report is submitted (this excludes report rejected by the audit QA System)"
 msgstr ""
 
 #. module: pao_sign_ra
@@ -986,7 +1002,10 @@ msgid "Referral Agreement for"
 msgstr "Referral Agreement para"
 
 #. module: pao_sign_ra
+#: model:ir.actions.act_window,name:pao_sign_ra.pao_action_ra_general_view
+#: model:ir.ui.menu,name:pao_sign_ra.menu_item_ra_general_view
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_tree_view
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_general_tree_view
 msgid "Referral Agreements"
 msgstr ""
 
@@ -1117,6 +1136,11 @@ msgid "Send mailing or notifications directly"
 msgstr ""
 
 #. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_general_tree_view
+msgid "Sender"
+msgstr "Enviado por"
+
+#. module: pao_sign_ra
 #: model:ir.model.fields.selection,name:pao_sign_ra.selection__ra_document__status__sent
 msgid "Sent"
 msgstr "Enviado"
@@ -1145,6 +1169,11 @@ msgstr "Firmar RA"
 #: model:ir.model.fields.selection,name:pao_sign_ra.selection__ra_document__status__sign
 msgid "Signed"
 msgstr "Firmado"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__partner_id
+msgid "Signer"
+msgstr "Firmante"
 
 #. module: pao_sign_ra
 #: model:mail.template,name:pao_sign_ra.email_template_audit_availability_confirm
@@ -1257,6 +1286,11 @@ msgid "Thread-Enabled"
 msgstr ""
 
 #. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_purchase_order__today
+msgid "Today"
+msgstr ""
+
+#. module: pao_sign_ra
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
 msgid "Total Services:"
 msgstr ""
@@ -1310,6 +1344,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_reject_portal_view
 msgid "Yes, cancel"
 msgstr "Si, cancelar"
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,help:pao_sign_ra.field_ra_document__partner_id
+msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+msgstr ""
 
 #. module: pao_sign_ra
 #. odoo-python

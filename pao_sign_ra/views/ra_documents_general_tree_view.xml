@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="ra_general_tree_view" model="ir.ui.view">
+        <field name="name">ra.general.tree.view</field>
+        <field name="model">ra.document</field>
+        <field name="arch" type="xml">
+            <tree string="Referral Agreements" default_order="create_date desc">
+                <field name="purchase_order_id" widget="many2one"/>
+                <field name="pao_registration_numbers_ids" widget="many2many_tags"/>
+                <field name="coordinator_id"/>
+                <field name="create_uid" string="Sender"/>
+                <field name="create_date" string="Date sent"/>
+                <field name="partner_id"/>
+                <field name="status" decoration-success="status == 'sign'" decoration-danger="status == 'reject'" decoration-info="status == 'sent'" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_action_ra_general_view" model="ir.actions.act_window">
+        <field name="name">Referral Agreements</field>
+        <field name="res_model">ra.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="ra_general_tree_view"/>
+    </record>
+
+    <menuitem id="menu_item_ra_general_view" name="Referral Agreements" parent="purchase.menu_procurement_management" action="pao_action_ra_general_view"/>
+</odoo>

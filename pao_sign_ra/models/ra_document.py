@@ -29,6 +29,12 @@ class RADocument(models.Model):
         copy=False,
     )
     
+    company_id = fields.Many2one(related="purchase_order_id.company_id")
+    
+    coordinator_id = fields.Many2one(related="purchase_order_id.coordinator_id", string="Coordinator")
+    
+    partner_id = fields.Many2one(related="purchase_order_id.partner_id", string="Signer")
+    
     request_travel_expenses = fields.Boolean(string="Request Travel Expenses", readonly=True)
     
     travel_expenses_posted = fields.Boolean(default=False)

@@ -81,6 +81,7 @@ class SaleOrder(models.Model):
             'res_model': 'pao.sign.sa.agreements.sent',
             'type': 'ir.actions.act_window',
             'view_mode': 'tree,form',
+            'views': [(self.env.ref('pao_sign_sa.pao_sign_sa_agreements_sent_view_tree').id, 'tree')],
             'name': _("Service Agreements - %s", self.name),
             'domain': [('sale_order_id', '=', self.id)],
         }

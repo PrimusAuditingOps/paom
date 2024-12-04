@@ -245,6 +245,15 @@ class SASendRequest(models.TransientModel):
         )
         sa.write({'sign_url': url_join(base_url, '/sign/sa/%s/%s' % (sa.id, sa.access_token))})
         
+        message_log = _('%(sender)s has sent the SA "%(sa_details)s" to %(signer)s'
+                        ) % {'sender': sa.create_uid.name, 'sa_details': sa.title, 'signer': self.signer_id.name}
+        
+        sa.sale_order_id.message_post(
+            body=message_log,
+            message_type='notification',
+            author_id=self.env.ref('base.partner_root').id
+        )
+        
         mail = self._message_send_mail(
             body, 'mail.mail_notification_light',
             {'record_name': sa.title},

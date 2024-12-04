@@ -22,11 +22,11 @@ class ProposalPortal(portal.CustomerPortal):
             accept_link = '/pricelist_proposal/%s/%s/accept' % (id, token)
             reject_link = '/pricelist_proposal/%s/%s/confirm_reject' % (id, token)
             return request.render('pao_pricelist_proposal.pricelist_portal_template', 
-                                  {'proposal': proposal_sudo, 'accept_link': accept_link, 'confirm_reject_link': reject_link, 'base_pricelist': base_pricelist})
+                                {'proposal': proposal_sudo, 'accept_link': accept_link, 'confirm_reject_link': reject_link, 'base_pricelist': base_pricelist})
         elif proposal_sudo and proposal_sudo.proposal_status in ('reject', 'accept'):
             attachment = proposal_sudo.proposal_agreement_id
             return request.render('pao_pricelist_proposal.pricelist_proposal_response_sent', 
-                                  {'attachment': attachment})
+                                {'attachment': attachment})
         else:
             return request.render('pao_pricelist_proposal.pricelist_proposal_exception_page_view')
         

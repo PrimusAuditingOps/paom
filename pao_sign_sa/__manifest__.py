@@ -72,6 +72,7 @@
         'views/sa_sustentabilidad_scheme.xml',
         'views/sale_order.xml',
         'views/product_template.xml',
+        'views/service_agreements_general_tree_view.xml',
 
     ],
     'assets': {

@@ -14,10 +14,12 @@ class PriceListProposal(models.Model):
     
     base_pricelist = fields.Many2one('product.pricelist', string="Base pricelist", readonly=True)
     
+    create_employee_id = fields.Many2one('hr.employee')
+    
     origin_product_pricelist_id = fields.Many2one('product.pricelist', string="Product Price List Origin", readonly=True)
     
     country_group_ids = fields.Many2many('res.country.group', 'pao_pricelist_proposal_res_country_group_rel',
-                         'pao_pricelist_proposal_id', 'res_country_group_id', string='Country Groups')
+                        'pao_pricelist_proposal_id', 'res_country_group_id', string='Country Groups')
 
     item_ids = fields.One2many('product.proposal.item', 'pricelist_id', 'Pricelist Items')
     
@@ -34,6 +36,7 @@ class PriceListProposal(models.Model):
     proposal_status = fields.Selection(string="Status", default="draft", 
         selection=[
             ('draft', 'Draft'),
+            ('authorized', 'Authorized'),
             ('sent', 'Sent'),
             ('accept', 'Accepted'),
             ('reject', 'Rejected'),
@@ -66,10 +69,37 @@ class PriceListProposal(models.Model):
     
     def request_approval(self):
         if not self.authorized:
+            self._compare_base_pricelist_items()
             self.authorization_request_sent = True
             self.origin_product_pricelist_id.request_proposal_approval()
+            
+    def reset_draft_action(self):
+        self.proposal_status = 'draft'
+        self.authorized = False
+        
+    def _generate_pdf_report(self):
+        self._compare_base_pricelist_items()
+        return self.env.ref('pao_pricelist_proposal.report_proposal_agreement').report_action(self)
+    
+    def _compare_base_pricelist_items(self):
+        for record in self:
+            missing_items = []
+            for item in record.item_ids:
+                base_item = record.base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)
+                
+                if not base_item:
+                    missing_items.append(item.name)
+                    
+            if len(missing_items) > 0:
+                formatted_missing_items = " • " + "\n • ".join(missing_items)
+                raise ValidationError(_("The following items were not found in the base pricelist (%(base_pricelist_name)s). To continue, please add them to the base pricelist:\n%(formatted_missing_items)s") 
+                                    % {'base_pricelist_name': record.base_pricelist.name, 'formatted_missing_items': formatted_missing_items})
     
     def authorize_proposal_action(self):
+        
+        self.create_employee_id = self.create_uid.employee_id
+        
+        self._compare_base_pricelist_items()
         
         mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.create_uid.id}">@{self.create_uid.name}</a>'
         
@@ -81,12 +111,13 @@ class PriceListProposal(models.Model):
         
         self.origin_product_pricelist_id.notify_action(message)
         
+        self.proposal_status = 'authorized'
         self.authorized = True
     
     def send_proposal_action(self):
-        if self.proposal_status == 'draft' and self.authorized:
+        if self.authorized:
             
-            self.pricelist_proposal_manager_id = self.env['hr.employee'].sudo().search([('pricelist_proposal_manager', '=', True)], limit=1)
+            self.pricelist_proposal_manager_id = self.env['hr.employee'].sudo().search([('pricelist_proposal_manager', '=', True), ('company_id', '=', self.env.company.id)], limit=1)
             
             if not self.pricelist_proposal_manager_id:
                 raise ValidationError(_("No employee in charge of pricelist proposals was found."))

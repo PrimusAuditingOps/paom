@@ -18,7 +18,7 @@
                     <h3 class="d-inline">Your response has been sent.</h3>
                     <br/><br/>
                     <a class="btn btn-primary" t-if="attachment" t-attf-href="/download_attachment/{{ attachment.id }}" type="button">
-                       Download proposal agreement
+                        Download proposal agreement
                     </a>
                 </div>
             </div>
@@ -79,7 +79,8 @@
                                     <t t-set="base_item" t-value="base_pricelist.item_ids.filtered(lambda base_item: base_item.product_tmpl_id.id == item.product_tmpl_id.id)[0]"/>
                                     <tr>
                                         <td class="col-md-7">
-                                            <t t-esc="item.product_tmpl_id.name"/>
+                                            <t t-esc="item.product_id.display_name" t-if="item.product_id and item.applied_on == '0_product_variant'"/>
+                                            <t t-esc="item.product_tmpl_id.name" t-if="item.product_tmpl_id and item.applied_on == '1_product'"/>
                                         </td>
                                         <td>
                                             <t t-esc="'${:,.2f}'.format(base_item.fixed_price)"/>

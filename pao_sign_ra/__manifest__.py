@@ -9,6 +9,7 @@
     'data' : [
         # 'security/groups.xml',
         'security/ir.model.access.csv',
+        'security/rules.xml',
         'data/ra_availability_mail_template.xml',
         'data/ra_mail_templates_default.xml',
         # 'security/ir_rules.xml',
@@ -19,6 +20,7 @@
         'views/sign_ra_template_portal.xml',
         'views/ra_document_views.xml',
         'views/send_ra_view_form.xml',
+        'views/ra_documents_general_tree_view.xml',
     ],
 
     'installable': True,
