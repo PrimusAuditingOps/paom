@@ -4,6 +4,7 @@ from logging import getLogger
 from datetime import datetime
 from werkzeug.urls import url_join
 import pytz
+import base64
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, formataddr, config, get_lang
 
 _logger = getLogger(__name__)
@@ -12,6 +13,7 @@ class SASendRequest(models.TransientModel):
     _name = 'sa.send.request'
     _description = 'Service Agreement send request'
 
+    attachment_ids = fields.Many2many('ir.attachment', string="Attachments")
 
     signer_id = fields.Many2one(
         'res.partner', 
@@ -69,6 +71,116 @@ class SASendRequest(models.TransientModel):
     def _change_mail_template(self):
         self.message = self.mail_template_id.body_html
         self.subject = self.mail_template_id.subject
+        
+    # @api.onchange('signer_id','position','registration_numbers_ids','subject')
+    def generate_sa_preview(self):
+        for rec in self:
+            
+            if rec.signer_id and rec.position and rec.registration_numbers_ids and rec.subject:
+                rec.write({'attachment_ids': [(5,)]})  # Clear all records in the Many2many field
+                
+                zone = rec.env.user.tz
+                requested_tz = pytz.timezone(zone)
+                today = requested_tz.fromutc(datetime.utcnow())
+                dummy_sa = rec.env['pao.sign.sa.agreements.sent'].new({
+                    'signer_id': rec.signer_id.id,
+                    'signer_email': rec.signer_id.email,
+                    'position': rec.position,
+                    'registration_numbers_ids': rec.registration_numbers_ids,
+                    'sale_order_id': rec.sale_order_id.id,
+                    'country_format': rec.country_format,
+                    'subject': rec.subject,
+                    'message': rec.message,
+                    'document_date': today,
+                    'reminder_days': rec.reminder_days,
+                    'follower_ids': rec.follower_ids,
+                })
+                
+                for registration_number in rec.registration_numbers_ids:
+                    start_date = ""
+                    end_date = ""
+                    productname = ""
+                    products = []
+                    coordinator = 0
+                    orderLine = filter(lambda x: x['registrynumber_id'].id == registration_number._origin.id, rec.sale_order_id.order_line)
+                    services = []
+                    
+                    for line in orderLine:
+                        for prod in line.audit_products:
+                            if prod.id not in products:
+                                productname += prod.name if productname == "" else ", " + prod.name
+                                products.append(prod.id)
+
+                        if line.service_start_date:
+                            start_date = line.service_start_date
+                            end_date = line.service_end_date
+                        if line.coordinator_id:
+                            coordinator = line.coordinator_id.id
+                        service = self.env['pao.registration.number.services'].new({
+                            'name': line.name,
+                            'product_uom_qty': line.product_uom_qty,
+                            'currency_id': self.sale_order_id.currency_id.id if line.product_template_id.pao_product_price_sa <= 0 else line.product_template_id.pao_currency_sa_id.id,
+                            'price_subtotal': line.price_subtotal if line.product_template_id.pao_product_price_sa <= 0 else line.product_template_id.pao_product_price_sa,
+                        })
+                        services.append(service.id)
+
+                    rn = self.env['pao.registration.number.to.sign'].new({
+                        'name': registration_number.name,
+                        'scheme': registration_number.scheme_id.name,
+                        'version': registration_number.version_scheme,
+                        'customer_name': self.sale_order_id.partner_id.name,
+                        'customer_vat': self.sale_order_id.partner_id.vat,
+                        'phone': registration_number.phone,
+                        'contract_email': registration_number.contract_email,
+                        'invoice_email': self.sale_order_id.partner_id.email,
+                        'organization_name': registration_number.organization_id.name,
+                        'organization_vat': registration_number.organization_id.rfc,
+                        'organization_address': registration_number.organization_id.address,
+                        'organization_city': registration_number.organization_id.city,
+                        'organization_state': registration_number.organization_id.state_id.name,
+                        'organization_country': registration_number.organization_id.country_id.name,
+                        'start_date': start_date,
+                        'end_date': end_date,
+                        'currency_id': self.sale_order_id.currency_id.id,
+                        'audit_type': registration_number.type_of_audit,
+                        'audit_scope': registration_number.audit_scope,
+                        'products': productname,
+                        'client_requirements': registration_number.client_requirements,
+                        'audit_duration': registration_number.audit_duration,
+                        'coordinator_id': coordinator,
+                        'sign_sa_agreements_id': dummy_sa.id,
+                        'services_ids': [(6, 0, services)],
+                    })
+                    
+                    pdf_content = rec.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                        'pao_sign_sa.report_service_agreements', 
+                        [dummy_sa.id], 
+                        data= {"values": rn, "print": True})[0]
+                    
+                    attachment = rec.env['ir.attachment'].sudo().create({
+                        'name': "SA Preview - %s-%s.%s" % (rn.name,rn.organization_name, "pdf"),
+                        'type': 'binary',
+                        'datas': base64.b64encode(pdf_content),
+                        'res_model': 'sa.send.request',
+                        'res_id': rec.id,
+                        'mimetype': 'application/pdf',
+                    })
+
+                    # Update the record's attachment_ids
+                    rec.write({
+                        'attachment_ids': [(4, attachment.id)],
+                    })
+                    
+            return {
+                'context': self.env.context,
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'sa.send.request',
+                'res_id': self.id,
+                'view_id': False,
+                'type': 'ir.actions.act_window',
+                'target': 'new',
+            }
 
     
     def _validate_fields_sa(self):
