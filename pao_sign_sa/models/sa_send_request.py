@@ -24,7 +24,7 @@ class SASendRequest(models.TransientModel):
     position = fields.Char(
         string="Title", 
         required=True,
-        default="Responsable",
+        default=_("Responsible"),
     )
     registration_numbers_ids = fields.Many2many(
         'servicereferralagreement.registrynumber', 
