@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="create_lead_assignation_ticket_action" model="ir.actions.server">
+            <field name="name">Create Assignation Ticket</field>
+            <field name="model_id" ref="account.model_res_partner"/>
+            <field name="binding_model_id" ref="account.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">action = record.action_view_assignation_request()</field>
+        </record>
+
+    </data>
+</odoo>
