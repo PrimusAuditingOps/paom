@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-03 22:48+0000\n"
-"PO-Revision-Date: 2024-12-03 22:48+0000\n"
+"POT-Creation-Date: 2024-12-09 17:14+0000\n"
+"PO-Revision-Date: 2024-12-09 17:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -602,6 +602,11 @@ msgid "Created on"
 msgstr "Creado el"
 
 #. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__customer_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: pao_sign_ra
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
 msgid "Date Signed"
 msgstr ""
@@ -863,6 +868,11 @@ msgid ""
 "a placeholder expression that provides the appropriate language, e.g. {{ "
 "object.partner_id.lang }}."
 msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__organization_id
+msgid "Organization"
+msgstr "Organización"
 
 #. module: pao_sign_ra
 #: model:ir.model.fields,help:pao_sign_ra.field_send_ra_wizard__reply_to_mode

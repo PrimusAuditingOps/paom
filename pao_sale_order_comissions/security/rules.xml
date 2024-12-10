@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record model="ir.rule" id="sales_commissions_comp_rule">
+        <field name="name">PAO Sales Comissions multi-company</field>
+        <field name="model_id" ref="model_commissions_source"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record model="ir.rule" id="sales_commissions_report_comp_rule">
+        <field name="name">PAO Sales Comissions Report multi-company</field>
+        <field name="model_id" ref="model_sale_order_commissions_report"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

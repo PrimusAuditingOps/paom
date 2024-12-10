@@ -6,6 +6,8 @@
         <field name="arch" type="xml">
             <tree string="Service Agreements" default_order="create_date desc">
                 <field name="sale_order_id" widget="many2one"/>
+                <field name="customer_id"/>
+                <field name="organization_id"/>
                 <field name="title" string="Name"/>
                 <field name="coordinator_name" string="Signed by Coordinator"/>
                 <field name="create_uid" string="Sender"/>

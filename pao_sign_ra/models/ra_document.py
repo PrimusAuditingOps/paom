@@ -35,6 +35,10 @@ class RADocument(models.Model):
     
     partner_id = fields.Many2one(related="purchase_order_id.partner_id", string="Signer")
     
+    customer_id = fields.Many2one(related="purchase_order_id.sale_order_id.partner_id", string="Customer")
+    
+    organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_organization")
+
     request_travel_expenses = fields.Boolean(string="Request Travel Expenses", readonly=True)
     
     travel_expenses_posted = fields.Boolean(default=False)
@@ -57,6 +61,13 @@ class RADocument(models.Model):
     @api.model
     def _get_access_token(self):
         return uuid.uuid4().hex
+    
+    def _get_organization(self):
+        for rec in self:
+            if rec.purchase_order_id:
+                line_with_org = rec.purchase_order_id.order_line.filtered('organization_id')
+                if line_with_org:
+                    rec.organization_id = line_with_org[0].organization_id.id
     
     def action_accept_url(self):
         self.ensure_one()
