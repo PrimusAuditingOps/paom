@@ -14,6 +14,25 @@ class PurchaseOrder(models.Model):
     ra_documents_count = fields.Integer(compute="_get_ra_documents_count")
     
     today = fields.Date(store=False)
+    
+    registration_number_id = fields.Many2one('servicereferralagreement.registrynumber', string="Registration Number", compute="_get_po_registration_number", store=True)
+    organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_po_organization", store=True)
+
+    @api.depends('order_line')
+    def _get_po_registration_number(self):
+        for rec in self:
+            rec.registration_number_id = None
+            line_with_rn = rec.order_line.filtered('registrynumber_id')
+            if line_with_rn:
+                rec.registration_number_id = line_with_rn[0].registrynumber_id.id
+                
+    @api.depends('order_line')
+    def _get_po_organization(self):
+        for rec in self:
+            rec.organization_id = None
+            line_with_org = rec.order_line.filtered('organization_id')
+            if line_with_org:
+                rec.organization_id = line_with_org[0].organization_id.id
 
     def _get_ra_documents_count(self):
         for rec in self:

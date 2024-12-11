@@ -21,6 +21,7 @@
         'views/ra_document_views.xml',
         'views/send_ra_view_form.xml',
         'views/ra_documents_general_tree_view.xml',
+        'views/product_product_inherit.xml',
     ],
 
     'installable': True,

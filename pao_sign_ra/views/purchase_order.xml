@@ -26,4 +26,36 @@
 
     </field>
   </record>
+
+  <record id="purchase_order_add_org_registration_number_tree_inherit" model="ir.ui.view">
+    <field name="name">purchase.order.add.org.registration.number.tree.inherit</field>
+    <field name="model">purchase.order</field>
+    <field name="type">tree</field>
+    <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='origin']" position="before">
+        <field name="organization_id"/>
+        <field name="registration_number_id"/>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="purchase_order_search_view_inherit_sign_ra" model="ir.ui.view">
+        <field name="name">purchase.order.search.view.inherit.sign.ra</field>
+        <field name="model">purchase.order</field>
+        <field name="type">search</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='to_approve']" position="after">
+                <field name="organization_id"/>
+                <field name="registration_number_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='order_date']" position="after">
+                <separator/>
+                <filter name="group_organization_id" string="Organization" context="{'group_by':'organization_id'}"/>
+                <filter name="group_registration_number_id" string="Registration Number" context="{'group_by':'registration_number_id'}"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

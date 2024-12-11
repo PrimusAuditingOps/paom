@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-09 17:14+0000\n"
-"PO-Revision-Date: 2024-12-09 17:14+0000\n"
+"POT-Creation-Date: 2024-12-10 19:19+0000\n"
+"PO-Revision-Date: 2024-12-10 19:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -50,6 +50,21 @@ msgid ""
 msgstr ""
 "<span name=\"document_followers_text\" invisible=\"not model or "
 "composition_mode == 'mass_mail'\">Seguidores del documento y</span>"
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
+msgid "<span>Auditor's Audit Fee:</span>"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
+msgid "<span>Estimated Travel Expenses:</span>"
+msgstr ""
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
+msgid "<span>Total Services:</span>"
+msgstr ""
 
 #. module: pao_sign_ra
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
@@ -740,6 +755,11 @@ msgid "Is a log"
 msgstr ""
 
 #. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_product_product__is_travel_expenses
+msgid "It's a travel expense"
+msgstr "Es un gasto de viaje"
+
+#. module: pao_sign_ra
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
 msgid ""
 "JS Audit Group, Inc., as Primus Auditing Operations (\"Primus\") hereby "
@@ -870,7 +890,9 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_purchase_order__organization_id
 #: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__organization_id
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.purchase_order_search_view_inherit_sign_ra
 msgid "Organization"
 msgstr "Organización"
 
@@ -926,6 +948,11 @@ msgid ""
 "                            sentence the penalty shall be assessed against the Audit Fee at the rate of 10% of the gross Primus-auditee contract rate; \n"
 "                            this charge to be repeated each day thereafter until the report is submitted (this excludes report rejected by the audit QA System)"
 msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model,name:pao_sign_ra.model_product_product
+msgid "Product Variant"
+msgstr "Variantes de producto"
 
 #. module: pao_sign_ra
 #: model:ir.model,name:pao_sign_ra.model_purchase_order
@@ -1025,6 +1052,12 @@ msgstr ""
 #, python-format
 msgid "Referral Agreements - %s"
 msgstr ""
+
+#. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_purchase_order__registration_number_id
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.purchase_order_search_view_inherit_sign_ra
+msgid "Registration Number"
+msgstr "Número de registro"
 
 #. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__pao_registration_numbers_ids
@@ -1298,11 +1331,6 @@ msgstr ""
 #. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_purchase_order__today
 msgid "Today"
-msgstr ""
-
-#. module: pao_sign_ra
-#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_report_foreign_company_template
-msgid "Total Services:"
 msgstr ""
 
 #. module: pao_sign_ra

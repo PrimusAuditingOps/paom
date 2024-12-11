@@ -26,7 +26,7 @@
                     <div class="header">
                         <div class="row mb8">
                             <div class="col-6 mt-5">
-                                <img src="pao_sign_ra/static/src/img/logo.png" style="width:230px; height:auto;" alt="Primus Logo"/>
+                                <img src="/pao_sign_ra/static/src/img/logo.png" style="width:230px; height:auto;" alt="Primus Logo"/>
                             </div>
                         </div>
                     </div>
@@ -102,8 +102,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <t t-set="travel_expenses" t-value="0"/>
                                 <t t-foreach="doc.order_line" t-as="line">
-                                    <tr>
+                                    <t t-if="line.product_id.is_travel_expenses" t-set="travel_expenses" t-value="travel_expenses + line.price_subtotal"/>
+                                    <tr t-if="not line.product_id.is_travel_expenses">
                                         <td>
                                             <span t-esc="line.product_id.name"/>
                                         </td>
@@ -115,15 +117,42 @@
                                         </td>
                                     </tr>
                                 </t>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <div class="w-100 d-table">
+                                            <div class="d-table-row">
+                                                <div class="d-table-cell text-end">
+                                                    <span>Auditor's Audit Fee:</span>
+                                                </div>
+                                                <div class="d-table-cell text-end">
+                                                    <t t-set="auditors_audit_fee" t-value="doc.amount_total - travel_expenses"/>
+                                                    <span t-esc="auditors_audit_fee" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                </div>
+                                            </div>
+                                            <div class="d-table-row">
+                                                <div class="d-table-cell text-end">
+                                                    <span>Estimated Travel Expenses:</span>
+                                                </div>
+                                                <div class="d-table-cell text-end">
+                                                    <span t-esc="travel_expenses" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                                </div>
+                                            </div>
+                                            <div class="d-table-row">
+                                                <div class="d-table-cell text-end">
+                                                    <span>Total Services:</span>
+                                                </div>
+                                                <div class="d-table-cell text-end">
+                                                    <span t-field="doc.amount_total"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
                             </tbody>
                         </table>
-                        
-                        <div class="d-flex">
-                            <p class="w-50"/>
-                            <p class="w-50 text-end">
-                                Total Services: <span t-field="doc.amount_total"/>
-                            </p>
-                        </div>
     
                         <!-- Section 1: Expenses -->
                         <p>
