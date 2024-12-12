@@ -32,7 +32,7 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:left;"><b>Facturado en: </b><span t-esc="serviceagreement.sale_order_id.country_id.name"/></p>
+                        <p style="text-align:left;"><b>Facturado en: </b><span t-esc="serviceagreement.sign_sa_agreements_id.sale_order_id.company_id.country_id.name"/></p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:left;"><b>Alcance de la auditoría: </b><span t-field="serviceagreement.audit_scope"/></p>

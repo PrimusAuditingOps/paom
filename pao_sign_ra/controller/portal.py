@@ -173,7 +173,7 @@ class SignRAPortal(portal.CustomerPortal):
         
         auditconfirmation = request.env['auditconfirmation.purchaseconfirmation'].sudo().search([('ac_id_purchase','=',ra_document.purchase_order_id.id)])
         
-        if auditconfirmation and auditconfirmation.ac_audit_confirmation_status == '0':
+        if auditconfirmation and auditconfirmation.ac_audit_confirmation_status in ('0','3'):
             auditconfirmation.write({'ac_audit_confirmation_status': '1'})
             ra_document.purchase_order_id.write({'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
 

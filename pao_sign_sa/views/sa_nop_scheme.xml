@@ -35,7 +35,7 @@
                 
                 <div class="row">
                     <div class="col-12">
-                        <p style="text-align:left;"><b>Billed In: </b><span t-esc="serviceagreement.sale_order_id.country_id.name"/></p>
+                        <p style="text-align:left;"><b>Billed In: </b><span t-esc="serviceagreement.sign_sa_agreements_id.sale_order_id.company_id.country_id.name"/></p>
                     </div>
                 </div>
                 <div class="row">

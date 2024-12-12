@@ -41,7 +41,7 @@
     
                         <!-- Fetch data from the first line of purchase.order.line for these fields -->
                         <t t-if="doc.order_line">
-                            <t t-set="first_line" t-value="doc.order_line[0]"/>
+                            <t t-set="first_line" t-value="doc.order_line.filtered('organization_id')[0]"/>
     
                             <p>
                                 JS Audit Group, Inc., as Primus Auditing Operations ("Primus") hereby agrees to engage
@@ -103,14 +103,16 @@
                             </thead>
                             <tbody>
                                 <t t-set="travel_expenses" t-value="0"/>
+                                <t t-set="counter" t-value="0"/>
                                 <t t-foreach="doc.order_line" t-as="line">
                                     <t t-if="line.product_id.is_travel_expenses" t-set="travel_expenses" t-value="travel_expenses + line.price_subtotal"/>
                                     <tr t-if="not line.product_id.is_travel_expenses">
+                                        <t t-set="counter" t-value="counter + 1" /> 
                                         <td>
                                             <span t-esc="line.product_id.name"/>
                                         </td>
                                         <td>
-                                            <span t-esc="line.product_qty"/>
+                                            <span t-esc="'{:.0f}'.format(line.product_qty) if line.product_qty == int(line.product_qty) else '{:.2f}'.format(line.product_qty)"/>
                                         </td>
                                         <td>
                                             <span t-field="line.price_subtotal"/>
@@ -218,37 +220,46 @@
                             <strong>7. </strong>Primus will bill and send audit report to client. Auditor will bill Primus for their services per this agreement.
                         </p>
                         
-                        <p>Independent Auditor</p>
-                        <div class="d-flex text-center">
-                            <div>
-                                <div class="mb-2" style="border-bottom: 1px solid black; height:70px; width:327px; background-color: transparent;">
-                                    <img style="width:327px; heigth:auto" t-if="doc.sra_audit_signature" t-att-src="image_data_uri(doc.sra_audit_signature)"/>
-                                </div>
-                                Auditor                                    
-                            </div>
-                            <div class="ms-5" style="height: 70px; background-color: transparent; margin-top: 53px;">
-                                <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-if="doc.sra_audit_signature_date" t-field="doc.sra_audit_signature_date"/>
-                                <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-else=""><![CDATA[&nbsp;]]></div>
-                                Date Signed                          
-                            </div>
-                        </div>
+                        <t t-if="counter &gt; 7 and counter &lt; 11">
+                            <p style="page-break-before:always;"></p>
+                        </t>
                         
-                        <div class="mt-4">
-                            <p>Primus Auditing Operations</p>
-                            <p>By:</p>
-                            <div class="d-flex text-center">
-                                <div>
-                                    <div class="mb-2" style="border-bottom: 1px solid black; height:70px; width:327px; background-color: transparent;">
-                                        <img style="width:250px; auto" t-if="doc.coordinator_id.employee_ids[0]" t-att-src="image_data_uri(doc.coordinator_id.employee_ids[0].es_sign_signature)"/>
+                        <div class="d-flex mt-4" style="page-break-inside: auto;">
+                            <div class="me-5">
+                                <p class="m-0 p-0">Independent Auditor</p>
+                                <p class="m-0 p-0">&amp;nbsp;</p>
+                                <div class="d-flex text-center">
+                                    <div>
+                                        <div class="mb-2" style="border-bottom: 1px solid black; height:70px; width:250px; background-color: transparent;">
+                                            <img style="width:250px; heigth:auto" t-if="doc.sra_audit_signature" t-att-src="image_data_uri(doc.sra_audit_signature)"/>
+                                        </div>
+                                        Auditor                                    
                                     </div>
-                                    Audit Coordinator                                  
-                                </div>
-                                <div class="ms-5" style="height: 70px; background-color: transparent; margin-top: 53px;">
-                                    <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-if="doc.sra_audit_signature_date" t-field="doc.sra_audit_signature_date"/>
-                                    <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-else="" t-field="doc.today"/>
-                                    Date Signed                          
+                                    <div class="ms-3" style="height: 70px; background-color: transparent; margin-top: 53px;">
+                                        <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-if="doc.sra_audit_signature_date" t-field="doc.sra_audit_signature_date"/>
+                                        <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-else="">&amp;nbsp;</div>
+                                        Date Signed                          
+                                    </div>
                                 </div>
                             </div>
+                            
+                            <div class="ms-5">
+                                <p class="m-0 p-0">Primus Auditing Operations</p>
+                                <p class="m-0 p-0">By:</p>
+                                <div class="d-flex text-center">
+                                    <div>
+                                        <div class="mb-2" style="border-bottom: 1px solid black; height:70px; width:250px; background-color: transparent;">
+                                            <img style="width:250px; auto" t-if="doc.coordinator_id.employee_ids[0]" t-att-src="image_data_uri(doc.coordinator_id.employee_ids[0].es_sign_signature)"/>
+                                        </div>
+                                        Audit Coordinator                                  
+                                    </div>
+                                    <div class="ms-3" style="height: 70px; background-color: transparent; margin-top: 53px;">
+                                        <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-if="doc.sra_audit_signature_date" t-field="doc.sra_audit_signature_date"/>
+                                        <div class="mb-2 px-3" style="border-bottom: 1px solid black;" t-else="" t-field="doc.today"/>
+                                        Date Signed                          
+                                    </div>
+                                </div>
+                            </div>   
                         </div>
     
                     </div>
