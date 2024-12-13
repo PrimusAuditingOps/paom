@@ -11,7 +11,7 @@
     'description': """
     
     """,
-    'depends': ['base','sale'
+    'depends': ['base','sale','pao_sign_ra'
     ],
     'data': [
         # security

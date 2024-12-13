@@ -8,4 +8,4 @@ class SaleOrder(models.Model):
     @api.depends("order_line")
     def _pao_compute_service_counter(self):
         for rec in self:
-            rec.pao_service_counter = len(rec.order_line.filtered(lambda ol: ol.product_id))
+            rec.pao_service_counter = len(rec.order_line.filtered(lambda ol: ol.product_id and not ol.product_id.is_travel_expenses and ol.product_id.can_be_commissionable))
