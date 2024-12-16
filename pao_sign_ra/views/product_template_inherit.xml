@@ -2,9 +2,9 @@
 <odoo>
     <record id="product_travel_expense_form_inherit" model="ir.ui.view">
         <field name="name">product.travel.expense.form.inherit</field>
-        <field name="model">product.product</field>
+        <field name="model">product.template</field>
         <field name="type">form</field>
-        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <div name="options" position="inside">
                 <span class="d-inline-block">

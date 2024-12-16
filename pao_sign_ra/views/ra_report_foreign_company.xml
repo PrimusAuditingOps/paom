@@ -69,9 +69,9 @@
                                 </p>
                             </div>
                             <div class="d-flex">
-                                <p class="w-50">
+                                <p class="w-50 text-start">
                                     <strong>Contract E-mail:</strong>
-                                    <span class="text-lowercase" t-field="first_line.registrynumber_id.contract_email"/>
+                                    <span class="text-lowercase text-break" t-field="first_line.registrynumber_id.contract_email"/>
                                 </p>
                                 <p class="w-50">
                                     <strong>Phone #:</strong>
@@ -105,16 +105,16 @@
                                 <t t-set="travel_expenses" t-value="0"/>
                                 <t t-set="counter" t-value="0"/>
                                 <t t-foreach="doc.order_line" t-as="line">
-                                    <t t-if="line.product_id.is_travel_expenses" t-set="travel_expenses" t-value="travel_expenses + line.price_subtotal"/>
-                                    <tr t-if="not line.product_id.is_travel_expenses">
+                                    <t t-if="line.product_id.product_tmpl_id.is_travel_expenses" t-set="travel_expenses" t-value="travel_expenses + line.price_subtotal"/>
+                                    <tr t-if="not line.product_id.product_tmpl_id.is_travel_expenses">
                                         <t t-set="counter" t-value="counter + 1" /> 
                                         <td>
                                             <span t-esc="line.product_id.name"/>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <span t-esc="'{:.0f}'.format(line.product_qty) if line.product_qty == int(line.product_qty) else '{:.2f}'.format(line.product_qty)"/>
                                         </td>
-                                        <td>
+                                        <td class="text-end">
                                             <span t-field="line.price_subtotal"/>
                                         </td>
                                     </tr>
