@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="tag_ids" position="after">
                 <field name="pao_scheme_id" options="{'no_quick_create': True, 'no_create_edit' : True}"  context="{'company_id': company_id}"/>
+                <field name="pao_consultant_id" options="{'no_quick_create': True, 'no_create_edit' : True}"  context="{'company_id': company_id}"/>
             </field>
         </field>
     </record>

@@ -4,3 +4,4 @@ from . import res_partner
 from . import pao_cr_cb
 from . import crm_lead
 from . import crm_stage
+from . import comisionpromotores_promotor

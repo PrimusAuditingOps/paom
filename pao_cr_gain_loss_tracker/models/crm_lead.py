@@ -188,6 +188,11 @@ class CRMLead(models.Model):
         copy=False,
     )
 
+    pao_consultant_id = fields.Many2one(
+        comodel_name = 'comisionpromotores.promotor', 
+        string='Consultant',  
+        ondelete='restrict',
+    )
     
     @api.depends('probability')
     def _get_gain_or_lost(self):
