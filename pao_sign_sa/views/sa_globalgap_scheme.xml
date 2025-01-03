@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="sa_globalgap_scheme">
+
         <div id="portal_sa_globalgap_content" t-attf-class="#{'card pb-5' if not print else ''}">
             <div id="introduction" class="pb-2 pt-3 card-header bg-white" style="text-align: center;" t-if="print == False">
                     <h3><b>FAN-05 ACUERDO DE SERVICIOS DE CERTIFICACIÓN</b></h3>
@@ -25,34 +26,36 @@
                             <b>PAOMX declara por conducto de su representante:</b>
                             <ul>
                                 <li>
-                                   Ser una persona moral constituida de conformidad con las leyes del país, tener como 
-                                   Registro Federal de Causantes PAO150424J6A; tener su domicilio en Calle Avenida Lázaro 
-                                   Cárdenas Número Exterior 3478 treinta y cuatro setenta y ocho Colonia Chapalita, 
-                                   Guadalajara Jalisco, C.P. 44500.
+                                    Ser una persona moral constituida de conformidad con las leyes del país, 
+                                    tener como Registro Federal de Causantes PAO150424J6A; tener su domicilio 
+                                    en Calle Avenida Lázaro Cárdenas Número Exterior 3478 treinta y cuatro setenta 
+                                    y ocho Colonia Chapalita, Guadalajara Jalisco, C.P. 44500.
+                                </li>
+                                <li>
+                                    Que acredita la constitución de su sociedad Primus Auditing Operations México, S.A. de C.V. con el 
+                                    testimonio de la escritura pública No. 7,383 siete mil trescientos ochenta y tres fechada el 24 de 
+                                    abril de 2015 dos mil quince ante la fe del Fernando A. Gallo Pérez notario público número 23 veintitrés 
+                                    de Guadalajara, Jalisco.
+                                </li>
+                                <li>
+                                    Que con Escritura número 19,769 diecinueve mil setecientos sesenta y nueve de fecha 23 
+                                    veintitrés de diciembre de 2015 dos mil quince, ante el Lic. Arturo López Corella titular de 
+                                    la Notaría Pública número 14 catorce del municipio de Mexicali en el Estado de Baja California, 
+                                    mediante protocolización de acta de Asamblea General Extraordinaria, la empresa Primus Auditing 
+                                    Operations México, S. A. de C. V. aprueba la transformación de la Sociedad a Sociedad de 
+                                    Responsabilidad Limitada de Capital Variable, quedando como Primus Auditing Operations México, S. 
+                                    de R. L. de C. V.
+                                </li>
+                                <li>
+                                    Que cuenta con la acreditación vigente emitida por la Entidad Mexicana de Acreditación y las respectivas 
+                                    aprobaciones otorgadas por las entidades correspondientes para operar como organismo de certificación de 
+                                    producto en los términos de la Ley Federal de Metrología y Normalización.
                                 </li>
                                 <li>
                                     Que su representante legal acredita sus facultades por medio de la Escritura pública 
-                                    número 21,396 veintiún mil trescientos noventa y seis de fecha 14 catorce de enero de 2022 
-                                    dos mil veintidós, ante el Lic. Javier Manuel Gutiérrez Dávila, Notario Público 140 ciento 
-                                    cuarenta, del municipio de Guadalajara.
-                                </li>
-                                <li>
-                                    Que con Escritura número 19,769 diecinueve mil setecientos sesenta y nueve de fecha 23 veintitrés 
-                                    de diciembre de 2015 dos mil quince, ante el Lic. Arturo López Corella titular de la Notaría Pública 
-                                    número 14 catorce del municipio de Mexicali en el Estado de Baja California, mediante protocolización 
-                                    de acta de Asamblea General Extraordinaria, la empresa Primus Auditing Operations México, S. A. de C. V. 
-                                    aprueba la transformación de la Sociedad a Sociedad de Responsabilidad Limitada de Capital Variable, 
-                                    quedando como Primus Auditing Operations México, S. de R. L. de C. V.
-                                </li>
-                                <li>
-                                    Que acredita la constitución de su sociedad Primus Auditing Operations México, S.A. de C.V. con el testimonio 
-                                    de la escritura pública No. 7,383 siete mil trescientos ochenta y tres fechada el 24 de abril de 2015 dos mil 
-                                    quince ante la fe del Fernando A. Gallo Pérez notario público número 23 veintitrés de Guadalajara, Jalisco.
-                                </li>
-                                <li>
-                                    Que cuenta con la acreditación vigente emitida por la Entidad Mexicana de Acreditación y las respectivas aprobaciones 
-                                    otorgadas por las entidades correspondientes para operar como organismo de certificación de producto en los términos de 
-                                    la Ley Federal de Metrología y Normalización.
+                                    número 21,396 veintiún mil trescientos noventa y seis de fecha 14 catorce de enero de 
+                                    2022 dos mil veintidós, ante el Lic. Javier Manuel Gutiérrez Dávila, Notario Público 140 
+                                    ciento cuarenta, del municipio de Guadalajara.
                                 </li>
                             </ul>
                         </li>
@@ -93,10 +96,9 @@
                                     razón de su domicilio actual o futuro.
                                 </li>
                                 <li>
-                                    Que para todos los efectos legales a que haya lugar, <b>"Las Partes"</b> están de acuerdo en otorgarle completa 
-                                    vinculación y plena validez la firma del presente contrato a través de la firma electrónica que se utilice 
-                                    solamente a través del software ODOO. Que, cumpliendo con los requisitos de dicho software, hará las veces 
-                                    de una firma autógrafa.
+                                    Que para todos los efectos legales a que haya lugar, <b>"Las Partes"</b> están de acuerdo en otorgarle 
+                                    completa vinculación y plena validez la firma del presente contrato a través de firma autógrafa o firma digital. 
+                                    En caso de utilizar firma digital, <b>"Las Partes"</b> acuerdan el uso del software Odoo, cumpliendo con los requisitos del mismo, hará las veces de una firma autógrafa.
                                 </li>
                                 <li>
                                     Que a la firma del presente acuerdo no ha habido error, dolo, violencia, mala fe o cualquier otro vicio del 
@@ -166,27 +168,26 @@
                 <div style="page-break-after: always;">
                 </div>
                 <p>
-                    <b>NOTA:</b> Estas son solo estimaciones y podrían cambiar en función de los cargos reales que pudieran generarse el día de la 
-                    evaluación. Un cargo por cancelación se aplicará por la cancelación de auditoría dentro de los 15 días siguientes a la fecha 
-                    de la auditoría programada.
+                    <b>NOTA:</b> Para el concepto de gastos de viaje,  el cliente acepta que son montos estimados y 
+                    que estos podrían variar en función de los cargos reales que pudieran generarse el día de la 
+                    evaluación. En caso de que el cliente cancele la auditoría, se aplicará un cargo por Gastos de 
+                    Cancelación de acuerdo con la política vigente descrita en nuestro sitio web.  
                 </p>
                 <p>
                     <b>TERCERA. -SERVICIOS. - "El Cliente"</b> tiene derecho a recibir a su entera satisfacción el o los servicios acordados bajo 
                     este instrumento, con la documentación correspondiente que le deberá proporcionar "PAOMX", por el servicio contratado.
                 </p>
                 <p>
-                    <b>CUARTA. -PAGO. - "PAOMX"</b> tiene derecho a recibir el pago íntegro por los servicios que preste, de conformidad con lo 
-                    estipulado en el clausulado de este acuerdo, por lo menos 48 horas antes de la fecha acordada para la 
-                    auditoría/inspección en sitio.
+                    <b>CUARTA. -PAGO. - "PAOMX"</b> tiene derecho a recibir el pago íntegro por los servicios que preste, 
+                    de conformidad con lo estipulado en el clausulado de este acuerdo, por lo menos 48 horas antes de la 
+                    fecha acordada para la auditoría/inspección en sitio y/o las condiciones de crédito previamente pactadas 
+                    entre “Las partes”, lo que resulte aplicable.
                 </p>
                 <p>
-                    <b>QUINTA. -CARGOS. - "El Cliente"</b> se obliga a pagar los honorarios a <b>"PAOMX"</b> como contraprestación por los servicios 
-                    estipulados en la Cláusula PRIMERA, previa entrega de los recibos o comprobantes respectivos, incluyendo los cargos por 
-                    cancelación de auditoría, los gastos por concepto de alojamiento, alimentación y desplazamiento en que incurra 
-                    "PAOMX" y cualquier costo adicional en la cuenta del trabajo que se tenga que repetir o que se demore como resultado 
-                    de información tardía, incorrecta, incompleta, falla en las pruebas o falta de cooperación de <b>"El Cliente"</b>. Aun cuando 
-                    se ha acordado un precio establecido o máximo, <b>"PAOMX"</b> tiene derecho de hacer cargos extra por los conceptos adicionales 
-                    que pudieran resultar.
+                    <b>QUINTA. -CARGOS. - "El Cliente"</b> se obliga a pagar a <b>"PAOMX"</b> los cargos por cancelación de auditoría, 
+                    así como los gastos de viaje adicionales y cualquier costo que pudiera generarse por causa imputable directamente a 
+                    <b>"El Cliente"</b>, incluyendo, pero no limitado ampliación de tiempos por demora como resultado de información tardía, 
+                    incorrecta, incompleta, falla en las pruebas o falta de cooperación.
                 </p>
                 <p>
                     <b>SEXTA. -PRECIO. - "PAOMX"</b> se obliga a mantener los precios de los servicios indicados en la Cláusula SEGUNDA durante la 
@@ -204,7 +205,8 @@
                 </p>
                 <p>
                     <b>OCTAVA. -DOCUMENTOS NORMATIVOS. - "El Cliente"</b> se obliga a cumplir con los documentos normativos vigentes del programa 
-                    de certificación al que se ha inscrito, incluyendo, en el caso de "GLOBALG.A.P.": Reglamentos Generales, Acuerdo de Sublicencia 
+                    de certificación al que se ha inscrito, incluyendo, en el caso de "GLOBALG.A.P.": Procedimientos del Sistema de Gestión de Calidad de "PAOMX"
+                    Reglamentos Generales, Acuerdo de Sublicencia 
                     y Certificación, Puntos de Control y Criterios de Cumplimiento, Listas de Verificación y Reglas de Acceso a Datos.
                 </p>
                 <p>
@@ -212,22 +214,12 @@
                     certificación, y realizar las adecuaciones necesarias para cumplir con los mismos.
                 </p>
                 <p>
-                    <b>DÉCIMA. -ACCESO A PAOMX. - "El Cliente" </b>se obliga a facilitar los medios necesarios para la realización de la 
-                    auditoría/inspección, incluyendo el acceso a los documentos y registros, instalaciones, oficinas, áreas de almacenamiento
-                     de producto y al personal operativo para los propósitos de la evaluación; sin costo para <b>"PAOMX"</b>. Adicionalmente, 
-                     cuando le sea requerido por <b>"PAOMX"</b>, permitirá la participación de observadores y la auditoría/inspección física 
-                     completa de las instalaciones de los subcontratistas que intervengan en la producción o manipulación de producto. 
-                     <b>"El Cliente"</b> deberá asegurarse que el subcontratista permite, previa solicitud, el libre acceso que se estipula 
-                     en esta Cláusula.
-                     <br/>
-                     <br/>
-                     Las Partes manifiestan y reconocen expresamente que, por virtud de este Acuerdo, no adquieren vinculación laboral 
-                     alguna entre ellas ni con el personal asignado por cada una de ellas para la realización de los Servicios. 
-                     <br/>
-                     <br/>
-                     El personal operativo que para los propósitos de evaluación acceda a las instalaciones de "El Cliente", no será 
-                     considerado en ningún caso como trabajador de <b>"El Cliente"</b> para los efectos de las disposiciones laborales y de 
-                     seguridad social vigentes.
+                    <b>DÉCIMA. -ACCESO A PAOMX. - "El Cliente" </b>se obliga a facilitar los medios necesarios para la realización de la auditoría/inspección, 
+                    incluyendo el acceso a los documentos y registros, instalaciones, oficinas, áreas de almacenamiento de producto y al personal operativo 
+                    para los propósitos de la evaluación; sin costo para <b>"PAOMX"</b>. Adicionalmente, cuando le sea requerido por <b>"PAOMX"</b>, permitirá la participación 
+                    de observadores y la auditoría/inspección física completa de las instalaciones de los subcontratistas que intervengan en la producción o 
+                    manipulación de producto. <b>"El Cliente"</b> deberá asegurarse que el subcontratista permite, previa solicitud de PAOMX , el libre acceso que se 
+                    estipula en esta Cláusula.
                 </p>
                 <p>
                     <b>DÉCIMA PRIMERA. -REGISTROS DE QUEJAS. - "El Cliente"</b> se obliga a tener disponibles, para su revisión, los 
@@ -243,12 +235,18 @@
                     mismos que les serán informados previamente por <b>"PAOMX"</b>.
                 </p>
                 <p>
-                    <b>DÉCIMA TERCERA. -EVALUACIONES DE VIGILANCIA. - "El Cliente" </b>se obliga a recibir evaluaciones no anunciadas en caso de 
-                    que resulte seleccionado. "PAOMX" lleva a cabo evaluaciones no anunciadas SIN PREVIO AVISO al menos al 10% de los titulares 
-                    de certificados bajo la Opción 1 sin SGC. Para éstas evaluaciones, "El Cliente" gestionará los arreglos pertinentes conforme 
-                    a lo estipulado en la Cláusula DÉCIMA del presente acuerdo. "PAOMX" podrá emitir una suspensión de los productos certificados 
-                    si "El Cliente" rechaza la realización de una evaluación no anunciada. El "Cliente" se obliga bajo los términos de este instrumento 
-                    a cubrir los gastos en los que "PAOMX" incurra por concepto de evaluaciones no atendidas.
+                    <b>DÉCIMA TERCERA. -EVALUACIONES DE VIGILANCIA. - "El Cliente"</b> 
+                    se obliga a recibir evaluaciones no anunciadas en caso de que resulte seleccionado. <b>"PAOMX"</b> lleva a cabo evaluaciones no anunciadas 
+                    SIN PREVIO AVISO (para v6 SMART se notifica con 48 horas de anticipación) al menos al 
+                    <br/>
+                    -10% de los titulares de certificados bajo la Opción 1 sin SGC o
+                    <br/>
+                    -10% de los Sistemas de gestión certificados bajo Opción 1 con SGC u opción 2
+                    <br/>
+                    Según aplique para estas evaluaciones, <b>"El Cliente"</b> gestionará los arreglos pertinentes conforme a lo estipulado en la Cláusula DÉCIMA del presente acuerdo. 
+                    <b>"PAOMX"</b> podrá emitir una suspensión de los productos certificados si <b>"El Cliente"</b> rechaza la realización de una evaluación 
+                    no anunciada. <b>"El Cliente"</b> se obliga bajo los términos de este instrumento a cubrir los gastos en los que <b>"PAOMX"</b> incurra por 
+                    concepto de evaluaciones no atendidas.
                 </p>
                 <p>
                     <b>DÉCIMA CUARTA. -ALERTAS SANITARIAS. - "El Cliente"</b> 
@@ -271,10 +269,13 @@
                     profesionalmente en el informe final, como información real y verídica.
                 </p>
                 <p>
-                    <b>DÉCIMA SEXTA. -USO DE CERTIFICADO. - "El Cliente"</b> se obliga a hacer referencia a su certificación de producto, así como 
-                    utilizar su certificado, el logotipo de Primus Auditing Operations, la marca registrada GLOBALG.A.P. y/o GGN de acuerdo a los 
-                    Lineamientos para el Uso de Marcas y Logotipos de Certificación de <b>"PAOMX"</b> vigente. <b>"El Cliente"</b> se abstendrá de realizar o 
-                    utilizar declaraciones relacionadas con su certificación, que puedan ser consideradas engañosas o no autorizadas por <b>"PAOMX"</b>.
+                    <b>DÉCIMA SEXTA. -USO DE CERTIFICADO. - "El Cliente"</b> se obliga a hacer referencia a su certificación 
+                    de producto, así como utilizar su certificado, el logotipo de Primus Auditing Operations, la marca registrada 
+                    GLOBALG.A.P. y/o GGN de acuerdo a los
+                    <a target="_blank" href="/servicereferralagreement/static/src/document/IDC_11_Rev00_Abr24_Uso_de_Marcas_y_Logotipos_de_Certificacion_GLOBALGAP.pdf">
+                    Lineamientos para el Uso de Marcas y Logotipos de Certificación
+                    </a> de <b>"PAOMX"</b> vigente. <b>"El Cliente"</b> se abstendrá de realizar o utilizar declaraciones relacionadas 
+                    con su certificación, que puedan ser consideradas engañosas o no autorizadas por <b>"PAOMX"</b>.
                 </p>
                 <p>
                     <b>DÉCIMA SÉPTIMA. -RESPONSABILIDAD DE PAOMX. - "PAOMX"</b> es responsable de conservar la autoridad en las decisiones concernientes 
@@ -292,7 +293,7 @@
                     información contenida en él.
                 </p>
                 <p>
-                    <b>VIGÉSIMA.-CONFIDENCIALIDAD. -</b> Las Partes convienen que toda la información y los datos que ambas se entreguen al amparo 
+                    <b>VIGÉSIMA. -CONFIDENCIALIDAD. -</b> <u>"Las Partes"</u> convienen que toda la información y los datos que ambas se entreguen al amparo 
                     del presente acuerdo, será considerada como información confidencial, <b>“Las Partes”</b> se obligan a salvaguardar dicha información 
                     confidencial y no usarla ni darla a conocer a ningún tercero, salvo las personas descritas en la cláusula VIGÉSIMA PRIMERA y 
                     en el caso que alguna autoridad sanitaria, administrativa o judicial que por disposición normativa, auditoría o requerimiento 
@@ -348,7 +349,8 @@
                         </li>
                     </ul>
                     En caso de incumplimiento con lo dispuesto en esta cláusula, le serán aplicables de manera enunciativa más no limitativa, 
-                    las sanciones establecidas en la Ley de la Propiedad Industrial, el Código Penal Federal o las disposiciones legales aplicables.
+                    las sanciones establecidas en la Ley Federal de Protección a la Propiedad Industrial, el Código Penal Federal o las disposiciones 
+                    legales aplicables.
                 </p>
                 <p>
                     <b>VIGÉSIMA PRIMERA. -EXPEDIENTE DEL CLIENTE. - "El Cliente"</b> autoriza que su expediente sea revisado por las Entidades 
@@ -375,11 +377,11 @@
                 </p>
                 <p>
                     <b>VIGÉSIMA QUINTA. -ÉTICA DE NEGOCIOS. - </b> 
-                    Las Partes deberán cumplir con sus actividades de conformidad con los estándares de ética más altos y con las mejores prácticas de la industria, 
+                    <u>"Las Partes"</u> deberán cumplir con sus actividades de conformidad con los estándares de ética más altos y con las mejores prácticas de la industria, 
                     incluso sin limitación con cualquier código de práctica o ética voluntarios aplicables a su industria.
                     <br/>
                     <br/>
-                    Las partes convienen en informar, a través de sus colaboradores o representantes, las causas que produzcan conflicto de interés en las 
+                    <u>"Las Partes"</u> convienen en informar, a través de sus colaboradores o representantes, las causas que produzcan conflicto de interés en las 
                     actividades a realizar a fin de evitar aspectos que afecten la confidencialidad e imparcialidad, durante o posterior a la vigencia de este acuerdo.
                     <br/>
                     <br/>
@@ -431,10 +433,9 @@
                     ningún tercero ya sea persona física o moral.
                 </p>
                 <p>
-                    <b>VIGÉSIMA NOVENA. -INCUMPLIMIENTO DE OBLIGACIONES. -</b> El incumplimiento de cualquiera de las obligaciones contenidas 
-                    en el presente acuerdo por cualquiera de las partes, dará lugar a la parte afectada a dar por terminado el presente acuerdo 
-                    y al pago, sin necesidad de declaración judicial, de una indemnización del 30% treinta por ciento del valor del total la 
-                    contraprestación pactada además del pago de daños y perjuicios si los hubiera.
+                    <b>VIGÉSIMA NOVENA. -INCUMPLIMIENTO DE OBLIGACIONES. -</b> El cliente acepta que le resultan aplicables las cláusulas estipuladas en el 
+                    presente acuerdo y que en caso de algún incumpliendo a estas, se aplicará adicionalmente una pena convencional del 10% diez por ciento del 
+                    valor total de la contraprestación pactada, así como cargos por concepto de daños y perjuicios si los hubiera.
                 </p>
                 <p>
                     <b>TRIGESIMA. -RECONOCIMIENTO CONTRACTUAL. -</b> Ambas partes reconocen que este acuerdo y los documentos mencionados 
@@ -512,18 +513,17 @@
                     </div>  
                 </div>
 
-               
                 <div style="text-align: center !important;" t-if="print == False">
                     <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
                     <ul class="list-inline" style="text-align: center !important;">
-                        <li class="list-inline-item">Elaborado Por: M. Salmerón</li>
-                        <li class="list-inline-item">Revisado Por: B. Arrazola</li>
+                        <li class="list-inline-item">Elaborado Por: A. Iñiguez</li>
+                        <li class="list-inline-item">Revisado Por: M. Salmerón</li>
                         <li class="list-inline-item">Aprobado Por: J. Ledezma</li>
                     </ul>
                     <ul class="list-inline" style="text-align: center !important;">
                         <li class="list-inline-item">Edición Original: 21 Nov. 2017</li>
-                        <li class="list-inline-item">Revisión: 09</li>
-                        <li class="list-inline-item">Emisión: 29 Ago. 2023</li>
+                        <li class="list-inline-item">Revisión: 11</li>
+                        <li class="list-inline-item">Emisión: Acorde a la ficha</li>
                     </ul>
                 </div>
                 
