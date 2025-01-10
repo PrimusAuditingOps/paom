@@ -30,24 +30,30 @@ class ResPartner(models.Model):
     prm_shipper_ids = fields.Many2many(string='Shippers', comodel_name='prm.contact.shipper')
     prm_customer_number = fields.Char(string='Customer No')
     prm_company_id = fields.Many2one(string='Company', comodel_name='res.company')
-
+    
     @api.model
     def name_get(self):
-        if not self.env.context.get('display_prm_customer_number', False):
-            return super(ResPartner, self).name_get()
-        
         result = []
-        
+        display_prm_customer_number = self.env.context.get('display_prm_customer_number', False)
+
         for rec in self:
-            name = rec.prm_customer_number if rec.prm_customer_number and self.env.context.get('display_prm_customer_number', False) else rec.name
+            if rec.prm_customer_number and display_prm_customer_number:
+                name = rec.prm_customer_number
+            else:
+                name_parts = [rec.name]
+                if rec.prm_customer_number:
+                    name_parts.append(rec.prm_customer_number)
+                if rec.city and rec.company_id.country_code == 'US':
+                    name_parts.append(rec.city)
+                name = ", ".join(name_parts)
             result.append((rec.id, name))
-        
+
         return result
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
-        if not self.env.context.get('display_prm_customer_number', False):
-            return super(ResPartner, self).name_search(name, args, operator, limit)
+        # if not self.env.context.get('display_prm_customer_number', False):
+        #     return super(ResPartner, self).name_search(name, args, operator, limit)
 
         args = args or []
         domain = args + []
