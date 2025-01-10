@@ -13,4 +13,16 @@
 
         </field>
     </record>
+
+    <record id="account_move_pao_sage_folio_view_search" model="ir.ui.view">
+        <field name="name">account.move.pao.sage.folio.view.search</field>
+        <field name="model">account.move</field>
+        <field name="type">search</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']" position="after">
+                <field name="pao_sage_folio_usa"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
