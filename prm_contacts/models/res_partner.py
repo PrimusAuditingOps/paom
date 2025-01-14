@@ -30,6 +30,11 @@ class ResPartner(models.Model):
     prm_shipper_ids = fields.Many2many(string='Shippers', comodel_name='prm.contact.shipper')
     prm_customer_number = fields.Char(string='Customer No')
     prm_company_id = fields.Many2one(string='Company', comodel_name='res.company')
+    company_country_code = fields.Char(compute="_get_company_country_code")
+    
+    def _get_company_country_code(self):
+        for rec in self:
+            rec.company_country_code = rec.company_id.country_code
     
     @api.model
     def name_get(self):
