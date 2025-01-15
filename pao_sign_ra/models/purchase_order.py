@@ -79,6 +79,10 @@ class PurchaseOrder(models.Model):
         if not self.coordinator_id.employee_ids[0].es_sign_signature:
             raise ValidationError(_("The coordinator doesn't have a registered signature."))
         
+        line_with_org = self.order_line.filtered('organization_id')
+        if not line_with_org:
+            raise ValidationError(_("You must select an organization in the order lines to procced with the process."))
+        
         ctx = dict(self.env.context or {})
         ctx.update({
             'default_model': 'purchase.order',
