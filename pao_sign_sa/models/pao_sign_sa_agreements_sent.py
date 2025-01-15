@@ -195,6 +195,7 @@ class PaoSignSaAgreementsSent(models.Model):
             
     def _get_organization(self):
         for rec in self:
+            rec.organization_id = None
             if rec.sale_order_id:
                 line_with_org = rec.sale_order_id.order_line.filtered('organization_id')
                 if line_with_org:
