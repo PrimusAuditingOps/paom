@@ -12,4 +12,5 @@ class PaoGlobalgapVersion(models.Model):
         copy=False,
         translate=True, 
     )
-   
+    
+    active = fields.Boolean(string="Active", default=True)

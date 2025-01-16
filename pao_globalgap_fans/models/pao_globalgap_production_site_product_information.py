@@ -38,11 +38,16 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
         copy=False,
         default='1',
     )
+    growth_cycle_number = fields.Char(
+        string="Growth cycle number", 
+        copy=False
+    )
     product_handling = fields.Selection(
         selection=[
             ('1', "No"),
-            ('2', "Si, en el campo"),
-            ('3', "Si, en el PHU"),
+            ('2', "En Campo"),
+            ('3', "En Instalación"),
+            ('4', "En Campo + Instalación"),
         ],
         string="Product handling", 
         copy=False,

@@ -27,14 +27,12 @@ publicWidget.registry.globalgapFans = publicWidget.Widget.extend({
     init: function () {
         this._super.apply(this, arguments);
         this.rpc = this.bindService("rpc");
-
     },
     /**
      * @override
      * @param {Object} parent
      */
     start: function (parent) {
-
         this.countries = document.querySelector('#country');
         this.states = document.querySelector('#state');
         this.optionStates = this.states.querySelectorAll('option');
@@ -83,13 +81,43 @@ publicWidget.registry.globalgapFans = publicWidget.Widget.extend({
                 }
             }
         }
-        
-        
-        if (!flag){
-            $('#div_grasp_module').css('visibility','hidden');
-            $("#hired_workers").val("0");
-            $("#subcontracted_workers").val("0");
-        }
+
+        $('select[name="globalgap_version"]').change(function() {
+            document.querySelectorAll('.addon_check').forEach(input => {
+                input.checked = false;
+            });
+
+            document.getElementById("addons").value="";
+
+            const selectedValue = document.getElementById("globalgap_version").value; // Get the selected value
+            const targetClass = `v${selectedValue}`; // Construct the class to target, e.g., "v1"
+            
+            document.querySelectorAll('.addon_item').forEach(item => {
+                if (item.classList.contains(targetClass)) {
+                    item.style.display = 'unset'; // Show items that match
+                } else {
+                    item.style.display = 'none'; // Hide items that don't match
+                }
+            });
+        });
+
+        document.getElementById("other_gfsi_certification").onchange = function() {
+            if (this.checked){
+                $('#other_gfsi_info_1, #other_gfsi_info_2').css('display', 'unset');
+
+            }
+            else{
+                $('#other_gfsi_info_1, #other_gfsi_info_2').css('display', 'none');
+
+            }
+            
+        };
+
+        // if (!flag){
+        //     $('#div_grasp_module').css('visibility','hidden');
+        //     $("#hired_workers").val("0");
+        //     $("#subcontracted_workers").val("0");
+        // }
 
         
 
@@ -150,11 +178,11 @@ publicWidget.registry.globalgapFans = publicWidget.Widget.extend({
             addons.push($(this).val());
             
         });
-        if(!flag){
-            $('#div_grasp_module').css('visibility','hidden');
-            $("#hired_workers").val("0");
-            $("#subcontracted_workers").val("0");
-        }
+        // if(!flag){
+        //     $('#div_grasp_module').css('visibility','hidden');
+        //     $("#hired_workers").val("0");
+        //     $("#subcontracted_workers").val("0");
+        // }
         let text = addons.toString();
         $("#addons").val(addons);
     },
@@ -305,6 +333,9 @@ publicWidget.registry.globalgapFans = publicWidget.Widget.extend({
                 'fr_id': $("#fr_id").val().trim(), 
                 'fr_token': $("#fr_token").val().trim(),
                 'unannounced': $("#unannounced").is(':checked'),
+                'other_gfsi_certification': $("#other_gfsi_certification").is(':checked'),
+                'which_gfsi': $("#other_gfsi_certification").is(':checked') ? $("#which_gfsi").val().trim() : '',
+                'reason_change_gfsi': $("#other_gfsi_certification").is(':checked') ? $("#reason_change_gfsi").val().trim() : '',
                 "plmx": $("#plmx").val().trim(), 
                 "ggn": $("#ggn").val().trim(),
                 "globalgap_version":  $('select[name="globalgap_version"] option:selected').val(),

@@ -21,7 +21,7 @@
                         <field name="name"/>
                         <field name="is_grasp_module"/>
                         <field name="is_fsma_module"/>
-                        
+                        <field name="version_id" widget="many2many_tags"/>
                     </group>
                 </sheet>
             </form>
@@ -105,10 +105,13 @@
                     </group>
                     <group col="4">
                         <field name="plmx"/>
-                        <field name="globalgap_version"/>
+                        <field name="version_id"/>
                         <field name="ggn"/>
                         <field name="gln"/>
-                        <field name="certification_option"/>
+                        <field name="other_gfsi_certification"/>
+                        <field name="which_gfsi" invisible="not other_gfsi_certification"/>
+                        <field name="reason_change_gfsi" invisible="not other_gfsi_certification"/>
+                        <field name="certification_option_id"/>
                         <field name="evaluation_type"/>
                         <field name="previous_cb"/>
                         <field name="vat"/>
@@ -235,11 +238,20 @@
                     <group col="2">
                         <field name="name"/>
                         <field name="type"/>
+                        <field name="site_is"/>
                         <field name="organization_id"/>
                         <field name="address"/>
                         <field name="postal_address"/>
                     </group>
                     <group col="4">
+                        <field name="any_grasp_addon" invisible="1"/>
+                        <field name="fill_extra_data_grasp_module" invisible="1"/>
+                        <field name="not_direct_line_memebers_grasp" invisible="not any_grasp_addon"/>
+                        <field name="not_direct_line_quantity_members_grasp" invisible="not_direct_line_memebers_grasp != '2' or not any_grasp_addon"/>
+                        <field name="not_direct_line_relation_members" invisible="not_direct_line_memebers_grasp != '2' or not any_grasp_addon"/>
+                        <field name="total_members" invisible="not fill_extra_data_grasp_module"/>
+                        <field name="members_with_workers" invisible="not fill_extra_data_grasp_module"/>
+                        <field name="members_without_workers" invisible="not fill_extra_data_grasp_module"/>
                         <field name="zip"/>
                         <field name="city_id"/>
                         <field name="state_id"/>
@@ -272,6 +284,17 @@
                                     <field name="to_certificate"/>
                                     <field name="parallel_production"/>
                                     <field name="parallel_property"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="grasp_details" string="GRASP Staff Details" invisible="not grasp_staff_ids or not_direct_line_memebers_grasp != '1'">
+                            <field name="grasp_staff_ids" widget="many2many" context="{'default_production_site_id': id}">
+                                <tree string="GRASP Staff Details">
+                                    <field name="employees_type"/>
+                                    <field name="locals_male_quantity"/>
+                                    <field name="locals_female_quantity"/>
+                                    <field name="foreigners_male_quantity"/>
+                                    <field name="foreigners_female_quantity"/>
                                 </tree>
                             </field>
                         </page>

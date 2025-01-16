@@ -17,6 +17,20 @@ class PaoGlobalgapOrganization(models.Model):
         string="Unannounced",
         default=False,
     )
+    
+    other_gfsi_certification = fields.Boolean(
+        string="Have another GFSI Certification",
+        default=False,
+    )
+    which_gfsi = fields.Char(
+        string='Which another GFSI Certification', 
+        tracking=True,
+    )
+    reason_change_gfsi = fields.Char(
+        string='Change reason (GFSI Certification)', 
+        tracking=True,
+    )
+    
     plmx = fields.Char(
         string='PL-México', 
         tracking=True,
@@ -43,9 +57,11 @@ class PaoGlobalgapOrganization(models.Model):
     certification_option = fields.Selection(
         selection=[
             ('1', "Opción 1. Productor Individual"),
-            ('2', "Opción 1. Productor Multisitio sinSGC"),
+            ('2', "Opción 1. Productor Multisitio sin SGC"),
+            ('3', "Opción 1. Productor Multisitio con SGC"),
+            ('4', "Opción 2. Grupo de Productores"),
         ],
-        string="Certification option", 
+        string="Certification Option", 
         default='1',
         tracking=True,
     )

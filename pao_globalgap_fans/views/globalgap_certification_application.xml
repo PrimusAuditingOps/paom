@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-4">
                         <p style="text-align:left;"><b>Versión: </b>
-                            <span t-field="fanrequest.organization_id.globalgap_version" />
+                            <span t-field="fanrequest.organization_id.version_id" />
                         </p>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <p style="text-align:left;"><b>Website: </b>
+                        <p style="text-align:left;"><b>Página Web: </b>
                             <span t-field="fanrequest.organization_id.website" />
                         </p>
                     </div>
@@ -155,10 +155,27 @@
                         </p>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p style="text-align:left;"><b>¿Cuenta con otra Certificación GFSI?: </b>
+                            <span t-esc="'Si' if fanrequest.organization_id.other_gfsi_certification else 'No'"/>
+                        </p>
+                    </div>
+                    <div t-att-class="'col-4' + ('' if fanrequest.organization_id.other_gfsi_certification else ' d-none')">
+                        <p style="text-align:left;"><b>Menciona cual:</b>
+                            <span t-field="fanrequest.organization_id.which_gfsi" />
+                        </p>
+                    </div>
+                    <div t-att-class="'col-4' + ('' if fanrequest.organization_id.other_gfsi_certification else ' d-none')">
+                        <p style="text-align:left;"><b>Razón de cambio:</b>
+                            <span t-field="fanrequest.organization_id.reason_change_gfsi" />
+                        </p>
+                    </div>
+                </div>
                 <br/>
                 <div class="row">
                     <div class="col-12">
-                        <p style="text-align:left;"><b>Nombre CB: </b>
+                        <p style="text-align:left;"><b>Nombre OC: </b>
                             <span t-field="fanrequest.organization_id.previous_cb" />
                         </p>
                     </div>
@@ -222,7 +239,7 @@
                     </div>
                     <br/>
                     <div class="row">
-                        <div class="col-9">
+                        <div class="col-6">
                             <p style="text-align:left;"><b>Nombre: </b>
                                 <span t-field="site.name" />
                             </p>
@@ -230,6 +247,11 @@
                         <div class="col-3">
                             <p style="text-align:left;"><b>Tipo: </b>
                                 <span t-field="site.type" />
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <p style="text-align:left;"><b>El sitio es: </b>
+                                <span t-field="site.site_is" />
                             </p>
                         </div>
                     </div>
@@ -364,7 +386,7 @@
                                 <th style="width:30%;">Producto</th>
                                 <th style="width:20%;">Hectáreas en producción (Sólo para Sitio de Producción)</th>
                                 <th style="width:20%;">Para Certificar</th>
-                                <th style="width:15%;">Producción Paralela (PP)</th>
+                                <th style="width:15%" t-att-class="'d-none' if fanrequest.organization_id.version_id.id in (2,3) else ''">Producción Paralela (PP)</th>
                                 <th style="width:15%;">Propiedad Paralela (PO)</th>
                             </tr>
                         </thead>
@@ -374,7 +396,7 @@
                                     <td><span t-field="product.product_id" /></td>
                                     <td><span t-field="product.hectares_in_production" /></td>
                                     <td><span t-field="product.to_certificate" /></td>
-                                    <td><span t-field="product.parallel_production" /></td>
+                                    <td t-att-class="'d-none' if fanrequest.organization_id.version_id.id in (2,3) else ''"><span t-field="product.parallel_production" /></td>
                                     <td><span t-field="product.parallel_property" /></td>
                                 </tr>
                             </t>
@@ -388,13 +410,77 @@
 
                 <br/>
                 <br/>
+                <div style="text-align: center;" t-att-class="'' if site.any_grasp_addon else 'd-none'">
+                    <h5 style="text-align:center;font-weight:Bold;font-family: 'Times New Roman';">
+                        INFORMACIÓN PARA EL MÓDULO GRASP
+                    </h5>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>¿Empleo trabajadores que no sea del núcleo familiar?</b>
+                                <span t-field="site.not_direct_line_memebers_grasp"/>
+                            </p>
+                        </div>
+                        <div t-att-class="'col-4' + ('' if site.not_direct_line_memebers_grasp == '2' else ' d-none')">
+                            <p style="text-align:left;"><b>Cantidad de personal</b>
+                                <span t-field="site.not_direct_line_quantity_members_grasp" />
+                            </p>
+                        </div>
+                        <div t-att-class="'col-4' + ('' if site.not_direct_line_memebers_grasp == '2' else ' d-none')">
+                            <p style="text-align:left;"><b>Parentesco</b>
+                                <span t-field="site.not_direct_line_relation_members" />
+                            </p>
+                        </div>
+                    </div>
+                    <table t-att-class="'' if site.not_direct_line_memebers_grasp == '1' else 'd-none'" style="width:100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                        <thead style="background-color: gray; color:white; text-align:center;">
+                            <tr>
+                                <th style="width:20%;"></th>
+                                <th style="width:20%;">Nacionales (Hombres)</th>
+                                <th style="width:20%;">Extranjeros (Hombres)</th>
+                                <th style="width:20%;">Nacionales (Mujeres)</th>
+                                <th style="width:20%;">Extranjeros (Mujeres)</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center;">
+                            <t t-foreach="site.grasp_staff_ids" t-as="detail">
+                                <tr>
+                                    <td><span t-field="detail.employees_type" /></td>
+                                    <td><span t-field="detail.locals_male_quantity"/></td>
+                                    <td><span t-field="detail.locals_female_quantity"/></td>
+                                    <td><span t-field="detail.foreigners_male_quantity"/></td>
+                                    <td><span t-field="detail.foreigners_female_quantity"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div class="row mt-4" t-if="site.fill_extra_data_grasp_module">
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>Total de miembros</b>
+                                <span t-field="site.total_members"/>
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>Miembros con trabajadores</b>
+                                <span t-field="site.members_with_workers" />
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            <p style="text-align:left;"><b>Miembros sin trabajadores</b>
+                                <span t-field="site.members_without_workers" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
                 <div style="text-align: center;">
                     <h5 style="text-align:center;font-weight:Bold;font-family: 'Times New Roman';">
                         INFORMACIÓN DE PRODUCTOS
                     </h5>
                 </div>
                 <div t-attf-style="#{'height:auto;overflow:auto;margin-top:20px' if not print else ''}">
-                    <table style="table-layout: fixed; width: 1000px; font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                    <table style="table-layout: fixed; width: 100%; font-family: 'Times New Roman'; font-size: 16px; color: black;">
                         <thead style="background-color: gray; color:white; text-align:center;">
                             <tr style="background-color: gray; color:white;">
                                 <th style="width:9%;">Producto</th>
@@ -402,8 +488,9 @@
                                 <th style="width:5%;">Producción cubierta (Invernadero, Macrotúnel con cobertura plástica)
                                 </th>
                                 <th style="width:5%;">Cosecha aplicable</th>
-                                <th style="width:5%;">Primera Cosecha/ Cosecha Posterior</th>
-                                <th style="width:5%;">Manipulación de Producto**</th>
+                                <th t-if="fanrequest.organization_id.version_id.id in [1]" style="width:5%;">Primera Cosecha/ Cosecha Posterior</th>
+                                <th t-if="fanrequest.organization_id.version_id.id in (2,3)" style="width:5%;">Número de Ciclo de crecimiento</th>
+                                <th style="width:5%;">Manipulación de Producto</th>
                                 <th style="width:9%;">Actividades Subcontratadas</th>
                                 <th style="width:9%;">Si se subcontrata el empaque, indicar GGN o GLN (Obligatorio si
                                     tiene)</th>
@@ -412,10 +499,11 @@
                                 <th style="width:5%;">¿La organización compra el mismo producto certificado y/o no
                                     certificado?</th>
                                 <th style="width:5%;">FSMA</th>
-                                <th style="width:5%;">Rendimiento Estimado en Tons</th>
+                                <th style="width:5%;">RENDIMIENTO ESTIMADO EN (t/ha)</th>
                                 <th style="width:9%;">Fecha inicio de cosecha estimada</th>
                                 <th style="width:9%;">Fecha fin de cosecha estimada</th>
-                                <th style="width:10%;">Países</th>
+                                <th t-if="fanrequest.organization_id.version_id.id in [1]" style="width:10%;">Países Destino</th>
+                                <th t-if="fanrequest.organization_id.version_id.id in (2,3)" style="width:10%;">Países Destino *México se contempla como país destino dentro del alcance</th>
                             </tr>
                         </thead>
                         <tbody style="text-align:center;">
@@ -428,7 +516,8 @@
                                 <td><span t-field="product_information.uncovered_production_area" /></td>
                                 <td><span t-field="product_information.covered_production_area" /></td>
                                 <td><span t-field="product_information.applicable_harvest" /></td>
-                                <td><span t-field="product_information.harvest_type" /></td>
+                                <td t-if="fanrequest.organization_id.version_id.id in [1]"><span t-field="product_information.harvest_type"/></td>
+                                <td t-if="fanrequest.organization_id.version_id.id in (2,3)"><span t-field="product_information.growth_cycle_number"/></td>
                                 <td><span t-field="product_information.product_handling" /></td>
                                 <td><span t-field="product_information.outsourced_activities" /></td>
                                 <td><span t-field="product_information.ggn_gln_outsourced" /></td>

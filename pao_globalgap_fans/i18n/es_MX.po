@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-20 17:25+0000\n"
-"PO-Revision-Date: 2024-02-20 17:25+0000\n"
+"POT-Creation-Date: 2025-01-14 21:28+0000\n"
+"PO-Revision-Date: 2025-01-14 21:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,12 +17,17 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model:ir.actions.report,print_report_name:pao_globalgap_fans.globalgap_application_report
-msgid "'GlobalGAP - Application"
+msgid "'GlobalGAP - Application'"
 msgstr "Apicación GLOBALG.A.P."
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "<b>CP: </b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Cantidad de personal</b>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -66,6 +71,11 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>El sitio es: </b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "<b>Email: </b>"
 msgstr ""
 
@@ -86,7 +96,7 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
-msgid "<b>Firma del Representante del Cliente</b>"
+msgid "<b>Firma del Representante legal</b>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -111,6 +121,21 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Menciona cual:</b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Miembros con trabajadores</b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Miembros sin trabajadores</b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "<b>No. de Trabajadores Contratados: </b>"
 msgstr ""
 
@@ -121,7 +146,7 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
-msgid "<b>Nombre CB: </b>"
+msgid "<b>Nombre OC: </b>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -146,6 +171,11 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Parentesco</b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "<b>País: </b>"
 msgstr ""
 
@@ -156,7 +186,17 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Página Web: </b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "<b>RFC: </b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Razón de cambio:</b>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -176,14 +216,29 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>Total de miembros</b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "<b>Versión: </b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>¿Cuenta con otra Certificación GFSI?: </b>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<b>¿Empleo trabajadores que no sea del núcleo familiar?</b>"
 msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fans_request_template_mail
 msgid ""
 "<br/><br/>\n"
-"                            A través de este correo le hacemos llegar el <span style=\"color:blue;\">formulario de aplicación para su auditoría GLOBALG.A.P.</span>\n"
+"                            A través de este correo le hacemos llegar el <span style=\"color:blue;\">FAN-01 Solicitud e Información para Certificación GLOBALG.A.P.</span>\n"
 "                            <br/><br/>\n"
 "                            Para iniciar su proceso de programación por favor, es necesario que llene lo correspondiente a las secciones.\n"
 "                            <br/><br/>\n"
@@ -205,7 +260,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fans_request_signature_mail
 msgid ""
 "<br/><br/>\n"
-"                            A través de este correo le hacemos llegar la solicitud de firma para el registro de aplicacion de"
+"                            A través de este correo le hacemos llegar la solicitud de firma para el registro de aplicación de"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -252,9 +307,7 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
-msgid ""
-"<span class=\"s_website_form_label_content\">Colonia</span>\n"
-"                                                                    <span class=\"s_website_form_mark\"> *</span>"
+msgid "<span class=\"s_website_form_label_content\">Colonia</span>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -262,6 +315,13 @@ msgstr ""
 msgid ""
 "<span class=\"s_website_form_label_content\">Correo eletrónico</span>\n"
 "                                                                    <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+msgid ""
+"<span class=\"s_website_form_label_content\">Cuenta con otra Certificación "
+"GFSI</span>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -355,6 +415,16 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+msgid "<span class=\"s_website_form_label_content\">Menciona cuál:</span>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+msgid "<span class=\"s_website_form_label_content\">No anunciada </span>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
 msgid ""
 "<span class=\"s_website_form_label_content\">No. de Trabajadores Contratados</span>\n"
 "                                                                    <span class=\"s_website_form_mark\"> *</span>"
@@ -369,8 +439,8 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
-msgid "<span class=\"s_website_form_label_content\">Nombre CB previo</span>"
-msgstr ""
+msgid "<span class=\"s_website_form_label_content\">Nombre OC previo</span>"
+msgstr "<span class=\"s_website_form_label_content\">Nombre CB previo</span>"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
@@ -431,6 +501,11 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+msgid "<span class=\"s_website_form_label_content\">Página Web (Opcional)</span>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
 msgid ""
 "<span class=\"s_website_form_label_content\">RFC</span>\n"
 "                                                                    <span class=\"s_website_form_mark\"> *</span>"
@@ -438,15 +513,20 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+msgid "<span class=\"s_website_form_label_content\">Razón de cambio:</span>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
 msgid ""
-"<span class=\"s_website_form_label_content\">Telefono de contacto</span>\n"
+"<span class=\"s_website_form_label_content\">Teléfono de contacto</span>\n"
 "                                                                    <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
 msgid ""
-"<span class=\"s_website_form_label_content\">Telefono</span>\n"
+"<span class=\"s_website_form_label_content\">Teléfono</span>\n"
 "                                                                    <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
 
@@ -465,8 +545,13 @@ msgid ""
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_application_portal_template
-msgid "<span title=\"Close\" class=\"fa fa-times\"/>"
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "<span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "<span>* </span>"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -574,6 +659,16 @@ msgid "Aprobado Por: J. Ledezma"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Arrendado (Con Contrato)"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Arrendado (Sin Contrato)"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__message_attachment_count
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__message_attachment_count
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__message_attachment_count
@@ -608,6 +703,11 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Cantidad de personal"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__capturist_id
 msgid "Capturist"
 msgstr "Capturista"
@@ -628,15 +728,16 @@ msgid "Certificación Inicial"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__certification_option
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__certification_option_id
 #: model:ir.ui.menu,name:pao_globalgap_fans.menu_global_gap_certification_option
 msgid "Certification Option"
 msgstr "Opción de certificación"
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__certification_option
-msgid "Certification option"
-msgstr "Opción de certificación"
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__reason_change_gfsi
+msgid "Change reason (GFSI Certification)"
+msgstr "Razon de cambio (Certificación GFSI)"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__city_id
@@ -801,8 +902,9 @@ msgstr "Crea tu primer solicitud de fans"
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__create_uid
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__create_uid
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_version__create_uid
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_addon__create_date
@@ -815,12 +917,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__create_date
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__create_date
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_version__create_date
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creado el"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
 msgid "Código postal"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+msgid "DIRECCIÓN FISCAL DE LA ORGANIZACIÓN"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -854,9 +962,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__display_name
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__display_name
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_version__display_name
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_sale_order__display_name
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__display_name
 msgid "Display Name"
 msgstr "Nombre en pantalla"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__not_direct_line_memebers_grasp
+msgid ""
+"Do you employ workers who are not part of the immediate family? (direct line"
+" only)"
+msgstr ""
+"¿Empleo trabajadores que no sea del nucleo familiar? (solo linea directa)"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__attachment_id
@@ -885,7 +1001,16 @@ msgid "Edición Original: 27 Nov. 2017"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "El sitio es:"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
+msgid "Elaborado Por: A. Iñiguez"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "Elaborado Por: P. Mascorro"
 msgstr ""
@@ -900,7 +1025,27 @@ msgstr ""
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
-msgid "Emisión: P/D"
+msgid "Emisión: Según la Ficha"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__employees_type
+msgid "Employees Type"
+msgstr "Tipo de empleados"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__2
+msgid "En Campo"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__4
+msgid "En Campo + Instalación"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__3
+msgid "En Instalación"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -935,14 +1080,33 @@ msgid "Evaluation type"
 msgstr "Tipo de evaluación"
 
 #. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "Extranjeros (Hombres)"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "Extranjeros (Mujeres)"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
 msgid "FAN-01 SOLICITUD E INFORMACIÓN PARA CERTIFICACIÓN GLOBALG.A.P."
 msgstr ""
 
 #. module: pao_globalgap_fans
+#. odoo-python
 #: code:addons/pao_globalgap_fans/models/pao_globalgap_send_fans_request.py:0
 #, python-format
 msgid "FR"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__fsma
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "FSMA"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -961,6 +1125,7 @@ msgid "Fans"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#. odoo-python
 #: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
 #: code:addons/pao_globalgap_fans/models/sale_order.py:0
 #, python-format
@@ -975,6 +1140,7 @@ msgid "Fans request"
 msgstr "Solicitud de FAN"
 
 #. module: pao_globalgap_fans
+#. odoo-python
 #: code:addons/pao_globalgap_fans/models/sale_order.py:0
 #, python-format
 msgid "Fans request - %s"
@@ -991,6 +1157,11 @@ msgid "Fecha inicio de cosecha estimada"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__fill_extra_data_grasp_module
+msgid "Fill Extra Data Grasp Module"
+msgstr "Llenar informacipon extra para modulo GRASP"
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fans_request_template_mail
 msgid "Fill out the application form"
 msgstr "Llenar formulario de aplicación"
@@ -1001,13 +1172,6 @@ msgstr "Llenar formulario de aplicación"
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__message_follower_ids
 msgid "Followers"
 msgstr "Seguidores"
-
-#. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__message_channel_ids
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__message_channel_ids
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__message_channel_ids
-msgid "Followers (Channels)"
-msgstr ""
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__message_partner_ids
@@ -1024,6 +1188,17 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__foreigners_male_quantity
+msgid "Foregin (Men)"
+msgstr "Extranjeros (Hombres)"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__foreigners_female_quantity
+msgid "Foregin (Women)"
+msgstr "Extranjeros (Mujeres)"
+
+#. module: pao_globalgap_fans
+#. odoo-python
 #: code:addons/pao_globalgap_fans/models/pao_globalgap_send_fans_request.py:0
 #, python-format
 msgid "Formulario de aplicación"
@@ -1074,19 +1249,6 @@ msgid "GLOBALG.A.P Version"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
-#, python-format
-msgid "GLOBALG.A.P application registration correction request"
-msgstr "Solicitud de correción para el registro de aplicacion GLOBALG.A.P"
-
-#. module: pao_globalgap_fans
-#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
-#: code:addons/pao_globalgap_fans/models/pao_globalgap_send_fans_request.py:0
-#, python-format
-msgid "GLOBALG.A.P application registration request"
-msgstr "Solicitud de registro de aplicación GLOBALG.A.P"
-
-#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__globalgap_version
 msgid "GLOBALG.A.P version"
 msgstr ""
@@ -1112,7 +1274,6 @@ msgid "GLOBALG.A.P. Destination countries"
 msgstr "GLOBALG.A.P. Paises destino"
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__fan_request_ids
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_request_view_form
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_request_view_tree
 msgid "GLOBALG.A.P. Fans request"
@@ -1167,6 +1328,13 @@ msgid "GLOBALGAP Addon"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model,name:pao_globalgap_fans.model_pao_grasp_staff_details
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__grasp_staff_ids
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_production_site_view_form
+msgid "GRASP Staff Details"
+msgstr "Detalles de trabajadores GRASP"
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__latitude
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__latitude
 msgid "Geo Latitude"
@@ -1191,6 +1359,23 @@ msgid "Harvest type"
 msgstr "Tipo de cosecha"
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__any_grasp_addon
+msgid "Has GRASP Addon"
+msgstr "Tiene un Addon GRASP"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__has_message
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__has_message
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__other_gfsi_certification
+msgid "Have another GFSI Certification"
+msgstr "Tiene otra Certificacion GFSI"
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product__hectares_in_production
 msgid "Hectares in production"
 msgstr "Hectáreas en producción"
@@ -1206,7 +1391,8 @@ msgid "Hectáreas en producción (Sólo para Sitio de Producción)"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: code:addons/pao_globalgap_fans/controllers/portal.py:0
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
 #, python-format
 msgid ""
 "Hello %(mention_html)s, the request %(request_link)s has been corrected."
@@ -1214,14 +1400,16 @@ msgstr ""
 "Hola %(mention_html)s,la solicitud %(request_link)s ha sido corregida."
 
 #. module: pao_globalgap_fans
-#: code:addons/pao_globalgap_fans/controllers/portal.py:0
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
 #, python-format
 msgid ""
 "Hello %(mention_html)s, the request %(request_link)s has been filled out."
 msgstr "Hola %(mention_html)s, la solicitud %(request_link)s ha sido llenada."
 
 #. module: pao_globalgap_fans
-#: code:addons/pao_globalgap_fans/controllers/portal.py:0
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
 #, python-format
 msgid "Hello %(mention_html)s, the request %(request_link)s has been signed."
 msgstr "Hola %(mention_html)s, la solicitud %(request_link)s ha sido firmada."
@@ -1237,7 +1425,7 @@ msgstr "Hola %(mention_html)s, la solicitud %(request_link)s ha sido firmada."
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__id
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__id
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_version__id
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_sale_order__id
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__id
 msgid "ID"
 msgstr ""
 
@@ -1249,6 +1437,12 @@ msgstr ""
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "INFORMACIÓN DE PRODUCTOS"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "INFORMACIÓN PARA EL MÓDULO GRASP"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1267,11 +1461,8 @@ msgstr ""
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_fans_request__message_needaction
-#: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_fans_request__message_unread
 #: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_organization__message_needaction
-#: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_organization__message_unread
 #: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_production_site__message_needaction
-#: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_production_site__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -1316,6 +1507,23 @@ msgid "Información para el Módulo GRASP"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Ingresar latitud en formato decimal ejemplo : 20.6684"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Ingresar longitud en formato decimal ejemplo : -103.3993"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Ingrese cantidad de personal"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
 msgid "Ingrese el Email"
 msgstr ""
@@ -1333,6 +1541,11 @@ msgstr ""
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
 msgid "Ingrese el nombre del contacto"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Ingrese el parentesco"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1366,6 +1579,11 @@ msgid "Ingrese las hectáreas en producción"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_addon__is_fsma_module
+msgid "Is FSMA module"
+msgstr "Es un modulo FSMA"
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__message_is_follower
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__message_is_follower
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__message_is_follower
@@ -1378,21 +1596,6 @@ msgid "Is GRASP module"
 msgstr "Es modulo GRASP"
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_addon____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_certification_option____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_destination_countries____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_version____last_update
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_sale_order____last_update
-msgid "Last Modified on"
-msgstr "Última modificación el"
-
-#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_addon__write_uid
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_certification_option__write_uid
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_destination_countries__write_uid
@@ -1403,6 +1606,7 @@ msgstr "Última modificación el"
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__write_uid
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__write_uid
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_version__write_uid
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__write_uid
 msgid "Last Updated by"
 msgstr ""
 
@@ -1417,6 +1621,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__write_date
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__write_date
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_version__write_date
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -1424,6 +1629,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
 msgid "Latitud"
 msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site__site_is__leased_contract
+msgid "Leased (With Contract)"
+msgstr "Arrendado (Con Contrato)"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site__site_is__leased_no_contract
+msgid "Leased (Without Contract)"
+msgstr "Arrendado (Sin Contrato)"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
@@ -1436,16 +1651,19 @@ msgid "Longitud"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__message_main_attachment_id
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__message_main_attachment_id
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__message_main_attachment_id
-msgid "Main Attachment"
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "Manipulación de Producto"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
-msgid "Manipulación de Producto**"
-msgstr ""
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__members_with_workers
+msgid "Members with workers"
+msgstr "Miembros con trabajadores"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__members_without_workers
+msgid "Members without workers"
+msgstr "Miembros sin trabajadores"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__message
@@ -1467,10 +1685,32 @@ msgid "Messages"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Miembros con trabajadores"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Miembros sin trabajadores"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__my_activity_date_deadline
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__my_activity_date_deadline
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__my_activity_date_deadline
 msgid "My Activity Deadline"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "Nacionales (Hombres)"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "Nacionales (Mujeres)"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1483,6 +1723,23 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_version__name
 msgid "Name"
 msgstr "Nombre"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__locals_male_quantity
+msgid "National (Men)"
+msgstr "Nacionales (Hombres)"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__locals_female_quantity
+msgid "National (Women)"
+msgstr "Nacionales (Mujeres)"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__activity_calendar_event_id
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__activity_calendar_event_id
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__activity_date_deadline
@@ -1506,10 +1763,12 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_production__2
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_property__2
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site__not_direct_line_memebers_grasp__2
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_production__1
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_property__1
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__to_certificate__2
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__applicable_harvest__2
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__fsma__1
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__organization_buys_product__1
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__1
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_manipulated_not_certificate__1
@@ -1556,7 +1815,7 @@ msgstr "Numero de trabajadoras contratadas"
 #: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_fans_request__message_needaction_counter
 #: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_organization__message_needaction_counter
 #: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_production_site__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1572,10 +1831,13 @@ msgid "Number of subcontracted workers"
 msgstr "Número de trabajadores subcontratados"
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_fans_request__message_unread_counter
-#: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_organization__message_unread_counter
-#: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_production_site__message_unread_counter
-msgid "Number of unread messages"
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "Número de Ciclo de crecimiento"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Número total de miembros"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1584,8 +1846,18 @@ msgid "Opción 1. Productor Individual"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_organization__certification_option__3
+msgid "Opción 1. Productor Multisitio con SGC"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_organization__certification_option__2
-msgid "Opción 1. Productor Multisitio sinSGC"
+msgid "Opción 1. Productor Multisitio sin SGC"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_organization__certification_option__4
+msgid "Opción 2. Grupo de Productores"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1608,6 +1880,11 @@ msgstr "Organizaciones"
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__outsourced_activities
 msgid "Outsourced activities"
 msgstr "Actividades subcontratadas"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site__site_is__own
+msgid "Own"
+msgstr "Propio"
 
 #. module: pao_globalgap_fans
 #: model:ir.model,name:pao_globalgap_fans.model_pao_globalgap_send_fans_request
@@ -1647,22 +1924,39 @@ msgstr ""
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product__parallel_production
 msgid "Parallel production"
-msgstr ""
+msgstr "Producción Paralela"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product__parallel_property
 msgid "Parallel property"
+msgstr "Propiedad Paralela"
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Parentesco"
 msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
-msgid "Países"
+msgid "Países Destino"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid ""
+"Países Destino *México se contempla como país destino dentro del alcance"
 msgstr ""
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_fans_request__qa_status__pending
 msgid "Pending"
 msgstr "Pendiente"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_grasp_staff_details__employees_type__permanent
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Permanentes"
+msgstr ""
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__postal_address
@@ -1673,7 +1967,7 @@ msgstr ""
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__previous_cb
 msgid "Previous CB"
-msgstr ""
+msgstr "OC Previo"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__previous_ggn
@@ -1727,6 +2021,11 @@ msgid "Product manipulated with product without certificate"
 msgstr "Producto manipulado con producto sin certificado"
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_grasp_staff_details__production_site_id
+msgid "Production Site"
+msgstr "Sitio de producción"
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product__production_site_id
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_organization_view_form
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_production_site_view_tree
@@ -1767,6 +2066,11 @@ msgid "Propiedad Paralela (PO)"
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Propio"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
 msgid "Página: <span class=\"page\"/> / <span class=\"topage\"/>"
 msgstr ""
@@ -1775,6 +2079,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__qa_status
 msgid "QA Status"
 msgstr "Estatus de QA"
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
+msgid "RENDIMIENTO ESTIMADO EN (t/ha)"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__rating_ids
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__rating_ids
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__rating_ids
+msgid "Ratings"
+msgstr ""
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_organization__evaluation_type__2
@@ -1792,9 +2108,9 @@ msgid "Rejected"
 msgstr "Rechazada"
 
 #. module: pao_globalgap_fans
-#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
-msgid "Rendimiento Estimado en Tons"
-msgstr ""
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__not_direct_line_relation_members
+msgid "Relation"
+msgstr "Parentesco"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__request_status
@@ -1809,15 +2125,23 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid "Revisado Por: M. Salmerón"
 msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
+msgid "Revisado Por: S. Rodríguez"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
-msgid "Revisión: 06"
+msgid "Revisión: 07"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globagap_application_header_footer
+msgid "Revisión: 08"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -1858,6 +2182,13 @@ msgid "Send"
 msgstr "Enviar"
 
 #. module: pao_globalgap_fans
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
+#, python-format
+msgid "Send FAN to sign"
+msgstr "Enviar FAN a firma"
+
+#. module: pao_globalgap_fans
 #: model:ir.actions.act_window,name:pao_globalgap_fans.action_pao_globalgap_send_fans_request
 #: model:ir.actions.server,name:pao_globalgap_fans.pao_fans_request_wizard
 msgid "Send fans request"
@@ -1869,6 +2200,7 @@ msgid "Send request"
 msgstr "Enviar Solicitud"
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__send_to_sign
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fans_request_view_form
 msgid "Send to Sign"
 msgstr "Enviar a Firma"
@@ -1879,10 +2211,12 @@ msgid "Sent"
 msgstr "Enviado"
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_production__1
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_property__1
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site__not_direct_line_memebers_grasp__1
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_production__2
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__parallel_property__2
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product__to_certificate__1
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__applicable_harvest__1
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__fsma__2
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__organization_buys_product__2
 #: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_manipulated_not_certificate__2
 msgid "Si"
@@ -1903,16 +2237,6 @@ msgid ""
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__3
-msgid "Si, en el PHU"
-msgstr ""
-
-#. module: pao_globalgap_fans
-#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_globalgap_production_site_product_information__product_handling__2
-msgid "Si, en el campo"
-msgstr ""
-
-#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fans_request_signature_mail
 msgid "Sign"
 msgstr "Firmar"
@@ -1924,9 +2248,10 @@ msgid "Signature"
 msgstr "Firma"
 
 #. module: pao_globalgap_fans
-#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
-#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
-#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_send_fans_request.py:0
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_send_fans_request.py:0
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_send_fans_request.py:0
 #, python-format
 msgid "Signature Request"
 msgstr "Solicitud de firma"
@@ -1967,9 +2292,48 @@ msgid "Site"
 msgstr "Sitio"
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__site_is
+msgid "Site Is"
+msgstr "Sitio es"
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
 msgid "Sitio"
 msgstr ""
+
+#. module: pao_globalgap_fans
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
+#, python-format
+msgid "Solicitud de correción para el registro de aplicacion GLOBALG.A.P"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
+#, python-format
+msgid "Solicitud de firma para el registro de aplicacion GLOBALG.A.P"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
+#, python-format
+msgid "Solicitud de firma para el registro de aplicación GLOBALG.A.P"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#. odoo-python
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_fans_request.py:0
+#: code:addons/pao_globalgap_fans/models/pao_globalgap_send_fans_request.py:0
+#, python-format
+msgid "Solicitud de registro de aplicación GLOBALG.A.P"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__not_direct_line_quantity_members_grasp
+msgid "Staff Count"
+msgstr "Cantidad de personal"
 
 #. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__state_id
@@ -1989,6 +2353,12 @@ msgid ""
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_grasp_staff_details__employees_type__subcontracted
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Subcontratados"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_send_fans_request__subject
 msgid "Subject"
 msgstr "Asunto"
@@ -2003,6 +2373,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__telephone
 msgid "Telephone"
 msgstr "Teléfono"
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields.selection,name:pao_globalgap_fans.selection__pao_grasp_staff_details__employees_type__temp
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid "Temporales"
+msgstr ""
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_fan_request_exception_page_view
@@ -2031,6 +2407,11 @@ msgid "To certificate"
 msgstr "Para certificar"
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__total_members
+msgid "Total Members"
+msgstr "Total de miembros"
+
+#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__type
 msgid "Type"
 msgstr "Tipo"
@@ -2043,37 +2424,18 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_organization
-msgid "UBICACIÓN DE LA ORGANIZACIÓN"
-msgstr ""
-
-#. module: pao_globalgap_fans
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__request_url
 msgid "URL para firmar"
 msgstr ""
 
 #. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__uncovered_production_area
-msgid "Uncovered production area"
-msgstr "Área de producción total"
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__unannounced
+msgid "Unannounced"
+msgstr "No anunciada"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
 msgid "Unidad de Manipulación"
-msgstr ""
-
-#. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__message_unread
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__message_unread
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: pao_globalgap_fans
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_fans_request__message_unread_counter
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__message_unread_counter
-#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site__message_unread_counter
-msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -2092,9 +2454,20 @@ msgid "VAT"
 msgstr "RFC"
 
 #. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_addon__version_id
 #: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__version_id
 #: model:ir.ui.menu,name:pao_globalgap_fans.menu_global_gap_version
 msgid "Version"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_addon__version_ids_list
+msgid "Version Ids List"
+msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__website
+msgid "Website"
 msgstr ""
 
 #. module: pao_globalgap_fans
@@ -2110,6 +2483,11 @@ msgstr ""
 #: model:ir.model.fields,help:pao_globalgap_fans.field_pao_globalgap_production_site__website_message_ids
 msgid "Website communication history"
 msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_organization__which_gfsi
+msgid "Which another GFSI Certification"
+msgstr "Menciona cual otra certficacion GFSI"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.pao_globalgap_send_fans_request_view_form
@@ -2156,11 +2534,22 @@ msgid ""
 msgstr ""
 
 #. module: pao_globalgap_fans
+#: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.fan_portal_production_site
+msgid ""
+"¿Empleo trabajadores que no sean del núcleo familiar? (sólo línea directa)"
+msgstr ""
+
+#. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application
 msgid ""
 "¿La organización compra el mismo producto certificado y/o no\n"
 "                                    certificado?"
 msgstr ""
+
+#. module: pao_globalgap_fans
+#: model:ir.model.fields,field_description:pao_globalgap_fans.field_pao_globalgap_production_site_product_information__uncovered_production_area
+msgid "Área de producción"
+msgstr "Área de producción total"
 
 #. module: pao_globalgap_fans
 #: model_terms:ir.ui.view,arch_db:pao_globalgap_fans.globalgap_certification_application

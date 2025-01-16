@@ -23,6 +23,18 @@ class PaoGlobalgapProductionSite(models.Model):
         default='site',
         tracking=True,
     )
+    
+    site_is = fields.Selection(
+        selection=[
+            ('own', "Own"),
+            ('leased_no_contract', "Leased (Without Contract)"),
+            ('leased_contract', "Leased (With Contract)"),
+        ],
+        string="Site Is", 
+        copy=False,
+        tracking=True,
+    )
+    
     address = fields.Text(
         string='Address', 
         copy=False,
@@ -61,7 +73,7 @@ class PaoGlobalgapProductionSite(models.Model):
         copy=False,
         tracking=True,
     )
-   
+    
     email = fields.Char(
         string='Email', 
         copy=False,
@@ -132,3 +144,63 @@ class PaoGlobalgapProductionSite(models.Model):
         string='Products',
         tracking=True,
     )
+    
+    not_direct_line_memebers_grasp = fields.Selection(
+        selection=[
+            ('2', "No"),
+            ('1', "Si"),
+        ],
+        string="Do you employ workers who are not part of the immediate family? (direct line only)", 
+        copy=False,
+        default=None,
+    )
+    
+    not_direct_line_quantity_members_grasp = fields.Char(string="Staff Count")
+    
+    not_direct_line_relation_members = fields.Char(string="Relation")
+    
+    grasp_staff_ids = fields.One2many(
+        comodel_name='pao.grasp.staff.details',
+        inverse_name='production_site_id',
+        string='GRASP Staff Details',
+        tracking=True,
+        readonly=True
+    )
+    
+    total_members = fields.Char(string="Total Members")
+    members_with_workers = fields.Char(string="Members with workers")
+    members_without_workers = fields.Char(string="Members without workers")
+     
+    any_grasp_addon = fields.Boolean(
+        string='Has GRASP Addon',
+        compute='_compute_any_grasp_addon',
+        store=True,
+    )
+    
+    any_grasp_addon = fields.Boolean(
+        string='Has GRASP Addon',
+        compute='_compute_any_grasp_addon',
+        store=True,
+    )
+    
+    fill_extra_data_grasp_module = fields.Boolean(
+        compute='_compute_fill_extra_data_grasp_module',
+        store=True,
+    )
+
+    @api.depends('organization_id.addons_ids')
+    def _compute_any_grasp_addon(self):
+        for record in self:
+            if record.organization_id:
+                grasp_addons = record.organization_id.addons_ids.filtered(lambda addon: addon.is_grasp_module)
+                record.any_grasp_addon = bool(grasp_addons)
+            else:
+                record.any_grasp_addon = False
+                
+    @api.depends('organization_id.certification_option_id')
+    def _compute_fill_extra_data_grasp_module(self):
+        for record in self:
+            if record.organization_id and record.any_grasp_addon and record.organization_id.certification_option_id.id in (3, 4):
+                record.fill_extra_data_grasp_module = True
+            else:
+                record.fill_extra_data_grasp_module = False

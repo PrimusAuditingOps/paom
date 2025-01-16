@@ -60,6 +60,20 @@
     <template id="fan_portal_organization" name="Organization">
         <t t-call="web.frontend_layout">           
                 <!-- Page content -->
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const selectedValue = document.getElementById("globalgap_version").value; // Get the selected value
+                            const targetClass = `v${selectedValue}`; // Construct the class to target, e.g., "v1"
+                            
+                            document.querySelectorAll('.addon_item').forEach(item => {
+                                if (item.classList.contains(targetClass)) {
+                                    item.style.display = 'unset'; // Show items that match
+                                } else {
+                                    item.style.display = 'none'; // Hide items that don't match
+                                }
+                            });
+                        });
+                    </script>
                     <div id="fan_fillout_content" class="oe_structure oe_empty o_website_fans_organization">
     
                         <section class="s_title parallax s_parallax_is_fixed pt24 pb24" data-scroll-background-ratio="1" 
@@ -156,12 +170,9 @@
                                                                 </label>
                                                                 <div class="col-sm">
                                                                     <select class="form-control"  optional="false" id="globalgap_version" name="globalgap_version">
-                                                                         <t t-foreach="versions" t-as="v">
-                                                                            <option t-if="v.id == data.version_id.id" selected="" t-att-value="v.id">
+                                                                        <t t-foreach="versions" t-as="v">
+                                                                            <option t-att-selected="v.id == data.version_id.id" t-att-value="v.id">
                                                                                 <t t-esc="v.name"/>
-                                                                            </option>
-                                                                            <option  t-else="" t-att-value="v.id">                         
-                                                                                <t t-esc="v.name" />
                                                                             </option>
                                                                         </t>
                                                                     </select>
@@ -179,9 +190,9 @@
                                                                 <div class="col-sm">
                                                                     <t t-foreach="glabalgapaddons" t-as="ggap">
                                                                         <div>
-                                                                            <input t-if="ggap.id in addon" checked="" type="checkbox" name="addonsgg" t-att-id="ggap.name" t-att-value="ggap.id"/> 
-                                                                            <input t-else="" type="checkbox" name="addonsgg" t-att-id="ggap.name" t-att-value="ggap.id"/> 
-                                                                            <label t-att-for="ggap.name"><t t-esc="ggap.name" /></label>
+                                                                            <input style="display: none" t-att-class="'addon_check addon_item ' + ggap.version_ids_list" t-if="ggap.id in addon" checked="" type="checkbox" name="addonsgg" t-att-id="ggap.name" t-att-value="ggap.id"/> 
+                                                                            <input style="display: none" t-att-class="'addon_check addon_item ' + ggap.version_ids_list" t-else="" type="checkbox" name="addonsgg" t-att-id="ggap.name" t-att-value="ggap.id"/> 
+                                                                            <label style="display: none" t-att-class="'addon_item ' + ggap.version_ids_list" t-att-for="ggap.name"><t t-esc="ggap.name" /></label>
                                                                             <input type="hidden" name="grasp_module" id="grasp_module" t-att-value="grasp_module"/>
                                                                         </div>
                                                                     </t>
@@ -199,7 +210,7 @@
                                                             </div> 
                                                         </div>
                                                     </div>
-                                                    <div class="s_website_form_rows row s_col_no_bgcolor" id="div_grasp_module" style="visibility: hidden;">
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" id="div_grasp_module" style="display: none;">
                                                         <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_dnone">
                                                             <div class="row s_col_no_resize s_col_no_bgcolor">
                                                                 <label class="col-form-label col-sm-auto s_website_form_label"  for="hired_workers">
@@ -239,7 +250,7 @@
                                                         <div class="mb-0 py-2 col-3 s_website_form_field s_website_form_dnone">
                                                             <div class="row s_col_no_resize s_col_no_bgcolor">
                                                                 <label class="col-form-label col-sm-auto s_website_form_label"  for="website">
-                                                                    <span class="s_website_form_label_content">Website (Opcional)</span>
+                                                                    <span class="s_website_form_label_content">Página Web (Opcional)</span>
 
                                                                 </label>
                                                                 <div class="col-sm">
@@ -289,7 +300,7 @@
                                                         <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
                                                             <div class="row s_col_no_resize s_col_no_bgcolor">
                                                                 <label class="col-form-label col-sm-auto s_website_form_label" for="previous_cb">
-                                                                    <span class="s_website_form_label_content">Nombre CB previo</span>
+                                                                    <span class="s_website_form_label_content">Nombre OC previo</span>
                                                                 </label>
                                                                 <div class="col-sm">
                                                                     <input id="previous_cb" t-att-value="data.previous_cb" type="text" maxlength="100" class="form-control s_website_form_input" name="previous_cb"/>
@@ -317,6 +328,34 @@
                                                                 </label>
                                                                 <div class="col-sm">
                                                                     <input id="gln" t-att-value="data.gln" maxlength="20" type="text"  class="form-control s_website_form_input" name="gln"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <div class="mb-0 py-2 col-6 s_website_form_field s_website_form_custom" data-type="char">
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label class="col-form-label col-sm-auto s_website_form_label" for="other_gfsi_certification">
+                                                                    <span class="s_website_form_label_content">Cuenta con otra Certificación GFSI</span>
+                                                                </label>
+                                                                <div class="col-sm mt-2">
+                                                                    <input t-att-checked="data.other_gfsi_certification" type="checkbox" name="other_gfsi_certification" id="other_gfsi_certification"/> 
+                                                                </div>
+                                                                <div class="row s_col_no_resize s_col_no_bgcolor" id="other_gfsi_info_1" t-att-style="'' if data.other_gfsi_certification else 'display: none;'">
+                                                                    <label class="col-form-label col-sm-auto s_website_form_label" for="which_gfsi">
+                                                                        <span class="s_website_form_label_content">Menciona cuál:</span>
+                                                                    </label>
+                                                                    <div class="col-sm">
+                                                                        <input id="which_gfsi" t-att-value="data.which_gfsi" type="text" maxlength="100" class="form-control s_website_form_input" name="which_gfsi"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row s_col_no_resize s_col_no_bgcolor" id="other_gfsi_info_2" t-att-style="'' if data.other_gfsi_certification else 'display: none;'">
+                                                                    <label class="col-form-label col-sm-auto s_website_form_label" for="reason_change_gfsi">
+                                                                        <span class="s_website_form_label_content">Razón de cambio:</span>
+                                                                    </label>
+                                                                    <div class="col-sm">
+                                                                        <input id="reason_change_gfsi" t-att-value="data.reason_change_gfsi" type="text" maxlength="100" class="form-control s_website_form_input" name="reason_change_gfsi"/>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

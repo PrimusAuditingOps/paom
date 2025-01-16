@@ -15,7 +15,6 @@ _logger = getLogger(__name__)
 
 class CustomerPortal(portal.CustomerPortal):
 
-  
     @http.route(['/pao_get_geolocation'], type='json', auth='public', methods=['POST'])
     def pao_get_geolocation(self, fan_id=False, fan_token=None, street=None, zip=None, city=None, state=None, country=None, **kwargs):
         latitude = 0.00
@@ -112,7 +111,7 @@ class CustomerPortal(portal.CustomerPortal):
 
 
     @http.route(['/pao/fillout/fans/products'], type='json', auth='public', methods=['POST'])
-    def portal_fans_save_organization(self, fr_token, fr_id, unannounced, plmx, ggn, globalgap_version, 
+    def portal_fans_save_organization(self, fr_token, fr_id, unannounced, other_gfsi_certification, which_gfsi, reason_change_gfsi, plmx, ggn, globalgap_version, 
     certification_option, evaluation_type, name, website, address, colony, city,state, country,
     zip, telephone, email, gln, vat, previous_cb, latitude, longitude, contact_name, contact_position,
     contact_telephone, contact_email, rights_of_access,addons,postal_address,previous_ggn,subcontracted_workers, hired_workers, **kw):
@@ -136,10 +135,13 @@ class CustomerPortal(portal.CustomerPortal):
             "plmx": plmx,
             "ggn": ggn,
             'unannounced': unannounced,
+            'other_gfsi_certification': other_gfsi_certification,
+            'which_gfsi': which_gfsi,
+            'reason_change_gfsi': reason_change_gfsi,
             "number_of_hired_workers": subcontracted_workers,
             "number_of_subcontracted_workers": hired_workers,
-            "version_id": globalgap_version,
-            "certification_option_id": certification_option, 
+            "version_id": int(globalgap_version),
+            "certification_option_id": int(certification_option),
             "addons_ids": [(6, 0, addon_list)],
             "evaluation_type": str(evaluation_type),
             "address": address,
@@ -169,7 +171,7 @@ class CustomerPortal(portal.CustomerPortal):
         else:
             organization = request.env['pao.globalgap.organization'].sudo().create(organization_data)
             fr_sudo.write({"organization_id": organization.id})
-
+        
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         return {
             'redirect_url':  url_join(base_url, '/pao/fillout/fans/production_site/%s/%s' % (fr_id, fr_token))
@@ -195,6 +197,7 @@ class CustomerPortal(portal.CustomerPortal):
         cities = request.env['res.city'].sudo().with_context(lang=lang).search([])
         products = request.env['servicereferralagreement.auditproducts'].sudo().with_context(lang=lang).search([],order='name asc')
         certificate = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['to_certificate'].selection
+        not_direct_line_memebers_grasp_options = request.env['pao.globalgap.production.site'].sudo().with_context(lang=lang)._fields['not_direct_line_memebers_grasp'].selection
         pp = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_production'].selection
         po = request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_property'].selection
         
@@ -215,10 +218,29 @@ class CustomerPortal(portal.CustomerPortal):
                     "po_text": dict(request.env['pao.globalgap.production.site.product'].sudo().with_context(lang=lang)._fields['parallel_property'].selection).get(p.parallel_property),
                 }
                 product_list.append(product_obj)
+                
+            grasp_details = rec.grasp_staff_ids
+            details = {}
+            for detail in grasp_details:
+                details.update({
+                    "locals_male_quantity_" + detail.employees_type: detail.locals_male_quantity,
+                    "locals_female_quantity_" + detail.employees_type: detail.locals_female_quantity,
+                    "foreigners_male_quantity_" + detail.employees_type: detail.foreigners_male_quantity,
+                    "foreigners_female_quantity_" + detail.employees_type: detail.foreigners_female_quantity,
+                })
+            _logger.warning(details)
+            
             site_data = {
                 "name": rec.name, 
                 "type_name": dict(request.env['pao.globalgap.production.site'].sudo()._fields['type'].selection).get(rec.type), 
-                "type": rec.type, 
+                "type": rec.type,
+                "site_is": rec.site_is,
+                "not_direct_line_memebers_grasp": rec.not_direct_line_memebers_grasp,
+                "not_direct_line_quantity_members_grasp": rec.not_direct_line_quantity_members_grasp,
+                "not_direct_line_relation_members": rec.not_direct_line_relation_members,
+                "total_members": rec.total_members,
+                "members_with_workers": rec.members_with_workers,
+                "members_without_workers": rec.members_without_workers,
                 "address": rec.address, 
                 "postal_address": rec.postal_address,
                 "country_id": rec.country_id.id, 
@@ -239,6 +261,10 @@ class CustomerPortal(portal.CustomerPortal):
                 "contactemail": rec.contact_email,
                 "products": product_list,
             }
+            
+            _logger.warning(site_data)
+            
+            site_data.update(details)
             production_sites_list.append(site_data)
         return request.render(
             'pao_globalgap_fans.fan_portal_production_site', 
@@ -252,6 +278,7 @@ class CustomerPortal(portal.CustomerPortal):
                 "cities": cities,
                 "products": products,
                 "certificate": certificate,
+                "not_direct_line_memebers_grasp_options": not_direct_line_memebers_grasp_options,
                 "pp": pp,
                 "po": po,
                 "production_sites": json.dumps(production_sites_list),
@@ -274,11 +301,13 @@ class CustomerPortal(portal.CustomerPortal):
         product_ids_hectares_list = []
         production_site = json.loads(sites)  
         request.env['pao.globalgap.production.site'].sudo().search([("organization_id","=",fr_sudo.organization_id.id)]).unlink()
+        
         for obj in production_site:
             production_data = {
                 "organization_id": fr_sudo.organization_id.id,
                 "name": obj["name"],
                 "type": obj["type"],
+                "site_is": obj["site_is"],
                 "address": obj["address"],
                 "postal_address": obj["postal_address"],
                 "city_id": obj["city"],
@@ -296,7 +325,13 @@ class CustomerPortal(portal.CustomerPortal):
                 "contact_country_id": obj["contactcountry"], 
                 "contact_state_id": obj["contactstate"], 
                 "contact_city_id": obj["contactcity"], 
-                "contact_zip": obj["contactzip"], 
+                "contact_zip": obj["contactzip"],
+                "not_direct_line_memebers_grasp": "",
+                "not_direct_line_quantity_members_grasp": "",
+                "not_direct_line_relation_members": "",
+                "total_members": "",
+                "members_with_workers": "",
+                "members_without_workers": "",
             }
             production = request.env['pao.globalgap.production.site'].sudo().create(production_data)
             for product in obj["products"]:
@@ -310,7 +345,7 @@ class CustomerPortal(portal.CustomerPortal):
                 )
                 product_data = {
                     "production_site_id": production.id,
-                    "parallel_production": product["pp"],
+                    "parallel_production": product["pp"] if fr_sudo.organization_id.version_id.id not in (2,3) else None,
                     "parallel_property": product["po"],
                     "to_certificate": product["certify"],
                     "hectares_in_production": product["hectareas"],
@@ -334,10 +369,44 @@ class CustomerPortal(portal.CustomerPortal):
                             "uncovered_production_area": total
                         }
                     )
+            
+            grasp_staff_details = request.env['pao.grasp.staff.details'].sudo().search([("production_site_id","=",production.id)])
+            for detail in grasp_staff_details:
+                detail.unlink
+            production.write({'not_direct_line_memebers_grasp': ''})
+                
+            if any(addon.is_grasp_module for addon in fr_sudo.organization_id.addons_ids):
+                
+                production.write({'not_direct_line_memebers_grasp': obj["not_direct_line_memebers_grasp"]})
+                
+                if production.fill_extra_data_grasp_module:
+                    production.write({'total_members': obj["total_members"]})
+                    production.write({'members_with_workers': obj["members_with_workers"]})
+                    production.write({'members_without_workers': obj["members_without_workers"]})
+                
+                if production.not_direct_line_memebers_grasp == '2':
+                    production.write({
+                        'not_direct_line_quantity_members_grasp': obj["not_direct_line_quantity_members_grasp"],
+                        'not_direct_line_relation_members': obj["not_direct_line_relation_members"]
+                    })
+                else:
+                    types = ['permanent', 'temp', 'subcontracted']
+                    for type in types:
+                        grasp_details = request.env['pao.grasp.staff.details'].sudo().create({
+                            "employees_type": type,
+                            "locals_male_quantity": obj["locals_male_quantity_" + type],
+                            "locals_female_quantity": obj["locals_female_quantity_" + type],
+                            "foreigners_male_quantity": obj["foreigners_male_quantity_" + type],
+                            "foreigners_female_quantity": obj["foreigners_female_quantity_" + type],
+                            "production_site_id": production.id
+                        })
+                        production.write({
+                            'grasp_staff_ids': [(4, grasp_details.id)]
+                        })
 
             domain_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","not in",product_ids_list)]
             request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_product).unlink()
-       
+            
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         
         return {
@@ -422,6 +491,7 @@ class CustomerPortal(portal.CustomerPortal):
                         "covered_production_area": rec.covered_production_area,
                         "applicable_harvest": rec.applicable_harvest,
                         "harvest_type": rec.harvest_type,
+                        "growth_cycle_number": rec.growth_cycle_number,
                         "product_handling": rec.product_handling,
                         "outsourced_activities": rec.outsourced_activities,
                         "ggn_gln_outsourced": rec.ggn_gln_outsourced,
@@ -475,6 +545,7 @@ class CustomerPortal(portal.CustomerPortal):
                         "covered_production_area": p["covered_production_area"],
                         "applicable_harvest": p["applicable_harvest"],
                         "harvest_type": p["harvest_type"],
+                        "growth_cycle_number": p["growth_cycle_number"],
                         "product_handling": p["product_handling"],
                         "outsourced_activities": p["outsourced_activities"],
                         "ggn_gln_outsourced": p["ggn_gln_outsourced"],

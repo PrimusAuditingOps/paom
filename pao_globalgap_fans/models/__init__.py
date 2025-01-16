@@ -11,3 +11,4 @@ from . import pao_globalgap_fans_request
 from . import pao_globalgap_organization
 from . import sale_order
 from . import pao_globalgap_send_fans_request
+from . import pao_grasp_staff_details

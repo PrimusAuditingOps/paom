@@ -17,7 +17,17 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
      */
     init: function () {
         this._super.apply(this, arguments);
-        this.rpc = this.bindService("rpc");    
+        this.rpc = this.bindService("rpc");
+
+        const inputValue = document.getElementById("version_id").value;
+        const harvest_type_label = (inputValue === "2" || inputValue === "3") 
+            ? "Número de ciclo de crecimiento" 
+            : "Primera cosecha/Cosecha posterior";
+
+        const countries_of_products_label = (inputValue === "2" || inputValue === "3") 
+        ? "Países de Destino *México se contempla como país destino dentro del alcance" 
+        : "Países de Destino";
+
         this.grid_selector = new gridjs.Grid({
             columns: [
                 {
@@ -43,7 +53,7 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                 },
                 {
                     id: "harvest_type",
-                    name: "Primera Cosecha/Cosecha Posterior",
+                    name: harvest_type_label,
                 },
                 {
                     id: "product_handling",
@@ -71,7 +81,7 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                 },
                 {
                     id: "estimated_yield_in_tons",
-                    name: "Rendimiento Estimado en Tons (voluntario)",
+                    name: "RENDIMIENTO ESTIMADO EN (t/ha) ",
                 },
                 {
                     id: "start_date_harvest_estimated",
@@ -83,7 +93,7 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                 },
                 {
                     id: "countries_of_products",
-                    name: "Países de Destino",
+                    name: countries_of_products_label,
                 },
             ],
             data: [],
@@ -149,8 +159,20 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                     fsma += `</select>`;
                 }
                 
-
-                var harvest_type = `<select optional="false" name="harvest_type" id="harvest_type`+objdata.product_id+`">`;
+                const inputValue = document.getElementById("version_id").value;
+                let classSelect = ""
+                let classInput = ""
+                if (inputValue === "2" || inputValue === "3") {
+                    classInput = ''
+                    classSelect = 'd-none'
+                }
+                else{
+                    classInput = 'd-none'
+                    classSelect = ''
+                }
+                let harvest_type = ""
+                harvest_type += `<input type="text" class="onlyNumber ` + classInput + `" maxlength="20" id="growth_cycle_number`+objdata.product_id+`" value="`+(objdata.growth_cycle_number || '')+`"/>`
+                harvest_type += `<select optional="false" class="` + classSelect + `" name="harvest_type" id="harvest_type`+objdata.product_id+`">`;
                 for (let i = 0; i < data.harvest_type.length; i++) {
                     if (data.harvest_type[i][0] == objdata.harvest_type[i]){
                         harvest_type += `<option selected value="`+data.harvest_type[i][0]+`">`+data.harvest_type[i][1]+`</option>`;
@@ -345,12 +367,15 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                 break;
             }
             else{
+                const inputValue = document.getElementById("version_id").value;
+                
                 var obj = {
                     "product_id": product_list[i],
                     "uncovered_production_area": $("#uncovered_production_area"+product_list[i]).val(),
                     "covered_production_area": $("#covered_production_area"+product_list[i]).val(),
                     "applicable_harvest": $('select[id="applicable_harvest'+product_list[i]+'"] option:selected').val(),
-                    "harvest_type": $('select[id="harvest_type'+product_list[i]+'"] option:selected').val(),
+                    "growth_cycle_number": (inputValue === "2" || inputValue === "3") ? $("#growth_cycle_number"+product_list[i]).val() : "",
+                    "harvest_type": (inputValue === "2" || inputValue === "3") ? "" : $('select[id="harvest_type'+product_list[i]+'"] option:selected').val(),
                     "product_handling": $('select[id="product_handling'+product_list[i]+'"] option:selected').val(),
                     "outsourced_activities": $("#outsourced_activities"+product_list[i]).val(),
                     "ggn_gln_outsourced": $("#ggn_gln_outsourced"+product_list[i]).val(),

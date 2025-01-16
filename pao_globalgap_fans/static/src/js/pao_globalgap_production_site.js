@@ -10,6 +10,7 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
             'change .o_website_production_site_registration_form select[id="sitestate"]': '_onStateChange',
             'change .o_website_production_site_registration_form select[id="contaccountry"]': '_onContactCountryChange',
             'change .o_website_production_site_registration_form select[id="contactstate"]': '_onContactStateChange',
+            'change .o_website_production_site_registration_form select[id="not_direct_line_memebers_grasp"]': '_onGRASPQuestionChange',
             'click .btn_add_production_site': '_onClickProductionSite',
             'click .btn_add_products': '_onClickProduct',
             'click .btn_add_search_site_address': '_searchAddress',
@@ -40,9 +41,6 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
          * @param {Object} parent
          */
         start: function (parent) {
-
-            
-
             $("#btn_send_sites").prop('disabled', true);
 
             this.countries = document.querySelector('#sitecountry');
@@ -75,6 +73,25 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
 
 
 
+            let site_isradio = $('input[name="site_is"][value="own"]');
+            site_isradio.prop('checked', true);
+            
+            $("#total_members").val("")
+            $("#members_with_workers").val("")
+            $("#members_without_workers").val("")
+
+            let types = ['permanent', 'temp', 'subcontracted']
+            for (let index = 0; index < types.length; index++) {
+                const type = types[index];
+                $("#locals_male_quantity_" + type).val("0")
+                $("#locals_female_quantity_" + type).val("0")
+                $("#foreigners_male_quantity_" + type).val("0")
+                $("#foreigners_female_quantity_" + type).val("0")
+            }
+
+            $("#not_direct_line_quantity_members_grasp").val("")
+            $("#not_direct_line_quantity_members_grasp").val("")
+            $("#not_direct_line_quantity_members_grasp").val("")
 
             $("#productionsite").val("");
             $("#address").val("");
@@ -213,18 +230,18 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                         id:"deleteaction",
                         name: '',
                         formatter: (cell, row) => {
-                          return gridjs.h('icon', {
-                            style:'padding: 10px 20px;background-color: red;color: white;border: none; border-radius: 5px;cursor: pointer;',
-                            onClick: () => {
-                                const list = this.datas.filter(d => d.index != row.cells[22].data);
-                                this.datas = list;
-                                this.grid_selector.updateConfig({
-                                    data: list
-                                }).forceRender();
-                                $("#sites").val(JSON.stringify(list));  
+                            return gridjs.h('icon', {
+                                style:'padding: 10px 20px;background-color: red;color: white;border: none; border-radius: 5px;cursor: pointer;',
+                                onClick: () => {
+                                    const list = this.datas.filter(d => d.index != row.cells[22].data);
+                                    this.datas = list;
+                                    this.grid_selector.updateConfig({
+                                        data: list
+                                    }).forceRender();
+                                    $("#sites").val(JSON.stringify(list));  
+                                }
+                            }, 'Eliminar');
                             }
-                          }, 'Eliminar');
-                        }
                     },
                     { 
                         id:"updateaction",
@@ -259,6 +276,26 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                                 $("#contaccountry").val(list[0].contactcountry).change();
                                 $("#contactstate").val(list[0].contactstate).change();
                                 $("#contaccity").val(list[0].contactcity).change();
+
+                                $("#not_direct_line_memebers_grasp").val(list[0].not_direct_line_memebers_grasp || "1").change();
+                                $("#not_direct_line_quantity_members_grasp").val(list[0].not_direct_line_quantity_members_grasp)
+                                $("#not_direct_line_relation_members").val(list[0].not_direct_line_relation_members)
+
+                                let types = ['permanent', 'temp', 'subcontracted']
+                                for (let index = 0; index < types.length; index++) {
+                                    const type = types[index];
+                                    $("#locals_male_quantity_" + type).val(list[0]?.["locals_male_quantity_" + type] || "0");
+                                    $("#locals_female_quantity_" + type).val(list[0]?.["locals_female_quantity_" + type] || "0");
+                                    $("#foreigners_male_quantity_" + type).val(list[0]?.["foreigners_male_quantity_" + type] || "0");
+                                    $("#foreigners_female_quantity_" + type).val(list[0]?.["foreigners_female_quantity_" + type] || "0");
+                                }
+
+                                $("#total_members").val(list[0].total_members);
+                                $("#members_with_workers").val(list[0].members_with_workers); 
+                                $("#members_without_workers").val(list[0].members_without_workers); 
+
+                                let site_isradio = $('input[name="site_is"][value="' + list[0].site_is + '"]');
+                                site_isradio.prop('checked', true);
                                 
                                 if (list[0].type == "1") {
                                     $("#sitio").prop("checked",true);
@@ -291,6 +328,9 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                 ],
                 data: [],
             }).render(document.getElementById("gridProductionSite"));
+            
+            const inputValue = document.getElementById("version_id").value;
+            const isPpHidden = inputValue === "2" || inputValue === "3";
 
             this.grid_selector_products = new gridjs.Grid({
                 columns: [
@@ -329,6 +369,7 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                     {
                         id: "pp_text",
                         name: "PP",
+                        hidden: isPpHidden
                     },
                     {
                         id: "po_text",
@@ -382,33 +423,56 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                         }
                     );
                 });
-                d.push(
-                    { 
-                        "name": objdata.name, 
-                        "type_name": objdata.type_name, 
-                        "type": objdata.type, 
-                        "address": objdata.address, 
-                        "postal_address": objdata.postal_address,
-                        "country": objdata.country_id, 
-                        "state": objdata.state_id, 
-                        "city": objdata.city_id, 
-                        "zip": objdata.zip,
-                        "telephone": objdata.telephone, 
-                        "email": objdata.email, 
-                        "latitude": objdata.latitude, 
-                        "longitude": objdata.longitude,
-                        "contactname": objdata.contactname, 
-                        "contactaddress": objdata.contactaddress, 
-                        "contactcountry": objdata.contactcountry, 
-                        "contactstate": objdata.contactstate, 
-                        "contactcity": objdata.contactcity, 
-                        "contactzip": objdata.contactzip, 
-                        "contacttelephone": objdata.contacttelephone,
-                        "contactemail": objdata.contactemail,
-                        "index": d.length,
-                        "products": product_list,
-                    }
-                );
+
+                let details = {};
+                let types = ['permanent', 'temp', 'subcontracted']
+                for (let index = 0; index < types.length; index++) {
+                    const type = types[index];
+                    details["locals_male_quantity_" + type] = objdata["locals_male_quantity_" + type] || "0";
+                    details["locals_female_quantity_" + type] = objdata["locals_female_quantity_" + type] || "0";
+                    details["foreigners_male_quantity_" + type] = objdata["foreigners_male_quantity_" + type] || "0";
+                    details["foreigners_female_quantity_" + type] = objdata["foreigners_female_quantity_" + type] || "0";
+                }
+
+                let data_site ={ 
+                    "name": objdata.name, 
+                    "type_name": objdata.type_name,
+                    "site_is": objdata.site_is,
+                    "type": objdata.type, 
+                    "address": objdata.address, 
+                    "postal_address": objdata.postal_address,
+                    "country": objdata.country_id, 
+                    "state": objdata.state_id, 
+                    "city": objdata.city_id, 
+                    "zip": objdata.zip,
+                    "telephone": objdata.telephone, 
+                    "email": objdata.email, 
+                    "latitude": objdata.latitude, 
+                    "longitude": objdata.longitude,
+                    "contactname": objdata.contactname, 
+                    "contactaddress": objdata.contactaddress, 
+                    "contactcountry": objdata.contactcountry, 
+                    "contactstate": objdata.contactstate, 
+                    "contactcity": objdata.contactcity, 
+                    "contactzip": objdata.contactzip, 
+                    "contacttelephone": objdata.contacttelephone,
+                    "contactemail": objdata.contactemail,
+                    "index": d.length,
+                    "products": product_list,
+                    "not_direct_line_memebers_grasp": objdata.not_direct_line_memebers_grasp,
+                    "not_direct_line_quantity_members_grasp": objdata.not_direct_line_quantity_members_grasp,
+                    "not_direct_line_relation_members": objdata.not_direct_line_relation_members,
+                    "total_members": objdata.total_members,
+                    "members_with_workers": objdata.members_with_workers,
+                    "members_without_workers": objdata.members_without_workers,
+                }
+
+                let dataEntry = { ...data_site, ...details };
+
+                console.log(dataEntry)
+
+                d.push(dataEntry);
+                
             });
             if (d.length > 0){
                 this.datas = d;
@@ -470,6 +534,26 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
 
         },
         _clearFields: function() {
+                let site_isradio = $('input[name="site_is"][value="own"]');
+                site_isradio.prop('checked', true);
+
+                $("#not_direct_line_memebers_grasp").val("2").change();
+                $("#not_direct_line_quantity_members_grasp").val("")
+                $("#not_direct_line_relation_members").val("")
+
+                $("#total_members").val("")
+                $("#members_with_workers").val("")
+                $("#members_without_workers").val("")
+
+                let types = ['permanent', 'temp', 'subcontracted']
+                for (let index = 0; index < types.length; index++) {
+                    const type = types[index];
+                    $("#locals_male_quantity_" + type).val("0")
+                    $("#locals_female_quantity_" + type).val("0")
+                    $("#foreigners_male_quantity_" + type).val("0")
+                    $("#foreigners_female_quantity_" + type).val("0")
+                }
+
                 $("#productionsite").val("");
                 $("#address").val("");
                 $("#postal_address").val("");
@@ -593,10 +677,12 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                     this.datas = list;
 
                 }
+
                 this.datas.push(
                     { 
                         "name": $("#productionsite").val().trim(), 
-                        "type_name": $('input[name=site_type]:checked', '#production_site_form').val() == 1 ? "Sitio" : "PHU", 
+                        "type_name": $('input[name=site_type]:checked', '#production_site_form').val() == 1 ? "Sitio" : "PHU",
+                        "site_is": $('input[name="site_is"]:checked').val(),
                         "type": $('input[name=site_type]:checked', '#production_site_form').val(), 
                         "address": $("#address").val().trim(), 
                         "postal_address": $("#postal_address").val().trim(), 
@@ -618,6 +704,24 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                         "contactemail": $("#contactemail").val().trim(),
                         "index": this.datas.length,
                         "products": this.products,
+                        "not_direct_line_memebers_grasp": document.getElementById("not_direct_line_memebers_grasp").value,
+                        "not_direct_line_quantity_members_grasp": document.getElementById("not_direct_line_quantity_members_grasp").value,
+                        "not_direct_line_relation_members": document.getElementById("not_direct_line_relation_members").value,
+                        "locals_male_quantity_permanent": document.getElementById("locals_male_quantity_permanent").value,
+                        "locals_female_quantity_permanent": document.getElementById("locals_female_quantity_permanent").value,
+                        "foreigners_male_quantity_permanent": document.getElementById("foreigners_male_quantity_permanent").value,
+                        "foreigners_female_quantity_permanent": document.getElementById("foreigners_female_quantity_permanent").value,
+                        "locals_male_quantity_temp": document.getElementById("locals_male_quantity_temp").value,
+                        "locals_female_quantity_temp": document.getElementById("locals_female_quantity_temp").value,
+                        "foreigners_male_quantity_temp": document.getElementById("foreigners_male_quantity_temp").value,
+                        "foreigners_female_quantity_temp": document.getElementById("foreigners_female_quantity_temp").value,
+                        "locals_male_quantity_subcontracted": document.getElementById("locals_male_quantity_subcontracted").value,
+                        "locals_female_quantity_subcontracted": document.getElementById("locals_female_quantity_subcontracted").value,
+                        "foreigners_male_quantity_subcontracted": document.getElementById("foreigners_male_quantity_subcontracted").value,
+                        "foreigners_female_quantity_subcontracted": document.getElementById("foreigners_female_quantity_subcontracted").value,
+                        "total_members": document.getElementById("total_members").value,
+                        "members_with_workers": document.getElementById("members_with_workers").value,
+                        "members_without_workers": document.getElementById("members_without_workers").value,
                     }
                 );
                 
@@ -679,7 +783,20 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                 $("#hect").val("");
             }
         },
+    
+        _onGRASPQuestionChange: function (ev) {
+            const selectedValue = document.getElementById("not_direct_line_memebers_grasp").value; 
+            const targetClass = `grasp-question-${selectedValue}`;
+            document.querySelectorAll('.grasp-question').forEach(item => {
+                if (item.classList.contains(targetClass)) {
+                    item.style.display = 'unset'; 
+                } else {
+                    item.style.display = 'none'; 
+                }
+            });
 
+        },
+    
         _onContactStateChange: function (ev) {
             var selValue = $("#contactstate").val();
             this.contactCities.innerHTML = '';

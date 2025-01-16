@@ -25,6 +25,7 @@ class PaoGlobalgapProductionSiteProduct(models.Model):
         copy=False,
         default='1',
     )
+    
     parallel_production = fields.Selection(
         selection=[
             ('1', "No"),

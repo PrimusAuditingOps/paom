@@ -67,7 +67,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
                 {'model_description': _('Signature Request'), 'company': self.fans_request_id.create_uid.company_id},
                 {'email_from': self.fans_request_id.create_uid.email_formatted,
                     'author_id': self.fans_request_id.create_uid.partner_id.id,
-                    'email_to': self.fans_request_id.organization_id.contact_email,
+                    'email_to': self.capturist_id.email_formatted,
                     'subject': _('Signature Request')},
                 force_send=True,
                 lang=customer_lang,

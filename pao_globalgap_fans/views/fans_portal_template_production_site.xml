@@ -16,7 +16,6 @@
                     <div class="container s_allow_columns">
                         <div class="row">
                             <div class="col-lg-12 col-lg-8 mt-4 mt-lg-0">
-                              
                                 <section class="s_website_form">
                                     <div class="container">
                                         <form id="production_site_form" class="o_mark_required o_website_production_site_registration_form" action="" method="post" enctype="multipart/form-data"  data-mark="*" >
@@ -47,6 +46,25 @@
                                                             <div class="col-sm-6">
                                                                 <input type="radio" id="phu" name="site_type" value="2"/>
                                                                 <label for="phu">Unidad de Manipulación</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:left">
+                                                    <div class="form-group col-md-12 my-3">
+                                                        <label for="site_is_section">El sitio es:</label>
+                                                        <div id="site_is_section" class="d-flex" style="">
+                                                            <div class="col-sm-1">
+                                                                <input type="radio" checked="true" name="site_is" id="own" value="own"/>
+                                                                <label for="sitio">Propio</label>
+                                                            </div>
+                                                            <div class="col-sm-2 me-4">
+                                                                <input type="radio" name="site_is" id="leased_no_contract" value="leased_no_contract"/>
+                                                                <label for="sitio">Arrendado (Sin Contrato)</label>
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <input type="radio" name="site_is" id="leased_contract" value="leased_contract"/>
+                                                                <label for="sitio">Arrendado (Con Contrato)</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -297,9 +315,10 @@
                                                                
                                                             </select> 
                                                         </div>
-                                                        <div class="form-group col-md-2">
-                                                            <label for="pppo">Producción Paralela</label>
-                                                            <select class="form-control" optional="false" id="pp" name="pp">
+                                                        <input type="hidden" t-att-value="data.version_id.id" id="version_id"/>
+                                                        <div t-att-class="'form-group col-md-2' + (' d-none' if data.version_id.id in (2,3) else '')">
+                                                            <label for="pp">Producción Paralela</label>
+                                                            <select t-att-disabled="data.version_id.id in (2,3)" class="form-control" optional="false" id="pp" name="pp">
                                                                 <t t-foreach="pp" t-as="p">
                                                                     <option t-att-value="p[0]">                         
                                                                         <t t-esc="p[1]"/>
@@ -327,6 +346,107 @@
                                                     <input type="hidden" name="products" id="products" class="form-control s_website_form_input" width="100px" placeholder=""/>
                                                     <div id="gridProducts"></div>
                                                     <table id="gridtest"></table>
+                                                </fieldset>
+                                                <fieldset class="border p-2" t-att-style="'border-color:#ffa500 !important;margin: 30px; ' + ('' if any(addon.is_grasp_module for addon in data.addons_ids) else 'display: none;')">
+                                                    <legend  class="w-auto" style="font-weight:bold;text-align:center" >INFORMACIÓN PARA EL MÓDULO GRASP</legend>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="not_direct_line_memebers_grasp">¿Empleo trabajadores que no sean del núcleo familiar? (sólo línea directa)</label>
+                                                            <select class="form-control" optional="false" id="not_direct_line_memebers_grasp" name="not_direct_line_memebers_grasp">
+                                                                <t t-foreach="not_direct_line_memebers_grasp_options" t-as="option">
+                                                                    <option t-att-value="option[0]">                         
+                                                                        <t t-esc="option[1]" />
+                                                                    </option>
+                                                                </t>
+                                                            </select> 
+                                                        </div>
+                                                        <div class="form-group col-md-3 grasp-question grasp-question-2">
+                                                            <label for="not_direct_line_quantity_members_grasp">Cantidad de personal</label>
+                                                            <input type="text" name="not_direct_line_quantity_members_grasp" id="not_direct_line_quantity_members_grasp" maxlength="15" class="form-control s_website_form_input" width="100px" placeholder="Ingrese cantidad de personal"/>
+                                                        </div>
+                                                        <div class="form-group col-md-3 grasp-question grasp-question-2">
+                                                            <label for="not_direct_line_relation_members">Parentesco</label>
+                                                            <input type="text" name="not_direct_line_relation_members" id="not_direct_line_relation_members" maxlength="15" class="form-control s_website_form_input" width="100px" placeholder="Ingrese el parentesco"/>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table mt-4 grasp-question grasp-question-1" style="display: none;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th class="text-center">Nacionales (Hombres)</th>
+                                                                <th class="text-center">Extranjeros (Hombres)</th>
+                                                                <th class="text-center">Nacionales (Mujeres) </th>
+                                                                <th class="text-center">Extranjeros (Mujeres)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    Permanentes
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="locals_male_quantity_permanent" id="locals_male_quantity_permanent" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="locals_female_quantity_permanent" id="locals_female_quantity_permanent" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="foreigners_male_quantity_permanent" id="foreigners_male_quantity_permanent" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="foreigners_female_quantity_permanent" id="foreigners_female_quantity_permanent" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    Temporales
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="locals_male_quantity_temp" id="locals_male_quantity_temp" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="locals_female_quantity_temp" id="locals_female_quantity_temp" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="foreigners_male_quantity_temp" id="foreigners_male_quantity_temp" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="foreigners_female_quantity_temp" id="foreigners_female_quantity_temp" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    Subcontratados
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="locals_male_quantity_subcontracted" id="locals_male_quantity_subcontracted" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="locals_female_quantity_subcontracted" id="locals_female_quantity_subcontracted" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="foreigners_male_quantity_subcontracted" id="foreigners_male_quantity_subcontracted" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="0" name="foreigners_female_quantity_subcontracted" id="foreigners_female_quantity_subcontracted" class="form-control w-50 mx-auto s_website_form_input"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor" t-att-style="'text-align:center; ' + ('' if data.certification_option_id.id in (3, 4) else 'display: none;')">
+                                                        <div class="form-group col-md-3">
+                                                            <label for="total_members">Número total de miembros</label>
+                                                            <input type="text" name="total_members" id="total_members" maxlength="15" class="form-control s_website_form_input" width="100px"/>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label for="members_with_workers">Miembros con trabajadores</label>
+                                                            <input type="text" name="members_with_workers" id="members_with_workers" maxlength="15" class="form-control s_website_form_input" width="100px"/>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label for="members_without_workers">Miembros sin trabajadores</label>
+                                                            <input type="text" name="members_without_workers" id="members_without_workers" maxlength="15" class="form-control s_website_form_input" width="100px"/>
+                                                        </div>
+                                                    </div>
                                                 </fieldset>
                                                 <br/>
                                                 <br/>
