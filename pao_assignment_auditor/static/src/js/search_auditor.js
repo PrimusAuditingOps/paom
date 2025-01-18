@@ -93,8 +93,9 @@ class SearchAuditors extends Component {
 	            saleorderid = recordData.sale_order_id[0];
 	        }
 	        if ($(order_line).toArray()[0].count > 0) {
-		        $(order_line).toArray().forEach((line) => {
-		        	var lineData = line.records[0].data;
+				$(order_line.records).toArray().forEach((line) => {
+					
+		        	var lineData = line.data;
 		            var start_date = lineData.service_start_date;
 		            var end_date = lineData.service_end_date;
 		            var product_id = lineData.product_id[0];
