@@ -4,7 +4,7 @@
     <template id="portal_auditor_calendar" name="Auditor Calendar" customize_show="True" inherit_id="portal.portal_my_home" priority="80">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <div class="o_portal_category row g-2 mt-2" id="auditor_calendar_option">
-                <t t-if="request.env.user.partner_id.ado_is_auditor and request.env.user.company_id.country_code != 'MX'" t-call="portal.portal_docs_entry">
+                <t t-if="request.env.user.partner_id.ado_is_auditor" t-call="portal.portal_docs_entry">
                     <t t-set="icon" t-value="'/pao_auditor_calendar/static/src/img/calendar_agenda.svg'"/>
                     <t t-set="title">Agenda</t>
                     <t t-set="url" t-value="'/auditor_agenda'"/>
