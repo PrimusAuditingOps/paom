@@ -393,7 +393,7 @@
                         <tbody style="text-align:center;">
                             <t t-foreach="site.product_ids" t-as="product">
                                 <tr>
-                                    <td><span t-field="product.product_id" /></td>
+                                    <td><t t-esc="product.product_id.with_context(lang='es_MX').name" /></td>
                                     <td><span t-field="product.hectares_in_production" /></td>
                                     <td><span t-field="product.to_certificate" /></td>
                                     <td t-att-class="'d-none' if fanrequest.organization_id.version_id.id in (2,3) else ''"><span t-field="product.parallel_production" /></td>
@@ -512,7 +512,7 @@
                                 <t t-foreach="product_information.countries_of_products" t-as="country">
                                     <t t-set="countries" t-value="countries+country.name+' '" />
                                 </t>
-                                <td><span t-field="product_information.product_id" /></td>
+                                <td><t t-esc="product_information.product_id.with_context(lang='es_MX').name" /></td>
                                 <td><span t-field="product_information.uncovered_production_area" /></td>
                                 <td><span t-field="product_information.covered_production_area" /></td>
                                 <td><span t-field="product_information.applicable_harvest" /></td>

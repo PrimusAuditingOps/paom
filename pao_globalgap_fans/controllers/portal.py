@@ -207,7 +207,7 @@ class CustomerPortal(portal.CustomerPortal):
             for p in rec.product_ids:
                 
                 product_obj = {
-                    "product": p.product_id.name, 
+                    "product": p.product_id.with_context(lang=lang).name,
                     "hectareas": p.hectares_in_production, 
                     "certify": p.to_certificate, 
                     "pp": p.parallel_production, 
