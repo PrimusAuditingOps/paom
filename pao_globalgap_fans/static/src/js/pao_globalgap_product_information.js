@@ -383,6 +383,7 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                     "organization_buys_product": $('select[id="organization_buys_product'+product_list[i]+'"] option:selected').val(),
                     "estimated_yield_in_tons": $("#estimated_yield_in_tons"+product_list[i]).val(),
                     "dates_harvest_estimated": "",
+                    "fsma": $("#fsma"+product_list[i]).val(),
                     "harvest_estimated_end_date": $("#harvest_estimated_end_date"+product_list[i] ).val(),
                     "harvest_estimated_start_date": $("#harvest_estimated_start_date"+product_list[i] ).val(),
                     "countries_of_products": $("#countries_of_products"+product_list[i]).val(),
