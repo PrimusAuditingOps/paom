@@ -548,7 +548,7 @@ class CustomerPortal(portal.CustomerPortal):
                         "growth_cycle_number": p["growth_cycle_number"],
                         "product_handling": p["product_handling"],
                         "outsourced_activities": p["outsourced_activities"],
-                        "fsma": p["fsma"],
+                        "fsma": p.get("fsma", None),
                         "ggn_gln_outsourced": p["ggn_gln_outsourced"],
                         "harvest_estimated_start_date": p["harvest_estimated_start_date"],
                         "harvest_estimated_end_date": p["harvest_estimated_end_date"],
