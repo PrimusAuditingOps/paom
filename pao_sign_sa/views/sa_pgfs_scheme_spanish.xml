@@ -27,9 +27,9 @@
                 </div>
                 <br/>
                 <div class="row">
-                    <div class="col-6">
-                    <p style="text-align:left;"><b>SO: </b><span t-field="serviceagreement.customer_vat"/></p></div>
-                    <div class="col-6">
+                    <div class="col-2">
+                    <p style="text-align:left;"><b>SO: </b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.name"/></p></div>
+                    <div class="col-4">
                     <p style="text-align:left;"><b>RFC #: </b><span t-field="serviceagreement.customer_vat"/></p></div>
                     <div class="col-6">
                     <p style="text-align:left;"><b>Numero de Registro: </b><span t-field="serviceagreement.name"/></p></div>
@@ -37,7 +37,7 @@
                 <br/>
                 <div class="row">
                     <div class="col-6">
-                    <p style="text-align:left;"><b>País de Facturación: </b> </p></div>
+                    <p style="text-align:left;"><b>País de Facturación: </b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.company_id.country_id.name"/></p></div>
                     <div class="col-6">
                     <p style="text-align:left;"><b>Versión: </b><span t-field="serviceagreement.version"/></p></div>
                     
@@ -284,7 +284,7 @@
                     de recibida la factura.
                     <br/>
                     <br/>
-                    Fecha: 
+                    Fecha: <span t-field="serviceagreement.sign_sa_agreements_id.document_date" widget="date"/>
                     <br/>
                     <br/>
                     *Un costo administrativo adicional de $200.00 por cancelación y reprogramación podría ser aplicado a las auditorias 
@@ -357,7 +357,7 @@
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Fecha: </b> <span t-field="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" widget="date"/>
+                            <b>Fecha: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
                         </p>
                     </div>
                     <div class="col-6">
@@ -477,7 +477,7 @@
                 <div class="row">
                     <div class="col-6">
                         <p style="text-align:left;">
-                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" widget="date"/>
+                            <b>Fecha: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
                         </p>
                     </div>
                     <div class="col-6">

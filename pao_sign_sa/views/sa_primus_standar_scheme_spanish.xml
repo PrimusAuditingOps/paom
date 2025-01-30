@@ -24,10 +24,10 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <p style="text-align:left;"><b>SO#: </b><span t-field="serviceagreement.customer_vat"/></p>
+                        <p style="text-align:left;"><b>SO#: </b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.name"/></p>
                     </div>
                     <div class="col-6">
-                        <p style="text-align:left;"><b>Registration Number: </b><span t-field="serviceagreement.name"/></p>
+                        <p style="text-align:left;"><b>Número de registro: </b><span t-field="serviceagreement.name"/></p>
                     </div>
                 </div>
                 
@@ -36,7 +36,7 @@
                         <p style="text-align:left;"><b>RFC#: </b><span t-field="serviceagreement.customer_vat"/></p>
                     </div>
                     <div class="col-6">
-                        <p style="text-align:left;"><b>País de Facturación: </b><span>United States</span></p>
+                        <p style="text-align:left;"><b>País de Facturación: </b><span t-field="serviceagreement.sign_sa_agreements_id.sale_order_id.company_id.country_id.name"/></p>
                     </div>
                 </div>
                 <div class="row">
@@ -228,12 +228,12 @@
                             <b>Date: </b><span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
                         </p> -->
                         <p style="text-align:left;">
-                            <b>Fecha: </b> <span t-field="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" widget="date"/>
+                            <b>Fecha: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
                         </p>
                     </div>
                     <div class="col-6">
                         <p style="text-align:left;">
-                           <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date" t-if="serviceagreement.sign_sa_agreements_id.signature_date"/>
+                            <b>Fecha: </b><span t-field="serviceagreement.sign_sa_agreements_id.signature_date" t-if="serviceagreement.sign_sa_agreements_id.signature_date"/>
                         </p>
                     </div>  
                 </div>
