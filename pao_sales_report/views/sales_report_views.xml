@@ -14,7 +14,8 @@
             <xpath expr="//field[@name='product_id']" position="after">
                 <field name="organization_id" optional="show"/>
                 <field name="registration_number_id" optional="show"/>
-                <field name="audit_date" optional="show"/>
+                <field name="audit_start" optional="show"/>
+                <field name="audit_date" optional="hide"/>
                 <field name="vendor_id" optional="show"/>
                 <field name="coordinator_id" optional="show"/>
             </xpath>

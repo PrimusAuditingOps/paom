@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_audit_date_list_view" model="ir.ui.view">
+        <field name="name">aaccount.audit.date.list.view</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date_due']" position="after">
+                <field name="audit_date" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

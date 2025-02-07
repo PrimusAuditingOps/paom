@@ -7,6 +7,8 @@
     "depends": ["account", "sale", "pao_org_rn_audit_information"],
     'data': [
         'reports/report_details.xml',
+        'views/sale_order_inherit.xml',
+        'views/account_inherit.xml',
     ],
     'license': 'LGPL-3',
 }

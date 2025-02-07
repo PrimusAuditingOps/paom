@@ -8,7 +8,8 @@ class SaleReport(models.Model):
     purchase_order_id = fields.One2many(related="sale_order_id.purchase_order_id")
     organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_po_organization")
     registration_number_id = fields.Many2one('servicereferralagreement.registrynumber', string="Registration Number", compute="_get_po_registration_number")
-    audit_date = fields.Date(string="Audit Date", compute="_get_po_audit_date")
+    audit_start = fields.Date(string="Audit Start", compute="_get_po_audit_date")
+    audit_date = fields.Date(string="Audit Date", compute="_get_so_audit_date")
     vendor_id = fields.Many2one(related="purchase_order_id.partner_id")
     coordinator_id = fields.Many2one(related="purchase_order_id.coordinator_id")
 
@@ -54,14 +55,22 @@ class SaleReport(models.Model):
     @api.depends('purchase_order_id.order_line', 'purchase_order_id.state')
     def _get_po_audit_date(self):
         for rec in self:
-            rec.audit_date = None
+            rec.audit_start = None
             valid_po = rec.purchase_order_id.filtered(lambda po: po.state != 'cancel')
             if valid_po:
                 first_po = valid_po[0]
                 po_line_with_date = first_po.order_line.filtered('service_start_date')
                 so_line_with_date = rec.sale_order_id.order_line.filtered('service_start_date')
                 if po_line_with_date:
-                    rec.audit_date = po_line_with_date[0].service_start_date
+                    rec.audit_start = po_line_with_date[0].service_start_date
                 elif so_line_with_date:
-                    rec.audit_date = so_line_with_date[0].service_start_date
+                    rec.audit_start = so_line_with_date[0].service_start_date
+                    
+    @api.depends('sale_order_line_id', 'sale_order_line_id.audit_date')
+    def _get_so_audit_date(self):
+        for rec in self:
+            rec.audit_date = None
+            sale_line_with_audit_date = rec.sale_order_line_id.filtered('audit_date')
+            if sale_line_with_audit_date:
+                rec.audit_date = sale_line_with_audit_date[0].audit_date
 

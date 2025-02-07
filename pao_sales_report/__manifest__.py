@@ -4,7 +4,7 @@
     "author": "Manuel Uzueta Gil",
     "category": "",
     "website": "https://paomx.com",
-    "depends": ["sale", "servicereferralagreement"],
+    "depends": ["sale", "servicereferralagreement", "pao_account_report_details"],
     'data': [
         'views/sales_report_views.xml',
     ],
