@@ -57,7 +57,7 @@
         <field name="inherit_id" ref="sale.sale_order_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='validity_date']" position="after">
-                <field name="service_start_date" string="Audit Dates" widget="daterange" options="{'end_date_field': 'service_end_date'}" optional="hide"/>
+                <field name="service_start_date" string="Audit Date Range" widget="daterange" options="{'end_date_field': 'service_end_date'}" optional="hide"/>
                 <field name="organization_id" optional="hide"/>
                 <field name="registrynumber_id" optional="hide"/>
             </xpath>
