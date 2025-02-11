@@ -19,3 +19,9 @@ class SaleOrderLineInherit(models.Model):
     audit_date = fields.Date(
         string="Audit Date"
     )
+    
+    @api.onchange('service_start_date', 'service_end_date')
+    def _onchange_service_dates(self):
+        for record in self:
+            if record.order_id.company_id.country_code == 'US' and record.service_start_date and record.service_end_date and record.service_start_date == record.service_end_date:
+                record.audit_date = record.service_start_date
