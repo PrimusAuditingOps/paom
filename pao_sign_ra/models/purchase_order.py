@@ -1,5 +1,6 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
+import uuid
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -18,6 +19,12 @@ class PurchaseOrder(models.Model):
     registration_number_id = fields.Many2one('servicereferralagreement.registrynumber', string="Registration Number", compute="_get_po_registration_number", store=True)
     organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_po_organization", store=True)
 
+    def _generate_access_token(self):
+        for rec in self:
+            if not rec.access_token:
+                rec.access_token = str(uuid.uuid4())
+            return rec.access_token
+    
     @api.depends('order_line')
     def _get_po_registration_number(self):
         for rec in self:
