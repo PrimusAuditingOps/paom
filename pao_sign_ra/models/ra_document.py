@@ -97,10 +97,18 @@ class RADocument(models.Model):
     
     def action_cancel(self):
         if self.status in ('sent', 'sign'):
+            previous_status = self.status
             self.status = 'cancel'
             
             if self.purchase_order_id.ra_documents_count <= 0:
                 self.purchase_order_id.ra_sent = False
+                if previous_status == 'sign':
+                    auditconfirmation = self.env['auditconfirmation.purchaseconfirmation'].sudo().search([('ac_id_purchase','=',self.purchase_order_id.id)])
+                    auditconfirmation.write({'ac_audit_confirmation_status': '0'})
+                    self.purchase_order_id.write({'sra_audit_signature': None, 'sra_audit_signature_name': None, 'sra_audit_signature_date': None})
+                    message=_('The previously signed RA has been canceled.')
+                    self.purchase_order_id.notify_ra_request_progress(message)
+            
                 
             return {
                 'type': 'ir.actions.act_window',
