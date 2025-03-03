@@ -369,7 +369,21 @@ class CustomerPortal(portal.CustomerPortal):
                             "uncovered_production_area": total
                         }
                     )
-            
+                else:
+                    total = 0.00
+                    for e in product_ids_hectares_list:
+                        if e['id']  == p:
+                            total = float(float(total) + float(e['hect']))
+
+                    for recProd in rec_product_information:
+                        recProd.write(
+                            {
+                                "uncovered_production_area": total
+                            }
+                        )
+
+            domain_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","not in",product_ids_list)]
+            request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_product).unlink()
             grasp_staff_details = request.env['pao.grasp.staff.details'].sudo().search([("production_site_id","=",production.id)])
             for detail in grasp_staff_details:
                 detail.unlink
@@ -404,8 +418,7 @@ class CustomerPortal(portal.CustomerPortal):
                             'grasp_staff_ids': [(4, grasp_details.id)]
                         })
 
-            domain_product = [("organization_id","=",fr_sudo.organization_id.id), ("product_id","not in",product_ids_list)]
-            request.env['pao.globalgap.production.site.product.information'].sudo().search(domain_product).unlink()
+            
             
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         
