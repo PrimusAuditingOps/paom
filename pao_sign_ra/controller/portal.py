@@ -200,6 +200,13 @@ class SignRAPortal(portal.CustomerPortal):
                 'status': 'sign'
             })
             
+            if country_code == 'US':
+                template = request.env['mail.template'].sudo().search([('name', '=', 'Referral Agreement Attachment')], limit=1)
+                if template:
+                    template.send_mail(ra_document.id, force_send=True, email_values={
+                        'attachment_ids': [(4, attachment.id)]
+                    })
+                
             message=_('The auditor has signed and accepted the RA.')
             ra_document.purchase_order_id.notify_ra_request_progress(message)
 
