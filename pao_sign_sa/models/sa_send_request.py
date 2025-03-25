@@ -218,7 +218,7 @@ class SASendRequest(models.TransientModel):
                     raise ValidationError(msg)
             
             if rn.scheme_id.name in ["GLOBALG.A.P.", "NOP-LPO", "HACCP", "LPO-UE"]:
-                if not rn.organization_id.rfc: 
+                if not rn.organization_id.rfc and self.sale_order_id.country_code == 'MX': 
                     msg=_("Please enter a vat for organization of the registration number ")
                     raise ValidationError(msg + rn.name)
                 if not rn.organization_id.address: 

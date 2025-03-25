@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import dateutil.parser
 from werkzeug.urls import url_join
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, formataddr, config, get_lang
-
+import base64
 _logger = getLogger(__name__)
 
 class PaoSignSaAgreementsSent(models.Model):
@@ -349,3 +349,20 @@ class PaoSignSaAgreementsSent(models.Model):
             force_send=True,
             lang=signer_lang,
         )
+    def regenerate_document(self):
+        for rec in self:
+            attachment_list = []
+            for rn_sa in rec.registration_number_to_sign_ids:
+                filename = "%s-%s.%s" % (rn_sa.name,rn_sa.organization_name, "pdf")
+                #pdf = request.env.ref('pao_sign_sa.report_service_agreements').sudo()._render_qweb_pdf([sa_id.id], data= {"values": rn_sa, "print": True})[0]
+                pdf = rec.env['ir.actions.report'].sudo()._render_qweb_pdf('pao_sign_sa.report_service_agreements', [rec.id], data= {"values": rn_sa, "print": True})[0]
+                attachment = rec.env['ir.attachment'].sudo().create({
+                        'name': filename,
+                        'datas': base64.b64encode(pdf),
+                        'res_model': 'pao.sign.sa.agreements.sent',
+                        'res_id': rec.id,
+                        'type': 'binary',  # override default_type from context, possibly meant for another model!
+                    })
+                attachment_list.append(attachment.id)
+            
+            rec.write({"attachment_ids": [(6, 0, attachment_list)]})

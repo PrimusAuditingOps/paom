@@ -28,6 +28,7 @@ class SaleOrder(models.Model):
             ('announced', "Announced"),
             ('unannounced', "Unannounced"),
             ('pre-assessment', "Pre-Assessment"),
+            ('semi-announced', "Semi-Announced"),
         ],
         default='announced',
         string="Audit type", 
