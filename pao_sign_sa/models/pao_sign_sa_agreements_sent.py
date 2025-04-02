@@ -349,6 +349,7 @@ class PaoSignSaAgreementsSent(models.Model):
             force_send=True,
             lang=signer_lang,
         )
+
     def regenerate_document(self):
         for rec in self:
             attachment_list = []

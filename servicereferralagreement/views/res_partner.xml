@@ -6,6 +6,11 @@
         <field name="type">form</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+
+                <field name="l10n_mx_edi_curp" position="after">
+                    <field name="pao_type_bachelor_degree" invisible="'MX' not in fiscal_country_codes"/>
+                    <field name="pao_type_professional_license_number" invisible="'MX' not in fiscal_country_codes"/>
+                </field>
                 <page name="sales_purchases" position="after">
                         <page string="Organizations"> 
                             <field name="company_id" invisible="1"/>

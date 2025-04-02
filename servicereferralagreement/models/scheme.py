@@ -21,3 +21,11 @@ class PaoServicereFerralAgreementScheme(models.Model):
         comodel_name='res.company',
         required=True, index=True,
         default=lambda self: self.env.company)
+    
+    scheme_manager_mx_id = fields.Many2one(
+        'res.users', 
+        string="Scheme Manager for MX",
+        ondelete='set null', 
+        index=True,
+        domain = [('share','=',False)]
+    )

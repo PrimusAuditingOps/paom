@@ -19,6 +19,14 @@ class ResPartner(models.Model):
         'res_partner_id', 'servicereferralagreement_percentageofauditfee_id',
         string='audit fee percentages',
         required = True)
+    
+    pao_type_bachelor_degree = fields.Char(
+        string="Type Bachelor's Degree",
+    )
+    pao_type_professional_license_number = fields.Char(
+        string="Type Professional License Number",
+    )
+
 
     @api.onchange('audit_fee_percentages_ids')
     def _change_audit_fee(self):

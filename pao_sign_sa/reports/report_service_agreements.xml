@@ -142,7 +142,7 @@
                         <t t-if="values.sign_sa_agreements_id.country_format in ['CR','CL']">
                             <t t-call="pao_sign_sa.sa_header_footer_standard_spanish"/>
                             <div class="page">
-                                <t t-call="pao_sign_sa.sa_header_footer_standard_spanish">
+                                <t t-call="pao_sign_sa.sa_primus_standar_scheme_spanish">
                                     <t t-set="serviceagreement" t-value="values"/>
                                 </t>
                             </div>

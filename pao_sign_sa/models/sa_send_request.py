@@ -24,7 +24,7 @@ class SASendRequest(models.TransientModel):
     position = fields.Char(
         string="Title", 
         required=True,
-        default=_("Responsible"),
+        default= lambda self: "Responsible" if self.env.user.lang ==  "en_US" else "Responsable",
     )
     registration_numbers_ids = fields.Many2many(
         'servicereferralagreement.registrynumber', 
@@ -68,6 +68,9 @@ class SASendRequest(models.TransientModel):
         string="Country Template",
         required=True,
     )
+
+   
+            
     @api.onchange('mail_template_id')
     def _change_mail_template(self):
         self.message = self.mail_template_id.body_html
@@ -218,7 +221,7 @@ class SASendRequest(models.TransientModel):
                     raise ValidationError(msg)
             
             if rn.scheme_id.name in ["GLOBALG.A.P.", "NOP-LPO", "HACCP", "LPO-UE"]:
-                if not rn.organization_id.rfc and self.sale_order_id.country_code == 'MX': 
+                if not rn.organization_id.rfc: 
                     msg=_("Please enter a vat for organization of the registration number ")
                     raise ValidationError(msg + rn.name)
                 if not rn.organization_id.address: 

@@ -19,7 +19,8 @@
         'account',
         'employeesignature',
         'auditordaysoff',
-        'pao_catalog_menu'
+        'pao_catalog_menu',
+        'l10n_mx_edi_extended',
     ],
     'data' : [
         'security/groups.xml',
@@ -57,7 +58,9 @@
         'reports/fsma_usa.xml',
         'reports/standard_usa.xml',
         'reports/sustentabilidad_usa.xml',
-
+        'reports/fpr_05.xml',
+        'reports/header_fpr_05.xml',
+        
         'reports/sasaleorder.xml',
         'reports/rapurchaseorder.xml',
         'reports/lpo_ue.xml',

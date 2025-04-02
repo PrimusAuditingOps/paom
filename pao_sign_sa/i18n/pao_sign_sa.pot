@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-02 07:32+0000\n"
-"PO-Revision-Date: 2024-12-02 07:32+0000\n"
+"POT-Creation-Date: 2025-04-01 22:50+0000\n"
+"PO-Revision-Date: 2025-04-01 22:50+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,6 +24,12 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_smeta_scheme_spanish
 msgid "\"El Cliente\""
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"\"Lineamientos para el uso del Distintivo Nacional y logotipo PAO Organics\""
 msgstr ""
 
 #. module: pao_sign_sa
@@ -46,6 +52,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_smeta_scheme_spanish
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_smeta_scheme_usa
 msgid "\"PRIMUS AUDITING OPS\""
+msgstr ""
+
+#. module: pao_sign_sa
+#. odoo-python
+#: code:addons/pao_sign_sa/models/sa_send_request.py:0
+#, python-format
+msgid "%(sender)s has sent the SA \"%(sa_details)s\" to %(signer)s"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -138,6 +151,14 @@ msgstr ""
 msgid ""
 ", in the City of \n"
 "                            Zapopan, Jalisco, Mexico."
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+". <b>\"El Cliente\"</b> se abstendrá de realizar o \n"
+"                    utilizar declaraciones relacionadas con su certificación, que puedan ser \n"
+"                    consideradas engañosas o no autorizadas por <b>\"PAOMX\".</b>"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -679,12 +700,7 @@ msgid ""
 "                    de recibida la factura.\n"
 "                    <br/>\n"
 "                    <br/>\n"
-"                    Fecha: \n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    *Un costo administrativo adicional de $200.00 por cancelación y reprogramación podría ser aplicado a las auditorias \n"
-"                    canceladas dentro de 21 días de la fecha agendada para la auditoria. Este cargo por cancelación excluye cualquier \n"
-"                    gasto relacionado con viaje o trabajo que se haya realizado al momento de la cancelación."
+"                    Fecha:"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -2126,11 +2142,6 @@ msgid "<b>Alcance de la auditoría: </b>"
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
-msgid "<b>Ambas Partes declaran: </b>"
-msgstr ""
-
-#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
 msgid "<b>Ambas Partes declaran</b>"
 msgstr ""
@@ -2320,7 +2331,8 @@ msgid ""
 "<b>CUARTA. -PAGO. - \"PAOMX\"</b> tiene derecho a recibir el pago íntegro \n"
 "                    por los servicios que preste, de conformidad con lo estipulado en el \n"
 "                    clausulado de este acuerdo, por lo menos 48 horas antes de la fecha acordada \n"
-"                    para la auditoría/inspección en sitio."
+"                    para la auditoría/inspección en sitio y/o las condiciones de crédito \n"
+"                    previamente pactadas entre “Las partes”, lo que resulte aplicable."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -2334,9 +2346,10 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"<b>CUARTA. -PAGO. - \"PAOMX\"</b> tiene derecho a recibir el pago íntegro por los servicios que preste, de conformidad con lo \n"
-"                    estipulado en el clausulado de este acuerdo, por lo menos 48 horas antes de la fecha acordada para la \n"
-"                    auditoría/inspección en sitio."
+"<b>CUARTA. -PAGO. - \"PAOMX\"</b> tiene derecho a recibir el pago íntegro por los servicios que preste, \n"
+"                    de conformidad con lo estipulado en el clausulado de este acuerdo, por lo menos 48 horas antes de la \n"
+"                    fecha acordada para la auditoría/inspección en sitio y/o las condiciones de crédito previamente pactadas \n"
+"                    entre “Las partes”, lo que resulte aplicable."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -2646,10 +2659,7 @@ msgid ""
 "                    referencia a su certificación de producto, así como utilizar su certificado, \n"
 "                    el logotipo de Primus Auditing Operations, la marca registrada \n"
 "                    \"Distintivo Nacional para los Productos Orgánicos\" de acuerdo al \n"
-"                    documento de <b>PAOMX</b> vigente: \"Lineamientos para el uso del Distintivo \n"
-"                    Nacional y logotipo PAO Organics\". <b>\"El Cliente\"</b> se abstendrá de realizar o \n"
-"                    utilizar declaraciones relacionadas con su certificación, que puedan ser \n"
-"                    consideradas engañosas o no autorizadas por <b>\"PAOMX\".</b>"
+"                    documento de <b>PAOMX</b> vigente:"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -2696,9 +2706,8 @@ msgid ""
 "<b>DÉCIMA SEGUNDA. -EVALUACIONES DE VIGILANCIA. - \"El Cliente\" </b>\n"
 "                    se obliga a recibir evaluaciones de vigilancia  (no anunciadas y/o \n"
 "                    seguimientos) en caso de que resulte seleccionado. \"PAOMX\" lleva a \n"
-"                    cabo evaluaciones de <b>empaque</b> de los titulares de certificados. \n"
-"                    Dicha evaluación se anuncia con un plazo máximo de 48 horas de \n"
-"                    antelación. Para éstas evaluaciones <b>\"El Cliente\"</b> gestionará los \n"
+"                    cabo evaluaciones de <b>empaque</b> de los titulares de certificados sin previo aviso. \n"
+"                    Para éstas evaluaciones <b>\"El Cliente\"</b> gestionará los \n"
 "                    arreglos pertinentes conforme lo estipulado en la Cláusula DÉCIMA \n"
 "                    del presente acuerdo."
 msgstr ""
@@ -2756,10 +2765,9 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"<b>DÉCIMA SEXTA. -USO DE CERTIFICADO. - \"El Cliente\"</b> se obliga a hacer referencia a su certificación de producto, así como \n"
-"                    utilizar su certificado, el logotipo de Primus Auditing Operations, la marca registrada GLOBALG.A.P. y/o GGN de acuerdo a los \n"
-"                    Lineamientos para el Uso de Marcas y Logotipos de Certificación de <b>\"PAOMX\"</b> vigente. <b>\"El Cliente\"</b> se abstendrá de realizar o \n"
-"                    utilizar declaraciones relacionadas con su certificación, que puedan ser consideradas engañosas o no autorizadas por <b>\"PAOMX\"</b>."
+"<b>DÉCIMA SEXTA. -USO DE CERTIFICADO. - \"El Cliente\"</b> se obliga a hacer referencia a su certificación \n"
+"                    de producto, así como utilizar su certificado, el logotipo de Primus Auditing Operations, la marca registrada \n"
+"                    GLOBALG.A.P. y/o GGN de acuerdo a los"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -2841,12 +2849,18 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"<b>DÉCIMA TERCERA. -EVALUACIONES DE VIGILANCIA. - \"El Cliente\" </b>se obliga a recibir evaluaciones no anunciadas en caso de \n"
-"                    que resulte seleccionado. \"PAOMX\" lleva a cabo evaluaciones no anunciadas SIN PREVIO AVISO al menos al 10% de los titulares \n"
-"                    de certificados bajo la Opción 1 sin SGC. Para éstas evaluaciones, \"El Cliente\" gestionará los arreglos pertinentes conforme \n"
-"                    a lo estipulado en la Cláusula DÉCIMA del presente acuerdo. \"PAOMX\" podrá emitir una suspensión de los productos certificados \n"
-"                    si \"El Cliente\" rechaza la realización de una evaluación no anunciada. El \"Cliente\" se obliga bajo los términos de este instrumento \n"
-"                    a cubrir los gastos en los que \"PAOMX\" incurra por concepto de evaluaciones no atendidas."
+"<b>DÉCIMA TERCERA. -EVALUACIONES DE VIGILANCIA. - \"El Cliente\"</b> \n"
+"                    se obliga a recibir evaluaciones no anunciadas en caso de que resulte seleccionado. <b>\"PAOMX\"</b> lleva a cabo evaluaciones no anunciadas \n"
+"                    SIN PREVIO AVISO (para v6 SMART se notifica con 48 horas de anticipación) al menos al \n"
+"                    <br/>\n"
+"                    -10% de los titulares de certificados bajo la Opción 1 sin SGC o\n"
+"                    <br/>\n"
+"                    -10% de los Sistemas de gestión certificados bajo Opción 1 con SGC u opción 2\n"
+"                    <br/>\n"
+"                    Según aplique para estas evaluaciones, <b>\"El Cliente\"</b> gestionará los arreglos pertinentes conforme a lo estipulado en la Cláusula DÉCIMA del presente acuerdo. \n"
+"                    <b>\"PAOMX\"</b> podrá emitir una suspensión de los productos certificados si <b>\"El Cliente\"</b> rechaza la realización de una evaluación \n"
+"                    no anunciada. <b>\"El Cliente\"</b> se obliga bajo los términos de este instrumento a cubrir los gastos en los que <b>\"PAOMX\"</b> incurra por \n"
+"                    concepto de evaluaciones no atendidas."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -2866,39 +2880,40 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"<b>DÉCIMA. -ACCESO A PAOMX. - \"El Cliente\" </b>se obliga a facilitar los medios \n"
-"                    necesarios para la realización de la auditoría/inspección, incluyendo \n"
-"                    el acceso a los documentos y registros, instalaciones, oficinas, áreas \n"
-"                    de almacenamiento de producto y al personal operativo para los propósitos \n"
-"                    de la evaluación; sin costo para \"PAOMX\". Adicionalmente, cuando le sea \n"
-"                    requerido por \"PAOMX\", permitirá la participación de observadores y la \n"
-"                    auditoría/inspección física completa de las instalaciones de los \n"
-"                    subcontratistas que intervengan en la producción o manipulación de producto. \n"
-"                    \"El Cliente\" deberá asegurarse que el subcontratista permite, previa \n"
-"                    solicitud, el libre acceso que se estipula en esta Cláusula."
+"<b>DÉCIMA. -ACCESO A PAOMX. - \"El Cliente\" </b>se obliga a facilitar los medios necesarios para la realización de la auditoría/inspección, \n"
+"                    incluyendo el acceso a los documentos y registros, instalaciones, oficinas, áreas de almacenamiento de producto y al personal operativo \n"
+"                    para los propósitos de la evaluación; sin costo para <b>\"PAOMX\"</b>. Adicionalmente, cuando le sea requerido por <b>\"PAOMX\"</b>, permitirá la participación \n"
+"                    de observadores y la auditoría/inspección física completa de las instalaciones de los subcontratistas que intervengan en la producción o \n"
+"                    manipulación de producto. <b>\"El Cliente\"</b> deberá asegurarse que el subcontratista permite, previa solicitud de PAOMX , el libre acceso que se \n"
+"                    estipula en esta Cláusula."
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
-"<b>DÉCIMA. -ACCESO A PAOMX. - \"El Cliente\" </b>se obliga a facilitar los medios necesarios para la realización de la \n"
-"                    auditoría/inspección, incluyendo el acceso a los documentos y registros, instalaciones, oficinas, áreas de almacenamiento\n"
-"                     de producto y al personal operativo para los propósitos de la evaluación; sin costo para <b>\"PAOMX\"</b>. Adicionalmente, \n"
-"                     cuando le sea requerido por <b>\"PAOMX\"</b>, permitirá la participación de observadores y la auditoría/inspección física \n"
-"                     completa de las instalaciones de los subcontratistas que intervengan en la producción o manipulación de producto. \n"
-"                     <b>\"El Cliente\"</b> deberá asegurarse que el subcontratista permite, previa solicitud, el libre acceso que se estipula \n"
-"                     en esta Cláusula.\n"
-"                     <br/>\n"
-"                     <br/>\n"
-"                     Las Partes manifiestan y reconocen expresamente que, por virtud de este Acuerdo, no adquieren vinculación laboral \n"
-"                     alguna entre ellas ni con el personal asignado por cada una de ellas para la realización de los Servicios. \n"
-"                     <br/>\n"
-"                     <br/>\n"
-"                     El personal operativo que para los propósitos de evaluación acceda a las instalaciones de \"El Cliente\", no será \n"
-"                     considerado en ningún caso como trabajador de <b>\"El Cliente\"</b> para los efectos de las disposiciones laborales y de \n"
-"                     seguridad social vigentes."
+"<b>DÉCIMA. -ACCESO A PAOMX. - \"El Cliente\" </b>se obliga a permitir el acceso \n"
+"                    y facilitar los medios necesarios para la realización de la auditoría/inspección, \n"
+"                    incluyendo pero no limitado a: los documentos, ventas, bases de datos y registros \n"
+"                    justificativos pertinentes, resultados de los programas de aseguramiento de \n"
+"                    calidad, unidades de producción, instalaciones, oficinas, áreas de almacenamiento \n"
+"                    y al personal operativo para los propósitos de la evaluación, así como, cualquier \n"
+"                    información necesaria para efectos de la prestación del servicio; sin costo para \n"
+"                    <b>\"PAOMX\"</b>. Adicionalmente, cuando le sea requerido por \"PAOMX\", permitirá la \n"
+"                    participación de observadores y la auditoría/inspección física completa de las \n"
+"                    instalaciones de los subcontratistas que intervengan en la producción o \n"
+"                    manipulación de producto. <b>\"El Cliente\"</b> deberá asegurarse que el subcontratista \n"
+"                    permite, previa solicitud, el libre acceso que se estipula en esta Cláusula.\n"
+"                    <br/><br/>\n"
+"                    <b>“Las Partes”</b> manifiestan y reconocen expresamente que, por virtud de este \n"
+"                    Acuerdo, no adquieren vinculación laboral alguna entre ellas ni con el personal \n"
+"                    asignado por cada una de ellas para la realización de los Servicios.\n"
+"                    <br/><br/>\n"
+"                    El personal operativo que para los propósitos de evaluación acceda a las \n"
+"                    instalaciones de <b>\"El Cliente\"</b>, no será considerado en ningún caso como trabajador \n"
+"                    de <b>\"El Cliente\"</b> para los efectos de las disposiciones laborales y de seguridad \n"
+"                    social vigentes."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -3114,6 +3129,12 @@ msgid "<b>Invoice E-mail: </b>"
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid "<b>Iván Salazar Osorio</b>"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_pgfs_scheme_spanish
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_pgfs_scheme_usa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_smeta_scheme_spanish
@@ -3131,11 +3152,9 @@ msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_add_globalgap_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
-msgid "<b>Javier Ledezma Pichardo</b>"
+msgid "<b>Javier Sollozo Segura</b>"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -3173,14 +3192,6 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
-msgid ""
-"<b>NOTA:</b> Estas son solo estimaciones y podrían cambiar en función de los cargos reales que pudieran generarse el día de la \n"
-"                    evaluación. Un cargo por cancelación se aplicará por la cancelación de auditoría dentro de los 15 días siguientes a la fecha \n"
-"                    de la auditoría programada."
-msgstr ""
-
-#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
 msgid ""
 "<b>NOTA:</b> Estas son solo estimaciones y podrían cambiar en función de los cargos reales. \n"
@@ -3191,9 +3202,20 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
-"<b>NOTA:</b> Estas son solo estimaciones y podrían cambiar en función de los cargos reales. \n"
-"                    Un cargo por cancelación se aplicará por la cancelación de auditoría dentro de los 15 días \n"
-"                    siguientes a la fecha de la auditoría programada."
+"<b>NOTA:</b> Para el concepto de gastos de viaje,  el cliente acepta que son \n"
+"                    montos estimados y que estos podrían variar en función de los cargos reales que \n"
+"                    pudieran generarse el día de la evaluación. En caso de que el cliente cancele la \n"
+"                    auditoría, se aplicará un cargo por Gastos de Cancelación de acuerdo con la \n"
+"                    política vigente descrita en nuestro sitio web."
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+msgid ""
+"<b>NOTA:</b> Para el concepto de gastos de viaje,  el cliente acepta que son montos estimados y \n"
+"                    que estos podrían variar en función de los cargos reales que pudieran generarse el día de la \n"
+"                    evaluación. En caso de que el cliente cancele la auditoría, se aplicará un cargo por Gastos de \n"
+"                    Cancelación de acuerdo con la política vigente descrita en nuestro sitio web."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -3310,6 +3332,7 @@ msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_add_globalgap_scheme
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_primus_standar_scheme_spanish
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_smeta_scheme_spanish
 msgid "<b>Número de registro: </b>"
 msgstr ""
@@ -3341,7 +3364,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
 "<b>OCTAVA. -DOCUMENTOS NORMATIVOS. - \"El Cliente\"</b> se obliga a cumplir con los documentos normativos vigentes del programa \n"
-"                    de certificación al que se ha inscrito, incluyendo, en el caso de \"GLOBALG.A.P.\": Reglamentos Generales, Acuerdo de Sublicencia \n"
+"                    de certificación al que se ha inscrito, incluyendo, en el caso de \"GLOBALG.A.P.\": Procedimientos del Sistema de Gestión de Calidad de \"PAOMX\"\n"
+"                    Reglamentos Generales, Acuerdo de Sublicencia \n"
 "                    y Certificación, Puntos de Control y Criterios de Cumplimiento, Listas de Verificación y Reglas de Acceso a Datos."
 msgstr ""
 
@@ -3473,17 +3497,13 @@ msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_pgfs_scheme_spanish
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_primus_standar_scheme_spanish
 msgid "<b>País de Facturación: </b>"
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_primus_standar_scheme
 msgid "<b>País de Facturación: </b><span>México</span>"
-msgstr ""
-
-#. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_primus_standar_scheme_spanish
-msgid "<b>País de Facturación: </b><span>United States</span>"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -3556,29 +3576,21 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
-"<b>QUINTA. -CARGOS. - \"El Cliente\"</b> se obliga a pagar los honorarios a \n"
-"                    <b>\"PAOMX\"</b> como contraprestación por los servicios estipulados en la \n"
-"                    Cláusula PRIMERA, previa entrega de los recibos o comprobantes \n"
-"                    respectivos, incluyendo los cargos por cancelación de auditoría, \n"
-"                    los gastos por concepto de alojamiento, alimentación y desplazamiento \n"
-"                    en que incurra \"PAOMX\" y cualquier costo adicional en la cuenta del trabajo \n"
-"                    que se tenga que repetir o que se demore como resultado de información \n"
-"                    tardía, incorrecta, incompleta, falla en las pruebas o falta de \n"
-"                    cooperación de <b>\"El Cliente\"</b>. Aun cuando se ha acordado un precio establecido \n"
-"                    o máximo, <b>\"PAOMX\"</b> tiene derecho de hacer cargos extra por los conceptos \n"
-"                    adicionales que pudieran resultar."
+"<b>QUINTA. -CARGOS. - \"El Cliente\"</b> se obliga a pagar a \n"
+"                    <b>\"PAOMX\"</b> los cargos por cancelación de auditoría, así como los \n"
+"                    gastos de viaje adicionales y cualquier costo que pudiera generarse por \n"
+"                    causa imputable directamente a <b>\"El Cliente\"</b>, incluyendo, pero no limitado \n"
+"                    ampliación de tiempos por demora como resultado de información tardía, \n"
+"                    incorrecta, incompleta, falla en las pruebas o falta de cooperación."
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"<b>QUINTA. -CARGOS. - \"El Cliente\"</b> se obliga a pagar los honorarios a <b>\"PAOMX\"</b> como contraprestación por los servicios \n"
-"                    estipulados en la Cláusula PRIMERA, previa entrega de los recibos o comprobantes respectivos, incluyendo los cargos por \n"
-"                    cancelación de auditoría, los gastos por concepto de alojamiento, alimentación y desplazamiento en que incurra \n"
-"                    \"PAOMX\" y cualquier costo adicional en la cuenta del trabajo que se tenga que repetir o que se demore como resultado \n"
-"                    de información tardía, incorrecta, incompleta, falla en las pruebas o falta de cooperación de <b>\"El Cliente\"</b>. Aun cuando \n"
-"                    se ha acordado un precio establecido o máximo, <b>\"PAOMX\"</b> tiene derecho de hacer cargos extra por los conceptos adicionales \n"
-"                    que pudieran resultar."
+"<b>QUINTA. -CARGOS. - \"El Cliente\"</b> se obliga a pagar a <b>\"PAOMX\"</b> los cargos por cancelación de auditoría, \n"
+"                    así como los gastos de viaje adicionales y cualquier costo que pudiera generarse por causa imputable directamente a \n"
+"                    <b>\"El Cliente\"</b>, incluyendo, pero no limitado ampliación de tiempos por demora como resultado de información tardía, \n"
+"                    incorrecta, incompleta, falla en las pruebas o falta de cooperación."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -3637,7 +3649,6 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_fsma_scheme_usa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_primus_standar_scheme_spanish
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_primus_standar_scheme_usa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_smeta_scheme_usa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_sustainability_scheme_usa
@@ -3721,7 +3732,8 @@ msgid ""
 "                    certificación, los cuales pueden incluir: la condición legal, comercial, \n"
 "                    de organización o de propiedad, la estructura de la Organización, cambios \n"
 "                    en el producto o en el método de producción, modificaciones en los Sitios \n"
-"                    de Producción, Unidad de Manejo o Proceso Sistema de Gestión de Calidad."
+"                    de Producción, Unidad de Manejo o Proceso Sistema de Gestión de Calidad, \n"
+"                    el cese de las actividades o retirada de la producción orgánica o ecológica."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -3791,7 +3803,7 @@ msgid ""
 "                    de los servicios indicados en la Cláusula SEGUNDA durante la vigencia \n"
 "                    de este acuerdo siempre y cuando se conserven las características de la\n"
 "                    organización a auditar (sitios de producción, centro de manipulación o \n"
-"                    empaque/PHUs, distancia entre los sitios de producción, entre otras). \n"
+"                    empaque, distancia entre los sitios de producción, entre otras). \n"
 "                    En caso de que dichas características varíen, <b>\"El Cliente\"</b> deberá \n"
 "                    comunicárselo a <b>\"PAOMX\"</b>, con el fin de generar un nuevo acuerdo."
 msgstr ""
@@ -3955,12 +3967,17 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
-"<b>TRIGESIMA. -RECONOCIMIENTO CONTRACTUAL. -</b> Ambas partes reconocen que este \n"
-"                    Acuerdo y los documentos mencionados constituyen el acuerdo total con relación \n"
-"                    al objeto del presente instrumento. En virtud de lo anterior, dejan sin efecto \n"
-"                    cualquier otra negociación, obligación, contrato, convenio o comunicación, sea \n"
-"                    verbal o escrita que hayan llevado a cabo con anterioridad a la fecha del \n"
-"                    presente contrato."
+"<b>TRIGESIMA. -DOMICILIO Y NOTIFICACIONES. -</b> <b>“Las Partes”</b> señalan como sus \n"
+"                    domicilios los establecidos en este acuerdo. Los avisos o notificaciones deberán \n"
+"                    ser por escrito y se considerarán debidamente practicados si se entregan en persona \n"
+"                    o por correo certificado con acuse de recibo en dichas direcciones, debiéndose \n"
+"                    dirigir a las personas que <b>“Las Partes”</b> autoricen para tal efecto.\n"
+"                    <br/><br/>\n"
+"                    <b>“Las Partes”</b> en el presente acuerdo se obligan a notificarse recíprocamente de \n"
+"                    cualquier cambio en los domicilios antes señalados, en el entendido que de no \n"
+"                    recibir comunicación alguna que informe la circunstancia anterior, cualquier \n"
+"                    notificación o aviso practicado en dichos domicilios se entenderá válidamente \n"
+"                    realizado, sufriendo plenamente todos sus efectos jurídicos."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -4437,10 +4454,20 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"<b>VIGÉSIMA NOVENA. -INCUMPLIMIENTO DE OBLIGACIONES. -</b> El incumplimiento de cualquiera de las obligaciones contenidas \n"
-"                    en el presente acuerdo por cualquiera de las partes, dará lugar a la parte afectada a dar por terminado el presente acuerdo \n"
-"                    y al pago, sin necesidad de declaración judicial, de una indemnización del 30% treinta por ciento del valor del total la \n"
-"                    contraprestación pactada además del pago de daños y perjuicios si los hubiera."
+"<b>VIGÉSIMA NOVENA. -INCUMPLIMIENTO DE OBLIGACIONES. -</b> El cliente acepta que le resultan aplicables las cláusulas estipuladas en el \n"
+"                    presente acuerdo y que en caso de algún incumpliendo a estas, se aplicará adicionalmente una pena convencional del 10% diez por ciento del \n"
+"                    valor total de la contraprestación pactada, así como cargos por concepto de daños y perjuicios si los hubiera."
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"<b>VIGÉSIMA NOVENA. -RECONOCIMIENTO CONTRACTUAL. -</b> Ambas partes reconocen que este \n"
+"                    Acuerdo y los documentos mencionados constituyen el acuerdo total con relación \n"
+"                    al objeto del presente instrumento. En virtud de lo anterior, dejan sin efecto \n"
+"                    cualquier otra negociación, obligación, contrato, convenio o comunicación, sea \n"
+"                    verbal o escrita que hayan llevado a cabo con anterioridad a la fecha del \n"
+"                    presente contrato."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -4460,23 +4487,22 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
-msgid ""
-"<b>VIGÉSIMA OCTAVA. -INCUMPLIMIENTO DE OBLIGACIONES. -</b> El incumplimiento de cualquiera \n"
-"                    de las obligaciones contenidas en el presente acuerdo por cualquiera de las partes, \n"
-"                    dará lugar a la parte afectada a dar por terminado el presente acuerdo y al pago, \n"
-"                    sin necesidad de declaración judicial, de una indemnización del 30% treinta por \n"
-"                    ciento del valor del total la contraprestación pactada además del pago de daños y \n"
-"                    perjuicios si los hubiera."
-msgstr ""
-
-#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
 msgid ""
 "<b>VIGÉSIMA OCTAVA. -INCUMPLIMIENTO DE OBLIGACIONES. -</b> El incumplimiento de cualquiera de las obligaciones contenidas \n"
 "                            en el presente acuerdo por cualquiera de las partes, dará lugar a la parte afectada a dar por terminado el presente \n"
 "                            acuerdo y al pago, sin necesidad de declaración judicial, de una indemnización del 30% treinta por ciento del valor \n"
 "                            del total la contraprestación pactada además del pago de daños y perjuicios si los hubiera."
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"<b>VIGÉSIMA OCTAVA. -PENALIZACIÓN. -</b> El cliente acepta que le resultan \n"
+"                    aplicables las cláusulas estipuladas en el presente acuerdo y que en caso de \n"
+"                    algún incumpliendo a estas, se aplicará adicionalmente una pena convencional \n"
+"                    del 10% diez por ciento del valor total de la contraprestación pactada, así \n"
+"                    como cargos por concepto de daños y perjuicios si los hubiera."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -4512,13 +4538,19 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
-"<b>VIGÉSIMA QUINTA. -VIGENCIA. -</b> El presente Acuerdo de Servicios estará vigente a \n"
-"                    partir de la firma del mismo y tendrá una duración mínima de un año. Concluida \n"
-"                    la vigencia del presente, no podrá haber prórroga automática por el simple \n"
-"                    transcurso del tiempo y terminará sin necesidad de darse aviso entre las partes \n"
-"                    y/o necesidad de resolución judicial. Para el caso de que <b>\"El Cliente\"</b>, tuviera \n"
-"                    necesidad de contar nuevamente con los servicios de <b>\"PAOMX\"</b> se requerirá la \n"
-"                    celebración de un nuevo Acuerdo."
+"<b>VIGÉSIMA QUINTA. -VIGENCIA Y CANCELACIÓN. -</b> El presente Acuerdo de Servicios \n"
+"                    será vigente a partir de la fecha de la firma del mismo y hasta la vigencia del \n"
+"                    certificado, salvo que sea cancelado prematuramente por razones materiales. \n"
+"                    Se consideran razones materiales, en particular, el incumplimiento premeditado o \n"
+"                    negligente de este Acuerdo por cualquiera de <b>“Las Partes”</b> que no sea rectificado \n"
+"                    aun habiendo recibido la parte incumplidora una notificación formal instándole a \n"
+"                    subsanar el incumplimiento en un periodo razonable. En el caso de <b>“PAOMX”</b>, se \n"
+"                    considera una razón material, en particular, que un órgano jurisdiccional resuelva \n"
+"                    que <b>“El Cliente”</b> ha incumplido por negligencia una ley nacional o internacional \n"
+"                    relevante en materia de alimentación, que pueda dar lugar a sanciones penales, \n"
+"                    u otra ley relevante para el cumplimiento de este Acuerdo o la consideración de \n"
+"                    la Marca Registrada, o que sea objeto de un requerimiento judicial u otra acción \n"
+"                    por una autoridad del orden público."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -4535,11 +4567,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
 "<b>VIGÉSIMA QUINTA. -ÉTICA DE NEGOCIOS. - </b> \n"
-"                    Las Partes deberán cumplir con sus actividades de conformidad con los estándares de ética más altos y con las mejores prácticas de la industria, \n"
+"                    <u>\"Las Partes\"</u> deberán cumplir con sus actividades de conformidad con los estándares de ética más altos y con las mejores prácticas de la industria, \n"
 "                    incluso sin limitación con cualquier código de práctica o ética voluntarios aplicables a su industria.\n"
 "                    <br/>\n"
 "                    <br/>\n"
-"                    Las partes convienen en informar, a través de sus colaboradores o representantes, las causas que produzcan conflicto de interés en las \n"
+"                    <u>\"Las Partes\"</u> convienen en informar, a través de sus colaboradores o representantes, las causas que produzcan conflicto de interés en las \n"
 "                    actividades a realizar a fin de evitar aspectos que afecten la confidencialidad e imparcialidad, durante o posterior a la vigencia de este acuerdo.\n"
 "                    <br/>\n"
 "                    <br/>\n"
@@ -4668,6 +4700,29 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+msgid ""
+"<b>VIGÉSIMA. -CONFIDENCIALIDAD. -</b> <u>\"Las Partes\"</u> convienen que toda la información y los datos que ambas se entreguen al amparo \n"
+"                    del presente acuerdo, será considerada como información confidencial, <b>“Las Partes”</b> se obligan a salvaguardar dicha información \n"
+"                    confidencial y no usarla ni darla a conocer a ningún tercero, salvo las personas descritas en la cláusula VIGÉSIMA PRIMERA y \n"
+"                    en el caso que alguna autoridad sanitaria, administrativa o judicial que por disposición normativa, auditoría o requerimiento \n"
+"                    expreso lo solicite y para lo cual será notificada la otra Parte cuando corresponda. La presente obligación prevalecerá aún \n"
+"                    después de cumplido, terminado o rescindido el presente instrumento durante los siguientes 5 años posteriores a la terminación \n"
+"                    del presente acuerdo de prestación de servicios y su incumplimiento dará lugar a la reclamación por la parte afectada de \n"
+"                    daños y perjuicios.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Ambas Partes acuerdan que para efectos del presente acuerdo se entiende como información confidencial (en lo sucesivo Información \n"
+"                    Confidencial), toda información comercial, industrial, financiera, técnica o de cualquier índole, propiedad de las Partes contratantes, \n"
+"                    así como cualquier otra información sobre sus productos, mejoras y actividades industriales, profesionales, comerciales, técnicas y \n"
+"                    de desarrollo, contenida en documentos, en medios magnéticos o electrónicos, discos ópticos, películas, micropelículas u otros medios \n"
+"                    similares, a la que ningún tercero podría tener acceso en el curso ordinario de las operaciones, y de lo cual las Partes tengan o hayan \n"
+"                    tenido conocimiento, como resultado del objeto del presente acuerdo.\n"
+"                    <br/>\n"
+"                    <br/>"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
 msgid ""
 "<b>VIGÉSIMA. -DOMICILIO Y NOTIFICACIONES. -  “LAS PARTES” </b>\n"
@@ -4698,29 +4753,6 @@ msgid ""
 "                    o SENASICA-SAGARPA con la finalidad de verificar que \n"
 "                    <b>\"PAOMX\"</b> cumple con los procesos de certificación de acuerdo a los \n"
 "                    lineamientos establecidos."
-msgstr ""
-
-#. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
-msgid ""
-"<b>VIGÉSIMA.-CONFIDENCIALIDAD. -</b> Las Partes convienen que toda la información y los datos que ambas se entreguen al amparo \n"
-"                    del presente acuerdo, será considerada como información confidencial, <b>“Las Partes”</b> se obligan a salvaguardar dicha información \n"
-"                    confidencial y no usarla ni darla a conocer a ningún tercero, salvo las personas descritas en la cláusula VIGÉSIMA PRIMERA y \n"
-"                    en el caso que alguna autoridad sanitaria, administrativa o judicial que por disposición normativa, auditoría o requerimiento \n"
-"                    expreso lo solicite y para lo cual será notificada la otra Parte cuando corresponda. La presente obligación prevalecerá aún \n"
-"                    después de cumplido, terminado o rescindido el presente instrumento durante los siguientes 5 años posteriores a la terminación \n"
-"                    del presente acuerdo de prestación de servicios y su incumplimiento dará lugar a la reclamación por la parte afectada de \n"
-"                    daños y perjuicios.\n"
-"                    <br/>\n"
-"                    <br/>\n"
-"                    Ambas Partes acuerdan que para efectos del presente acuerdo se entiende como información confidencial (en lo sucesivo Información \n"
-"                    Confidencial), toda información comercial, industrial, financiera, técnica o de cualquier índole, propiedad de las Partes contratantes, \n"
-"                    así como cualquier otra información sobre sus productos, mejoras y actividades industriales, profesionales, comerciales, técnicas y \n"
-"                    de desarrollo, contenida en documentos, en medios magnéticos o electrónicos, discos ópticos, películas, micropelículas u otros medios \n"
-"                    similares, a la que ningún tercero podría tener acceso en el curso ordinario de las operaciones, y de lo cual las Partes tengan o hayan \n"
-"                    tenido conocimiento, como resultado del objeto del presente acuerdo.\n"
-"                    <br/>\n"
-"                    <br/>"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -4795,6 +4827,26 @@ msgid "<b>“LAS PARTES” declaran (\"PAOMx\" y “EL CLIENTE\"):</b>"
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid "<b>“Las Partes” declaran (\"PAOMX\" y \"El Cliente\"): </b>"
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"<b>“Las Partes”</b> acuerdan que para efectos del presente acuerdo se entiende como \n"
+"                    información confidencial (en lo sucesivo Información Confidencial), toda \n"
+"                    información comercial, industrial, financiera, técnica o de cualquier índole, \n"
+"                    propiedad de las Partes contratantes, así como cualquier otra información sobre \n"
+"                    sus productos, mejoras y actividades industriales, profesionales, comerciales, \n"
+"                    técnicas y de desarrollo, contenida en documentos, en medios magnéticos o \n"
+"                    electrónicos, discos ópticos, películas, micropelículas u otros medios similares, \n"
+"                    a la que ningún tercero podría tener acceso en el curso ordinario de las \n"
+"                    operaciones, y de lo cua las Partes tengan o hayan tenido conocimiento, como \n"
+"                    resultado del objeto del presente acuerdo."
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
 msgid ""
 "<br/>\n"
@@ -4840,26 +4892,18 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_portal_template
-msgid "<i class=\"fa fa-check\"/> Accept &amp; Sign"
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_pgfs_scheme_spanish
+msgid ""
+"<br/>\n"
+"                    <br/>\n"
+"                    *Un costo administrativo adicional de $200.00 por cancelación y reprogramación podría ser aplicado a las auditorias \n"
+"                    canceladas dentro de 21 días de la fecha agendada para la auditoria. Este cargo por cancelación excluye cualquier \n"
+"                    gasto relacionado con viaje o trabajo que se haya realizado al momento de la cancelación."
 msgstr ""
 
 #. module: pao_sign_sa
-#: model:mail.template,body_html:pao_sign_sa.email_template_sa_organico
-msgid ""
-"<p style=\"box-sizing:border-box;margin:0px;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">\n"
-"Dear Customer:<br><br>\n"
-"Thank you for choosing Primus Auditing Operations as your Certification Body. <br><br> To confirm your Organic audit, the attached Service Agreement needs to be signed.<br><br>\n"
-"This document includes the audit scope, costs, and contractual clauses for the requested service. The signed Service Agreement must be received <u>7 days in advance</u> of the scheduled service date.<br><br>\n"
-"\n"
-"For questions or concerns regarding your scheduling process, please contact the Audit Operations Department by email at <a href=\"mailto:organicosmx@pao-mx.com\" style=\"box-sizing:border-box;text-decoration:none;background-color:transparent;color:#008784;\">organicosmx@pao-mx.com</a><br><br>\n"
-"\n"
-"Best regards,<br><br>\n"
-"\n"
-"Primus Auditing Operations<br><br><br>\n"
-"\n"
-"<u><em>NOTE: The certification service cost has already been covered.\n"
-"</em></u></p>"
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_portal_template
+msgid "<i class=\"fa fa-check\"/> Accept &amp; Sign"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -4895,152 +4939,42 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
-#: model:mail.template,body_html:pao_sign_sa.email_template_sa_standard
+#: model:mail.template,body_html:pao_sign_sa.email_template_sa_globalgap
 msgid ""
-"<p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">\n"
-"Dear Customer:<br><br>\n"
-"Thank you for choosing Primus Auditing Operations as your Certification Body. <br><br>\n"
-"To confirm your Primus Standard audit, the attached Service Agreement needs to be signed.<br><br>\n"
+"<p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">\n"
+"Dear Customer,</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\"><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">Thank you for selecting Primus Auditing Operations for your GlobalGAP audit. Please sign the attached Service Agreement at your earliest convenience to proceed with your annual audit.</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\"><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">You may access the scheme information for review through this&nbsp;<a href=\"https://primusauditingops.com/globalg-a-p/\" target=\"_blank\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\">here</a>.<br><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">If you have any questions or concerns regarding your scheduling process, please contact the Operations department at 805.623.5553 or via email at&nbsp;<a href=\"mailto:AuditAdmins@PAO-USA.com\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\" target=\"_blank\">AuditAdmins@PAO-USA.com</a>.</p><p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">For technical support, our Quality Assurance Department can be reached by phone at 805.631.5248 or via email at&nbsp;<a href=\"mailto:AuditQA@PAO-USA.com\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\" target=\"_blank\">AuditQA@PAO-USA.com</a><br><br><br>\n"
 "\n"
-"This document includes the audit scope, costs, and contractual clauses for the requested service. The signed Service Agreement must be received <u>7 days in advance</u> of the scheduled service date.<br><br>\n"
+"Kind regards,<br><br>&nbsp;Operations, Primus Auditing Ops</p>"
+msgstr ""
+
+#. module: pao_sign_sa
+#: model:mail.template,body_html:pao_sign_sa.email_template_sa_organico
+msgid ""
+"<p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">\n"
+"Dear Customer,</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\"><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">Thank you for selecting Primus Auditing Operations for your NOP USDA Organic inspection. To proceed with your annual inspection, please sign the attached Service Agreement as soon as possible.</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\"><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">To review the NOP Organic Standards, please follow this&nbsp;<a href=\"https://primusauditingops.com/nop-national-organic-program-usa/\" target=\"_blank\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\">here</a>.<br><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">If you have any questions or concerns regarding your scheduling process, please contact the Organic department at&nbsp;<a href=\"mailto:OrganicAdmin@PAO-USA.com\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\" target=\"_blank\">OrganicAdmin@PAO-USA.com</a>.</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">For technical assistance, our Quality Assurance Department can be reached by phone at 805.631.5248 or via email at&nbsp;<a href=\"mailto:QAOrganics@PAO-USA.com\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\" target=\"_blank\">QAOrganics@PAO-USA.com</a><br><br><br>\n"
 "\n"
-"For questions or concerns regarding your scheduling process, please contact the Audit Operations Department by email at <a href=\"mailto:auditmx@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">auditmx@pao-mx.com</a><br><br>\n"
-"\n"
-"To review the Primus Standard scheme documentation, click <a href=\"https://azzule.com/primusstandardaudits/\" target=\"_blank\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">here</a>.<br><br>\n"
-"\n"
-"For additional Buyer information, please check our website for the Buyer Programs <a href=\"https://primusauditingops.com/index.php/es/services-2/buyer-programs\" target=\"_blank\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">here</a>.<br><br>\n"
-"\n"
-"If technical assistance is required, please contact the PrimusGFS Quality Department by email at <a href=\"mailto:calidadmx@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">calidadmx@pao-mx.com</a><br><br><br>\n"
-"\n"
-"Best regards,<br><br>\n"
-"\n"
-"Primus Auditing Operations<br><br><br>\n"
-"\n"
-"NOTE: Before signing the document, please review and confirm that all your information is correct.<br><br>\n"
-"\n"
-"<u><em>If this document is not signed prior to the audit date, Primus Auditing Operations reserves the right to reschedule the service with prior notice.</em></u>\n"
-"\n"
-"</p>"
+"Kind regards,<br><br>&nbsp;Operations, Primus Auditing Ops</p>"
 msgstr ""
 
 #. module: pao_sign_sa
 #: model:mail.template,body_html:pao_sign_sa.email_template_sa_primusgfs
 msgid ""
-"<p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">\n"
-"Dear Customer:<br><br>\n"
-"Thank you for choosing Primus Auditing Operations as your Certification Body. <br><br>\n"
-"To confirm your PrimusGFS audit, the attached Service Agreement needs to be signed.<br><br>\n"
+"<p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">\n"
+"Dear Customer,</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\"><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">Thank you for selecting Primus Auditing Operations to conduct your PrimusGFS audit. Please sign the attached Service Agreement at your earliest convenience to proceed with your annual audit.</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\"><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">You may access the PrimusGFS scheme documentation&nbsp;<a href=\"https://primusauditingops.com/primusgfs/\" target=\"_blank\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\">here</a>.<br><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">For additional information regarding our Buyer Program, please visit our Buyer Program web page&nbsp;<a href=\"https://primusauditingops.com/buyer-programs/\" target=\"_blank\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\">here</a>.<br><br>If you have any questions or concerns regarding your scheduling process, please contact the Operations department at <a href=\"mailto:PrimusGFSAdmin@PrimusAuditingOps.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">PrimusGFSAdmin@PrimusAuditingOps.com</a>.</p><p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">For technical support, you may contact our Quality Assurance Department by phone at 805.631.5248 or through email at&nbsp;<a href=\"mailto:AuditQA@PrimusAuditingOps.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">AuditQA@PrimusAuditingOps.com</a><br><br><br>\n"
 "\n"
-"This document includes the audit scope, costs, and contractual clauses for the requested service. The signed Service Agreement must be received <u>7 days in advance</u> of the scheduled service date.<br><br>\n"
-"\n"
-"For questions or concerns regarding your scheduling process, please contact the Audit Operations Department by email at <a href=\"mailto:auditmx@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">auditmx@pao-mx.com</a><br><br>\n"
-"\n"
-"To review the PrimusGFS scheme documentation, click <a href=\"https://primusgfs.com/pgfs-v3-2/\" target=\"_blank\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">here</a>.<br><br>\n"
-"\n"
-"For additional Buyer information, please check our website for the Buyer Programs <a href=\"https://primusauditingops.com/index.php/es/services-2/buyer-programs\" target=\"_blank\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">here</a>.<br><br>\n"
-"\n"
-"If technical assistance is required, please contact the PrimusGFS Quality Department by email at <a href=\"mailto:calidadmx@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">calidadmx@pao-mx.com</a><br><br><br>\n"
-"\n"
-"Best regards,<br><br>\n"
-"\n"
-"Primus Auditing Operations<br><br><br>\n"
-"\n"
-"NOTE: Before signing the document, please review and confirm that all your information is correct.<br><br>\n"
-"\n"
-"<u><em>If this document is not signed prior to the audit date, Primus Auditing Operations reserves the right to reschedule the service with prior notice.</em></u>\n"
-"\n"
-"</p>"
+"Kind regards,<br><br>&nbsp;Operations, Primus Auditing Ops</p>"
 msgstr ""
 
 #. module: pao_sign_sa
 #: model:mail.template,body_html:pao_sign_sa.email_template_sa_generica
-msgid ""
-"<p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">\n"
-"Dear Customer:<br><br>\n"
-"Thank you for choosing Primus Auditing Operations as your Certification Body. <br><br>\n"
-"To confirm your audit, the attached Service Agreement needs to be signed. <br><br>\n"
-"This document includes the audit scope, costs, and contractual clauses for the requested service. The signed Service Agreement must be received <u>7 days in advance</u> of the scheduled service date.<br><br>\n"
-"\n"
-"For questions or concerns regarding your scheduling process, please contact the Audit Operations Department by email at <a href=\"mailto:auditmx@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">auditmx@pao-mx.com</a><br><br>\n"
-"\n"
-"To review the service documentation, click <a href=\"https://primusauditingops.com/es/servicios/\" target=\"_blank\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">here</a>.<br><br>\n"
-"\n"
-"For additional Buyer information, please check our website for the Buyer Programs <a href=\"https://primusauditingops.com/buyer-programs/\" target=\"_blank\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">here</a>.<br><br>\n"
-"\n"
-"Best regards,<br><br>\n"
-"\n"
-"Primus Auditing Operations<br><br><br>\n"
-"NOTE: Before signing the document, please review and confirm that all your information is correct.<br><br>\n"
-"<u>If this document is not signed prior to the audit date, Primus Auditing Operations reserves the right to reschedule the service with prior notice.</u>\n"
-"\n"
-"</p>"
-msgstr ""
-
-#. module: pao_sign_sa
-#: model:mail.template,body_html:pao_sign_sa.email_template_sa_globalgap
-msgid ""
-"<p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">\n"
-"Dear Customer:<br><br>\n"
-"Thank you for choosing Primus Auditing Operations as your Certification Body.<br><br>\n"
-"To confirm your GLOBALG.A.P. audit, the attached Service Agreement needs to be signed:<br><br>\n"
-"<b style=\"box-sizing:border-box;font-weight:bolder;\">FAN-05: CERTIFICATION SERVICE CONTRACT</b><br><br>\n"
-"\n"
-"This document includes the audit scope, costs, and contractual clauses for the requested service. The signed Service Agreement must be received <u>7 days in advance</u> of the scheduled service date.<br><br>\n"
-"\n"
-"For questions or concerns regarding your scheduling process, please contact the Audit Operations Department by email at <a href=\"mailto:auditmx@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">auditmx@pao-mx.com</a><br><br>\n"
-"\n"
-"To review the GLOBALG.A.P. scheme documentation, click <a href=\"https://www.globalgap.org/es/documents/\" target=\"_blank\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">here</a>.<br><br>\n"
-"\n"
-"For additional Buyer information, please check our website for the Buyer Programs <a href=\"https://primusauditingops.com/index.php/es/services-2/buyer-programs\" target=\"_blank\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">here</a>.<br><br>\n"
-"\n"
-"If technical assistance is required, please contact the GLOBALG.A.P. Quality Department by email at <a href=\"mailto:globalgapmx@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">globalgapmx@pao-mx.com</a><br><br><br>\n"
-"\n"
-"Best regards,<br><br>\n"
-"\n"
-"Primus Auditing Operations<br><br><br>\n"
-"\n"
-"NOTE: Before signing the document, please review and confirm that all your information is correct.<br><br>\n"
-"\n"
-"<u><em>If this document is not signed prior to the audit date, Primus Auditing Operations reserves the right to reschedule the service with prior notice.</em></u>\n"
-"</p>"
-msgstr ""
-
-#. module: pao_sign_sa
 #: model:mail.template,body_html:pao_sign_sa.email_template_sa_smeta
-msgid ""
-"<p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">\n"
-"Dear Customer:<br><br>\n"
-"Thank you for choosing Primus Auditing Operations to conduct your SMETA social responsibility audit (Sedex Members Ethical Trade Audit). <br><br>\n"
-"We have attached the Primus Auditing Ops. Service Agreement. To proceed with your audit process, please sign the attached Service Agreement as soon as possible.<br><br>\n"
-"\n"
-"It is very important to sign the document promptly. If it is not sent on time, the audit will be rescheduled or, if the audit has already been conducted, the certificate will be withheld.<br><br>\n"
-"\n"
-"For questions or concerns regarding your scheduling process and technical assistance, please contact the Social Responsibility and Sustainability department by email at <a href=\"mailto:calidad.rs_s@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">calidad.rs_s@pao-mx.com</a><br><br>\n"
-"\n"
-"Best regards,<br><br>\n"
-"\n"
-"Primus Auditing Operations<br><br><br>\n"
-"\n"
-"</p>"
-msgstr ""
-
-#. module: pao_sign_sa
+#: model:mail.template,body_html:pao_sign_sa.email_template_sa_standard
 #: model:mail.template,body_html:pao_sign_sa.email_template_sa_sustentabilidad
 msgid ""
-"<p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">\n"
-"Dear Customer:<br><br>\n"
-"Thank you for choosing Primus Auditing Operations to conduct your Sustainability Standard audit. <br><br>\n"
-"We have attached the Primus Auditing Ops. Service Agreement. To proceed with your annual audit process, please sign the attached Service Agreement as soon as possible. This agreement pertains to the audit service for the current year. To maintain your active Certification status, it is necessary to conduct documentary audits at month 12 and month 24 following the initial audit, for which a specific service quotation will be generated.<br><br>\n"
+"<p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">\n"
+"Dear Customer,</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\"><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">Thank you for selecting Primus Auditing Operations to perform your audit. Please sign the attached Service Agreement at your earliest convenience to proceed with your annual audit.</p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\"><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">You may review the scheme documentation&nbsp;<a href=\"https://primusauditingops.com/services/\" target=\"_blank\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\">here</a>.<br><br></p><p style=\"margin: 0px; box-sizing: border-box; font-size: 12pt; font-family: Tahoma, sans-serif; color: #000000; line-height: 1;\">For additional information regarding our Buyer Program, please visit our Buyer Program web page&nbsp;<a href=\"https://primusauditingops.com/buyer-programs/\" target=\"_blank\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\">here</a>.<br><br>If you have any questions or concerns regarding your scheduling process, please contact the Operations department by phone at 805.623.5553 or through email at&nbsp;<a href=\"mailto:AuditAdmins@PAO-USA.com\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\" target=\"_blank\">AuditAdmins@PAO-USA.com</a>.</p><p style=\"margin:0px 0 16px 0;box-sizing:border-box;font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;\">For technical support, our Quality Assurance Department is available by phone at 805.631.5248 or through email at&nbsp;<a href=\"mailto:AuditQA@PAO-USA.com\" style=\"color:#008f8c;text-decoration: none; box-sizing: border-box;\" target=\"_blank\">AuditQA@PAO-USA.com</a><br><br><br>\n"
 "\n"
-"It is very important to sign the document promptly. If it is not sent on time, the audit will be rescheduled or, if the audit has already been conducted, the certificate will be withheld.<br><br>\n"
-"\n"
-"For questions or concerns regarding your scheduling process and technical assistance, please contact the Social Responsibility and Sustainability department by email at <a href=\"mailto:calidad.rs_s@pao-mx.com\" style=\"text-decoration:none;box-sizing:border-box;color:#008f8c;\">calidad.rs_s@pao-mx.com</a><br><br>\n"
-"\n"
-"Best regards,<br><br>\n"
-"\n"
-"Primus Auditing Operations<br><br><br>\n"
-"\n"
-"</p>"
+"Kind regards,<br><br>&nbsp;Operations, Primus Auditing Ops</p>"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -5382,7 +5316,7 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
-"Además, ambas Partes deberán cumplir con todas las leyes y reglamentos \n"
+"Además, <b>“Las Partes”</b> deberán cumplir con todas las leyes y reglamentos \n"
 "                    referentes a sus industrias y objeto social en el territorio donde \n"
 "                    proporcionan sus servicios, de conformidad con lo previsto en este \n"
 "                    contrato."
@@ -5460,21 +5394,6 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
-msgid ""
-"Ambas Partes acuerdan que para efectos del presente acuerdo se entiende como \n"
-"                    información confidencial (en lo sucesivo Información Confidencial), toda \n"
-"                    información comercial, industrial, financiera, técnica o de cualquier índole, \n"
-"                    propiedad de las Partes contratantes, así como cualquier otra información sobre \n"
-"                    sus productos, mejoras y actividades industriales, profesionales, comerciales, \n"
-"                    técnicas y de desarrollo, contenida en documentos, en medios magnéticos o \n"
-"                    electrónicos, discos ópticos, películas, micropelículas u otros medios similares, \n"
-"                    a la que ningún tercero podría tener acceso en el curso ordinario de las \n"
-"                    operaciones, y de lo cua las Partes tengan o hayan tenido conocimiento, como \n"
-"                    resultado del objeto del presente acuerdo."
-msgstr ""
-
-#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
 msgid ""
 "Ambas Partes acuerdan que para efectos del presente acuerdo se entiende como información confidencial (en lo sucesivo \n"
@@ -5487,16 +5406,20 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_add_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_ggap
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid "Aprobado Por: I. Salazar"
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_add_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_add_ggap
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_ggap
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_haccp
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_lpo_ue
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid "Aprobado Por: J. Ledezma"
 msgstr ""
 
@@ -5549,7 +5472,13 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_send_request_view_form
+msgid "Attach a file"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model:ir.model.fields,field_description:pao_sign_sa.field_pao_sign_sa_agreements_sent__attachment_ids
+#: model:ir.model.fields,field_description:pao_sign_sa.field_sa_send_request__attachment_ids
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.pao_sign_sa_agreements_sent_view_form
 msgid "Attachments"
 msgstr ""
@@ -5777,6 +5706,15 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"Con la cancelación de este Acuerdo cesará inmediatamente el derecho de <b>“El Cliente”</b> \n"
+"                    de utilizar la Declaración Orgánico y/o ecológica., incluyendo la Marca Registrada \n"
+"                    y Distintivo Nacional<br/>\n"
+"                    El presente Acuerdo se cancelará automáticamente, sin previa notificación, sí:"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
 "Con la cancelación de este Acuerdo cesará inmediatamente el derecho de “El Cliente” de utilizar la Declaración GLOBALG.A.P., incluyendo la \n"
@@ -5921,6 +5859,7 @@ msgstr ""
 
 #. module: pao_sign_sa
 #: model:ir.model.fields,field_description:pao_sign_sa.field_pao_registration_number_to_sign__customer_name
+#: model:ir.model.fields,field_description:pao_sign_sa.field_pao_sign_sa_agreements_sent__customer_id
 msgid "Customer"
 msgstr ""
 
@@ -6099,6 +6038,11 @@ msgid "Date Complete Spanish"
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.pao_sign_sa_agreements_sent_general_tree_view
+msgid "Date sent"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_smeta_scheme_usa
 msgid "Dated:"
 msgstr ""
@@ -6106,7 +6050,7 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
-"De conformidad con lo anterior, ambas Partes aceptan y reconocen que \n"
+"De conformidad con lo anterior, <b>“Las Partes”</b> aceptan y reconocen que \n"
 "                    están totalmente comprometidas con una política y práctica de \n"
 "                    cumplimiento con las leyes y reglamentaciones de los Estados Unidos \n"
 "                    Mexicanos para prevenir, evitar y combatir la corrupción y el soborno, \n"
@@ -6646,20 +6590,24 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_ggap
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid "Elaborado Por: A. Iñiguez"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_add_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_add_ggap
 msgid "Elaborado Por: F. Valencia"
 msgstr ""
 
 #. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_ggap
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_haccp
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_lpo_ue
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid "Elaborado Por: M. Salmerón"
 msgstr ""
 
@@ -6669,16 +6617,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_add_ggap
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_haccp
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_lpo_ue
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid "Emisión: 27 Jun. 2023"
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_ggap
-msgid "Emisión: 29 Ago. 2023"
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid "Emisión: Según la ficha"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -6694,7 +6642,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
 "En caso de incumplimiento con lo dispuesto en esta cláusula, le serán aplicables de manera enunciativa más no limitativa, \n"
-"                    las sanciones establecidas en la Ley de la Propiedad Industrial, el Código Penal Federal o las disposiciones legales aplicables."
+"                    las sanciones establecidas en la Ley Federal de Protección a la Propiedad Industrial, el Código Penal Federal o las disposiciones \n"
+"                    legales aplicables."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -6745,6 +6694,15 @@ msgid ""
 "                    los gastos de viaje, gastos de traslados, gastos de auditor y gastos \n"
 "                    administrativos. Primus Auditing Operations, para este propósito, \n"
 "                    enviará una cotización individual para esta actividad."
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"En el supuesto descrito en el inciso b, <b>“PAOMX”</b> se obliga a suministrar a \n"
+"                    <b>“El Cliente”</b> cuanta información y a ejecutar cuantos actos sean necesarios \n"
+"                    para facilitar la transmisión el presente Acuerdo suscrito con <b>“El Cliente”</b> \n"
+"                    a un nuevo Organismo de Certificación."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -7043,6 +7001,11 @@ msgstr ""
 msgid ""
 "Gastos estimados de viaje: Los honorarios de viaje son estimados y están sujetos a cambios basados en los costos de viaje \n"
 "                    reales incurridos."
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_send_request_view_form
+msgid "Generate preview"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -7443,6 +7406,11 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+msgid "Lineamientos para el Uso de Marcas y Logotipos de Certificación"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_add_ggap
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_fsma_usa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_gfs
@@ -7636,6 +7604,11 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.pao_sign_sa_agreements_sent_general_tree_view
+msgid "Name"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_cert008_scheme_spanish
 msgid "Negarse a dar servicio cuando existe conflicto de interés."
 msgstr ""
@@ -7710,6 +7683,7 @@ msgstr ""
 
 #. module: pao_sign_sa
 #: model:ir.model.fields,field_description:pao_sign_sa.field_pao_registration_number_to_sign__organization_name
+#: model:ir.model.fields,field_description:pao_sign_sa.field_pao_sign_sa_agreements_sent__organization_id
 msgid "Organization"
 msgstr ""
 
@@ -8297,6 +8271,30 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"Que a través del instrumento notarial número 6,061 seis mil sesenta y uno, de fecha 30 \n"
+"                                    treinta de noviembre de 2024 dos mil veinticuatro, a cargo del Lic. Efrén Yáñez Cárdenas \n"
+"                                    Notario Público número 180 ciento ochenta de la Ciudad de Culiacán, Sinaloa, se otorgó a \n"
+"                                    favor del <b>C. IVÁN SALAZAR OSORIO</b>, un Poder General para actos de Administración, por lo \n"
+"                                    que cuenta con las facultades necesarias para la celebración del presente contrato, mismas \n"
+"                                    facultades que no le han sido revocadas, ni limitadas en forma alguna a la fecha de celebración \n"
+"                                    del presente contrato."
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+msgid ""
+"Que a través del instrumento notarial número 6,061 seis mil sesenta y uno, de fecha 30 \n"
+"                                    treinta de noviembre de 2024 dos mil veinticuatro, a cargo del Lic. Efrén Yáñez Cárdenas \n"
+"                                    Notario Público número 180 ciento ochenta de la Ciudad de Culiacán, Sinaloa, se otorgó a \n"
+"                                    favor del <b>C. IVÁN SALAZAR OSORIO</b>, un Poder General para actos de Administración, por lo que \n"
+"                                    cuenta con las facultades necesarias para la celebración del presente contrato, mismas \n"
+"                                    facultades que no le han sido revocadas, ni limitadas en forma alguna a la fecha de \n"
+"                                    celebración del presente contrato."
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
 msgid ""
 "Que acepta la aplicación de las medidas correctoras en caso de "
@@ -8304,16 +8302,27 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"Que acredita la constitución de su sociedad Primus Auditing Operations México, \n"
+"                                    S.A. de C.V. con el testimonio de la escritura pública No. 7,383 siete mil \n"
+"                                    trescientos ochenta y tres fechada el 24 de abril de 2015 dos mil quince ante \n"
+"                                    la fe del Fernando A. Gallo Pérez notario público número 23 veintitrés de \n"
+"                                    Guadalajara, Jalisco."
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"Que acredita la constitución de su sociedad Primus Auditing Operations México, S.A. de C.V. con el testimonio \n"
-"                                    de la escritura pública No. 7,383 siete mil trescientos ochenta y tres fechada el 24 de abril de 2015 dos mil \n"
-"                                    quince ante la fe del Fernando A. Gallo Pérez notario público número 23 veintitrés de Guadalajara, Jalisco."
+"Que acredita la constitución de su sociedad Primus Auditing Operations México, \n"
+"                                    S.A. de C.V. con el testimonio de la escritura pública No. 7,383 siete mil \n"
+"                                    trescientos ochenta y tres fechada el 24 de abril de 2015 dos mil quince ante la \n"
+"                                    fe del Fernando A. Gallo Pérez notario público número 23 veintitrés de Guadalajara, \n"
+"                                    Jalisco."
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
 "Que acredita la constitución de su sociedad con el testimonio \n"
 "                                de la escritura pública No. 7,383 fechada el 24 de abril de \n"
@@ -8331,14 +8340,27 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"Que con Escritura número 19,769 diecinueve mil setecientos sesenta y nueve de fecha \n"
+"                                    23 veintitrés de diciembre de 2015 dos mil quince, ante el Lic. Arturo López Corella \n"
+"                                    titular de la Notaría Pública número 14 catorce del municipio de Mexicali en el Estado \n"
+"                                    de Baja California, mediante protocolización de acta de Asamblea General Extraordinaria, \n"
+"                                    la empresa Primus Auditing Operations México, S. A. de C. V. aprueba la transformación de \n"
+"                                    la Sociedad a Sociedad de Responsabilidad Limitada de Capital Variable, quedando como \n"
+"                                    Primus Auditing Operations México, S. de R. L. de C. V."
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"Que con Escritura número 19,769 diecinueve mil setecientos sesenta y nueve de fecha 23 veintitrés \n"
-"                                    de diciembre de 2015 dos mil quince, ante el Lic. Arturo López Corella titular de la Notaría Pública \n"
-"                                    número 14 catorce del municipio de Mexicali en el Estado de Baja California, mediante protocolización \n"
-"                                    de acta de Asamblea General Extraordinaria, la empresa Primus Auditing Operations México, S. A. de C. V. \n"
-"                                    aprueba la transformación de la Sociedad a Sociedad de Responsabilidad Limitada de Capital Variable, \n"
-"                                    quedando como Primus Auditing Operations México, S. de R. L. de C. V."
+"Que con Escritura número 19,769 diecinueve mil setecientos sesenta y nueve de fecha 23 \n"
+"                                    veintitrés de diciembre de 2015 dos mil quince, ante el Lic. Arturo López Corella titular \n"
+"                                    de la Notaría Pública número 14 catorce del municipio de Mexicali en el Estado de Baja \n"
+"                                    California, mediante protocolización de acta de Asamblea General Extraordinaria, la empresa \n"
+"                                    Primus Auditing Operations México, S. A. de C. V. aprueba la transformación de la Sociedad \n"
+"                                    a Sociedad de Responsabilidad Limitada de Capital Variable, quedando como Primus Auditing \n"
+"                                    Operations México, S. de R. L. de C. V."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -8381,7 +8403,6 @@ msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
 "Que cuenta con la acreditación vigente emitida por la Entidad \n"
 "                                Mexicana de Acreditación y las respectivas aprobaciones otorgadas \n"
@@ -8391,11 +8412,21 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"Que cuenta con la acreditación vigente emitida por la Entidad Mexicana de Acreditación y \n"
+"                                    las respectivas aprobaciones otorgadas por las entidades correspondientes para operar \n"
+"                                    como organismo de certificación de producto en los términos de la Ley Federal de Metrología \n"
+"                                    y Normalización."
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"Que cuenta con la acreditación vigente emitida por la Entidad Mexicana de Acreditación y las respectivas aprobaciones \n"
-"                                    otorgadas por las entidades correspondientes para operar como organismo de certificación de producto en los términos de \n"
-"                                    la Ley Federal de Metrología y Normalización."
+"Que cuenta con la acreditación vigente emitida por la Entidad Mexicana de Acreditación y \n"
+"                                    las respectivas aprobaciones otorgadas por las entidades correspondientes para operar como \n"
+"                                    organismo de certificación de producto en los términos de la Ley Federal de Metrología y \n"
+"                                    Normalización."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -8502,20 +8533,19 @@ msgstr ""
 msgid ""
 "Que para todos los efectos legales a que haya lugar, \n"
 "                                <b>LAS PARTES</b> están de acuerdo en otorgarle completa \n"
-"                                vinculación y plena validez la firma del presente \n"
-"                                contrato a través de la firma electrónica que se utilice \n"
-"                                solamente a través del software ODOO. Que, cumpliendo \n"
-"                                con los requisitos de dicho software, hará las veces de una \n"
+"                                vinculación o y plena validez la firma del presente contrato a \n"
+"                                través de firma autógrafa o firma digital. En caso de utilizar \n"
+"                                firma digital, “Las partes” acuerdan el uso del software Odoo, \n"
+"                                cumpliendo con los requisitos del mismo, hará las veces de una \n"
 "                                firma autógrafa."
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"Que para todos los efectos legales a que haya lugar, <b>\"Las Partes\"</b> están de acuerdo en otorgarle completa \n"
-"                                    vinculación y plena validez la firma del presente contrato a través de la firma electrónica que se utilice \n"
-"                                    solamente a través del software ODOO. Que, cumpliendo con los requisitos de dicho software, hará las veces \n"
-"                                    de una firma autógrafa."
+"Que para todos los efectos legales a que haya lugar, <b>\"Las Partes\"</b> están de acuerdo en otorgarle \n"
+"                                    completa vinculación y plena validez la firma del presente contrato a través de firma autógrafa o firma digital. \n"
+"                                    En caso de utilizar firma digital, <b>\"Las Partes\"</b> acuerdan el uso del software Odoo, cumpliendo con los requisitos del mismo, hará las veces de una firma autógrafa."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -8546,7 +8576,6 @@ msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
 "Que su representante legal acredita sus facultades por medio \n"
 "                                de la escritura pública No. 7,646 de fecha 1 de agosto del \n"
@@ -8561,15 +8590,6 @@ msgid ""
 "                                            la escritura pública No. 7,646 de fecha 1 de agosto del 2016 \n"
 "                                            otorgada ante la fe de Fernando A. Gallo Pérez notario público \n"
 "                                            23 de Guadalajara, Jalisco."
-msgstr ""
-
-#. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
-msgid ""
-"Que su representante legal acredita sus facultades por medio de la Escritura pública \n"
-"                                    número 21,396 veintiún mil trescientos noventa y seis de fecha 14 catorce de enero de 2022 \n"
-"                                    dos mil veintidós, ante el Lic. Javier Manuel Gutiérrez Dávila, Notario Público 140 ciento \n"
-"                                    cuarenta, del municipio de Guadalajara."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -8682,6 +8702,13 @@ msgid "Resend"
 msgstr ""
 
 #. module: pao_sign_sa
+#. odoo-python
+#: code:addons/pao_sign_sa/models/sa_send_request.py:0
+#, python-format
+msgid "Responsible"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop
 msgid "Rev. 0 08/07/2018"
 msgstr ""
@@ -8744,22 +8771,22 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_haccp
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_lpo_ue
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_lpo_ue_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid "Revisado Por: A. Torres"
-msgstr ""
-
-#. module: pao_sign_sa
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_ggap
-msgid "Revisado Por: B. Arrazola"
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_add_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_add_ggap
 msgid "Revisado Por: L. Muñoz"
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_ggap
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid "Revisado Por: M. Saldaña"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -8795,13 +8822,13 @@ msgstr ""
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_nop_lpo
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
-msgid "Revisión: 05"
+msgid "Revisión: 07"
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_header_footer_ggap
-msgid "Revisión: 09"
+msgid "Revisión: 12"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -8887,10 +8914,22 @@ msgid "Scheme"
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"Se cancela el Acuerdo de Licencia y Certificación suscrito entre "
+"<b>“PAOMX”</b>"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
 "Se cancela el Acuerdo de Licencia y Certificación suscrito entre "
 "<b>“PAOMX”</b> y GLOBALG.A.P."
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid "Se cancela la Marca Registrada y Distintivo Nacional"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -8941,13 +8980,17 @@ msgid "Send SA"
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.pao_sign_sa_agreements_sent_general_tree_view
+msgid "Sender"
+msgstr ""
+
+#. module: pao_sign_sa
 #: model:ir.model.fields.selection,name:pao_sign_sa.selection__pao_sign_sa_agreements_sent__document_status__sent
 msgid "Sent"
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid ""
 "Ser una persona moral constituida de conformidad \n"
 "                                    con las leyes del país, tener como Registro Federal \n"
@@ -8966,12 +9009,21 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
+msgid ""
+"Ser una persona moral constituida de conformidad con las leyes del país, \n"
+"                                    tener como Registro Federal de Causantes PAO150424J6A; tener su domicilio \n"
+"                                    en Avenida Lázaro Cárdenas Número Exterior 3478 Colonia Chapalita, Guadalajara \n"
+"                                    Jalisco,  C.P. 44500."
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
 msgid ""
-"Ser una persona moral constituida de conformidad con las leyes del país, tener como \n"
-"                                   Registro Federal de Causantes PAO150424J6A; tener su domicilio en Calle Avenida Lázaro \n"
-"                                   Cárdenas Número Exterior 3478 treinta y cuatro setenta y ocho Colonia Chapalita, \n"
-"                                   Guadalajara Jalisco, C.P. 44500."
+"Ser una persona moral constituida de conformidad con las leyes del país, \n"
+"                                    tener como Registro Federal de Causantes PAO150424J6A; tener su domicilio \n"
+"                                    en Calle Avenida Lázaro Cárdenas Número Exterior 3478 treinta y cuatro setenta \n"
+"                                    y ocho Colonia Chapalita, Guadalajara Jalisco, C.P. 44500."
 msgstr ""
 
 #. module: pao_sign_sa
@@ -8998,7 +9050,10 @@ msgid "Service Agreement send request"
 msgstr ""
 
 #. module: pao_sign_sa
+#: model:ir.actions.act_window,name:pao_sign_sa.pao_action_sa_general_view
 #: model:ir.actions.act_window,name:pao_sign_sa.service_agreement_action
+#: model:ir.ui.menu,name:pao_sign_sa.menu_item_sa_general_view
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.pao_sign_sa_agreements_sent_general_tree_view
 msgid "Service Agreements"
 msgstr ""
 
@@ -9123,6 +9178,11 @@ msgstr ""
 #. module: pao_sign_sa
 #: model:ir.model.fields,field_description:pao_sign_sa.field_pao_sign_sa_agreements_sent__signature_name
 msgid "Signature name"
+msgstr ""
+
+#. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.pao_sign_sa_agreements_sent_general_tree_view
+msgid "Signed by Coordinator"
 msgstr ""
 
 #. module: pao_sign_sa
@@ -9906,14 +9966,21 @@ msgid ""
 msgstr ""
 
 #. module: pao_sign_sa
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+msgid ""
+"de <b>\"PAOMX\"</b> vigente. <b>\"El Cliente\"</b> se abstendrá de realizar o utilizar declaraciones relacionadas \n"
+"                    con su certificación, que puedan ser consideradas engañosas o no autorizadas por <b>\"PAOMX\"</b>."
+msgstr ""
+
+#. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_add_globalgap_scheme
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_globalgap_scheme
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid "en la Ciudad de Guadalajara, Jalisco, México."
 msgstr ""
 
 #. module: pao_sign_sa
 #: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_haccp_scheme
-#: model_terms:ir.ui.view,arch_db:pao_sign_sa.sa_nop_lpo_scheme
 msgid "en la Ciudad de Zapopán, Jalisco, México."
 msgstr ""
 
