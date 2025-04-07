@@ -68,7 +68,7 @@ class PurchaseOrder(models.Model):
     @api.depends('sra_audit_signature_date')
     def _get_sra_new_format(self):
         for rec in self:
-            if not rec.sra_audit_signature_date or rec.sra_audit_signature_date >= datetime.strptime("2025-12-25", '%Y-%m-%d').date():
+            if not rec.sra_audit_signature_date or rec.sra_audit_signature_date >= datetime.strptime("2025-04-07", '%Y-%m-%d').date():
                 rec.sra_new_format = True
             else:
                 rec.sra_new_format = False
