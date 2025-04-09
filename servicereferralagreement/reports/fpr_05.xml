@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="report_fpr_05">
-         <style>
+        <style>
             @font-face {
                 font-family: 'MontserratLight';
                 src: url('/servicereferralagreement/static/src/fonts/Montserrat-Light.ttf') format('truetype');
@@ -926,7 +926,7 @@
                     <p class="text-center !important;">
                         <b>_____________________________________________</b>
                     </p>
-                    <p  class="text-center !important;">
+                    <p class="text-center !important;">
                         <b>Primus Auditing Operations México, S. de R.L. de C.V.</b>
                     </p>
                     <p class="text-center !important;">
@@ -958,13 +958,13 @@
                 <div class="col-6">
                     
                     <p class="text-center !important;">
-                        <img t-if="line.registrynumber_id.scheme_id.scheme_manager_mx_id.sign_signature" style="width:300px; height:90px;" t-att-src="image_data_uri(line.registrynumber_id.scheme_id.scheme_manager_mx_id.sign_signature)"/>
+                        <img t-if="line.sudo().registrynumber_id.scheme_id.scheme_manager_mx_id.sign_signature" style="width:300px; height:90px;" t-att-src="image_data_uri(line.sudo().registrynumber_id.scheme_id.scheme_manager_mx_id.sign_signature)"/>
                     </p>
                     <p class="text-center !important;">
                         <b>_____________________________________________</b>
                     </p>
                     <p class="text-center !important;">
-                       <em>Por/By:</em> <span t-field="line.registrynumber_id.scheme_id.scheme_manager_mx_id.name"/>
+                       <em>Por/By:</em> <span t-field="line.sudo().registrynumber_id.scheme_id.scheme_manager_mx_id.name"/>
                     </p>
                     <p class="text-center !important;">
                         Jefe de Esquema/Project Manager
@@ -1162,7 +1162,7 @@
             <div class="row">
                 <div class="col-6">
                     <p class="text-center !important;">
-                        <img t-if="doc.coordinator_id.sign_signature" style="width:300px; height:90px;" t-att-src="image_data_uri(doc.coordinator_id.sign_signature)"/>
+                        <img t-if="doc.sudo().coordinator_id.sign_signature" style="width:300px; height:90px;" t-att-src="image_data_uri(doc.sudo().coordinator_id.sign_signature)"/>
                     </p>
                     <p class="text-center !important;">
                         <b>_____________________________________________</b><br/>
@@ -1182,6 +1182,5 @@
                 </div>
             </div>
         </div>
-        
     </template>
 </odoo>
