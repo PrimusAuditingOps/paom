@@ -147,7 +147,7 @@
                         <t t-if="rn.scheme == 'SMETA'"><!--Todos-->
                             <t t-if="serviceagreement.country_format in 'MX' or not serviceagreement.country_format">
                                 <t t-set="rn" t-value="rn.with_context(lang='es_MX')"/> 
-                                <t t-call="pao_sign_sa.sa_smeta_scheme">
+                                <t t-call="pao_sign_sa.sa_smeta_scheme_spanish">
                                     <t t-set="serviceagreement" t-value="rn"/>
                                 </t>
                             </t>
