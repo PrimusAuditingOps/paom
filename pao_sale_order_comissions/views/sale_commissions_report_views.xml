@@ -6,14 +6,27 @@
         <field name="model">sale.order.commissions.report</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="order" widget="many2one"/>
-                <field name="specialist"/>
-                <field name="date_order"/>
-                <field name="details"/>
-                <field name="source"/>
-                <field name="commission_percentage"/>
-                <field name="amount"/>
-                <field name="currency_id"/>
+                <field name="order" widget="many2one" optional="show"/>
+                <field name="specialist" optional="show"/>
+                <field name="scheme" optional="show"/>
+                <field name="organization" optional="show"/>
+                <field name="registration_number" optional="show"/>
+                <field name="current_customer" optional="show"/>
+                <field name="operation_type" optional="show"/>
+                <field name="quantity" optional="show"/>
+                <field name="date_order" optional="show"/>
+                <field name="details" optional="show"/>
+                <field name="source" optional="show"/>
+                <field name="audit_date" optional="show"/>
+                <field name="audit_amount" optional="show"/>
+                <field name="commission_percentage" optional="show"/>
+                <field name="amount" optional="show"/>
+                <field name="currency_id" optional="show"/>
+                <field name="opportunity_notes" optional="show"/>
+                <field name="invoice_paid" decoration-muted="invoice_paid == 'no'" decoration-info="invoice_paid == 'yes'" widget="badge" optional="show"/>
+                <field name="invoice_paid_date" optional="show"/>
+                <field name="comission_paid" decoration-muted="comission_paid == 'no'" decoration-info="comission_paid == 'yes'" widget="badge" optional="show"/>
+                <field name="comission_paid_date" optional="show"/>
             </tree>
         </field>
     </record>

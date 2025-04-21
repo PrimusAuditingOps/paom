@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-15 16:45+0000\n"
-"PO-Revision-Date: 2024-08-15 16:45+0000\n"
+"POT-Creation-Date: 2025-03-31 18:58+0000\n"
+"PO-Revision-Date: 2025-03-31 18:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,16 @@ msgid "Additional Services"
 msgstr "Servicios adicionales"
 
 #. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__audit_amount
+msgid "Audit Amount"
+msgstr "Monto de auditoría"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__audit_date
+msgid "Audit Date"
+msgstr "Fecha de auditoría"
+
+#. module: pao_sale_order_comissions
 #: model:commissions.source,name:pao_sale_order_comissions.source_cb_switch
 msgid "CB Switch"
 msgstr ""
@@ -36,9 +46,28 @@ msgid "Cold Call"
 msgstr ""
 
 #. module: pao_sale_order_comissions
-#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__commission_percentage
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__amount
+msgid "Comission Amount"
+msgstr "Monto de comisión"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__comission_paid
+msgid "Comission Paid"
+msgstr "Comisión pagada"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__comission_paid_date
+msgid "Comission Paid Date"
+msgstr "Fecha de pago de comisión"
+
+#. module: pao_sale_order_comissions
 #: model_terms:ir.ui.view,arch_db:pao_sale_order_comissions.sale_order_commissions_form_inherit
 msgid "Commission Percentage (%)"
+msgstr "Porcentaje de comisión (%)"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__commission_percentage
+msgid "Commission Rate (%)"
 msgstr "Porcentaje de comisión (%)"
 
 #. module: pao_sale_order_comissions
@@ -117,6 +146,21 @@ msgid "Internal Name"
 msgstr "Nombre interno"
 
 #. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__invoice_paid
+msgid "Invoice Paid"
+msgstr "Factura pagada"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__invoice_paid_date
+msgid "Invoice Paid Date"
+msgstr "Fecha de pago de factura"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__current_customer
+msgid "Is Current Customer"
+msgstr "Es cliente actual"
+
+#. module: pao_sale_order_comissions
 #: model:ir.model.fields,field_description:pao_sale_order_comissions.field_commissions_source__write_uid
 #: model:ir.model.fields,field_description:pao_sale_order_comissions.field_pao_sale_order_commissions__write_uid
 msgid "Last Updated by"
@@ -139,9 +183,25 @@ msgid "Login Request"
 msgstr ""
 
 #. module: pao_sale_order_comissions
+#: model:ir.model.fields.selection,name:pao_sale_order_comissions.selection__sale_order_commissions_report__comission_paid__no
+#: model:ir.model.fields.selection,name:pao_sale_order_comissions.selection__sale_order_commissions_report__invoice_paid__no
+msgid "No"
+msgstr ""
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__opportunity_notes
+msgid "Opportunity Notes"
+msgstr "Notas de oportunidad"
+
+#. module: pao_sale_order_comissions
 #: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__order
 msgid "Order"
 msgstr "Órden"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__organization
+msgid "Organization"
+msgstr "Organización"
 
 #. module: pao_sale_order_comissions
 #: model:ir.model,name:pao_sale_order_comissions.model_pao_sale_order_commissions
@@ -149,9 +209,9 @@ msgid "PAO Sale Order Commissions"
 msgstr ""
 
 #. module: pao_sale_order_comissions
-#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__amount
-msgid "Payment Amount"
-msgstr "Monto de pago"
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__quantity
+msgid "Quantity"
+msgstr "Cantidad"
 
 #. module: pao_sale_order_comissions
 #: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__date_order
@@ -162,6 +222,11 @@ msgstr "Fecha de cotización"
 #: model:commissions.source,name:pao_sale_order_comissions.source_referral
 msgid "Referral"
 msgstr ""
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__registration_number
+msgid "Registration Number"
+msgstr "Número de registro"
 
 #. module: pao_sale_order_comissions
 #: model:ir.model.fields,field_description:pao_sale_order_comissions.field_pao_sale_order_commissions__sale_order_id
@@ -196,6 +261,11 @@ msgid "Sales Specialist"
 msgstr "Especialista de ventas"
 
 #. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__scheme
+msgid "Scheme"
+msgstr "Esquema"
+
+#. module: pao_sale_order_comissions
 #: model:commissions.source,name:pao_sale_order_comissions.source_shceme
 msgid "Scheme Change"
 msgstr ""
@@ -211,6 +281,17 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_sale_order_comissions.sale_order_commissions_form_inherit
 msgid "Source"
 msgstr "Fuente"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields,field_description:pao_sale_order_comissions.field_sale_order_commissions_report__operation_type
+msgid "Type of Operation"
+msgstr "Tipo de operación"
+
+#. module: pao_sale_order_comissions
+#: model:ir.model.fields.selection,name:pao_sale_order_comissions.selection__sale_order_commissions_report__comission_paid__yes
+#: model:ir.model.fields.selection,name:pao_sale_order_comissions.selection__sale_order_commissions_report__invoice_paid__yes
+msgid "Yes"
+msgstr "Si"
 
 #. module: pao_sale_order_comissions
 #: model:ir.model,name:pao_sale_order_comissions.model_sale_order_commissions_report
