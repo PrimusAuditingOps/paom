@@ -121,5 +121,5 @@ class PurchaseOrderLine(models.Model):
                     "We appreciate your attention and availability.<br><br>"
                     "If you have any questions related to this service, please contact the team at "
                     "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
-                ) % (rec.partner_ref or rec.name, line_details, rec.coordinator_id or 'N/A')
+                ) % (rec.partner_ref or rec.name, line_details, rec.coordinator_id.name or 'N/A')
                 rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
