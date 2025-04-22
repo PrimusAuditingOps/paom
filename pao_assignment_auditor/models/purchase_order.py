@@ -13,8 +13,7 @@ class PurchaseOrder(models.Model):
 
     assigned_auditor_id = fields.Integer(string="ID Reference", default=0) 
     assigned_auditor_position = fields.Integer(string="Pos Reference", default=0) 
-    assigned_auditor_qualification = fields.Float(default=0.00,
-                                                  string="Qual Reference") 
+    assigned_auditor_qualification = fields.Float(default=0.00, string="Qual Reference") 
     paa_is_auditor = fields.Boolean(related='partner_id.ado_is_auditor', string="Is Auditor")
     language_ids = fields.Many2many('res.lang', string="Audit Language Requested")
     pao_auditor_top_ids = fields.One2many(

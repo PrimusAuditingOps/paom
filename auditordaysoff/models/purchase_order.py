@@ -192,3 +192,53 @@ class PurchaseOrder(models.Model):
                             'message': _('{0} {1}'.format(msg,purchaseorders)),
                         },
                     }
+
+    @api.constrains('partner_id', 'order_line')
+    def _check_vendor_service_overlap(self):
+        for rec in self:
+            if not rec.partner_id or not rec.order_line:
+                continue
+
+            listorderid = rec.id and [rec.id] or []
+            conflicting_orders = []
+            conflicting_msgs = []
+
+            for line in rec.order_line:
+                if not line.service_start_date or not line.service_end_date:
+                    continue
+
+                domain = [
+                    ('order_id', 'not in', listorderid),
+                    ('state', '!=', 'cancel'),
+                    '|', '|',
+                    ('partner_id', '=', line.partner_id.id),
+                    ('assessment_id', '=', line.partner_id.id),
+                    ('shadow_id', '=', line.partner_id.id),
+                    '|', '|', '|',
+                    '&', ('service_start_date', '>=', line.service_start_date),
+                         ('service_start_date', '<=', line.service_end_date),
+                    '&', ('service_end_date', '<=', line.service_start_date),
+                         ('service_end_date', '>=', line.service_end_date),
+                    '&', ('service_start_date', '<=', line.service_start_date),
+                         ('service_end_date', '>=', line.service_start_date),
+                    '&', ('service_start_date', '<=', line.service_end_date),
+                         ('service_end_date', '>=', line.service_end_date)
+                ]
+
+                overlapping_lines = self.env['purchase.order.line'].search(domain)
+
+                for ol in overlapping_lines:
+                    other_order = ol.order_id
+                    if other_order not in conflicting_orders:
+                        conflicting_orders.append(other_order)
+                        ref = other_order.partner_ref or ""
+                        conflicting_msgs.append(f"{other_order.name} {ref} {ol.service_start_date} al {ol.service_end_date}")
+
+            if conflicting_orders:
+                current_user = self.env.user
+                all_same_user = all(order.create_uid == rec.create_uid for order in conflicting_orders)
+
+                if current_user.id != 20 and not all_same_user:
+                    raise ValidationError(_(
+                        "The selected vendor has service conflicts with other purchase orders, please select a different one:\n%s"
+                    ) % "\n".join(conflicting_msgs))
