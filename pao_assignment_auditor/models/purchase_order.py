@@ -120,7 +120,7 @@ class PurchaseOrderLine(models.Model):
                     )
                 message = _(
                     "Dear auditor,<br><br>"
-                    "The service dates for the audit %s with reference ""%s"" have been updated:<br><br>"
+                    "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
                     "Please review the new audit date.<br>"
                     "<strong>%s</strong><br><br>"
                     "<strong>Operations Specialist: </strong>%s<br><br>"
