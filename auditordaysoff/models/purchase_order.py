@@ -232,7 +232,7 @@ class PurchaseOrder(models.Model):
                     if other_order not in conflicting_orders:
                         conflicting_orders.append(other_order)
                         ref = other_order.partner_ref or ""
-                        conflicting_msgs.append(f"{other_order.name} {ref} {ol.service_start_date} al {ol.service_end_date}")
+                        conflicting_msgs.append(f"{other_order.name} {ref} {ol.service_start_date} - {ol.service_end_date}")
 
             if conflicting_orders:
                 current_user = self.env.user

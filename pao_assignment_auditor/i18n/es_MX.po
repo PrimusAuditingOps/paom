@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-27 23:53+0000\n"
-"PO-Revision-Date: 2024-11-27 23:53+0000\n"
+"POT-Creation-Date: 2025-04-22 18:08+0000\n"
+"PO-Revision-Date: 2025-04-22 18:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgstr "Configuración Cantidad de Auditorías"
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_honorarium__option__auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_quantity__option__auditor
 msgid "Auditor"
-msgstr "Auditor"
+msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:res.groups,name:pao_assignment_auditor.auditor_assignment_group
@@ -258,6 +258,17 @@ msgstr "Capture servicios de auditorías o asigne fechas a los servicios."
 #: model:ir.model,name:pao_assignment_auditor.model_res_city
 msgid "City"
 msgstr "Ciudad"
+
+#. module: pao_assignment_auditor
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paa_assignment_auditor_scheme__company_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__company_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditsquantitypermonth__company_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_honorarium__company_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_configuration_audit_quantity__company_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_schemeranking__company_id
+#: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_weighting__company_id
+msgid "Company"
+msgstr "Empresa"
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditshonorariumpermonth__configuration_id
@@ -515,6 +526,13 @@ msgid "Location"
 msgstr "Ubicación"
 
 #. module: pao_assignment_auditor
+#. odoo-python
+#: code:addons/pao_assignment_auditor/models/purchase_order.py:0
+#, python-format
+msgid "Logistics Warning"
+msgstr "Advertencia de logística"
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditshonorariumpermonth__month__03
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditsquantitypermonth__month__03
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_configuration_audit_honorarium__season_end_month__03
@@ -552,7 +570,7 @@ msgstr "No se encontraron auditores para realizar los servicios."
 #. module: pao_assignment_auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditor_qualification__is_in_house__0
 msgid "Normal"
-msgstr "Normal"
+msgstr ""
 
 #. module: pao_assignment_auditor
 #: model:ir.model.fields.selection,name:pao_assignment_auditor.selection__paoassignmentauditor_auditshonorariumpermonth__month__11
@@ -601,6 +619,16 @@ msgid "Please add some products to the order line."
 msgstr "Agregue algunos productos a la línea de pedido."
 
 #. module: pao_assignment_auditor
+#. odoo-python
+#: code:addons/pao_assignment_auditor/models/purchase_order.py:0
+#, python-format
+msgid ""
+"Please review logistics: The auditor is already assigned to an audit (%s) in"
+" another state (%s) on a nearby date (%s)."
+msgstr "Por favor, revise logística: el auditor ya está asignado a una auditoría (%s) en"
+"  otro estado (%s) en una fecha cercana (%s)."
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__assigned_auditor_position
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order__assigned_auditor_position
 msgid "Pos Reference"
@@ -624,6 +652,11 @@ msgid "Purchase Order"
 msgstr "Orden de compra"
 
 #. module: pao_assignment_auditor
+#: model:ir.model,name:pao_assignment_auditor.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea de orden de compra"
+
+#. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_auditor_qualification__assigned_auditor_qualification
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_purchase_order__assigned_auditor_qualification
 msgid "Qual Reference"
@@ -638,7 +671,7 @@ msgstr "Calificación"
 #. module: pao_assignment_auditor
 #: model:ir.model.fields,field_description:pao_assignment_auditor.field_paoassignmentauditor_schemeranking__name
 msgid "Ranking"
-msgstr "Ranking"
+msgstr ""
 
 #. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.res_partner_assignment_auditor_view_form
@@ -778,6 +811,15 @@ msgstr "El auditor esta bloqueado para el cliente del pedido de venta."
 
 #. module: pao_assignment_auditor
 #. odoo-python
+#: code:addons/pao_assignment_auditor/models/purchase_order.py:0
+#, python-format
+msgid ""
+"The service dates for the audit with reference %s have been updated: <br>%s"
+msgstr ""
+"Las fechas de servicio para la auditoría con referencia %s han sido actualizadas: <br>%s"
+
+#. module: pao_assignment_auditor
+#. odoo-python
 #: code:addons/pao_assignment_auditor/models/paa_auditor_assignment_weighting.py:0
 #, python-format
 msgid "The sum of the variables must be equal to 10"
@@ -792,7 +834,7 @@ msgstr "Tercer trimestre"
 #. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.purchase_order_assignment_auditor_view_form
 msgid "Top 10"
-msgstr "Top 10"
+msgstr ""
 
 #. module: pao_assignment_auditor
 #: model_terms:ir.ui.view,arch_db:pao_assignment_auditor.purchase_order_assignment_auditor_view_form

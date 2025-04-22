@@ -106,7 +106,7 @@ class PurchaseOrderLine(models.Model):
             if rec.state != 'draft':
                 line_details = ''
                 for line in rec.order_line:
-                    line_details = "*{}, {}, {}, {} - {}<br>".format(
+                    line_details = "• {}, {}, {}, {} - {}<br>".format(
                         line.name,
                         line.organization_id.name,
                         line.registrynumber_id.name,
