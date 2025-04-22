@@ -112,7 +112,6 @@ class PurchaseOrderLine(models.Model):
                         line.service_start_date.strftime("%Y-%m-%d"),
                         line.service_end_date.strftime("%Y-%m-%d")
                     )
-                # message = _("The service dates for the audit with reference %s have been updated: <br>%s") % (rec.partner_ref or rec.name, line_details)
                 message = _(
                     "Dear auditor,<br><br>"
                     "The service dates for the audit with reference %s have been updated:<br><br>"
