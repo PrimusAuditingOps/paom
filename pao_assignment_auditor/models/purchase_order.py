@@ -110,12 +110,14 @@ class PurchaseOrderLine(models.Model):
                 is_spanish = lang.startswith('es')
 
                 date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
+                range_word = "al" if is_spanish else "to"
                 
                 line_details = ''
                 for line in rec.order_line:
-                    line_details = ("• {}, {} " + _("to") + " {}<br>").format(
+                    line_details += "• {}, {} {} {}<br>".format(
                         line.name,
                         line.service_start_date.strftime(date_format),
+                        range_word,
                         line.service_end_date.strftime(date_format)
                     )
                 message = _(
