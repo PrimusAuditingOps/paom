@@ -105,21 +105,27 @@ class PurchaseOrderLine(models.Model):
     def _send_auditor_notification(self):
         for rec in self.mapped('order_id'):
             if rec.state != 'draft':
+                
+                lang = self.env.context.get('lang', 'en_US')
+                is_spanish = lang.startswith('es')
+
+                date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
+                
                 line_details = ''
                 for line in rec.order_line:
-                    line_details = "• {}, {} - {}<br>".format(
+                    line_details = "• {}, {} " + _("to") + " {}<br>".format(
                         line.name,
-                        line.service_start_date.strftime("%Y-%m-%d"),
-                        line.service_end_date.strftime("%Y-%m-%d")
+                        line.service_start_date.strftime(date_format),
+                        line.service_end_date.strftime(date_format)
                     )
                 message = _(
                     "Dear auditor,<br><br>"
-                    "The service dates for the audit with reference %s have been updated:<br><br>"
+                    "The service dates for the audit %s with reference %s have been updated:<br><br>"
                     "Please review the new audit date.<br>"
                     "<strong>%s</strong><br><br>"
                     "<strong>Operations Specialist: </strong>%s<br><br>"
                     "We appreciate your attention and availability.<br><br>"
                     "If you have any questions related to this service, please contact the team at "
                     "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
-                ) % (rec.partner_ref or rec.name, line_details, rec.coordinator_id.name or 'N/A')
+                ) % (rec.name, rec.partner_ref or rec.name, line_details, rec.coordinator_id.name or 'N/A')
                 rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
