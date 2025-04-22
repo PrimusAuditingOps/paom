@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="account_invoice_report_taiwan_translations_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//span[@t-if=&quot;o.move_type == 'out_invoice' and o.state == 'posted'&quot;]" position="inside">
+            <t t-if="o.move_type == 'out_invoice' and o.state == 'posted' and o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                (发票)
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@name='invoice_date']/t[1]/strong" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                (发票日期)
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@name='due_date']/strong" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                (到期日)
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@name='origin']/strong" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                (来源)
+            </t>
+        </xpath>
+
+        <xpath expr="//th[@name='th_description']/span" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                <br/>(描述)
+            </t>
+        </xpath>
+
+        <xpath expr="//th[@name='th_audit_date']/span" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                <br/>(审核日期)
+            </t>
+        </xpath>
+
+        <xpath expr="//th[@name='th_quantity']/span" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                <br/>(数量)
+            </t>
+        </xpath>
+
+        <xpath expr="//th[@name='th_priceunit']/span" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                <br/>(单价)
+            </t>
+        </xpath>
+
+        <xpath expr="//th[@name='th_taxes']/span" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                <br/>(税收)
+            </t>
+        </xpath>
+
+        <xpath expr="//th[@name='th_subtotal']/span" position="inside">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                <br/>(数量)
+            </t>
+        </xpath>
+
+        <xpath expr="//span[@id='payment_terms_note_id']" position="after">
+            <t t-if="o.partner_id.country_id.id == 227 and o.company_id.country_code == 'US'">
+                (付款期限)
+            </t>
+        </xpath>
+
+
+    </template>
+</odoo>

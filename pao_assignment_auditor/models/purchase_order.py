@@ -8,8 +8,6 @@ from logging import getLogger
 
 _logger = getLogger(__name__)
 
-
-
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
@@ -58,3 +56,63 @@ class PurchaseOrder(models.Model):
             self.env['paoassignmentauditor.auditor.qualification'].sudo().search(domain).unlink()
 
         return purchase_order
+    
+    @api.onchange('partner_id', 'audit_state_id', 'order_line')
+    def _onchange_partner_id_warning_logistics(self):
+        if not self.partner_id or not self.audit_state_id:
+            return
+        
+        domain = [
+            ('order_id.partner_id', '=', self.partner_id.id),
+            ('order_id.state', 'not in', ['cancel']),
+            ('order_id.audit_state_id', '!=', self.audit_state_id.id),
+            ('order_id.audit_state_id', '!=', False),
+            ('service_start_date', '!=', False),
+        ]
+
+        if self.id:
+            domain.append(('order_id.id', '!=', self.id))
+
+        nearby_po_lines = self.env['purchase.order.line'].search(domain)
+
+        for line in nearby_po_lines:
+            start_date = line.service_start_date
+            end_date = line.service_end_date or line.service_start_date
+            current_dates = [l.service_start_date for l in self.order_line if l.service_start_date]
+
+            for cur_date in current_dates:
+                if abs((start_date - cur_date).days) <= 1 or abs((end_date - cur_date).days) <= 1:
+                    return {
+                        'warning': {
+                            'title': _('Logistics Warning'),
+                            'message': _(
+                                "Please review logistics: The auditor is already assigned to an audit (%s) in another state "
+                                "(%s) on a nearby date (%s)."
+                            ) % (line.order_id.name, line.order_id.audit_state_id.name, start_date.strftime('%Y-%m-%d')),
+                        }
+                    }
+    
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+    
+    def write(self, vals):
+        for record in self:
+            if any(field in vals for field in ['service_start_date', 'service_end_date']):
+                self._send_auditor_notification()
+        return super(PurchaseOrderLine, self).write(vals)
+    
+    def _send_auditor_notification(self):
+        for rec in self.mapped('order_id'):
+            if rec.state != 'draft':
+                line_details = ''
+                for line in rec.order_line:
+                    line_details = "*{}, {}, {}, {} - {}<br>".format(
+                        line.name,
+                        line.organization_id.name,
+                        line.registrynumber_id.name,
+                        line.service_start_date.strftime("%Y-%m-%d"),
+                        line.service_end_date.strftime("%Y-%m-%d")
+                    )
+                message = _("The service dates for the audit with reference %s have been updated: <br>%s") % (rec.partner_ref or rec.name, line_details)
+                rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
