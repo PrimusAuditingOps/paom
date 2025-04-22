@@ -113,7 +113,7 @@ class PurchaseOrderLine(models.Model):
                 
                 line_details = ''
                 for line in rec.order_line:
-                    line_details = "• {}, {} " + _("to") + " {}<br>".format(
+                    line_details = ("• {}, {} " + _("to") + " {}<br>").format(
                         line.name,
                         line.service_start_date.strftime(date_format),
                         line.service_end_date.strftime(date_format)
