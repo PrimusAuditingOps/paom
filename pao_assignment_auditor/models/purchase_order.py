@@ -112,5 +112,15 @@ class PurchaseOrderLine(models.Model):
                         line.service_start_date.strftime("%Y-%m-%d"),
                         line.service_end_date.strftime("%Y-%m-%d")
                     )
-                message = _("The service dates for the audit with reference %s have been updated: <br>%s") % (rec.partner_ref or rec.name, line_details)
+                # message = _("The service dates for the audit with reference %s have been updated: <br>%s") % (rec.partner_ref or rec.name, line_details)
+                message = _(
+                    "Dear auditor,<br><br>"
+                    "The service dates for the audit with reference %s have been updated:<br><br>"
+                    "Please review the new audit date.<br>"
+                    "<strong>%s</strong><br><br>"
+                    "<strong>Operations Specialist: </strong>%s<br><br>"
+                    "We appreciate your attention and availability.<br><br>"
+                    "If you have any questions related to this service, please contact the team at "
+                    "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
+                ) % (rec.partner_ref or rec.name, line_details, rec.coordinator_id or 'N/A')
                 rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
