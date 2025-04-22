@@ -96,20 +96,19 @@ class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     
     def write(self, vals):
+        result = super(PurchaseOrderLine, self).write(vals)
         for record in self:
             if any(field in vals for field in ['service_start_date', 'service_end_date']):
                 self._send_auditor_notification()
-        return super(PurchaseOrderLine, self).write(vals)
+        return result
     
     def _send_auditor_notification(self):
         for rec in self.mapped('order_id'):
             if rec.state != 'draft':
                 line_details = ''
                 for line in rec.order_line:
-                    line_details = "• {}, {}, {}, {} - {}<br>".format(
+                    line_details = "• {}, {} - {}<br>".format(
                         line.name,
-                        line.organization_id.name,
-                        line.registrynumber_id.name,
                         line.service_start_date.strftime("%Y-%m-%d"),
                         line.service_end_date.strftime("%Y-%m-%d")
                     )
