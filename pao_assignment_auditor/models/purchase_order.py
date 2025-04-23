@@ -58,7 +58,7 @@ class PurchaseOrder(models.Model):
     
     @api.onchange('partner_id', 'audit_state_id', 'order_line')
     def _onchange_partner_id_warning_logistics(self):
-        if not self.partner_id or not self.audit_state_id:
+        if not self.partner_id or not self.audit_state_id or self.country_code != 'MX':
             return
         
         domain = [
@@ -104,7 +104,7 @@ class PurchaseOrderLine(models.Model):
     
     def _send_auditor_notification(self):
         for rec in self.mapped('order_id'):
-            if rec.state != 'draft':
+            if rec.state != 'draft' and rec.country_code == 'MX':
                 
                 lang = self.env.context.get('lang', 'en_US')
                 is_spanish = lang.startswith('es')

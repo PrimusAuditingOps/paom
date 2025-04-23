@@ -9,9 +9,10 @@
             <group name="invoice_info" position="after">
                 <group name="purchase_location">
                     <field name="paa_is_auditor" invisible="1"/>
-                    <field name="audit_country_id" required="paa_is_auditor" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <field name="audit_state_id" required="paa_is_auditor" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('country_id', '=', audit_country_id)]"/>
-                    <field name="audit_city_id" required="paa_is_auditor" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('state_id', '=', audit_state_id)]"/>
+                    <field name="country_code" invisible="1"/>
+                    <field name="audit_country_id" required="paa_is_auditor and country_code == 'MX'" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="audit_state_id" required="paa_is_auditor and country_code == 'MX'" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('country_id', '=', audit_country_id)]"/>
+                    <field name="audit_city_id" required="paa_is_auditor and country_code == 'MX'" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('state_id', '=', audit_state_id)]"/>
                 </group>
             </group>
             <group name="purchase_location" position="after">

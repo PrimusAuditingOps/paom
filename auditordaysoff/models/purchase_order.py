@@ -196,7 +196,7 @@ class PurchaseOrder(models.Model):
     @api.constrains('partner_id', 'order_line')
     def _check_vendor_service_overlap(self):
         for rec in self:
-            if not rec.partner_id or not rec.order_line:
+            if not rec.partner_id or not rec.order_line or rec.country_code != 'MX':
                 continue
 
             listorderid = rec.id and [rec.id] or []
