@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-09 15:21+0000\n"
-"PO-Revision-Date: 2024-01-09 15:21+0000\n"
+"POT-Creation-Date: 2025-04-22 18:08+0000\n"
+"PO-Revision-Date: 2025-04-22 18:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__all_day
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__all_day
 msgid "All Day"
 msgstr "Todo el día"
 
@@ -27,7 +27,7 @@ msgid "Assessment"
 msgstr ""
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__auditor_id
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__auditor_id
 msgid "Auditor"
 msgstr ""
 
@@ -41,29 +41,29 @@ msgid "Auditor's days off"
 msgstr "Día no laboral del auditor"
 
 #. module: auditordaysoff
-#: model_terms:ir.ui.view,arch_db:auditordaysoff.auditor_days_off_days_view_calendar
+#: model_terms:ir.ui.view,arch_db:auditordaysoff.auditor_daysoff_days_view_calendar
 msgid "Auditor's days off Calendar"
 msgstr "Día no laboral del auditor calendario"
 
 #. module: auditordaysoff
-#: model_terms:ir.ui.view,arch_db:auditordaysoff.auditor_days_off_days_view_form
+#: model_terms:ir.ui.view,arch_db:auditordaysoff.auditor_daysoff_days_view_form
 msgid "Auditor's days off Form"
 msgstr "Día no laboral del auditor formulario"
 
 #. module: auditordaysoff
-#: model_terms:ir.ui.view,arch_db:auditordaysoff.auditor_days_off_days_view_tree
+#: model_terms:ir.ui.view,arch_db:auditordaysoff.auditor_daysoff_days_view_tree
 msgid "Auditor's days off Tree"
 msgstr "Día no laboral del auditor arbol"
 
 #. module: auditordaysoff
-#: model_terms:ir.ui.view,arch_db:auditordaysoff.auditor_daysoff_days_view_form
-msgid "Date"
-msgstr "Fecha"
-
-#. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__comments
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__comments
 msgid "Comments"
 msgstr "Comentarios"
+
+#. module: auditordaysoff
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__company_id
+msgid "Company"
+msgstr "Empresa"
 
 #. module: auditordaysoff
 #: model:ir.model,name:auditordaysoff.model_res_partner
@@ -76,38 +76,37 @@ msgid "Create first auditor's day soff"
 msgstr "Crea tu primer día no laboral del auditor"
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__create_uid
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__create_date
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: auditordaysoff
-#: model:ir.model,name:auditordaysoff.model_auditor_daysoff_days
+#: model_terms:ir.ui.view,arch_db:auditordaysoff.auditor_daysoff_days_view_form
+msgid "Date"
+msgstr "Fecha"
+
+#. module: auditordaysoff
+#: model:ir.model,name:auditordaysoff.model_auditordaysoff_days
 msgid "Days off for the auditors"
 msgstr "Días no laboral para el auditor"
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__display_name
-#: model:ir.model.fields,field_description:auditordaysoff.field_purchase_order__display_name
-#: model:ir.model.fields,field_description:auditordaysoff.field_purchase_order_line__display_name
-#: model:ir.model.fields,field_description:auditordaysoff.field_res_partner__display_name
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__end_date
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__end_date
 msgid "End date"
 msgstr "Fecha fin"
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__id
-#: model:ir.model.fields,field_description:auditordaysoff.field_purchase_order__id
-#: model:ir.model.fields,field_description:auditordaysoff.field_purchase_order_line__id
-#: model:ir.model.fields,field_description:auditordaysoff.field_res_partner__id
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__id
 msgid "ID"
 msgstr "Identificación"
 
@@ -124,22 +123,19 @@ msgid "Is an external audit"
 msgstr "Es una auditoría externa"
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days____last_update
-#: model:ir.model.fields,field_description:auditordaysoff.field_purchase_order____last_update
-#: model:ir.model.fields,field_description:auditordaysoff.field_purchase_order_line____last_update
-#: model:ir.model.fields,field_description:auditordaysoff.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr "Última modificación el"
-
-#. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__write_uid
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__write_date
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__write_date
 msgid "Last Updated on"
 msgstr ""
+
+#. module: auditordaysoff
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__name
+msgid "Name"
+msgstr "Nombre"
 
 #. module: auditordaysoff
 #: model:ir.model,name:auditordaysoff.model_purchase_order
@@ -149,7 +145,7 @@ msgstr "Orden de compra"
 #. module: auditordaysoff
 #: model:ir.model,name:auditordaysoff.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Línea de pedido de compra"
+msgstr "Línea de orden de compra"
 
 #. module: auditordaysoff
 #: model:ir.model.fields,field_description:auditordaysoff.field_purchase_order__shadow_id
@@ -162,7 +158,7 @@ msgid "Shawow"
 msgstr "Sombra"
 
 #. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__start_date
+#: model:ir.model.fields,field_description:auditordaysoff.field_auditordaysoff_days__start_date
 msgid "Start date"
 msgstr "Fecha inicio"
 
@@ -174,8 +170,8 @@ msgid ""
 "The Assessment contains services on the dates selected of the following "
 "Purchase Orders:"
 msgstr ""
-"El Assessment contiene servicios en las fechas seleccionadas de las siguientes "
-"Ordenes de Compra:"
+"El Assessment contiene servicios en las fechas seleccionadas de las "
+"siguientes Ordenes de Compra:"
 
 #. module: auditordaysoff
 #. odoo-python
@@ -218,8 +214,8 @@ msgid ""
 "The Vendor contains services on the dates selected of the following Purchase"
 " Orders:"
 msgstr ""
-"El proveedor contiene servicios en las fechas seleccionadas para las siguientes"
-" Ordenes de Compra:"
+"El proveedor contiene servicios en las fechas seleccionadas para las "
+"siguientes Ordenes de Compra:"
 
 #. module: auditordaysoff
 #. odoo-python
@@ -229,11 +225,12 @@ msgid ""
 "The Vendor is assigned as Shadow or Assessment on the dates selected of the "
 "following Purchase Orders: "
 msgstr ""
-"El proveedor esta asignado como Sombra o Assessment en las fechas seleccionadas "
-"para las siguientes Ordenes de Compra: "
+"El proveedor esta asignado como Sombra o Assessment en las fechas "
+"seleccionadas para las siguientes Ordenes de Compra: "
 
 #. module: auditordaysoff
 #. odoo-python
+#: code:addons/auditordaysoff/models/auditor_daysoff_days.py:0
 #: code:addons/auditordaysoff/models/auditor_daysoff_days.py:0
 #, python-format
 msgid "The auditor contains Purchase Orders on the selected dates."
@@ -244,7 +241,20 @@ msgstr "El auditor contiene ordenes de compra para las fechas seleccionadas"
 #: code:addons/auditordaysoff/models/purchase_order.py:0
 #, python-format
 msgid "The auditor contains days off on the dates of the following products:"
-msgstr "El auditor contiene días no laborales en las fechas seleccionadas para los siguientes productos:"
+msgstr ""
+"El auditor contiene días no laborales en las fechas seleccionadas para los "
+"siguientes productos:"
+
+#. module: auditordaysoff
+#. odoo-python
+#: code:addons/auditordaysoff/models/purchase_order.py:0
+#, python-format
+msgid ""
+"The selected vendor has service conflicts with other purchase orders, please select a different one:\n"
+"%s"
+msgstr ""
+"El proveedor seleccionado tiene conflicto de servicios con otras ordenes de compra, por favor seleccione uno diferente:\n"
+"%s"
 
 #. module: auditordaysoff
 #. odoo-python
@@ -260,11 +270,6 @@ msgstr "Advertencia"
 #: model:ir.actions.act_window,name:auditordaysoff.auditor_daysoff_action
 msgid "auditordaysoff"
 msgstr "Días no laborales del auditor"
-
-#. module: auditordaysoff
-#: model:ir.model.fields,field_description:auditordaysoff.field_auditor_daysoff_days__name
-msgid "name"
-msgstr "Nombre"
 
 #. module: auditordaysoff
 #. odoo-python
@@ -302,6 +307,8 @@ msgstr ""
 
 #. module: auditordaysoff
 #. odoo-python
+#: code:addons/auditordaysoff/models/purchase_order.py:0
+#: code:addons/auditordaysoff/models/purchase_order.py:0
 #: code:addons/auditordaysoff/models/purchase_order.py:0
 #, python-format
 msgid "{0} {1}"

@@ -8,15 +8,12 @@ from logging import getLogger
 
 _logger = getLogger(__name__)
 
-
-
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
     assigned_auditor_id = fields.Integer(string="ID Reference", default=0) 
     assigned_auditor_position = fields.Integer(string="Pos Reference", default=0) 
-    assigned_auditor_qualification = fields.Float(default=0.00,
-                                                  string="Qual Reference") 
+    assigned_auditor_qualification = fields.Float(default=0.00, string="Qual Reference") 
     paa_is_auditor = fields.Boolean(related='partner_id.ado_is_auditor', string="Is Auditor")
     language_ids = fields.Many2many('res.lang', string="Audit Language Requested")
     pao_auditor_top_ids = fields.One2many(
@@ -58,3 +55,79 @@ class PurchaseOrder(models.Model):
             self.env['paoassignmentauditor.auditor.qualification'].sudo().search(domain).unlink()
 
         return purchase_order
+    
+    @api.onchange('partner_id', 'audit_state_id', 'order_line')
+    def _onchange_partner_id_warning_logistics(self):
+        if not self.partner_id or not self.audit_state_id:
+            return
+        
+        domain = [
+            ('order_id.partner_id', '=', self.partner_id.id),
+            ('order_id.state', 'not in', ['cancel']),
+            ('order_id.audit_state_id', '!=', self.audit_state_id.id),
+            ('order_id.audit_state_id', '!=', False),
+            ('service_start_date', '!=', False),
+        ]
+
+        if self.id:
+            domain.append(('order_id.id', '!=', self.id))
+
+        nearby_po_lines = self.env['purchase.order.line'].search(domain)
+
+        for line in nearby_po_lines:
+            start_date = line.service_start_date
+            end_date = line.service_end_date or line.service_start_date
+            current_dates = [l.service_start_date for l in self.order_line if l.service_start_date]
+
+            for cur_date in current_dates:
+                if abs((start_date - cur_date).days) <= 1 or abs((end_date - cur_date).days) <= 1:
+                    return {
+                        'warning': {
+                            'title': _('Logistics Warning'),
+                            'message': _(
+                                "Please review logistics: The auditor is already assigned to an audit (%s) in another state "
+                                "(%s) on a nearby date (%s)."
+                            ) % (line.order_id.name, line.order_id.audit_state_id.name, start_date.strftime('%Y-%m-%d')),
+                        }
+                    }
+    
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+    
+    def write(self, vals):
+        result = super(PurchaseOrderLine, self).write(vals)
+        for record in self:
+            if any(field in vals for field in ['service_start_date', 'service_end_date']):
+                self._send_auditor_notification()
+        return result
+    
+    def _send_auditor_notification(self):
+        for rec in self.mapped('order_id'):
+            if rec.state != 'draft':
+                
+                lang = self.env.context.get('lang', 'en_US')
+                is_spanish = lang.startswith('es')
+
+                date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
+                range_word = "al" if is_spanish else "to"
+                
+                line_details = ''
+                for line in rec.order_line:
+                    line_details += "• {}, {} {} {}<br>".format(
+                        line.name,
+                        line.service_start_date.strftime(date_format),
+                        range_word,
+                        line.service_end_date.strftime(date_format)
+                    )
+                message = _(
+                    "Dear auditor,<br><br>"
+                    "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
+                    "Please review the new audit date.<br>"
+                    "<strong>%s</strong><br><br>"
+                    "<strong>Operations Specialist: </strong>%s<br><br>"
+                    "We appreciate your attention and availability.<br><br>"
+                    "If you have any questions related to this service, please contact the team at "
+                    "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
+                ) % (rec.name, rec.partner_ref or rec.name, line_details, rec.coordinator_id.name or 'N/A')
+                rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
