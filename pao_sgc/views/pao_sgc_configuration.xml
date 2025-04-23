@@ -67,4 +67,72 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+
+    <record id="pao_sgc_accreditor_view_tree" model="ir.ui.view">
+        <field name="name">pao.sgc.accreditor.view.tree</field>
+        <field name="model">pao.sgc.accreditor</field>
+        <field name="arch" type="xml">
+            <tree string="Accreditors/ Approvers">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_sgc_accreditor_view_form" model="ir.ui.view">
+        <field name="name">pao.sgc.accreditor.view.form</field>
+        <field name="model">pao.sgc.accreditor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="4">
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_sgc_accreditor_action" model="ir.actions.act_window">
+        <field name="name">Accreditors/ Approvers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pao.sgc.accreditor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="pao_sgc_document_type_view_tree" model="ir.ui.view">
+        <field name="name">pao.sgc.document.type.view.tree</field>
+        <field name="model">pao.sgc.document.type</field>
+        <field name="arch" type="xml">
+            <tree string="Document Type">
+                <field name="name"/>
+                <field name="document_type_key"/>
+                <field name="validity_years"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_sgc_document_type_view_form" model="ir.ui.view">
+        <field name="name">pao.sgc.document.type.view.form</field>
+        <field name="model">pao.sgc.document.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                        <field name="document_type_key"/>
+                        <field name="validity_years"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_sgc_document_type_action" model="ir.actions.act_window">
+        <field name="name">Document Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pao.sgc.document.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
 </odoo>

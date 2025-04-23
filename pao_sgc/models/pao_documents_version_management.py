@@ -22,7 +22,9 @@ class PaoDocumentsVersionManagement(models.Model):
     last_updated_by = fields.Many2one('res.users', string="Last Updated By")
     approval_request_in_progress = fields.Boolean('Has an active request', default=False)
     approval_id = fields.Many2one('approval.request', string="Approval Reference", readonly=True)
-    scheme_id = fields.Many2one('pao.sgc.scheme', string="Scheme", required=True)
+    scheme_id = fields.Many2one('pao.sgc.scheme', string="Scheme")
+    scheme_ids = fields.Many2many('pao.sgc.scheme', string="Schemes", required=True)
+    accreditor_ids = fields.Many2many('pao.sgc.accreditor', string="Accreditor/ Approver", required=True)
     department_id = fields.Many2one('pao.sgc.department', string="Department", required=True)
     language_id = fields.Many2many('res.lang', string="Document Language", required=True)
     company_id = fields.Many2one(
@@ -32,6 +34,13 @@ class PaoDocumentsVersionManagement(models.Model):
     is_document_expired = fields.Boolean(compute="_compute_is_document_expired", store=False)
     is_document_near_expiration = fields.Boolean(compute="_compute_is_document_near_expiration", store=False)
     
+    pao_allow_modify_document = fields.Boolean(compute='_compute_allow_modify_document')
+    document_type_id = fields.Many2one('pao.sgc.document.type', string="Document Type", required=True)
+
+    
+            
+    def _compute_allow_modify_document(self):
+        self.pao_allow_modify_document = self.env.user.has_group("pao_sgc.sgc_admin_group")
     # current_time = fields.Datetime(compute="_get_now", store=False) 
     
     # def _get_now(self):
@@ -67,7 +76,7 @@ class PaoDocumentsVersionManagement(models.Model):
     def _compute_filename(self):
             for record in self:
                 if record.id and record.name and record.revision_number and record.document_file:
-                    record.filename = record.name + '_r' + record.revision_number.replace('.', '_')
+                    record.filename =  record.code + '_Rev' + record.revision_number.replace('.', '_') + '_' + record.name
                 else:
                     record.filename = ""
 
@@ -112,7 +121,9 @@ class PaoDocumentsVersionManagement(models.Model):
                     raise ValidationError(_("It's necessary to fill in the fields: Current Version, Document File, Revision Number and Valid Since to proceed."))
                 else:
                     approval_date = fields.Date.from_string(values.get('approval_date'))
-                    values['expiration_date'] = approval_date + relativedelta(years=1)
+                    document_type = self.env["pao.sgc.document.type"].browse(values.get('document_type_id'))
+
+                    values['expiration_date'] = approval_date + relativedelta(years=document_type.validity_years if document_type.validity_years else 1)
             
             record = super(PaoDocumentsVersionManagement, self).create(values)
             
@@ -122,6 +133,8 @@ class PaoDocumentsVersionManagement(models.Model):
             return record
     
     def update_current_version(self, data):
+    
+
         previous_data ={
             'name': self.name,
             'version': self.version,
@@ -137,11 +150,13 @@ class PaoDocumentsVersionManagement(models.Model):
         self.revision_number = data['revision_number']
         self.document_file = data['document_file']
         self.approval_date = self._get_today_date()
-        self.expiration_date = self._get_today_date() + relativedelta(years=1)
+        self.expiration_date = self._get_today_date() + relativedelta(years=self.document_type_id.validity_years if self.document_type_id.validity_years else 1)
         self.filename = data['filename']
         self.last_updated_by = data['last_updated_by']
         self.approval_id = data['approval_id']
         self.approval_request_in_progress = data['approval_request_in_progress']
+        
+        
         
         
         mention_html = f'<a href="/web#model=res.partner&amp;id={self.approval_id.request_owner_id.partner_id.id}" class="o_mail_redirect" data-oe-id="{self.approval_id.request_owner_id.partner_id.id}" data-oe-model="res.partner" target="_blank">@{self.approval_id.request_owner_id.name}</a>'
@@ -203,6 +218,6 @@ class PaoDocumentsVersionManagement(models.Model):
         )
 
     def postpone_expiration_date(self):
-        self.expiration_date = self._get_today_date() + relativedelta(years=1)
+        self.expiration_date = self._get_today_date() + relativedelta(years=self.document_type_id.validity_years if self.document_type_id.validity_years else 1)
 
     

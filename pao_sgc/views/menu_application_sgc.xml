@@ -9,5 +9,7 @@
         <menuitem id="menu_sgc_configuration" name="Configuration" parent="menu_pao_sgc_application" sequence="2" groups="pao_sgc.sgc_admin_group"/>
             <menuitem id="department_option_menu_item" name="Departments" parent="menu_sgc_configuration" sequence="1" action="pao_sgc_department_action"/>
             <menuitem id="scheme_option_menu_item" name="Schemes" parent="menu_sgc_configuration" sequence="2" action="pao_sgc_scheme_action"/>
+            <menuitem id="accreditor_option_menu_item" name="Accreditors/ Approvers" parent="menu_sgc_configuration" sequence="3" action="pao_sgc_accreditor_action"/>
+            <menuitem id="document_type_option_menu_item" name="Document Type" parent="menu_sgc_configuration" sequence="4" action="pao_sgc_document_type_action"/>
 
 </odoo>

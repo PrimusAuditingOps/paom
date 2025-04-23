@@ -24,7 +24,6 @@ class ApprovalRequestInherit(models.Model):
     pao_document_reviewed = fields.Boolean("PAO Document reviewed", default=False)
     is_user_reviewer = fields.Boolean(compute="_compute_is_user_reviewer", store=False)
 
-
     def _compute_is_user_reviewer(self):
         for rec in self:
             rec.is_user_reviewer = rec.pao_document_reviewer.id == self.env.user.id

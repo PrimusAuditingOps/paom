@@ -1,3 +1,5 @@
+from . import accreditor
+from . import document_type
 from . import pao_documents_version_management
 from . import pao_documents_version_history
 from . import pao_upload_document_version_wizard
