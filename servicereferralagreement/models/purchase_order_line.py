@@ -174,3 +174,18 @@ class PurchaseOrderLine(models.Model):
                         'message': _('EL proveedor contiene servicios asignados para la fecha seleccionada en los siguientes pedidos de compra: {0}'.format(purchaseorders)),
                     },
                 }
+    
+    @api.onchange('price_unit')
+    def onchange_pao_product_id_fixed_price(self):
+        if not self.product_id:
+            return
+        if self.order_id.sale_order_id.company_id.country_code == "MX":
+            if self.product_id.pao_fixed_price_in_dollars:
+                self.write({"price_unit": 0.0})
+                auditor_price =  self.product_id.pao_fixed_price_product_ids.filtered(lambda l: l.partner_id.id == self.partner_id.id and l.country_id.id == self.order_id.audit_country_id.id and l.currency_id.id == 2)
+                for ap in auditor_price:
+                        if self.order_id.currency_id.id == 33:
+                            domain = [('currency_id','=',self.order_id.currency_id.id)]
+                            recexchangerateauditor = self.env['servicereferralagreement.auditorexchangerate'].search(domain)
+                            for rr in recexchangerateauditor:
+                                self.write({"price_unit": rr.exchange_rate * ap.price})

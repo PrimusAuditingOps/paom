@@ -218,7 +218,7 @@ class PurchaseOrder(models.Model):
                                         recexchangerateauditor = self.env['servicereferralagreement.auditorexchangerate'].search(domain)
                                         for recrate in recexchangerateauditor:
                                             priceunit = recrate.exchange_rate * priceunit
-                                
+
                             data = {
                                 'name': line.name,
                                 'price_unit': priceunit,
@@ -328,3 +328,23 @@ class PurchaseOrder(models.Model):
                     rec.update({'service_start_date': service_start_date})
                 organization = rec.organization_id.id
                 registrynumber = rec.registrynumber_id.id
+    
+    @api.onchange('order_line')
+    def _change_pao_fixed_price(self):
+        for rec in self:
+            if rec.sale_order_id.company_id.country_code == "MX":
+                for line in rec.order_line:
+                    if line.product_id.pao_fixed_price_in_dollars:
+                        line.write({"price_unit": 0.0})
+                        auditor_price =  line.product_id.pao_fixed_price_product_ids.filtered(lambda l: l.partner_id.id == rec.partner_id.id and l.country_id.id == rec.audit_country_id.id and l.currency_id.id == 2)
+                        for ap in auditor_price:
+                                if rec.currency_id.id == 33:
+                                    domain = [('currency_id','=',rec.currency_id.id)]
+                                    recexchangerateauditor = self.env['servicereferralagreement.auditorexchangerate'].search(domain)
+                                    for rr in recexchangerateauditor:
+                                        line.write({"price_unit": rr.exchange_rate * ap.price})
+
+
+
+
+                        

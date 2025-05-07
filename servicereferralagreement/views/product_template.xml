@@ -11,7 +11,23 @@
                     <field name="can_be_commissionable"/>
                     <label for="can_be_commissionable"/>
                 </div>
+                <div>
+                    <field name="pao_fixed_price_in_dollars"/>
+                    <label for="pao_fixed_price_in_dollars"/>
+                </div>
             </div>
+            <page name="inventory" position="after">
+                <page string="Fixed Price" invisible="not pao_fixed_price_in_dollars"> 
+                    <field name="pao_fixed_price_product_ids" widget="one2many_list">
+                        <tree string="Fixed Price For The Vendor" editable="bottom">
+                            <field name="partner_id"/>
+                            <field name="country_id"/>
+                            <field name="price"/>
+                            <field name="currency_id"/>
+                          </tree>
+                    </field>
+                </page> 
+            </page>
         </field>
     </record>
 </odoo>
