@@ -106,7 +106,13 @@ class PaoSignSaAgreementsSent(models.Model):
     
     customer_id = fields.Many2one(related="sale_order_id.partner_id", string="Customer")
     
-    organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_organization")
+    organization_ids = fields.Many2many(
+        'servicereferralagreement.organization',
+        compute='_compute_organization_ids',
+        string='Organization'
+    )
+    
+    # organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_organization")
     
     reminder_days = fields.Integer(
         string = 'Reminder days',
@@ -193,13 +199,19 @@ class PaoSignSaAgreementsSent(models.Model):
                 title_sa += rn.name  if title_sa == "" else ", " + rn.name
             rec.title = title_sa
             
-    def _get_organization(self):
+    @api.depends('registration_numbers_ids.organization_id')
+    def _compute_organization_ids(self):
         for rec in self:
-            rec.organization_id = None
-            if rec.sale_order_id:
-                line_with_org = rec.sale_order_id.order_line.filtered('organization_id')
-                if line_with_org:
-                    rec.organization_id = line_with_org[0].organization_id.id
+            organizations = rec.registration_numbers_ids.mapped('organization_id')
+            rec.organization_ids = organizations.filtered(lambda o: o.id).distinct()
+            
+    # def _get_organization(self):
+    #     for rec in self:
+    #         rec.organization_id = None
+    #         if rec.sale_order_id:
+    #             line_with_org = rec.sale_order_id.order_line.filtered('organization_id')
+    #             if line_with_org:
+    #                 rec.organization_id = line_with_org[0].organization_id.id
     
     def action_coordinator_sign(self):
         self.ensure_one()
