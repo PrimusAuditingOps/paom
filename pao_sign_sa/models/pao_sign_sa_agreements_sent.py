@@ -195,7 +195,7 @@ class PaoSignSaAgreementsSent(models.Model):
                 title_sa += rn.name  if title_sa == "" else ", " + rn.name
             rec.title = title_sa
             
-    @api.depends('registration_numbers_ids', 'sale_order_id.order_line.registration_numbers_ids', 'sale_order_id.order_line.organization_id')
+    @api.depends('registration_numbers_ids', 'sale_order_id.order_line.registrynumber_id', 'sale_order_id.order_line.organization_id')
     def _compute_organizations(self):
         for rec in self:
             rec.organization_id = ''
