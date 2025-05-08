@@ -195,12 +195,35 @@ class PaoSignSaAgreementsSent(models.Model):
                 title_sa += rn.name  if title_sa == "" else ", " + rn.name
             rec.title = title_sa
             
-    @api.depends('registration_numbers_ids.organization_id')
+    @api.depends('registration_numbers_ids', 'sale_order_id.order_line.registration_numbers_ids', 'sale_order_id.order_line.organization_id')
     def _compute_organizations(self):
         for rec in self:
-            organizations = rec.registration_numbers_ids.mapped('organization_id')
-            unique_orgs = {org.name for org in organizations if org} 
-            rec.organization_id = ", ".join(sorted(unique_orgs))
+            rec.organization_id = ''
+            if rec.sale_order_id and rec.registration_numbers_ids:
+                # Get IDs of registration numbers in this record
+                target_rn_ids = rec.registration_numbers_ids.ids
+
+                # Filter sale order lines that have matching registration numbers
+                matching_lines = rec.sale_order_id.order_line.filtered(
+                    lambda line: any(rn.id in target_rn_ids for rn in line.registrynumber_id)
+                )
+
+                # Get unique organization names from those lines
+                org_names = {
+                    line.organization_id.name
+                    for line in matching_lines
+                    if line.organization_id
+                }
+
+                # Join them as a comma-separated string
+                rec.organization_id = ", ".join(sorted(org_names))
+            
+    # @api.depends('registration_numbers_ids.organization_id')
+    # def _compute_organizations(self):
+    #     for rec in self:
+    #         organizations = rec.registration_numbers_ids.mapped('organization_id')
+    #         unique_orgs = {org.name for org in organizations if org} 
+    #         rec.organization_id = ", ".join(sorted(unique_orgs))
             
     # def _get_organization(self):
     #     for rec in self:
