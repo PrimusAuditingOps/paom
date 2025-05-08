@@ -106,7 +106,7 @@ class PaoSignSaAgreementsSent(models.Model):
     
     customer_id = fields.Many2one(related="sale_order_id.partner_id", string="Customer")
     
-    organization_ids = fields.Many2many(
+    organization_id = fields.Many2many(
         'servicereferralagreement.organization',
         compute='_compute_organization_ids',
         string='Organization'
@@ -203,7 +203,7 @@ class PaoSignSaAgreementsSent(models.Model):
     def _compute_organization_ids(self):
         for rec in self:
             organizations = rec.registration_numbers_ids.mapped('organization_id')
-            rec.organization_ids = organizations.filtered(lambda o: o.id).distinct()
+            rec.organization_id = organizations.filtered(lambda o: o.id).distinct()
             
     # def _get_organization(self):
     #     for rec in self:
