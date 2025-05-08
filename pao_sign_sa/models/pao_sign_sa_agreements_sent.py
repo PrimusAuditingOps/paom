@@ -203,7 +203,10 @@ class PaoSignSaAgreementsSent(models.Model):
     def _compute_organization_ids(self):
         for rec in self:
             organizations = rec.registration_numbers_ids.mapped('organization_id')
-            rec.organization_id = organizations.filtered(lambda o: o.id).distinct()
+            unique_orgs = self.env['servicereferralagreement.organization'].browse(
+                list(set(organizations.ids))
+            )
+            rec.organization_id = unique_orgs
             
     # def _get_organization(self):
     #     for rec in self:
