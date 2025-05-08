@@ -106,12 +106,8 @@ class PaoSignSaAgreementsSent(models.Model):
     
     customer_id = fields.Many2one(related="sale_order_id.partner_id", string="Customer")
     
-    organization_id = fields.Many2many(
-        'servicereferralagreement.organization',
-        compute='_compute_organization_ids',
-        string='Organization'
-    )
-    
+    organization_id = fields.Char(string="Organization", compute="_compute_organizations")
+
     # organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_organization")
     
     reminder_days = fields.Integer(
@@ -200,13 +196,11 @@ class PaoSignSaAgreementsSent(models.Model):
             rec.title = title_sa
             
     @api.depends('registration_numbers_ids.organization_id')
-    def _compute_organization_ids(self):
+    def _compute_organizations(self):
         for rec in self:
             organizations = rec.registration_numbers_ids.mapped('organization_id')
-            unique_orgs = self.env['servicereferralagreement.organization'].browse(
-                list(set(organizations.ids))
-            )
-            rec.organization_id = unique_orgs
+            unique_orgs = {org.name for org in organizations if org} 
+            rec.organization_id = ", ".join(sorted(unique_orgs))
             
     # def _get_organization(self):
     #     for rec in self:
