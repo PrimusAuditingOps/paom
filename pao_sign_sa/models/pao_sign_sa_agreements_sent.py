@@ -106,8 +106,8 @@ class PaoSignSaAgreementsSent(models.Model):
     
     customer_id = fields.Many2one(related="sale_order_id.partner_id", string="Customer")
     
-    organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_organization")
-    
+    organization_id = fields.Char(string="Organization", compute="_compute_organizations")
+
     reminder_days = fields.Integer(
         string = 'Reminder days',
         default = 0,
@@ -193,13 +193,28 @@ class PaoSignSaAgreementsSent(models.Model):
                 title_sa += rn.name  if title_sa == "" else ", " + rn.name
             rec.title = title_sa
             
-    def _get_organization(self):
+    @api.depends('registration_numbers_ids', 'sale_order_id.order_line.registrynumber_id', 'sale_order_id.order_line.organization_id')
+    def _compute_organizations(self):
         for rec in self:
-            rec.organization_id = None
-            if rec.sale_order_id:
-                line_with_org = rec.sale_order_id.order_line.filtered('organization_id')
-                if line_with_org:
-                    rec.organization_id = line_with_org[0].organization_id.id
+            rec.organization_id = ''
+            if rec.sale_order_id and rec.registration_numbers_ids:
+                # Get IDs of registration numbers in this record
+                target_rn_ids = rec.registration_numbers_ids.ids
+
+                # Filter sale order lines that have matching registration numbers
+                matching_lines = rec.sale_order_id.order_line.filtered(
+                    lambda line: any(rn.id in target_rn_ids for rn in line.registrynumber_id)
+                )
+
+                # Get unique organization names from those lines
+                org_names = {
+                    line.organization_id.name
+                    for line in matching_lines
+                    if line.organization_id
+                }
+
+                # Join them as a comma-separated string
+                rec.organization_id = ", ".join(sorted(org_names))
     
     def action_coordinator_sign(self):
         self.ensure_one()
