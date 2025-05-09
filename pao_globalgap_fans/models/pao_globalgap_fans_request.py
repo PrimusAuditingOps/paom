@@ -269,7 +269,7 @@ class PaoGlobalgapFansRequest(models.Model):
             # Calculate how many days have passed since creation
             if not fan.request_sent_date:
                 continue
-            days_passed = (today - fan.request_sent_date.date()).days
+            days_passed = (today - fan.request_sent_date).days
 
             if 0 <= days_passed < fan.reminder_days:
                 subject = ''
