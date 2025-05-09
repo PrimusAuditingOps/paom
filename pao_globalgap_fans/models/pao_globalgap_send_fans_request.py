@@ -42,11 +42,13 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
         default=False,
     )
     
+    reminder_days = fields.Integer(string = 'Reminder days', default = 0)
+    
     def send_fans_request(self):
         self.ensure_one()
 
         if self.send_to_sign:
-             #rec.write({"request_status": "annulled"})
+            #rec.write({"request_status": "annulled"})
             base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             form_url = url_join(base_url, '/pao/fan/signature/%s/%s' % (self.fans_request_id.id, self.fans_request_id.access_token))            
 
@@ -72,7 +74,11 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
                 force_send=True,
                 lang=customer_lang,
             )
-            self.fans_request_id.write({"request_status": "signature_request"})
+            self.fans_request_id.write({
+                "request_status": "signature_request",
+                "reminder_days": self.reminder_days,
+                "request_sent_date": fields.Date.today(),
+            })
 
         else:
             fr = None
@@ -82,7 +88,9 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
                     'capturist_email': self.capturist_id.email,
                     'follower_ids': self.follower_ids,
                     'sale_order_id': self.sale_order_id.id,
-                    'request_status': 'sent',            
+                    'request_status': 'sent',
+                    'reminder_days': self.reminder_days,
+                    "request_sent_date": fields.Date.today(),            
                 })
                 
             else:
@@ -154,11 +162,8 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
         sign_request = self.with_context(lang=lang)
 
         msg = sign_request.env['mail.message'].sudo().new(dict(body=body, **message_values))
-
         #notif_layout = sign_request.env.ref(notif_template_xmlid)
         #body_html = notif_layout._render(dict(message=msg, **notif_values), engine='ir.qweb', minimal_qcontext=True)
-
-
         body_html =  self.env['ir.ui.view'].with_context(lang=lang)._render_template(notif_template_xmlid, 
             dict(message=msg, **notif_values)
         )

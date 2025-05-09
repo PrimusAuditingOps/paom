@@ -218,13 +218,6 @@ class PaoSignSaAgreementsSent(models.Model):
                 # Join them as a comma-separated string
                 rec.organization_id = ", ".join(sorted(org_names))
             
-    # @api.depends('registration_numbers_ids.organization_id')
-    # def _compute_organizations(self):
-    #     for rec in self:
-    #         organizations = rec.registration_numbers_ids.mapped('organization_id')
-    #         unique_orgs = {org.name for org in organizations if org} 
-    #         rec.organization_id = ", ".join(sorted(unique_orgs))
-            
     # def _get_organization(self):
     #     for rec in self:
     #         rec.organization_id = None
