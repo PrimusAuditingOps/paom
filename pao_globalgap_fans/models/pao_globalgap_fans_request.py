@@ -283,6 +283,8 @@ class PaoGlobalgapFansRequest(models.Model):
             ('reminder_days', '>', 0),
             ('request_status', 'in', ['signature_request', 'correction']),
         ])
+        
+        _logger.warning(fans)
 
         for fan in fans:
             # Calculate how many days have passed since creation
