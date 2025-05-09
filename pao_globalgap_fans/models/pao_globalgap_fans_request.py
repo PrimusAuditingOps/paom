@@ -330,4 +330,3 @@ class PaoGlobalgapFansRequest(models.Model):
                     lang=customer_lang,
                 )
                 
-                return mail
