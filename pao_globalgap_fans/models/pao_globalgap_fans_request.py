@@ -217,6 +217,25 @@ class PaoGlobalgapFansRequest(models.Model):
             mail.send()
         return mail
     
+    
+    def _reminder_send_mail(self, body, notif_template_xmlid, message_values, notif_values, mail_values, force_send=False, **kwargs):
+        
+        default_lang = get_lang(self.env, lang_code=kwargs.get('lang')).code
+        lang = kwargs.get('lang', default_lang)
+        sign_request = self.with_context(lang=lang)
+
+        msg = sign_request.env['mail.message'].sudo().new(dict(body=body, **message_values))
+        body_html =  self.env['ir.ui.view'].with_context(lang=lang)._render_template(notif_template_xmlid, 
+            dict(message=msg, **notif_values)
+        )
+
+        body_html = sign_request.env['mail.render.mixin']._replace_local_links(body_html)
+
+        mail = sign_request.env['mail.mail'].sudo().create(dict(body_html=body_html, state='outgoing', **mail_values))
+        if force_send:
+            mail.send()
+        return mail
+    
 
     def set_signature_message(self):
         
@@ -297,7 +316,7 @@ class PaoGlobalgapFansRequest(models.Model):
                         'body': False,
                     }
                 )
-                mail = fan._message_send_mail(
+                mail = fan._reminder_send_mail(
                     body, 'mail.mail_notification_light',
                     {'record_name': fan.title},
                     {'model_description': _('FAN Reminder'), 'company': fan.create_uid.company_id},
