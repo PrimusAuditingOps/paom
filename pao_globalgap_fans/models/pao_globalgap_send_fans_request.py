@@ -56,7 +56,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
             customer_lang = get_lang(self.env, lang_code=self.capturist_id.lang).code
             #tpl = tpl.with_context(lang=customer_lang)
             body = self.env['ir.ui.view'].with_context(lang=customer_lang)._render_template('pao_globalgap_fans.fans_request_signature_mail',{
-                    'record': self,
+                    'record': self.fans_request_id,
                     'link': form_url,
                     'subject': _("Signature Request"),
                     'body': self.message if self.message != '<p><br></p>' else False,
