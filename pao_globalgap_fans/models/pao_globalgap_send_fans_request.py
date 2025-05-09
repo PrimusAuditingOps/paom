@@ -98,7 +98,12 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
                 fr = self.fans_request_id
                 if fr.attachment_id:
                     old_attachment_id = fr.attachment_id.id
-                fr.write({"request_status": 'sent' if fr.request_status == "draft" else 'correction', "attachment_id": None})
+                fr.write({
+                    "request_status": 'sent' if fr.request_status == "draft" else 'correction',
+                    "attachment_id": None,
+                    'reminder_days': self.reminder_days,
+                    "request_sent_date": fields.Date.today(),
+                })
                 
                 if old_attachment_id:
                     self.env['ir.attachment'].sudo().search([("id","=",old_attachment_id),("res_id","=",fr.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
