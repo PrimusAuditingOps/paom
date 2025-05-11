@@ -25,6 +25,8 @@ class ReportAgedReceivableCustom(models.AbstractModel):
     def _prepare_partner_values(self):
         result = super(ReportAgedReceivableCustom, self)._prepare_partner_values()
         result.update({'currency_rate': None})
+        result.update({'rem_days': None})
+        
         
         return result
     
@@ -73,8 +75,20 @@ class ReportAgedReceivableCustom(models.AbstractModel):
                     # Needed by the custom_unfold_all_batch_data_generator, to speed-up unfold_all
                     'partner_id': query_res['partner_id'][0] if query_res['partner_id'] else None,
                 })
-                
+                rem_days = 0 
+                remaining_days = ''
+                today = fields.Date.today()
+                if expected_date:
+                    rem_days = expected_date - today
+                    if rem_days.days < 0:
+                        remaining_days = _('%s days ago') % (rem_days.days * -1)
+                    elif rem_days.days > 0:
+                        remaining_days = _('In %s days') % (rem_days.days)
+                    else:
+                        remaining_days = _('Today')
+
                 rslt.update({'currency_rate': self._get_rate(rslt.get('invoice_date'), rslt.get('currency'), query_res['move_id'][0])})
+                rslt.update({'rem_days': remaining_days})
                 
             else:
                 rslt.update({
@@ -86,6 +100,7 @@ class ReportAgedReceivableCustom(models.AbstractModel):
                     'currency_rate': None,
                     'account_name': None,
                     'expected_date': None,
+                    'rem_days': None,
                     'total': sum(rslt[f'period{i}'] for i in range(len(periods))),
                     'has_sublines': False,
                 })
