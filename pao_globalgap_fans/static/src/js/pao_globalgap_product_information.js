@@ -328,6 +328,11 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
         var product_list = JSON.parse($("#product_ids").val());
         var products = []
         for (let i = 0; i < product_list.length; i++) {
+
+            const inputValue = document.getElementById("version_id").value;
+            const harvest_type_label = (inputValue === "2" || inputValue === "3") 
+                ? "Número de ciclo de crecimiento" 
+                : "Primera cosecha/Cosecha posterior";
             
             if ($("#uncovered_production_area"+product_list[i]).val() == ""){
 
@@ -342,7 +347,13 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                 products = [];
                 break;
             }
-            else if($("#estimated_yield_in_tons"+product_list[i]).val() == ""){
+            else if ($("#harvest_type"+product_list[i]).val() == ""){
+                alert("Favor de capturar " + harvest_type_label);
+                $("#harvest_type"+product_list[i]).focus()
+                products = [];
+                break;
+            }
+            else if ($("#estimated_yield_in_tons"+product_list[i]).val() == "" || $("#estimated_yield_in_tons" + product_list[i]).val() == "0") {
                 alert("Favor de capturar un Rendimiento Estimado en Tons.");
                 $("#estimated_yield_in_tons"+product_list[i]).focus()
                 products = [];

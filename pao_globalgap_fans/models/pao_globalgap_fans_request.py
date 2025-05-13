@@ -283,8 +283,6 @@ class PaoGlobalgapFansRequest(models.Model):
             ('reminder_days', '>', 0),
             ('request_status', 'in', ['signature_request', 'correction']),
         ])
-        
-        _logger.warning(fans)
 
         for fan in fans:
             # Calculate how many days have passed since creation
@@ -292,7 +290,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 continue
             days_passed = (today - fan.request_sent_date).days
 
-            if 0 <= days_passed < fan.reminder_days:
+            if 0 < days_passed <= fan.reminder_days:
                 subject = ''
                 base_url = fan.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 customer_lang = get_lang(fan.env, lang_code=fan.capturist_id.lang).code
@@ -300,13 +298,13 @@ class PaoGlobalgapFansRequest(models.Model):
                 if fan.request_status == 'signature_request':
                     form_url = url_join(base_url, '/pao/fan/signature/%s/%s' % (fan.id, fan.access_token))            
                     subject = _("Solicitud de firma para el registro de aplicación GLOBALG.A.P") if fan.request_status == "draft" else _("Solicitud de firma para el registro de aplicacion GLOBALG.A.P")
-                    template = 'pao_globalgap_fans.fans_request_signature_mail'
+                    template = 'pao_globalgap_fans.fans_reminder_request_signature_mail'
                     
                 elif fan.request_status == 'correction':
                     form_url = url_join(base_url, '/pao/fillout/fans/%s/%s' % (fan.id, fan.access_token))
                     subject = _("Solicitud de registro de aplicación GLOBALG.A.P") if fan.request_status == "draft" else _("Solicitud de correción para el registro de aplicacion GLOBALG.A.P")
                     fan.write({"request_url": form_url})
-                    template = 'pao_globalgap_fans.fans_request_template_mail'
+                    template = 'pao_globalgap_fans.fans_reminder_request_signature_mail'
 
                 else:
                     continue
