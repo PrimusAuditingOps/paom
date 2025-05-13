@@ -304,7 +304,7 @@ class PaoGlobalgapFansRequest(models.Model):
                     form_url = url_join(base_url, '/pao/fillout/fans/%s/%s' % (fan.id, fan.access_token))
                     subject = _("Solicitud de registro de aplicación GLOBALG.A.P") if fan.request_status == "draft" else _("Solicitud de correción para el registro de aplicacion GLOBALG.A.P")
                     fan.write({"request_url": form_url})
-                    template = 'pao_globalgap_fans.fans_reminder_request_signature_mail'
+                    template = 'pao_globalgap_fans.fans_reminder_request_template_mail'
 
                 else:
                     continue
