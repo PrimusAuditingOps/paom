@@ -329,11 +329,6 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
         var products = []
         for (let i = 0; i < product_list.length; i++) {
 
-            const inputValue = document.getElementById("version_id").value;
-            const harvest_type_label = (inputValue === "2" || inputValue === "3") 
-                ? "Número de ciclo de crecimiento" 
-                : "Primera cosecha/Cosecha posterior";
-            
             if ($("#uncovered_production_area"+product_list[i]).val() == ""){
 
                 alert("Favor de capturar un Área en producción total (ha).");
@@ -347,9 +342,12 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                 products = [];
                 break;
             }
-            else if ($("#harvest_type"+product_list[i]).val() == ""){
-                alert("Favor de capturar " + harvest_type_label);
-                $("#harvest_type"+product_list[i]).focus()
+            else if (
+                ($("#growth_cycle_number" + product_list[i]).val() == "") &&
+                (document.getElementById("version_id").value === "2" || document.getElementById("version_id").value === "3")
+            ) {
+                alert("Favor de capturar Número de ciclo de crecimiento");
+                $("#growth_cycle_number" + product_list[i]).focus();
                 products = [];
                 break;
             }

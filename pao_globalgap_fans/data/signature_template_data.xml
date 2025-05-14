@@ -33,8 +33,8 @@
                         <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
                             Estimado/a <t t-esc="record.capturist_id.name"/>
                             <br/><br/>
-                            A través de este correo le hacemos llegar la solicitud de firma para el registro de aplicación de  <t t-esc="record.organization_id.name"/>
-                            a cual debe ser firmada previo a su fecha de auditoría.
+                            A través de este correo le hacemos llegar la solicitud de firma para el registro de aplicación de  <span style="color:blue; font-weight: bold;"><t t-esc="record.organization_id.name"/></span>
+                            la cual debe ser firmada previo a su fecha de auditoría.
                             <br/><br/>
                             Recuerde la falta de firma constituye un incumplimiento contractual que podría afectar la emisión del certificado.
                             <br/><br/>
