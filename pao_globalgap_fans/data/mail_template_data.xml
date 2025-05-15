@@ -18,12 +18,8 @@
                             <br/><br/>
                             Sección 3: Información general del producto(s) y países destino de exportación.
                             <br/><br/><br/><br/>
-                            CONSIDERAR: Por favor no olvide indicar Sí o No para cada uno de los siguientes atributos.
-                            <br/><br/>
-                            Producción Paralela (PP): aplica cuando una parte de la producción del mismo producto será certificada y otra no, 
-                            es decir; sitio A de arándano se certificará, mientras el sitio B de arándano no será certificado.
-                            <br/><br/>
-                            Propiedad Paralela (PO): aplica cuando un productor adquiere producto no-certificado que él mismo cultiva bajo certificación.
+                            NOTA: Por favor no olvide indicar e ciclo de crecimiento del cultivo así como la estimación de inicio y 
+                            fin de su temporada de cosecha.
                         </p>  
                     </td>
                 </tr>
@@ -48,6 +44,41 @@
                 </tr>
             </table>  
         </template>
-       
+
+        <template id="fans_reminder_request_template_mail">
+            <table border="0" cellpadding="0" style="background-color: white; padding: 0px; border-collapse:separate;">
+                <tr>
+                    <td valign="top">
+                        <p style="font-size:12pt;font-family:Tahoma,sans-serif;color:#000000;line-height:1.0;">
+                            Estimado/a <t t-esc="record.capturist_id.name"/> 
+                            <br/><br/>
+                            A través de este correo solicitamos que se realicen las siguientes correcciones en el <span style="color:blue; font-weight: bold;">FAN-01 Solicitud e Información para Certificación GLOBALG.A.P.</span>
+                            <br/><br/>
+                            NOTA: Recuerde que las correcciones se deben de realizar en menos de 2 días hábiles para poder procesar la información en tiempo y forma.
+                        </p>  
+                    </td>
+                </tr>
+                <tr t-if="body">
+                    <td valign="top">
+                        <div style="margin: 16px 0px 16px 0px; padding: 8px 16px 8px 16px; background-color: #F1F1F1;">
+                            <span>
+                                <t t-raw="body"/>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        <div style="margin:16px auto; text-align:center;">
+                            <a t-att-href="link"
+                                style="padding: 8px 16px 8px 16px; border-radius: 3px; background-color:#875A7B; text-align:center; text-decoration:none; color: #FFFFFF;">
+                                Llenar formulario de aplicación
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </table>  
+        </template>
+    
     </data>
 </odoo>
