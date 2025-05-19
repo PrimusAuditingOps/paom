@@ -332,7 +332,7 @@ class PurchaseOrder(models.Model):
     @api.onchange('order_line')
     def _change_pao_fixed_price(self):
         for rec in self:
-            if rec.sale_order_id.company_id.country_code == "MX":
+            if rec.country_code == "MX":
                 for line in rec.order_line:
                     if line.product_id.pao_fixed_price_in_dollars:
                         line.write({"price_unit": 0.0})

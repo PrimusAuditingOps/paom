@@ -179,7 +179,7 @@ class PurchaseOrderLine(models.Model):
     def onchange_pao_product_id_fixed_price(self):
         if not self.product_id:
             return
-        if self.order_id.sale_order_id.company_id.country_code == "MX":
+        if self.order_id.country_code == "MX":
             if self.product_id.pao_fixed_price_in_dollars:
                 self.write({"price_unit": 0.0})
                 auditor_price =  self.product_id.pao_fixed_price_product_ids.filtered(lambda l: l.partner_id.id == self.partner_id.id and l.country_id.id == self.order_id.audit_country_id.id and l.currency_id.id == 2)
