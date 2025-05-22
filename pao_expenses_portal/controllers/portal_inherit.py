@@ -147,7 +147,7 @@ class ExpensesPortal(http.Controller):
             if request.env.company.country_code == 'MX':
                 values.update({'partner_id': request.env.user.partner_id.id})
             else:
-                employee = request.env.user.employee_id or request.env.user.employee_ids[:1]
+                employee = request.env['hr.employee'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)
                 if not employee:
                     request.session['error_expense'] = _("The current user does not have an employee registered, it is necessary to have one to continue with the process.")
                 values.update({'employee_id': employee.id})
