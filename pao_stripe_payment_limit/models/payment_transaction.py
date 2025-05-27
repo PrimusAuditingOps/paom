@@ -1,5 +1,7 @@
 from odoo import models, _
+from logging import getLogger
 
+_logger = getLogger(__name__)
 class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
 
@@ -15,6 +17,12 @@ class PaymentTransaction(models.Model):
             :rtype: recordset of `account.payment`
             """
             self.ensure_one()
+            
+            _logger.warning("ENTRA****")
+            
+            _logger.warning(self.provider_id.code)
+            
+            _logger.warning("****************")
 
             if self.provider_id.code == 'stripe':
                 reference = (f'{self.reference}')
@@ -23,6 +31,9 @@ class PaymentTransaction(models.Model):
                             f'{self.partner_id.display_name or ""} - '
                             f'{self.provider_reference or ""}'
                             )
+                
+            _logger.warning(reference)
+
 
             payment_method_line = self.provider_id.journal_id.inbound_payment_method_line_ids\
                 .filtered(lambda l: l.payment_provider_id == self.provider_id)
