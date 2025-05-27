@@ -1,24 +1,15 @@
-from odoo import models, _
+from odoo import models, api
 from logging import getLogger
-
 _logger = getLogger(__name__)
-class PaymentTransaction(models.Model):
-    _inherit = 'payment.transaction'
 
-    def _create_payment(self, **extra_create_values):
-        payment = super()._create_payment(extra_create_values)
-        
-        _logger.warning(payment)
-        
-        _logger.warning("ENTRA****")
-        
-        _logger.warning(self.provider_id.code)
-        
-        _logger.warning("****************")
+class AccountPayment(models.Model):
+    _inherit = 'account.payment'
 
-        if self.provider_id.code == 'stripe':
-            reference = (f'{self.reference}')
-            _logger.warning(reference)
-            payment.ref = reference
-
-        return payment
+    @api.model
+    def create(self, vals):
+        _logger.warning("ENTRAAAAAAAA********************")
+        if vals.get('payment_transaction_id'):
+            transaction = self.env['payment.transaction'].browse(vals['payment_transaction_id'])
+            if transaction.provider_id.code == 'stripe':
+                vals['ref'] = transaction.reference
+        return super(AccountPayment, self).create(vals)
