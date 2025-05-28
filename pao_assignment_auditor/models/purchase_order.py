@@ -98,8 +98,8 @@ class PurchaseOrderLine(models.Model):
     def write(self, vals):
         result = super(PurchaseOrderLine, self).write(vals)
         for record in self:
-            if any(field in vals for field in ['service_start_date', 'service_end_date']):
-                self._send_auditor_notification()
+            if any(field in vals and vals[field] for field in ['service_start_date', 'service_end_date']):
+                record._send_auditor_notification()
         return result
     
     def _send_auditor_notification(self):
