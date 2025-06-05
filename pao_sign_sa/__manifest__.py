@@ -45,6 +45,7 @@
         'reports/sa_header_footer_standard.xml',
         'reports/sa_header_footer_sustainability_usa.xml',
         'reports/sa_header_footer_sustentabilidad.xml',
+        'reports/sa_header_footer_ue.xml',
         
         # views
         'views/sa_add_globalgap_scheme.xml',
@@ -68,6 +69,7 @@
         'views/sa_smeta_scheme_spanish.xml',
         'views/sa_smeta_scheme_usa.xml',
         'views/sa_smeta_scheme.xml',
+        'views/sa_ue.xml',
         'views/sa_sustainability_scheme_usa.xml',
         'views/sa_sustentabilidad_scheme.xml',
         'views/sale_order.xml',

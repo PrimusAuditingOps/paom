@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="custom_header_footer_ue">
+        <div t-attf-class="header">
+            <div class="row mb8">
+                <div class="col-2">
+                    <img src="/servicereferralagreement/static/src/img/logo.png" style="width:150px; height:60px" alt="Logo"/>
+                </div>
+                <div class="col-10 text-center" style="display: flex; align-items: center;font-family: 'Times New Roman'; font-size: 14px;">
+                    <br/>
+                    <h3><b>FAN 23- ACUERDO DE SERVICIOS DE CERTIFICACIÓN UE/ CERTIFICATION SERVICES AGREEMENT EU</b></h3>
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="footer o_boxed_footer">
+            <div class="text-center" style="font-family: 'Times New Roman'; font-size: 16px; color: black;">
+                <ul class="list-inline">
+                    <li class="list-inline-item">Elaborado Por/ Elaborated by: A. Iñiguez</li>
+                    <li class="list-inline-item">Revisado Por/ Reviewer for: C. Aguilera </li>
+                    <li class="list-inline-item">Aprobado Por / Approved by: M. Saldaña</li>
+                </ul>
+                <ul class="list-inline">
+                   <li class="list-inline-item">Edición Original/ Original Edition: Feb-2025</li>
+                    <li class="list-inline-item">Revisión/ Revision: 00</li>
+                    <li class="list-inline-item">Emisión/ Issued: De acuerdo a ficha/According to file</li>
+                </ul>
+                <div t-if="report_type == 'pdf'">
+                    Página/ Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

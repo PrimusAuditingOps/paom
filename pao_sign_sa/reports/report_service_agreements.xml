@@ -165,6 +165,14 @@
                             </t>
                         </div>
                     </t>
+                    <t t-if="values.scheme == 'UE'">
+                        <t t-call="pao_sign_sa.sa_header_footer_ue"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_ue_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>
+                    </t>
                     <t t-if="values.scheme == 'HACCP'">
                         <t t-call="pao_sign_sa.sa_header_footer_haccp"/>
                         <div class="page">
