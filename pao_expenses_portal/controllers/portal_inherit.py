@@ -62,11 +62,11 @@ class ExpensesPortal(http.Controller):
             url = url,
             total = request.env['hr.expense.sheet'].sudo().search_count(domain),
             page = page,
-            step = 10,
+            step = 20,
             url_args = {'sortby': sortby, 'filterby': filterby}
         )
         
-        expense_reports = request.env['hr.expense.sheet'].sudo().search(domain, order=order, limit=10, offset=page_detail['offset'])
+        expense_reports = request.env['hr.expense.sheet'].sudo().search(domain, order=order, limit=20, offset=page_detail['offset'])
         
         return request.render('pao_expenses_portal.my_expense_reports_view', {
             'expense_reports': expense_reports, 

@@ -54,7 +54,8 @@
 
             <a class="btn btn-primary mb-3" href="/my/wallet">My Wallet</a>
 
-            <table t-if="expense_reports" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover">
+            <t t-if="expense_reports" t-call="portal.portal_table">
+            <!-- <table t-if="expense_reports" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover"> -->
                 <thead>
                     <tr class="active">
                         <th>
@@ -113,8 +114,8 @@
                         </div>
                     </div>
                 </t>
-
-            </table>
+            </t>
+            <!-- </table> -->
             <div t-if="not expense_reports" class="alert alert-warning mt-4" role="alert">
                 There are currently no expense reports for your account.
             </div>
