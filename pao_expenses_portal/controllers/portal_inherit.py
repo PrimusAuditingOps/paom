@@ -23,7 +23,7 @@ class ExpensesPortal(http.Controller):
     def _get_expense_sheet_searchbar_filters(self):
         return {
             'all': {'label': _('All'), 'domain': []},
-            'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'submit')]},
+            'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'draft')]},
             'approved': {'label': _('Approved'), 'domain': [('state', '=', 'approve')]},
             'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
         }
