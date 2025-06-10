@@ -138,10 +138,10 @@ class ExpensesPortal(http.Controller):
                     'expense_scheme_id': scheme_id
                 } 
         
-        if self.purchase_order_has_expense_report(purchase_order, id):
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            request.session['error_expense'] = _('This purchase order already has a related expense report.')
-            return request.redirect(referer_url)
+        # if self.purchase_order_has_expense_report(purchase_order, id):
+        #     referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
+        #     request.session['error_expense'] = _('This purchase order already has a related expense report.')
+        #     return request.redirect(referer_url)
         
         if id:
             expense_sheet = request.env['hr.expense.sheet'].browse(int(id))
