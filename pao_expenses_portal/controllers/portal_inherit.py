@@ -84,16 +84,6 @@ class ExpensesPortal(http.Controller):
         else:
             values.update({'new_report': True, 'report': None})
         
-        purchase_order_redirect  = kw.get("purchase_order")
-        if purchase_order_redirect:
-            if not self.purchase_order_has_expense_report(purchase_order_redirect, None):
-                purchase_order = request.env['purchase.order'].sudo().browse(int(purchase_order_redirect))
-                if purchase_order.exists() and purchase_order.state != 'cancel' and (purchase_order.ac_audit_status.name == 'Confirmada' or purchase_order.ac_audit_status.name == 'Confirmed') :
-                    values.update({'purchase_order_redirect': purchase_order_redirect})
-            else:
-                referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-                return request.redirect(referer_url)
-                    
         user = request.env.user
         purchase_orders_account = request.env['purchase.order'].sudo().search([
             ('partner_id', '=', user.partner_id.id),
@@ -101,13 +91,26 @@ class ExpensesPortal(http.Controller):
             '|', ('ac_audit_status.name', '=', 'Confirmada'), ('ac_audit_status.name', '=', 'Confirmed')
         ])
         
+        purchase_order_redirect  = kw.get("purchase_order")
+        if purchase_order_redirect:
+            # if not self.purchase_order_has_expense_report(purchase_order_redirect, None):
+                purchase_order = request.env['purchase.order'].sudo().browse(int(purchase_order_redirect))
+                if (purchase_order.exists() and 
+                    purchase_order.state != 'cancel' and 
+                    purchase_order.ac_audit_status.name in ('Confirmada', 'Confirmed') and
+                    purchase_order in purchase_orders_account
+                ):
+                    values.update({'purchase_order_redirect': purchase_order_redirect})
+            # else:
+            #     referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
+            #     return request.redirect(referer_url)
+        
         schemes = request.env['expense.scheme'].sudo().search([('company_id', '=', request.env.company.id)])
         
         values.update({'purchase_orders_account': purchase_orders_account, 'schemes': schemes, 'currency': request.env.company.currency_id.name})
         
         error_expense = request.session.get('error_expense')
         if error_expense:
-            
             values.update({'error_expense': error_expense})
         request.session.pop('error_expense', None)
         
@@ -156,7 +159,8 @@ class ExpensesPortal(http.Controller):
             
         if purchase_order and purchase_order.isdigit():
             order = request.env['purchase.order'].sudo().browse(int(purchase_order))
-            order.write({'sheet_id': expense_sheet.id})
+            if order.exists():
+                expense_sheet.write({'purchase_order': order.id})
 
         return expense_sheet
     
@@ -234,16 +238,9 @@ class ExpensesPortal(http.Controller):
             report = request.env['hr.expense.sheet'].browse(int(report_id))
             
             if report.exists():
-                
-                purchase_order_id = report.purchase_order.id if report.purchase_order else None
-                if purchase_order_id:
-                    order = request.env['purchase.order'].sudo().browse(int(purchase_order_id))
-                    order.write({'sheet_id': None})
-
                 report.expense_line_ids.sudo().unlink()
                 report.sudo().unlink()
 
-            
             return request.redirect('/my/expense_reports')
 
 
