@@ -23,9 +23,9 @@ class ExpensesPortal(http.Controller):
     def _get_expense_sheet_searchbar_filters(self):
         return {
             'all': {'label': _('All'), 'domain': []},
-            'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'to_submit')]},
-            'approved': {'label': _('Approved'), 'domain': [('state', 'in', ('approved'))]},
-            'done': {'label': _('Done'), 'domain': [('state', 'in', ('done'))]},
+            'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'submit')]},
+            'approved': {'label': _('Approved'), 'domain': [('state', '=', 'approve')]},
+            'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
         }
     
     @http.route(['/my/expense_reports', '/my/expense_reports/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
