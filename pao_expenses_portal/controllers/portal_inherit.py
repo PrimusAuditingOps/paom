@@ -1,12 +1,11 @@
 from odoo import http, _
 from odoo.http import request
-from odoo.addons.purchase.controllers.portal import CustomerPortal
-from odoo.addons.portal.controllers.portal import pager as portal_pager
-from collections import OrderedDict
 import logging
 import base64
 import xlrd
 from datetime import date
+from odoo.addons.portal.controllers.portal import pager
+from collections import OrderedDict
 
 _logger = logging.getLogger(__name__)
 class ExpensesPortal(http.Controller):
@@ -15,28 +14,71 @@ class ExpensesPortal(http.Controller):
         user = request.env.user
         return user.partner_id.is_an_in_house_auditor
     
-    @http.route('/my/expense_reports', type='http', methods=['GET'], auth='user', website=True, sitemap=False)
-    def my_expense_report(self, **kwargs):
+    def _get_expense_sheet_searchbar_sortings(self):
+        return {
+            'date': {'label': _('Date'), 'order': 'create_date desc'},
+            'state': {'label': _('State'), 'order': 'state'},
+        }
+        
+    def _get_expense_sheet_searchbar_filters(self):
+        return {
+            'all': {'label': _('All'), 'domain': []},
+            'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'to_submit')]},
+            'approved': {'label': _('Approved'), 'domain': [('state', 'in', ('approved'))]},
+            'done': {'label': _('Done'), 'domain': [('state', 'in', ('done'))]},
+        }
+    
+    @http.route(['/my/expense_reports', '/my/expense_reports/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
+    def my_expense_report(self, page=1, sortby=None, filterby=None, url='/my/expense_reports', **kwargs):
         
         if not self.is_user_auditor():
             return request.redirect('/my/home')
         
         request.session.pop('error_expense', None)
         
-        user = request.env.user
+        searchbar_sortings = self._get_expense_sheet_searchbar_sortings()
+        if not sortby:
+            sortby = 'date'
+        order = searchbar_sortings[sortby]['order']
         
+        searchbar_filters = self._get_expense_sheet_searchbar_filters()
+        if not filterby:
+            filterby = 'all'
+        domain = searchbar_filters[filterby]['domain']
+        
+        user = request.env.user
         if request.env.company.country_code == 'MX':
-            expense_reports = request.env['hr.expense.sheet'].sudo().search([
+            domain += [
                 ('partner_id', '=', user.partner_id.id),
                 ('company_id', '=', request.env.company.id)
-            ])
+            ]
         else:
-            expense_reports = request.env['hr.expense.sheet'].sudo().search([
+            domain += [
                 ('employee_id', '=', user.employee_id.id),
                 ('company_id', '=', request.env.company.id)
-            ])
+            ]
         
-        return request.render('pao_expenses_portal.my_expense_reports_view', {'expense_reports': expense_reports, 'page_name': 'expense_reports', 'currency': request.env.company.currency_id.name})
+        page_detail = pager(
+            url = url,
+            total = request.env['hr.expense.sheet'].sudo().search_count(domain),
+            page = page,
+            step = 10,
+            url_args = {'sortby': sortby, 'filterby': filterby}
+        )
+        
+        expense_reports = request.env['hr.expense.sheet'].sudo().search(domain, order=order, limit=10, offset=page_detail['offset'])
+        
+        return request.render('pao_expenses_portal.my_expense_reports_view', {
+            'expense_reports': expense_reports, 
+            'page_name': 'expense_reports', 
+            'currency': request.env.company.currency_id.name,
+            'pager': page_detail,
+            'default_url': url,
+            'searchbar_sortings': searchbar_sortings, 
+            'sortby': sortby,
+            'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
+            'filterby': filterby,
+        })
     
     
     def get_categories(self):
