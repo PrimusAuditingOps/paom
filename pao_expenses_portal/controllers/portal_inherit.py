@@ -36,7 +36,7 @@ class ExpensesPortal(http.Controller):
                 ('company_id', '=', request.env.company.id)
             ])
         
-        return request.render('pao_expenses_portal.my_expense_reports_view', {'expense_reports': expense_reports, 'page_name': 'expense_reports'})
+        return request.render('pao_expenses_portal.my_expense_reports_view', {'expense_reports': expense_reports, 'page_name': 'expense_reports', 'currency': request.env.company.currency_id.name})
     
     
     def get_categories(self):
