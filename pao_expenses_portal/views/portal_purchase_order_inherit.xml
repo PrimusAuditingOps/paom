@@ -10,7 +10,7 @@
                 t-att-href="'/my/expense_reports/new?purchase_order=' + str(order.id)">
                 Create expense report
             </a>
-            <!-- <a class="btn btn-primary mt-4" t-if="order.sheet_id" t-att-href="'/my/expense_reports/' + str(order.sheet_id.id)">View expense report</a> -->
+            <a class="btn btn-primary mt-4" t-if="order.expense_sheet_ids" t-att-href="'/my/expense_reports?purchase_order=' + str(order.id)">View Expense Reports</a>
         </xpath>
     </template>
 
