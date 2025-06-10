@@ -29,7 +29,7 @@ class ExpensesPortal(http.Controller):
         }
     
     @http.route(['/my/expense_reports', '/my/expense_reports/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
-    def my_expense_report(self, page=1, sortby=None, filterby=None, url='/my/expense_reports', **kwargs):
+    def my_expense_report(self, page=1, sortby=None, filterby=None, url='/my/expense_reports', purchase_order=None, **kwargs):
         
         if not self.is_user_auditor():
             return request.redirect('/my/home')
@@ -56,6 +56,11 @@ class ExpensesPortal(http.Controller):
             domain += [
                 ('employee_id', '=', user.employee_id.id),
                 ('company_id', '=', request.env.company.id)
+            ]
+        
+        if purchase_order and purchase_order.isdigit():
+            domain += [
+                ('purchase_order', '=', int(purchase_order)),
             ]
         
         page_detail = pager(
