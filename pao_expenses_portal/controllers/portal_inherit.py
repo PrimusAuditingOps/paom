@@ -404,8 +404,8 @@ class ExpensesPortal(http.Controller):
         return {
             'all': {'label': _('All'), 'domain': []},
             'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'reported')]},
-            'submitted': {'label': _('Approved'), 'domain': [('state', '=', 'submitted')]},
-            'approved': {'label': _('Submitted'), 'domain': [('state', '=', 'approved')]},
+            'submitted': {'label': _('Submitted'), 'domain': [('state', '=', 'submitted')]},
+            'approved': {'label': _('Approved'), 'domain': [('state', '=', 'approved')]},
             'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
         }
     
