@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-09 16:08+0000\n"
-"PO-Revision-Date: 2024-10-09 16:08+0000\n"
+"POT-Creation-Date: 2025-06-11 16:30+0000\n"
+"PO-Revision-Date: 2025-06-11 16:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -134,6 +134,14 @@ msgstr "Agrega tus gastos de viaje"
 
 #. module: pao_expenses_portal
 #. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "All"
+msgstr "Todo"
+
+#. module: pao_expenses_portal
+#. odoo-python
 #: code:addons/pao_expenses_portal/models/hr_employee.py:0
 #, python-format
 msgid "An employee must have an associated user to be an expenses manager."
@@ -146,6 +154,14 @@ msgstr ""
 #, python-format
 msgid "An error occurred while processing the file, please try again."
 msgstr "Ocurrió un error al procesar el archivo, por favor intente de nuevo."
+
+#. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "Approved"
+msgstr "Aprobado"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
@@ -241,6 +257,14 @@ msgid "Customer to Reinvoice"
 msgstr "Cliente al que se le va a volver a facturar"
 
 #. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "Date"
+msgstr "Fecha"
+
+#. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
@@ -276,6 +300,14 @@ msgid "Display Name"
 msgstr ""
 
 #. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "Done"
+msgstr "Hecho"
+
+#. module: pao_expenses_portal
 #: model:ir.model,name:pao_expenses_portal.model_hr_employee
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense__employee_id
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense_sheet__employee_id
@@ -294,7 +326,7 @@ msgstr "Error subiendo estado de cuenta"
 #. module: pao_expenses_portal
 #: model:ir.model,name:pao_expenses_portal.model_hr_expense
 msgid "Expense"
-msgstr ""
+msgstr "Gasto"
 
 #. module: pao_expenses_portal
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_expense_scheme__property_account_expense_id
@@ -314,8 +346,10 @@ msgid "Expense Report"
 msgstr "Reporte de gastos"
 
 #. module: pao_expenses_portal
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_purchase_order__expense_sheet_ids
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.portal_breadcrumbs_expense
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.purchase_order_expenses_form_view_inherit
 msgid "Expense Reports"
 msgstr "Reportes de gastos"
 
@@ -396,6 +430,16 @@ msgid "New expense to complete and send for approval"
 msgstr "Nuevo gasto por completar y enviar para su aprobación."
 
 #. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
+msgid "No expense reports found with the selected filters."
+msgstr "No se encontraron reportes de gastos con los filtros seleccionados."
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
+msgid "No expenses found with the selected filters."
+msgstr "No se encontraron gastos con los filtros seleccionados."
+
+#. module: pao_expenses_portal
 #. odoo-python
 #: code:addons/pao_expenses_portal/models/hr_employee.py:0
 #, python-format
@@ -465,6 +509,14 @@ msgid "Schemes"
 msgstr "Esquemas"
 
 #. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "State"
+msgstr "Estado"
+
+#. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "Status"
@@ -474,6 +526,14 @@ msgstr "Estado"
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
 msgid "Submit"
 msgstr "Enviar"
+
+#. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "Submitted"
+msgstr "Enviado"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
@@ -537,16 +597,6 @@ msgstr ""
 "El formato del archivo cargado es incorrecto, por favor intente de nuevo."
 
 #. module: pao_expenses_portal
-#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
-msgid "There are currently no expense reports for your account."
-msgstr "Actualmente no hay reportes de gastos relacionados con esta cuenta."
-
-#. module: pao_expenses_portal
-#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
-msgid "There are currently no expenses for your account."
-msgstr "Actualmente no hay gastos relacionados con esta cuenta."
-
-#. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
 msgid "There are currently no expenses in this report."
 msgstr "Actualmente no hay gastos en este reporte."
@@ -564,9 +614,10 @@ msgstr ""
 #. module: pao_expenses_portal
 #. odoo-python
 #: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
 #, python-format
-msgid "This purchase order already has a related expense report."
-msgstr "Esta orden de compra ya tiene un reporte de gastos relacionado."
+msgid "To Submit"
+msgstr "Por enviar"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
@@ -620,8 +671,8 @@ msgstr "Subido por estado de cuenta"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.purchase_order_create_expense_report
-msgid "View expense report"
-msgstr "Ver reporte de gastos"
+msgid "View Expense Reports"
+msgstr "Ver reportes de gastos"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.portal_breadcrumbs_expense
