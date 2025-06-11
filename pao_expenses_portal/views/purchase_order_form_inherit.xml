@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="purchase_order_expenses_form_view_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.expenses.form.view.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.order.form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='alternative_pos']" position="after">
+                <page string="Expense Reports" name="expense_reports_tab" invisible="not expense_sheet_ids">
+                    <field name="expense_sheet_ids" readonly="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -24,6 +24,7 @@ class ExpensesPortal(http.Controller):
         return {
             'all': {'label': _('All'), 'domain': []},
             'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'draft')]},
+            'submitted': {'label': _('Submitted'), 'domain': [('state', '=', 'submitted')]},
             'approved': {'label': _('Approved'), 'domain': [('state', '=', 'approve')]},
             'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
         }
@@ -393,39 +394,84 @@ class ExpensesPortal(http.Controller):
     
     
     
+    def _get_wallet_searchbar_sortings(self):
+        return {
+            'date': {'label': _('Date'), 'order': 'date desc'},
+            'state': {'label': _('State'), 'order': 'state'},
+        }
+        
+    def _get_wallet_searchbar_filters(self):
+        return {
+            'all': {'label': _('All'), 'domain': []},
+            'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'reported')]},
+            'submitted': {'label': _('Approved'), 'domain': [('state', '=', 'submitted')]},
+            'approved': {'label': _('Submitted'), 'domain': [('state', '=', 'approved')]},
+            'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
+        }
     
-    
-    @http.route('/my/wallet', type='http', auth='user', website=True)
-    def portal_my_wallet(self, **kw):
+    @http.route(['/my/wallet', '/my/wallet/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
+    def portal_my_wallet(self, page=1, sortby=None, filterby=None, url='/my/wallet', **kw):
         
         if not self.is_user_auditor():
             return request.redirect('/my/home')
         
+        searchbar_sortings = self._get_wallet_searchbar_sortings()
+        if not sortby:
+            sortby = 'date'
+        order = searchbar_sortings[sortby]['order']
+        
+        searchbar_filters = self._get_wallet_searchbar_filters()
+        if not filterby:
+            filterby = 'all'
+        domain = searchbar_filters[filterby]['domain']
+        
+        
         user = request.env.user
+        reports_domain = ''
         
         if request.env.company.country_code == 'MX':
-            expenses = request.env['hr.expense'].sudo().search([
+            domain += [
                 ('partner_id', '=', user.partner_id.id)
-            ])
+            ]
             
-            reports = request.env['hr.expense.sheet'].sudo().search([
+            reports_domain = [
                 ('partner_id', '=', user.partner_id.id), ('state', '=', 'draft')
-            ])
+            ]
         else:
-            expenses = request.env['hr.expense'].sudo().search([
+            domain += [
                 ('employee_id', '=', user.employee_id.id)
-            ])
+            ]
             
-            reports = request.env['hr.expense.sheet'].sudo().search([
+            reports_domain = [
                 ('employee_id', '=', user.employee_id.id), ('state', '=', 'draft')
-            ])
+            ]
+            
+        page_detail = pager(
+            url = url,
+            total = request.env['hr.expense'].sudo().search_count(domain),
+            page = page,
+            step = 20,
+            url_args = {'sortby': sortby, 'filterby': filterby}
+        )
+        
+        expenses = request.env['hr.expense'].sudo().search(domain, order=order, limit=20, offset=page_detail['offset'])
+        reports = request.env['hr.expense.sheet'].sudo().search(reports_domain)
         
         today = date.today().strftime('%Y-%m-%d')
         values = {
-                    'reports': reports, 'expenses': expenses, 'page_name': 'wallet_expenses', 
+                    'reports': reports, 
+                    'expenses': expenses, 
+                    'page_name': 'wallet_expenses', 
                     'currency': request.env.company.currency_id.name, 
-                    'categories': self.get_categories(), 'currencies': self.get_currencies(),
-                    'today': today
+                    'categories': self.get_categories(), 
+                    'currencies': self.get_currencies(),
+                    'today': today,
+                    'pager': page_detail,
+                    'default_url': url,
+                    'searchbar_sortings': searchbar_sortings, 
+                    'sortby': sortby,
+                    'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
+                    'filterby': filterby,
                 }
         
         error_expense = request.session.get('error_expense')

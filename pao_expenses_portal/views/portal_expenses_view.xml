@@ -450,7 +450,8 @@
 
             <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#add_expense_to_report">Add to expense report</button>
 
-            <table t-if="expenses" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover">
+            <t t-if="expenses" t-call="portal.portal_table">
+            <!-- <table t-if="expenses" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover"> -->
                 <thead>
                     <tr class="active">
                         <th></th>
@@ -565,7 +566,8 @@
                     </div>
                 </t>
 
-            </table>
+            <!-- </table> -->
+            </t>
 
             <div class="modal fade" id="create_expense" tabindex="-1" aria-labelledby="create_expense_label" aria-hidden="true">
                 <div class="modal-dialog">
