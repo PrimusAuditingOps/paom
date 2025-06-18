@@ -327,6 +327,7 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
     _onClickSendProduct: async function (ev) {
         var product_list = JSON.parse($("#product_ids").val());
         var products = []
+        const regex = /^[0-9]*$/;
         for (let i = 0; i < product_list.length; i++) {
 
             if ($("#uncovered_production_area"+product_list[i]).val() == ""){
@@ -357,6 +358,12 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
                 products = [];
                 break;
             }
+            else if (regex.test($("#outsourced_activities"+product_list[i]).val())) {
+                alert("No se permiten solo números en este campo -Actividades Subcontratadas-, declarar información o señalar No");
+                $("#outsourced_activities"+product_list[i]).focus()
+                products = [];
+                break;
+            }            
             else if($("#harvest_estimated_start_date"+product_list[i] ).val() == ""){
                 alert("Favor de seleccionar una Fecha inicio de cosecha estimada.");
                 $("#harvest_estimated_start_date"+product_list[i]).focus()

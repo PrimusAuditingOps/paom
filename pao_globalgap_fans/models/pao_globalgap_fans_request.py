@@ -327,4 +327,28 @@ class PaoGlobalgapFansRequest(models.Model):
                     force_send=True,
                     lang=customer_lang,
                 )
+
+    def regenerate_document(self):
+        for rec in self:
+            old_attachment_id = None
+            filename = "GLOBALGAP_Application_%s_%s.%s" % (rec.title,rec.organization_id.name, "pdf")
+            pdf = rec.env['ir.actions.report'].sudo()._render_qweb_pdf('pao_globalgap_fans.globalgap_application_report', [rec.id], data= {"fanrequest": rec.sudo(),"print": True})[0]
+            attachment = rec.env['ir.attachment'].sudo().create({
+                'name': filename,
+                'datas': base64.b64encode(pdf),
+                'res_model': 'pao.globalgap.fans.request',
+                'res_id': rec.id,
+                'type': 'binary',  # override default_type from context, possibly meant for another model!
+            })
+            if rec.attachment_id:
+                old_attachment_id = rec.attachment_id.id
+
+            rec.write({"attachment_id": attachment.id})
+
+            if not attachment.access_token:
+                token = attachment._generate_access_token()
+                attachment.write({"access_token": token})
+            
+            if old_attachment_id:
+                rec.env['ir.attachment'].sudo().search([("id","=",old_attachment_id),("res_id","=",rec.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
                 
