@@ -12,7 +12,12 @@ class ExpensesPortal(http.Controller):
     
     def is_user_auditor(self):
         user = request.env.user
-        return user.partner_id.is_an_in_house_auditor
+        # return user.partner_id.is_an_in_house_auditor
+        return user.partner_id.ado_is_auditor
+    
+    def is_external_auditor(self):
+        partner = request.env.user.partner_id
+        return partner.ado_is_auditor and not partner.is_an_in_house_auditor
     
     def _get_expense_sheet_searchbar_sortings(self):
         return {
@@ -48,7 +53,8 @@ class ExpensesPortal(http.Controller):
         domain = searchbar_filters[filterby]['domain']
         
         user = request.env.user
-        if request.env.company.country_code == 'MX':
+        is_external_auditor = self.is_external_auditor()
+        if request.env.company.country_code == 'MX' or is_external_auditor:
             domain += [
                 ('partner_id', '=', user.partner_id.id),
                 ('company_id', '=', request.env.company.id)
@@ -118,9 +124,11 @@ class ExpensesPortal(http.Controller):
         if not self.is_user_auditor():
             return request.redirect('/my/home')
         
+        is_external_auditor = self.is_external_auditor()
+        
         stages_options = request.env['hr.expense.sheet']._fields['state']._description_selection(request.env)
         today = date.today().strftime('%Y-%m-%d')
-        values = {'page_name': 'expense_report_form_view', 'stages_options': stages_options, 'today': today}
+        values = {'page_name': 'expense_report_form_view', 'stages_options': stages_options, 'today': today, 'is_external_auditor': is_external_auditor}
         
         if report_id:
             report = request.env['hr.expense.sheet'].browse(report_id)
@@ -174,6 +182,7 @@ class ExpensesPortal(http.Controller):
         summary = kw.get('report_summary')
         purchase_order = kw.get('report_purchase_order')
         scheme = kw.get('scheme')
+        is_external_auditor = kw.get('is_external_auditor')
 
         scheme_id = int(scheme) if scheme and scheme.isdigit() else None
         purchase_order_id = int(purchase_order) if purchase_order and purchase_order.isdigit() else None
@@ -183,7 +192,8 @@ class ExpensesPortal(http.Controller):
                     'name': summary,
                     'purchase_order': purchase_order_id, 
                     # 'payment_mode': 'company_account', ##{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
-                    'expense_scheme_id': scheme_id
+                    'expense_scheme_id': scheme_id,
+                    'from_external_auditor': bool(is_external_auditor),
                 } 
         
         # if self.purchase_order_has_expense_report(purchase_order, id):
@@ -195,7 +205,7 @@ class ExpensesPortal(http.Controller):
             expense_sheet = request.env['hr.expense.sheet'].browse(int(id))
             expense_sheet.write(values)
         else:
-            if request.env.company.country_code == 'MX':
+            if request.env.company.country_code == 'MX' or is_external_auditor:
                 values.update({'partner_id': request.env.user.partner_id.id})
             else:
                 employee = request.env.user.employee_id or request.env.user.employee_ids[:1]
@@ -302,6 +312,8 @@ class ExpensesPortal(http.Controller):
         if not self.is_user_auditor():
             return request.redirect('/my/home')
         
+        is_external_auditor = self.is_external_auditor()
+        
         report_id = kw.get("report_id")
         description = kw.get("description")
         expense_category = kw.get("expense_category")
@@ -333,8 +345,8 @@ class ExpensesPortal(http.Controller):
             'tax_ids': tax_ids
             }
         
-        if request.env.company.country_code == 'MX':
-            values.update({'partner_id': partner.id})
+        if request.env.company.country_code == 'MX' or is_external_auditor:
+            values.update({'partner_id': partner.id, 'from_external_auditor': bool(is_external_auditor)})
         else:
             values.update({'employee_id': request.env.user.employee_id.id})
 
@@ -425,11 +437,12 @@ class ExpensesPortal(http.Controller):
             filterby = 'all'
         domain = searchbar_filters[filterby]['domain']
         
+        is_external_auditor = self.is_external_auditor()
         
         user = request.env.user
         reports_domain = ''
         
-        if request.env.company.country_code == 'MX':
+        if request.env.company.country_code == 'MX' or is_external_auditor:
             domain += [
                 ('partner_id', '=', user.partner_id.id)
             ]
@@ -472,6 +485,7 @@ class ExpensesPortal(http.Controller):
                     'sortby': sortby,
                     'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
                     'filterby': filterby,
+                    'is_external_auditor': is_external_auditor,
                 }
         
         error_expense = request.session.get('error_expense')

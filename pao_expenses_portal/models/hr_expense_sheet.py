@@ -11,6 +11,7 @@ class ExpenseSheetInherit(models.Model):
     partner_id = fields.Many2one('res.partner', string='Contact')
     expense_scheme_id = fields.Many2one('expense.scheme', string='Scheme', default=None)
     country_code = fields.Char(related='company_id.country_code', string='Country Code')
+    from_external_auditor = fields.Boolean(default=False)
     
     employee_id = fields.Many2one(
         'hr.employee',
@@ -73,6 +74,8 @@ class ExpenseInherit(models.Model):
     partner_id = fields.Many2one('res.partner', string='Contact', required=True, domain=[('ado_is_auditor', '=', False)])
     
     country_code = fields.Char(related='company_id.country_code', string='Country Code')
+    
+    from_external_auditor = fields.Boolean(default=False)
 
     employee_id = fields.Many2one(
         'hr.employee',
