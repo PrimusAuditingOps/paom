@@ -62,11 +62,11 @@ class ExpenseSheetInherit(models.Model):
         
         return bills_vals
     
-    @api.constrains('partner_id')
-    def _check_scheme(self):
-        for record in self:
-            if record.partner_id.ado_is_auditor and not record.expense_scheme_id:
-                raise ValidationError(_("You must define a Scheme."))
+    # @api.constrains('partner_id')
+    # def _check_scheme(self):
+    #     for record in self:
+    #         if record.partner_id.ado_is_auditor and not record.expense_scheme_id:
+    #             raise ValidationError(_("You must define a Scheme."))
     
 class ExpenseInherit(models.Model):
     _inherit = "hr.expense"
