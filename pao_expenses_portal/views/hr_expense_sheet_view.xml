@@ -30,9 +30,9 @@
         </field>
     </record>
 
-    <record id="hr_expense.action_hr_expense_sheet_my_all" model="ir.actions.act_window">
+    <!-- <record id="hr_expense.action_hr_expense_sheet_my_all" model="ir.actions.act_window">
         <field name="domain">[('from_external_auditor', '=', False)]</field>
-    </record>
+    </record> -->
 
     <record id="hr_expense.action_hr_expense_sheet_all" model="ir.actions.act_window">
         <field name="domain">[('from_external_auditor', '=', False)]</field>
