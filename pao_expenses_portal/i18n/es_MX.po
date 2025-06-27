@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-11 16:30+0000\n"
-"PO-Revision-Date: 2025-06-11 16:30+0000\n"
+"POT-Creation-Date: 2025-06-27 17:20+0000\n"
+"PO-Revision-Date: 2025-06-27 17:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -377,9 +377,21 @@ msgid "Expenses must be completed before adding them to a report."
 msgstr "Los gastos deben estar completos antes de agregarlos a un informe."
 
 #. module: pao_expenses_portal
+#: model:ir.actions.act_window,name:pao_expenses_portal.action_expense_sheet_external_auditor
+#: model:ir.ui.menu,name:pao_expenses_portal.menu_expense_sheet_external_auditor
+msgid "External Auditor Expense Sheets"
+msgstr ""
+
+#. module: pao_expenses_portal
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_upload_expense_statement__statement_filename
 msgid "File Name"
 msgstr "Nombre del archivo"
+
+#. module: pao_expenses_portal
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense__from_external_auditor
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense_sheet__from_external_auditor
+msgid "From External Auditor"
+msgstr ""
 
 #. module: pao_expenses_portal
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_expense_scheme__id
@@ -718,13 +730,6 @@ msgstr "Tienes un nuevo gasto por completar y enviar para su aprobación."
 #, python-format
 msgid "You must define a Contact or Employee."
 msgstr "Debes definir un Contacto o un Empleado."
-
-#. module: pao_expenses_portal
-#. odoo-python
-#: code:addons/pao_expenses_portal/models/hr_expense_sheet.py:0
-#, python-format
-msgid "You must define a Scheme."
-msgstr "Debes definir un esquema."
 
 #. module: pao_expenses_portal
 #. odoo-python
