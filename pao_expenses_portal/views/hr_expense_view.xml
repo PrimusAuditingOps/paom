@@ -8,9 +8,6 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='employee_id']" position="after">
                 <field name="partner_id"/>
-                <xpath expr="/tree" position="attributes">
-                    <attribute name="domain">[('from_external_auditor', '=', False)]</attribute>
-                </xpath>
             </xpath>
         </field>
     </record>
