@@ -168,7 +168,7 @@
                     <button t-if="report.state in ('submit', 'cancel', 'approve')" type="submit" class="btn btn-primary" formaction="/my/expense_reports/reset">Reset to Draft</button>
                 </t>
 
-                <input               name="is_external_auditor" t-att-value="is_external_auditor"/>
+                <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <input type="hidden" name="report_id" t-if="not new_report" t-att-value="report.id if report else ''"/>
 
@@ -336,7 +336,7 @@
             <div t-if="submittable" class="modal fade" id="add_expenses" tabindex="-1" aria-labelledby="add_expenses_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <form method="POST" action="/my/expense/new" id="new_expense_form" enctype="multipart/form-data">
-                        <input               name="is_external_auditor" t-att-value="is_external_auditor"/>
+                        <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>
                         <input type="hidden" name="report_id" t-att-value="report.id"/>
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-content">
@@ -574,7 +574,7 @@
             <div class="modal fade" id="create_expense" tabindex="-1" aria-labelledby="create_expense_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <form method="POST" action="/my/wallet_expense/new" id="new_wallet_expense_form" enctype="multipart/form-data">
-                        <input               name="is_external_auditor" t-att-value="is_external_auditor"/>    
+                        <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>    
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-content">
                             <div class="modal-header">
