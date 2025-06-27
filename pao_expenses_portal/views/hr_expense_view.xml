@@ -29,4 +29,21 @@
         </field>
     </record>
 
+
+    <record id="hr_expense.hr_expense_actions_my_all" model="ir.actions.act_window">
+        <field name="domain">[('from_external_auditor', '=', False)]</field>
+    </record>
+
+    <!-- <record id="action_expense_external_auditor" model="ir.actions.act_window">
+        <field name="name">External Auditor Expenses</field>
+        <field name="res_model">hr.expense</field>
+        <field name="view_mode">tree,form,kanban,pivot,graph</field>
+        <field name="domain">[('from_external_auditor', '=', True)]</field>
+    </record>
+
+    <menuitem id="menu_expense_external_auditor"
+            name="External Auditor Expenses"
+            parent="hr_expense.menu_hr_expense_root"
+            action="action_expense_sheet_external_auditor"/> -->
+
 </odoo>
