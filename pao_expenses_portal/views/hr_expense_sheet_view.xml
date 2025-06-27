@@ -13,9 +13,6 @@
                 <field name="partner_id" widget="many2one_avatar_user"/>
                 <field name="purchase_order"/>
             </xpath>
-            <xpath expr="/tree" position="attributes">
-                <attribute name="domain">[('from_external_auditor', '=', False)]</attribute>
-            </xpath>
         </field>
     </record>
 
@@ -32,5 +29,5 @@
             </xpath>
         </field>
     </record>
-    
+
 </odoo>
