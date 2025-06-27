@@ -16,19 +16,16 @@
         </field>
     </record>
 
-
-    <record id="view_expense_sheet_tree_inherit_external_auditor" model="ir.ui.view">
-        <field name="name">hr.expense.sheet.tree.inherit.external_auditor</field>
+    <record id="your_custom_view_id" model="ir.ui.view">
+        <field name="name">tree.view.domain.modified</field>
         <field name="model">hr.expense.sheet</field>
-        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/> <!-- original tree view -->
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
         <field name="arch" type="xml">
-            <tree position="attributes">
+            <xpath expr="/tree" position="attributes">
                 <attribute name="domain">[('from_external_auditor', '=', False)]</attribute>
-            </tree>
+            </xpath>
         </field>
     </record>
-
-
 
     <record id="hr_expense_sheet_form_view_inherit" model="ir.ui.view">
         <field name="name">hr.expense.sheet.form.view.inherit</field>
