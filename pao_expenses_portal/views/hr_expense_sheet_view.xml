@@ -32,19 +32,5 @@
             </xpath>
         </field>
     </record>
-
-
-
-    <record id="action_expense_sheet_external_auditor" model="ir.actions.act_window">
-        <field name="name">External Auditor Expense Sheets</field>
-        <field name="res_model">hr.expense.sheet</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('from_external_auditor', '=', True)]</field>
-    </record>
-
-    <menuitem id="menu_expense_sheet_external_auditor"
-            name="External Auditor Expense Sheets"
-            parent="hr_expense.menu_hr_expense_root"
-            action="action_expense_sheet_external_auditor"/>
-
+    
 </odoo>
