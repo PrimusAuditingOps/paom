@@ -27,11 +27,13 @@ class PaoSignSaAgreementsSent(models.Model):
         year = None
         dateservice = None
         for rec in self:
-            dateservice = dateutil.parser.parse(str(self.create_date)).date()
-            day = dateservice.day
-            month = months[dateservice.month - 1]
-            year = dateservice.year
-            rec.date_complete_spanish = "{0} de {1} del {2}".format(day, month, year)
+            rec.date_complete_spanish = ""
+            dateservice = dateutil.parser.parse(str(rec.create_date)).date()
+            if dateservice:
+                day = dateservice.day
+                month = months[dateservice.month - 1]
+                year = dateservice.year
+                rec.date_complete_spanish = "{0} de {1} del {2}".format(day, month, year)
     def _generate__date_english(self):
         months = ("january", "febrary", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december")
         day = None
