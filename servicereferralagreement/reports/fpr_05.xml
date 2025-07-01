@@ -1064,7 +1064,7 @@
                                 </t>
                             </t>
                         </table>
-                        IMPORTE TOTAL DEL SERVICIO $ <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/> M.N. (Menos impuestos).
+                        SUMA DEL SERVICIO $ <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/> M.N. (Menos impuestos).
                         <br/>
                         FECHA <b><span t-field="doc.sra_audit_signature_date"/></b>
                         <br/>
@@ -1152,7 +1152,7 @@
                                 </t>
                             </t>
                         </table>
-                        TOTAL COST OF THE SERVICE $ <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/> M.N. (tax not included)
+                        SUM OF THE SERVICE $ <span t-esc="sumtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/> M.N.
                         <br/>
                         DATE <b><span t-field="doc.sra_audit_signature_date"/></b>
                         <br/>

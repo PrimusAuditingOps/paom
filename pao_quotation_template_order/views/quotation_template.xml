@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_sale_order_template_order_view_tree" model="ir.ui.view">
+        <field name="name">pao.sale.order.template.order.view.tree</field>
+        <field name="model">sale.order.template</field>
+        <field name="inherit_id" ref="sale_management.sale_order_template_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="pao_sequence" widget="handle"/>
+            </field>
+        </field>
+    </record>
+</odoo>
