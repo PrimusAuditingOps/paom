@@ -98,6 +98,7 @@ class SASendRequest(models.TransientModel):
                     'document_date': today,
                     'reminder_days': rec.reminder_days,
                     'follower_ids': rec.follower_ids,
+                    'date_complete_spanish': today.date(),
                 })
                 
                 for registration_number in rec.registration_numbers_ids:

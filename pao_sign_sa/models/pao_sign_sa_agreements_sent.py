@@ -27,11 +27,7 @@ class PaoSignSaAgreementsSent(models.Model):
         year = None
         dateservice = None
         for rec in self:
-            rec.date_complete_spanish = ""
             dateservice = dateutil.parser.parse(str(rec.create_date)).date()
-            if not dateservice:
-                dateservice = dateutil.parser.parse(str(fields.Date.today())).date()
-                
             day = dateservice.day
             month = months[dateservice.month - 1]
             year = dateservice.year
@@ -43,7 +39,7 @@ class PaoSignSaAgreementsSent(models.Model):
         year = None
         dateservice = None
         for rec in self:
-            dateservice = dateutil.parser.parse(str(self.create_date)).date()
+            dateservice = dateutil.parser.parse(str(rec.create_date)).date()
             day = dateservice.day
             month = months[dateservice.month - 1]
             year = dateservice.year
