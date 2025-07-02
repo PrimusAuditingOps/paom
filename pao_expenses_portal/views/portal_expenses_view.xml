@@ -146,7 +146,7 @@
                         <span>Expense Report</span>
                     </h3>
 
-                    <ul t-if="not new_report" class="mt-1 d-flex justify-content-end list-unstyled fw-bold">
+                    <ul t-if="not new_report and not is_external_auditor" class="mt-1 d-flex justify-content-end list-unstyled fw-bold">
                         <t t-set="option_counter" t-value="0"/>
                         <t t-foreach="stages_options" t-as="option">
                             <t t-set="option_counter" t-value="option_counter + 1"/>
@@ -163,7 +163,7 @@
 
                 <button t-if="submittable or new_report" class="btn btn-primary" type="submit">Save</button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" t-if="submittable" data-bs-target="#add_expenses">Add expenses</button>
-                <button t-if="submittable" type="submit" class="btn btn-primary" formaction="/my/expense_reports/submit">Submit</button>
+                <button t-if="submittable and not is_external_auditor" type="submit" class="btn btn-primary" formaction="/my/expense_reports/submit">Submit</button>
                 <t t-if="report">
                     <button t-if="report.state in ('submit', 'cancel', 'approve')" type="submit" class="btn btn-primary" formaction="/my/expense_reports/reset">Reset to Draft</button>
                 </t>
@@ -367,7 +367,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 row">
+                                <div t-if="not is_external_auditor" class="mb-3 row">
                                     <label for="payment_mode" class="fw-bold col-sm-3 col-form-label">Paid By</label>
                                     <div class="col-sm-9">
                                         <select name="payment_mode" class="form-select" required="1">
@@ -377,6 +377,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <input t-if="is_external_auditor" class="d-none" name="payment_mode" value="own_account"/>
 
                                 <div class="mb-3 row">
                                     <label for="expense_date" class="fw-bold col-sm-3 col-form-label">Expense Date</label>
@@ -604,7 +605,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 row">
+                                <div t-if="not is_external_auditor" class="mb-3 row">
                                     <label for="payment_mode" class="fw-bold col-sm-3 col-form-label">Paid By</label>
                                     <div class="col-sm-9">
                                         <select name="payment_mode" class="form-select" required="1">
@@ -614,6 +615,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <input t-if="is_external_auditor" class="d-none" name="payment_mode" value="own_account"/>
 
                                 <div class="mb-3 row">
                                     <label for="expense_date" class="fw-bold col-sm-3 col-form-label">Expense Date</label>
