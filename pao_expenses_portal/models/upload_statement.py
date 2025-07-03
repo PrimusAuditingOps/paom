@@ -8,8 +8,9 @@ from odoo.exceptions import UserError
 
 
 
-import PyPDF2
-import io
+import tempfile
+import subprocess
+import base64
 import re
 
 import logging
@@ -103,34 +104,35 @@ class UploadExpenseStatement(models.TransientModel):
         return {'type': 'ir.actions.client', 'tag': 'reload'}
     
     def _process_pdf_file(self, file_binary):
-        reader = PyPDF2.PdfFileReader(io.BytesIO(file_binary))
         results = []
-        
-        _logger.warning("*************EMPIEZA PROCESS PDF*****************")
 
-        for page_num in range(reader.getNumPages()):
-            page = reader.getPage(page_num)
-            text = page.extractText()
-            if not text:
-                continue
-            lines = text.split('\n')
-            for line in lines:
-                _logger.warning("*************EMPIEZA READER LINES*****************")
-                _logger.warning("------" + str(line) + "---------")
-                match = re.match(r"(?P<date>\d{2}/\d{2}/\d{4})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]*\s+(?P<merchant>.+)", line)
-                if match:
-                    _logger.warning("*************ENCUENTRA MATCH READER LINE*****************")
-                    data = match.groupdict()
-                    try:
-                        results.append({
-                            'date': datetime.strptime(data['date'], '%m/%d/%Y').date(),
-                            'amount': float(data['amount']),
-                            'merchant': data['merchant'].strip()
-                        })
-                        _logger.warning("*************RESULTADOS*****************")
-                        _logger.warning(results)
-                    except Exception:
-                        continue
+        with tempfile.NamedTemporaryFile(suffix=".pdf") as pdf_file:
+            pdf_file.write(file_binary)
+            pdf_file.flush()
+
+            try:
+                output = subprocess.check_output(['pdftotext', pdf_file.name, '-'], stderr=subprocess.STDOUT)
+                text = output.decode('utf-8')
+            except subprocess.CalledProcessError as e:
+                _logger.error("pdftotext failed: %s", e.output.decode())
+                return results
+
+        for line in text.splitlines():
+            _logger.warning("LINE: %s", line)
+            match = re.match(
+                r"(?P<date>\d{2}/\d{2}/\d{4})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]*\s+(?P<merchant>.+)",
+                line
+            )
+            if match:
+                data = match.groupdict()
+                try:
+                    results.append({
+                        'date': datetime.strptime(data['date'], '%m/%d/%Y').date(),
+                        'amount': float(data['amount']),
+                        'merchant': data['merchant'].strip()
+                    })
+                except Exception:
+                    continue
         
         expenses = []            
         for rec in results:
