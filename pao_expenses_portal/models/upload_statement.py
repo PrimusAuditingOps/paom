@@ -116,7 +116,7 @@ class UploadExpenseStatement(models.TransientModel):
             lines = text.split('\n')
             for line in lines:
                 _logger.warning("*************EMPIEZA READER LINES*****************")
-                _logger.warning(line)
+                _logger.warning("------" + str(line) + "---------")
                 match = re.match(r"(?P<date>\d{2}/\d{2}/\d{4})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]*\s+(?P<merchant>.+)", line)
                 if match:
                     _logger.warning("*************ENCUENTRA MATCH READER LINE*****************")
