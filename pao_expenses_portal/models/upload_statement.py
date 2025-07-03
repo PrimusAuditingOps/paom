@@ -6,6 +6,12 @@ from datetime import datetime, timedelta
 import dateutil.parser
 from odoo.exceptions import UserError
 
+
+
+import re
+import io
+import pdfplumber
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -58,6 +64,8 @@ class UploadExpenseStatement(models.TransientModel):
                 expenses = self._process_csv_file(base64.b64decode(self.statement_file))
             elif '.xlsx' in self.statement_filename:
                 expenses = self._process_excel_file(base64.b64decode(self.statement_file))
+            elif '.pdf' in self.statement_filename:
+                expenses = self._process_pdf_file(base64.b64decode(self.statement_file))
             else:
                 raise UserError(_('Unsupported file format. Please upload a CSV or Excel file with a correct format.'))
             
@@ -87,6 +95,45 @@ class UploadExpenseStatement(models.TransientModel):
             }
         self.process_run = True
         return {'type': 'ir.actions.client', 'tag': 'reload'}
+    
+    def _process_pdf_file(self, file_binary):
+        results = []
+        expenses = []
+        with pdfplumber.open(io.BytesIO(file_binary)) as pdf:
+            for page in pdf.pages:
+                text = page.extract_text()
+                if not text:
+                    continue
+                for line in text.split('\n'):
+                    # Match lines starting with a date and a US$ amount
+                    match = re.match(
+                        r"(?P<date>\d{2}/\d{2}/\d{4})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]*\s+(?P<name_line>.+)",
+                        line
+                    )
+                    if match:
+                        data = match.groupdict()
+                        try:
+                            results.append({
+                                'date': datetime.strptime(data['date'], '%m/%d/%Y').date(),
+                                'amount': float(data['amount']),
+                                'merchant': data['name_line'].strip()
+                            })
+                        except Exception as e:
+                            # Optionally log or handle parsing error
+                            continue
+                        
+        for rec in results:
+            expense = self.env['hr.expense'].create({
+                'name': rec['merchant'],
+                'date': rec['date'],
+                'total_amount': rec['amount'],
+                'employee_id': self.employee_id,  # must be set based on context
+                # Add other necessary fields like 'product_id', etc.
+            })
+            expenses.append(expense)
+        
+        return expenses
+
     
     def _process_csv_file(self, file_content):
         reader = csv.reader(file_content.decode('utf-8').splitlines())  # Decode for CSV handling
