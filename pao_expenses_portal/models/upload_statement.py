@@ -100,8 +100,9 @@ class UploadExpenseStatement(models.TransientModel):
         reader = PyPDF2.PdfFileReader(io.BytesIO(file_binary))
         results = []
 
-        for page in reader.pages:
-            text = page.extract_text()
+        for page_num in range(reader.getNumPages()):
+            page = reader.getPage(page_num)
+            text = page.extractText()
             if not text:
                 continue
             lines = text.split('\n')
