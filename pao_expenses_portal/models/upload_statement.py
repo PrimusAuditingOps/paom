@@ -97,7 +97,7 @@ class UploadExpenseStatement(models.TransientModel):
         return {'type': 'ir.actions.client', 'tag': 'reload'}
     
     def _process_pdf_file(self, file_binary):
-        reader = PyPDF2.PdfReader(io.BytesIO(file_binary))
+        reader = PyPDF2.PdfFileReader(io.BytesIO(file_binary))
         results = []
 
         for page in reader.pages:
@@ -115,6 +115,7 @@ class UploadExpenseStatement(models.TransientModel):
                             'amount': float(data['amount']),
                             'merchant': data['merchant'].strip()
                         })
+                        _logger.warning(results)
                     except Exception:
                         continue
         
