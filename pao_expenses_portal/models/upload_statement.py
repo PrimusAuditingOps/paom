@@ -65,9 +65,15 @@ class UploadExpenseStatement(models.TransientModel):
             elif '.xlsx' in self.statement_filename:
                 expenses = self._process_excel_file(base64.b64decode(self.statement_file))
             elif '.pdf' in self.statement_filename:
+                _logger.warning("*************ES UN PDF*****************")
                 expenses = self._process_pdf_file(base64.b64decode(self.statement_file))
             else:
                 raise UserError(_('Unsupported file format. Please upload a CSV or Excel file with a correct format.'))
+            
+            
+            _logger.warning("*************TERMINA PROCESO BANKSTMNT*****************")
+            
+            _logger.warning("*************"+ str(len(expenses)) +"*****************")
             
             for expense in expenses:
                 if send_notification_to_user:
@@ -99,6 +105,8 @@ class UploadExpenseStatement(models.TransientModel):
     def _process_pdf_file(self, file_binary):
         reader = PyPDF2.PdfFileReader(io.BytesIO(file_binary))
         results = []
+        
+        _logger.warning("*************EMPIEZA PROCESS PDF*****************")
 
         for page_num in range(reader.getNumPages()):
             page = reader.getPage(page_num)
@@ -107,8 +115,10 @@ class UploadExpenseStatement(models.TransientModel):
                 continue
             lines = text.split('\n')
             for line in lines:
+                _logger.warning("*************EMPIEZA READER LINES*****************")
                 match = re.match(r"(?P<date>\d{2}/\d{2}/\d{4})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]*\s+(?P<merchant>.+)", line)
                 if match:
+                    _logger.warning("*************ENCUENTRA MATCH READER LINE*****************")
                     data = match.groupdict()
                     try:
                         results.append({
@@ -116,12 +126,15 @@ class UploadExpenseStatement(models.TransientModel):
                             'amount': float(data['amount']),
                             'merchant': data['merchant'].strip()
                         })
+                        _logger.warning("*************RESULTADOS*****************")
                         _logger.warning(results)
                     except Exception:
                         continue
         
         expenses = []            
         for rec in results:
+            _logger.warning("*************CREA EXPENSE*****************")
+            
             expense = self.env['hr.expense'].create({
                 'name': rec['merchant'],
                 'date': rec['date'],
