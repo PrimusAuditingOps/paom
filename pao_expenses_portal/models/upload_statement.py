@@ -8,9 +8,9 @@ from odoo.exceptions import UserError
 
 
 
-import re
+import PyPDF2
 import io
-import pdfplumber
+import re
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -97,31 +97,28 @@ class UploadExpenseStatement(models.TransientModel):
         return {'type': 'ir.actions.client', 'tag': 'reload'}
     
     def _process_pdf_file(self, file_binary):
+        reader = PyPDF2.PdfReader(io.BytesIO(file_binary))
         results = []
-        expenses = []
-        with pdfplumber.open(io.BytesIO(file_binary)) as pdf:
-            for page in pdf.pages:
-                text = page.extract_text()
-                if not text:
-                    continue
-                for line in text.split('\n'):
-                    # Match lines starting with a date and a US$ amount
-                    match = re.match(
-                        r"(?P<date>\d{2}/\d{2}/\d{4})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]*\s+(?P<name_line>.+)",
-                        line
-                    )
-                    if match:
-                        data = match.groupdict()
-                        try:
-                            results.append({
-                                'date': datetime.strptime(data['date'], '%m/%d/%Y').date(),
-                                'amount': float(data['amount']),
-                                'merchant': data['name_line'].strip()
-                            })
-                        except Exception as e:
-                            # Optionally log or handle parsing error
-                            continue
-                        
+
+        for page in reader.pages:
+            text = page.extract_text()
+            if not text:
+                continue
+            lines = text.split('\n')
+            for line in lines:
+                match = re.match(r"(?P<date>\d{2}/\d{2}/\d{4})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]*\s+(?P<merchant>.+)", line)
+                if match:
+                    data = match.groupdict()
+                    try:
+                        results.append({
+                            'date': datetime.strptime(data['date'], '%m/%d/%Y').date(),
+                            'amount': float(data['amount']),
+                            'merchant': data['merchant'].strip()
+                        })
+                    except Exception:
+                        continue
+        
+        expenses = []            
         for rec in results:
             expense = self.env['hr.expense'].create({
                 'name': rec['merchant'],
