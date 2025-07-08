@@ -117,45 +117,47 @@ class UploadExpenseStatement(models.TransientModel):
                 _logger.error("pdftotext failed: %s", e.output.decode())
                 return results
 
-        # Split and clean lines
+        # Clean and read all lines
         lines = [line.strip() for line in text.splitlines() if line.strip()]
-        transaction_buffer = []
         expenses = []
 
-        for line in lines:
-            _logger.warning("LINE: %s", line)
-            transaction_buffer.append(line)
+        i = 0
+        while i < len(lines) - 2:
+            line1 = lines[i]
+            line2 = lines[i + 1]
+            line3 = lines[i + 2]
 
-            # Heuristic: if buffer has 6+ lines and ends with 'US$xx.xx', treat it as a complete block
-            if len(transaction_buffer) >= 6 and re.search(r'US\$\d+\.\d{2}$', transaction_buffer[-1]):
-                candidate = ' '.join(transaction_buffer)
-                _logger.warning("CANDIDATE: %s", candidate)
+            # Skip if first line doesn't look like a date
+            if not re.match(r'\d{2}/\d{2}/\d{2}', line1):
+                i += 1
+                continue
 
-                # Match general format: date (split), amount, tax, name, merchant, total
-                match = re.search(
-                    r'(?P<month_day_year>\d{2}/\d{2}/\d{2})\s+(\d{2})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.\s]*[A-Z]+, [A-Z]+ \*\d+ (?P<merchant>.+?)\s+1\s+US\$(?P=amount)',
-                    candidate
-                )
+            full_line = f"{line1} {line2} {line3}"
+            _logger.warning("CANDIDATE: %s", full_line)
 
-                if match:
-                    data = match.groupdict()
-                    try:
-                        full_date = f"{data['month_day_year']}{match.group(2)}"  # e.g. 04/28/20 + 25
-                        date_obj = datetime.strptime(full_date, '%m/%d/%y%y').date()
-                        results.append({
-                            'date': date_obj,
-                            'amount': float(data['amount']),
-                            'merchant': data['merchant'].strip()
-                        })
-                        _logger.info("Parsed expense: %s", results[-1])
-                        transaction_buffer.clear()
-                    except Exception as e:
-                        _logger.warning("Failed to parse transaction: %s", e)
-                        transaction_buffer.clear()
-                else:
-                    # Not a valid match, keep buffer but clear if too long
-                    if len(transaction_buffer) > 10:
-                        transaction_buffer.clear()
+            match = re.search(
+                r'(?P<month_day_year>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]+\s+[A-Z]+, [A-Z]+ \*\d+\s+(?P<merchant>.+?)\s+25\s+\d{2}\s+1\s+US\$(?P=amount)',
+                full_line
+            )
+
+            if match:
+                data = match.groupdict()
+                try:
+                    full_date = data['month_day_year'] + '25'  # Add missing century
+                    date_obj = datetime.strptime(full_date, '%m/%d/%y%y').date()
+                    results.append({
+                        'date': date_obj,
+                        'amount': float(data['amount']),
+                        'merchant': data['merchant'].strip(),
+                    })
+                    _logger.info("Parsed: %s", results[-1])
+                except Exception as e:
+                    _logger.warning("Date parse error: %s", e)
+
+                i += 3  # Skip next 2 lines since we already used them
+            else:
+                _logger.debug("No match for block starting at line %s", i)
+                i += 1
 
         # Create hr.expense records
         for rec in results:
