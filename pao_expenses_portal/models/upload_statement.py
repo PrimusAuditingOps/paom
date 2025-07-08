@@ -111,56 +111,62 @@ class UploadExpenseStatement(models.TransientModel):
             pdf_file.flush()
 
             try:
-                output = subprocess.check_output(['pdftotext', pdf_file.name, '-'], stderr=subprocess.STDOUT)
+                output = subprocess.check_output(['pdftotext', '-layout', pdf_file.name, '-'], stderr=subprocess.STDOUT)
                 text = output.decode('utf-8')
             except subprocess.CalledProcessError as e:
                 _logger.error("pdftotext failed: %s", e.output.decode())
                 return results
 
-        lines = text.splitlines()
-        buffer = []
+        # Split and clean lines
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        transaction_buffer = []
         expenses = []
 
         for line in lines:
-            _logger.warning(line)
-            line = line.strip()
-            _logger.warning(line)
-            if not line:
-                continue
-            buffer.append(line)
+            _logger.debug("LINE: %s", line)
+            transaction_buffer.append(line)
 
-            # Check if buffer has enough to resemble a full transaction
-            if len(buffer) >= 6:  # heuristic: some entries take 6 lines
-                candidate = ' '.join(buffer)
-                _logger.warning("CANDIDATE: %s", candidate)
+            # Heuristic: if buffer has 6+ lines and ends with 'US$xx.xx', treat it as a complete block
+            if len(transaction_buffer) >= 6 and re.search(r'US\$\d+\.\d{2}$', transaction_buffer[-1]):
+                candidate = ' '.join(transaction_buffer)
+                _logger.debug("CANDIDATE: %s", candidate)
 
-                # Try to match pattern
+                # Match general format: date (split), amount, tax, name, merchant, total
                 match = re.search(
-                    r'(?P<date>\d{2}/\d{2}/\d{2})\s*[\n ]*\d{2}\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.\s]*MEZA, WILLIAM \*6981 (?P<merchant>.+?)\s+1\s+US\$(?P=amount)',
+                    r'(?P<month_day_year>\d{2}/\d{2}/\d{2})\s+(\d{2})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.\s]*[A-Z]+, [A-Z]+ \*\d+ (?P<merchant>.+?)\s+1\s+US\$(?P=amount)',
                     candidate
                 )
+
                 if match:
                     data = match.groupdict()
                     try:
-                        expense_data = {
-                            'date': datetime.strptime(data['date'] + '/25', '%m/%d/%y/%y').date(),
+                        full_date = f"{data['month_day_year']}{match.group(2)}"  # e.g. 04/28/20 + 25
+                        date_obj = datetime.strptime(full_date, '%m/%d/%y%y').date()
+                        results.append({
+                            'date': date_obj,
                             'amount': float(data['amount']),
-                            'merchant': data['merchant'].strip(),
-                        }
-                        results.append(expense_data)
-                        buffer.clear()  # reset buffer on success
+                            'merchant': data['merchant'].strip()
+                        })
+                        _logger.info("Parsed expense: %s", results[-1])
+                        transaction_buffer.clear()
                     except Exception as e:
-                        _logger.warning("Failed to parse match: %s", e)
-                        buffer.clear()  # even if failed, reset to not pollute
+                        _logger.warning("Failed to parse transaction: %s", e)
+                        transaction_buffer.clear()
+                else:
+                    # Not a valid match, keep buffer but clear if too long
+                    if len(transaction_buffer) > 10:
+                        transaction_buffer.clear()
 
+        # Create hr.expense records
         for rec in results:
-            _logger.warning("*************CREA EXPENSE*****************")
+            _logger.warning("************* CREATING EXPENSE *************")
             expense = self.env['hr.expense'].create({
                 'name': rec['merchant'],
                 'date': rec['date'],
                 'unit_amount': rec['amount'],
                 'employee_id': self.employee_id.id,
                 'product_id': self.env.ref('hr_expense.product_product_expense').id,
+                'quantity': 1,
             })
             expenses.append(expense)
 
