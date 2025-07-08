@@ -122,7 +122,9 @@ class UploadExpenseStatement(models.TransientModel):
         expenses = []
 
         for line in lines:
+            _logger.warning(line)
             line = line.strip()
+            _logger.warning(line)
             if not line:
                 continue
             buffer.append(line)
@@ -130,7 +132,7 @@ class UploadExpenseStatement(models.TransientModel):
             # Check if buffer has enough to resemble a full transaction
             if len(buffer) >= 6:  # heuristic: some entries take 6 lines
                 candidate = ' '.join(buffer)
-                _logger.debug("CANDIDATE: %s", candidate)
+                _logger.warning("CANDIDATE: %s", candidate)
 
                 # Try to match pattern
                 match = re.search(
