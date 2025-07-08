@@ -4,14 +4,6 @@
         <xpath expr="//div[@name='company_address']" position="inside">
             <br/>
             <t t-if="company.partner_id.l10n_mx_edi_fiscal_regime" >Fiscal regime: </t><span t-field="company.partner_id.l10n_mx_edi_fiscal_regime"/>                        
-            
-        </xpath>
-        <xpath expr="//div[@class='mt0 h4']" position="before">
-            
-            <t t-if="o.partner_id.id == 191096 and company.id == 6">
-                JS AUDIT GROUP, INC
-                <br/>
-            </t>
         </xpath>
     </template>
 </odoo>
