@@ -4,24 +4,20 @@ import os
 
 class DownloadTemplateController(http.Controller):
 
-    @http.route('/download/pao-bank-statement-template/<int:employee_id>', type='http', auth='user')
-    def download_excel_template(self, employee_id, **kwargs):
-        employee = request.env['hr.employee'].sudo().browse(employee_id)
+    @http.route('/download/pao-bank-statement-template/<string:country_code>', type='http', auth='user')
+    def download_excel_template(self, country_code, **kwargs):
 
-        if not employee.exists():
-            return request.not_found()
-
-        company = employee.company_id
-
-        if company.country_code == 'MX':
+        if country_code == 'MX':
             file_name = 'mx_bank_statement.xlsx'
-        elif company.country_code in ['US','CR', 'CL']:
+        elif country_code in ['US','CR', 'CL']:
             file_name = 'usa_bank_statement_template.csv'
         else:
             return request.not_found()
 
-        module_path = http.addons_manifest['pao_expenses_portal']['root']
-        file_path = os.path.join(module_path, 'static', 'templates', file_name)
+        module_path = os.path.dirname(os.path.abspath(__file__))
+        module_root = os.path.dirname(os.path.dirname(module_path))
+        file_path = os.path.join(module_root, 'static', 'templates', file_name)
+
 
         if not os.path.isfile(file_path):
             return request.not_found()
