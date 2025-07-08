@@ -66,15 +66,14 @@ class UploadExpenseStatement(models.TransientModel):
             elif '.xlsx' in self.statement_filename:
                 expenses = self._process_excel_file(base64.b64decode(self.statement_file))
             elif '.pdf' in self.statement_filename:
-                _logger.warning("*************ES UN PDF*****************")
+                if self.env.company.country_code != 'US':
+                    raise UserError(_('Unsupported file format. Please upload a CSV or Excel file with a correct format.'))
                 expenses = self._process_pdf_file(base64.b64decode(self.statement_file))
             else:
-                raise UserError(_('Unsupported file format. Please upload a CSV or Excel file with a correct format.'))
+                raise UserError(_('Unsupported file format. Please upload a CSV ,Excel or PDF (Wex only) file with a correct format.'))
             
-            
-            _logger.warning("*************TERMINA PROCESO BANKSTMNT*****************")
-            
-            _logger.warning("*************"+ str(len(expenses)) +"*****************")
+            if len(expenses) < 1:
+                raise UserError(_('No transactions found. Please check the file.'))
             
             for expense in expenses:
                 if send_notification_to_user:
@@ -178,7 +177,6 @@ class UploadExpenseStatement(models.TransientModel):
 
         # Create hr.expense records
         for rec in results:
-            _logger.warning("************* CREATING EXPENSE *************")
             expense = self.env['hr.expense'].create({
                 'name': rec['merchant_name'],
                 'date': rec['date'],
