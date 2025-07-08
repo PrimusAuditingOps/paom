@@ -4,7 +4,7 @@ import os
 
 class DownloadTemplateController(http.Controller):
 
-    @http.route('/download/pao-bank-statement-template/<int:employee_id>', type='http', methods=['GET'], auth='user')
+    @http.route('/download/pao-bank-statement-template/<int:employee_id>', type='http', methods=['GET'], auth='user', website=True)
     def download_excel_template(self, employee_id, **kwargs):
         employee = request.env['hr.employee'].sudo().browse(employee_id)
 
