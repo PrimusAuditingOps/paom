@@ -562,7 +562,9 @@ class ExpensesPortal(http.Controller):
     
     
     
-    
+    @http.route('/test-download', type='http', auth='public')
+    def test_route(self, **kw):
+        return "Route is working"
     
     
     
