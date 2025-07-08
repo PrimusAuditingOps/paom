@@ -564,6 +564,27 @@ class ExpensesPortal(http.Controller):
     
     @http.route('/test-download', type='http', auth='public')
     def test_route(self, **kw):
+        
+        file_name = 'usa_bank_statement_template.csv'
+        
+        module_path = os.path.dirname(os.path.abspath(__file__))
+        module_root = os.path.dirname(os.path.dirname(module_path))
+        file_path = os.path.join(module_root, 'static', 'templates', file_name)
+
+        if not os.path.isfile(file_path):
+            return request.not_found()
+
+        with open(file_path, 'rb') as f:
+            content = f.read()
+
+        return request.make_response(
+            content,
+            [
+                ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+                ('Content-Disposition', content_disposition(file_name))
+            ]
+        )
+        
         return "Route is working"
     
     
