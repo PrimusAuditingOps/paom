@@ -117,38 +117,52 @@ class UploadExpenseStatement(models.TransientModel):
                 _logger.error("pdftotext failed: %s", e.output.decode())
                 return results
 
-        for line in text.splitlines():
-            _logger.warning("LINE: %s", line)
-            match = re.match(
-                r"(?P<date>\d{2}/\d{2}/\d{4})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]*\s+(?P<merchant>.+)",
-                line
-            )
-            if match:
-                data = match.groupdict()
-                try:
-                    results.append({
-                        'date': datetime.strptime(data['date'], '%m/%d/%Y').date(),
-                        'amount': float(data['amount']),
-                        'merchant': data['merchant'].strip()
-                    })
-                except Exception:
-                    continue
-        
-        expenses = []            
+        lines = text.splitlines()
+        buffer = []
+        expenses = []
+
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            buffer.append(line)
+
+            # Check if buffer has enough to resemble a full transaction
+            if len(buffer) >= 6:  # heuristic: some entries take 6 lines
+                candidate = ' '.join(buffer)
+                _logger.debug("CANDIDATE: %s", candidate)
+
+                # Try to match pattern
+                match = re.search(
+                    r'(?P<date>\d{2}/\d{2}/\d{2})\s*[\n ]*\d{2}\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.\s]*MEZA, WILLIAM \*6981 (?P<merchant>.+?)\s+1\s+US\$(?P=amount)',
+                    candidate
+                )
+                if match:
+                    data = match.groupdict()
+                    try:
+                        expense_data = {
+                            'date': datetime.strptime(data['date'] + '/25', '%m/%d/%y/%y').date(),
+                            'amount': float(data['amount']),
+                            'merchant': data['merchant'].strip(),
+                        }
+                        results.append(expense_data)
+                        buffer.clear()  # reset buffer on success
+                    except Exception as e:
+                        _logger.warning("Failed to parse match: %s", e)
+                        buffer.clear()  # even if failed, reset to not pollute
+
         for rec in results:
             _logger.warning("*************CREA EXPENSE*****************")
-            
             expense = self.env['hr.expense'].create({
                 'name': rec['merchant'],
                 'date': rec['date'],
-                'total_amount': rec['amount'],
-                'employee_id': self.employee_id,  # must be set based on context
-                # Add other necessary fields like 'product_id', etc.
+                'unit_amount': rec['amount'],
+                'employee_id': self.employee_id.id,
+                'product_id': self.env.ref('hr_expense.product_product_expense').id,
             })
             expenses.append(expense)
-        
-        return expenses
 
+        return expenses
     
     def _process_csv_file(self, file_content):
         reader = csv.reader(file_content.decode('utf-8').splitlines())  # Decode for CSV handling
@@ -280,11 +294,3 @@ class UploadExpenseStatement(models.TransientModel):
         except (ValueError, TypeError):
             # If parsing fails, return None
             return None
-        
-    def action_download_template_link(self):
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_url',
-            'url': '/download-pao-bank-statement-template/%s' % (self.employee_id.id),
-            'target': 'new'
-        }
