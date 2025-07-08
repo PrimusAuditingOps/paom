@@ -56,6 +56,9 @@ class UploadExpenseStatement(models.TransientModel):
                 self.employee_id = self.env.user.employee_id.id
             else:
                 send_notification_to_user = True
+                
+            if not self.employee_id.user_id:
+                raise UserError(_('This employee does not have a linked user. A linked user is required to continue this process.'))
             
             if self.env.company.country_code not in ('MX', 'US', 'CR', 'CL'):
                 raise UserError(_('This process is not available for your company. Please contact IT support.'))
@@ -70,7 +73,7 @@ class UploadExpenseStatement(models.TransientModel):
                     raise UserError(_('Unsupported file format. Please upload a CSV or Excel file with a correct format.'))
                 expenses = self._process_pdf_file(base64.b64decode(self.statement_file))
             else:
-                raise UserError(_('Unsupported file format. Please upload a CSV ,Excel or PDF (Wex only) file with a correct format.'))
+                raise UserError(_('Unsupported file format. Please upload a CSV, Excel or PDF (Wex only) file with a correct format.'))
             
             if len(expenses) < 1:
                 raise UserError(_('No transactions found. Please check the file.'))
