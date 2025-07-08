@@ -123,13 +123,13 @@ class UploadExpenseStatement(models.TransientModel):
         expenses = []
 
         for line in lines:
-            _logger.debug("LINE: %s", line)
+            _logger.warning("LINE: %s", line)
             transaction_buffer.append(line)
 
             # Heuristic: if buffer has 6+ lines and ends with 'US$xx.xx', treat it as a complete block
             if len(transaction_buffer) >= 6 and re.search(r'US\$\d+\.\d{2}$', transaction_buffer[-1]):
                 candidate = ' '.join(transaction_buffer)
-                _logger.debug("CANDIDATE: %s", candidate)
+                _logger.warning("CANDIDATE: %s", candidate)
 
                 # Match general format: date (split), amount, tax, name, merchant, total
                 match = re.search(
