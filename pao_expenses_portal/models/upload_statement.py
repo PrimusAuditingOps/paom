@@ -182,9 +182,12 @@ class UploadExpenseStatement(models.TransientModel):
             expense = self.env['hr.expense'].create({
                 'name': rec['merchant_name'],
                 'date': rec['date'],
-                'total_amount': rec['amount'],
                 'employee_id': self.employee_id.id,
-                'quantity': 1,
+                'partner_id': None,
+                'total_amount_currency': rec['amount'],
+                'currency_id': self.env.company.currency_id.id,
+                'payment_mode': 'company_account',
+                'uploaded_by_statement': True,
             })
             expenses.append(expense)
 
