@@ -135,34 +135,51 @@ class UploadExpenseStatement(models.TransientModel):
             full_line = f"{line1} {line2} {line3}"
             _logger.warning("CANDIDATE: %s", full_line)
 
-            match = re.search(
-                r'(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]+\s+[A-Z]+, [A-Z]+ \*\d+\s+(?P<merchant>.+?)\s+\d{2}\s+\d{2}\s+1\s+US\$\d+\.\d{2}',
+            match = re.match(
+                r"(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>[\d.]+)\s+US\$0\.\s+(?P<cardholder>[A-Z\s,]+?)\s+(?P<account>\*\d{4})\s+(?P<rest>.+)",
                 full_line
             )
+            
+            if not match:
+                return expenses
 
-            if match:
-                data = match.groupdict()
-                try:
-                    date_obj = datetime.strptime(data['date'], '%m/%d/%y').date()
-                    results.append({
-                        'date': date_obj,
-                        'amount': float(data['amount']),
-                        'merchant': data['merchant'].strip()
-                    })
-                    _logger.info("Parsed: %s", results[-1])
-                except Exception as e:
-                    _logger.warning("Date parse error: %s", e)
+            # Extract groups
+            date = match.group("date")
+            amount = match.group("amount")
+            cardholder = match.group("cardholder").strip()
+            account_number = match.group("account").strip()
+            rest = match.group("rest").strip()
 
-                i += 3  # Skip next 2 lines since we already used them
-            else:
-                _logger.debug("No match for block starting at line %s", i)
-                i += 1
+            # Extract merchant name: goes up until first group of two digits followed by a space
+            merchant_match = re.match(r"(.+?)\s+(\d{2})\b", rest)
+            if not merchant_match:
+                return expenses
+
+            merchant_name = merchant_match.group(1).strip()
+            year_suffix = merchant_match.group(2)
+
+            # Fix year (assuming 20xx)
+            full_date_str = f"{date}{year_suffix}"
+            try:
+                date_obj = datetime.strptime(full_date_str, "%m/%d/%Y")
+            except ValueError:
+                # Try with 2-digit year
+                date_obj = datetime.strptime(full_date_str, "%m/%d/%y")
+                
+            expense_data = {
+                "date": date_obj.date(),
+                "amount": float(amount),
+                "cardholder": cardholder,
+                "account_number": account_number,
+                "merchant_name": merchant_name,
+            }
+            results.append(expense_data)
 
         # Create hr.expense records
         for rec in results:
             _logger.warning("************* CREATING EXPENSE *************")
             expense = self.env['hr.expense'].create({
-                'name': rec['merchant'],
+                'name': rec['merchant_name'],
                 'date': rec['date'],
                 'unit_amount': rec['amount'],
                 'employee_id': self.employee_id.id,
