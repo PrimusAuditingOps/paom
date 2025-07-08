@@ -566,7 +566,7 @@ class ExpensesPortal(http.Controller):
     def test_route(self, **kw):
         
         file_name = 'usa_bank_statement_template.csv'
-        
+
         module_path = os.path.dirname(os.path.abspath(__file__))
         module_root = os.path.dirname(os.path.dirname(module_path))
         file_path = os.path.join(module_root, 'static', 'templates', file_name)
@@ -580,7 +580,7 @@ class ExpensesPortal(http.Controller):
         return request.make_response(
             content,
             [
-                ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+                ('Content-Type', 'text/csv'),
                 ('Content-Disposition', content_disposition(file_name))
             ]
         )
