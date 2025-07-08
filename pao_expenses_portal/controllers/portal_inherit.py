@@ -7,6 +7,10 @@ from datetime import date
 from odoo.addons.portal.controllers.portal import pager
 from collections import OrderedDict
 
+
+from odoo.http import request, content_disposition
+import os
+
 _logger = logging.getLogger(__name__)
 class ExpensesPortal(http.Controller):
     
@@ -555,3 +559,45 @@ class ExpensesPortal(http.Controller):
             
         
         return request.redirect('/my/wallet')
+    
+    
+    
+    
+    
+    
+    
+    @http.route(['/download-pao-bank-statement-template/<int:employee_id>'], type='http', auth='user', website=True)
+    def download_excel_template(self, employee_id, **kw):
+        
+        employee = request.env['hr.employee'].sudo().browse(employee_id)
+
+        if not employee.exists():
+            return request.not_found()
+
+        company = employee.company_id
+
+        if company.country_code == 'MX':
+            file_name = 'mx_bank_statement.xlsx'
+        elif company.country_code in ['US','CR', 'CL']:
+            file_name = 'usa_bank_statement_template.csv'
+        else:
+            return request.not_found()
+
+        module_path = os.path.dirname(os.path.abspath(__file__))
+        module_root = os.path.dirname(os.path.dirname(module_path))
+        file_path = os.path.join(module_root, 'static', 'templates', file_name)
+
+        if not os.path.isfile(file_path):
+            return request.not_found()
+
+        with open(file_path, 'rb') as f:
+            content = f.read()
+
+        return request.make_response(
+            content,
+            [
+                ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+                ('Content-Disposition', content_disposition(file_name))
+            ]
+        )
+    

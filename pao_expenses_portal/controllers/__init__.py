@@ -1,2 +1,2 @@
 from . import portal_inherit
-from . import download_bank_statement
+# from . import download_bank_statement
