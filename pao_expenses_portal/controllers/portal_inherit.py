@@ -584,8 +584,6 @@ class ExpensesPortal(http.Controller):
                 ('Content-Disposition', content_disposition(file_name))
             ]
         )
-        
-        return "Route is working"
     
     
     
