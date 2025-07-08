@@ -136,19 +136,18 @@ class UploadExpenseStatement(models.TransientModel):
             _logger.warning("CANDIDATE: %s", full_line)
 
             match = re.search(
-                r'(?P<month_day_year>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]+\s+[A-Z]+, [A-Z]+ \*\d+\s+(?P<merchant>.+?)\s+25\s+\d{2}\s+1\s+US\$(?P=amount)',
+                r'(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>\d+\.\d{2})\s+US\$[\d\.]+\s+[A-Z]+, [A-Z]+ \*\d+\s+(?P<merchant>.+?)\s+\d{2}\s+\d{2}\s+1\s+US\$\d+\.\d{2}',
                 full_line
             )
 
             if match:
                 data = match.groupdict()
                 try:
-                    full_date = data['month_day_year'] + '25'  # Add missing century
-                    date_obj = datetime.strptime(full_date, '%m/%d/%y%y').date()
+                    date_obj = datetime.strptime(data['date'], '%m/%d/%y').date()
                     results.append({
                         'date': date_obj,
                         'amount': float(data['amount']),
-                        'merchant': data['merchant'].strip(),
+                        'merchant': data['merchant'].strip()
                     })
                     _logger.info("Parsed: %s", results[-1])
                 except Exception as e:
