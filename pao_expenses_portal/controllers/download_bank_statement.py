@@ -4,10 +4,14 @@ import os
 
 class DownloadTemplateController(http.Controller):
 
-    @http.route('/download/pao-bank-statement-template', type='http', auth='user')
-    def download_excel_template(self, **kwargs):
-        user = request.env.user
-        company = user.company_id
+    @http.route('/download/pao-bank-statement-template/<int:employee_id>', type='http', auth='user')
+    def download_excel_template(self, employee_id, **kwargs):
+        employee = request.env['hr.employee'].sudo().browse(employee_id)
+
+        if not employee.exists():
+            return request.not_found()
+
+        company = employee.company_id
 
         if company.country_code == 'MX':
             file_name = 'mx_bank_statement.xlsx'

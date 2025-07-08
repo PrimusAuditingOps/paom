@@ -285,6 +285,6 @@ class UploadExpenseStatement(models.TransientModel):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_url',
-            'url': '/download/pao-bank-statement-template',
+            'url': '/download/pao-bank-statement-template/%s' % (self.employee_id.id),
             'target': 'new'
         }
