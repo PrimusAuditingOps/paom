@@ -184,7 +184,6 @@ class UploadExpenseStatement(models.TransientModel):
                 'date': rec['date'],
                 'unit_amount': rec['amount'],
                 'employee_id': self.employee_id.id,
-                'product_id': self.env.ref('hr_expense.product_product_expense').id,
                 'quantity': 1,
             })
             expenses.append(expense)
