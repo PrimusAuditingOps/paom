@@ -280,3 +280,11 @@ class UploadExpenseStatement(models.TransientModel):
         except (ValueError, TypeError):
             # If parsing fails, return None
             return None
+        
+    def action_download_template_link(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/download/pao-bank-statement-template',
+            'target': 'new'
+        }
