@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_pao_commissionable_view_form" model="ir.ui.view">
+        <field name="name">product.template.pao.commissionable.view.form</field>
+        <field name="model">product.template</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <div name="options" position="inside">
+                <div>
+                    <field name="pao_commission_payment"/>
+                    <label for="pao_commission_payment"/>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>
