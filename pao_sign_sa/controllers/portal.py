@@ -90,6 +90,11 @@ class CustomerPortal(portal.CustomerPortal):
         #         'force_refresh': True,
         #         'redirect_url': '%s/%s/%s' % (prefix, sa_id, sa_token)
         #     }
+        
+        return {
+                'force_refresh': True,
+                'redirect_url': '/sign/sa/%s/%s' % (sa_id, sa_token)
+            }
 
 
     @http.route(['/sign/sa/<int:sa_id>/<string:sa_token>', '/coordinator_sign/sa/<int:sa_id>/<string:sa_token>'], type='http', auth="public", website=True)
