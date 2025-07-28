@@ -24,6 +24,7 @@
         'views/res_partner_views.xml',
         'views/account_move_views.xml',
         'views/commission_promoter_views.xml',
+        'views/product_template.xml',
     ],
     'assets': {
 

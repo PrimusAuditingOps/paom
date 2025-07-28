@@ -28,7 +28,7 @@ class AccountMove(models.Model):
             operations = ""
             productname = ""
             for r in rec.invoice_line_ids.sorted(key=lambda r: (r.product_id.id)):
-                if r.product_id.can_be_commissionable:
+                if r.product_id.pao_commission_payment:
                     if not idproduct == 0 and not idproduct == r.product_id.id:
                         if not operations:
                             operations = '{0}-{1}'.format(productqty,productname)
@@ -51,7 +51,7 @@ class AccountMove(models.Model):
             payqty = 0.0
             if rec.promotor_name.porcentaje and rec.promotor_name.porcentaje > 0:
                 for r in rec.invoice_line_ids:
-                    if r.product_id.can_be_commissionable:
+                    if r.product_id.pao_commission_payment:
                         payqty += r.price_subtotal
 
                 rec.cp_promotor_pay = round((payqty * rec.promotor_name.porcentaje) / 100,2)
