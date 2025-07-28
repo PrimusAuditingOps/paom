@@ -222,7 +222,7 @@
                             <b>Date: </b><span t-field="serviceagreement.sign_sa_agreements_id.document_date"/>
                         </p> -->
                         <p style="text-align:left;">
-                            <b>Date: </b> <span t-field="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature_date" widget="date"/>
+                            <b>Date: </b> <span t-field="serviceagreement.sign_sa_agreements_id.document_date" t-if="serviceagreement.sign_sa_agreements_id.document_date" widget="date"/>
                         </p>
                     </div>
                     <div class="col-6">
