@@ -139,7 +139,7 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.sign_sa_agreements_id.coordinator_signature)" t-if="serviceagreement.sign_sa_agreements_id.coordinator_signature and serviceagreement.sign_sa_agreements_id.sale_order_id.company_id.country_id.code == 'US'"/>
+                        <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.coordinator_id.sign_signature)" t-if="serviceagreement.coordinator_id.sign_signature and serviceagreement.sign_sa_agreements_id.sale_order_id.company_id.country_id.code == 'US'"/>
                         <img t-attf-style="#{'max-width: 100%;' if not print else 'width:327px; heigth:327px;'}" t-att-src="image_data_uri(serviceagreement.sudo().coordinator_id.sign_signature)" t-if="serviceagreement.sudo().coordinator_id.sign_signature and serviceagreement.sign_sa_agreements_id.sale_order_id.company_id.country_id.code != 'US'"/>                  
                     </div>
                     <div class="col-6">
