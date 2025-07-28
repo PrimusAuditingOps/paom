@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-01 22:24+0000\n"
-"PO-Revision-Date: 2025-04-01 22:24+0000\n"
+"POT-Creation-Date: 2025-04-30 23:13+0000\n"
+"PO-Revision-Date: 2025-04-30 23:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -61,14 +61,14 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_nop_lpo
-msgid ""
-"\"Lineamientos para el uso del Distintivo Nacional y logotipo PAO Organics\""
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "\"El Cliente\""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid "\"PARTE CONTRATANTE\""
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_nop_lpo
+msgid ""
+"\"Lineamientos para el uso del Distintivo Nacional y logotipo PAO Organics\""
 msgstr ""
 
 #. module: servicereferralagreement
@@ -102,10 +102,9 @@ msgid "'SA - %s - %s' % (object.name,object.partner_id.name)"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
-msgid ""
-") and in the document titled Sedex Ambassador toolkit. The Customer \n"
-"                must not misuse the SMETA report, CAPR and/or URN."
+msgid "(www.sedex.com)"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -656,6 +655,39 @@ msgid "<b>\"The client\" declares through its representative/by its own right</b
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b>1. DELIVERY.</b> The Audit Report and Corrective Action Plan Report (“CAPR”) are shared through the \n"
+"                Supplier Ethical Data Exchange (“SEDEX”) platform. The Corrective Action Plan (“CAPR”) that is sign \n"
+"                in the closing meeting of the audit is a preliminary summary of findings which may be subject to change \n"
+"                during the technical review by the Primus Auditing Ops quality team.<br/>\n"
+"                The Audit Services process consists of a sampling exercise only and does not guarantee that the audited \n"
+"                site prior, during or post-audit, is in full compliance with Your Requirements, laws or industry or \n"
+"                international standards. The Audit Services do not involve any assessment or evaluation to independent \n"
+"                safety certification standards, and our affiliates and we have no responsibility to make any independent \n"
+"                safety assessment. The Audit Services process represents an evaluation based on specific points in time \n"
+"                and includes include any or all of the following: records review, worker interviews, management interviews, \n"
+"                and visual observation of sites."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>1. ENTREGA.</b> El Informe de Auditoría y el reporte de plan de Acción Correctiva (“CAPR”, por sus siglas en inglés) \n"
+"                                            se comparten a través de la plataforma de Intercambio de Datos Éticos del Proveedor (“SEDEX”). El reporte del plan de \n"
+"                                            Acción Correctiva (“CAPR”, por sus siglas en inglés) que firma al cierre auditoria es un resumen de hallazgos preliminar \n"
+"                                            el cuál puede sufrir cambios durante la revisión técnica que realice el equipo de calidad de Primus Auditing Ops.<br/>\n"
+"                                            El proceso de los Servicios de Auditoría consiste únicamente en un ejercicio de muestreo y no garantiza que el centro \n"
+"                                            auditado, antes, durante o después de la auditoría, cumpla plenamente sus requisitos, leyes o normas industriales o \n"
+"                                            internacionales. Los Servicios de Auditoría no implican ninguna valoración o evaluación conforme a normas de \n"
+"                                            certificación de seguridad independientes, y ni nosotros ni nuestras filiales tenemos la responsabilidad de realizar \n"
+"                                            ninguna evaluación de seguridad independiente. El proceso de los Servicios de Auditoría se basa en un punto en el \n"
+"                                            tiempo y puede incluir alguno o todos de los siguientes elementos: revisión de registros, entrevistas a los \n"
+"                                            trabajadores, entrevistas a la dirección y observación visual de las instalaciones y observación visual de las \n"
+"                                            instalaciones."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_fpr_05
 msgid ""
 "<b>1.- Descripción de servicios:</b><br/>\n"
@@ -672,23 +704,13 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"<b>10. FACTURACIÓN.</b> Se puede cobrar una tarifa administrativa de cancelación de \n"
-"                                        $ 200.00 por cualquier cancelación de auditoría dentro de los 21 días posteriores a \n"
-"                                        la fecha de auditoría programada. Esta tarifa de cancelación excluye cualquier gasto \n"
-"                                        adicional relacionado con el viaje y la mano de obra si se incurre en él. El Cliente \n"
-"                                        acepta pagar a Primus Auditing Ops dentro de los 30 días posteriores a la facturación.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>11. LOGO y URN.</b> El uso del logos de miembro de Sedex se encuentra en el sitio web \n"
-"                                        (www.sedex.com) en la sección <u>Sedex Ambassador toolkit.</u> El cliente no debe hacer un \n"
-"                                        mal uso del informe SMETA, CAPR y / o URN."
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid "<b>10. TERM AND TERMINATION </b>"
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
-msgid "<b>10. TERM AND TERMINATION.</b>"
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>10. TÉRMINOS Y CONDICIONES </b>"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -739,15 +761,49 @@ msgid "<b>11. BILLING.</b>"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>11. FACTURACIÓN.</b>"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"<b>12. CANCELLATION FEES. </b>If Customer cancels or otherwise reschedules a scheduled audit date, it acknowledges, \n"
-"                understands, and agrees that Customer shall be responsible for all non-refundable travel costs incurred by Primus Auditing \n"
-"                Ops associated with that audit. In addition to any incurred travel costs, any change or cancellation of an audit by \n"
-"                Customer that occurs within 15 business days of the scheduled audit will be charged a cancellation fee of 50% of the audit. \n"
-"                If, on the day of the audit, the auditor or any representative of Primus Auditing Ops is denied access to the field, \n"
-"                facilities, or any area necessary to perform the audit, Customer understands, acknowledges, and agrees that it shall be \n"
-"                responsible for all audit fees quoted herein, in addition to all travel costs."
+"<b>12. CANCELLATION FEES.</b> If the client cancels or reschedules a scheduled audit date, they acknowledge, \n"
+"                understand, and accept that they will be responsible for all non-refundable travel costs incurred by Primus \n"
+"                Auditing Ops in connection with that audit. Additionally, any change or cancellation of an audit by the \n"
+"                client will be subject to the following conditions, depending on the country where the audit is to be \n"
+"                conducted. If, on the day of the audit, the auditor or any representative of Primus Auditing Ops is \n"
+"                denied access to the field, facilities, or any area necessary to conduct the audit, the client acknowledges, \n"
+"                understands, and accepts that they will be responsible for all quoted audit fees, in addition to all travel \n"
+"                costs. In cases where access is completely denied at the time of the audit or if the audit is canceled within \n"
+"                24 hours prior to the audit or the start of the audit window—meaning the site does not allow the auditor to \n"
+"                enter despite having a confirmed audit, regardless of the audit type \n"
+"                (announced, semi-announced, or unannounced)—the total audit costs must be covered 100% as per the quoted amount.\n"
+"                <br/><br/>\n"
+"                For semi-announced or unannounced audits, if the audit is canceled or the requesting party requests changes \n"
+"                after the audit window has started, a fee of 50% of the audit cost plus any incurred travel expenses will be \n"
+"                charged."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>12. COSTOS POR CANCELACIÓN.</b> Si el cliente cancela o reprograma una fecha de auditoría programada, \n"
+"                                            reconoce, comprende y acepta que el cliente será responsable de todos los costos de viaje no reembolsables \n"
+"                                            incurridos por Primus Auditing Ops asociados con esa auditoría.<br/><br/>\n"
+"                                            Además, cualquier cambio o cancelación de una auditoría por parte del cliente corresponde lo siguiente \n"
+"                                            según el país que corresponda. <br/><br/>\n"
+"                                            Si, en el día de la auditoría, el auditor o cualquier representante de Primus Auditing Ops se le niega \n"
+"                                            el acceso al campo, las instalaciones o cualquier área necesaria para realizar la auditoría, el \n"
+"                                            cliente entiende, reconoce y acepta que será responsable de todos los honorarios de auditoría \n"
+"                                            cotizados aquí, además de todos los costos de viaje. En casos de acceso totalmente denegado al \n"
+"                                            momento de la auditoría o cancelación dentro de las 24 horas previas a la auditoría o inicio de \n"
+"                                            ventana, es decir que el sitio no permita el ingreso al auditor al sitio, a pesar de tener una \n"
+"                                            confirmación de auditoría sin importar el tipo (anunciada, semi anunciada, no anunciada) la \n"
+"                                            auditoría los gastos de auditoría deberán cubrirse el 100% del total de la cotización.<br/><br/>\n"
+"                                            Para auditorias semi anunciadas o no anunciadas, si la auditoría es cancelada o el solicitante \n"
+"                                            pide cambios y el periodo de la ventana ha iniciado, se cobrará una tarifa del 50% del costo \n"
+"                                            de la auditoría más los gastos de viaje que se hayan incurrido."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -781,8 +837,38 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"<b>13. LOGO and URN.</b> The guidelines for the usage of the Sedex Member Logo can be found on their website \n"
-"                ("
+"<b>13. LOGO and URN.</b> The guidelines for the usage of the SEDEX Member "
+"Logo can be found on their website"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>13. LOGO y URN.</b> Las pautas para el uso del Logotipo de Miembro de "
+"Sedex se pueden encontrar en su sitio web"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b>2. TRANSFER OF DATA TO OUTSIDE PARTIES.</b> Primus Auditing Ops may be required to submit information \n"
+"                obtained during the audit to either Supplier SEDEX  and/or to the Association of Professional Social \n"
+"                Compliance Auditors (“APSCA”) for its authorized use. By executing this Agreement, Customer acknowledges \n"
+"                that such information may be provided to the applicable SEDEX and/or APSCA, and consents to the transfer \n"
+"                of such information. We may retain a copy of the Audit Report and other materials for our archives. \n"
+"                All information and material gathered in the execution of the Audit Services is retained for our use."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>2. TRANSFERENCIA DE DATOS A TERCEROS.</b> Primus Auditing Ops puede estar obligado a enviar información \n"
+"                                            obtenida durante la auditoría tanto al Proveedor SEDEX como a la Asociación de Auditores Profesionales de \n"
+"                                            Cumplimiento Social (“APSCA”) para su uso autorizado. Al ejecutar este Acuerdo, el Cliente reconoce que \n"
+"                                            dicha información puede ser proporcionada al SEDEX y/o APSCA correspondiente, y consiente la transferencia de \n"
+"                                            dicha información. Podemos conservar una copia del Informe de Auditoría y otros materiales para nuestros \n"
+"                                            archivos, según lo requiera. Toda la información y el material recopilados en la ejecución de los Servicios \n"
+"                                            de Auditoría se conservan para nuestro uso."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -797,6 +883,30 @@ msgstr ""
 msgid ""
 "<b>2.- Términos y condiciones:</b><br/>\n"
 "                    Adicional a los establecidos en el contrato del que forma parte este anexo:"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>3. LIMITACIÓN DE RESPONSABILIDAD.</b> El Cliente por la presente libera a Primus Auditing Ops, a sus empleados, \n"
+"                                            directores, principales, agentes y afiliados, de cualquier pérdida o responsabilidad sufrida por el Cliente, \n"
+"                                            resultado de los servicios realizados bajo este Acuerdo. Dicha liberación incluirá cualquier daño real, incidental, \n"
+"                                            consecuente u otros más allá de las cantidades pagadas a Primus Auditing Ops por la auditoría realizada y/o facilitada \n"
+"                                            por Primus Auditing Ops. El Cliente reconoce y acepta además que la responsabilidad de Primus Auditing Ops se limita \n"
+"                                            únicamente al trabajo de auditoría realizado por ella, y las partes reconocen expresamente que Primus Auditing Ops \n"
+"                                            no es responsable por la mercancía del Cliente, su seguridad o calidad."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b>3. LIMITATION OF LIABILITY.</b> Customer hereby releases Primus Auditing Ops, its employees, directors, \n"
+"                principals, agents, and affiliates, from any loss or liability suffered by Customer, resulting from \n"
+"                services performed under this Agreement. Such release shall include any actual, incidental, consequential \n"
+"                or other damages beyond amounts paid to Primus Auditing Ops for auditing performed and/or facilitated by \n"
+"                Primus Auditing Ops. Customer further acknowledges and agrees that Primus Auditing Ops' liability is \n"
+"                limited only to the audit work performed by it, and the parties expressly acknowledge that Primus Auditing Ops \n"
+"                is not liable for Customer's commodity, its safety, or quality."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -816,6 +926,28 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b>4. GOVERNING LAW / VENUE.</b> For audit services conducted in the United States, this Agreement shall be \n"
+"                governed by and construed in accordance with the laws of the State of California, and in the event that it \n"
+"                is necessary to institute any action to enforce any right granted herein or to redress any alleged breach \n"
+"                hereof, then the exclusive venue for such action shall reside with the Superior Court located in Santa Maria, \n"
+"                California. For audit services conducted outside the United States, this Agreement shall be governed by and \n"
+"                construed in accordance with the laws of the country where the audit service is provided."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>4. LEY APLICABLE / JURISDICCIÓN.</b> Para los servicios de auditoría realizados en los Estados Unidos, \n"
+"                                            este Acuerdo estará sujeto a las leyes del Estado de California y, en caso de ser necesario iniciar alguna \n"
+"                                            acción para hacer valer cualquier derecho otorgado en el presente o para remediar cualquier presunta violación \n"
+"                                            del mismo, el lugar exclusivo para tal acción residirá en el Tribunal Superior ubicado en Santa María, \n"
+"                                            California. Para los servicios de auditoría realizados fuera de los Estados Unidos, este Acuerdo estará \n"
+"                                            sujeto a las leyes del país donde se preste el servicio de auditoría."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_fpr_05
 msgid ""
 "<b>4.- Fees:</b> \n"
@@ -831,6 +963,113 @@ msgid ""
 "                        <br/>\n"
 "                        TIPO DE SERVICIO\n"
 "                        <br/>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>5. DERECHO A LA REFERENCIA.</b> El Cliente reconoce que Primus Auditing Ops es, o puede ser, contratado \n"
+"                                            para los servicios de auditoría realizados para el Cliente. Debido a que un auditor independiente está \n"
+"                                            comprometido con su propio negocio independiente de contratación y no es un empleado de Primus Auditing Ops, \n"
+"                                            si Primus Auditing Ops subcontrata la auditoría a un contratista, no obtendrá seguro (responsabilidad profesional, \n"
+"                                            compensación laboral, responsabilidad general, automóvil, etc.) para el auditor. Los auditores independientes \n"
+"                                            acuerdan mediante un acuerdo de referencia separado obtener su propia cobertura de seguro y proporcionar una \n"
+"                                            copia del certificado de seguro a Primus Auditing Ops. Además, en aquellos casos en los que se retenga a un \n"
+"                                            auditor independiente, Primus Auditing Ops actuará únicamente como contratista independiente y cualquier \n"
+"                                            información o datos recibidos serán simplemente transmitidos entre las partes, sin emitir juicios, representaciones o \n"
+"                                            garantías independientes en cuanto a los hechos, observaciones o inferencias realizadas con respecto a los mismos."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b>5. RIGHT TO REFERRAL.</b> Customer acknowledges that Primus Auditing Ops is, or may, contract out the \n"
+"                auditing services performed for Customer. Because an independent auditor is engaged in his/her own \n"
+"                independent contracting business and is not an employee of Primus Auditing Ops, if Primus Auditing Ops \n"
+"                refers the audit out to a contractor, it will not obtain insurance (professional liability, workers' \n"
+"                compensation, general liability, auto, etc.) for the auditor. Independent auditors agree by a separate \n"
+"                referral agreement to obtain his/her own insurance coverage and furnish a copy of the certificate of \n"
+"                insurance to Primus Auditing Ops. Furthermore, in those instances in which an independent auditor is \n"
+"                retained, Primus Auditing Ops will be acting in the sole capacity of independent contractor and any \n"
+"                information or data received will be merely transmitted between parties, making no independent judgment, \n"
+"                representations or warranties as to the facts, observations or inferences made relative to same."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b>6. AUDIT AND SURVEILLANCE.</b> Customer agrees and acknowledges Free access must be provided for \n"
+"                all scheduled audits, as well as any potential random quality assurance checks (depending on the \n"
+"                audit scheme's requirements) of customer's operation including but not limited to: examination of \n"
+"                documentation, interview with workers, taking photographs as part of audit evidence, records, and \n"
+"                access to the equipment, location(s), area(s), personnel, and full physical inspection of Customer's \n"
+"                subcontractors. The confidentiality of all proprietary information will be respected. Technologies \n"
+"                and/or unique processes of Customer's operation will not be disclosed. In countries where there are \n"
+"                data protection requirements (for example, all countries in the European Union), all said requirements \n"
+"                shall be complied with. Customer agrees to allow observers from Primus Auditing Ops and/or varying \n"
+"                governing bodies if the customer's audit or certification is randomly selected for surveillance for \n"
+"                quality assurance purposes. Customer further agrees to grant free access in order to verify continued \n"
+"                compliance with the scheme guidelines. Customer acknowledges complaints related to compliance must be \n"
+"                documented, and subsequent investigation of complaints is possible, and in some cases may be mandatory. \n"
+"                Documentation of complaints and investigation may be subject to inspection during audit or surveillance \n"
+"                or at the request or Primus Auditing Ops at any time. Customer acknowledges that its failure to fully \n"
+"                comply with this section, either during the time of audit or until the report is submitted in the platform, \n"
+"                is a material breach of this agreement and can result in an investigation involving the scheme owner due \n"
+"                to lack of information or clarification due to the resulting complaint. In the case of audits managed \n"
+"                through the SEDEX platform, if there is a breach of this section, the guidelines outlined in the Sedex \n"
+"                Members Ethical Trade Audit (“SMETA”) audit protocol will be followed. Customer understands and agrees \n"
+"                to perform Follow-up Audits when corrective actions cannot be verified in a desk review, for example, \n"
+"                in the event of critical non-compliances and/or requiring the validation of corrective actions through \n"
+"                worker testimony. During the follow-up audit, a sample of interviews and record reviews will be conducted. \n"
+"                The sample size for these reviews will be determined based on the nature of the corrective actions being \n"
+"                verified."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>6. AUDITORÍA Y VIGILANCIA.</b> \n"
+"                                            El Cliente acepta y reconoce que se requiere acceso libre para cualquier auditoría programada, así como posibles \n"
+"                                            verificaciones aleatorias de aseguramiento de calidad (según los requisitos del esquema de auditoría) de la \n"
+"                                            operación del cliente, incluidos, entre otros: revisión documental, entrevista con trabajadores, toma de \n"
+"                                            fotografías como parte de la evidencia de auditoría, registros de horas de trabajo, edades e información \n"
+"                                            de los trabajadores que permitan bajo las regulaciones correspondientes validar la contratación legal de \n"
+"                                            los trabajadores, esto incluyendo trabajadores directos, temporales, migrantes, de agencia, entre otros., \n"
+"                                            ubicación(es), área(s), e inspección física completa de los subcontratistas del Cliente. Se respetará la \n"
+"                                            confidencialidad de toda la información patentada. No se divulgarán tecnologías y/o procesos únicos de la \n"
+"                                            operación del Cliente. En los países donde existan requisitos de protección de datos (por ejemplo, todos \n"
+"                                            los países de la Unión Europea), se cumplirán todos los requisitos mencionados. El Cliente acepta permitir \n"
+"                                            observadores de Primus Auditing Ops y/o diversos organismos rectores si la auditoría o certificación del \n"
+"                                            cliente es seleccionada aleatoriamente para vigilancia con fines de aseguramiento de calidad. El Cliente \n"
+"                                            también acepta otorgar acceso libre para verificar el cumplimiento continuo con los lineamientos del estándar \n"
+"                                            de auditoria. El Cliente reconoce que las quejas relacionadas con el cumplimiento deben documentarse, y la \n"
+"                                            investigación posterior de las quejas es posible, y en algunos casos puede ser obligatoria. La documentación \n"
+"                                            de quejas e investigaciones puede estar sujeta a inspección durante la auditoría o vigilancia o a solicitud \n"
+"                                            de Primus Auditing Ops en cualquier momento. El Cliente reconoce que su incumplimiento total de esta sección, \n"
+"                                            ya sea durante el tiempo de la auditoría o hasta que se presente el informe en la plataforma, constituye un \n"
+"                                            incumplimiento material de este acuerdo y puede resultar una investigación que involucre al dueño del esquema \n"
+"                                            o la no publicación del reporte en plataforma debido a la falta de información o aclaración debido a la queja \n"
+"                                            resultante. En el caso de auditorías gestionadas a través de la plataforma SEDEX, si hay un incumplimiento de \n"
+"                                            esta sección, se seguirán las pautas delineadas en el protocolo de auditoría de Comercio Ético de los Miembros \n"
+"                                            de Sedex (\"SMETA\"). El Cliente entiende y acepta realizar Auditorías de Seguimiento cuando las acciones \n"
+"                                            correctivas no puedan verificarse en una revisión de escritorio, por ejemplo, en caso de incumplimientos \n"
+"                                            no críticos y/o que requieran la validación de acciones correctivas a través del testimonio de los trabajadores. \n"
+"                                            Durante la auditoría de seguimiento, se realizará una muestra de entrevistas y revisiones de registros. \n"
+"                                            El tamaño de la muestra para estas revisiones se determinará según la naturaleza de las acciones correctivas \n"
+"                                            que se estén verificando.\n"
+"                                            <br/><br/>\n"
+"                                            El Cliente debe tener en cuenta que el número de entrevistas y registros puede aumentar durante la auditoría \n"
+"                                            a solicitud del auditor, dependiendo de la situación. Esto está de acuerdo con las pautas establecidas por \n"
+"                                            SEDEX para garantizar una evaluación imparcial con suficiente información para cumplir con las pautas de auditoría.\n"
+"                                            <br/><br/>\n"
+"                                            El Informe de Auditoría no confirma ni certifica el cumplimiento de leyes o estándares industriales o \n"
+"                                            internacionales. El Informe de Auditoría se deriva únicamente a través del muestreo, que incluye muestreo \n"
+"                                            de documentos, muestreo individual para entrevistas y muestreo de área para observación. Esta actividad de \n"
+"                                            muestreo no garantiza que la instalación auditada cumpla totalmente con los requisitos auditados. El Informe \n"
+"                                            de Auditoría no incluye pruebas en el sitio de equipos, evaluación de seguridad de edificios, cumplimiento de \n"
+"                                            códigos o evaluación de estándares de certificación de seguridad independientes. Los servicios de auditoría se \n"
+"                                            informan en función del alcance de auditoría limitado de leyes y regulaciones. Es posible que algunas leyes y \n"
+"                                            regulaciones no estén disponibles para el auditor."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1076,7 +1315,35 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
-msgid "<b>8. AUDIT RESULTS.</b> The Client must comply with the following:"
+msgid ""
+"<b>7. CUSTOMER OBLIGATIONS.</b> Customer agrees to comply with the points cited in the SMETA audit, under \n"
+"                the Ethical Trading Initiative Base Code (“ETI Base Code”), as well as the applicable local Laws. Any \n"
+"                deviation detected during the audit will be reported and indicated during the closing meeting and in \n"
+"                the corresponding document (CAPR), for which Customer must take corrective actions to cure the deviation, \n"
+"                and is responsible for entering them into the SEDEX platform Customer's corrective actions, as well as \n"
+"                entering them into the SEDEX platform is the sole responsibility of the Customer, to which Customer \n"
+"                acknowledges, understands, and agrees. A review of corrective actions may be requested by Customer \n"
+"                either before or after the audit, and may be subject to a separate quote and service agreement \n"
+"                (“Corrective Action Review”)."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>7. OBLIGACIONES DEL CLIENTE.</b> El Cliente acepta cumplir con los puntos citados en la auditoría SMETA, \n"
+"                                            bajo el Código Base de la Iniciativa de Comercio Ético (“Código Base de la ETI”), así como las leyes locales \n"
+"                                            aplicables. Cualquier desviación detectada durante la auditoría se informará y se indicará durante la reunión \n"
+"                                            de cierre y en el documento correspondiente (CAPR), para lo cual el Cliente debe tomar acciones correctivas \n"
+"                                            para corregir la desviación, y es responsable de ingresarlas en la plataforma SEDEX de Acciones Correctivas \n"
+"                                            del Cliente, así como ingresarlas en la plataforma SEDEX es responsabilidad exclusiva del Cliente, a lo que \n"
+"                                            el Cliente reconoce, comprende y acepta. Se puede solicitar una revisión de las acciones correctivas por \n"
+"                                            parte del Cliente antes o después de la auditoría, y puede estar sujeta a una cotización y un acuerdo de \n"
+"                                            servicio separados (\"Revisión de Acciones Correctivas\")."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid "<b>8. AUDIT RESULTS.</b> Customer must comply with the following:"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1090,8 +1357,8 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid ""
-"<b>8. RESULTADOS DE AUDITORÍA.</b> El Cliente debe cumplir con los \n"
-"                                        siguiente:"
+"<b>8. RESULTADOS DE LA AUDITORÍA.</b> El Cliente debe cumplir con lo "
+"siguiente:"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1100,6 +1367,24 @@ msgid ""
 "<b>9. BILLING.</b> The Customer agrees to pay Primus Auditing Ops within 30 days of billing.\n"
 "                                            <br/>\n"
 "                                            <br/>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b>9. CONFIDENCIALIDAD.</b> Primus Auditing Ops representa y acuerda que toda la información obtenida o \n"
+"                                            desarrollada en relación con cualquier auditoría realizada bajo este Acuerdo, y para cualquier auditoría \n"
+"                                            realizada para el cumplimiento social o de otro modo regido por APSCA, se mantendrá confidencial y no se \n"
+"                                            divulgará a ninguna otra parte que no sea el Cliente, excepto en las siguientes circunstancias:"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b>9. CONFIDENTIALITY.</b> .      Primus Auditing Ops hereby represents and agrees that all information obtained or \n"
+"                developed in connection with any audit performed under this Agreement, and for any audit performed for social \n"
+"                compliance or otherwise governed by APSCA shall be kept confidential and shall not be disclosed to any party \n"
+"                other than Customer, except in the following circumstances:"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1184,6 +1469,95 @@ msgid "<b><i>Services to be delivered by Primus Auditing Operations</i></b>"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b><u>Auditorías realizadas por la Oficina de México</u></b><br/>\n"
+"                                            Cualquier cambio o cancelación que ocurra dentro de los 10 días naturales previos a la auditoría \n"
+"                                            programada y/o fecha confirmada según aplique, se incurrirá en una tarifa de cancelación de 400 USD \n"
+"                                            más los gastos de viaje que se hayan incurrido.<br/><br/>\n"
+"                                            Cualquier cambio o cancelación que ocurra dentro de los 5 días naturales previos a la auditoría \n"
+"                                            programada y/o fecha confirmada según aplique, se incurrirá en una tarifa de cancelación del 50% \n"
+"                                            del costo de la auditoría más los gastos de viaje que se hayan incurrido."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b><u>Auditorías realizadas por las Oficinas de Chile.</u></b><br/>\n"
+"                                            Cualquier cambio o cancelación que ocurra dentro de los 15 días hábiles previos a la auditoría \n"
+"                                            programada y/o fecha confirmada según aplique, se incurrirá en una tarifa de cancelación de \n"
+"                                            400 USD más los gastos de viaje que se hayan incurrido luego de confirmado el servicio."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b><u>Auditorías realizadas por las Oficinas de Costa Rica.</u></b><br/>\n"
+"                                            Cualquier cambio o cancelación que ocurra dentro de los 15 días hábiles previos a la auditoría \n"
+"                                            programada y/o fecha confirmada según aplique, se incurrirá en una tarifa de cancelación del \n"
+"                                            100% del costo de la auditoría más los gastos de viaje que se hayan incurrido luego de \n"
+"                                            confirmado el servicio."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b><u>Auditorías realizadas por las Oficinas de EE. UU.,</u></b><br/>\n"
+"                                            Cualquier cambio o cancelación que ocurra dentro de los 15 días hábiles previos a la auditoría \n"
+"                                            programada y/o fecha confirmada según aplique, se incurrirá en una tarifa de cancelación del 50% \n"
+"                                            del costo de la auditoría más los gastos de viaje que se hayan incurrido."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b><u>Terminación Voluntaria.</u></b> Cualquiera de las partes puede terminar voluntariamente \n"
+"                                                    este Acuerdo con quince días de anticipación mediante aviso por escrito a la otra parte. \n"
+"                                                    Si este Acuerdo es terminado por cualquiera de las partes, todas las certificaciones \n"
+"                                                    otorgadas por Primus Auditing Ops al Cliente después de dicha terminación no serán válidas."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<b><u>Terminación por Causa.</u></b> Este Acuerdo de Servicio será indefinido, terminando al \n"
+"                                                    publicarse el Informe de Auditoría, o, si se solicita una Revisión de Acciones Correctivas, \n"
+"                                                    al concluir la Revisión de Acciones Correctivas. Si alguna de las partes no cumple con \n"
+"                                                    algún término o condición de este Acuerdo, dicho incumplimiento se considerará una \n"
+"                                                    violación de este Acuerdo. La parte que incumpla tendrá 10 días naturales a partir \n"
+"                                                    del momento de recibir el aviso por escrito de la otra parte para corregir dicho \n"
+"                                                    incumplimiento. Si después de 10 días, la parte incumplidora no ha corregido el \n"
+"                                                    incumplimiento, la parte no incumplidora podrá terminar este Acuerdo sin más obligaciones. \n"
+"                                                    La disposición de aviso de 10 días y terminación no es aplicable a la violación del uso \n"
+"                                                    de la Marca Comercial, como se describe en la Sección 13 aquí, donde el tiempo de corrección \n"
+"                                                    tras el aviso será de 15 días."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b><u>Termination for Cause.</u></b> This Service Agreement shall be indefinite, ending \n"
+"                        upon the publication of the Audit Report, or, if a Corrective Action Review is requested, \n"
+"                        upon the conclusion of the Corrective Action Review.   If either party fails to fulfill \n"
+"                        any term or condition of this Agreement, such failure shall be considered a breach of \n"
+"                        this Agreement.  The breaching party shall have 10 calendar days from the time of receipt of \n"
+"                        written notice from the other party to cure such breach.  If after 10 days, the breaching \n"
+"                        party has not cured the breach, the non-breaching party may terminate this Agreement with \n"
+"                        no further obligations.  The 10-day notice provision and termination is not applicable to \n"
+"                        violation of the Trademark use, as described in Section 13 herein - where the cure time \n"
+"                        upon notice will be 15 days."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<b><u>Voluntary Termination.</u></b> Either party may voluntarily terminate this Agreement \n"
+"                        upon fifteen days' written notice to the other party.  If this Agreement is terminated \n"
+"                        by either party, all certifications granted by Primus Audit Ops to Customer after such \n"
+"                        termination shall not be valid."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_add_ggap
 msgid "<b>A1. ACUERDO DE CARGOS COMPLEMENTARIOS</b>"
 msgstr ""
@@ -1215,8 +1589,12 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_nop_lpo
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid "<b>Alcance de Auditoría: </b>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>Alcance de la auditoría: </b>"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1257,17 +1635,13 @@ msgid "<b>Audit Scope: </b>"
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
-msgid "<b>Billed In: </b> United States"
-msgstr ""
-
-#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_nop
 msgid "<b>Billed In: </b>México"
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs_usa
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid "<b>Billed In: </b>United States"
 msgstr ""
 
@@ -1368,6 +1742,11 @@ msgid "<b>Cliente de Facturación:</b>"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>Cliente facturado: </b>"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs_usa
 msgid "<b>Contact E-mail: </b>"
 msgstr ""
@@ -1406,11 +1785,6 @@ msgid "<b>Coordinador de auditorías</b>"
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid "<b>Correo de Contacto: </b>"
-msgstr ""
-
-#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_standard
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
@@ -1419,10 +1793,19 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_standard
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
 msgid "<b>Correo de Facturación: </b>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>Correo electrónico de contacto: </b>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>Correo electrónico de facturación: </b>"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -1959,6 +2342,11 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>Facturado en: </b>México"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_standard
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
@@ -2195,11 +2583,6 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid "<b>Nombre de Organización de Facturación: </b>"
-msgstr ""
-
-#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_standard
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
@@ -2208,8 +2591,12 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid "<b>Nombre de la Organización: </b>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>Nombre de la organización: </b>"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -2230,7 +2617,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_nop_lpo
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_standard
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
 msgid "<b>Número de Registro: </b>"
@@ -2238,6 +2624,7 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_add_ggap
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid "<b>Número de registro: </b>"
 msgstr ""
 
@@ -2366,6 +2753,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_standard_usa
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad_usa
 msgid "<b>Phone #: </b>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid "<b>Please verify that the following information is correct:</b>"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -2520,22 +2912,21 @@ msgid "<b>RFC #: </b>"
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid "<b>RFC de Facturación: </b>"
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid "<b>RFC de la Organización: </b>"
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid "<b>RFC or RUC#: </b>"
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_fsma_usa
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_nop
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_standard_usa
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad_usa
 msgid "<b>RFC#: </b>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<b>RFC, RUC, RUT, etc : </b>"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -3238,22 +3629,6 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"<b>Terminación por causa justificada.</b> Este Acuerdo de servicio será indefinido y \n"
-"                                                finalizará en el momento de la expiración de la Certificación del Cliente. \n"
-"                                                Si cualquiera de las partes no cumple con algún término o condición de este \n"
-"                                                Acuerdo, dicho incumplimiento se considerará una violación de este Acuerdo. \n"
-"                                                La parte infractora tendrá 10 días calendario para subsanar dicha infracción \n"
-"                                                a partir del momento en que reciba la notificación por escrito de la otra parte. \n"
-"                                                Si después de 10 días, la parte infractora no ha subsanado el incumplimiento, \n"
-"                                                la parte no infractora puede rescindir este Acuerdo sin más obligaciones. \n"
-"                                                La disposición de notificación de 10 días y la rescisión no se aplica a la \n"
-"                                                violación del uso de la Marca Registrada, como se describe en la Sección 11 de \n"
-"                                                este documento, donde el tiempo de reparación tras la notificación será de 15 días."
-msgstr ""
-
-#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 msgid ""
 "<b>Terminación por causa.</b> Este Acuerdo de Servicio y la \n"
@@ -3344,16 +3719,6 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"<b>Terminación voluntaria.</b> Cualquiera de las partes puede rescindir voluntariamente \n"
-"                                                a este Acuerdo mediante notificación por escrito con quince días de antelación a \n"
-"                                                la otra parte. Si cualquiera de las partes rescinde a este Acuerdo, todas las \n"
-"                                                certificaciones otorgadas por Primus Audit Ops al Cliente después de dicha rescisión \n"
-"                                                no serán válidas."
-msgstr ""
-
-#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad_usa
 msgid ""
 "<b>Termination by Customer After Desktop Review Portion of Audit.</b> If Customer voluntarily terminated this \n"
@@ -3384,18 +3749,6 @@ msgid ""
 "                                            shall immediately pay to Primus Auditing Ops, an amount equal to ONE-THIRD (1/3) of the Audit Fee indicated in \n"
 "                                            the “Audit Fee/Total Services” box on page 1 of this Agreement. Failure on Customer's behalf to pay said amount \n"
 "                                            is a material breach of this Agreement by Customer."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
-msgid ""
-"<b>Termination for Cause. </b>This Service Agreement shall be indefinite, ending at the time of expiration of \n"
-"                        Customer's Certification. If either party fails to fulfill any term or condition of this Agreement, such failure \n"
-"                        shall be considered a breach of this Agreement. The breaching party shall have 10 calendar days from the time of \n"
-"                        receipt of written notice from the other party to cure such breach. If after 10 days, the breaching party has not \n"
-"                        cured the breach, the non-breaching party may terminate this Agreement with no further obligations. The 10-day \n"
-"                        notice provision and termination is not applicable to violation of the Trademark use, as described in Section 11 \n"
-"                        herein - where the cure time upon notice will be 15 days."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -3592,14 +3945,6 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 msgid "<b>Versión: </b>"
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
-msgid ""
-"<b>Voluntary Termination. </b>Either party may voluntarily terminate this Agreement upon fifteen days' written \n"
-"                        notice to the other party. If this Agreement is terminated by either party, all certifications granted by Primus \n"
-"                        Audit Ops to Customer after such termination shall not be valid."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -4256,8 +4601,12 @@ msgid "<i>Services to be delivered by Primus Auditing Operations</i>"
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "<i>Servicios a ser entregados por Primus Auditing Operations</i>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_standard
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
 msgid "<i>Servicios otorgados por Primus Auditing Operations</i>"
@@ -4318,28 +4667,115 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid ""
-"<u><b>Audits performed by Mexico Office. </b></u>For all Audits scheduled with and performed by the Primus \n"
-"                        Auditing Ops office in Mexico, Customer agrees it shall pay the total audit fees prior to the scheduling \n"
-"                        and performance of the Audit. The total audit fee may include, but not limited to audit fee, admin fees, report \n"
-"                        entry times, travel time, evidence review, and travel expenses. Primus Auditing Ops will not schedule or \n"
-"                        perform any audit under this Agreement prior to receipt of full payment for audit fees."
+"<u><b>Auditorías realizadas por la Oficina de México.</b></u> Para todas las Auditorías \n"
+"                                                    programadas y realizadas por la oficina de Primus Auditing Ops en México, el Cliente \n"
+"                                                    acepta que pagará las tarifas totales de la auditoría antes de la programación y \n"
+"                                                    realización de la Auditoría. La tarifa total de la auditoría puede incluir, entre \n"
+"                                                    otros, la tarifa de auditoría, tarifas administrativas, tiempos de entrada de \n"
+"                                                    informes, tiempo de viaje, revisión de evidencia y gastos de viaje. Primus Auditing Ops \n"
+"                                                    no programará ni realizará ninguna auditoría en virtud de este Acuerdo antes de recibir \n"
+"                                                    el pago completo de las tarifas de auditoría."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"<u><b>Auditorías realizadas por las Oficinas de EE. UU., Chile y Costa Rica.</b></u> Para todas \n"
+"                                                    las auditorías programadas y realizadas por las oficinas de Primus Auditing Ops en los Estados \n"
+"                                                    Unidos de América, o Costa Rica, el Cliente se compromete a pagar el 50% de los honorarios \n"
+"                                                    totales de auditoría antes de la programación y realización de la auditoría. Los honorarios \n"
+"                                                    totales de auditoría pueden incluir, pero no limitarse a los honorarios de auditoría, honorarios \n"
+"                                                    administrativos, tiempos de entrada de informes, tiempo de viaje, revisión de pruebas y gastos \n"
+"                                                    de viaje.<br/> \n"
+"                                                    Para auditorías programadas y realizadas por las oficinas de Chile el plazo de pago debe ser 30 \n"
+"                                                    días luego de emitida la factura.<br/><br/>\n"
+"                                                    El cliente se compromete a pagar a Primus Auditing Ops el saldo pendiente en un plazo de 30 días \n"
+"                                                    o la recepción de la factura de Primus Auditing Ops por el importe restante. Los honorarios \n"
+"                                                    totales de auditoría pueden incluir, entre otros, los honorarios de auditoría, los honorarios \n"
+"                                                    administrativos, los tiempos de introducción de informes, el tiempo de viaje, la revisión de \n"
+"                                                    pruebas y los gastos de viaje."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"<u><b>Audits performed by US, Chile, and Costa Rica Offices. </b></u>For all Audits scheduled with and performed \n"
-"                        by Primus Auditing Ops' offices in the United States of America, Chile, or Costa Rica; Customer agrees of hall pay \n"
-"                        50% of the total audit fees must be paid in full prior to the scheduling and performance of the Audit. The total \n"
-"                        audit fee may include, but not limited to audit fee, admin fees, report entry times, travel time, evidence review, \n"
-"                        and travel expenses.\n"
-"                        <br/>\n"
-"                        <br/>\n"
-"                        Customer agrees to pay Primus Auditing Ops the outstanding balance within 30 days or receipt of invoice from Primus \n"
-"                        Auditing Ops remaining amount. The total audit fee might include but not limited to audit fee, admin fees, report \n"
-"                        entry times, travel time, evidence review, and travel expenses."
+"<u><b>Audits Conducted by the Chile Offices.</b></u> For audits scheduled and conducted by the \n"
+"                        Chile office, the payment term must be 30 days after the invoice has been issued.\n"
+"                        <br/><br/>\n"
+"                        The Client agrees to pay Primus Auditing Ops the remaining balance within 30 days of receiving \n"
+"                        the invoice from Primus Auditing Ops for the outstanding amount. The total audit fees may include, \n"
+"                        but are not limited to, audit fees, administrative fees, report entry time, travel time, evidence \n"
+"                        review, and travel expenses."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<u><b>Audits Conducted by the Chile Offices</b></u><br/>\n"
+"                Any change or cancellation that occurs within 15 business days prior to the scheduled and/or confirmed audit date, \n"
+"                as applicable, will result in a cancellation fee of $400 USD plus any incurred travel expenses after the \n"
+"                service has been confirmed."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<u><b>Audits Conducted by the Costa Rica Offices.</b></u> For all audits scheduled and conducted \n"
+"                        by the Primus Auditing Ops offices in Costa Rica, the Client agrees to pay 50% of the total \n"
+"                        audit fees prior to the scheduling and execution of the audit. The total audit fees may include, \n"
+"                        but are not limited to, audit fees, administrative fees, report entry time, travel time, evidence \n"
+"                        review, and travel expenses."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<u><b>Audits Conducted by the Costa Rica Offices</b></u><br/>\n"
+"                Any change or cancellation that occurs within 15 business days prior to the scheduled and/or confirmed audit date, \n"
+"                as applicable, will result in a cancellation fee of 100% of the audit cost plus any incurred travel expenses \n"
+"                after the service has been confirmed."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<u><b>Audits Conducted by the Mexico Office</b></u><br/>\n"
+"                Any change or cancellation that occurs within 10 calendar days prior to the scheduled and/or confirmed audit date, \n"
+"                as applicable, will result in a cancellation fee of $400 USD plus any incurred travel expenses.\n"
+"                <br/><br/>\n"
+"                Any change or cancellation that occurs within 5 calendar days prior to the scheduled and/or confirmed audit date, \n"
+"                as applicable, will result in a cancellation fee of 50% of the audit cost plus any incurred travel expenses."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<u><b>Audits Conducted by the U.S. Offices.</b></u> For all audits scheduled and conducted by \n"
+"                        the Primus Auditing Ops offices in the United States of America, the Client agrees to pay 750 \n"
+"                        USD prior to the scheduling and execution of the audit. The total audit fees may include, but \n"
+"                        are not limited to, audit fees, administrative fees, report entry time, travel time, evidence \n"
+"                        review, and travel expenses."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<u><b>Audits Conducted by the U.S. Offices</b></u><br/>\n"
+"                Any change or cancellation that occurs within 15 business days prior to the scheduled and/or confirmed audit date, \n"
+"                as applicable, will result in a cancellation fee of 50% of the audit cost plus any incurred travel expenses."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"<u><b>Audits performed by Mexico Office.</b></u> For all Audits scheduled with and performed \n"
+"                        by the Primus Auditing Ops office in Mexico, Customer agrees it shall pay the total audit fees \n"
+"                        prior to the scheduling and performance of the Audit. The total audit fee may include, but not \n"
+"                        limited to audit fee, admin fees, report entry times, travel time, evidence review, and travel \n"
+"                        expenses.  Primus Auditing Ops will not schedule or perform any audit under this Agreement prior \n"
+"                        to receipt of full payment for audit fees."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -4605,6 +5041,15 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"After concluding the service, Primus Auditing Ops may retain a copy of all documents related to the audit for as \n"
+"                        long as Primus Auditing Ops deems appropriate based on the needs required for follow-up and/or as evidence of \n"
+"                        the assessment conducted. Primus Auditing Ops reserves the right not to publish the Audit Report if Customer \n"
+"                        has any outstanding debt."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__all_day
 msgid "All Day"
 msgstr "Todo el día"
@@ -4640,6 +5085,19 @@ msgid ""
 "                    discos ópticos, películas, micropelículas u otros medios similares, a la que ningún tercero podría tener acceso en el \n"
 "                    curso ordinario de las operaciones, y de lo cual las Partes tengan o hayan tenido conocimiento, como resultado del objeto \n"
 "                    del presente acuerdo."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"Any accommodation arranged for workers by the audited facility, either directly or \n"
+"                        through third parties, regardless of whether it is owned or licensed commercially, \n"
+"                        may be within the scope of the SMETA audit. Where such accommodation is within or \n"
+"                        adjacent to the perimeter, it shall be included in the audit included in the SMETA \n"
+"                        audit. Otherwise in the audit request and will be included in the schedule and report. \n"
+"                        Such external accommodation may be included in the scope and the auditor's time shall \n"
+"                        be accounted for. If access to the accommodation is not permitted, the auditor may \n"
+"                        include it as part of the audit findings and in the audit report."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5037,6 +5495,7 @@ msgid "Coordinator"
 msgstr "Coordinador"
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__country_id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_entity__country_id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_organization__country_id
 msgid "Country"
@@ -5078,6 +5537,7 @@ msgid "Create first percentage by type of audit"
 msgstr "Crea tu primer porcentaje por tipo de auditoría"
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__create_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__create_uid
@@ -5090,6 +5550,7 @@ msgid "Created by"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__create_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__create_date
@@ -5102,6 +5563,29 @@ msgid "Created on"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Cualquier alojamiento organizado para los trabajadores por el centro auditado, ya \n"
+"                                                    sea directamente o a través de terceros, independientemente de si se encuentra \n"
+"                                                    propiedad o licencia comercial, puede estar en el ámbito de la auditoría SMETA. \n"
+"                                                    Cuando dicho alojamiento se encuentre dentro del perímetro o adyacente al mismo, \n"
+"                                                    se incluirá en la auditoría incluido en la auditoría EAMT. En caso contrario en \n"
+"                                                    la solicitud de auditoría y se incluirá en la programación y en el informe. \n"
+"                                                    Dicho alojamiento externo puede incluirse en el alcance y se contabilizará el \n"
+"                                                    tiempo del auditor.<br/>\n"
+"                                                    En caso que no se permita el acceso al alojamiento el auditor podrá incluirlo \n"
+"                                                    como parte de los resultados de auditoría y en el informe correspondiente."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Cuando la divulgación de dicha información a un tercero sea necesaria para que Primus \n"
+"                                                    Auditing Ops realice y ejecute los servicios bajo este Acuerdo; o,"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__currency_id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__currency_id
 msgid "Currency"
 msgstr "Moneda"
@@ -5115,8 +5599,26 @@ msgstr "Cliente"
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Customer agrees to act in good faith and inform Primus Auditing Operations in writing of any significant change that \n"
-"                    contravenes the provisions of the ETI Base Code evaluated."
+"Customer acknowledges that it cannot make assertions regarding the audit results that are \n"
+"                        inconsistent with the scope of the audit performed. Furthermore, Customer may not use the \n"
+"                        audit results in a misleading or unauthorized manner, or in a manner that damages the \n"
+"                        reputation of Primus Auditing Ops. In addition, Customer acknowledges that the times for \n"
+"                        closing non-conformities should be discussed during the closing of the audit with the \n"
+"                        auditor so that they are established in the CAPR."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"Customer agrees to act in good faith and inform Primus Auditing Operations in writing \n"
+"                        of any significant change that contravenes the provisions of the ETI Base Code evaluated."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"Customer agrees to always comply with the requirements of the SMETA "
+"methodology."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5127,30 +5629,34 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Customer agrees to apply the corrective actions within the time period agreed to during the closing meeting with the \n"
-"                    auditor. In the event that it is unable to apply or otherwise the corrective actions, it will submit the situation in \n"
-"                    writing to both Primus Auditing Ops and the auditor."
+"Customer agrees to apply the corrective actions within the time period agreed to during \n"
+"                        the closing meeting with the auditor. In the event that it is unable to apply or otherwise \n"
+"                        the corrective actions, it will submit the situation in writing to both Primus Auditing \n"
+"                        Ops and the auditor."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Customer agrees to give the auditor full access to the applicable audited operation, documents and personnel during the \n"
-"                    onsite visit in order to perform the SMETA audit."
+"Customer agrees to give the auditor full access to the applicable audited operation, \n"
+"                        documents and personnel during the onsite visit in order to perform the SMETA audit."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Customer agrees to have representatives from senior management, managers responsible for key functions (for example HR \n"
-"                    and production) and trade unions / workers' representatives at the time of the onsite audit."
+"Customer agrees to have representatives from senior management, managers responsible for \n"
+"                        key functions (for example HR and production) and trade unions / workers' representatives \n"
+"                        at the time of the onsite audit."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Customer agrees to inform Primus Auditing Ops of any change in the operation that may affect the Client's ability to \n"
-"                    comply with the audit requirements or that generates a significant change in the way the client performs its activities."
+"Customer agrees to inform Primus Auditing Ops of any change in the operation that may \n"
+"                        affect the Customer's ability to comply with the audit requirements or that generates a \n"
+"                        significant change in the way the Customer performs its activities. Likewise, any changes \n"
+"                        must be updated by the audited site in the SAQ or the site profile format"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5182,28 +5688,27 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Customer is responsible for managing all the logistics necessary to carry out the audit and evaluation by \n"
-"                    representatives of Primus Auditing Ops, which includes access to records, documentation, facilities and everything that \n"
-"                    is necessary to verify compliance with the regulations and requirements pursuant to SMETA Customer is responsible for \n"
-"                    compliance with SMETA and the guidelines of the Ethical Trade Initiative Base Code (ETI), undertakes to carry out all \n"
-"                    the activities necessary to maintain compliance after the audit, as well as the implementation of measures consistent \n"
-"                    with the continuous improvement in accordance with the conditions reflected in the Audit Report."
+"Customer further agrees to comply with the following conditions:\n"
+"                <br/>"
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Customer must deliver the Self-Assessment Questionnaire (SAQ) at least 15 days prior to the date of the onsite visit/ \n"
-"                    audit. Likewise, you must provide the ZC and ZS registration numbers to Primus Auditing Ops at least 5 days before the \n"
-"                    audit, otherwise the audit will be rescheduled and the per diem payment is subject to the assigned auditor having made \n"
-"                    any expenses prior to the audit cancellation either by the client or due to lack of registration on the Sedex platform."
+"Customer is responsible for preparing the audit information which includes access to records, \n"
+"                        documentation, facilities and everything that is necessary to verify compliance with the \n"
+"                        regulations and requirements pursuant to SMETA Customer is responsible for compliance with \n"
+"                        SMETA and the guidelines of the ETI Base Code, undertakes to carry out all the activities \n"
+"                        necessary to maintain compliance after the audit, as well as the implementation of measures \n"
+"                        consistent with the continuous improvement in accordance with the conditions reflected \n"
+"                        in the Audit Report."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Customer requests and/or authorizes Primus Auditing Ops, in writing, to release such information to a specific third \n"
-"                        party; or"
+"Customer requests and/or authorizes Primus Auditing Ops, in writing, to release such information \n"
+"                        to a specific third party; or"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5214,10 +5719,25 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"Customer shall comply by implementing the appropriate changes when communicated \n"
+"                    through Primus Auditing Ops to the Customer."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs_usa
 msgid ""
 "Customer shall further comply by implementing appropriate changes when they are communicated via Primus Auditing Ops \n"
 "                    to Customer."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"Customer should be aware that the number of interviews and records may increase during the audit at the \n"
+"                auditor's request, depending on the situation. This is in accordance with SEDEX's established guidelines \n"
+"                to ensure an unbiased assessment with sufficient information to comply with audit guidelines."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5285,6 +5805,15 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Después de concluir el servicio, Primus Auditing Ops puede conservar una copia de todos los documentos \n"
+"                                            relacionados con la auditoría durante el tiempo que Primus Auditing Ops considere apropiado según las \n"
+"                                            necesidades requeridas para el seguimiento y/o como evidencia de la evaluación realizada. Primus Auditing \n"
+"                                            Ops se reserva el derecho de no publicar el Informe de Auditoría si el Cliente tiene alguna deuda pendiente."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 msgid "Dirección de contacto y de producción de ventas"
 msgstr ""
@@ -5292,20 +5821,22 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Disclosure is required to establish a claim or defense by Primus Auditing "
-"Ops in an adversarial proceeding."
+"Disclosure is required to establish a claim or defense by Primus Auditing Ops in an \n"
+"                        adversarial proceeding."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Disclosure of such obtained information is required by Primus Auditing Ops to obtain legal or ethical advice regarding \n"
-"                        compliance with applicable laws, applicable codes and/or standards. Where confidentiality is not governed by a recognized \n"
-"                        professional code of conduct, an appropriate non-disclosure agreement must be executed by the third party prior to \n"
-"                        disclosure of such information; or,"
+"Disclosure of such obtained information is required by Primus Auditing Ops to obtain legal or \n"
+"                        ethical advice regarding compliance with applicable laws, applicable codes and/or standards. \n"
+"                        Where confidentiality is not governed by a recognized professional code of conduct, an appropriate \n"
+"                        non-disclosure agreement must be executed by the third party prior to disclosure of such \n"
+"                        information; or,"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__display_name
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__display_name
@@ -5331,6 +5862,11 @@ msgstr "Documento a imprimir"
 msgid ""
 "EL proveedor contiene servicios asignados para la fecha seleccionada en los "
 "siguientes pedidos de compra: {0}"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid "ESTO NO ES UNA FACTURA"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5380,10 +5916,80 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente acepta actuar de buena fe e informar a Primus Auditing Operations por escrito de cualquier \n"
+"                                                    cambio significativo que contravenga las disposiciones del Código Base de la ETI evaluado."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente acepta aplicar las acciones correctivas dentro del período de tiempo acordado durante la reunión \n"
+"                                                    de cierre con el auditor. En caso de que no pueda aplicar las acciones correctivas, o de alguna otra manera, \n"
+"                                                    deberá presentar la situación por escrito tanto a Primus Auditing Ops como al auditor."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente acepta cumplir siempre con los requisitos de la metodología "
+"SMETA."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente acepta dar al auditor acceso completo a la operación auditada aplicable, documentos y \n"
+"                                                    personal durante la visita en el sitio para realizar la auditoría SMETA."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente acepta informar a Primus Auditing Ops de cualquier cambio en la operación que pueda afectar la \n"
+"                                                    capacidad del Cliente para cumplir con los requisitos de la auditoría o que genere un cambio significativo \n"
+"                                                    en la forma en que el Cliente realiza sus actividades. Del mismo modo, cualquier cambio debe ser actualizado \n"
+"                                                    por el sitio auditado en el SAQ o el formato de perfil del sitio."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente acepta tener representantes de la alta dirección, gerentes responsables de funciones clave \n"
+"                                                    (por ejemplo, RRHH y producción) y representantes sindicales/de los trabajadores en el momento de la \n"
+"                                                    auditoría en el sitio."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 msgid ""
 "El Cliente deberá cumplir implementando los cambios apropiados \n"
 "                                            cuando ellos son comunicados a través de Primus Auditing Ops al cliente."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente deberá cumplir implementando los cambios apropiados cuando se le \n"
+"                                                comuniquen a través de Primus Auditing Ops al Cliente.<br/>\n"
+"                                                El Cliente reconoce que no puede hacer afirmaciones sobre los resultados de la auditoría \n"
+"                                                que sean inconsistentes con el alcance de la auditoría realizada. Además, el Cliente no \n"
+"                                                puede utilizar los resultados de la auditoría de manera engañosa o no autorizada, o de una \n"
+"                                                manera que dañe la reputación de Primus Auditing Ops. Además, el Cliente reconoce que los \n"
+"                                                plazos para cerrar las no conformidades deben discutirse durante el cierre de la auditoría \n"
+"                                                con el auditor para que se establezcan en el CAPR."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente es responsable de preparar la información de auditoría, lo que incluye acceso a registros, \n"
+"                                                documentación, instalaciones y todo lo necesario para verificar el cumplimiento de las regulaciones y \n"
+"                                                requisitos según SMETA. El Cliente es responsable del cumplimiento de SMETA y las directrices del Código \n"
+"                                                Base de la ETI, se compromete a llevar a cabo todas las actividades necesarias para mantener el cumplimiento \n"
+"                                                después de la auditoría, así como la implementación de medidas consistentes con la mejora continua de acuerdo \n"
+"                                                con las condiciones reflejadas en el Informe de Auditoría."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5401,6 +6007,20 @@ msgid ""
 "                        estándar de sostenibilidad por parte del Cliente dentro\n"
 "                        de los 15 días posteriores a la notificación de la\n"
 "                        infracción y la suspensión."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente solicita y/o autoriza a Primus Auditing Ops, por escrito, a divulgar dicha \n"
+"                                                    información a un tercero específico; ó"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El Cliente también acepta cumplir con las siguientes condiciones:\n"
+"                                            <br/>"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5424,15 +6044,6 @@ msgid ""
 "                                                prestador de servicios.\n"
 "                                                <u><b>NOTA: </b></u> Primus Auditing Operations México, S. de R.L.  de C.V. \n"
 "                                                cobrará y enviará al cliente el resultado de la auditoría."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente acepta aplicar las acciones correctivas dentro del período de \n"
-"                                                tiempo acordado durante la reunión de cierre con el auditor. En caso de que \n"
-"                                                no pueda aplicar las acciones correctivas, presentará la situación por escrito \n"
-"                                                tanto a Primus Auditing Ops como al auditor."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5498,27 +6109,6 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente acepta tener representantes de la alta dirección, gerentes responsables \n"
-"                                                de funciones clave (por ejemplo, recursos humanos y producción) y representantes \n"
-"                                                de sindicatos/trabajadores en el momento de la auditoría in situ."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente debe entregar el cuestionario de autoevaluación \n"
-"                                                (SAQ) al menos 15 días antes de la fecha de la visita/auditoría \n"
-"                                                in situ. Asimismo, deberá proporcionar los números de registro ZC \n"
-"                                                y ZS a Primus Auditing Ops al menos 5 dias antes de la auditoria, \n"
-"                                                de lo contrario la auditoria será reprogramada y el pago por viáticos \n"
-"                                                queda sujeto a que el auditor asignado haya realizado algún gasto previo \n"
-"                                                a la cancelación ya sea por el cliente o por falta de registro en la \n"
-"                                                plataforma de Sedex."
-msgstr ""
-
-#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
 msgid ""
 "El cliente deberá colaborar en todo momento con Sustainable\n"
@@ -5530,23 +6120,11 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid ""
-"El cliente deberá cumplir mediante la implementación de los cambios apropiados \n"
-"                                            cuando se comuniquen a través de Primus Auditing Ops al cliente."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente es responsable de gestionar toda la logística necesaria \n"
-"                                                para llevar a cabo la auditoría y evaluación por parte de representantes \n"
-"                                                de Primus Auditing Ops, que incluye acceso a registros, documentación, \n"
-"                                                instalaciones y todo lo que sea necesario para verificar el cumplimiento \n"
-"                                                de la normativa y requisitos conforme a SMETA. El Cliente es responsable \n"
-"                                                del cumplimiento de SMETA y los lineamientos del Código Base de la Iniciativa \n"
-"                                                de Comercio Ético (ETI), se compromete a realizar todas las actividades \n"
-"                                                necesarias para mantener el cumplimiento después de la auditoría, así como \n"
-"                                                la implementación de medidas consistentes con la mejora continua de acuerdo \n"
-"                                                con las condiciones reflejadas en el Informe de Auditoría."
+"El cliente es responsable de publicar la auditoría a través de la plataforma Sedex y de \n"
+"                                                    establecer las relaciones comerciales a través de su portal para que su comprador o \n"
+"                                                    solicitante de auditoría tenga acceso a la información de auditoría. Por favor consultar \n"
+"                                                    el manual del proveedor y documentos del Sedex E-Learning para subir acciones correctivas \n"
+"                                                    en el portal."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5560,53 +6138,6 @@ msgid "El cliente no cumple con los requisitos de recertificación."
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente reconoce que no puede hacer afirmaciones con respecto a los resultados de auditoría \n"
-"                                            que sean inconsistentes con el alcance de la auditoría realizada. Además, el cliente no puede \n"
-"                                            usar los resultados auditoría de una manera engañosa o no autorizada, o de una manera que dañe \n"
-"                                            la reputación de Primus Auditing Ops.<br/>Además, el cliente reconoce que, los tiempos para cierre \n"
-"                                            de No conformidades deberán ser discutidos durante el cierre de auditoría con el auditor para \n"
-"                                            que queden establecidos en el reporte de acciones Correctivas CAPR.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>9. TÉRMINOS Y CONDICIONES.</b>"
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente se compromete a actuar de buena fe e informar a Primus Auditing \n"
-"                                                Operations por escrito de cualquier cambio significativo que contravenga las \n"
-"                                                disposiciones del Código Base de la Iniciativa de Comercio Ético (ETI) evaluado."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente se compromete a cumplir siempre con los requisitos de la "
-"metodología."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente se compromete a dar total acceso al auditor a la operación, los documentos \n"
-"                                                y el personal auditados correspondientes durante la visita in situ para realizar \n"
-"                                                la auditoría SMETA."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"El cliente se compromete a informar a Primus Auditing Ops de cualquier \n"
-"                                                cambio en la operación que pueda afectar la capacidad del cliente para \n"
-"                                                cumplir con los requisitos de auditoría o que genere un cambio significativo \n"
-"                                                en la forma en que el cliente realiza sus actividades."
-msgstr ""
-
-#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
 msgid ""
 "El cliente solo puede usar la marca y/o el logotipo cuando existe\n"
@@ -5615,6 +6146,13 @@ msgid ""
 "                El logotipo solo se puede utilizar para fines de marketing y comunicaciones\n"
 "                de empresa a empresa (comunicados de prensa, publicaciones en redes sociales,\n"
 "                sitios web, etc.), siempre que se especifique la operación y el cultivo certificado."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"El cliente tendrá acceso al reporte de auditoría final y al resumen de hallazgos \n"
+"                                                    únicamente a través de la plataforma Sedex."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -5830,6 +6368,31 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"En caso de que sea necesario realizar una nueva visita en el sitio para verificar las acciones correctivas \n"
+"                                            determinadas en la reunión de cierre de la auditoría correspondiente, el Cliente acuerda pagar con \n"
+"                                            anticipación todos los costos relacionados con dicha visita, a saber, gastos de viaje, kilometraje, \n"
+"                                            gastos de auditoría y administrativos. Primus Auditing Operations, para este fin, enviará una cotización \n"
+"                                            individual en consecuencia."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"En caso de un cambio, debido a información no declarada previamente por el Cliente \n"
+"                                                    (por ejemplo, un aumento en el número de trabajadores, dormitorios a distancias remotas, \n"
+"                                                    entre otros, que impliquen que el auditor necesite asignar más días de auditoría de los \n"
+"                                                    originalmente programados) durante la auditoría, y esto resulte en modificaciones en la \n"
+"                                                    duración de la auditoría, el auditor debe informar inmediatamente a Primus Auditing Ops. \n"
+"                                                    Primus Auditing Ops comunicará entonces los siguientes pasos al Cliente. En ningún caso el \n"
+"                                                    Cliente debe gestionar directamente con el auditor. Además, Primus Auditing Ops puede \n"
+"                                                    cancelar o reprogramar la auditoría sin responsabilidad, y los gastos incurridos durante \n"
+"                                                    la auditoría donde se detectaron cambios deben ser cubiertos por el Cliente, incluido \n"
+"                                                    el costo de la auditoría."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_fpr_05
 msgid ""
 "En el caso de que el reporte de resultados no sea entregado a <b>“La prestataria”</b> dentro del plazo \n"
@@ -5878,6 +6441,70 @@ msgid ""
 "                                        <br/>\n"
 "                                        Enteradas las partes de su contenido y fuerza legal, lo firman de conformidad, por duplicado \n"
 "                                        el"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"En las siguientes circunstancias, el Cliente acepta proporcionar:<br/>\n"
+"                                                    <b>Auditoría Inicial:</b> Registros de los últimos 12 meses, a menos que el sitio sea de nueva creación (3 meses).<br/>\n"
+"                                                    <b>Auditoría Periódica:</b> <br/>\n"
+"                                                    - Al menos 3 meses de registros posteriores al mes de auditoría anterior.<br/>\n"
+"                                                    El auditor puede comprobar:<br/>\n"
+"                                                    - Intervalo desde la auditoría anterior &gt;= 12 meses: registros de los 12 meses anteriores.<br/>\n"
+"                                                    - Intervalo desde la auditoría anterior &lt; 12 meses: desde el mes posterior a la auditoría anterior \n"
+"                                                    hasta el mes completo más reciente.<br/>\n"
+"                                                    <b>Auditoría de Seguimiento:</b><br/>\n"
+"                                                    - Al menos 2 meses de registros posteriores al mes de la auditoría anterior, si «Salario» u «Hora» se \n"
+"                                                    requieren acciones correctivas para verificar.<br/>\n"
+"                                                    El auditor puede comprobar:<br/>\n"
+"                                                    - Desde el mes posterior a la auditoría anterior hasta el mes completo más reciente.<br/>\n"
+"                                                    Seguimiento de escritorio N/A - Los problemas de «Salarios» y «Horas» no pueden verificarse por escritorio.\n"
+"                                                    <br/><br/>\n"
+"                                                    <b>Notificación de auditoría</b>, para auditorías no anunciadas o semi anunciadas, se deberán seguir los periodos \n"
+"                                                    de tiempo establecidos por el dueño del esquema, requisitos de Primus Auditing Operations o los requisitos \n"
+"                                                    específicos del cliente. Será aplicable el requisito más estricto según aplique.\n"
+"                                                    <br/><br/>\n"
+"                                                    Si tiene alguna duda sobre el tipo de auditoría, consulte los documentos del dueño del esquema así como los \n"
+"                                                    requisitos del Comprador de usted o de su Cliente y/o con el solicitante de la auditoría. Primus Auditing Ops \n"
+"                                                    no es responsable de que el cliente no proporcione información relativa a los requisitos del comprador, \n"
+"                                                    incluyendo; Tipo de auditoría, versión, naturaleza, alcance, periodo de temporada o fecha en la que se \n"
+"                                                    solicita la auditoría.  Primus Auditing Ops ejecutará el servicio de auditoría conforme los detalles \n"
+"                                                    proporcionados en el formato de solicitud y Cuestionario de Autoevaluación (“SAQ”). \n"
+"                                                    <br/><br/>\n"
+"                                                    Considere que las auditorías se llevarán a cabo durante un periodo en el que el número de trabajadores sea \n"
+"                                                    elevado, de al menos el 60% de la mano de obra, y cuando el lugar de trabajo esté en pleno funcionamiento \n"
+"                                                    (por ejemplo, en el peak de producción o de cosecha). Si la auditoría se lleva a cabo con menos del 80% de \n"
+"                                                    la mano de obra, pero con más del 60%, deberá explicarse claramente en el informe de la auditoría. Las \n"
+"                                                    auditorías no se llevarán a cabo durante la temporada baja o por debajo del 60% de la mano de obra máxima. \n"
+"                                                    Sedex no determina la frecuencia con la que los emplazamientos deben realizar auditorías sociales; sin \n"
+"                                                    embargo, Sedex exige que los emplazamientos dispongan de la siguiente documentación antes de realizar una \n"
+"                                                    auditoría SMETA. Si lo anterior no se cumple, el solicitante deberá enviar por escrito los acuerdos que \n"
+"                                                    el solicitante de auditoría (comprador-cliente) apruebe, es decir, que el sitio se audite fuera de \n"
+"                                                    temporada alta o sin cumple el mínimo del 60%.\n"
+"                                                    <br/><br/>\n"
+"                                                    Para auditorías de mayor duración a 1 día de auditoría, puede ser necesario un equipo de auditoría. \n"
+"                                                    El cliente acepta que la auditoría pueda realizarse con un equipo auditor. Con el fin de evaluar el \n"
+"                                                    sistema de mejora continua como un requisito obligatorio de Sedex hacia Primus Operaciones de \n"
+"                                                    Auditoría, en el servicio de auditoría puede ser seleccionado para realizar una evaluación de \n"
+"                                                    auditoría del auditor, cuando este sea el caso, el sitio no será responsable de ningún cargo \n"
+"                                                    adicional o gastos de viaje del evaluador, el evaluador no participa en el ejercicio de auditoría y \n"
+"                                                    no interviene en los resultados de la auditoría.\n"
+"                                                    <br/><br/>\n"
+"                                                    De acuerdo a la información proporcionada en el formato de solicitud de auditoría, es posible que \n"
+"                                                    se requiera utilizar un traductor/intérprete, el traductor/intérprete será elegido por Primus \n"
+"                                                    Auditing Operations y los gastos correspondientes deberán correr a cargo del solicitante de auditoría. \n"
+"                                                    Dicho tiempo puede incluirse en el alcance y se contabilizará el tiempo del auditor.\n"
+"                                                    <br/><br/>\n"
+"                                                    El Cliente debe entregar el Cuestionario de Autoevaluación (“SAQ”) o el formato de perfil del \n"
+"                                                    sitio antes de la cotización del servicio al menos 5 días antes de la fecha de la visita/auditoría \n"
+"                                                    en el sitio. El sitio es responsable de proporcionar esta información; de lo contrario, puede haber \n"
+"                                                    cambios en el costo de la auditoría, y/o es posible que no se ejecute debido a la falta de información \n"
+"                                                    previa en SEDEX. Asimismo, la empresa solicitante debe proporcionar los números de registro ZC y ZS a \n"
+"                                                    Primus Auditing Ops al menos 10 días antes de la auditoría, de lo contrario, la auditoría se reprogramará \n"
+"                                                    y el pago por día será responsabilidad del auditor asignado si ya ha realizado gastos antes de la \n"
+"                                                    cancelación de la auditoría, ya sea por parte del Cliente o debido a la falta de registro en la \n"
+"                                                    plataforma SEDEX."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -6099,76 +6726,11 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Estimated Travel Expenses: - Travel expenses are estimated and are subject to change based on actual travel \n"
-"                expenses incurred. Travel expenses are on a direct reimbursement basis and include all expenses for \n"
-"                transportation, accommodation and meals. Whenever possible, trips are combined with other business and \n"
-"                expenses are divided to reduce the total costs for all of our customers.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <b>1. DELIVERY.</b> Audit reports an information related to the audit are shared through the SEDEX Platform.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <b>2. TRANSFER OF DATA TO OUTSIDE PARTIES.</b> Primus Auditing Ops may be required to submit information obtained \n"
-"                during the audit to either Supplier Ethical Data Exchange (\"SEDEX\") and/or to the Association of Professional Social \n"
-"                Compliance Auditors (“APSCA”) for its authorized use. By executing this Agreement, Customer acknowledges that such \n"
-"                information may be provided to the applicable SEDEX and/or APSCA, and consents to the transfer of such information.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <b>3. LIMITATION OF LIABILITY.</b> Customer hereby releases Primus Auditing Ops, its employees, directors, principals, \n"
-"                agents, and affiliates, from any loss or liability suffered by Customer, resulting from services performed under this \n"
-"                Agreement. Such release shall include any actual, incidental, consequential or other damages beyond amounts paid to Primus \n"
-"                Auditing Ops for auditing performed and/or facilitated by Primus Auditing Ops. Customer further acknowledges and agrees \n"
-"                that Primus Auditing Ops' liability is limited only to the audit work performed by it, and the parties expressly acknowledge \n"
-"                that Primus Auditing Ops is not liable for Customer's commodity, its safety, or quality.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <b>4. GOVERNING LAW / VENUE.</b> This Agreement shall be governed by and construed in accordance with the laws of the State \n"
-"                of California. In the event that it is necessary to institute any action to enforce any right granted herein or to redress \n"
-"                any alleged breach hereof, then the exclusive venue for such action shall reside with the Superior Court located in Santa \n"
-"                Maria, California.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <b>5. RIGHT TO REFERRAL.</b> Customer acknowledges that Primus Auditing Ops is, or may, contract out the auditing services \n"
-"                performed for Customer. Because an independent auditor is engaged in his/her own independent contracting business and is \n"
-"                not an employee of Primus Auditing Ops, if Primus Auditing Ops refers the audit out to a contractor, it will not obtain \n"
-"                insurance (professional liability, workers' compensation, general liability, auto, etc.) for the auditor or his/her/its \n"
-"                employees. Independent auditors agree by a separate referral agreement to obtain his/her own insurance coverage and furnish \n"
-"                a copy of the certificate of insurance to Primus Auditing Ops. Furthermore, in those instances in which an independent \n"
-"                auditor is retained, Primus Auditing Ops will be acting in the sole capacity of independent contractor and any information \n"
-"                or data received will be merely transmitted between parties, making no independent judgment, representations or warranties \n"
-"                as to the facts, observations or inferences made relative to same.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <b>6. AUDIT AND SURVEILLANCE.</b> Customer agrees and acknowledges free access is required to be made for any scheduled \n"
-"                audit, as well as possible random quality assurance checks (depending on the audit scheme's requirements) of customer's \n"
-"                operation including but not limited to: examination of documentation, records, and access to the equipment, location(s), \n"
-"                area(s), personnel, and full physical inspection of Customer's subcontractors. Customer agrees to allow observers from \n"
-"                Primus Auditing Ops and/or varying governing bodies if customer's audit or certification is randomly selected for surveillance \n"
-"                for quality assurance purposes. Customer further agrees to grant free access in order to verify continued compliance with \n"
-"                certification. Customer acknowledges complaints related to compliance must be documented, and subsequent investigation of \n"
-"                complaints is possible, and in some cases may be mandatory. Documentation of complaints and investigation may be subject to \n"
-"                inspection during audit or surveillance or at the request or Primus Auditing Ops at any time. Customer acknowledges that its \n"
-"                failure to fully comply with this section, either during the time of audit or any other time during the certification period, \n"
-"                is a material breach of this agreement and can result in Customer's certification being revoked without further notification. \n"
-"                The Customer understands and agrees to perform Follow-up Audits when corrective actions cannot be verified in a desk review, \n"
-"                for example, in the event of critical non-compliances.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <b>7. CUSTOMER OBLIGATIONS.</b> The Customer agrees to comply with the points cited in the SMETA audit, under the Ethical \n"
-"                Trading Initiative Base Code (ETI), as well as the applicable local Laws. Any deviation detected during the audit will be \n"
-"                reported and indicated during the closing meeting and in the corresponding document (CARP), for which Customer must take \n"
-"                corrective actions to cure the deviation, and is responsible for entering them into the SEDEX platform Customer's corrective \n"
-"                actions, as well as entering them into the SEDEX platform is the sole responsibility of the Customer, to which Customer \n"
-"                acknowledges, understands, and agrees.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                In the event that a new on-site visit is required to verify corrective actions as determined in the closing meeting of the \n"
-"                corresponding audit, the Customer agrees in advance to pay all costs related to said visit, namely travel expenses, mileage, \n"
-"                auditor and administrative expenses. Primus Auditing Operations, for this purpose, will send an individual quote accordingly.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                Customer further agrees:\n"
-"                <br/>"
+"Estimated Travel Expenses: - Travel expenses are estimated and are subject to change based on \n"
+"                actual travel expenses incurred.<br/>\n"
+"                Travel expenses are on a direct reimbursement basis and include all expenses for transportation, \n"
+"                accommodation and meals. Whenever possible, trips are combined with other business and expenses \n"
+"                are divided to reduce the total costs for all of Primus Auditing Ops' customers."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -6367,11 +6929,6 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid "Esto no es una factura."
-msgstr ""
-
-#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_sustentabilidad
 msgid ""
 "Esto requiere que el Cliente esté al día en el pago de todas\n"
@@ -6426,6 +6983,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_fpr_05
 msgid "Fee"
 msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.product_template_commissionable_view_form
+msgid "Fixed Price"
+msgstr "Precio fijo"
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.product_template_commissionable_view_form
+msgid "Fixed Price For The Vendor"
+msgstr "Precio fijo del proveedor"
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_fpr_05
@@ -6502,125 +7069,13 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid ""
-"Gastos de viaje estimados: - Los gastos de viaje se \n"
-"                                        estiman y están sujetos a cambios en función de los \n"
-"                                        gastos de los viajes reales realizados. Los gastos de \n"
-"                                        viaje se reembolsan directamente e incluyen todos los \n"
-"                                        gastos de transporte, alojamiento y comidas. Siempre que \n"
-"                                        sea posible, los viajes se combinan con otros negocios y \n"
-"                                        los gastos se dividen para reducir los costos totales para \n"
-"                                        todos nuestros clientes. \n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>1. ENTREGA.</b> Los informes de auditoría y los \n"
-"                                        certificados se comparten a través de la Plataforma SEDEX.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>2. TRANSFERENCIA DE DATOS A EXTERIORES.</b> Es posible \n"
-"                                        que se requiera que Primus Auditing Ops envíe información \n"
-"                                        obtenida durante la auditoría a Intercambio de datos \n"
-"                                        éticos de proveedores (SEDEX) y/o a la Asociación de \n"
-"                                        Auditores Profesionales de Cumplimiento Social (APSCA) \n"
-"                                        para su uso autorizado. Al firmar este Acuerdo, \n"
-"                                        el Cliente reconoce que dicha información puede ser \n"
-"                                        proporcionada a la SEDEX y / o APSCA correspondiente, y \n"
-"                                        consiente a la transferencia de dicha información.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>3. LIMITACIÓN DE RESPONSABILIDAD.</b> Por la presente, \n"
-"                                        el Cliente libera a Primus Auditing Ops, sus empleados, \n"
-"                                        gerentes, directores, agentes y afiliados, de cualquier \n"
-"                                        pérdida o responsabilidad del Cliente, como resultado de \n"
-"                                        los servicios prestados bajo este Acuerdo. Dicha liberación \n"
-"                                        incluirá cualquier daño real, incidental, consecuente o de otro \n"
-"                                        tipo que van más allá de las cantidades pagadas a Primus Auditing \n"
-"                                        Ops por las auditorías realizada(s) y/o facilitada(s) por Primus \n"
-"                                        Auditing Ops. Además, el Cliente reconoce y acepta que la \n"
-"                                        responsabilidad de Primus Auditing Ops se limita únicamente al \n"
-"                                        trabajo de auditoría que realiza, y las partes reconocen expresamente \n"
-"                                        que Primus Auditing Ops no es responsable de los productos básicos \n"
-"                                        del Cliente, su seguridad o calidad.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>4. LEY APLICABLE.</b> Este Acuerdo se regirá e interpretará \n"
-"                                        de acuerdo con las leyes del Estado de California. En el caso de \n"
-"                                        que sea necesario iniciar cualquier acción para hacer cumplir \n"
-"                                        cualquier derecho otorgado en este documento o para reparar \n"
-"                                        cualquier presunto incumplimiento del mismo, entonces el lugar \n"
-"                                        exclusivo para tal acción será el Tribunal Superior correspondiente \n"
-"                                        ubicado en Santa María, California.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>5. DESLINDAMIENTO DE RESPONSABILIDADES.</b> El Cliente reconoce \n"
-"                                        que Primus Auditing Ops está o puede contratar los servicios de \n"
-"                                        auditoría realizados para el Cliente. Debido a que un auditor \n"
-"                                        independiente se dedica a su propio negocio de contratación \n"
-"                                        independiente y no es un empleado de Primus Auditing Ops, si \n"
-"                                        Primus Auditing Ops deriva la auditoría a un independiente, \n"
-"                                        este no obtendrá seguro (responsabilidad profesional, compensación \n"
-"                                        de trabajadores, responsabilidad civil, automóvil, etc.) para el \n"
-"                                        auditor o sus empleados. Los auditores independientes acuerdan \n"
-"                                        mediante un acuerdo de responsabilidades separado, obtener su propia \n"
-"                                        cobertura de seguro y proporcionar una copia del certificado de seguro \n"
-"                                        a Primus Auditing Ops. Además, en aquellos casos en los que se \n"
-"                                        subcontrata a un auditor, Primus Auditing Ops actuará en la capacidad \n"
-"                                        exclusiva de contratista y cualquier información o datos recibidos se \n"
-"                                        transmitirán simplemente entre las partes, sin emitir juicios, \n"
-"                                        representaciones o garantías independientes en cuanto a los hechos, \n"
-"                                        observaciones o inferencias realizadas en relación con los mismos.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>6. AUDITORÍA Y VIGILANCIA.</b> El cliente acepta y reconoce \n"
-"                                        que se requiere libre acceso para cualquier auditoría programada, \n"
-"                                        así como posibles verificaciones aleatorias de aseguramiento de calidad \n"
-"                                        (según los requisitos del esquema de auditoría) de la operación del cliente, \n"
-"                                        que incluyen, entre otros: revisión de documentación, registros y acceso \n"
-"                                        a los equipos, ubicación (es), área (s), personal e inspección física \n"
-"                                        completa de los subcontratistas del Cliente. El cliente acepta permitir \n"
-"                                        la asistencia de observadores de Primus Auditing Ops y/o de diferentes \n"
-"                                        órganos de gobierno si la auditoría o certificación del cliente se \n"
-"                                        selecciona al azar para la vigilancia con fines de aseguramiento de \n"
-"                                        calidad. El cliente también acepta otorgar el libre acceso para \n"
-"                                        verificar el cumplimiento continuo de la certificación. El cliente \n"
-"                                        reconoce que las quejas relacionadas con el cumplimiento deben estar \n"
-"                                        documentadas y que la investigación posterior de las quejas es posible \n"
-"                                        y, en algunos casos, puede ser obligatoria. La documentación de las \n"
-"                                        quejas y su investigación pueden estar sujetas a inspección durante \n"
-"                                        la auditoría o la vigilancia o a solicitud de Primus Auditing Ops \n"
-"                                        en cualquier momento. El Cliente reconoce que su incumplimiento \n"
-"                                        de esta sección, ya sea durante el tiempo de la auditoría o en \n"
-"                                        cualquier otro momento durante el período de certificación, es un \n"
-"                                        incumplimiento a este acuerdo y puede resultar en la revocación de \n"
-"                                        la certificación del Cliente sin notificación previa. El Cliente \n"
-"                                        comprende y acepta realizar auditorías de seguimiento cuando las \n"
-"                                        acciones correctivas no se puedan verificar en una revisión de \n"
-"                                        escritorio, por ejemplo, en el caso de incumplimientos críticos.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        <b>7. OBLIGACIONES DEL CLIENTE.</b> El Cliente se compromete a \n"
-"                                        cumplir con los puntos citados en la auditoría SMETA, bajo el \n"
-"                                        Código Base de la Iniciativa de Comercio Ético (ETI), así como \n"
-"                                        las leyes locales aplicables. Cualquier desviación detectada \n"
-"                                        durante la auditoría será reportada e indicada durante la reunión \n"
-"                                        de cierre y en el documento correspondiente (CARP), para lo cual \n"
-"                                        el Cliente deberá tomar acciones correctivas para subsanar la \n"
-"                                        desviación, y es responsable de enviarlas mediante la plataforma \n"
-"                                        de Acciones correctivas del Cliente en SEDEX, el envío de estas \n"
-"                                        acciones es responsabilidad exclusiva del Cliente, a lo cual el \n"
-"                                        Cliente reconoce, comprende y acepta al firmar este Acuerdo.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        En el caso de que se requiera una nueva visita <u><i>in situ</i></u> para verificar \n"
-"                                        las acciones correctivas reportadas en la reunión de cierre de la \n"
-"                                        auditoría correspondiente, el Cliente se compromete a pagar por \n"
-"                                        adelantado todos los costos relacionados con dicha visita, es decir, \n"
-"                                        los gastos de viaje, gastos de traslados, gastos de auditor y gastos \n"
-"                                        administrativos. Primus Auditing Operations, para este propósito, \n"
-"                                        enviará una cotización individual para esta actividad.\n"
-"                                        <br/>\n"
-"                                        <br/>\n"
-"                                        El cliente además acepta:\n"
-"                                        <br/>"
+"Gastos de Viaje Estimados: - Los gastos de viaje se estiman y están sujetos a cambios basados en los gastos de viaje \n"
+"                                            reales incurridos. Los gastos de viaje se reembolsan directamente e incluyen todos los gastos de transporte, \n"
+"                                            alojamiento y comidas. Siempre que sea posible, los viajes se combinan con otros negocios y los gastos se \n"
+"                                            dividen para reducir los costos totales para todos los clientes de Primus Auditing Ops.<br/><br/>\n"
+"                                            Si alguna información o datos proporcionados por el Cliente o en nombre del Cliente de acuerdo con este \n"
+"                                            Acuerdo son incompletos o inexactos, Primus Auditing Ops no será responsable de ninguna manera por \n"
+"                                            deficiencias en los servicios."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -6912,6 +7367,7 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__id
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__id
@@ -6937,15 +7393,34 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"If an auditor has Full Access Denied, the auditor shall trigger an alert in all cases. If the auditor is able to \n"
-"                           enter the site but cannot access any of the necessary information, they shall raise an alert and a Non-Compliance."
+"If an auditor has Full Access Denied, the auditor shall trigger an alert in all cases. \n"
+"                        If the auditor is able to enter the site but cannot access any of the necessary \n"
+"                        information, they shall raise an alert and a Non-Compliance."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"If an auditor has Partial Access Denied, the auditor shall continue with the audit, but raise a Non-Compliance \n"
-"                            with a detailed description of the issue(s)."
+"If an auditor has Partial Access Denied, the auditor shall continue with the audit, \n"
+"                        but raise a Non-Compliance with a detailed description of the issue(s)."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"If any information or data provided by Customer or on Customer's behalf pursuant to this Agreement \n"
+"                is incomplete or inaccurate, Primus Auditing Ops will not be responsible in any way for deficiencies \n"
+"                in the services."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"If homeworking exists, Primus Auditing Ops shall include a review of homeworkers in \n"
+"                        the scope of the audit; the preference is for a home visit to be arranged if this is \n"
+"                        not possible, the auditor can include a review of their payments and contract. Primus \n"
+"                        Auditing Ops shall communicated with the audit requestor to extend the number of days \n"
+"                        to accommodate the home visits."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -6980,6 +7455,29 @@ msgstr ""
 msgid ""
 "In all cases, payments shall be made through electronic transfer, deposit, or other electronic \n"
 "                        payment method, as agreed upon by the Parties."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"In the event of a change, due to information not previously declared by Customer \n"
+"                        (for example, an increase in workers, dormitories at remote distances, among \n"
+"                        others that imply the auditor needs to allocate more audit days than originally \n"
+"                        scheduled) during the audit, and this results in modifications to the audit duration, \n"
+"                        the auditor must immediately inform Primus Auditing Ops. Primus Auditing Ops will then \n"
+"                        communicate the next steps to Customer. Under no circumstances should Customer arrange \n"
+"                        directly with the auditor. Additionally, Primus Auditing Ops may cancel or reschedule \n"
+"                        the audit without liability, and the expenses incurred during the audit where changes \n"
+"                        were detected must be covered by Customer, including the audit cost."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"In the event that a new on-site visit is required to verify corrective actions as determined in the closing \n"
+"                meeting of the corresponding audit, the Customer agrees in advance to pay all costs related to said visit, \n"
+"                namely travel expenses, mileage, auditor and administrative expenses. Primus Auditing Operations, for this \n"
+"                purpose, will send an individual quote accordingly."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -7034,6 +7532,12 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_product_product__pao_fixed_price_in_dollars
+#: model:ir.model.fields,field_description:servicereferralagreement.field_product_template__pao_fixed_price_in_dollars
+msgid "It is a fixed price for the vendor"
+msgstr "Precio fijo para el proveedor"
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_fpr_05
 msgid ""
 "It understands that the legal relationship that is hereby agreed upon is of a \n"
@@ -7068,6 +7572,13 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_gfs
 msgid "La condición jurídica, comercial, organizativa de la propiedad"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"La divulgación es necesaria para establecer una reclamación o defensa por parte de \n"
+"                                                    Primus Auditing Ops en un procedimiento adversarial."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -7168,6 +7679,7 @@ msgid "Las modificaciones en el producto o el método de producción"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__write_uid
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__write_uid
@@ -7180,6 +7692,7 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditfees__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditorexchangerate__write_date
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_auditproducts__write_date
@@ -7429,6 +7942,11 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model,name:servicereferralagreement.model_pao_fixed_price_product
+msgid "PAO Fixed Price Product"
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_gfs_usa
 msgid "PGFS-016"
 msgstr ""
@@ -7565,9 +8083,10 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Please sign and return this service agreement within 24 hours of receipt. JS Audit Group, Inc., dba Primus Auditing \n"
-"                Operations (“Primus Auditing Ops”) is not responsible for changes to estimated costs or any additional costs \n"
-"                incurred when service agreement are returned late. All estimates are calculated in U.S. dollars."
+"Please sign and return this service agreement within 24 hours of receipt. JS Audit Group, Inc., dba \n"
+"                Primus Auditing Operations (“Primus Auditing Ops”) is not responsible for changes to estimated costs \n"
+"                or any additional costs incurred when service agreement are returned late. All estimates are calculated \n"
+"                in U.S. dollars."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -7595,18 +8114,6 @@ msgid ""
 "                                       dba Primus Auditing Operations (“Primus Auditing Ops”) is not responsible for changes to \n"
 "                                       estimated costs or any additional costs incurred when Service Agreements are returned late. \n"
 "                                       All estimates are calculated in U.S. dollars."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
-msgid ""
-"Por favor firme y reenvíe este Acuerdo de Servicio dentro \n"
-"                                        de las 24 horas después de su recepción. JS Audit Group, \n"
-"                                        Inc., dba Primus Auditing Operations (\"Primus Auditing Ops\") \n"
-"                                        no se hace responsable por cambios en los costos estimados o \n"
-"                                        cualquier costo adicional añadido cuando este Acuerdo de \n"
-"                                        Servicio es firmado y enviado tarde. Todos los costos \n"
-"                                        estimados son calculados en dólar estadounidense."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -7641,6 +8148,15 @@ msgid ""
 "            cualquier otro costo adicional\n"
 "            asociado al retorno del acuerdo de servicios fuera del plazo estipulado. Todas los estimados son calculadas\n"
 "            en dólares estadounidenses."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Por favor, firme y devuelva este acuerdo de servicio dentro de las 24 horas siguientes a su recepción. JS Audit Group, Inc., \n"
+"                                            también conocido como Primus Auditing Operations (\"Primus Auditing Ops\"), no se hace responsable de los cambios en los \n"
+"                                            costos estimados o de cualquier costo adicional incurrido cuando los acuerdos de servicio se devuelven tarde. Todos los \n"
+"                                            cálculos se realizan en dólares estadounidenses."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -7688,6 +8204,11 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__price
+msgid "Price"
+msgstr "Precio"
+
+#. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_purchase_order_line__sra_sale_line_price_unit
 msgid "Price Unit"
 msgstr ""
@@ -7695,6 +8216,34 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_rapurchaseorder_view
 msgid "Primus Auditing Operations México, S. de R.L. de C.V.,"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Primus Auditing Operations cuenta con políticas que permiten incluir a los trabajadores del \n"
+"                                                    turno de noche en la auditoría, ya sea mediante el comienzo temprano o el final tardío de un \n"
+"                                                    día de auditoría, o mediante una visita adicional para realizar la visita del lugar y las \n"
+"                                                    entrevistas por la noche. Aunque los trabajadores del turno de noche pueden ser incluidos \n"
+"                                                    en las entrevistas del turno de día, las visitas durante el turno de noche son más valiosas \n"
+"                                                    para garantizar que toda la gama de entrevistados esté disponible para la selección, y \n"
+"                                                    que el trabajo nocturno pueda ser observado a través de la visita al emplazamiento. Si \n"
+"                                                    no se realizan visitas en el turno de noche, la documentación relativa a estos trabajadores \n"
+"                                                    se incluirá en la muestra."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Primus Auditing Operations subirá el informe de auditoría en un periodo de 20 días hábiles \n"
+"                                                    en la plataforma Sedex."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"Primus Auditing Operations will upload the audit report within 20 working "
+"days on the Sedex platform."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -7717,19 +8266,42 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Primus Auditing Ops is required, pursuant to applicable and governing laws or regulation ( by deposition, interrogatories, \n"
-"                        requests for information or documents in legal proceedings, subpoena, civil investigative demand or similar process), \n"
-"                        to disclose any or all of such obtained information; and in such case, only to the extent required by law; or,"
+"Primus Auditing Ops does not issue any certificate or document other than "
+"the Audit Report and CAPR."
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta_usa
-msgid "PrimusAuditingOps Confidential Document"
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"Primus Auditing Ops have policies in place that allow for night shift workers to be \n"
+"                        included in the audit either via early start or late finish times on one audit day, \n"
+"                        or additional visit to conduct site tour and interviews at night. While night shift \n"
+"                        workers may be included in day shift interviews, visits during the night shift are \n"
+"                        most valuable to ensure the full range of interviewees are available for selection, \n"
+"                        and the night work can be observed via site tour. If night shift visits are not \n"
+"                        conducted, documentation relating to these workers shall be included in the sample."
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"Primus Auditing Ops is required, pursuant to applicable and governing laws or regulation \n"
+"                        (by deposition, interrogatories, requests for information or documents in legal proceedings, \n"
+"                        subpoena, civil investigative demand or similar process), to disclose any or all of such obtained \n"
+"                        information; and in such case, only to the extent required by law; or,"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Primus Auditing Ops no emite ningún certificado o documento que no sea el "
+"Informe de Auditoría y el CAPR."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta
-msgid "PrimusAuditingOps Documento Confidencial"
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta_usa
+msgid "PrimusAuditingOps Confidential Document"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -7738,6 +8310,13 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__product_template_id
+msgid "Product Template"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_product_product__pao_fixed_price_product_ids
+#: model:ir.model.fields,field_description:servicereferralagreement.field_product_template__pao_fixed_price_product_ids
 #: model:ir.model.fields,field_description:servicereferralagreement.field_servicereferralagreement_agenda__products
 msgid "Products"
 msgstr "Productos"
@@ -8306,12 +8885,12 @@ msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta
-msgid "R.3   10/02/2023"
+msgid "R.5   3/8/2024"
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta_usa
-msgid "R.5   10/02/2023"
+msgid "R.7   3/8/2024"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -8545,13 +9124,9 @@ msgid "Revisión: 12"
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta_usa
 msgid "SCL-011"
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.custom_header_footer_smeta
-msgid "SCL-011s"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -8624,6 +9199,26 @@ msgstr ""
 msgid ""
 "Se cancela la Marca Registrada, el GGN, LGN, Número CoC o el Logotipo Código"
 " QR, y/o"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Se requiere la divulgación de dicha información obtenida por Primus Auditing Ops para \n"
+"                                                    obtener asesoramiento legal o ético con respecto al cumplimiento de las leyes aplicables, \n"
+"                                                    códigos y/o normas aplicables. Donde la confidencialidad no esté regida por un código de \n"
+"                                                    conducta profesional reconocido, se deberá ejecutar un acuerdo de no divulgación adecuado \n"
+"                                                    por parte del tercero antes de la divulgación de dicha información; o,"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Se requiere que Primus Auditing Ops, de conformidad con las leyes o regulaciones aplicables \n"
+"                                                    y vigentes (por deposición, interrogatorios, solicitudes de información o documentos en \n"
+"                                                    procedimientos legales, citación, demanda civil de investigación o proceso similar), \n"
+"                                                    divulgue toda o parte de la información obtenida; y en tal caso, solo en la medida \n"
+"                                                    requerida por la ley; o,"
 msgstr ""
 
 #. module: servicereferralagreement
@@ -8794,6 +9389,16 @@ msgid "Shadow"
 msgstr "Sombra"
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"Si existe trabajo a domicilio, Primus Auditing Ops incluirá una revisión de los trabajadores a \n"
+"                                                    domicilio en el ámbito de la auditoría; es preferible organizar una visita a domicilio - \n"
+"                                                    si esto no es posible, el auditor puede incluir una revisión de sus pagos y de su contrato. \n"
+"                                                    Primus Auditing Ops se comunicará con el solicitante de la auditoría para ampliar el número \n"
+"                                                    de días para acomodar las visitas a domicilio."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_sa_lpo_ue
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_ggap
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_nop_lpo
@@ -8805,17 +9410,16 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid ""
-"Si un auditor no tiene acceso total, el auditor generará una alerta en todos \n"
-"                                                        los casos. Si el auditor puede ingresar al sitio, pero no puede acceder a la \n"
-"                                                        información necesaria, deberá generar una alerta y un incumplimiento."
+"Si se niega el Acceso Completo al auditor, éste deberá activar una alerta en todos los casos. \n"
+"                                                    Si el auditor puede ingresar al sitio pero no puede acceder a ninguna de la información necesaria, \n"
+"                                                    deberá generar una alerta y una No Conformidad."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
 msgid ""
-"Si un auditor tiene acceso parcial a instalación/información, el auditor \n"
-"                                                        continuará con la auditoría, pero generará un incumplimiento con una descripción \n"
-"                                                        detallada del(los) problema(s)."
+"Si se niega el Acceso Parcial, el auditor continuará con la auditoría, pero generará una No \n"
+"                                                    Conformidad con una descripción detallada del problema o problemas."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -9033,6 +9637,18 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"The Audit Report does not confirm or certify compliance with industry or international laws or standards. \n"
+"                The Audit Report is derived solely through sampling, which includes document sampling, individual sampling \n"
+"                for interviews, and area sampling for observation. This sampling activity does not guarantee that the \n"
+"                audited facility fully complies with the audited requirements. The Audit Report does not include on-site \n"
+"                testing of equipment, assessment of building safety, code compliance, or evaluation of independent safety \n"
+"                certification standards. Audit services are reported based on the limited audit scope of laws and regulations. \n"
+"                Some laws and regulations may not be available to the auditor."
+msgstr ""
+
+#. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.report_sa_lpo_ue
 msgid ""
 "The Parties shall have no liability whatsoever for any information disclosed under this instrument that is not considered \n"
@@ -9050,31 +9666,18 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"The client acknowledges that it cannot make assertions regarding the audit results that are inconsistent with the scope of \n"
-"               the audit performed. Furthermore, the client may not use the audit results in a misleading or unauthorized manner, or in a \n"
-"               manner that damages the reputation of Primus Auditing Ops. In addition, the client acknowledges that the times for closing \n"
-"               non-conformities should be discussed during the closing of the audit with the auditor so that they are established in the \n"
-"               CAPR Corrective actions report.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <br/>\n"
-"                <b>9. CONFIDENTIALITY.</b> \n"
-"                Primus Auditing Ops hereby represents and agrees that all information obtained or developed in connection with any audit \n"
-"                performed under this Agreement, and for any audit performed for social compliance or otherwise governed by APSCA shall be \n"
-"                kept confidential and shall not be disclosed to any party other than Customer, except in the following circumstances:"
+"The acceptance of these Terms and Conditions can be done through Oddo, PDF, or other electronic signature means. \n"
+"                Primus Auditing Ops' electronic, digital, or printed copies of these Terms and Conditions, Customer's acceptance, \n"
+"                and Quotes signed or otherwise accepted by Customer will be true, complete, valid, authentic, and enforceable \n"
+"                copies of these documents. Customer agrees not to challenge the admissibility or enforceability of Primus Auditing Ops' \n"
+"                copies in a court or in any proceeding arising from such documents."
 msgstr ""
 
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"The client agrees to always comply with the requirements of the methodology."
-msgstr ""
-
-#. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
-msgid ""
-"The client shall comply by implementing the appropriate changes when communicated through Primus Auditing Ops \n"
-"                to the client."
+"The client will have access to the final audit report and summary of "
+"findings only through the Sedex platform."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -9115,6 +9718,15 @@ msgid ""
 "                <br/>\n"
 "                <b>11. TERM AND TERMINATION,</b>\n"
 "                <br/>"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"The customer is responsible for publishing the audit through the Sedex platform and establishing customer \n"
+"                        relationships through their portal so that their buyer or audit requester has access to the audit \n"
+"                        information. Please refer to the supplier manual and Sedex E-Learning documents to upload corrective \n"
+"                        actions on the portal."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -9184,6 +9796,11 @@ msgid ""
 "The use of the Sustainability Standard Trademark shall not appear on the product, or consumer packaging, nor shall it be used at \n"
 "                the point of sale in direct connection to single products."
 msgstr ""
+
+#. module: servicereferralagreement
+#: model:ir.model.constraint,message:servicereferralagreement.constraint_pao_fixed_price_product_uc_pao_fixed_price_product
+msgid "There is already a Vendor with this country"
+msgstr "Ya existe un proveedor con ese país."
 
 #. module: servicereferralagreement
 #: model:ir.model.constraint,message:servicereferralagreement.constraint_servicereferralagreement_auditfees_uc_audit_fee_name
@@ -9388,6 +10005,11 @@ msgid ""
 msgstr ""
 
 #. module: servicereferralagreement
+#: model:ir.model.fields,field_description:servicereferralagreement.field_pao_fixed_price_product__partner_id
+msgid "Vendor"
+msgstr "Proveedor"
+
+#. module: servicereferralagreement
 #: model:ir.model.fields,field_description:servicereferralagreement.field_res_partner__vendor_service_percentage
 #: model:ir.model.fields,field_description:servicereferralagreement.field_res_users__vendor_service_percentage
 msgid "Vendor service percentage"
@@ -9407,8 +10029,67 @@ msgstr ""
 #. module: servicereferralagreement
 #: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
 msgid ""
-"Where disclosure of such information to a third party is required in order for Primus Auditing Ops to perform and \n"
-"                        execute the services under this Agreement; or,"
+"Where disclosure of such information to a third party is required in order for Primus Auditing \n"
+"                        Ops to perform and execute the services under this Agreement; or,"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"a.\tIn the following circumstances, Customer agrees to provide:<br/>\n"
+"                        Initial Audit: Records for the last 12 months, unless the site is newly established (3 months).<br/>\n"
+"                        Periodic Audit: <br/>\n"
+"                        • At least 3 months' records after the previous audit month.<br/>\n"
+"                        Auditor may check:<br/>\n"
+"                        • Interval from previous audit &gt;= 12 months: previous 12 months' records<br/>\n"
+"                        • Interval from the previous audit &lt; 12 months: from the month after the previous audit to the most recent full month.<br/>\n"
+"                        Follow-Up audits: <br/>\n"
+"                        • At least 2 months' records after the previous audit month, if “Wage” or “Hour” corrective actions are required to verify.<br/> \n"
+"                        Auditor may check:<br/>\n"
+"                        • From the month after the previous audit to the most recent full month.<br/>\n"
+"                        Desktop Follow up: N/A - ”Wage” and “Hour” issues cannot be verified by desktop.<br/>\n"
+"                        <br/><br/>\n"
+"                        Notification of an Audit, for unannounced or semi-announced audits, shall follow the periods established by the \n"
+"                        scheme owner, Primus Auditing Operations requirements or client specific requirements. The most stringent \n"
+"                        requirement will apply as applicable.\n"
+"                        <br/><br/>\n"
+"                        If have any doubt as to the type of audit, consult the scheme owner's documents as well as the Buyer's \n"
+"                        requirements of you or your Client and/or with the requester of the audit. Primus Auditing Ops is not \n"
+"                        responsible for the Client's failure to provide information regarding the Buyer's requirements, including; \n"
+"                        Type of audit, version, nature, scope, seasonal period or date the audit is requested.  Primus Auditing Ops \n"
+"                        will perform the audit service in accordance with the details provided in the application form and \n"
+"                        Self-Assessment Questionnaire (“SAQ”).<br/><br/>\n"
+"                        Audits shall be undertaken during a period of high employment numbers of at least 60% of the workforce, \n"
+"                        and when the employment site is in full operation (such as peak production or harvest).<br/> \n"
+"                        If the audit is completed at less than 80% of peak workforce, but more than 60%, this shall be clearly \n"
+"                        explained, with a reason given, within the audit report. Audits shall not take place during low season or \n"
+"                        below 60% of the peak workforce.<br/> \n"
+"                        Sedex does not determine how often sites should undertake social audits, however, Sedex does require \n"
+"                        sites to have the following available documentation before undertaking a SMETA audit.<br/> \n"
+"                        If the above is not met, the applicant must submit written agreements that the audit applicant (buyer-client) \n"
+"                        approves, i.e., that the site is audited outside of peak season or at least 60% of the workforce.\n"
+"                        <br/><br/>\n"
+"                        For larger audits, an audit team may be needed. The client agrees that the audit may be conducted with \n"
+"                        an audit team. <br/>\n"
+"                        For the purpose of evaluating the continuous improvement system as a mandatory requirement of Sedex \n"
+"                        towards Primus Auditing Operations, in the audit service may be selected to perform an audit evaluation \n"
+"                        of the auditor, where this is the case, the site will not be responsible for any additional charges or \n"
+"                        travel expenses of the evaluator, the evaluator does not participate in the audit exercise and does not \n"
+"                        intervene in the results of the audit.\n"
+"                        <br/><br/>\n"
+"                        Based on the information provided on the audit request form, it is possible that a translator/interpreter \n"
+"                        may be required, the translator/interpreter will be chosen by Primus Auditing Operations and the costs \n"
+"                        of the translator/interpreter will be borne by the audit requestor. May be included in the scope and \n"
+"                        the auditor's time shall be accounted for.\n"
+"                        <br/><br/>\n"
+"                        Customer must deliver the Self-Assessment Questionnaire (“SAQ”) or the site profile format prior to \n"
+"                        the service quotation or at least 5 days prior to the date of the onsite visit/ audit. The site is \n"
+"                        responsible for providing this information; otherwise, there may be changes in the audit cost, and/or \n"
+"                        it may not be executed due to failure to complete the requested pre-information in SEDEX. Likewise, \n"
+"                        the requesting company must provide the ZC and ZS registration numbers to Primus Auditing Ops at least \n"
+"                        10 days before the audit, otherwise the audit will be rescheduled and the per diem payment is subject \n"
+"                        to the assigned auditor having made any expenses prior to the audit cancellation either by Customer \n"
+"                        or due to lack of registration on the SEDEX platform."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -9416,6 +10097,13 @@ msgstr ""
 msgid ""
 "and \n"
 "                                        a professional license number"
+msgstr ""
+
+#. module: servicereferralagreement
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
+msgid ""
+"and in the document titled SEDEX Ambassador toolkit. The Customer must not "
+"misuse the SMETA report and CAPR."
 msgstr ""
 
 #. module: servicereferralagreement
@@ -9654,13 +10342,22 @@ msgid "view auditor's agenda"
 msgstr "Visualizar agenda del auditor"
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta_usa
-msgid "www.sedex.com"
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_ggap
+msgid "y el <br/>"
 msgstr ""
 
 #. module: servicereferralagreement
-#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_ggap
-msgid "y el <br/>"
+#: model_terms:ir.ui.view,arch_db:servicereferralagreement.sa_smeta
+msgid ""
+"y en el documento titulado Kit de Herramientas del Embajador de Sedex. El cliente no debe hacer \n"
+"                                            un uso indebido del informe SMETA, y CAPR. \n"
+"                                            <br/><br/>\n"
+"                                            La aceptación de estos Términos y Condiciones se puede realizar a través de Oddo, PDF u otros \n"
+"                                            medios de firma electrónica. Nuestras copias electrónicas, digitales o impresas de estos \n"
+"                                            Términos y Condiciones, su aceptación y Cotizaciones firmadas o aceptadas de otra manera \n"
+"                                            por usted serán copias verdaderas, completas, válidas, auténticas y ejecutables de estos \n"
+"                                            documentos. Usted acepta no impugnar la admisibilidad o ejecutabilidad de nuestras copias \n"
+"                                            en un tribunal o en cualquier procedimiento derivado de tales documentos."
 msgstr ""
 
 #. module: servicereferralagreement

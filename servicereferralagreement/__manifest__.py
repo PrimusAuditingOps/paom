@@ -47,6 +47,7 @@
         'reports/header_footer_standard.xml',
         'reports/header_footer_ra_general.xml',
         'reports/header_footer_ra_gfs.xml',
+        'reports/header_footer_ue.xml',
 
         'reports/header_footer_sustainability_usa.xml',
         'reports/header_footer_standard_usa.xml',
@@ -64,6 +65,7 @@
         'reports/sasaleorder.xml',
         'reports/rapurchaseorder.xml',
         'reports/lpo_ue.xml',
+        'reports/ue.xml',
         'reports/add_ggap.xml',
         'reports/account_move_report.xml',
         'reports/sale_report.xml',
