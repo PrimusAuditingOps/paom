@@ -27,9 +27,9 @@
                     <field name="attempt" invisible="1"/>
                     <button string="Send Reminder" invisible="attempt &gt;= 3 or status in ['progress', 'confirm', 'lost']" type="object" class="oe_highlight" name="send_reminder_action"/>
 
-                    <button string="In Progress" invisible="attempt &gt;= 3 or status in ['progress', 'confirm', 'lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'progress'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
-                    <button string="Confirmed" invisible="attempt &gt;= 3 or status in ['progress', 'confirm', 'lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'confirm'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
-                    <button string="Lost" invisible="attempt &gt;= 3 or status in ['lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'lost'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
+                    <button string="In Progress" invisible="status in ['progress', 'confirm', 'lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'progress'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
+                    <button string="Confirmed" invisible="status in ['progress', 'confirm', 'lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'confirm'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
+                    <button string="Lost" invisible="status in ['lost']" type="object" class="oe_highlight btn btn-secondary" name="change_status_action" context="{'status_change':'lost'}" confirm="This will modify the record status and cannot be undone. Do you want to continue?"/>
 
                     <button string="Confirm" invisible="status != 'progress'" type="object" class="oe_highlight mx-3" name="confirm_audit"/>
 

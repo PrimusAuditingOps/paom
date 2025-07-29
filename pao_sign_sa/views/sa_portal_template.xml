@@ -42,7 +42,8 @@
                 <link rel='stylesheet' href="/pao_sign_sa/static/src/css/pao_sign_sa.css"/>
             </xpath>
 
-            <div class="m-0 row justify-content-center" t-if="(serviceagreement.document_status in ['sign','partially_sign'] and signer == 'customer') or (serviceagreement.document_status == 'sign' and signer == 'coordinator')">
+            <!-- <div class="m-0 row justify-content-center" t-if="(serviceagreement.document_status in ['sign','partially_sign'] and signer == 'customer') or (serviceagreement.document_status == 'sign' and signer == 'coordinator')"> -->
+            <div class="m-0 row justify-content-center" t-if="(serviceagreement.document_status in ['sign'])">
                 <div style="padding-top:10px" class="col-auto">
                     <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_sa_content">
                         <div class="card-header">SA</div>
@@ -64,7 +65,8 @@
 
 
 
-            <div class="row mt16" t-if="(serviceagreement.document_status == 'sent' and signer == 'customer') or (serviceagreement.document_status == 'partially_sign' and signer == 'coordinator')">
+            <!-- <div class="row mt16" t-if="(serviceagreement.document_status == 'sent' and signer == 'customer') or (serviceagreement.document_status == 'partially_sign' and signer == 'coordinator')"> -->
+            <div class="row mt16" t-if="(serviceagreement.document_status == 'sent')">
                 <div class="col-12 col-md-auto d-print-none ml-md-3">
                     <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_sa_content">
                         <div class="card-header">Signature</div>
@@ -253,7 +255,8 @@
                                         </p>
                                         <t t-call="portal.signature_form">
                                             <t t-set="call_url" t-value="urlAccept"/>
-                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name if signer == 'customer' else request.env.user.partner_id.name"/>
+                                            <!-- <t t-set="default_name" t-value="serviceagreement.signer_id.name if signer == 'customer' else request.env.user.partner_id.name"/> -->
+                                            <t t-set="default_name" t-value="serviceagreement.signer_id.name"/>
                                             <t t-set="font_color" t-value="'darkblue'"/>
                                         </t>                            
                                     </main>

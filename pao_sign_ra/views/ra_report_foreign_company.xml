@@ -109,7 +109,7 @@
                                     <tr t-if="not line.product_id.product_tmpl_id.is_travel_expenses">
                                         <t t-set="counter" t-value="counter + 1" /> 
                                         <td>
-                                            <span t-esc="line.product_id.name"/>
+                                            <span t-esc="line.name"/>
                                         </td>
                                         <td class="text-center">
                                             <span t-esc="'{:.0f}'.format(line.product_qty) if line.product_qty == int(line.product_qty) else '{:.2f}'.format(line.product_qty)"/>
