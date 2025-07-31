@@ -90,6 +90,18 @@ class ExpenseInherit(models.Model):
     
     uploaded_by_statement = fields.Boolean(default=False)
     
+    is_complete = fields.Boolean(compute="_compute_is_complete", store=True)
+    
+    @api.depends('name', 'product_id', 'date', 'nb_attachment')  # List all required fields
+    def _compute_is_complete(self):
+        for record in self:
+            record.is_complete = all([
+                record.name,
+                record.product_id,
+                record.date,
+                record.nb_attachment > 0
+            ])
+    
     @api.model
     def _prepare_move_lines_vals(self):
         

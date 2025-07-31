@@ -398,7 +398,8 @@ class ExpensesPortal(http.Controller):
             if expense.exists() and user == expense.create_uid:
                 
                 if unlink == "1":
-                    expense.sudo().unlink()
+                    if not expense.uploaded_by_statement:
+                        expense.sudo().unlink()
                 else:
                     expense.sudo().write({'sheet_id': None, 'account_id': None})
             
@@ -517,7 +518,7 @@ class ExpensesPortal(http.Controller):
         
         for expense_id in selected_expenses:
             expense = request.env['hr.expense'].sudo().browse(int(expense_id))
-            if expense.nb_attachment < 1:
+            if not expense.is_complete:
                 invalid_expenses_list.append(expense.name)
             else:
                 expense.sudo().write({'sheet_id': int(report_id)})
@@ -526,7 +527,7 @@ class ExpensesPortal(http.Controller):
                 
         if len(invalid_expenses_list) > 0: 
             invalid_expenses = ', '.join(map(str, invalid_expenses_list))
-            request.session['error_expense'] = _("The following expenses couldn't be added to the report because they do not have an attached receipt: %(invalid_expenses)s") % {'invalid_expenses': invalid_expenses}
+            request.session['error_expense'] = _("The following expenses were not added to the report because they are missing required information. Please review and complete them before attempting to add them again.: %(invalid_expenses)s") % {'invalid_expenses': invalid_expenses}
         
         return request.redirect('/my/wallet')
     
@@ -539,10 +540,13 @@ class ExpensesPortal(http.Controller):
         
         request.session.pop('error_expense', None)
         
+        expense_category = kw.get("expense_category")
         receipts = request.httprequest.files.getlist("receipt")
         expense_id = kw.get("expense_id")
         
         expense = request.env['hr.expense'].browse(int(expense_id))
+        
+        expense.sudo().write({'product_id': int(expense_category)})
         
         _logger.warning(receipts)
         for receipt in receipts:
