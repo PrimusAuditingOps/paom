@@ -575,6 +575,7 @@
                                     const requiresAttachment = receiptInput.dataset.requireAttachment === 'true';
 
                                     function updateReceiptRequired() {
+                                        console.log("CATEGORY CHANGED")
                                         const selectedOption = categorySelect.options[categorySelect.selectedIndex];
                                         const selectedText = selectedOption.text.trim();
 
