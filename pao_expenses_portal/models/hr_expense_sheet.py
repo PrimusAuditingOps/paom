@@ -96,6 +96,7 @@ class ExpenseInherit(models.Model):
     def _compute_is_complete(self):
         
         for record in self:
+            
             if record.state != 'draft':
                 record.is_complete = True
             else:
@@ -107,7 +108,7 @@ class ExpenseInherit(models.Model):
 
                 needs_attachment = (
                     record.partner_id.ado_is_auditor and
-                    not record.partner_id.ado_is_auditor.is_an_in_house_auditor and
+                    not record.partner_id.is_an_in_house_auditor and
                     record.product_id.display_name == "Auditor Travel: Meal"
                 )
 
