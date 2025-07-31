@@ -236,7 +236,7 @@ class PurchaseOrder(models.Model):
 
             if conflicting_orders:
                 current_user = self.env.user
-                all_same_user = all(order.create_uid == rec.create_uid for order in conflicting_orders)
+                all_same_user = all(order.user_id == rec.user_id for order in conflicting_orders)
 
                 if current_user.id != 20 and not all_same_user:
                     raise ValidationError(_(
