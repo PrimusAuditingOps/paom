@@ -568,13 +568,19 @@
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     document.querySelectorAll('form[id^="add_receipt_to_expense_form"]').forEach(function(form) {
+                                        console.log(form)
                                         const submitButton = form.querySelector('button[type="submit"]');
                                         const receiptInput = form.querySelector('input[name="receipt"]');
                                         const categorySelect = form.querySelector('select[name="expense_category"]');
 
+                                        console.log(receiptInput)
+                                        console.log(categorySelect)
+
                                         if (!receiptInput || !categorySelect) return;
 
                                         const requiresAttachment = receiptInput.dataset.requireAttachment === 'true';
+
+                                        console.log(requiresAttachment)
 
                                         function updateReceiptRequired() {
                                             const selectedOption = categorySelect.options[categorySelect.selectedIndex];
