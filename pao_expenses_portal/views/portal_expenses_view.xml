@@ -389,7 +389,7 @@
                                 <div class="mb-3 row">
                                     <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                     <div class="col-sm-9">
-                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
+                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and not request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
                                     </div>
                                 </div>
 
@@ -600,7 +600,7 @@
                                         </div>
                                             <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                             <div class="col-sm-9">
-                                                <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
+                                                <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and not request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
                                             </div>
                                         </div>
 
@@ -672,7 +672,7 @@
                                 <div class="mb-3 row">
                                     <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                     <div class="col-sm-9">
-                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
+                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and not request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
                                     </div>
                                 </div>
 
