@@ -395,10 +395,10 @@ class ExpensesPortal(http.Controller):
         if expense_id:
             expense = request.env['hr.expense'].browse(int(expense_id))
             
-            if expense.exists() and user == expense.create_uid:
+            if expense.exists():
                 
                 if unlink == "1":
-                    if not expense.uploaded_by_statement:
+                    if not expense.uploaded_by_statement and user == expense.create_uid:
                         expense.sudo().unlink()
                 else:
                     expense.sudo().write({'sheet_id': None, 'account_id': None})
@@ -527,7 +527,7 @@ class ExpensesPortal(http.Controller):
                 
         if len(invalid_expenses_list) > 0: 
             invalid_expenses = ', '.join(map(str, invalid_expenses_list))
-            request.session['error_expense'] = _("The following expenses were not added to the report because they are missing required information. Please review and complete them before attempting to add them again.: %(invalid_expenses)s") % {'invalid_expenses': invalid_expenses}
+            request.session['error_expense'] = _("The following expenses were not added to the report because they are missing required information. Please review and complete them before attempting to add them again: %(invalid_expenses)s") % {'invalid_expenses': invalid_expenses}
         
         return request.redirect('/my/wallet')
     
