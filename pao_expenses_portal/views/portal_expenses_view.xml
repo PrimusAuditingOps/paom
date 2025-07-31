@@ -556,7 +556,7 @@
                                         </div>
                                             <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                             <div class="col-sm-9">
-                                                <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1"/>
+                                                <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and not request.env.user.partner_id.ado_is_audis_an_in_house_auditoritor).lower()"/>
                                             </div>
                                         </div>
 
@@ -567,12 +567,34 @@
 
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    const form1 = document.getElementById('add_receipt_to_expense_form');
-                                    const submitButton1 = document.getElementById('add_receipt_to_expense_button_form');
+                                    const form = document.getElementById('add_receipt_to_expense_form');
+                                    const submitButton = document.getElementById('add_receipt_to_expense_button_form');
+                                    const receiptInput = form.querySelector('input[name="receipt"]');
+                                    const categorySelect = form.querySelector('select[name="expense_category"]');
 
-                                    form1.addEventListener('submit', function() {
-                                        // Disable the submit button to prevent multiple submissions
-                                        submitButton1.disabled = true;
+                                    const requiresAttachment = receiptInput.dataset.requireAttachment === 'true';
+
+                                    function updateReceiptRequired() {
+                                        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+                                        const selectedText = selectedOption.text.trim();
+
+                                        const shouldBeRequired = !(requiresAttachment &&
+                                                                selectedText === "Auditor Travel: Meal");
+
+                                        if (shouldBeRequired) {
+                                            receiptInput.setAttribute('required', 'required');
+                                        } else {
+                                            receiptInput.removeAttribute('required');
+                                        }
+                                    }
+
+                                    // Initial check and on change
+                                    categorySelect.addEventListener('change', updateReceiptRequired);
+                                    updateReceiptRequired();
+
+                                    // Disable submit to avoid multiple clicks
+                                    form.addEventListener('submit', function() {
+                                        submitButton.disabled = true;
                                     });
                                 });
                             </script>

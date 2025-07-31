@@ -92,15 +92,28 @@ class ExpenseInherit(models.Model):
     
     is_complete = fields.Boolean(compute="_compute_is_complete", store=True)
     
-    @api.depends('name', 'product_id', 'date', 'nb_attachment')  # List all required fields
+    @api.depends('name', 'product_id', 'date', 'nb_attachment', )
     def _compute_is_complete(self):
+        
         for record in self:
-            record.is_complete = all([
-                record.name,
-                record.product_id,
-                record.date,
-                record.nb_attachment > 0
-            ])
+            if record.state != 'draft':
+                record.is_complete = True
+            else:
+                required_fields_filled = all([
+                    record.name,
+                    record.product_id,
+                    record.date,
+                ])
+
+                needs_attachment = (
+                    record.partner_id.ado_is_auditor and
+                    not record.partner_id.ado_is_auditor.is_an_in_house_auditor and
+                    record.product_id.display_name == "Auditor Travel: Meal"
+                )
+
+                record.is_complete = required_fields_filled and (
+                    record.nb_attachment > 0 if needs_attachment else True
+                )
     
     @api.model
     def _prepare_move_lines_vals(self):
