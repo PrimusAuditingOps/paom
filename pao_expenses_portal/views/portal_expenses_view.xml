@@ -580,7 +580,7 @@
                                             const selectedOption = categorySelect.options[categorySelect.selectedIndex];
                                             const selectedText = selectedOption.text.trim();
 
-                                            const shouldBeRequired = !(requiresAttachment &&
+                                            const shouldBeRequired = !(requiresAttachment &amp;&amp;
                                                                     selectedText === "Auditor Travel: Meal");
 
                                             if (shouldBeRequired) {
