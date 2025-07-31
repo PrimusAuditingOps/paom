@@ -92,7 +92,7 @@ class ExpenseInherit(models.Model):
     
     is_complete = fields.Boolean(compute="_compute_is_complete", store=True)
     
-    @api.depends('name', 'product_id', 'date', 'nb_attachment', )
+    @api.depends('name', 'product_id', 'date', 'nb_attachment')
     def _compute_is_complete(self):
         
         for record in self:
