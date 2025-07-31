@@ -429,6 +429,50 @@
                 </div>
             </div>
 
+            <script>
+                document.querySelectorAll('.modal').forEach(modal =&gt; {
+                    modal.addEventListener('shown.bs.modal', () =&gt; {
+                        const form = modal.querySelector('form');
+                        if (!form) return;
+
+                        const submitButton = modal.querySelector('button[type="submit"]');
+
+                        if (!form._listenerAdded) {
+                            form.addEventListener('submit', () =&gt; {
+                                if (submitButton) {
+                                    submitButton.disabled = true;
+                                }
+                            });
+                            form._listenerAdded = true; // Avoid adding multiple listeners if modal is opened multiple times
+                        }
+
+                        const categorySelect = modal.querySelector('select[name="expense_category"]');
+                        const receiptInput = modal.querySelector('input[name="receipt"]');
+                        
+                        if (categorySelect &amp;&amp; receiptInput){
+                            const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
+
+                            function updateReceiptRequired() {
+                                const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+                                const selectedText = selectedOption ? selectedOption.text.trim() : '';
+
+                                console.log(categorySelect.value)
+
+                                if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
+                                    receiptInput.required = false;
+                                } else {
+                                    receiptInput.required = true;
+                                }
+                            }
+                            
+                            updateReceiptRequired();
+
+                            categorySelect.addEventListener('change', updateReceiptRequired);
+                        }
+                    });
+                });
+            </script>
+
         </t>
     </template>
 
@@ -714,50 +758,48 @@
             </div>
             
             <script>
-                    document.querySelectorAll('.modal').forEach(modal =&gt; {
-                        modal.addEventListener('shown.bs.modal', () =&gt; {
-                            const form = modal.querySelector('form');
-                            if (!form) return;
+                document.querySelectorAll('.modal').forEach(modal =&gt; {
+                    modal.addEventListener('shown.bs.modal', () =&gt; {
+                        const form = modal.querySelector('form');
+                        if (!form) return;
 
-                            const submitButton = modal.querySelector('button[type="submit"]');
+                        const submitButton = modal.querySelector('button[type="submit"]');
 
-                            if (!form._listenerAdded) {
-                                form.addEventListener('submit', () =&gt; {
-                                    if (submitButton) {
-                                        submitButton.disabled = true;
-                                    }
-                                });
-                                form._listenerAdded = true; // Avoid adding multiple listeners if modal is opened multiple times
-                            }
-
-                            const categorySelect = modal.querySelector('select[name="expense_category"]');
-                            const receiptInput = modal.querySelector('input[name="receipt"]');
-                            
-                            if (categorySelect &amp;&amp; receiptInput){
-                                const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
-    
-                                function updateReceiptRequired() {
-                                    const selectedOption = categorySelect.options[categorySelect.selectedIndex];
-                                    const selectedText = selectedOption ? selectedOption.text.trim() : '';
-    
-                                    console.log(categorySelect.value)
-    
-                                    if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
-                                        receiptInput.required = false;
-                                    } else {
-                                        receiptInput.required = true;
-                                    }
+                        if (!form._listenerAdded) {
+                            form.addEventListener('submit', () =&gt; {
+                                if (submitButton) {
+                                    submitButton.disabled = true;
                                 }
-                                
-                                
-                                
-                                updateReceiptRequired();
-    
-                                categorySelect.addEventListener('change', updateReceiptRequired);
+                            });
+                            form._listenerAdded = true; // Avoid adding multiple listeners if modal is opened multiple times
+                        }
+
+                        const categorySelect = modal.querySelector('select[name="expense_category"]');
+                        const receiptInput = modal.querySelector('input[name="receipt"]');
+                        
+                        if (categorySelect &amp;&amp; receiptInput){
+                            const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
+
+                            function updateReceiptRequired() {
+                                const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+                                const selectedText = selectedOption ? selectedOption.text.trim() : '';
+
+                                console.log(categorySelect.value)
+
+                                if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
+                                    receiptInput.required = false;
+                                } else {
+                                    receiptInput.required = true;
+                                }
                             }
-                        });
+                            
+                            updateReceiptRequired();
+
+                            categorySelect.addEventListener('change', updateReceiptRequired);
+                        }
                     });
-                </script>
+                });
+            </script>
 
             <br/>
             <br/>
