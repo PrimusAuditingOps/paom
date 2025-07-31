@@ -567,35 +567,37 @@
 
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    const form = document.getElementById('add_receipt_to_expense_form');
-                                    const submitButton = document.getElementById('add_receipt_to_expense_button_form');
-                                    const receiptInput = form.querySelector('input[name="receipt"]');
-                                    const categorySelect = form.querySelector('select[name="expense_category"]');
+                                    document.querySelectorAll('form[id^="add_receipt_to_expense_form"]').forEach(function(form) {
+                                        const submitButton = form.querySelector('button[type="submit"]');
+                                        const receiptInput = form.querySelector('input[name="receipt"]');
+                                        const categorySelect = form.querySelector('select[name="expense_category"]');
 
-                                    const requiresAttachment = receiptInput.dataset.requireAttachment === 'true';
+                                        if (!receiptInput || !categorySelect) return;
 
-                                    function updateReceiptRequired() {
-                                        console.log("CATEGORY CHANGED")
-                                        const selectedOption = categorySelect.options[categorySelect.selectedIndex];
-                                        const selectedText = selectedOption.text.trim();
+                                        const requiresAttachment = receiptInput.dataset.requireAttachment === 'true';
 
-                                        const shouldBeRequired = !(requiresAttachment &amp;&amp;
-                                                                selectedText === "Auditor Travel: Meal");
+                                        function updateReceiptRequired() {
+                                            const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+                                            const selectedText = selectedOption.text.trim();
 
-                                        if (shouldBeRequired) {
-                                            receiptInput.setAttribute('required', 'required');
-                                        } else {
-                                            receiptInput.removeAttribute('required');
+                                            const shouldBeRequired = !(requiresAttachment &&
+                                                                    selectedText === "Auditor Travel: Meal");
+
+                                            if (shouldBeRequired) {
+                                                receiptInput.setAttribute('required', 'required');
+                                            } else {
+                                                receiptInput.removeAttribute('required');
+                                            }
                                         }
-                                    }
 
-                                    // Initial check and on change
-                                    categorySelect.addEventListener('change', updateReceiptRequired);
-                                    updateReceiptRequired();
+                                        categorySelect.addEventListener('change', updateReceiptRequired);
+                                        updateReceiptRequired();
 
-                                    // Disable submit to avoid multiple clicks
-                                    form.addEventListener('submit', function() {
-                                        submitButton.disabled = true;
+                                        form.addEventListener('submit', function() {
+                                            if (submitButton) {
+                                                submitButton.disabled = true;
+                                            }
+                                        });
                                     });
                                 });
                             </script>
