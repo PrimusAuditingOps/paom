@@ -27,7 +27,7 @@ class PaoSignSaAgreementsSent(models.Model):
         year = None
         dateservice = None
         for rec in self:
-            dateservice = dateutil.parser.parse(str(self.create_date)).date()
+            dateservice = dateutil.parser.parse(str(rec.create_date)).date()
             day = dateservice.day
             month = months[dateservice.month - 1]
             year = dateservice.year
@@ -39,7 +39,7 @@ class PaoSignSaAgreementsSent(models.Model):
         year = None
         dateservice = None
         for rec in self:
-            dateservice = dateutil.parser.parse(str(self.create_date)).date()
+            dateservice = dateutil.parser.parse(str(rec.create_date)).date()
             day = dateservice.day
             month = months[dateservice.month - 1]
             year = dateservice.year
@@ -108,8 +108,6 @@ class PaoSignSaAgreementsSent(models.Model):
     
     organization_id = fields.Char(string="Organization", compute="_compute_organizations")
 
-    # organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_organization")
-    
     reminder_days = fields.Integer(
         string = 'Reminder days',
         default = 0,
@@ -217,14 +215,6 @@ class PaoSignSaAgreementsSent(models.Model):
 
                 # Join them as a comma-separated string
                 rec.organization_id = ", ".join(sorted(org_names))
-            
-    # def _get_organization(self):
-    #     for rec in self:
-    #         rec.organization_id = None
-    #         if rec.sale_order_id:
-    #             line_with_org = rec.sale_order_id.order_line.filtered('organization_id')
-    #             if line_with_org:
-    #                 rec.organization_id = line_with_org[0].organization_id.id
     
     def action_coordinator_sign(self):
         self.ensure_one()

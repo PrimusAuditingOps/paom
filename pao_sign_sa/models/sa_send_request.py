@@ -98,6 +98,7 @@ class SASendRequest(models.TransientModel):
                     'document_date': today,
                     'reminder_days': rec.reminder_days,
                     'follower_ids': rec.follower_ids,
+                    'date_complete_spanish': today.date(),
                 })
                 
                 for registration_number in rec.registration_numbers_ids:
@@ -220,7 +221,7 @@ class SASendRequest(models.TransientModel):
                     msg=_("Please enter a E-mail for the customer.")
                     raise ValidationError(msg)
             
-            if rn.scheme_id.name in ["GLOBALG.A.P.", "NOP-LPO", "HACCP", "LPO-UE"]:
+            if rn.scheme_id.name in ["GLOBALG.A.P.", "NOP-LPO", "HACCP", "LPO-UE","UE"]:
                 if not rn.organization_id.rfc: 
                     msg=_("Please enter a vat for organization of the registration number ")
                     raise ValidationError(msg + rn.name)
@@ -239,7 +240,7 @@ class SASendRequest(models.TransientModel):
                 if not rn.type_of_audit: 
                     msg=_("Please enter a type of audit for the registration number ")
                     raise ValidationError(msg + rn.name)
-            if rn.scheme_id.name in ["LPO-UE"]:
+            if rn.scheme_id.name in ["LPO-UE","UE"]:
                 if not rn.audit_scope: 
                     msg=_("Please enter an audit scope for the registration number ")
                     raise ValidationError(msg + rn.name)
