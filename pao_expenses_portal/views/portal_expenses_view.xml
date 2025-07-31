@@ -457,16 +457,16 @@
             <!-- <table t-if="expenses" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover"> -->
                 <thead>
                     <tr class="active">
-                        <th></th>
+                        <th/>
                         <th>
-                            <span class='d-none d-md-inline'>Expense Date</span>
+                            <span class="d-none d-md-inline">Expense Date</span>
                         </th>
                         <th>Description</th>
                         <th>Report</th>
-                        <th class="text-end">Total (<span t-esc="currency"></span>)
+                        <th class="text-end">Total (<span t-esc="currency"/>)
                         </th>
                         <th class="text-center">Status</th>
-                        <th></th>
+                        <th/>
                     </tr>
                 </thead>
                 <t t-foreach="expenses" t-as="expense">
@@ -501,8 +501,8 @@
 
                             <button class="btn btn-primary" t-if="expense.state in ('draft', 'submit') and not expense.uploaded_by_statement" type="button" data-bs-toggle="modal" t-att-data-bs-target="'#delete_expense_' + str(expense.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
-                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                 </svg>
                             </button>
                         </td>
@@ -517,7 +517,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Delete expense</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                                     </div>
                                     <div class="modal-body">
 
@@ -538,14 +538,14 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Complete expense</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3 row"><div class="mb-3 row">
                                             <label for="expense_category" class="fw-bold col-sm-3 col-form-label">Category</label>
                                             <div class="col-sm-9">
                                                 <select name="expense_category" class="form-select" required="1">
-                                                    <option class="d-none" selected="1"></option>
+                                                    <option class="d-none" selected="1"/>
                                                     <t t-foreach="categories" t-as="category">
                                                         <option t-att-value="category.id">
                                                             <t t-esc="category.name"/>
@@ -560,22 +560,12 @@
                                             </div>
                                         </div>
 
-                                        <button class="btn btn-primary mt-3" id="add_receipt_to_expense_button_form" type="submit">Save</button>
+                                        <button class="btn btn-primary mt-3 add-receipt-to-expense-button-form" type="submit">Save</button>
                                     </div>
                                 </div>
                             </form>
 
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const form1 = document.getElementById('add_receipt_to_expense_form');
-                                    const submitButton1 = document.getElementById('add_receipt_to_expense_button_form');
-
-                                    form1.addEventListener('submit', function() {
-                                        // Disable the submit button to prevent multiple submissions
-                                        submitButton1.disabled = true;
-                                    });
-                                });
-                            </script>
+                            
                         </div>
                     </div>
                 </t>
@@ -591,7 +581,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Create expense</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                             </div>
                             <div class="modal-body">
 
@@ -606,7 +596,7 @@
                                     <label for="expense_category" class="fw-bold col-sm-3 col-form-label">Category</label>
                                     <div class="col-sm-9">
                                         <select name="expense_category" class="form-select" required="1">
-                                            <option class="d-none" selected="1"></option>
+                                            <option class="d-none" selected="1"/>
                                             <t t-foreach="categories" t-as="category">
                                                 <option t-att-value="category.id">
                                                     <t t-esc="category.name"/>
@@ -620,7 +610,7 @@
                                     <label for="payment_mode" class="fw-bold col-sm-3 col-form-label">Paid By</label>
                                     <div class="col-sm-9">
                                         <select name="payment_mode" class="form-select" required="1">
-                                            <option class="d-none" selected="1"></option>
+                                            <option class="d-none" selected="1"/>
                                             <option value="own_account">Employee (to reimburse)</option>
                                             <option value="company_account">Company</option>
                                         </select>
@@ -638,7 +628,7 @@
                                 <div class="mb-3 row">
                                     <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                     <div class="col-sm-9">
-                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1"/>
+                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
                                     </div>
                                 </div>
 
@@ -649,7 +639,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select name="currency_id" class="form-select" required="1">
-                                            <option class="d-none" selected="1"></option>
+                                            <option class="d-none" selected="1"/>
                                             <t t-foreach="currencies" t-as="currency">
                                                 <option t-att-value="currency.id">
                                                     <t t-esc="currency.name"/>
@@ -664,17 +654,6 @@
                         </div>
                     </form>
 
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const form2 = document.getElementById('new_wallet_expense_form');
-                            const submitButton2 = document.getElementById('new_wallet_expense_button_form');
-
-                            form2.addEventListener('submit', function() {
-                                // Disable the submit button to prevent multiple submissions
-                                submitButton2.disabled = true;
-                            });
-                        });
-                    </script>
                 </div>
             </div>
 
@@ -685,11 +664,11 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Add expenses to report</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                             </div>
                             <div class="modal-body">
                                 <select name="report_id" class="form-select" required="1">
-                                    <option class="d-none"></option>
+                                    <option class="d-none"/>
                                     <t t-foreach="reports" t-as="report">
                                         <option t-att-value="report.id">
                                             <t t-esc="report.name"/>
@@ -733,6 +712,52 @@
             <div t-if="not expenses" class="alert alert-warning mt-4" role="alert">
                 No expenses found with the selected filters.
             </div>
+            
+            <script>
+                    document.querySelectorAll('.modal').forEach(modal =&gt; {
+                        modal.addEventListener('shown.bs.modal', () =&gt; {
+                            const form = modal.querySelector('form');
+                            if (!form) return;
+
+                            const submitButton = modal.querySelector('button[type="submit"]');
+
+                            if (!form._listenerAdded) {
+                                form.addEventListener('submit', () =&gt; {
+                                    if (submitButton) {
+                                        submitButton.disabled = true;
+                                    }
+                                });
+                                form._listenerAdded = true; // Avoid adding multiple listeners if modal is opened multiple times
+                            }
+
+                            const categorySelect = modal.querySelector('select[name="expense_category"]');
+                            const receiptInput = modal.querySelector('input[name="receipt"]');
+                            
+                            if (categorySelect &amp;&amp; receiptInput){
+                                const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
+    
+                                function updateReceiptRequired() {
+                                    const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+                                    const selectedText = selectedOption ? selectedOption.text.trim() : '';
+    
+                                    console.log(categorySelect.value)
+    
+                                    if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
+                                        receiptInput.required = false;
+                                    } else {
+                                        receiptInput.required = true;
+                                    }
+                                }
+                                
+                                
+                                
+                                updateReceiptRequired();
+    
+                                categorySelect.addEventListener('change', updateReceiptRequired);
+                            }
+                        });
+                    });
+                </script>
 
             <br/>
             <br/>
