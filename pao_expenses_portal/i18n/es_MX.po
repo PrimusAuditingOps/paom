@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-08 20:25+0000\n"
-"PO-Revision-Date: 2025-07-08 20:25+0000\n"
+"POT-Creation-Date: 2025-07-31 20:21+0000\n"
+"PO-Revision-Date: 2025-07-31 20:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -119,11 +119,6 @@ msgstr "Agregar gastos a reporte"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
-msgid "Add receipt"
-msgstr "Agregar recibo"
-
-#. module: pao_expenses_portal
-#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "Add to expense report"
 msgstr "Agregar a reporte"
 
@@ -210,6 +205,11 @@ msgstr "Historial de comunicación"
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_expense_scheme__company_id
 msgid "Company"
 msgstr "Empresa"
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
+msgid "Complete expense"
+msgstr "Completar gasto"
 
 #. module: pao_expenses_portal
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense__partner_id
@@ -403,6 +403,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_expense_scheme__internal_reference
 msgid "Internal Reference"
 msgstr "Referencia interna"
+
+#. module: pao_expenses_portal
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense__is_complete
+msgid "Is Complete"
+msgstr ""
 
 #. module: pao_expenses_portal
 #: model:ir.model.fields,help:pao_expenses_portal.field_expense_scheme__property_account_expense_id
@@ -600,11 +605,12 @@ msgstr ""
 #: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
 #, python-format
 msgid ""
-"The following expenses couldn't be added to the report because they do not "
-"have an attached receipt: %(invalid_expenses)s"
+"The following expenses were not added to the report because they are missing"
+" required information. Please review and complete them before attempting to "
+"add them again: %(invalid_expenses)s"
 msgstr ""
-"Los siguientes gastos no pudieron ser agregados al reporte porque no tienen "
-"un recibo adjunto: %(invalid_expenses)s"
+"Los siguientes gastos no se agregaron al informe porque les falta información requerida. "
+"Por favor, revísalos y complétalos antes de intentar agregarlos nuevamente: %(invalid_expenses)s"
 
 #. module: pao_expenses_portal
 #. odoo-python
@@ -627,7 +633,9 @@ msgstr "Actualmente no hay gastos en este reporte."
 msgid ""
 "This employee does not have a linked user. A linked user is required to "
 "continue this process."
-msgstr "Este empleado no tiene un usuario relacionado. Es necesario que tenga uno para continuar con este proceso."
+msgstr ""
+"Este empleado no tiene un usuario relacionado. Es necesario que tenga uno "
+"para continuar con este proceso."
 
 #. module: pao_expenses_portal
 #. odoo-python
@@ -679,8 +687,8 @@ msgid ""
 "Unsupported file format. Please upload a CSV, Excel or PDF (Wex only) file "
 "with a correct format."
 msgstr ""
-"Formato de archivo no soportado. Por favor, cargue un archivo CSV, Excel o PDF (Solo Wex) "
-"con el formato correcto."
+"Formato de archivo no soportado. Por favor, cargue un archivo CSV, Excel o "
+"PDF (Solo Wex) con el formato correcto."
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.view_upload_expense_statement_form
