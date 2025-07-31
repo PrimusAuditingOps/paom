@@ -567,43 +567,12 @@
 
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    document.querySelectorAll('form[id^="add_receipt_to_expense_form"]').forEach(function(form) {
-                                        console.log(form)
-                                        const submitButton = form.querySelector('button[type="submit"]');
-                                        const receiptInput = form.querySelector('input[name="receipt"]');
-                                        const categorySelect = form.querySelector('select[name="expense_category"]');
+                                    const form1 = document.getElementById('add_receipt_to_expense_form');
+                                    const submitButton1 = document.getElementById('add_receipt_to_expense_button_form');
 
-                                        console.log(receiptInput)
-                                        console.log(categorySelect)
-
-                                        if (!receiptInput || !categorySelect) return;
-
-                                        const requiresAttachment = receiptInput.dataset.requireAttachment === 'true';
-
-                                        console.log(requiresAttachment)
-
-                                        function updateReceiptRequired() {
-                                            const selectedOption = categorySelect.options[categorySelect.selectedIndex];
-                                            const selectedText = selectedOption.text.trim();
-
-                                            const shouldBeRequired = !(requiresAttachment &amp;&amp;
-                                                                    selectedText === "Auditor Travel: Meal");
-
-                                            if (shouldBeRequired) {
-                                                receiptInput.setAttribute('required', 'required');
-                                            } else {
-                                                receiptInput.removeAttribute('required');
-                                            }
-                                        }
-
-                                        categorySelect.addEventListener('change', updateReceiptRequired);
-                                        updateReceiptRequired();
-
-                                        form.addEventListener('submit', function() {
-                                            if (submitButton) {
-                                                submitButton.disabled = true;
-                                            }
-                                        });
+                                    form1.addEventListener('submit', function() {
+                                        // Disable the submit button to prevent multiple submissions
+                                        submitButton1.disabled = true;
                                     });
                                 });
                             </script>
