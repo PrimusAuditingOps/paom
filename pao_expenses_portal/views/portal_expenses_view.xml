@@ -456,8 +456,6 @@
                                 const selectedOption = categorySelect.options[categorySelect.selectedIndex];
                                 const selectedText = selectedOption ? selectedOption.text.trim() : '';
 
-                                console.log(categorySelect.value)
-
                                 if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
                                     receiptInput.required = false;
                                 } else {
@@ -783,8 +781,6 @@
                             function updateReceiptRequired() {
                                 const selectedOption = categorySelect.options[categorySelect.selectedIndex];
                                 const selectedText = selectedOption ? selectedOption.text.trim() : '';
-
-                                console.log(categorySelect.value)
 
                                 if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
                                     receiptInput.required = false;
