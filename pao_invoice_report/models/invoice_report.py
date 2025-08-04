@@ -54,6 +54,7 @@ class InvoiceReport(models.Model):
         ('invoicing_legacy', 'Invoicing App Legacy')],
         string="Payment Status", readonly=True)
     company_id = fields.Many2one('res.company','Company', readonly=True)
+    quotation_promoter = fields.Many2one('comisionpromotores.promotor', 'Quotation Consultant', readonly=True)
     # usd_net = fields.Monetary(related='invoice_id.ad_usd_neto', string="USD Net", readonly=True)
     # usd_total = fields.Monetary(related='invoice_id.ad_usd_total', string="USD Total", readonly=True)
     # mxn_net = fields.Monetary(related='invoice_id.ad_mxn_neto', string="MXN Net", readonly=True)
@@ -128,7 +129,8 @@ class InvoiceReport(models.Model):
             c.id as currency_id,
             --cr.rate as currency_rate,
             a.id as invoice_id,
-            a.company_id as company_id
+            a.company_id as company_id,
+            s.pao_promotor_id as quotation_promoter 
         """
 
         for field in fields.values():
@@ -185,6 +187,7 @@ class InvoiceReport(models.Model):
             --,cr.rate
             ,a.id
             ,a.company_id
+            ,s.pao_promotor_id
             %s
         """ % (groupby)
         return groupby_

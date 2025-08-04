@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sale_order_pao_consultant_view_form" model="ir.ui.view">
+        <field name="name">sale.order.pao.consultant.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="pao_org_rn_audit_information.sale_order_audit_information_view_form"/>
+        <field name="arch" type="xml">
+            <page name="pao_audit_information" position="inside">
+                <group>
+                    <field name="pao_promotor_id" options="{'no_create':True, 'create_edit': false,'no_open': True}"/>
+                </group>
+            </page> 
+        </field>
+    </record>
+</odoo>
