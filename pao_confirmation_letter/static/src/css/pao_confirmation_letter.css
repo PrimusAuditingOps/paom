@@ -1,0 +1,38 @@
+@font-face{
+   font-family: 'Montserrat';
+   font-style: normal;
+   src:url('/pao_confirmation_letter/static/src/fonts/Montserrat-Regular.ttf') format('truetype');
+}
+.page p, ul
+{   
+   text-align:justify; 
+   line-height: 1.15;
+   color: black;
+   font-family: 'Montserrat';
+   page-break-inside: avoid;
+}
+.page table tr td
+{
+   border:1px; 
+   border-color: black;
+   background-color:white;
+   font-family: 'Montserrat'; 
+   color: black;
+}
+.page table
+{
+   width:100%; 
+}
+.page h3, h2, h1
+{
+   font-family: 'Montserrat';
+   color: black;
+}
+.page h4
+{
+   text-align:center;
+   font-weight:Bold;
+   font-family: 'Montserrat';
+   color: black;
+}
+

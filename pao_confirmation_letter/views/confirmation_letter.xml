@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_confirmation_letter_view_form" model="ir.ui.view">
+        <field name="name">pao.confirmation.letter.view.form</field>
+        <field name="model">pao.confirmation.letter</field>
+        <field name="arch" type="xml">
+            <form string="Confirmation Letter">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                        <field name="partner_ids" widget="many2many_tags" readonly="1"/>
+                        <field name="organization_id" readonly="1"/>
+                        <field name="pao_registration_number_id" readonly="1"/>
+                        <field name="documento_format" readonly="1"/>
+                        <field name="sale_order_id" readonly="1"/>
+                        <field name="service_start_date" readonly="1"/>
+                        <field name="service_end_date" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Operations">
+                            <field name="operation_ids" widget="many2many" readonly="1">
+                                <tree string="Operations">
+                                    <field name="name"/>
+                                    <field name="operation_type"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="pao_confirmation_letter_view_tree" model="ir.ui.view">
+        <field name="name">pao.confirmation.letter.view.tree</field>
+        <field name="model">pao.confirmation.letter</field>
+        <field name="arch" type="xml">
+            <tree string="Confirmation Letter">
+                <field name="name"/>
+                <field name="documento_format"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="pao_confirmation_letter_action" model="ir.actions.act_window">
+        <field name="name">confirmation Letter</field>
+        <field name="res_model">pao.confirmation.letter</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create Confirmation Letter
+            </p>
+        </field>
+    </record>
+</odoo>

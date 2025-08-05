@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pao_confirmation_letter_report_gg_english">
+        <t t-set="confirmationletter" t-value="confirmationletter.with_context(lang='en_US')"/>
+        <div id="pao_confirmation_letter_content">
+            <div id="date" style="text-align: rigth;">
+                <p style="text-align: right;">
+                    Guadalajara, Jalisco, <span t-field="confirmationletter.create_date_text"/>
+                </p>
+            </div>
+            <div class="card-body">
+                <p>
+                    Dear supplier,
+                    <br/>
+                    <br/>
+                    This is to confirm the audit service with the following information.<br/>
+                    <b>Scheme:</b> <span t-field="confirmationletter.pao_registration_number_id.scheme_id.name"/> <span t-field="confirmationletter.pao_registration_number_id.scheme_id.version"/>
+                    <br/>
+                    <b>Organization:</b> <span t-field="confirmationletter.organization_id.name"/><br/>
+                    <b>Audit Date(s):</b> <span t-field="confirmationletter.service_start_date_text"/> to <span t-field="confirmationletter.service_end_date_text"/>
+                    
+                </p>
+                <br/>
+                <p style="text-align:center;"><b>Operation(s):</b></p>                
+                <table >
+                    <thead style="text-align:center">
+                        <tr>
+                            <th scope="col"><span style="text-transform: capitalize !important;">Operation Name</span></th>
+                            <th scope="col"><span style="text-transform: capitalize !important;">Operation Type</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="confirmationletter.operation_ids" t-as="operation">
+                            <td style="text-align:center;"><span t-field="operation.name"/></td>
+                            <td style="text-align:center;"> <span t-field="operation.operation_type"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/>
+                <p>
+                    At this time, we cannot confirm the results until the entire certification process is complete.
+                </p>
+                <p>
+                    Please make note that the auditor has 10 natural days to submit the preliminary results and the 
+                    organization has 28 days from the last day of the audit to close its non-conformities, the 
+                    organization will be able to submit the evidence onto the system as soon as the preliminary 
+                    results have been entered.
+                </p>
+                <p>
+                    If the organization meets the required certification percentage, the certificate will be issued 
+                    after the certification cycle is completed, which can take up to 56 days.
+                </p>
+                <p>
+                    Please contact Primus Auditing Ops by phone at (+52 33 1981 8572) or by email at 
+                    <a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> / <a href='mailto:globalgapmx@pao-mx.com.'>globalgapmx@pao-mx.com</a> 
+                    for any questions.
+                </p>
+                <p>
+                    Best Regards,
+                </p>
+                
+                
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <img style="width:230px; heigth:327px;" t-att-src="image_data_uri(confirmationletter.sudo().create_uid.sign_signature)" t-if="confirmationletter.sudo().create_uid.sign_signature"/>
+                        </p>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-esc="confirmationletter.sudo().create_uid.employee_id.job_id.with_context(lang='en_US').name"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-field="confirmationletter.sudo().create_uid.login"/>
+                        </p>
+                    </div>
+                   
+                </div>
+               
+                
+            </div>
+        </div>
+    </template>
+</odoo>
