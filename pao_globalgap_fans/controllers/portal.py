@@ -590,8 +590,13 @@ class CustomerPortal(portal.CustomerPortal):
                 message_id=message_id.id,
             )
             """
+            zone = fan_sudo.create_uid.tz
+            requested_tz = pytz.timezone(zone)
+            today = requested_tz.fromutc(datetime.utcnow())
 
-            fan_sudo.write({"request_status":"review"})
+            signature_date = today
+
+            fan_sudo.write({"request_status":"review", "signature_date": signature_date})
 
 
         except (AccessError, MissingError):
@@ -642,12 +647,16 @@ class CustomerPortal(portal.CustomerPortal):
         
 
 
-        
-        zone = fan_sudo.create_uid.tz
-        requested_tz = pytz.timezone(zone)
-        today = requested_tz.fromutc(datetime.utcnow())
+        if not fan_sudo.signature_date:
 
-        signature_date = today
+            zone = fan_sudo.create_uid.tz
+            requested_tz = pytz.timezone(zone)
+            today = requested_tz.fromutc(datetime.utcnow())
+
+            signature_date = today
+        else:
+            signature_date = fan_sudo.signature_date
+        
         fan_sudo.write(
             {
                 "signature": signature, 
