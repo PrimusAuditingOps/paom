@@ -117,7 +117,7 @@ class PurchaseOrderLine(models.Model):
                     prev_values[field] 
                     and vals.get(field) != prev_values[field] 
                     and vals.get(field) 
-                    and vals.get(field) >= today 
+                    and datetime.strptime(vals.get(field), "%Y-%m-%d").date() >= today 
                     for field in ['service_start_date', 'service_end_date']
                     if field in vals
                 )
