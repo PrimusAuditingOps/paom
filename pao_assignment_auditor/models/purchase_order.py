@@ -1,6 +1,7 @@
 from odoo import fields, models, api, _
 from math import acos, cos, sin, radians
 import datetime
+from datetime import date
 import calendar
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError, UserError
@@ -106,12 +107,17 @@ class PurchaseOrderLine(models.Model):
 
         result = super(PurchaseOrderLine, self).write(vals)
 
+        today = date.today()
+
         for record in self:
             if any(field in vals for field in ['service_start_date', 'service_end_date']):
                 prev_values = original_values.get(record.id, {})
 
                 changed_existing = any(
-                    prev_values[field] and vals.get(field) != prev_values[field]
+                    prev_values[field] 
+                    and vals.get(field) != prev_values[field] 
+                    and vals.get(field) 
+                    and vals.get(field) >= today 
                     for field in ['service_start_date', 'service_end_date']
                     if field in vals
                 )
