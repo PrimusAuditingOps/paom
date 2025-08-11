@@ -1,12 +1,6 @@
 from odoo import fields, models, api, _
-from math import acos, cos, sin, radians
-import datetime
-import calendar
-from dateutil.relativedelta import relativedelta
-from odoo.exceptions import ValidationError, UserError
-from logging import getLogger
-
-_logger = getLogger(__name__)
+from datetime import date, datetime
+from odoo.exceptions import ValidationError
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -21,6 +15,82 @@ class PurchaseOrder(models.Model):
         inverse_name='order_id',
         string='Top 10 Auditor Qualification',
     )
+    
+    def write(self, vals):
+        original_values = {}
+        for order in self:
+            original_values[order.id] = {
+                line.id: {
+                    'service_start_date': line.service_start_date,
+                    'service_end_date': line.service_end_date
+                }
+                for line in order.order_line
+            }
+
+        result = super().write(vals)
+
+        today = date.today()
+
+        for order in self:
+            notify = False
+            prev_values_order = original_values.get(order.id, {})
+
+            for line in order.order_line:
+                prev_values = prev_values_order.get(line.id, {})
+
+                changed_existing = any(
+                    prev_values.get(field) and
+                    getattr(line, field) and
+                    getattr(line, field) != prev_values.get(field) and
+                    getattr(line, field) >= today
+                    for field in ['service_start_date', 'service_end_date']
+                )
+                if changed_existing:
+                    notify = True
+                    break
+
+            if notify:
+                order._send_auditor_notification()
+
+        return result
+    
+    def _send_auditor_notification(self):
+        for rec in self:
+            if rec.state != 'draft':
+                
+                lang = self.env.context.get('lang', 'en_US')
+                is_spanish = lang.startswith('es')
+
+                date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
+                range_word = "al" if is_spanish else "to"
+                
+                line_details = ''
+                for line in rec.order_line:
+                    if not (line.service_start_date and line.service_end_date):
+                        continue
+
+                    start_date_str = line.service_start_date.strftime(date_format)
+                    end_date_str = line.service_end_date.strftime(date_format)
+
+                    line_details += "• {}, {} {} {}<br>".format(
+                        line.name or '',
+                        start_date_str,
+                        range_word,
+                        end_date_str
+                    )
+                    
+                message = _(
+                    "Dear auditor,<br><br>"
+                    "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
+                    "Please review the new audit date.<br>"
+                    "<strong>%s</strong><br><br>"
+                    "<strong>Operations Specialist: </strong>%s<br><br>"
+                    "We appreciate your attention and availability.<br><br>"
+                    "If you have any questions related to this service, please contact the team at "
+                    "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
+                ) % (rec.name, rec.partner_ref or rec.name, line_details, rec.coordinator_id.name or 'N/A')
+                rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
+    
 
     @api.onchange('assigned_auditor_id')
     def onchange_assigned_auditor_id(self):
@@ -90,44 +160,3 @@ class PurchaseOrder(models.Model):
                             ) % (line.order_id.name, line.order_id.audit_state_id.name, start_date.strftime('%Y-%m-%d')),
                         }
                     }
-    
-
-class PurchaseOrderLine(models.Model):
-    _inherit = 'purchase.order.line'
-    
-    def write(self, vals):
-        result = super(PurchaseOrderLine, self).write(vals)
-        for record in self:
-            if any(field in vals and vals[field] for field in ['service_start_date', 'service_end_date']):
-                record._send_auditor_notification()
-        return result
-    
-    def _send_auditor_notification(self):
-        for rec in self.mapped('order_id'):
-            if rec.state != 'draft' and rec.country_code == 'MX':
-                
-                lang = self.env.context.get('lang', 'en_US')
-                is_spanish = lang.startswith('es')
-
-                date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
-                range_word = "al" if is_spanish else "to"
-                
-                line_details = ''
-                for line in rec.order_line:
-                    line_details += "• {}, {} {} {}<br>".format(
-                        line.name,
-                        line.service_start_date.strftime(date_format),
-                        range_word,
-                        line.service_end_date.strftime(date_format)
-                    )
-                message = _(
-                    "Dear auditor,<br><br>"
-                    "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
-                    "Please review the new audit date.<br>"
-                    "<strong>%s</strong><br><br>"
-                    "<strong>Operations Specialist: </strong>%s<br><br>"
-                    "We appreciate your attention and availability.<br><br>"
-                    "If you have any questions related to this service, please contact the team at "
-                    "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
-                ) % (rec.name, rec.partner_ref or rec.name, line_details, rec.coordinator_id.name or 'N/A')
-                rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
