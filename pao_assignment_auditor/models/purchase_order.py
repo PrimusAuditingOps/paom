@@ -1,7 +1,6 @@
 from odoo import fields, models, api, _
 from math import acos, cos, sin, radians
-import datetime
-from datetime import date
+from datetime import date, datetime
 import calendar
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError, UserError
