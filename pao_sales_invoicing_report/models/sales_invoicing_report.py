@@ -67,7 +67,8 @@ class SalesInvoicingReport(models.Model):
     order_end_date = fields.Date('Order End Date', readonly=True)
     
     quantity = fields.Float('Invoiced Quantity', readonly=True)
-    
+    quotation_promoter = fields.Many2one('comisionpromotores.promotor', 'Quotation Consultant', readonly=True)
+
     def _select(self, fields=None):
         if not fields:
             fields = {}
@@ -114,8 +115,9 @@ class SalesInvoicingReport(models.Model):
             l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
             c.id as currency_id,
             partner.state_id as state_id,
-            partner.city_id as city_id 
-            
+            partner.city_id as city_id, 
+            so.pao_promotor_id as quotation_promoter 
+             
         """
 
         for field in fields.values():
@@ -175,7 +177,8 @@ class SalesInvoicingReport(models.Model):
             l.account_id,
             l.id,
             partner.state_id,
-            partner.city_id %s
+            partner.city_id,
+            so.pao_promotor_id %s
         """ % (groupby)
         return groupby_
 

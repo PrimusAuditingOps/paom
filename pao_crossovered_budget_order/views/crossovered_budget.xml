@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="pao_crossovered_budget_order_view_form" model="ir.ui.view">
+        <field name="name">pao.crossovered.budget.order.view.form</field>
+        <field name="model">crossovered.budget</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account_budget.crossovered_budget_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/field[@name='crossovered_budget_line']/tree/field[@name='general_budget_id']" position="before">
+                   <field name="pao_sequence" widget="handle"/>
+                </xpath>
+            </field>
+    </record>
+</odoo>

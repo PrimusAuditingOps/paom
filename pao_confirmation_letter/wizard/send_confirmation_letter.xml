@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pao_send_confirmation_letter_wizard_view_form" model="ir.ui.view">
+        <field name="name">pao.send.confirmation.letter.wizard.view.form</field>
+        <field name="model">pao.send.confirmation.letter.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send Letter of Confirmation" class="pt-0 pb-0 o_mail_composer_form" delete="False">
+                <group>
+                    <field name="available_registration_numbers_ids" invisible="1"/>
+                    <field name="registration_number_id" options="{'no_create':True, 'create_edit': false, 'no_open': True}" domain="[('id', 'in', available_registration_numbers_ids)]"/>
+                    <field name="documento_format"/>
+                    <field name="organization_id" invisible="1"/>
+                    <field name="sale_order_id" invisible="1"/>
+                    <field name="service_start_date" invisible="1"/>
+                    <field name="service_end_date" invisible="1"/>
+                </group>
+                <group string="Operations" name="operations">
+                    <field name="operation_ids" required="1" nolabel="1" colspan="2" widget="one2many_list" can_create="True" can_write="True" field_id="operation_ids_0">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="operation_type"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                   
+                    <field name="partner_ids" required="1" widget="many2many_tags_email" placeholder="Add contacts to send Confirmation letter..." options="{'no_quick_create': True',create_edit': false, 'no_open': True}"/>
+                    <field name="mail_template_id" options="{'no_create':True, 'create_edit': false,'no_open': True}"/>
+                    <field name="subject" placeholder="Enter Subject"/>
+                    <field name="message" placeholder="Optional Message..."/>
+                    <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
+                </group>
+                
+                <footer>
+                    <button string="Send Letter of Confirmation" name="create_confirmation_letter" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pao_send_confirmation_letter" model="ir.actions.act_window">
+        <field name="name">Send Confirmation Letter</field>
+        <field name="res_model">pao.send.confirmation.letter.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field> 
+    </record>
+
+     <record id="action_open_pao_confirmation_letter" model="ir.actions.server">
+        <field name="name">Send Letter of Confirmation</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="binding_type">action</field>
+        <field name="code">
+            action = {
+                'type': 'ir.actions.act_window',
+                'name': 'Send Letter of Confirmation',
+                'res_model': 'pao.send.confirmation.letter.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {
+                    'default_sale_order_id': records[0].id,
+                }
+            }
+        </field>
+    </record>
+</odoo>

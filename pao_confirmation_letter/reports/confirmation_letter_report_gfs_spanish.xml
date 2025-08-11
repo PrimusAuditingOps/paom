@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pao_confirmation_letter_report_gfs_spanish">
+        <t t-set="confirmationletter" t-value="confirmationletter.with_context(lang='es_MX')"/>
+        <div id="pao_confirmation_letter_content">
+            <div id="date" style="text-align: rigth;">
+                <p style="text-align: right;">
+                    Guadalajara, Jalisco, <span t-field="confirmationletter.create_date_spanish_text"/>
+                </p>
+            </div>
+            <div class="card-body">
+                <p>
+                    Estimado proveedor,
+                    <br/>
+                    <br/>
+                    Por medio de la presente confirmo el servicio de auditoría correspondiente 
+                    a la siguiente información.
+                    <br/>
+                    <b>Esquema:</b> <span t-field="confirmationletter.pao_registration_number_id.scheme_id.name"/> <span t-field="confirmationletter.pao_registration_number_id.scheme_id.version"/>
+                    <br/>
+                    <b>Organización:</b> <span t-field="confirmationletter.organization_id.name"/>
+                    <br/>
+                    <b>Fecha confirmada:</b> <span t-field="confirmationletter.service_start_date_spanish_text"/> al <span t-field="confirmationletter.service_end_date_spanish_text"/>
+                </p>
+                <br/>
+                <p style="text-align:center;"><b>Operación(es):</b></p>                
+                <table >
+                    <thead style="text-align:center">
+                        <tr>
+                            <th scope="col"><span style="text-transform: capitalize !important;">Nombre de la operación</span></th>
+                            <th scope="col"><span style="text-transform: capitalize !important;">Tipo de operación</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="confirmationletter.operation_ids" t-as="operation">
+                            <td style="text-align:center;"><span t-field="operation.name"/></td>
+                            <td style="text-align:center;"> <span t-field="operation.operation_type"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/>
+                <p>
+                    En este momento no es posible confirmar los resultados ya que las auditorías no se finalizarán 
+                    hasta que todo el proceso de auditoría esté completo. 
+                </p>
+                <p>
+                    Por favor, tenga en cuenta que el auditor tiene 10 días naturales para presentar los resultados 
+                    preliminares y la organización tiene un mes calendario a partir de la fecha de la auditoría para 
+                    trabajar en sus no conformidades, la organización podrá capturar formalmente respuestas en el 
+                    sistema tan pronto como los resultados preliminares sean enviados.
+                </p>
+                <p>
+                    Una vez presentadas todas las acciones correctivas son revisadas y aceptadas o rechazadas. 
+                    Cuando se completa la revisión, se notifica a la organización y se cierra la auditoría. Si la 
+                    organización cumple con la certificación, recibirá su certificado una vez cerrada la auditoría. 
+                    Todo el proceso puede tardar hasta 45 días.
+                </p>
+                <p>
+                    Póngase en contacto con Primus Auditing Ops por teléfono al 33 1981 8572 o por correo electrónico al 
+                    <a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> / <a href='mailto:calidadmx@pao-mx.com.'>calidadmx@pao-mx.com.</a>
+                </p>
+                <p>
+                    Atentamente,
+                </p>
+                
+                
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <img style="width:300px; heigth:327px;" t-att-src="image_data_uri(confirmationletter.sudo().create_uid.sign_signature)" t-if="confirmationletter.sudo().create_uid.sign_signature"/>
+                        </p>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-field="confirmationletter.sudo().create_uid.employee_id.job_id.name"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p style="text-align:left;">
+                            <span t-field="confirmationletter.sudo().create_uid.login"/>
+                        </p>
+                    </div>
+                   
+                </div>
+               
+                
+            </div>
+        </div>
+    </template>
+</odoo>

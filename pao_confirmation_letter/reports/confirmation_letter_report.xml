@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+ 
+
+    <record id="pao_confirmation_letter_report" model="ir.actions.report">
+        <field name="name">Confirmation Letter Report</field>
+        <field name="model">pao.confirmation.letter</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_confirmation_letter.pao_confirmation_letter_report_view</field>
+        <field name="report_file">pao_confirmation_letter.report_confirmation_letter</field>
+        <field name="print_report_name">'Confirmation Letter'</field>
+        <field name="binding_model_id" ref="model_pao_confirmation_letter"/>
+        <field name="binding_type">report</field>
+    </record>
+    
+    
+    <template id="pao_confirmation_letter_report_view">
+        <t t-call="web.html_container">
+            <div t-attf-class="article o_report_layout_boxed" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id">
+                <!--Header/Footer-->
+                <xpath expr="//head" position="attributes">
+                    <link rel='stylesheet' href="/pao_confirmation_letter/static/src/css/pao_confirmation_letter.css"/>
+                </xpath>
+
+                <t t-if="confirmationletter.documento_format == 'gfs_letter_english'" t-call="pao_confirmation_letter.pao_confirmation_letter_header_footer_gfs_english"/>
+                <t t-if="confirmationletter.documento_format == 'gfs_letter_spanish'" t-call="pao_confirmation_letter.pao_confirmation_letter_header_footer_gfs_spanish"/>
+                <t t-if="confirmationletter.documento_format == 'gg_letter_english'" t-call="pao_confirmation_letter.pao_confirmation_letter_header_footer_gg_english"/>
+                <t t-if="confirmationletter.documento_format == 'gg_letter_spanish'" t-call="pao_confirmation_letter.pao_confirmation_letter_header_footer_gg_spanish"/>
+
+                <div class="page">
+                    <t t-if="confirmationletter.documento_format == 'gfs_letter_english'" t-call="pao_confirmation_letter.pao_confirmation_letter_report_gfs_english"/>
+                    <t t-if="confirmationletter.documento_format == 'gfs_letter_spanish'" t-call="pao_confirmation_letter.pao_confirmation_letter_report_gfs_spanish"/>
+                    <t t-if="confirmationletter.documento_format == 'gg_letter_english'" t-call="pao_confirmation_letter.pao_confirmation_letter_report_gg_english"/>
+                    <t t-if="confirmationletter.documento_format == 'gg_letter_spanish'" t-call="pao_confirmation_letter.pao_confirmation_letter_report_gg_spanish"/>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
