@@ -1,12 +1,6 @@
 from odoo import fields, models, api, _
-from math import acos, cos, sin, radians
 from datetime import date, datetime
-import calendar
-from dateutil.relativedelta import relativedelta
-from odoo.exceptions import ValidationError, UserError
-from logging import getLogger
-
-_logger = getLogger(__name__)
+from odoo.exceptions import ValidationError
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -91,44 +85,19 @@ class PurchaseOrder(models.Model):
                         }
                     }
     
-
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     
     def write(self, vals):
-        original_values = {
-            rec.id: {
-                'service_start_date': rec.service_start_date,
-                'service_end_date': rec.service_end_date
-            }
-            for rec in self
-        }
-
         result = super(PurchaseOrderLine, self).write(vals)
-
-        today = date.today()
-
         for record in self:
-            if any(field in vals for field in ['service_start_date', 'service_end_date']):
-                prev_values = original_values.get(record.id, {})
-
-                changed_existing = any(
-                    prev_values[field] 
-                    and vals.get(field) != prev_values[field] 
-                    and vals.get(field) 
-                    and datetime.strptime(vals.get(field), "%Y-%m-%d").date() >= today 
-                    for field in ['service_start_date', 'service_end_date']
-                    if field in vals
-                )
-
-                if changed_existing:
-                    record._send_auditor_notification()
-
+            if any(field in vals and vals[field] for field in ['service_start_date', 'service_end_date']):
+                record._send_auditor_notification()
         return result
     
     def _send_auditor_notification(self):
         for rec in self.mapped('order_id'):
-            if rec.state != 'draft':
+            if rec.state != 'draft' and rec.country_code == 'MX':
                 
                 lang = self.env.context.get('lang', 'en_US')
                 is_spanish = lang.startswith('es')
@@ -138,19 +107,12 @@ class PurchaseOrderLine(models.Model):
                 
                 line_details = ''
                 for line in rec.order_line:
-                    if not (line.service_start_date and line.service_end_date):
-                        continue
-
-                    start_date_str = line.service_start_date.strftime(date_format)
-                    end_date_str = line.service_end_date.strftime(date_format)
-
                     line_details += "• {}, {} {} {}<br>".format(
-                        line.name or '',
-                        start_date_str,
+                        line.name,
+                        line.service_start_date.strftime(date_format),
                         range_word,
-                        end_date_str
+                        line.service_end_date.strftime(date_format)
                     )
-                    
                 message = _(
                     "Dear auditor,<br><br>"
                     "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
