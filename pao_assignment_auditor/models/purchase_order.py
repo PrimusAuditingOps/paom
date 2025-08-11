@@ -101,23 +101,26 @@ class PurchaseOrderLine(models.Model):
         result = super(PurchaseOrderLine, self).write(vals)
 
         today = date.today()
+        orders_to_notify = self.env['purchase.order']
 
-        changed_existing = False
         for record in self:
             if any(field in vals for field in ['service_start_date', 'service_end_date']):
                 prev_values = original_values.get(record.id, {})
 
                 changed_existing = any(
-                    prev_values[field] 
-                    and vals.get(field) != prev_values[field] 
-                    and vals.get(field) 
-                    and datetime.strptime(vals.get(field), "%Y-%m-%d").date() >= today 
+                    prev_values.get(field)
+                    and vals.get(field) != prev_values.get(field)
+                    and vals.get(field)
+                    and datetime.strptime(vals.get(field), "%Y-%m-%d").date() >= today
                     for field in ['service_start_date', 'service_end_date']
                     if field in vals
                 )
 
-        if changed_existing:
-            self._send_auditor_notification()
+                if changed_existing:
+                    orders_to_notify |= record.order_id
+
+        for order in orders_to_notify:
+            order.order_line._send_auditor_notification()
 
         return result
     
