@@ -15,6 +15,49 @@ class PurchaseOrder(models.Model):
         inverse_name='order_id',
         string='Top 10 Auditor Qualification',
     )
+    
+    def write(self, vals):
+        # Guardamos los valores originales de las fechas de todas las líneas antes del write
+        original_values = {}
+        for order in self:
+            original_values[order.id] = {
+                line.id: {
+                    'service_start_date': line.service_start_date,
+                    'service_end_date': line.service_end_date
+                }
+                for line in order.order_line
+            }
+
+        result = super().write(vals)
+
+        today = date.today()
+
+        for order in self:
+            notify = False
+            # Obtenemos los valores originales para las líneas de este pedido
+            prev_values_order = original_values.get(order.id, {})
+
+            for line in order.order_line:
+                prev_values = prev_values_order.get(line.id, {})
+
+                # Comprobamos si alguna de las fechas cambió y cumple las condiciones
+                changed_existing = any(
+                    prev_values.get(field) and                    # fecha anterior definida
+                    getattr(line, field) and                       # fecha nueva definida
+                    getattr(line, field) != prev_values.get(field) and  # fecha nueva distinta a anterior
+                    getattr(line, field) >= today                  # fecha nueva >= hoy
+                    for field in ['service_start_date', 'service_end_date']
+                )
+                if changed_existing:
+                    notify = True
+                    break  # basta con un cambio para notificar una vez
+
+            if notify:
+                # Llamamos al método en las líneas para enviar la notificación (una sola vez por pedido)
+                order.order_line._send_auditor_notification()
+
+        return result
+    
 
     @api.onchange('assigned_auditor_id')
     def onchange_assigned_auditor_id(self):
@@ -89,76 +132,70 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     
-    def write(self, vals):
-        original_values = {
-            rec.id: {
-                'service_start_date': rec.service_start_date,
-                'service_end_date': rec.service_end_date
-            }
-            for rec in self
-        }
+    # def write(self, vals):
+    #     original_values = {
+    #         rec.id: {
+    #             'service_start_date': rec.service_start_date,
+    #             'service_end_date': rec.service_end_date
+    #         }
+    #         for rec in self
+    #     }
 
-        result = super(PurchaseOrderLine, self).write(vals)
+    #     result = super(PurchaseOrderLine, self).write(vals)
 
-        today = date.today()
-        orders_to_notify = self.env['purchase.order']
+    #     today = date.today()
 
-        for record in self:
-            if any(field in vals for field in ['service_start_date', 'service_end_date']):
-                prev_values = original_values.get(record.id, {})
+    #     for record in self:
+    #         if any(field in vals for field in ['service_start_date', 'service_end_date']):
+    #             prev_values = original_values.get(record.id, {})
 
-                changed_existing = any(
-                    prev_values.get(field)
-                    and vals.get(field) != prev_values.get(field)
-                    and vals.get(field)
-                    and datetime.strptime(vals.get(field), "%Y-%m-%d").date() >= today
-                    for field in ['service_start_date', 'service_end_date']
-                    if field in vals
-                )
+    #             changed_existing = any(
+    #                 prev_values[field] 
+    #                 and vals.get(field) != prev_values[field] 
+    #                 and vals.get(field) 
+    #                 and datetime.strptime(vals.get(field), "%Y-%m-%d").date() >= today 
+    #                 for field in ['service_start_date', 'service_end_date']
+    #                 if field in vals
+    #             )
 
-                if changed_existing:
-                    orders_to_notify |= record.order_id
+    #             if changed_existing:
+    #                 record._send_auditor_notification()
 
-        # Send one notification per purchase order
-        for order in orders_to_notify:
-            self._send_auditor_notification_for_order(order)
-
-        return result
+    #     return result
     
-    def _send_auditor_notification_for_order(self, order):
-        if order.state == 'draft':
-            return
+    def _send_auditor_notification(self):
+        for rec in self.mapped('order_id'):
+            if rec.state != 'draft':
+                
+                lang = self.env.context.get('lang', 'en_US')
+                is_spanish = lang.startswith('es')
 
-        lang = self.env.context.get('lang', 'en_US')
-        is_spanish = lang.startswith('es')
+                date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
+                range_word = "al" if is_spanish else "to"
+                
+                line_details = ''
+                for line in rec.order_line:
+                    if not (line.service_start_date and line.service_end_date):
+                        continue
 
-        date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
-        range_word = "al" if is_spanish else "to"
-        
-        line_details = ''
-        for line in order.order_line:
-            if not (line.service_start_date and line.service_end_date):
-                continue
+                    start_date_str = line.service_start_date.strftime(date_format)
+                    end_date_str = line.service_end_date.strftime(date_format)
 
-            start_date_str = line.service_start_date.strftime(date_format)
-            end_date_str = line.service_end_date.strftime(date_format)
-
-            line_details += "• {}, {} {} {}<br>".format(
-                line.name or '',
-                start_date_str,
-                range_word,
-                end_date_str
-            )
-            
-        message = _(
-            "Dear auditor,<br><br>"
-            "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
-            "Please review the new audit date.<br>"
-            "<strong>%s</strong><br><br>"
-            "<strong>Operations Specialist: </strong>%s<br><br>"
-            "We appreciate your attention and availability.<br><br>"
-            "If you have any questions related to this service, please contact the team at "
-            "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
-        ) % (order.name, order.partner_ref or order.name, line_details, order.coordinator_id.name or 'N/A')
-        
-        order.message_post(body=message, body_is_html=True, partner_ids=[order.partner_id.id])
+                    line_details += "• {}, {} {} {}<br>".format(
+                        line.name or '',
+                        start_date_str,
+                        range_word,
+                        end_date_str
+                    )
+                    
+                message = _(
+                    "Dear auditor,<br><br>"
+                    "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
+                    "Please review the new audit date.<br>"
+                    "<strong>%s</strong><br><br>"
+                    "<strong>Operations Specialist: </strong>%s<br><br>"
+                    "We appreciate your attention and availability.<br><br>"
+                    "If you have any questions related to this service, please contact the team at "
+                    "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
+                ) % (rec.name, rec.partner_ref or rec.name, line_details, rec.coordinator_id.name or 'N/A')
+                rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
