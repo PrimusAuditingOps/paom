@@ -96,10 +96,29 @@ class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     
     def write(self, vals):
+        original_values = {
+            rec.id: {
+                'service_start_date': rec.service_start_date,
+                'service_end_date': rec.service_end_date
+            }
+            for rec in self
+        }
+
         result = super(PurchaseOrderLine, self).write(vals)
+
         for record in self:
-            if any(field in vals and vals[field] for field in ['service_start_date', 'service_end_date']):
-                record._send_auditor_notification()
+            if any(field in vals for field in ['service_start_date', 'service_end_date']):
+                prev_values = original_values.get(record.id, {})
+
+                changed_existing = any(
+                    prev_values[field] and vals.get(field) != prev_values[field]
+                    for field in ['service_start_date', 'service_end_date']
+                    if field in vals
+                )
+
+                if changed_existing:
+                    record._send_auditor_notification()
+
         return result
     
     def _send_auditor_notification(self):
@@ -114,12 +133,19 @@ class PurchaseOrderLine(models.Model):
                 
                 line_details = ''
                 for line in rec.order_line:
+                    if not (line.service_start_date and line.service_end_date):
+                        continue
+
+                    start_date_str = line.service_start_date.strftime(date_format)
+                    end_date_str = line.service_end_date.strftime(date_format)
+
                     line_details += "• {}, {} {} {}<br>".format(
-                        line.name,
-                        line.service_start_date.strftime(date_format),
+                        line.name or '',
+                        start_date_str,
                         range_word,
-                        line.service_end_date.strftime(date_format)
+                        end_date_str
                     )
+                    
                 message = _(
                     "Dear auditor,<br><br>"
                     "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
