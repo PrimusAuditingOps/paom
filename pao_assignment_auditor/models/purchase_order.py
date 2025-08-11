@@ -50,7 +50,7 @@ class PurchaseOrder(models.Model):
                     break
 
             if notify:
-                order.order_line._send_auditor_notification()
+                order._send_auditor_notification()
 
         return result
     
