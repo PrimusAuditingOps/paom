@@ -102,6 +102,7 @@ class PurchaseOrderLine(models.Model):
 
         today = date.today()
 
+        changed_existing = False
         for record in self:
             if any(field in vals for field in ['service_start_date', 'service_end_date']):
                 prev_values = original_values.get(record.id, {})
