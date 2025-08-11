@@ -119,44 +119,46 @@ class PurchaseOrderLine(models.Model):
                 if changed_existing:
                     orders_to_notify |= record.order_id
 
+        # Send one notification per purchase order
         for order in orders_to_notify:
-            order.order_line._send_auditor_notification()
+            self._send_auditor_notification_for_order(order)
 
         return result
     
-    def _send_auditor_notification(self):
-        for rec in self.mapped('order_id'):
-            if rec.state != 'draft':
-                
-                lang = self.env.context.get('lang', 'en_US')
-                is_spanish = lang.startswith('es')
+    def _send_auditor_notification_for_order(self, order):
+        if order.state == 'draft':
+            return
 
-                date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
-                range_word = "al" if is_spanish else "to"
-                
-                line_details = ''
-                for line in rec.order_line:
-                    if not (line.service_start_date and line.service_end_date):
-                        continue
+        lang = self.env.context.get('lang', 'en_US')
+        is_spanish = lang.startswith('es')
 
-                    start_date_str = line.service_start_date.strftime(date_format)
-                    end_date_str = line.service_end_date.strftime(date_format)
+        date_format = "%d/%m/%Y" if is_spanish else "%m/%d/%Y"
+        range_word = "al" if is_spanish else "to"
+        
+        line_details = ''
+        for line in order.order_line:
+            if not (line.service_start_date and line.service_end_date):
+                continue
 
-                    line_details += "• {}, {} {} {}<br>".format(
-                        line.name or '',
-                        start_date_str,
-                        range_word,
-                        end_date_str
-                    )
-                    
-                message = _(
-                    "Dear auditor,<br><br>"
-                    "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
-                    "Please review the new audit date.<br>"
-                    "<strong>%s</strong><br><br>"
-                    "<strong>Operations Specialist: </strong>%s<br><br>"
-                    "We appreciate your attention and availability.<br><br>"
-                    "If you have any questions related to this service, please contact the team at "
-                    "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
-                ) % (rec.name, rec.partner_ref or rec.name, line_details, rec.coordinator_id.name or 'N/A')
-                rec.message_post(body=message, body_is_html=True, partner_ids=[rec.partner_id.id])
+            start_date_str = line.service_start_date.strftime(date_format)
+            end_date_str = line.service_end_date.strftime(date_format)
+
+            line_details += "• {}, {} {} {}<br>".format(
+                line.name or '',
+                start_date_str,
+                range_word,
+                end_date_str
+            )
+            
+        message = _(
+            "Dear auditor,<br><br>"
+            "The service dates for the audit %s with reference &quot;%s&quot; have been updated:<br><br>"
+            "Please review the new audit date.<br>"
+            "<strong>%s</strong><br><br>"
+            "<strong>Operations Specialist: </strong>%s<br><br>"
+            "We appreciate your attention and availability.<br><br>"
+            "If you have any questions related to this service, please contact the team at "
+            "<a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> or directly with your Operations Specialist."
+        ) % (order.name, order.partner_ref or order.name, line_details, order.coordinator_id.name or 'N/A')
+        
+        order.message_post(body=message, body_is_html=True, partner_ids=[order.partner_id.id])
