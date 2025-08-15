@@ -84,7 +84,7 @@ class UploadExpenseStatement(models.TransientModel):
                         'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
                         'summary': _('New expense to complete and send for approval'),
                         'note': _('You have a new expense to complete and send for approval.'),
-                        'res_model_id': self.env['ir.model'].search([('model', '=', 'hr.expense')], limit=1).id,
+                        'res_model_id': self.env['ir.model'].sudo().search([('model', '=', 'hr.expense')], limit=1).id,
                         'res_id': expense.id,
                         'user_id': expense.employee_id.user_id.id,
                         'create_uid': odoo_bot.id,
