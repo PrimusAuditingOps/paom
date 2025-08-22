@@ -193,7 +193,6 @@ class SASendRequest(models.TransientModel):
 
             orderLine = filter(lambda x: x['registrynumber_id'].id == rn.id, self.sale_order_id.order_line)
             msg = ""
-            _logger.error(self.sale_order_id.name)
             for line in orderLine:
                 if line.product_template_id:
                     if self.sale_order_id.audit_type != 'unannounced' and (not line.service_end_date or not line.service_start_date):

@@ -104,7 +104,7 @@ class CustomerPortal(portal.CustomerPortal):
             sa_sudo = self._document_check_access('pao.sign.sa.agreements.sent', sa_id, access_token=sa_token)
         except (AccessError, MissingError):
             return request.redirect('/')
-
+        
         current_path = request.httprequest.path
         # signer = 'customer' if current_path.startswith('/sign/sa') else 'coordinator'
 
