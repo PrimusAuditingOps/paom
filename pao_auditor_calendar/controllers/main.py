@@ -31,7 +31,6 @@ class WebsiteAuditorCalendar(http.Controller):
     
     @http.route('/auditor_agenda/get_events', type='json', auth='user')
     def get_events(self):
-        
         partner = request.env.user.partner_id
         portal_audit_status = request.env['auditconfirmation.auditstate'].sudo().search([("show_in_portal", "=", True), ('company_id', '=',  request.env.company.id)])
         statuses_colors = ['transparent', 'Red', 'Orange', 'Yellow', 'Cyan', 'Purple',
@@ -49,44 +48,72 @@ class WebsiteAuditorCalendar(http.Controller):
         
         events = []
         for order in purchase_orders:
-            
-            order_lines_data = []
-            
-            min_start_date = datetime.max.date()
-            max_end_date = datetime.min.date()
-            
+            # collect all lines with valid ranges
+            line_ranges = []
             for line in order.order_line:
-                if line.service_start_date and line.service_start_date < min_start_date:
-                    min_start_date = line.service_start_date
-                if line.service_end_date and line.service_end_date > max_end_date:
-                    max_end_date = line.service_end_date
-                
-                order_lines_data.append({
-                    'description': line.name,
-                    'organization': line.organization_id.name if line.organization_id else '',
-                    'registry_number': line.registrynumber_id.name if line.registrynumber_id else '',
-                    'start_date': line.service_start_date,
-                    'end_date': line.service_end_date
+                if line.service_start_date and line.service_end_date:
+                    line_ranges.append({
+                        'start': line.service_start_date,
+                        'end': line.service_end_date,
+                        'line': line,
+                    })
+
+            # sort ranges by start date
+            line_ranges.sort(key=lambda r: r['start'])
+
+            # group into continuous ranges
+            grouped_ranges = []
+            current_group = []
+
+            for r in line_ranges:
+                if not current_group:
+                    current_group.append(r)
+                else:
+                    last_end = current_group[-1]['end']
+                    # if gap > 1 day, start new group
+                    if r['start'] > last_end + timedelta(days=1):
+                        grouped_ranges.append(current_group)
+                        current_group = [r]
+                    else:
+                        current_group.append(r)
+
+            if current_group:
+                grouped_ranges.append(current_group)
+
+            # now create one event per group
+            for group in grouped_ranges:
+                min_start_date = min(r['start'] for r in group)
+                max_end_date = max(r['end'] for r in group)
+
+                order_lines_data = []
+                for r in group:
+                    line = r['line']
+                    order_lines_data.append({
+                        'description': line.name,
+                        'organization': line.organization_id.name if line.organization_id else '',
+                        'registry_number': line.registrynumber_id.name if line.registrynumber_id else '',
+                        'start_date': line.service_start_date,
+                        'end_date': line.service_end_date
+                    })
+
+                events.append({
+                    'id': str(uuid.uuid4()),
+                    'title': order.display_name,
+                    'start': min_start_date,
+                    'end': max_end_date + timedelta(days=1), # End date that FullCalendar will consider for creating and displaying the event on the calendar; one day is added because the calendar takes the end date with a time of 12 AM, which results in the event ending at the beginning of that end day instead of showing it in its entirety.
+                    'display_end_date': max_end_date + timedelta(days=1), # End date to be displayed in the event details; one day is added because when creating a Date object, one day is subtracted.
+                    'backgroundColor': statuses_colors[order.ac_audit_status.color],
+                    'order_lines': order_lines_data,
+                    'type': order.ac_audit_status.name,
+                    'city': order.audit_city_id.name,
+                    'customer': order.sale_order_id.partner_id.name if order.sale_order_id else '',
+                    'coordinator': order.coordinator_id.name,
+                    'auditor_availability': order.ac_audit_confirmation_status,
+                    'ra_download_link': '/auditor_agenda/download_ra/' + str(order.id),
+                    'state': order.audit_state_id.name,
+                    'allDay': True,
+                    'editable': False,
                 })
-                    
-            events.append({
-                'id': str(uuid.uuid4()),
-                'title': order.display_name,
-                'start': min_start_date,
-                'end': max_end_date + timedelta(days=1), # End date that FullCalendar will consider for creating and displaying the event on the calendar; one day is added because the calendar takes the end date with a time of 12 AM, which results in the event ending at the beginning of that end day instead of showing it in its entirety.
-                'display_end_date': max_end_date + timedelta(days=1), # End date to be displayed in the event details; one day is added because when creating a Date object, one day is subtracted.
-                'backgroundColor': statuses_colors[order.ac_audit_status.color],
-                'order_lines': order_lines_data,
-                'type': order.ac_audit_status.name,
-                'city': order.audit_city_id.name,
-                'customer': order.sale_order_id.partner_id.name if order.sale_order_id else '',
-                'coordinator': order.coordinator_id.name,
-                'auditor_availability': order.ac_audit_confirmation_status,
-                'ra_download_link': '/auditor_agenda/download_ra/' + str(order.id),
-                'state': order.audit_state_id.name,
-                'allDay': True,
-                'editable': False,
-            })
         
         auditor_days_off = request.env['auditordaysoff.days'].sudo().search(
             [('auditor_id', '=', partner.id)],
