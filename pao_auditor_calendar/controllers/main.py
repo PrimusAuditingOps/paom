@@ -80,21 +80,21 @@ class WebsiteAuditorCalendar(http.Controller):
             if current_group:
                 grouped_ranges.append(current_group)
 
+            order_lines_data = []
+            for line in order.order_line:
+                order_lines_data.append({
+                    'description': line.name,
+                    'organization': line.organization_id.name if line.organization_id else '',
+                    'registry_number': line.registrynumber_id.name if line.registrynumber_id else '',
+                    'start_date': line.service_start_date,
+                    'end_date': line.service_end_date
+                })
+                
             # now create one event per group
             for group in grouped_ranges:
                 min_start_date = min(r['start'] for r in group)
                 max_end_date = max(r['end'] for r in group)
 
-                order_lines_data = []
-                for r in group:
-                    line = r['line']
-                    order_lines_data.append({
-                        'description': line.name,
-                        'organization': line.organization_id.name if line.organization_id else '',
-                        'registry_number': line.registrynumber_id.name if line.registrynumber_id else '',
-                        'start_date': line.service_start_date,
-                        'end_date': line.service_end_date
-                    })
 
                 events.append({
                     'id': str(uuid.uuid4()),
