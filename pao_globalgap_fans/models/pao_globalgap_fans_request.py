@@ -29,6 +29,10 @@ class PaoGlobalgapFansRequest(models.Model):
         'res.partner', 
         string="Capturist customer",
     )
+    responsible_id = fields.Many2one(
+        'res.partner', 
+        string="Responsible customer",
+    )
     capturist_email = fields.Char(
         string="Capturist customer Email",
     )
@@ -299,12 +303,14 @@ class PaoGlobalgapFansRequest(models.Model):
                     form_url = url_join(base_url, '/pao/fan/signature/%s/%s' % (fan.id, fan.access_token))            
                     subject = _("Solicitud de firma para el registro de aplicación GLOBALG.A.P") if fan.request_status == "draft" else _("Solicitud de firma para el registro de aplicacion GLOBALG.A.P")
                     template = 'pao_globalgap_fans.fans_reminder_request_signature_mail'
+                    email_to = fan.signer_id.email_formatted if fan.signer_id else fan.capturist_id.email_formatted
                     
                 elif fan.request_status == 'correction':
                     form_url = url_join(base_url, '/pao/fillout/fans/%s/%s' % (fan.id, fan.access_token))
                     subject = _("Solicitud de registro de aplicación GLOBALG.A.P") if fan.request_status == "draft" else _("Solicitud de correción para el registro de aplicacion GLOBALG.A.P")
                     fan.write({"request_url": form_url})
                     template = 'pao_globalgap_fans.fans_reminder_request_template_mail'
+                    email_to = fan.responsible_id.email_formatted
 
                 else:
                     continue
@@ -322,9 +328,33 @@ class PaoGlobalgapFansRequest(models.Model):
                     {'model_description': _('FAN Reminder'), 'company': fan.create_uid.company_id},
                     {'email_from': fan.create_uid.email_formatted,
                         'author_id': fan.create_uid.partner_id.id,
-                        'email_to': fan.capturist_id.email_formatted,
+                        'email_to': email_to,
                         'subject': subject},
                     force_send=True,
                     lang=customer_lang,
                 )
+
+    def regenerate_document(self):
+        for rec in self:
+            old_attachment_id = None
+            filename = "GLOBALGAP_Application_%s_%s.%s" % (rec.title,rec.organization_id.name, "pdf")
+            pdf = rec.env['ir.actions.report'].sudo()._render_qweb_pdf('pao_globalgap_fans.globalgap_application_report', [rec.id], data= {"fanrequest": rec.sudo(),"print": True})[0]
+            attachment = rec.env['ir.attachment'].sudo().create({
+                'name': filename,
+                'datas': base64.b64encode(pdf),
+                'res_model': 'pao.globalgap.fans.request',
+                'res_id': rec.id,
+                'type': 'binary',  # override default_type from context, possibly meant for another model!
+            })
+            if rec.attachment_id:
+                old_attachment_id = rec.attachment_id.id
+
+            rec.write({"attachment_id": attachment.id})
+
+            if not attachment.access_token:
+                token = attachment._generate_access_token()
+                attachment.write({"access_token": token})
+            
+            if old_attachment_id:
+                rec.env['ir.attachment'].sudo().search([("id","=",old_attachment_id),("res_id","=",rec.id),("res_model","=","pao.globalgap.fans.request")]).unlink()
                 
