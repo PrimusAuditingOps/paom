@@ -294,7 +294,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 continue
             days_passed = (today - fan.request_sent_date).days
 
-            if True:
+            if fan.id == 761:
                 subject = ''
                 base_url = fan.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 customer_lang = get_lang(fan.env, lang_code=fan.capturist_id.lang).code
