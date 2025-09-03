@@ -310,7 +310,7 @@ class PaoGlobalgapFansRequest(models.Model):
                     subject = _("Solicitud de registro de aplicación GLOBALG.A.P") if fan.request_status == "draft" else _("Solicitud de correción para el registro de aplicacion GLOBALG.A.P")
                     fan.write({"request_url": form_url})
                     template = 'pao_globalgap_fans.fans_reminder_request_template_mail'
-                    email_to = fan.responsible_id.email_formatted
+                    email_to = fan.responsible_id.email_formatted if fan.responsible_id else fan.capturist_id.email_formatted
 
                 else:
                     continue
