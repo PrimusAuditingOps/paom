@@ -78,6 +78,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
                 "request_status": "signature_request",
                 "reminder_days": self.reminder_days,
                 "request_sent_date": fields.Date.today(),
+                "signer_id": self.capturist_id.id
             })
 
         else:
@@ -103,6 +104,7 @@ class PaoGlobalgapSendFansRequest(models.TransientModel):
                     "attachment_id": None,
                     'reminder_days': self.reminder_days,
                     "request_sent_date": fields.Date.today(),
+                    "responsible_id": self.capturist_id.id
                 })
                 
                 if old_attachment_id:
