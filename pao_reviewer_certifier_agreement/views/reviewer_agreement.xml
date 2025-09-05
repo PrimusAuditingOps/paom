@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pao_reviewer_agreement">
+        <div id="portal_pao_reviewer_agreement" t-attf-class="#{'card pb-5 page' if not print else ''}">
+            <style>
+                @font-face {
+                    font-family: 'MontserratLight';
+                    src: url('/servicereferralagreement/static/src/fonts/Montserrat-Light.ttf') format('truetype');
+                    font-style: normal;
+                    }
+                @font-face{
+                    font-family: 'PlayfairDisplay';
+                    font-style: normal;
+                    src:url('/pao_reviewer_certifier_agreement/static/src/fonts/PlayfairDisplay.ttf') format('truetype');
+                    }
+
+                .page p, ul
+                {   
+                text-align:justify; 
+                font-size: 16px;
+                line-height: 1.15;
+                color: black;
+                font-family: 'MontserratLight' !important;
+                }
+                .page table tr td
+                {
+                border:0px; 
+                background-color:white;
+                font-family: 'MontserratLight' !important; 
+                font-size: 16px; color: black;
+                }
+                .page table
+                {
+                width:100%; 
+                }
+                .page h3, h2, h1
+                {
+                font-size: 26px;
+                text-align:center;
+                font-weight:Bold;
+                font-family: 'PlayfairDisplay' !important;
+                color: black;
+                }
+                .page h4
+                {
+                font-size: 18px;
+                text-align:center;
+                font-weight:Bold;
+                font-family: 'PlayfairDisplay' !important;
+                color: black;
+                }
+
+            </style>
+            <div id="introduction" class="#{'pb-2 pt-3 card-header' if not print else ''}"  style="text-align: center;">
+                    <h3 t-if="print == False"><b>FPR-16 Contrato de prestación de servicios profesionales para Revisores</b></h3>
+                    <h2><b>ANEXO</b></h2>
+                    <h3><b>“Descripción de servicios y honorarios, términos y condiciones y entrega de resultados”</b></h3>
+            </div>
+            <div class="card-body">
+                <p>
+                    <b>1.- <em>Descripción de servicios y honorarios:</em></b>
+                </p>
+                <p>
+                    Realización por parte de <b>“El prestador”</b> de la revisión(es) solicitada(s) por 
+                    Primus Auditing Operations México, S. de R.L. de C.V.  y para efectos de que <b>“La prestataría”</b> 
+                    cuente con los elementos necesarios a fin de certificar el cumplimiento 
+                    al esquema <span t-field="agreement.registration_number_id.scheme_id.name"/> en sus procesos productivos. 
+                </p>
+                <table class="table">
+                    <thead class="thead-dark" style="text-align:center">
+                        <tr>
+                            <th scope="col">Núm. de Registro</th>
+                            <th scope="col">Servicios</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Tarifa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <tr t-foreach="agreement.purchase_order_id.order_line" t-as="service">
+                            <t t-if="service.product_id.pao_agreement_reviewer">
+                                <t t-set="current_subtotal" t-value="current_subtotal + service.price_subtotal"/>
+                                <td style="text-align:left;"><span t-field="service.registrynumber_id.name"/></td>
+                                <td style="text-align:left;"><span t-field="service.name"/></td>
+                                <td style="text-align:left;"><span t-field="service.product_uom_qty"/></td>
+                                <td style="text-align:left;"><span t-field="service.price_subtotal"/></td>
+                            </t>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="text-align:left;">
+                    <br/>
+                    <b>IMPORTE TOTAL DEL SERVICIO 
+                    <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': agreement.purchase_order_id.currency_id}"/>
+                    M.N. (Menos impuestos).</b>
+                </p>
+                <p style="text-align:left;">
+                    <b>FECHA</b> <span t-field="agreement.signature_date"/>
+                </p>
+                <p>
+                    <b>2. <em>Términos y condiciones:</em> </b> <br/>
+                    Adicional a los establecidos en el contrato del que forma parte este anexo: <br/>
+                    <ul style="list-style-type: lower-latin">
+                        <li>
+                            <b>“El prestador”</b> deberá realizar las actividades mencionadas en el presente documento 
+                            respetando las políticas y procedimientos que establece cada uno de los esquemas, 
+                            ya que su cumplimiento es necesario para lograr las aprobaciones y para mantener 
+                            la acreditación correspondiente. 
+                        </li>
+                        <li>
+                            <b>“El prestador”</b> declara que, en la ejecución del servicio contratado, no existe ninguna 
+                            subordinación y/o dependencia laboral de su parte con Primus Auditing Operations 
+                            México, S. de R.L. de C.V.
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    <b>3. <em>Entrega de resultados:</em> </b> <br/>
+                    FECHA DEL SERVICIO: <span t-field="agreement.start_date"/> - <span t-field="agreement.end_date"/>
+                    <br/> <br/>
+                    <b>“El prestador”</b> deberá entregar a Primus Auditing Operations México, S. de R.L. de C.V. 
+                    toda aquella información que evidencie la revisión realizada, pudiendo ser de manera 
+                    enunciativa más no limitativa, correo con comentarios, reporte terminado, listas de 
+                    verificaciones y todo aquel documento que sea requerido por el esquema aplicable. 
+                    
+                </p>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="text-center !important;" style="min-width:300px; min-height:90px;">
+                            <img t-if="agreement.sudo().create_uid.sign_signature" style="width:300px; height:90px;" t-att-src="image_data_uri(agreement.sudo().create_uid.sign_signature)"/>
+                        </p>
+                        <p class="text-center !important;">
+                            <b>_____________________________________________</b>
+                        </p>
+                        <p class="text-center !important;">
+                            Departamento de Calidad
+                        </p>
+                        
+                    </div>
+                    <div class="col-6">
+   
+                        <p class="text-center !important;" style="min-width:300px; min-height:90px;">
+                            <img t-if="agreement.signature" style="width:300px; height:90px;" t-att-src="image_data_uri(agreement.signature)"/>
+                        </p>
+                        <p class="text-center !important;">
+                            <b>_____________________________________________</b>
+                        </p>
+                        <p class="text-center !important;">
+                            "El prestador"
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </template>
+</odoo>

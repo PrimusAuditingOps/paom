@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="agreement_header_footer_reviewer">
+        <div t-attf-class="header">
+                <div class="row mb8">
+                <div class="col-2">
+                    <img src="/pao_reviewer_certifier_agreement/static/src/img/logo.png" style="width:120px; height:50px" alt="Logo"/>
+                </div>
+                <div class="col-10 text-center" style="display: flex; align-items: center; font-family: 'PlayfairDisplay' !important; font-size: 18px;">
+                    <br/>
+                    <style>
+                        @font-face{
+                            font-family: 'PlayfairDisplay';
+                            font-style: normal;
+                            src:url('/pao_reviewer_certifier_agreement/static/src/fonts/PlayfairDisplay.ttf') format('truetype');
+                        }
+                        p, ul
+                        {   
+                        font-family: 'PlayfairDisplay' !important;
+                        }
+                        h3, h2, h1
+                        {
+                        font-family: 'PlayfairDisplay' !important;
+                        color: black;
+                        }
+                    </style>
+                    <h3 style="font-family: 'PlayfairDisplay' !important;">FPR-16 Contrato de prestación de servicios profesionales para Revisores</h3>
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="footer o_boxed_footer">
+           
+            <div class="text-end" style="font-family: 'MontserratLight' !important; font-size: 14px; color: black;">
+                <div t-if="report_type == 'pdf'">
+                    Página: 4 / 4  Rev. 00, Según Ficha
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
+
+

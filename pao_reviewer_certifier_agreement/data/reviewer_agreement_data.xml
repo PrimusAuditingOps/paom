@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="reviewer_agreement_template_mail">
+        <table border="0" cellpadding="0" style="background-color: white; padding: 0px; border-collapse:separate;">
+            <tr><td valign="top">
+                <b>Revisiones mensuales</b><br/><br/>
+                Estimado(a) <t t-esc="record.signer_id.name"/><br/>
+            </td></tr>
+            <tr><td valign="top">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Servicio</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Fecha inicio</th>
+                            <th scope="col">Fecha fin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="record.purchase_order_id.order_line" t-as="service">
+                            <t t-if="service.product_id.pao_agreement_reviewer">
+                                <td style="text-align:left;"><span t-field="service.name"/></td>
+                                <td style="text-align:left;"><span t-field="service.product_uom_qty"/></td>
+                                <td style="text-align:left;"><span t-field="record.start_date"/></td>
+                                <td style="text-align:left;"><span t-field="record.end_date"/></td>
+                            </t>
+                        </tr>
+                    </tbody>
+                </table>
+            </td></tr>
+            <tr><td valign="top">
+                <b>Calidad del esquema:</b> <t t-esc="record.create_uid.name"/><br/>
+                <div style="margin:16px auto; text-align:center;">
+                    <a t-att-href="link"
+                        style="padding: 8px 16px 8px 16px; border-radius: 3px; background-color:#875A7B; text-align:center; text-decoration:none; color: #FFFFFF;">
+                        Aceptar
+                    </a>
+                </div>
+                <br/>
+                Quedamos a sus órdenes para cualquier duda relacionada con la presente en el correo
+            </td></tr>
+
+            <tr><td valign="top">
+                <div style="opacity: 0.7;">
+                    <strong>Advertencia</strong> no comparta este correo con otras personas!<br/>
+                    Ellos podran acceder a este documento y formalo por usted.
+                </div>
+            </td></tr>
+        </table>
+    </template>
+   
+    
+</odoo>

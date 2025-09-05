@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    
+    <record id="report_reviewer_certifier_agreements" model="ir.actions.report">
+        <field name="name">Reviewer Certifier Agreement</field>
+        <field name="model">pao.reviewer.certifier.agreement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_reviewer_certifier_agreement.report_reviewer_certifier_agreements_view</field>
+        <field name="report_file">pao_reviewer_certifier_agreement.report_reviewer_certifier_agreements</field>
+        <field name="print_report_name">'Agreement'</field>
+        <field name="binding_model_id" ref="model_pao_reviewer_certifier_agreement"/>
+        <field name="binding_type">report</field>
+    </record>
+
+ 
+
+    <template id="report_reviewer_certifier_agreements_view">
+        <t t-set="values" t-value="values.with_context(lang='es_MX')"/>
+        <t t-call="web.html_container">
+            <div t-attf-class="article o_report_layout_boxed">
+                <xpath expr="//head" position="attributes">
+                    <link rel='stylesheet' href="/pao_reviewer_certifier_agreement/static/src/css/pao_reviewer_certifier_agreement.css"/>
+                </xpath>
+                <t t-set="values" t-value="values.with_context(lang='es_MX')"/>
+                <t t-if="values.document_type == 'reviewer'">
+                    <t t-call="pao_reviewer_certifier_agreement.agreement_header_footer_reviewer"/>
+                    <div class="page">
+                        <t t-call="pao_reviewer_certifier_agreement.pao_reviewer_agreement">
+                            <t t-set="agreement" t-value="values"/>
+                        </t>
+                    </div>
+                </t>
+                <t t-if="values.document_type == 'certifier'">
+                    <t t-call="pao_reviewer_certifier_agreement.agreement_header_footer_certifier"/>
+                    <div class="page">
+                        <t t-call="pao_reviewer_certifier_agreement.pao_certifier_agreement">
+                            <t t-set="agreement" t-value="values"/>
+                        </t>
+                    </div>
+                </t>                          
+            </div>
+        </t>
+    </template>
+</odoo>

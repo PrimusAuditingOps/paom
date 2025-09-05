@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+
+
+
+    <template id="pao_reviewer_certifier_exception_page_view" name="Certifier or Reviewer request not found">
+        <t t-call="web.frontend_layout">
+            <div class="container pt-5">
+                <div class="text-center mt-5 pt-5">
+                    <h3 class="d-inline">The agreement signature request was canceled or does not exist.</h3>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="certifier_reviewer_download_portal" name="Certifier or Reviewer Download">
+        <t t-call="web.frontend_layout">
+            <div class="m-0 row justify-content-center">
+                <div style="padding-top:10px" class="col-auto">
+                    <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_agreement_content">
+                        <div class="card-header">Agreement</div>
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap" t-foreach="documents" t-as="attach">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" title="Download #{attach['name']}" target="_blank" t-attf-href="#{attach['url']}">
+                                            <i class="fa fa-download"></i> 
+                                            <span t-esc="attach['name']"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div> 
+        </t>
+    </template>
+
+
+
+
+    <template id="pao_agreement_portal_template" name="Agreement Portal Template">
+        <t t-call="web.frontend_layout">
+           
+            <t t-set="agreement" t-value="agreement.with_context(lang='es_MX')"/>
+            <xpath expr="//head" position="attributes">
+                <link rel='stylesheet' href="/pao_reviewer_certifier_agreement/static/src/css/pao_reviewer_certifier_agreement.css"/>
+            </xpath>
+
+            <div class="row mt16">
+                <div class="col-12 col-md-auto d-print-none ml-md-3">
+                    <div class="card text-center bg-white mb-4 sticky-top" style="top:100px" id="sidebar_agreement_content">
+                        <div class="card-header">Signature</div>
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                                <a role="button" class="btn btn-primary btn-block mb8"  data-bs-toggle="modal" data-bs-target="#modalaccept" href="#">
+                                    <i class="fa fa-check"></i> Accept &amp; Sign
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Page content -->
+                <div id="agreement_content" class="col-12 col-md-9 justify-content-end">
+                    
+                   
+                  
+                    <t t-if="agreement.document_type == 'reviewer'">
+                        <t t-call="pao_reviewer_certifier_agreement.pao_reviewer_agreement">
+                            <!-- <t t-set="serviceagreement" t-value="rn"/>-->
+                        </t>
+                    </t>
+                    <t t-if="agreement.document_type == 'certifier'">
+                        <t t-call="pao_reviewer_certifier_agreement.pao_certifier_agreement">
+                            <!-- <t t-set="serviceagreement" t-value="rn"/>-->
+                        </t>
+                    </t>
+
+                    <div id="agreement_sign_content" class="col-12 col-lg justify-content-end">
+                        <div role="dialog" class="modal fade" id="modalaccept">
+                            <!--t-if="sale_order._has_to_be_signed(True)"-->
+                            <div class="modal-dialog">
+                                <form id="accept" method="POST" class="js_accept_json modal-content js_website_submit_form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <header class="modal-header">
+                                        <h4 class="modal-title">Accept Agreement</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </header>
+                                    <main class="modal-body" id="sa-dialog">
+                                        <p>
+                                            <span>By signing this proposal, I agree to the following terms:</span>
+                                            <ul>
+                                                <li><span>Agree to the fee and service conditions stipulated in the Agreement.</span></li>
+                                            </ul>
+                                        </p>
+                                        <t t-call="portal.signature_form">
+                                            <t t-set="call_url" t-value="urlAccept"/>
+                                            <t t-set="default_name" t-value="agreement.signer_id.name"/>
+                                            <t t-set="font_color" t-value="'darkblue'"/>
+                                        </t>                            
+                                    </main>
+                                </form>
+                            </div>  
+                        </div>
+                    </div>  
+                </div>
+            </div>
+
+            
+            
+        </t>
+    </template>
+</odoo>
