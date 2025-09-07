@@ -12,13 +12,17 @@ class InvoiceReport(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
     currency_rate = fields.Char('Currency Rate', compute='_get_rate', readonly=True)
     invoice_id = fields.Many2one('account.move', 'Invoice', readonly=True)
-    
+    move_line_id = fields.Many2one('account.move.line', 'Move Line', readonly=True)
+
     id = fields.Integer("ID", readonly=True)
     invoice_number = fields.Char('Invoice number', readonly=True)
     client_id = fields.Integer('Client ID', readonly=True)
+    customer = fields.Many2one('res.partner', 'Customer', readonly=True)
     group = fields.Many2one('customergroups.group', 'Group', readonly=True)
     promoter = fields.Many2one('comisionpromotores.promotor', 'Promoter', readonly=True)
-    
+    auditor = fields.Many2one('res.partner', 'Auditor', compute='_get_auditor', readonly=True)
+    sale_order = fields.Many2one('sale.order', 'Sales Order', readonly=True)
+
     # Details of operations #        
     product = fields.Many2one('product.product','Product', readonly=True)
     product_category = fields.Many2one('product.category','Product Category', readonly=True)
@@ -37,6 +41,8 @@ class InvoiceReport(models.Model):
     category_id = fields.Many2one('res.partner.category', 'Category', readonly=True)
     scheme_id = fields.Many2one('paa.assignment.auditor.scheme', 'Scheme', readonly=True)
     origin = fields.Char('Origin', readonly=True)
+    service_start_date = fields.Date('Service Start Date', compute='_get_service_date', readonly=True)
+    service_end_date = fields.Date('Service End Date', compute='_get_service_date', readonly=True)
     quotation_salesperson = fields.Many2one('res.users','Quotation salesperson', readonly=True)
     # amount_untaxed = fields.Monetary('Amount untaxed signed', currency_field='currency_id', readonly=True)
     # amount_total = fields.Monetary('Amount total signed', currency_field='currency_id', readonly=True)
@@ -60,6 +66,22 @@ class InvoiceReport(models.Model):
     # mxn_net = fields.Monetary(related='invoice_id.ad_mxn_neto', string="MXN Net", readonly=True)
     # mxn_total = fields.Monetary(related='invoice_id.ad_mxn_total', string="MXN Total", readonly=True)
     
+    def _get_service_date(self):
+        for rec in self:
+            rec.service_start_date = False
+            rec.service_end_date = False
+            for line in rec.move_line_id.sale_line_ids:
+                if line.service_start_date and line.service_end_date:
+                    rec.service_start_date = line.service_start_date
+                    rec.service_end_date = line.service_end_date
+
+    def _get_auditor(self):
+        for rec in self:
+            rec.auditor = False
+            for purchase in rec.sale_order.purchase_order_id:
+                if purchase:
+                    rec.auditor = purchase.partner_id.id
+
     def _get_rate(self):
         for rec in self:
             rec.currency_rate = -1
@@ -100,8 +122,10 @@ class InvoiceReport(models.Model):
             fields = {}
         select_ = """
             l.id as id,
+            l.id as move_line_id,
             a.name as invoice_number,
             r.id as client_id,
+            r.id as customer,
             r.cgg_group_id as group,
             r.promotor_id as promoter,
             
@@ -130,7 +154,8 @@ class InvoiceReport(models.Model):
             --cr.rate as currency_rate,
             a.id as invoice_id,
             a.company_id as company_id,
-            s.pao_promotor_id as quotation_promoter 
+            s.pao_promotor_id as quotation_promoter,
+            s.id as sale_order  
         """
 
         for field in fields.values():
@@ -188,6 +213,7 @@ class InvoiceReport(models.Model):
             ,a.id
             ,a.company_id
             ,s.pao_promotor_id
+            ,s.id 
             %s
         """ % (groupby)
         return groupby_

@@ -4,16 +4,21 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-04 18:45+0000\n"
-"PO-Revision-Date: 2024-07-04 18:45+0000\n"
+"POT-Creation-Date: 2025-09-05 23:55+0000\n"
+"PO-Revision-Date: 2025-09-05 23:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__auditor
+msgid "Auditor"
+msgstr ""
 
 #. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__state__cancel
@@ -31,6 +36,11 @@ msgid "Client ID"
 msgstr ""
 
 #. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__company_id
+msgid "Company"
+msgstr ""
+
+#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__currency_id
 msgid "Currency"
 msgstr ""
@@ -38,6 +48,11 @@ msgstr ""
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__currency_rate
 msgid "Currency Rate"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__customer
+msgid "Customer"
 msgstr ""
 
 #. module: pao_invoice_report
@@ -92,6 +107,7 @@ msgstr ""
 
 #. module: pao_invoice_report
 #: model:ir.actions.act_window,name:pao_invoice_report.pao_action_invoice_report
+#: model:ir.model,name:pao_invoice_report.model_invoice_report
 msgid "Invoice Report"
 msgstr ""
 
@@ -121,13 +137,13 @@ msgid "Invoicing Report"
 msgstr ""
 
 #. module: pao_invoice_report
-#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report____last_update
-msgid "Last Modified on"
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__mxn_subtotal
+msgid "MXN Subtotal"
 msgstr ""
 
 #. module: pao_invoice_report
-#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__mxn_subtotal
-msgid "MXN Subtotal"
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__move_line_id
+msgid "Move Line"
 msgstr ""
 
 #. module: pao_invoice_report
@@ -186,6 +202,11 @@ msgid "Quantity"
 msgstr ""
 
 #. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__quotation_promoter
+msgid "Quotation Consultant"
+msgstr ""
+
+#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__quotation_salesperson
 msgid "Quotation salesperson"
 msgstr ""
@@ -193,6 +214,11 @@ msgstr ""
 #. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__reversed
 msgid "Reversed"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__sale_order
+msgid "Sales Order"
 msgstr ""
 
 #. module: pao_invoice_report
@@ -206,6 +232,16 @@ msgid "Scheme"
 msgstr ""
 
 #. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__service_end_date
+msgid "Service End Date"
+msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__service_start_date
+msgid "Service Start Date"
+msgstr ""
+
+#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__state
 msgid "Status"
 msgstr ""
@@ -213,9 +249,4 @@ msgstr ""
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__usd_subtotal
 msgid "USD Subtotal"
-msgstr ""
-
-#. module: pao_invoice_report
-#: model:ir.model,name:pao_invoice_report.model_invoice_report
-msgid "invoice.report"
 msgstr ""

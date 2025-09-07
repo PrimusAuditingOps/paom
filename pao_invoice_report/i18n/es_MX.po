@@ -4,16 +4,21 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-04 18:45+0000\n"
-"PO-Revision-Date: 2024-07-04 18:45+0000\n"
+"POT-Creation-Date: 2025-09-05 23:55+0000\n"
+"PO-Revision-Date: 2025-09-05 23:55+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__auditor
+msgid "Auditor"
+msgstr ""
 
 #. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__state__cancel
@@ -31,6 +36,11 @@ msgid "Client ID"
 msgstr "ID Cliente"
 
 #. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__company_id
+msgid "Company"
+msgstr ""
+
+#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__currency_id
 msgid "Currency"
 msgstr "Divisa"
@@ -39,6 +49,11 @@ msgstr "Divisa"
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__currency_rate
 msgid "Currency Rate"
 msgstr "Tasa de cambio"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__customer
+msgid "Customer"
+msgstr "Cliente"
 
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__display_name
@@ -94,6 +109,7 @@ msgstr "Fecha de vencimiento"
 
 #. module: pao_invoice_report
 #: model:ir.actions.act_window,name:pao_invoice_report.pao_action_invoice_report
+#: model:ir.model,name:pao_invoice_report.model_invoice_report
 msgid "Invoice Report"
 msgstr "Reporte de facturación"
 
@@ -123,14 +139,14 @@ msgid "Invoicing Report"
 msgstr "Reporte de facturación"
 
 #. module: pao_invoice_report
-#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report____last_update
-msgid "Last Modified on"
-msgstr "Última modificación el"
-
-#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__mxn_subtotal
 msgid "MXN Subtotal"
 msgstr "Subtotal MXN"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__move_line_id
+msgid "Move Line"
+msgstr ""
 
 #. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__not_paid
@@ -188,6 +204,11 @@ msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__quotation_promoter
+msgid "Quotation Consultant"
+msgstr ""
+
+#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__quotation_salesperson
 msgid "Quotation salesperson"
 msgstr "Vendedor cotización"
@@ -196,6 +217,11 @@ msgstr "Vendedor cotización"
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__reversed
 msgid "Reversed"
 msgstr "Revertido"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__sale_order
+msgid "Sales Order"
+msgstr ""
 
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__sales_team
@@ -208,6 +234,16 @@ msgid "Scheme"
 msgstr "Esquema"
 
 #. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__service_end_date
+msgid "Service End Date"
+msgstr "Fecha Fin de Servicio"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__service_start_date
+msgid "Service Start Date"
+msgstr "Fecha Inicio de Servicio"
+
+#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__state
 msgid "Status"
 msgstr "Estado"
@@ -216,8 +252,3 @@ msgstr "Estado"
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__usd_subtotal
 msgid "USD Subtotal"
 msgstr "Subtotal USD"
-
-#. module: pao_invoice_report
-#: model:ir.model,name:pao_invoice_report.model_invoice_report
-msgid "invoice.report"
-msgstr ""
