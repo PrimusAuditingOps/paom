@@ -78,9 +78,10 @@ class InvoiceReport(models.Model):
     def _get_auditor(self):
         for rec in self:
             rec.auditor = False
-            for purchase in rec.sale_order.purchase_order_id:
-                if purchase:
-                    rec.auditor = purchase.partner_id.id
+            for line in rec.move_line_id.sale_line_ids:
+                purchase_line = rec.env['purchase.order.line'].search([('sra_sale_line_ids', 'in', [line.id])])
+                for pline in purchase_line:
+                    rec.auditor = pline.partner_id.id
 
     def _get_rate(self):
         for rec in self:
