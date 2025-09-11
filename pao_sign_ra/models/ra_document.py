@@ -104,7 +104,7 @@ class RADocument(models.Model):
                 registration_numbers_ids=self.pao_registration_numbers_ids.ids, 
                 request_travel_expenses = self.request_travel_expenses, 
                 reminder_days = self.reminder_days,
-                template_id = self.ra_template_id
+                template_id = self.ra_template_id.id
             )
     
     def action_cancel(self):
