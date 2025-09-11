@@ -92,7 +92,7 @@ class SendRaWizard(models.Model):
                     'request_travel_expenses': self.request_travel_expenses,
                     'reminder_days': self.reminder_days,
                     'ra_sent_date': fields.Date.today(),
-                    'ra_template_id': self.template_id
+                    'ra_template_id': self.template_id.id
                 })
         
         # Re-compute template with the values of the RA documents related to the PO
