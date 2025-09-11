@@ -57,6 +57,12 @@ class RADocument(models.Model):
         ondelete='cascade',
         required=True,
     )
+        
+    reminder_days = fields.Integer(string = 'Reminder days', default = 0)
+    
+    ra_sent_date = fields.Date()
+    
+    ra_template_id = fields.Many2many('mail.template', readonly=True)
     
     @api.model
     def _get_access_token(self):
@@ -117,3 +123,29 @@ class RADocument(models.Model):
                 'res_id': self.purchase_order_id.id, 
                 'target': 'current', 
             }
+            
+    @api.model
+    def _send_ra_reminders(self):
+        today = fields.Date.today()
+
+        ra_records_to_remind = self.search([
+            ('reminder_days', '>', 0),
+            ('status', 'in', ['sent']),
+        ])
+
+        for rec in ra_records_to_remind:
+            # Calculate how many days have passed since creation
+            if not rec.ra_sent_date:
+                continue
+            days_passed = (today - rec.ra_sent_date).days
+
+            if 0 < days_passed <= rec.reminder_days:
+                wizard = self.env['send.ra.wizard'].create({
+                    'purchase_order_id': rec.purchase_order_id.id,
+                    'resend_action': True,
+                    'ra_document_id': rec.id,
+                    'request_travel_expenses': rec.request_travel_expenses,
+                    'template_id': rec.ra_template_id.id,
+                    'composition_mode': 'comment',
+                })
+                wizard.action_send_mail()
