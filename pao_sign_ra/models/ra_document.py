@@ -162,13 +162,7 @@ class RADocument(models.Model):
                     'res_ids': rec.purchase_order_id.ids,
                 })
                 
-                # wizard.action_send_mail()
-
-                wizard.with_context(
-                    mail_post_autofollow=False,  # disable chatter posting
-                    mail_notify_force_send=True  # send immediately
-                ).action_send_mail()
-
+                wizard.action_send_mail()
                 
                 odoo_bot = self.env.ref('base.partner_root')
                 rec.message_post(
