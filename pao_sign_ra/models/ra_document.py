@@ -131,6 +131,9 @@ class RADocument(models.Model):
                 'target': 'current', 
             }
             
+    def action_test_reminder(self):
+        self._send_ra_reminders()
+            
     @api.model
     def _send_ra_reminders(self):
         today = fields.Date.today()
