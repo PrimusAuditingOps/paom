@@ -150,18 +150,20 @@ class RADocument(models.Model):
             days_passed = (today - rec.ra_sent_date).days
 
             if 0 < days_passed <= rec.reminder_days:
-                wizard = self.env['send.ra.wizard'].create({
-                    'purchase_order_id': rec.purchase_order_id.id,
-                    'reminder_action': True,
-                    'reminder_days': rec.reminder_days,
-                    'ra_document_id': rec.id,
-                    'request_travel_expenses': rec.request_travel_expenses,
-                    'template_id': rec.ra_template_id.id,
-                    'composition_mode': 'comment',
-                    'model': 'purchase.order',
-                    'res_ids': rec.purchase_order_id.ids,
-                })
-                wizard.action_send_mail()
+                # wizard = self.env['send.ra.wizard'].create({
+                #     'purchase_order_id': rec.purchase_order_id.id,
+                #     'reminder_action': True,
+                #     'reminder_days': rec.reminder_days,
+                #     'ra_document_id': rec.id,
+                #     'request_travel_expenses': rec.request_travel_expenses,
+                #     'template_id': rec.ra_template_id.id,
+                #     'composition_mode': 'comment',
+                #     'model': 'purchase.order',
+                #     'res_ids': rec.purchase_order_id.ids,
+                # })
+                # wizard.action_send_mail()
+                
+                rec.ra_template_id.send_mail(rec.purchase_order_id.id, force_send=True)
                 
                 odoo_bot = self.env.ref('base.partner_root')
                 rec.message_post(
