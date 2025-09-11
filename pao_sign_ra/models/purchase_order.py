@@ -96,6 +96,7 @@ class PurchaseOrder(models.Model):
             'default_res_ids': self.ids,
             'default_purchase_order_id': self.id,
             'default_resend_action': resend_action,
+            'default_reminder_days': reminder_days,
             'default_registration_numbers_to_sign_ids': registration_numbers_ids,
             'default_request_travel_expenses': request_travel_expenses,
             'default_template_id': template_id,
