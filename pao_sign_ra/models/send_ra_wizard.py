@@ -16,6 +16,8 @@ class SendRaWizard(models.Model):
     
     resend_action = fields.Boolean(default=False)
     
+    reminder_action = fields.Boolean(default=False)
+    
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
         'wizard_id', 'attachment_id', string='Attachments',
@@ -86,7 +88,7 @@ class SendRaWizard(models.Model):
                     'reminder_days': self.reminder_days,
                     'ra_sent_date': fields.Date.today(),
                 })
-            else:
+            elif not self.reminder_action:
                 self.purchase_order_id.ra_sent = True
                 self.env["ra.document"].create({
                     'pao_registration_numbers_ids': self.available_registration_numbers_ids,

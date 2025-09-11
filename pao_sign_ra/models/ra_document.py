@@ -152,14 +152,14 @@ class RADocument(models.Model):
             if 0 < days_passed <= rec.reminder_days:
                 wizard = self.env['send.ra.wizard'].create({
                     'purchase_order_id': rec.purchase_order_id.id,
-                    'resend_action': True,
+                    'reminder_action': True,
                     'reminder_days': rec.reminder_days,
                     'ra_document_id': rec.id,
                     'request_travel_expenses': rec.request_travel_expenses,
                     'template_id': rec.ra_template_id.id,
                     'composition_mode': 'comment',
-                    'model': 'purchase.order',
-                    'res_ids': rec.purchase_order_id.ids,
+                    'model': 'ra.document',
+                    'res_ids': rec.ids,
                 })
                 wizard.action_send_mail()
                 
