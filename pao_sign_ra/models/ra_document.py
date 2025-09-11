@@ -158,6 +158,8 @@ class RADocument(models.Model):
                     'request_travel_expenses': rec.request_travel_expenses,
                     'template_id': rec.ra_template_id.id,
                     'composition_mode': 'comment',
+                    'res_model': 'ra.document',
+                    'res_id': rec.id,
                 })
                 wizard.action_send_mail()
                 
