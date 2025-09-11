@@ -74,7 +74,7 @@ class PurchaseOrder(models.Model):
             elif attribute == 'token':
                 return str(self.ra_document_ids[0].access_token)
     
-    def send_referral_agreement_action(self, resend_action=False, registration_numbers_ids=None, request_travel_expenses=True):
+    def send_referral_agreement_action(self, resend_action=False, registration_numbers_ids=None, request_travel_expenses=True, reminder_days = 0, template_id = None):
         '''
         This function opens a window to compose an email, with the edi purchase template message loaded by default
         '''
@@ -98,7 +98,7 @@ class PurchaseOrder(models.Model):
             'default_resend_action': resend_action,
             'default_registration_numbers_to_sign_ids': registration_numbers_ids,
             'default_request_travel_expenses': request_travel_expenses,
-            'default_template_id': False,
+            'default_template_id': template_id,
             'default_composition_mode': 'comment',
             'default_email_layout_xmlid': "mail.mail_notification_layout_with_responsible_signature",
             'force_email': True,

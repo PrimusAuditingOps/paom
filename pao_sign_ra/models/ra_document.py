@@ -99,7 +99,7 @@ class RADocument(models.Model):
     
     def action_resend(self):
         if self.status == 'sent':
-            return self.purchase_order_id.send_referral_agreement_action(resend_action=True, registration_numbers_ids=self.pao_registration_numbers_ids.ids, request_travel_expenses = self.request_travel_expenses)
+            return self.purchase_order_id.send_referral_agreement_action(resend_action=True, registration_numbers_ids=self.pao_registration_numbers_ids.ids, request_travel_expenses = self.request_travel_expenses, reminder_days = self.reminder_days, template_id = self.ra_template_id)
     
     def action_cancel(self):
         if self.status in ('sent', 'sign'):
