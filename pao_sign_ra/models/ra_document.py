@@ -162,14 +162,13 @@ class RADocument(models.Model):
                     'res_ids': rec.purchase_order_id.ids,
                 })
                 
-                # Temporarily suppress message_post on the PO
-                po = wizard.purchase_order_id
-                original_message_post = po.message_post
-                po.message_post = lambda *a, **k: None
-                
-                wizard.action_send_mail()
-                
-                po.message_post = original_message_post
+                # wizard.action_send_mail()
+
+                wizard.with_context(
+                    mail_post_autofollow=False,  # disable chatter posting
+                    mail_notify_force_send=True  # send immediately
+                ).action_send_mail()
+
                 
                 odoo_bot = self.env.ref('base.partner_root')
                 rec.message_post(
