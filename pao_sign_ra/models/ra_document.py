@@ -143,9 +143,18 @@ class RADocument(models.Model):
                 wizard = self.env['send.ra.wizard'].create({
                     'purchase_order_id': rec.purchase_order_id.id,
                     'resend_action': True,
+                    'reminder_days': rec.reminder_days,
                     'ra_document_id': rec.id,
                     'request_travel_expenses': rec.request_travel_expenses,
                     'template_id': rec.ra_template_id.id,
                     'composition_mode': 'comment',
                 })
                 wizard.action_send_mail()
+                
+                odoo_bot = self.env.ref('base.partner_root')
+                self.message_post(
+                    body=_("A reminder email was sent to the customer."),
+                    message_type='notification',
+                    # subtype_xmlid='mail.mt_comment',
+                    author_id=odoo_bot.id
+                )
