@@ -74,7 +74,7 @@ class PurchaseOrder(models.Model):
             elif attribute == 'token':
                 return str(self.ra_document_ids[0].access_token)
     
-    def send_referral_agreement_action(self, resend_action=False, registration_numbers_ids=None, request_travel_expenses=True, reminder_days = 0, template_id = None):
+    def send_referral_agreement_action(self, ra_document_id = None, resend_action=False, registration_numbers_ids=None, request_travel_expenses=True, reminder_days = 0, template_id = None):
         '''
         This function opens a window to compose an email, with the edi purchase template message loaded by default
         '''
@@ -94,6 +94,7 @@ class PurchaseOrder(models.Model):
         ctx.update({
             'default_model': 'purchase.order',
             'default_res_ids': self.ids,
+            'default_ra_document_id': ra_document_id,
             'default_purchase_order_id': self.id,
             'default_resend_action': resend_action,
             'default_reminder_days': reminder_days,
