@@ -164,7 +164,12 @@ class RADocument(models.Model):
                 # wizard.action_send_mail()
                 
                 if rec.ra_template_id:
-                    rec.ra_template_id.send_mail(rec.purchase_order_id.id, force_send=True, raise_exception=True, mail_post_autofollow=False)
+                    rec.with_context(mail_post_autofollow=False).ra_template_id.send_mail(
+                        rec.purchase_order_id.id,
+                        force_send=True,
+                        raise_exception=True
+                    )
+
 
                     
                     odoo_bot = self.env.ref('base.partner_root')
