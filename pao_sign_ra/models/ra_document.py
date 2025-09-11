@@ -162,7 +162,7 @@ class RADocument(models.Model):
                 wizard.action_send_mail()
                 
                 odoo_bot = self.env.ref('base.partner_root')
-                self.message_post(
+                rec.message_post(
                     body=_("A reminder email was sent to the customer."),
                     message_type='notification',
                     # subtype_xmlid='mail.mt_comment',
