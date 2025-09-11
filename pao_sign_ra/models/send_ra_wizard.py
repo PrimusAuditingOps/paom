@@ -80,10 +80,12 @@ class SendRaWizard(models.Model):
             self.purchase_order_id.get_confirmation_access_token()
             
             if self.resend_action:
-                self.ra_document_id.request_travel_expenses = self.request_travel_expenses
-                self.ra_document_id.ra_template_id = self.template_id
-                self.ra_document_id.reminder_days = self.reminder_days
-                self.ra_document_id.ra_sent_date = fields.Date.today()
+                self.ra_document_id.write({
+                    'request_travel_expenses': self.request_travel_expenses,
+                    'ra_template_id': self.template_id.id,
+                    'reminder_days': self.reminder_days,
+                    'ra_sent_date': fields.Date.today(),
+                })
             else:
                 self.purchase_order_id.ra_sent = True
                 self.env["ra.document"].create({
