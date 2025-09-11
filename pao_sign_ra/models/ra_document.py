@@ -165,8 +165,7 @@ class RADocument(models.Model):
                 # wizard.action_send_mail()
                 
                 if rec.ra_template_id:
-                    rec.ra_template_id.email_to = 'test@example.com'  # ensures an email record is created
-                    rec.ra_template_id.send_mail(rec.purchase_order_id.id, force_send=True)
+                    rec.ra_template_id.send_mail(rec.purchase_order_id.id, force_send=True, raise_exception=True)
                     
                     odoo_bot = self.env.ref('base.partner_root')
                     rec.message_post(
