@@ -38,7 +38,7 @@ class InvoiceReport(models.Model):
     invoice_date_due = fields.Date('Invoice Date Due', readonly=True)
     invoice_salesperson = fields.Many2one('res.users','Invoice salesperson', readonly=True)
     sales_team = fields.Many2one('crm.team','Sales Team', readonly=True)
-    category_id = fields.Many2one('res.partner.category', 'Category', readonly=True)
+    # category_id = fields.Many2one('res.partner.category', 'Category', readonly=True)
     scheme_id = fields.Many2one('paa.assignment.auditor.scheme', 'Scheme', readonly=True)
     origin = fields.Char('Origin', readonly=True)
     service_start_date = fields.Date('Service Start Date', compute='_get_service_date', readonly=True)
@@ -141,7 +141,7 @@ class InvoiceReport(models.Model):
             -- a.amount_untaxed as amount_untaxed,
             u.id as invoice_salesperson,
             t.id as sales_team,
-            ct.id as category_id,
+            --ct.id as category_id,
             ps.id as scheme_id,
             a.invoice_origin as origin,
             us.id as quotation_salesperson,
@@ -175,8 +175,8 @@ class InvoiceReport(models.Model):
                         LEFT JOIN res_users us ON us.id = s.user_id
                         
                         INNER JOIN res_partner r ON a.partner_id = r.id
-                        LEFT JOIN res_partner_res_partner_category_rel rc ON rc.partner_id = r.id
-                        LEFT JOIN res_partner_category ct ON ct.id = rc.category_id
+                        --LEFT JOIN res_partner_res_partner_category_rel rc ON rc.partner_id = r.id
+                        --LEFT JOIN res_partner_category ct ON ct.id = rc.category_id
                         
                         INNER JOIN product_product p ON p.id = l.product_id
                         LEFT JOIN product_template pt ON pt.id = p.product_tmpl_id
@@ -201,7 +201,7 @@ class InvoiceReport(models.Model):
             ,a.amount_untaxed
             ,u.id
             ,t.id
-            ,ct.id
+            --,ct.id
             ,ps.id
             ,a.invoice_origin
             ,us.id
