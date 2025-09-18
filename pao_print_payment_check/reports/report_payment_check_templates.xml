@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_pao_payment_check_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div class="page"> 
+                    
+                    <t t-set="current_date" t-value="context_timestamp(datetime.datetime.now())"/>
+                    <t t-set="invoices" t-value="o.reconciled_invoice_ids or o.reconciled_bill_ids"/>
+                    <t t-set="top_pos" t-value="2.0"/>
+                    
+                    <t t-foreach="invoices" t-as="inv">
+                        
+                        <div t-att-style="'position: absolute; top: %scm; left: 0.5cm; font-size: 8pt;' % top_pos">
+                            <span t-field="inv.invoice_date"/>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 2.6cm; font-size: 8pt;' % top_pos">
+                            <span t-field="inv.pao_sage_folio_usa"/>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 5.3cm; font-size: 8pt;' % top_pos">
+                            <span t-field="inv.ref"/>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 11.1cm; font-size: 8pt;' % top_pos">
+                          
+                            <span t-esc="'%.2f' % inv.amount_total"/>
+                        </div>
+                        <div t-att-style="'position: absolute; top:%scm; left: 13.9cm; font-size: 8pt;' % top_pos">
+                            <span>0.00</span>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 16.7cm; font-size: 8pt;' % top_pos">
+                            <span t-esc="'%.2f' % inv.amount_total"/>
+                        </div>
+                        <t t-set="top_pos" t-value="top_pos + 1"/>
+                    </t>
+                    <!--
+                    
+                    -->
+                    
+                    <div style="position: absolute; top: 8cm; left: 1cm; font-size: 8pt;">
+                        <span t-esc="('Check ' + o.ref.split('Check')[-1].strip().split(' ')[-1].zfill(10))"/>
+                    </div>
+                    <div style="position: absolute; top: 8cm; left: 5cm; font-size: 8pt;">
+                        <span t-esc="current_date.strftime('%m/%d/%Y')"/>
+                    </div>
+                    <div style="position: absolute; top: 8cm; left: 7cm; font-size: 8pt;">
+                        <span style="text-transform: uppercase;" t-field="o.partner_id"/>
+                    </div>
+                    <div style="position: absolute; top: 8cm; left: 19cm; font-size: 8pt;">
+                        <span t-esc="'%.2f' % o.amount"/>
+                    </div>
+                    
+                    <!--
+                    
+                    -->
+                    
+                    <div style="position: absolute; top: 11.5cm; left: 2cm; font-size: 10pt;">
+                        <span>*</span><span t-esc="o.pao_amount_to_text_check(o.amount)"/>
+                    </div>
+                    <div style="position: absolute; top: 12.5cm; left: 12.5cm; font-size: 8pt;">
+                        <span t-esc="current_date.strftime('%m/%d/%Y')"/>
+                    </div>
+                    <div style="position: absolute; top: 12.5cm; left: 16.5cm; font-size: 8pt;">
+                        
+                         <span t-esc="(('{:.2f}'.format(o.amount)).rjust(18, '*') + '*')"/>
+                    </div>
+                    <div style="position: absolute; top: 13.5cm; left: 2.5cm; font-size: 8pt;">
+                        <div style="text-transform: uppercase;" t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                    </div>
+                    <!--
+                    
+                    -->
+                    <t t-set="top_pos" t-value="18.5"/>
+                    <t t-foreach="invoices" t-as="inv">
+                        <div t-att-style="'position: absolute; top: %scm; left: 0.5cm; font-size: 8pt;' % top_pos">
+                            <span t-field="inv.invoice_date"/>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 2.6cm; font-size: 8pt;' % top_pos">
+                            <span t-field="inv.pao_sage_folio_usa"/>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 5.3cm; font-size: 8pt;' % top_pos">
+                            <span t-field="inv.ref"/>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 11.1cm; font-size: 8pt;' % top_pos">
+                           <span t-esc="'%.2f' % inv.amount_total"/>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 13.9cm; font-size: 8pt;' % top_pos">
+                            <span>0.00</span>
+                        </div>
+                        <div t-att-style="'position: absolute; top: %scm; left: 16.7cm; font-size: 8pt;' % top_pos">
+                            <span t-esc="'%.2f' % inv.amount_total"/>
+                        </div>
+                        <t t-set="top_pos" t-value="top_pos + 1"/>
+                    </t>
+                    <!--
+                    
+                    -->
+                    
+                    <div style="position: absolute; top: 24.7cm; left: 1cm; font-size: 8pt;">
+                        <span t-esc="('Check ' + o.ref.split('Check')[-1].strip().split(' ')[-1].zfill(10))"/>
+                    </div>
+                    <div style="position: absolute; top: 24.7cm; left: 5cm; font-size: 8pt;">
+                        
+                       <span t-esc="current_date.strftime('%m/%d/%Y')"/>
+                    </div>
+                    <div style="position: absolute; top: 24.7cm; left: 7cm; font-size: 8pt;">
+                        <span style="text-transform: uppercase;" t-field="o.partner_id"/>
+                    </div>
+                    <div style="position: absolute; top: 24.7cm; left: 19cm; font-size: 8pt;">
+                        <span t-esc="'%.2f' % o.amount"/>
+                    </div>
+                    
+                    
+                   
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

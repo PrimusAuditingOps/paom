@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_pao_print_payment_check" model="report.paperformat">
+        <field name="name">PAO Payment Check Report Whitout Header</field>
+        <field name="default" eval="False"/>
+        <field name="disable_shrinking" eval="True"/>
+        <field name="format">Letter</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="orientation">Portrait</field>
+    </record>
+
+    <record id="action_pao_report_payment_check" model="ir.actions.report">
+        <field name="name">Payment Check</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="paperformat_id" ref="pao_print_payment_check.paperformat_pao_print_payment_check"/>
+        <field name="report_name">pao_print_payment_check.report_pao_payment_check_document</field>
+        <field name="report_file">pao_print_payment_check.report_pao_payment_check_document</field>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
