@@ -9,18 +9,19 @@ class SaleReport(models.Model):
     organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_po_organization")
     registration_number_id = fields.Many2one('servicereferralagreement.registrynumber', string="Registration Number", compute="_get_po_registration_number")
     audit_start = fields.Date(string="Audit Start", compute="_get_po_audit_date")
-    audit_date = fields.Date(string="Audit Date", compute="_get_so_audit_date", store=True)
+    # audit_date = fields.Date(string="Audit Date", compute="_get_so_audit_date")
+    audit_date = fields.Date(string="Audit Date")
     vendor_id = fields.Many2one(related="purchase_order_id.partner_id")
     coordinator_id = fields.Many2one(related="purchase_order_id.coordinator_id")
 
     def _select_sale(self):
         select_ = super(SaleReport, self)._select_sale()
-        select_ += ', l.id as sale_order_line_id'
+        select_ += ', l.id as sale_order_line_id, s.audit_date'
         return select_
     
     def _group_by_sale(self):
         groupby_ = super(SaleReport, self)._group_by_sale()
-        groupby_ += ', l.id'
+        groupby_ += ', l.id, s.audit_date'
         return groupby_
                     
     @api.depends('purchase_order_id.order_line', 'purchase_order_id.state')
