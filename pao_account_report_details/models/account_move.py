@@ -5,7 +5,7 @@ class AccountMoveInherit(models.Model):
     
     audit_dates_available = fields.Boolean(compute="_compute_audit_dates_available", store=True)
     
-    audit_date = fields.Date(compute="_compute_audit_date", string="Audit Date")
+    audit_date = fields.Date(compute="_compute_audit_date", string="Audit Date", store=True)
 
     @api.depends('invoice_line_ids.sale_line_ids.order_id', 
                 'invoice_line_ids.sale_line_ids.audit_date')

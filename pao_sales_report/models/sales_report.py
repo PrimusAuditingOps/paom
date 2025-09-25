@@ -9,7 +9,7 @@ class SaleReport(models.Model):
     organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_po_organization")
     registration_number_id = fields.Many2one('servicereferralagreement.registrynumber', string="Registration Number", compute="_get_po_registration_number")
     audit_start = fields.Date(string="Audit Start", compute="_get_po_audit_date")
-    audit_date = fields.Date(string="Audit Date", compute="_get_so_audit_date")
+    audit_date = fields.Date(string="Audit Date", compute="_get_so_audit_date", store=True)
     vendor_id = fields.Many2one(related="purchase_order_id.partner_id")
     coordinator_id = fields.Many2one(related="purchase_order_id.coordinator_id")
 
