@@ -34,7 +34,8 @@ class SaleOrderCommissionsReport(models.Model):
     current_customer = fields.Char('Is Current Customer', compute="_get_customer_information", readonly=True)
     operation_type = fields.Char('Type of Operation', compute="_get_details", readonly=True)
     quantity = fields.Float('Quantity', compute="_get_details", readonly=True)
-    audit_date = fields.Date('Audit Date', compute="_get_details", readonly=True)
+    # audit_date = fields.Date('Audit Date', compute="_get_details", readonly=True)
+    audit_date = fields.Date('Audit Date', readonly=True)
     audit_amount = fields.Monetary('Audit Amount', compute="_get_amounts", readonly=True, currency_field='currency_id')
     opportunity_notes = fields.Html('Opportunity Notes', compute="_get_customer_information", readonly=True)
     invoice_paid = fields.Selection(
@@ -176,6 +177,7 @@ class SaleOrderCommissionsReport(models.Model):
             s.id as order,
             s.company_id as company_id,
             s.date_order,
+            s.audit_date,
             c.user_id as specialist,
             c.source_id as source,
             c.commission_percentage as commission_percentage,
@@ -200,6 +202,7 @@ class SaleOrderCommissionsReport(models.Model):
             c.id
             ,s.id
             ,s.date_order
+            ,s.audit_date
             ,c.user_id
             ,c.source_id
             ,c.commission_percentage

@@ -3,7 +3,7 @@ from odoo import fields, models, api
 class SaleOrderInherit(models.Model):
     _inherit = 'sale.order'
     
-    audit_date = fields.Date(compute="_compute_audit_date", string="Audit Date")
+    audit_date = fields.Date(compute="_compute_audit_date", string="Audit Date", store=True)
     
     @api.depends('order_line.audit_date')
     def _compute_audit_date(self):
