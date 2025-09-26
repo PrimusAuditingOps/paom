@@ -162,7 +162,7 @@ class SaleOrderCommissionsReport(models.Model):
                         operation_types.append(line.product_template_id.name)
                         details.append(order_detail)
                 
-                rec.audit_date = rec.order.audit_date
+                # rec.audit_date = rec.order.audit_date
                 rec.scheme = ", ".join(list(set(schemes) - {''}))
                 rec.organization = ", ".join(list(set(organizations) - {''}))
                 rec.registration_number = ", ".join(list(set(registration_numbers) - {''}))
