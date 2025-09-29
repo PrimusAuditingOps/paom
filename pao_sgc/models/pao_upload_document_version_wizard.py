@@ -11,7 +11,7 @@ class PAOUploadDocumentVersion(models.TransientModel):
     name = fields.Char('Document Name', required=True)
     version = fields.Char('Version (Odoo)', required=True)
     revision_number = fields.Char("Revision Number", required=True)
-    document_file = fields.Binary(string='Document File', required=True)
+    document_file = fields.Binary(string='Document File', attachment=True, required=True)
     filename = fields.Char('Filename', readonly=True)
     version_management_id = fields.Many2one('pao.documents.version.management', string="Document Version Origin")
     
