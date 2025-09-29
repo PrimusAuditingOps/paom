@@ -18,7 +18,7 @@ class PaoDocumentsVersionManagement(models.Model):
     document_file = fields.Binary(string='Document File', attachment=True)
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
-    filename = fields.Char('Filename', readonly=True, compute="_compute_filename")
+    filename = fields.Char('Filename', readonly=True)
     history_version_ids = fields.One2many('pao.documents.version.history', string="Version History", inverse_name='version_management_id')
     last_updated_by = fields.Many2one('res.users', string="Last Updated By")
     approval_request_in_progress = fields.Boolean('Has an active request', default=False)
