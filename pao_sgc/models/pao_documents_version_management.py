@@ -16,9 +16,10 @@ class PaoDocumentsVersionManagement(models.Model):
     version = fields.Char('Current Version (Odoo)')
     revision_number = fields.Char("Revision Number")
     document_file = fields.Binary(string='Document File')
+    document_file_name = fields.Char(string='Document Filename')
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
-    document_file_name = fields.Char('document_file_name', readonly=True)
+    filename = fields.Char('Filename', readonly=True)
     history_version_ids = fields.One2many('pao.documents.version.history', string="Version History", inverse_name='version_management_id')
     last_updated_by = fields.Many2one('res.users', string="Last Updated By")
     approval_request_in_progress = fields.Boolean('Has an active request', default=False)
@@ -41,13 +42,13 @@ class PaoDocumentsVersionManagement(models.Model):
     
     @api.model
     def create(self, vals):
-        # Ensure document_file_name is preserved if missing
+        # Ensure filename is preserved if missing
         if vals.get('document_file') and not vals.get('document_file_name'):
             vals['document_file_name'] = 'unknown_file'
         return super().create(vals)
 
     def write(self, vals):
-        # Preserve document_file_name on update
+        # Preserve filename on update
         if vals.get('document_file') and not vals.get('document_file_name'):
             vals['document_file_name'] = self.document_file_name or 'unknown_file'
         return super().write(vals)
@@ -89,12 +90,12 @@ class PaoDocumentsVersionManagement(models.Model):
                 rec.is_document_near_expiration = rec.expiration_date <= date_range
             
     @api.constrains("name", "revision_number", "document_file")
-    def _format_document_file_name(self):
+    def _format_filename(self):
             for record in self:
                 if record.id and record.name and record.revision_number and record.document_file and record.document_file_name:
                     ext = os.path.splitext(record.document_file_name)[1] 
                     record.document_file_name = (
-                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}{ext}"
+                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}.{ext}"
                     )
                 else:
                     record.document_file_name = ""
