@@ -43,13 +43,13 @@ class PaoDocumentsVersionManagement(models.Model):
     def create(self, vals):
         # If a file is uploaded but filename is missing, set it
         if vals.get("document_file") and not vals.get("filename"):
-            vals['filename'] = vals.get('statemendocument_filet_file', '').split('/')[-1] or 'unknown_filename'
+            vals['filename'] = vals.get('document_file', '').split('/')[-1] or 'unknown_filename'
         return super().create(vals)
 
     def write(self, vals):
         # If updating a file but no filename is passed, keep the old or set a default
         if "document_file" in vals and not vals.get("filename"):
-            vals['filename'] = vals.get('statemendocument_filet_file', '').split('/')[-1] or 'unknown_filename'
+            vals['filename'] = vals.get('document_file', '').split('/')[-1] or 'unknown_filename'
         return super().write(vals)
 
 
