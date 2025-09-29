@@ -89,12 +89,13 @@ class PaoDocumentsVersionManagement(models.Model):
                 date_range = today + timedelta(days=15)
                 rec.is_document_near_expiration = rec.expiration_date <= date_range
             
-    @api.depends("name", "revision_number")
-    def _compute_filename(self):
+    @api.constrains("name", "revision_number", "document_file_name")
+    def _format_filename(self):
             for record in self:
-                if record.id and record.name and record.revision_number and record.document_file:
+                if record.id and record.name and record.revision_number and record.document_file and record.document_file_name:
+                    ext = os.path.splitext(record.document_file_name)[1] 
                     record.document_file_name = (
-                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}"
+                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}.{ext}"
                     )
                 else:
                     record.document_file_name = ""
