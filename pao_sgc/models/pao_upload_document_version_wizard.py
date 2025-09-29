@@ -38,6 +38,7 @@ class PAOUploadDocumentVersion(models.TransientModel):
                     record.filename = record.filename = record.name + '_r' + record.revision_number.replace('.', '_') + ext
                 else:
                     record.filename = ""
+                _logger.warning(record.filename)
     
     def request_document_approval_action(self):
         
