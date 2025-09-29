@@ -40,6 +40,7 @@ class PAOUploadDocumentVersion(models.TransientModel):
             if rec.filename:
                 rec.original_filename = rec.filename
                 _logger.warning(rec.filename or 'none3')
+                _logger.warning(rec.original_filename or 'none5')
     
     # @api.onchange("name", "version", "document_file")
     def _format_filename(self):
