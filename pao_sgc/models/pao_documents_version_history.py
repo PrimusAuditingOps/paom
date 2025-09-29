@@ -10,7 +10,7 @@ class PaoDocumentsVersionHistory(models.Model):
     name = fields.Char('Document Name', compute="_compute_document_name")
     version = fields.Char('Document Version (Odoo)')
     revision_number = fields.Char("Revision Number", required=True)
-    document_file = fields.Binary(string='Document File', attachment=True, required=True)
+    document_file = fields.Binary(string='Document File', required=True)
     validity_start_date = fields.Date("Validity Start Date", required=True)
     validity_end_date = fields.Date("Validity End Date", required=True)
     filename = fields.Char('Filename')
