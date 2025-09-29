@@ -56,7 +56,6 @@ class PAOUploadDocumentVersion(models.TransientModel):
                             ) % {'document_name': self.name, 'version': self.version, 'revision': self.revision_number}
             
             self._format_filename()
-            _logger.warning(self.filename + "    2***********")
             
             approval_data = {
                 'request_owner_id': self.create_uid.id,
