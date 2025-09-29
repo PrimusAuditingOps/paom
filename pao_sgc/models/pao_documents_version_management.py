@@ -19,7 +19,7 @@ class PaoDocumentsVersionManagement(models.Model):
     document_file_name = fields.Char(string='Document Filename')
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
-    filename = fields.Char('Filename', readonly=True)
+    filename = fields.Char(string='Document Filename')
     history_version_ids = fields.One2many('pao.documents.version.history', string="Version History", inverse_name='version_management_id')
     last_updated_by = fields.Many2one('res.users', string="Last Updated By")
     approval_request_in_progress = fields.Boolean('Has an active request', default=False)
@@ -43,14 +43,14 @@ class PaoDocumentsVersionManagement(models.Model):
     @api.model
     def create(self, vals):
         # Ensure filename is preserved if missing
-        if vals.get('document_file') and not vals.get('document_file_name'):
-            vals['document_file_name'] = 'unknown_file'
+        if vals.get('document_file') and not vals.get('filename'):
+            vals['filename'] = 'unknown_file'
         return super().create(vals)
 
     def write(self, vals):
         # Preserve filename on update
-        if vals.get('document_file') and not vals.get('document_file_name'):
-            vals['document_file_name'] = self.document_file_name or 'unknown_file'
+        if vals.get('document_file') and not vals.get('filename'):
+            vals['filename'] = self.filename or 'unknown_file'
         return super().write(vals)
 
 
@@ -92,13 +92,13 @@ class PaoDocumentsVersionManagement(models.Model):
     @api.constrains("name", "revision_number", "document_file")
     def _format_filename(self):
             for record in self:
-                if record.id and record.name and record.revision_number and record.document_file and record.document_file_name:
-                    ext = os.path.splitext(record.document_file_name)[1] 
-                    record.document_file_name = (
-                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}.{ext}"
+                if record.id and record.name and record.revision_number and record.document_file and record.filename:
+                    ext = os.path.splitext(record.filename)[1] 
+                    record.filename = (
+                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}{ext}"
                     )
                 else:
-                    record.document_file_name = ""
+                    record.filename = ""
 
     def upload_new_version_action(self):
         if self.approval_request_in_progress:
