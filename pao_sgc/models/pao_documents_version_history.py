@@ -20,27 +20,27 @@ class PaoDocumentsVersionHistory(models.Model):
                                             )
     approval_id = fields.Many2one('approval.request', string="Approval Reference")
     
-    @api.model
-    def create(self, vals):
-        # Ensure filename is preserved if missing
-        if vals.get('document_file') and not vals.get('filename'):
-            vals['filename'] = 'unknown_file'
-        return super().create(vals)
+    # @api.model
+    # def create(self, vals):
+    #     # Ensure filename is preserved if missing
+    #     if vals.get('document_file') and not vals.get('filename'):
+    #         vals['filename'] = 'unknown_file'
+    #     return super().create(vals)
 
-    def write(self, vals):
-        # Preserve filename on update
-        if vals.get('document_file') and not vals.get('filename'):
-            vals['filename'] = self.filename or 'unknown_file'
-        return super().write(vals)
+    # def write(self, vals):
+    #     # Preserve filename on update
+    #     if vals.get('document_file') and not vals.get('filename'):
+    #         vals['filename'] = self.filename or 'unknown_file'
+    #     return super().write(vals)
 
-    @api.constrains("name", "revision_number", "document_file")
-    def _format_filename(self):
-            for record in self:
-                if record.id and record.name and record.revision_number and record.document_file and record.filename:
-                    ext = os.path.splitext(record.filename)[1] 
-                    record.filename = record.name + '_r' + record.revision_number.replace('.', '_') + ext
-                else:
-                    record.filename = ""
+    # @api.constrains("name", "revision_number", "document_file")
+    # def _format_filename(self):
+    #         for record in self:
+    #             if record.id and record.name and record.revision_number and record.document_file and record.filename:
+    #                 ext = os.path.splitext(record.filename)[1] 
+    #                 record.filename = record.name + '_r' + record.revision_number.replace('.', '_') + ext
+    #             else:
+    #                 record.filename = ""
                     
     @api.depends("version_management_id")
     def _compute_document_name(self):
