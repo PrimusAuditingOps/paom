@@ -109,12 +109,13 @@
                             <field name="revision_number" readonly="id != False"/>
                             <field name="approval_date" readonly="id != False"/>
                             <field name="pao_allow_modify_document" invisible="1"/>
-                            <field name="document_file" filename="filename" readonly="id != False and pao_allow_modify_document == False"/>
+                            <field name="document_file" filename="document_file_name" readonly="id != False and pao_allow_modify_document == False"/>
                             <field name="expiration_date" invisible="id == False" readonly="id != False and pao_allow_modify_document == False"/>
                             <field name="is_document_expired" invisible="1"/>
                             <field name="approval_id" invisible="approval_id == False"/>
                             <field name="id" invisible="1"/>
                             <field name="filename" invisible="1"/>
+                            <field name="document_file_name" invisible="1"/>
                         </group>
                     </group>
                     <!-- <notebook groups="pao_sgc.sgc_admin_group" attrs="{'invisible': [('id', '=', False)]}"> -->
