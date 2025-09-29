@@ -16,6 +16,7 @@ class PaoDocumentsVersionManagement(models.Model):
     version = fields.Char('Current Version (Odoo)')
     revision_number = fields.Char("Revision Number")
     document_file = fields.Binary(string='Document File', attachment=True)
+    document_file_name = fields.Char(string='Document File Name')
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
     filename = fields.Char('Filename', readonly=True, compute="_compute_filename")
