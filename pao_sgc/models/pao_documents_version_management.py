@@ -19,7 +19,7 @@ class PaoDocumentsVersionManagement(models.Model):
     document_filename = fields.Char(string='Document File Name')
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
-    filename = fields.Char('Filename', readonly=True)
+    filename = fields.Char('Filename', readonly=True, compute="_compute_filename")
     history_version_ids = fields.One2many('pao.documents.version.history', string="Version History", inverse_name='version_management_id')
     last_updated_by = fields.Many2one('res.users', string="Last Updated By")
     approval_request_in_progress = fields.Boolean('Has an active request', default=False)
@@ -74,19 +74,19 @@ class PaoDocumentsVersionManagement(models.Model):
                 date_range = today + timedelta(days=15)
                 rec.is_document_near_expiration = rec.expiration_date <= date_range
             
-    # @api.depends("name", "revision_number")
-    # def _compute_filename(self):
-    #         for record in self:
-    #             if record.id and record.name and record.revision_number and record.document_file:
-    #                 ext = ""
-    #                 if record.document_filename:
-    #                     _, ext = os.path.splitext(record.document_filename)
+    @api.depends("name", "revision_number")
+    def _compute_filename(self):
+            for record in self:
+                if record.id and record.name and record.revision_number and record.document_file:
+                    ext = ""
+                    if record.filename:
+                        _, ext = os.path.splitext(record.filename)
 
-    #                 record.filename = (
-    #                     f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}{ext}"
-    #                 )
-    #             else:
-    #                 record.filename = ""
+                    record.filename = (
+                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}{ext}"
+                    )
+                else:
+                    record.filename = ""
 
     def upload_new_version_action(self):
         if self.approval_request_in_progress:
