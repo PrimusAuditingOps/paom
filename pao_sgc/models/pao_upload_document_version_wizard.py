@@ -12,7 +12,7 @@ class PAOUploadDocumentVersion(models.TransientModel):
     version = fields.Char('Version (Odoo)', required=True)
     revision_number = fields.Char("Revision Number", required=True)
     document_file = fields.Binary(string='Document File', required=True)
-    filename = fields.Char('Filename', readonly=True)
+    filename = fields.Char('Filename')
     original_filename = fields.Char()
     version_management_id = fields.Many2one('pao.documents.version.management', string="Document Version Origin")
     
@@ -20,18 +20,18 @@ class PAOUploadDocumentVersion(models.TransientModel):
     selected_reviewer = fields.Many2one('res.users', string="Reviewer", required=True)
     approval_reason = fields.Text(string="Description of the change")
     
-    # @api.model
-    # def create(self, vals):
-    #     # Ensure filename is preserved if missing
-    #     if vals.get('document_file') and not vals.get('filename'):
-    #         vals['filename'] = 'unknown_file'
-    #     return super().create(vals)
+    @api.model
+    def create(self, vals):
+        # Ensure filename is preserved if missing
+        if vals.get('document_file') and not vals.get('filename'):
+            vals['filename'] = 'unknown_file'
+        return super().create(vals)
 
-    # def write(self, vals):
-    #     # Preserve filename on update
-    #     if vals.get('document_file') and not vals.get('filename'):
-    #         vals['filename'] = self.filename or 'unknown_file'
-    #     return super().write(vals)
+    def write(self, vals):
+        # Preserve filename on update
+        if vals.get('document_file') and not vals.get('filename'):
+            vals['filename'] = self.filename or 'unknown_file'
+        return super().write(vals)
     
     @api.onchange("filename")
     def _get_original_name(self):
