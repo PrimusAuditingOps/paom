@@ -40,13 +40,11 @@ class PaoDocumentsVersionManagement(models.Model):
     
     @api.model
     def create(self, vals):
-        # Ensure filename is preserved if missing
         if vals.get('document_file') and not vals.get('document_file_name'):
             vals['document_file_name'] = 'unknown_file'
         return super().create(vals)
 
     def write(self, vals):
-        # Preserve filename on update
         if vals.get('document_file') and not vals.get('filename'):
             vals['filename'] = self.filename or 'unknown_file'
         return super().write(vals)

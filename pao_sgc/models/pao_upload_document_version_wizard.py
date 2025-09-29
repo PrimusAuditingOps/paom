@@ -1,9 +1,6 @@
 from odoo import api, fields, models, _
 import os
 
-from logging import getLogger
-_logger = getLogger(__name__)
-
 class PAOUploadDocumentVersion(models.TransientModel):
     _name = 'pao.upload.document.version'
     _description = 'Wizard Model to request the approval of a new version of a document'
@@ -13,7 +10,6 @@ class PAOUploadDocumentVersion(models.TransientModel):
     revision_number = fields.Char("Revision Number", required=True)
     document_file = fields.Binary(string='Document File', required=True)
     filename = fields.Char('Filename')
-    original_filename = fields.Char()
     version_management_id = fields.Many2one('pao.documents.version.management', string="Document Version Origin")
     
     selected_approvers = fields.Many2many('res.users', string='Approvers', required=True)
@@ -22,25 +18,14 @@ class PAOUploadDocumentVersion(models.TransientModel):
     
     @api.model
     def create(self, vals):
-        # Ensure filename is preserved if missing
         if vals.get('document_file') and not vals.get('filename'):
             vals['filename'] = 'unknown_file'
         return super().create(vals)
 
     def write(self, vals):
-        # Preserve filename on update
         if vals.get('document_file') and not vals.get('filename'):
             vals['filename'] = self.filename or 'unknown_file'
         return super().write(vals)
-    
-    @api.onchange("filename")
-    def _get_original_name(self):
-        for rec in self:
-            _logger.warning('entro4')
-            if rec.filename:
-                rec.original_filename = rec.filename
-                _logger.warning(rec.filename or 'none3')
-                _logger.warning(rec.original_filename or 'none5')
     
     @api.constrains("name", "version", "document_file")
     def _format_filename(self):
@@ -48,7 +33,6 @@ class PAOUploadDocumentVersion(models.TransientModel):
                 if record.name and record.revision_number and record.document_file and record.filename:
                     ext = os.path.splitext(record.filename)[1]
                     record.filename = record.filename = record.name + '_r' + record.revision_number.replace('.', '_') + ext
-                _logger.warning(record.filename or '' + "    ***********")
     
     def request_document_approval_action(self):
         
