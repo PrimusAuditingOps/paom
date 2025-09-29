@@ -3,6 +3,7 @@ from dateutil.relativedelta import relativedelta
 import pytz
 from datetime import datetime, timedelta
 from odoo.exceptions import ValidationError
+import os
 
 class PaoDocumentsVersionManagement(models.Model):
 
@@ -76,7 +77,13 @@ class PaoDocumentsVersionManagement(models.Model):
     def _compute_filename(self):
             for record in self:
                 if record.id and record.name and record.revision_number and record.document_file:
-                    record.filename =  record.code + '_Rev' + record.revision_number.replace('.', '_') + '_' + record.name
+                    ext = ""
+                    if record.document_file_name:
+                        _, ext = os.path.splitext(record.document_file_name)
+
+                    record.filename = (
+                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}{ext}"
+                    )
                 else:
                     record.filename = ""
 
