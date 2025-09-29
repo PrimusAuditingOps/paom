@@ -42,11 +42,11 @@ class PAOUploadDocumentVersion(models.TransientModel):
                 _logger.warning(rec.filename or 'none3')
                 _logger.warning(rec.original_filename or 'none5')
     
-    # @api.onchange("name", "version", "document_file")
+    @api.constrains("name", "version", "document_file")
     def _format_filename(self):
             for record in self:
-                if record.name and record.revision_number and record.document_file and record.original_filename:
-                    ext = os.path.splitext(record.original_filename)[1]
+                if record.name and record.revision_number and record.document_file and record.filename:
+                    ext = os.path.splitext(record.filename)[1]
                     record.filename = record.filename = record.name + '_r' + record.revision_number.replace('.', '_') + ext
                 _logger.warning(record.filename or '' + "    ***********")
     
@@ -64,11 +64,6 @@ class PAOUploadDocumentVersion(models.TransientModel):
             
             request_name = _('REQ: %(document_name)s - Version: %(version)s - Revision: %(revision)s'
                             ) % {'document_name': self.name, 'version': self.version, 'revision': self.revision_number}
-            
-            _logger.warning(self.filename or 'none1')
-            _logger.warning(self.original_filename or 'none2')
-            
-            self._format_filename()
             
             approval_data = {
                 'request_owner_id': self.create_uid.id,
