@@ -16,6 +16,7 @@ class PaoDocumentsVersionManagement(models.Model):
     version = fields.Char('Current Version (Odoo)')
     revision_number = fields.Char("Revision Number")
     document_file = fields.Binary(string='Document File')
+    document_file_name = fields.Char(string='Document Filename')
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
     filename = fields.Char('Filename', readonly=True)
@@ -41,15 +42,15 @@ class PaoDocumentsVersionManagement(models.Model):
     
     @api.model
     def create(self, vals):
-        # If a file is uploaded but filename is missing, set it
-        if vals.get("document_file"):
-            vals['filename'] = vals.get('document_file', '').split('/')[-1] or 'unknown_filename'
+        # Ensure filename is preserved if missing
+        if vals.get('document_file') and not vals.get('document_file_name'):
+            vals['document_file_name'] = 'unknown_file'
         return super().create(vals)
 
     def write(self, vals):
-        # If updating a file but no filename is passed, keep the old or set a default
-        if "document_file" in vals:
-            vals['filename'] = vals.get('document_file', '').split('/')[-1] or 'unknown_filename'
+        # Preserve filename on update
+        if vals.get('document_file') and not vals.get('document_file_name'):
+            vals['document_file_name'] = self.document_file_name or 'unknown_file'
         return super().write(vals)
 
 
