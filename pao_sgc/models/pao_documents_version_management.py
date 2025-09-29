@@ -41,21 +41,16 @@ class PaoDocumentsVersionManagement(models.Model):
     
     @api.model
     def create(self, vals):
-        # catch filename from the web client
-        if 'filename' in vals:
-            _, ext = os.path.splitext(vals['filename'])
-            vals['_uploaded_ext'] = ext  # temporary field for compute
-        record = super().create(vals)
-        return record
+        # If a file is uploaded but filename is missing, set it
+        if vals.get("document_file") and not vals.get("filename"):
+            vals["filename"] = "uploaded_file"
+        return super().create(vals)
 
     def write(self, vals):
-        # catch filename from the web client
-        if 'filename' in vals:
-            _, ext = os.path.splitext(vals['filename'])
-            for rec in self:
-                rec._uploaded_ext = ext  # cache extension for compute
-        res = super().write(vals)
-        return res
+        # If updating a file but no filename is passed, keep the old or set a default
+        if "document_file" in vals and not vals.get("filename"):
+            vals["filename"] = self.filename or "uploaded_file"
+        return super().write(vals)
 
 
     
