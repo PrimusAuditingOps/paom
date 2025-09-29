@@ -1,6 +1,7 @@
 from odoo import api, fields, models, _
 import os
-
+from logging import getLogger
+_logger = getLogger(__name__)
 class PAOUploadDocumentVersion(models.TransientModel):
     _name = 'pao.upload.document.version'
     _description = 'Wizard Model to request the approval of a new version of a document'
@@ -16,20 +17,20 @@ class PAOUploadDocumentVersion(models.TransientModel):
     selected_reviewer = fields.Many2one('res.users', string="Reviewer", required=True)
     approval_reason = fields.Text(string="Description of the change")
     
-    @api.model
-    def create(self, vals):
-        # Ensure filename is preserved if missing
-        if vals.get('document_file') and not vals.get('filename'):
-            vals['filename'] = 'unknown_file'
-        return super().create(vals)
+    # @api.model
+    # def create(self, vals):
+    #     # Ensure filename is preserved if missing
+    #     if vals.get('document_file') and not vals.get('filename'):
+    #         vals['filename'] = 'unknown_file'
+    #     return super().create(vals)
 
-    def write(self, vals):
-        # Preserve filename on update
-        if vals.get('document_file') and not vals.get('filename'):
-            vals['filename'] = self.filename or 'unknown_file'
-        return super().write(vals)
+    # def write(self, vals):
+    #     # Preserve filename on update
+    #     if vals.get('document_file') and not vals.get('filename'):
+    #         vals['filename'] = self.filename or 'unknown_file'
+    #     return super().write(vals)
     
-    @api.onchange("name", "version", "document_file")
+    @api.constrains("name", "version", "document_file")
     def _format_filename(self):
             for record in self:
                 if record.id and record.name and record.revision_number and record.document_file and record.filename:
@@ -52,6 +53,9 @@ class PAOUploadDocumentVersion(models.TransientModel):
             
             request_name = _('REQ: %(document_name)s - Version: %(version)s - Revision: %(revision)s'
                             ) % {'document_name': self.name, 'version': self.version, 'revision': self.revision_number}
+            _logger.warning(self.filename)
+            self._format_filename()
+            _logger.warning(self.filename)
         
             approval_data = {
                 'request_owner_id': self.create_uid.id,
