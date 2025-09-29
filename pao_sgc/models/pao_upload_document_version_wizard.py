@@ -29,7 +29,7 @@ class PAOUploadDocumentVersion(models.TransientModel):
             vals['filename'] = self.filename or 'unknown_file'
         return super().write(vals)
     
-    @api.constrains("name", "version", "document_file")
+    @api.onchange("name", "version", "document_file")
     def _format_filename(self):
             for record in self:
                 if record.id and record.name and record.revision_number and record.document_file and record.filename:
