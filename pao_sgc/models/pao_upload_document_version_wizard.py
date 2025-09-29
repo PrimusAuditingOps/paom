@@ -38,8 +38,6 @@ class PAOUploadDocumentVersion(models.TransientModel):
                 if record.id and record.name and record.revision_number and record.document_file and record.filename:
                     ext = os.path.splitext(record.filename)[1] 
                     record.filename = record.filename = record.name + '_r' + record.revision_number.replace('.', '_') + ext
-                else:
-                    record.filename = ""
                 _logger.warning(record.filename + "    ***********")
     
     def request_document_approval_action(self):
