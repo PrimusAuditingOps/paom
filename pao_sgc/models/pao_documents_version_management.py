@@ -16,7 +16,7 @@ class PaoDocumentsVersionManagement(models.Model):
     version = fields.Char('Current Version (Odoo)')
     revision_number = fields.Char("Revision Number")
     document_file = fields.Binary(string='Document File')
-    document_file_name = fields.Char(string='Document Filename', compute="_compute_filename")
+    document_file_name = fields.Char(string='Document Filename')
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
     filename = fields.Char('Filename', readonly=True)
@@ -93,11 +93,8 @@ class PaoDocumentsVersionManagement(models.Model):
     def _compute_filename(self):
             for record in self:
                 if record.id and record.name and record.revision_number and record.document_file:
-                    ext=""
-                    if record.document_file_name:
-                        ext = os.path.splitext(record.document_file_name)[1]
                     record.document_file_name = (
-                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}.{ext}"
+                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}"
                     )
                 else:
                     record.document_file_name = ""
