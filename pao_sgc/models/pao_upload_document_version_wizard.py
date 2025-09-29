@@ -13,6 +13,7 @@ class PAOUploadDocumentVersion(models.TransientModel):
     revision_number = fields.Char("Revision Number", required=True)
     document_file = fields.Binary(string='Document File', required=True)
     filename = fields.Char('Filename', readonly=True)
+    original_filename = fields.Char()
     version_management_id = fields.Many2one('pao.documents.version.management', string="Document Version Origin")
     
     selected_approvers = fields.Many2many('res.users', string='Approvers', required=True)
@@ -32,11 +33,17 @@ class PAOUploadDocumentVersion(models.TransientModel):
     #         vals['filename'] = self.filename or 'unknown_file'
     #     return super().write(vals)
     
+    @api.onchange("filename")
+    def _get_original_name(self):
+        for rec in self:
+            if rec.filename:
+                rec.original_filename = rec.filename
+    
     # @api.onchange("name", "version", "document_file")
     def _format_filename(self):
             for record in self:
-                if record.name and record.revision_number and record.document_file and record.filename:
-                    ext = os.path.splitext(record.filename)[1] 
+                if record.name and record.revision_number and record.document_file and record.original_filename:
+                    ext = os.path.splitext(record.original_filename)[1]
                     record.filename = record.filename = record.name + '_r' + record.revision_number.replace('.', '_') + ext
                 _logger.warning(record.filename or '' + "    ***********")
     
