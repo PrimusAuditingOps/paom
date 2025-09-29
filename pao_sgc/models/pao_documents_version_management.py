@@ -37,14 +37,6 @@ class PaoDocumentsVersionManagement(models.Model):
     
     pao_allow_modify_document = fields.Boolean(compute='_compute_allow_modify_document')
     document_type_id = fields.Many2one('pao.sgc.document.type', string="Document Type", required=True)
-    
-    
-    @api.model
-    def create(self, vals):
-        # Ensure filename is preserved if missing
-        if vals.get('document_file') and not vals.get('filename'):
-            vals['filename'] = 'unknown_file'
-        return super().create(vals)
 
     def write(self, vals):
         # Preserve filename on update
@@ -133,6 +125,9 @@ class PaoDocumentsVersionManagement(models.Model):
     
     @api.model_create_multi
     def create(self, values_list):
+        
+        if values_list.get('document_file') and not values_list.get('filename'):
+            values_list['filename'] = 'unknown_file'
         
         for values in values_list:
             if any(values.get(field) for field in ['version', 'document_file', 'revision_number', 'approval_date']):
