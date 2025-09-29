@@ -16,7 +16,6 @@ class PaoDocumentsVersionManagement(models.Model):
     version = fields.Char('Current Version (Odoo)')
     revision_number = fields.Char("Revision Number")
     document_file = fields.Binary(string='Document File', attachment=True)
-    document_filename = fields.Char(string='Document File Name')
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
     filename = fields.Char('Filename', readonly=True, compute="_compute_filename")
@@ -38,6 +37,26 @@ class PaoDocumentsVersionManagement(models.Model):
     
     pao_allow_modify_document = fields.Boolean(compute='_compute_allow_modify_document')
     document_type_id = fields.Many2one('pao.sgc.document.type', string="Document Type", required=True)
+    
+    
+    @api.model
+    def create(self, vals):
+        # catch filename from the web client
+        if 'document_file_filename' in vals:
+            _, ext = os.path.splitext(vals['document_file_filename'])
+            vals['_uploaded_ext'] = ext  # temporary field for compute
+        record = super().create(vals)
+        return record
+
+    def write(self, vals):
+        # catch filename from the web client
+        if 'document_file_filename' in vals:
+            _, ext = os.path.splitext(vals['document_file_filename'])
+            for rec in self:
+                rec._uploaded_ext = ext  # cache extension for compute
+        res = super().write(vals)
+        return res
+
 
     
             
@@ -78,9 +97,8 @@ class PaoDocumentsVersionManagement(models.Model):
     def _compute_filename(self):
             for record in self:
                 if record.id and record.name and record.revision_number and record.document_file:
-                    ext = ""
-                    if record.filename:
-                        _, ext = os.path.splitext(record.filename)
+                    ext = getattr(record, "_uploaded_ext", "")  # keep extension cached from create/write
+
 
                     record.filename = (
                         f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}{ext}"
