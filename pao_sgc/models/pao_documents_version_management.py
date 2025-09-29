@@ -79,8 +79,8 @@ class PaoDocumentsVersionManagement(models.Model):
             for record in self:
                 if record.id and record.name and record.revision_number and record.document_file:
                     ext = ""
-                    if record.document_file_name:
-                        _, ext = os.path.splitext(record.document_file_name)
+                    if record.document_filename:
+                        _, ext = os.path.splitext(record.document_filename)
 
                     record.filename = (
                         f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}{ext}"
