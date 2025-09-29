@@ -42,16 +42,16 @@ class PaoDocumentsVersionManagement(models.Model):
     @api.model
     def create(self, vals):
         # catch filename from the web client
-        if 'document_file_filename' in vals:
-            _, ext = os.path.splitext(vals['document_file_filename'])
+        if 'filename' in vals:
+            _, ext = os.path.splitext(vals['filename'])
             vals['_uploaded_ext'] = ext  # temporary field for compute
         record = super().create(vals)
         return record
 
     def write(self, vals):
         # catch filename from the web client
-        if 'document_file_filename' in vals:
-            _, ext = os.path.splitext(vals['document_file_filename'])
+        if 'filename' in vals:
+            _, ext = os.path.splitext(vals['filename'])
             for rec in self:
                 rec._uploaded_ext = ext  # cache extension for compute
         res = super().write(vals)
