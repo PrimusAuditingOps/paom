@@ -36,8 +36,10 @@ class PAOUploadDocumentVersion(models.TransientModel):
     @api.onchange("filename")
     def _get_original_name(self):
         for rec in self:
+            _logger.warning('entro4')
             if rec.filename:
                 rec.original_filename = rec.filename
+                _logger.warning(rec.filename or 'none3')
     
     # @api.onchange("name", "version", "document_file")
     def _format_filename(self):
@@ -61,6 +63,9 @@ class PAOUploadDocumentVersion(models.TransientModel):
             
             request_name = _('REQ: %(document_name)s - Version: %(version)s - Revision: %(revision)s'
                             ) % {'document_name': self.name, 'version': self.version, 'revision': self.revision_number}
+            
+            _logger.warning(self.filename or 'none1')
+            _logger.warning(self.original_filename or 'none2')
             
             self._format_filename()
             
