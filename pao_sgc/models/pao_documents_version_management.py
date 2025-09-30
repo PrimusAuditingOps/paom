@@ -3,6 +3,7 @@ from dateutil.relativedelta import relativedelta
 import pytz
 from datetime import datetime, timedelta
 from odoo.exceptions import ValidationError
+import os
 
 class PaoDocumentsVersionManagement(models.Model):
 
@@ -14,10 +15,10 @@ class PaoDocumentsVersionManagement(models.Model):
     name = fields.Char('Document Name', required=True)
     version = fields.Char('Current Version (Odoo)')
     revision_number = fields.Char("Revision Number")
-    document_file = fields.Binary(string='Document File', attachment=True)
+    document_file = fields.Binary(string='Document File')
     approval_date = fields.Date('Valid Since', readonly=True)
     expiration_date = fields.Date('Expiration Date')
-    filename = fields.Char('Filename', readonly=True, compute="_compute_filename")
+    filename = fields.Char(string='Document Filename')
     history_version_ids = fields.One2many('pao.documents.version.history', string="Version History", inverse_name='version_management_id')
     last_updated_by = fields.Many2one('res.users', string="Last Updated By")
     approval_request_in_progress = fields.Boolean('Has an active request', default=False)
@@ -36,9 +37,18 @@ class PaoDocumentsVersionManagement(models.Model):
     
     pao_allow_modify_document = fields.Boolean(compute='_compute_allow_modify_document')
     document_type_id = fields.Many2one('pao.sgc.document.type', string="Document Type", required=True)
-
     
-            
+    @api.model
+    def create(self, vals):
+        if vals.get('document_file') and not vals.get('document_file_name'):
+            vals['document_file_name'] = 'unknown_file'
+        return super().create(vals)
+
+    def write(self, vals):
+        if vals.get('document_file') and not vals.get('filename'):
+            vals['filename'] = self.filename or 'unknown_file'
+        return super().write(vals)
+
     def _compute_allow_modify_document(self):
         self.pao_allow_modify_document = self.env.user.has_group("pao_sgc.sgc_admin_group")
     # current_time = fields.Datetime(compute="_get_now", store=False) 
@@ -72,11 +82,14 @@ class PaoDocumentsVersionManagement(models.Model):
                 date_range = today + timedelta(days=15)
                 rec.is_document_near_expiration = rec.expiration_date <= date_range
             
-    @api.depends("name", "revision_number")
-    def _compute_filename(self):
+    @api.constrains("name", "revision_number", "document_file")
+    def _format_filename(self):
             for record in self:
-                if record.id and record.name and record.revision_number and record.document_file:
-                    record.filename =  record.code + '_Rev' + record.revision_number.replace('.', '_') + '_' + record.name
+                if record.id and record.name and record.revision_number and record.document_file and record.filename:
+                    ext = os.path.splitext(record.filename)[1] 
+                    record.filename = (
+                        f"{record.code}_Rev{record.revision_number.replace('.', '_')}_{record.name}{ext}"
+                    )
                 else:
                     record.filename = ""
 
@@ -114,7 +127,6 @@ class PaoDocumentsVersionManagement(models.Model):
     
     @api.model_create_multi
     def create(self, values_list):
-        
         for values in values_list:
             if any(values.get(field) for field in ['version', 'document_file', 'revision_number', 'approval_date']):
                 if not all(values.get(field) for field in ['version', 'document_file', 'revision_number', 'approval_date']):
@@ -140,6 +152,7 @@ class PaoDocumentsVersionManagement(models.Model):
             'version': self.version,
             'revision_number': self.revision_number,
             'document_file': self.document_file,
+            'filename': self.filename,
             'updated_by': self.last_updated_by.id,
             'approval_date': self.approval_date,
             'approval_id': self.approval_id.id,
@@ -184,6 +197,7 @@ class PaoDocumentsVersionManagement(models.Model):
             'version': previous_data['version'],
             'revision_number': previous_data['revision_number'],
             'document_file': previous_data['document_file'],
+            'filename': previous_data['filename'],
             'version_management_id': self.id,
             'version_by': previous_data['updated_by'],
             'validity_start_date': previous_data['approval_date'],

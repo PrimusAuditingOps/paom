@@ -57,6 +57,12 @@ class RADocument(models.Model):
         ondelete='cascade',
         required=True,
     )
+        
+    reminder_days = fields.Integer(string = 'Reminder days', default = 0)
+    
+    ra_sent_date = fields.Date()
+    
+    ra_template_id = fields.Many2one('mail.template', readonly=True)
     
     @api.model
     def _get_access_token(self):
@@ -93,7 +99,14 @@ class RADocument(models.Model):
     
     def action_resend(self):
         if self.status == 'sent':
-            return self.purchase_order_id.send_referral_agreement_action(resend_action=True, registration_numbers_ids=self.pao_registration_numbers_ids.ids, request_travel_expenses = self.request_travel_expenses)
+            return self.purchase_order_id.send_referral_agreement_action(
+                ra_document_id = self.id,
+                resend_action=True, 
+                registration_numbers_ids=self.pao_registration_numbers_ids.ids, 
+                request_travel_expenses = self.request_travel_expenses, 
+                reminder_days = self.reminder_days,
+                template_id = self.ra_template_id.id
+            )
     
     def action_cancel(self):
         if self.status in ('sent', 'sign'):
@@ -117,3 +130,44 @@ class RADocument(models.Model):
                 'res_id': self.purchase_order_id.id, 
                 'target': 'current', 
             }
+            
+    @api.model
+    def _send_ra_reminders(self):
+        today = fields.Date.today()
+
+        ra_records_to_remind = self.search([
+            ('reminder_days', '>', 0),
+            ('status', 'in', ['sent']),
+        ])
+
+        for rec in ra_records_to_remind:
+            # Calculate how many days have passed since creation
+            if not rec.ra_sent_date:
+                continue
+            days_passed = (today - rec.ra_sent_date).days
+
+            if 0 < days_passed <= rec.reminder_days:
+                wizard = self.env['send.ra.wizard'].create({
+                    'purchase_order_id': rec.purchase_order_id.id,
+                    'reminder_action': True,
+                    'reminder_days': rec.reminder_days,
+                    'ra_document_id': rec.id,
+                    'request_travel_expenses': rec.request_travel_expenses,
+                    'template_id': rec.ra_template_id.id,
+                    'composition_mode': 'comment',
+                    'model': 'purchase.order',
+                    'res_ids': rec.purchase_order_id.ids,
+                })
+                
+                wizard.action_send_mail()
+                
+                # if rec.ra_template_id:
+                #     rec.ra_template_id.send_mail(rec.purchase_order_id.id, force_send=True)
+                    
+                odoo_bot = self.env.ref('base.partner_root')
+                rec.message_post(
+                    body=_("A reminder email was sent to the customer."),
+                    message_type='notification',
+                    # subtype_xmlid='mail.mt_comment',
+                    author_id=odoo_bot.id
+                )

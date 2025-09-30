@@ -1,4 +1,5 @@
 from odoo import api, fields, models, _
+import os
 
 class PAOUploadDocumentVersion(models.TransientModel):
     _name = 'pao.upload.document.version'
@@ -7,21 +8,31 @@ class PAOUploadDocumentVersion(models.TransientModel):
     name = fields.Char('Document Name', required=True)
     version = fields.Char('Version (Odoo)', required=True)
     revision_number = fields.Char("Revision Number", required=True)
-    document_file = fields.Binary(string='Document File', attachment=True, required=True)
-    filename = fields.Char('Filename', readonly=True, compute="_compute_filename")
+    document_file = fields.Binary(string='Document File', required=True)
+    filename = fields.Char('Filename')
     version_management_id = fields.Many2one('pao.documents.version.management', string="Document Version Origin")
     
     selected_approvers = fields.Many2many('res.users', string='Approvers', required=True)
     selected_reviewer = fields.Many2one('res.users', string="Reviewer", required=True)
     approval_reason = fields.Text(string="Description of the change")
     
-    @api.depends("name", "version")
-    def _compute_filename(self):
-        for record in self:
-            if record.id and record.name and record.revision_number and record.document_file:
-                record.filename = record.name + '_r' + record.revision_number.replace('.', '_')
-            else:
-                record.filename = ""
+    @api.model
+    def create(self, vals):
+        if vals.get('document_file') and not vals.get('filename'):
+            vals['filename'] = 'unknown_file'
+        return super().create(vals)
+
+    def write(self, vals):
+        if vals.get('document_file') and not vals.get('filename'):
+            vals['filename'] = self.filename or 'unknown_file'
+        return super().write(vals)
+    
+    @api.constrains("name", "version", "document_file")
+    def _format_filename(self):
+            for record in self:
+                if record.name and record.revision_number and record.document_file and record.filename:
+                    ext = os.path.splitext(record.filename)[1]
+                    record.filename = record.filename = record.name + '_r' + record.revision_number.replace('.', '_') + ext
     
     def request_document_approval_action(self):
         
@@ -37,7 +48,7 @@ class PAOUploadDocumentVersion(models.TransientModel):
             
             request_name = _('REQ: %(document_name)s - Version: %(version)s - Revision: %(revision)s'
                             ) % {'document_name': self.name, 'version': self.version, 'revision': self.revision_number}
-        
+            
             approval_data = {
                 'request_owner_id': self.create_uid.id,
                 'category_id': category_id,

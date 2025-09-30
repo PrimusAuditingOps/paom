@@ -118,4 +118,16 @@ class PaoGlobalgapProductionSiteProductInformation(models.Model):
         string='GLOBALG.A.P Organization',
         ondelete='restrict',
     )
+    
+    harvest_type_invisible = fields.Boolean(
+        compute="_compute_harvest_type_invisible",
+        store=False,
+    )
 
+    @api.depends("organization_id.version_id.name")
+    def _compute_harvest_type_invisible(self):
+        for rec in self:
+            rec.harvest_type_invisible = bool(
+                rec.organization_id.version_id
+                and "v6" in rec.organization_id.version_id.name.lower()
+            )

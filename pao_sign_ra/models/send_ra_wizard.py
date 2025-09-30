@@ -16,6 +16,8 @@ class SendRaWizard(models.Model):
     
     resend_action = fields.Boolean(default=False)
     
+    reminder_action = fields.Boolean(default=False)
+    
     attachment_ids = fields.Many2many(
         'ir.attachment', 'send_ra_wizard_ir_attachments_rel',
         'wizard_id', 'attachment_id', string='Attachments',
@@ -41,6 +43,8 @@ class SendRaWizard(models.Model):
     )
     
     ra_templates_ids = fields.Many2many('mail.template', readonly=True)
+    
+    reminder_days = fields.Integer(string = 'Reminder days', default = 0)
     
     @api.model
     def default_get(self, fields):
@@ -78,17 +82,24 @@ class SendRaWizard(models.Model):
             self.purchase_order_id.get_confirmation_access_token()
             
             if self.resend_action:
-                self.ra_document_id.request_travel_expenses = self.request_travel_expenses
-            else:
+                self.ra_document_id.write({
+                    'request_travel_expenses': self.request_travel_expenses,
+                    'ra_template_id': self.template_id.id,
+                    'reminder_days': self.reminder_days,
+                    'ra_sent_date': fields.Date.today(),
+                })
+            elif not self.reminder_action:
                 self.purchase_order_id.ra_sent = True
                 self.env["ra.document"].create({
                     'pao_registration_numbers_ids': self.available_registration_numbers_ids,
                     'purchase_order_id': self.purchase_order_id.id,
-                    'request_travel_expenses': self.request_travel_expenses
+                    'request_travel_expenses': self.request_travel_expenses,
+                    'reminder_days': self.reminder_days,
+                    'ra_sent_date': fields.Date.today(),
+                    'ra_template_id': self.template_id.id
                 })
         
         # Re-compute template with the values of the RA documents related to the PO
         super(SendRaWizard, self)._compute_body()
             
-        super(SendRaWizard, self).action_send_mail()
-    
+        super(SendRaWizard, self).action_send_mail() 

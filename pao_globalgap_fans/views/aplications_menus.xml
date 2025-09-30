@@ -157,6 +157,35 @@
                                 <tree string="product information">
                                     <field name="product_id"/>
                                 </tree>
+                                <form string="Información del producto del sitio de producción">
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="product_id"/>
+                                                <field name="covered_production_area"/>
+                                                <field name="harvest_type_invisible" invisible="1"/>
+                                                <field name="harvest_type" invisible="harvest_type_invisible"/>
+                                                <field name="product_handling"/>
+                                                <field name="fsma"/>
+                                                <field name="product_manipulated_not_certificate"/>
+                                                <field name="estimated_yield_in_tons"/>
+                                                <field name="harvest_estimated_start_date"/>
+                                                <field name="countries_of_products" widget="many2many_tags"/>
+                                                <field name="organization_id"/>
+                                            </group>
+                                            <group>
+                                                <field name="uncovered_production_area"/>
+                                                <field name="applicable_harvest"/>
+                                                <field name="growth_cycle_number"/>
+                                                <field name="outsourced_activities"/>
+                                                <field name="ggn_gln_outsourced"/>
+                                                <field name="organization_buys_product"/>
+                                                <field name="dates_harvest_estimated"/>
+                                                <field name="harvest_estimated_end_date"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
                             </field>
                         </page>
                     </notebook>
