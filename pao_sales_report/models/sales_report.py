@@ -28,44 +28,52 @@ class SaleReport(models.Model):
     def _get_po_registration_number(self):
         for rec in self:
             rec.registration_number_id = None
+
+            po_line_with_rn = False
             valid_po = rec.purchase_order_id.filtered(lambda po: po.state != 'cancel')
             if valid_po:
-                first_po = valid_po[0]
-                po_line_with_rn = first_po.order_line.filtered('registrynumber_id')
-                so_line_with_rn = rec.sale_order_id.order_line.filtered('registrynumber_id')
-                if po_line_with_rn:
-                    rec.registration_number_id = po_line_with_rn[0].registrynumber_id.id
-                elif so_line_with_rn:
-                    rec.registration_number_id = so_line_with_rn[0].registrynumber_id.id
+                po_line_with_rn = valid_po[0].order_line.filtered('registrynumber_id')
 
+            so_line_with_rn = rec.sale_order_id.order_line.filtered('registrynumber_id')
+
+            if po_line_with_rn:
+                rec.registration_number_id = po_line_with_rn[0].registrynumber_id.id
+            elif so_line_with_rn:
+                rec.registration_number_id = so_line_with_rn[0].registrynumber_id.id
                 
     @api.depends('purchase_order_id.order_line', 'purchase_order_id.state')
     def _get_po_organization(self):
         for rec in self:
             rec.organization_id = None
+            
+            po_line_with_org = False
             valid_po = rec.purchase_order_id.filtered(lambda po: po.state != 'cancel')
             if valid_po:
-                first_po = valid_po[0]
-                po_line_with_org = first_po.order_line.filtered('organization_id')
-                so_line_with_org = rec.sale_order_id.order_line.filtered('organization_id')
-                if po_line_with_org:
-                    rec.organization_id = po_line_with_org[0].organization_id.id
-                elif so_line_with_org:
-                    rec.organization_id = so_line_with_org[0].organization_id.id
+                po_line_with_org = valid_po[0].order_line.filtered('organization_id')
+                
+            so_line_with_org = rec.sale_order_id.order_line.filtered('organization_id')
+            
+            if po_line_with_org:
+                rec.organization_id = po_line_with_org[0].organization_id.id
+            elif so_line_with_org:
+                rec.organization_id = so_line_with_org[0].organization_id.id
                     
     @api.depends('purchase_order_id.order_line', 'purchase_order_id.state')
     def _get_po_audit_date(self):
         for rec in self:
             rec.audit_start = None
+            
+            po_line_with_date = False
             valid_po = rec.purchase_order_id.filtered(lambda po: po.state != 'cancel')
             if valid_po:
-                first_po = valid_po[0]
-                po_line_with_date = first_po.order_line.filtered('service_start_date')
-                so_line_with_date = rec.sale_order_id.order_line.filtered('service_start_date')
-                if po_line_with_date:
-                    rec.audit_start = po_line_with_date[0].service_start_date
-                elif so_line_with_date:
-                    rec.audit_start = so_line_with_date[0].service_start_date
+                po_line_with_date = valid_po[0].order_line.filtered('service_start_date')
+                
+            so_line_with_date = rec.sale_order_id.order_line.filtered('service_start_date')
+            
+            if po_line_with_date:
+                rec.audit_start = po_line_with_date[0].service_start_date
+            elif so_line_with_date:
+                rec.audit_start = so_line_with_date[0].service_start_date
                     
     @api.depends('sale_order_line_id', 'sale_order_line_id.audit_date')
     def _get_so_audit_date(self):
