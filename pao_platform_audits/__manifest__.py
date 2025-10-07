@@ -21,7 +21,7 @@
         # reports
         # views
         'wizard/platform_audit_wizard.xml',
-        'wizard/platform_audit_wizard.xml',
+        'views/azz_platform_audits.xml',
     ],
     'external_dependencies': {
         'python': ['openpyxl'],
