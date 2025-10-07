@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+from . import azz_template_version
+from . import azz_audit_template
+from . import platform_organization_contact
+from . import platform_organization
+from . import platform_entities
+from . import platform_entities_type
+from . import platform_auditor
+from . import platform_shipper
+from . import azz_platform_audits

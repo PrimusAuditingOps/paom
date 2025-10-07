@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_azz_platform_audits_view_form" model="ir.ui.view">
+        <field name="name">pao.azz.platform.audits.view.form</field>
+        <field name="model">pao.azz.platform.audits</field>
+        <field name="arch" type="xml">
+            <form string="Azz Platform Audits">
+                <sheet>
+                    <group col="2">
+                        <field name="audit_id"/>
+                        <field name="audit_date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_azz_platform_audits_view_tree" model="ir.ui.view">
+        <field name="name">pao.azz.platform.audits.view.tree</field>
+        <field name="model">pao.azz.platform.audits</field>
+        <field name="arch" type="xml">
+            <tree string="Azz Platform Audits">
+                <header>
+                      <button name="action_open_import_wizard" string="Import File" type="object" class="btn-secondary"/>
+                </header>
+                <field name="audit_id"/>
+                <field name="audit_date"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_azz_platform_audits_action" model="ir.actions.act_window">
+        <field name="name">Upload Azz Audits</field>
+        <field name="res_model">pao.azz.platform.audits</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Azz Audits
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pao_azz_platform_audits_finance"
+            name="Upload Azz Audits"
+            parent="account.menu_finance_receivables"
+            action="pao_azz_platform_audits_action"
+            sequence="120"/>
+
+</odoo>
