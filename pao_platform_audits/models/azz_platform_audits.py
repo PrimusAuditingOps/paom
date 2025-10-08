@@ -46,15 +46,15 @@ class PaoAzzPlatformAudits(models.Model):
     )
     organization = fields.Char(
         required=True,
-        string= "Template Version",
+        string= "Organization",
     )
     organization_contact_name = fields.Char(
         required=True,
-        string= "Template Version",
+        string= "Organization Contact Name",
     )
     organization_contact_email = fields.Char(
         required=True,
-        string= "Template Version",
+        string= "Organization Contact Email",
     )
     entities = fields.Char(
         required=True,
