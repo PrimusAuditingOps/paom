@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="pao_account_move_consultant_view_tree" model="ir.ui.view">
+        <field name="name">pao.account.move.consultant.view.tree</field>
+        <field name="model">account.move</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="invoice_partner_display_name" position="after">
+                    <field name="pao_promotor_id"/>
+                    <field name="pao_promotor_payment" sum="Total" optional="hide"/>
+                </field>
+            </field>
+    </record>
+
+    <record id="pao_account_move_consultant_search_inherit" model="ir.ui.view">
+        <field name="name">pao.account.move.consultant.search.inherit</field>
+        <field name="model">account.move</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_user_id']" position="after">
+                <field name="pao_promotor_id" string="Quotation Consultant"/>
+            </xpath>
+            <xpath expr="//filter[@name='duedate']" position="after">
+                <separator/>
+                <filter string="Quotation Consultant" name="pao_promotor_id" context="{'group_by':'pao_promotor_id'}"/>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>
