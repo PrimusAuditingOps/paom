@@ -21,7 +21,15 @@
         <field name="arch" type="xml">
             <tree string="Azz Platform Audits">
                 <field name="audit_id"/>
+                <field name="app_id"/>
                 <field name="audit_date"/>
+                <field name="status"/>
+                <field name="audit_template"/>
+                <field name="template_version"/>
+                <field name="organization"/>
+                <field name="plc"/>
+                <field name="auditor"/>
+                <field name="coordinator"/>    
             </tree>
         </field>
     </record>
