@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="account.view_invoice_tree"/>
             <field name="arch" type="xml">
                 <field name="invoice_partner_display_name" position="after">
-                    <field name="pao_promotor_id"/>
+                    <field name="pao_promotor_id" optional="hide"/>
                     <field name="pao_promotor_payment" sum="Total" optional="hide"/>
                 </field>
             </field>
