@@ -20,9 +20,6 @@
         <field name="model">pao.azz.platform.audits</field>
         <field name="arch" type="xml">
             <tree string="Azz Platform Audits">
-                <header>
-                      <button name="action_open_import_wizard" string="Import File" type="object" class="btn-secondary"/>
-                </header>
                 <field name="audit_id"/>
                 <field name="audit_date"/>
             </tree>

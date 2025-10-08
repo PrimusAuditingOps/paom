@@ -101,6 +101,3 @@ class PaoAzzPlatformAudits(models.Model):
         string= "Shipper",
     )
 
-    def action_open_import_wizard(self):
-        action = self.env.ref('pao_platform_audits.pao_azz_platform_audits_wizard_form').read([])[0]
-        return action
