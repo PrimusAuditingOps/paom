@@ -122,7 +122,7 @@ class PaoAzzPlatformAudits(models.Model):
             rec.audit_template_version_id = None
             if rec.audit_template_id and rec.template_version:
                 rec_template_version = self.env["pao.azz.template.version"].search([("name","=",rec.template_version)], limit=1)
-                if not template:
+                if not rec_template_version:
                     template_version = self.env["pao.azz.template.version"].create({"name": rec.template_version,"pao_audit_template_id": rec.audit_template_id.id})
                     rec.audit_template_version_id = template_version.id
                 else: 
