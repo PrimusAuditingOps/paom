@@ -11,7 +11,7 @@
     'description': """
     
     """,
-    'depends': ['base','account'
+    'depends': ['base','account','servicereferralagreement'
     ],
     'data': [
         # security

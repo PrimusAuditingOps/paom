@@ -9,6 +9,7 @@
                     <group col="2">
                         <field name="audit_id"/>
                         <field name="audit_date"/>
+                        <field name="organization_id"/>
                     </group>
                 </sheet>
             </form>
@@ -22,6 +23,7 @@
             <tree string="Azz Platform Audits">
                 <field name="audit_id"/>
                 <field name="app_id"/>
+                <field name="organization_id"/>
                 <field name="audit_date"/>
                 <field name="status"/>
                 <field name="audit_template"/>
