@@ -100,7 +100,45 @@ class PaoAzzPlatformAudits(models.Model):
         compute='_compute_registration_number',
         store=True,
         ondelete='restrict',
-    )    
+    ) 
+    audit_template_id = fields.Many2one(
+        comodel_name='pao.azz.audit.template',
+        string='Audit Template',
+        compute='_compute_audit_template',
+        store=True,
+        ondelete='restrict',
+    ) 
+    audit_template_version_id = fields.Many2one(
+        comodel_name='pao.azz.template.version',
+        string='Audit Template Version',
+        compute='_compute_audit_template_version',
+        store=True,
+        ondelete='restrict',
+    ) 
+
+    @api.depends('audit_template_id')
+    def _compute_audit_template_version(self):
+        for rec in self:
+            rec.audit_template_version_id = None
+            if rec.audit_template_id and rec.template_version:
+                rec_template_version = self.env["pao.azz.template.version"].search([("name","=",rec.template_version)], limit=1)
+                if not template:
+                    template_version = self.env["pao.azz.template.version"].create({"name": rec.template_version,"pao_audit_template_id": rec.audit_template_id.id})
+                    rec.audit_template_version_id = template_version.id
+                else: 
+                    rec.audit_template_version_id = rec_template_version.id
+
+    @api.depends('audit_template')
+    def _compute_audit_template(self):
+        for rec in self:
+            rec.audit_template_id = None
+            if rec.audit_template:
+                rectemplate = self.env["pao.azz.audit.template"].search([("name","=",rec.audit_template)], limit=1)
+                if not template:
+                    template = self.env["pao.azz.audit.template"].create({"name": rec.audit_template})
+                    rec.audit_template_id = template.id
+                else: 
+                    rec.audit_template_id = rectemplate.id
     
     @api.depends('organization_id')
     def _compute_registration_number(self):

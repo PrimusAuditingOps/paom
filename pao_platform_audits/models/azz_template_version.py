@@ -12,7 +12,7 @@ class PaoAzzTemplateVersion(models.Model):
         string= "Name", 
         translate=True,
     )
-    pao_audit_template = fields.Many2one(
+    pao_audit_template_id = fields.Many2one(
         comodel_name='pao.azz.audit.template',
         string='Audit Template',
         ondelete='restrict',

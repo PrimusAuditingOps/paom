@@ -15,7 +15,7 @@ class PaoAzzAuditTemplate(models.Model):
     )
     template_version_ids = fields.One2many(
         comodel_name='pao.azz.template.version',
-        inverse_name='pao_audit_template',
+        inverse_name='pao_audit_template_id',
         string='Template Version',
     )
     
