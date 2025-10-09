@@ -1,6 +1,6 @@
 from odoo import api, models, fields
 
-class MexicanAccountReportCustomHandlerInherit(models.Model):
+class MexicanAccountReportCustomHandlerInherit(models.AbstractModel):
     _inherit = 'l10n_mx.report.handler'
 
     def action_get_diot_txt(self, options):
