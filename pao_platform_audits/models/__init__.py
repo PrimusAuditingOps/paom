@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from . import azz_template_version
+from . import product_product
 from . import azz_audit_template
 from . import platform_organization_contact
 from . import platform_organization

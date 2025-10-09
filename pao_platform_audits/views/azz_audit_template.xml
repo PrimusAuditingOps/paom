@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_azz_audit_template_view_form" model="ir.ui.view">
+        <field name="name">pao.azz.audit.template.view.form</field>
+        <field name="model">pao.azz.audit.template</field>
+        <field name="arch" type="xml">
+            <form string="Azz Audit Template">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page string="Audit Template Version">
+                            <field name="template_version_ids" widget="many2many">
+                                <tree string="Audit Template Version">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Products">
+                            <field name="product_ids" widget="many2many">
+                                <tree string="Products">
+                                    <field name="name"/>
+                                    <field name="default_code"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_azz_audit_template_view_tree" model="ir.ui.view">
+        <field name="name">pao.azz.audit.template.view.tree</field>
+        <field name="model">pao.azz.audit.template</field>
+        <field name="arch" type="xml">
+            <tree string="Azz Audit Template">
+                <field name="name"/>
+                <field name="template_version_ids" widget="many2many_tags" />
+                <field name="product_ids" widget="many2many_tags" />
+               
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_azz_audit_template_action" model="ir.actions.act_window">
+        <field name="name">Audit Template</field>
+        <field name="res_model">pao.azz.audit.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Audit Template
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pao_azz_audit_template_finance"
+            name="Audit Template"
+            parent="account.menu_finance_receivables"
+            action="pao_azz_audit_template_action"
+            sequence="130"/>
+
+</odoo>

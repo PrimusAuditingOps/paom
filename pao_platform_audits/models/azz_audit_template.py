@@ -19,3 +19,11 @@ class PaoAzzAuditTemplate(models.Model):
         string='Template Version',
     )
     
+    product_ids = fields.One2many(
+        comodel_name='product.product',
+        inverse_name='pao_audit_template_id',
+        string='Products',
+    )
+
+
+    
