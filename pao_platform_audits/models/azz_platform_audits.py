@@ -102,6 +102,19 @@ class PaoAzzPlatformAudits(models.Model):
         ondelete='restrict',
     )    
     
+    @api.depends('organization_id')
+    def _compute_registration_number(self):
+        for rec in self:
+            rec.registration_number_id = None
+            if rec.organization_id:
+                if not rec.plc or rec.plc != "1": #Is not an Organic Audit
+                    if rec.app_id:
+                        registration_number = self._search_registration_number(rec.organization_id.id,str(rec.app_id) if not rec.plc else rec.plc)
+                        for rn in registration_number:      
+                            rec.registration_number_id = rn.id
+                            break
+
+
 
     @api.depends('organization')
     def _compute_organization(self):
@@ -118,7 +131,7 @@ class PaoAzzPlatformAudits(models.Model):
                     for organization_s in organization_search:
                         rec.organization_id = organization_s.id
                         break
-                    
+
                     if not rec.plc or rec.plc != "1": #Is not an Organic Audit
                         if rec.app_id:
                             for org in organization_search:
@@ -127,7 +140,17 @@ class PaoAzzPlatformAudits(models.Model):
                                 rec.organization_id = org.id
                                 break
                                 
-                        
+    def _search_registration_number(self, organization,registration_number):
+        domain = [("organization_id","=",organization),("name","ilike",registration_number.lower())]
+        records = self.env["servicereferralagreement.registrynumber"].search(domain)
+        records = records.sorted(
+            key=lambda r: (
+                (r.name or '').lower().find(registration_number.lower()) if registration_number.lower() in (r.name or '').lower() else 9999,
+                abs(len(r.name or '') - len(registration_number))
+            )
+        )
+        return records 
+
     def _search_organization(self, organization):
         records = self.env["servicereferralagreement.organization"].search([("name", "ilike", organization.lower())])
         records = records.sorted(
