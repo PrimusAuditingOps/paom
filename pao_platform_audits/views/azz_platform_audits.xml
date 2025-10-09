@@ -10,6 +10,7 @@
                         <field name="audit_id"/>
                         <field name="audit_date"/>
                         <field name="organization_id"/>
+                        <field name="organization_id"/>
                     </group>
                 </sheet>
             </form>
@@ -23,11 +24,12 @@
             <tree string="Azz Platform Audits">
                 <field name="audit_id"/>
                 <field name="app_id"/>
-                <field name="organization_id"/>
                 <field name="audit_date"/>
                 <field name="status"/>
                 <field name="audit_template"/>
                 <field name="template_version"/>
+                <field name="registration_number_id"/>
+                <field name="organization_id"/>
                 <field name="organization"/>
                 <field name="plc"/>
                 <field name="auditor"/>
@@ -38,7 +40,7 @@
 
 
     <record id="pao_azz_platform_audits_action" model="ir.actions.act_window">
-        <field name="name">Upload Azz Audits</field>
+        <field name="name">Azz Audits</field>
         <field name="res_model">pao.azz.platform.audits</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
@@ -48,7 +50,7 @@
     </record>
 
     <menuitem id="pao_azz_platform_audits_finance"
-            name="Upload Azz Audits"
+            name="Azz Audits"
             parent="account.menu_finance_receivables"
             action="pao_azz_platform_audits_action"
             sequence="120"/>
