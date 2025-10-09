@@ -32,7 +32,7 @@ class MexicanAccountReportCustomHandlerInherit(models.AbstractModel):
             data[21] = round(float(values.get('paid_16', 0)) * 0.16) or '' # IVA de data[11]
             
             
-            data[53] = 'test'
+            # data[53] = 'test'
             
             new_lines.append('|'.join(str(d) for d in data))
 
