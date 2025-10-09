@@ -26,6 +26,7 @@ class L10nMxReportHandler(models.Model):
             # data.append(values.get('extra_info', ''))
             # data[8] = values.get('special_code', '') 
             
+            #Columnas vacías
             # 9, 10, 13, 14, 15, 16, 18, 19, 20. 22 - 46,
             
             data[7] = round(float(values.get('paid_8', 0))) or '' # Pagado al 8%

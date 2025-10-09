@@ -1,5 +1,5 @@
 {
-    'name': 'PAO: Auditor Calendar',
+    'name': 'PAO Diot Report TXT',
     'version': '1.0',
     'author': 'Manuel Uzueta Gil',
     'category': 'Base',
