@@ -146,8 +146,9 @@ class PaoAzzPlatformAudits(models.Model):
                         break
                 if not sol_id:
                     for line in rec_sale_order_line:
-                        sol_id = line.id
-                        break
+                        if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
+                            sol_id = line.id                        
+                            break
             rec.sale_order_line_id = sol_id
 
     @api.depends('audit_template_id')
