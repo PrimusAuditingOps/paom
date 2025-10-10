@@ -22,6 +22,9 @@
         <field name="model">pao.azz.platform.audits</field>
         <field name="arch" type="xml">
             <tree string="Azz Platform Audits">
+                <field name="order_id"/>
+                <field name="sale_order_line_id"/>
+                <field name="order_state"/>
                 <field name="audit_id"/>
                 <field name="app_id"/>
                 <field name="audit_date"/>
