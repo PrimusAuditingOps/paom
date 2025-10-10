@@ -116,6 +116,40 @@ class PaoAzzPlatformAudits(models.Model):
         ondelete='restrict',
     ) 
 
+    sale_order_line_id = fields.Many2one(
+        'sale.order.line',
+        string='Sale Order Line',
+        compute='_compute_sale_order_line',
+        store=True,
+    )
+    order_state = fields.Selection(
+        related='sale_order_line_id.state'
+    )
+    order_id = fields.Many2one(
+        related='sale_order_line_id.order_id'
+    )
+
+
+    @api.depends('audit_template_id')
+    def _compute_sale_order_line(self):
+        for rec in self:
+            domain = []
+            sol_id = None
+            if rec.organization_id:
+                domain.append(("organization_id","=",rec.organization_id.id))
+                if rec.registration_number_id:
+                    domain.append(("registrynumber_id","=",rec.registration_number_id.id))
+                rec_sale_order_line = self.env["sale.order.line"].search(domain,order='id desc')
+                for line in rec_sale_order_line:
+                    if line.product_id.id in rec.audit_template_id.product_ids.ids:
+                        sol_id = line.id
+                        break
+                if not sol_id:
+                    for line in rec_sale_order_line:
+                        sol_id = line.id
+                        break
+            rec.sale_order_line_id = sol_id
+
     @api.depends('audit_template_id')
     def _compute_audit_template_version(self):
         for rec in self:
