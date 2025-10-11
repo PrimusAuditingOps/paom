@@ -3,6 +3,7 @@ from . import azz_template_version
 from . import product_product
 from . import azz_audit_template
 from . import sale_order_line
+from . import purchase_order_line
 from . import platform_organization_contact
 from . import platform_organization
 from . import platform_entities

@@ -1,5 +1,6 @@
 from odoo import fields, models, api, _
 from logging import getLogger
+from dateutil.relativedelta import relativedelta
 
 _logger = getLogger(__name__)
 
@@ -43,7 +44,7 @@ class PaoAzzPlatformAudits(models.Model):
     )
     organization = fields.Char(
         required=True,
-        string= "Organization",
+        string= "Platform Organization",
     )
     organization_contact_name = fields.Char(
         string= "Organization Contact Name",
@@ -56,10 +57,10 @@ class PaoAzzPlatformAudits(models.Model):
     )
     auditor = fields.Char(
         required=True,
-        string= "Auditor",
+        string= "Platform Auditor",
     )
     coordinator = fields.Char(
-        string= "Coordinator",
+        string= "Platform Coordinator",
     )
     plc = fields.Char(
         string= "PLC",
@@ -129,11 +130,52 @@ class PaoAzzPlatformAudits(models.Model):
         related='sale_order_line_id.order_id'
     )
 
+    purchase_order_line_id = fields.Many2one(
+        'purchase.order.line',
+        string='Purchase Order Line',
+        compute='_compute_purchase_order_line',
+        store=True,
+    )
+    purchase_state = fields.Selection(
+        related='purchase_order_line_id.state'
+    )
+    pruchase_id = fields.Many2one(
+        related='purchase_order_line_id.order_id'
+    )
+
+    @api.depends('sale_order_line_id')
+    def _compute_purchase_order_line(self):
+        for rec in self:
+            pol_id = None
+            if sale_order_line_id:
+                purchase_line = self.env["purchase.order.line"].search([("sra_sale_line_ids","in",[sale_order_line_id.id])])
+                for line in purchase_line:
+                    pol_id = line.id
+                    break
+            if not pol_id:       
+                date_search = rec.audit_date - relativedelta(months=6)
+                domain = [("create_date",">=",date_search)]
+                if rec.organization_id:
+                    domain.append(("organization_id","=",rec.organization_id.id))
+                    if rec.registration_number_id:
+                        domain.append(("registrynumber_id","=",rec.registration_number_id.id))
+                    rec_purchase_order_line = self.env["purchase.order.line"].search(domain,order='id desc')
+                    for line in rec_purchase_order_line:
+                        if line.product_id.id in rec.audit_template_id.product_ids.ids:
+                            pol_id = line.id
+                            break
+                    if not pol_id:
+                        for line in rec_purchase_order_line:
+                            if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
+                                pol_id = line.id                        
+                                break
+            rec.purchase_order_line_id = pol_id
 
     @api.depends('audit_template_id')
     def _compute_sale_order_line(self):
         for rec in self:
-            domain = []
+            date_search = rec.audit_date - relativedelta(months=6)
+            domain = [("create_date",">=",date_search)]
             sol_id = None
             if rec.organization_id:
                 domain.append(("organization_id","=",rec.organization_id.id))
@@ -149,7 +191,19 @@ class PaoAzzPlatformAudits(models.Model):
                         if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
                             sol_id = line.id                        
                             break
-            rec.sale_order_line_id = sol_id
+
+    def _search_sale_order_line(self, organization):
+        records = self.env["servicereferralagreement.organization"].search([("name", "ilike", organization.lower())])
+        records = records.sorted(
+            key=lambda r: (
+                (r.name or '').lower().find(organization.lower()) if organization.lower() in (r.name or '').lower() else 9999,
+                abs(len(r.name or '') - len(organization))
+            )
+        )
+        return records                
+    
+
+
 
     @api.depends('audit_template_id')
     def _compute_audit_template_version(self):
