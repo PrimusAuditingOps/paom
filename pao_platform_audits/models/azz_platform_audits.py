@@ -147,7 +147,7 @@ class PaoAzzPlatformAudits(models.Model):
     def _compute_purchase_order_line(self):
         for rec in self:
             pol_id = None
-            if sale_order_line_id:
+            if rec.sale_order_line_id:
                 purchase_line = self.env["purchase.order.line"].search([("sra_sale_line_ids","in",[sale_order_line_id.id])])
                 for line in purchase_line:
                     pol_id = line.id
