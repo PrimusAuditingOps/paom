@@ -11,7 +11,7 @@
     'description': """
     
     """,
-    'depends': ['base','account','servicereferralagreement','pao_sign_ra'
+    'depends': ['base','account','servicereferralagreement','pao_sign_ra','pao_master_sales_order'
     ],
     'data': [
         # security
