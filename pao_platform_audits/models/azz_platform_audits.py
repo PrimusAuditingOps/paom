@@ -175,14 +175,14 @@ class PaoAzzPlatformAudits(models.Model):
     def _compute_sale_order_line(self):
         for rec in self:
             date_search = rec.audit_date - relativedelta(months=6)
-            domain = [("create_date",">=",date_search),("pao_is_a_child_sales_order","=",False)]
+            domain = [("create_date",">=",date_search)]
             sol_id = None
             if rec.organization_id:
                 domain.append(("organization_id","=",rec.organization_id.id))
                 if rec.registration_number_id:
                     domain.append(("registrynumber_id","=",rec.registration_number_id.id))
                 rec_sale_order_line = self.env["sale.order.line"].search(domain,order='id desc')
-                for line in rec_sale_order_line:
+                for line in rec_sale_order_line.filtered(lambda l: not l.order_id.pao_is_a_child_sales_order):
                     if line.product_id.id in rec.audit_template_id.product_ids.ids:
                         sol_id = line.id
                         break
