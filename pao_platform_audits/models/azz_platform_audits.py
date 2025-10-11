@@ -191,6 +191,7 @@ class PaoAzzPlatformAudits(models.Model):
                         if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
                             sol_id = line.id                        
                             break
+            rec.sale_order_line_id = sol_id
 
     def _search_sale_order_line(self, organization):
         records = self.env["servicereferralagreement.organization"].search([("name", "ilike", organization.lower())])
