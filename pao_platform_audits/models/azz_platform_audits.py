@@ -154,7 +154,7 @@ class PaoAzzPlatformAudits(models.Model):
                     break
             if not pol_id:       
                 date_search = rec.audit_date - relativedelta(months=6)
-                domain = []
+                domain = [("create_date",">=",date_search)]
                 if rec.organization_id:
                     domain.append(("organization_id","=",rec.organization_id.id))
                     if rec.registration_number_id:
@@ -175,7 +175,7 @@ class PaoAzzPlatformAudits(models.Model):
     def _compute_sale_order_line(self):
         for rec in self:
             date_search = rec.audit_date - relativedelta(months=6)
-            domain = []
+            domain = [("create_date",">=",date_search)]
             sol_id = None
             if rec.organization_id:
                 domain.append(("organization_id","=",rec.organization_id.id))
@@ -192,7 +192,7 @@ class PaoAzzPlatformAudits(models.Model):
                             sol_id = line.id                        
                             break
             rec.sale_order_line_id = sol_id
-
+            
     def _search_sale_order_line(self, organization):
         records = self.env["servicereferralagreement.organization"].search([("name", "ilike", organization.lower())])
         records = records.sorted(
