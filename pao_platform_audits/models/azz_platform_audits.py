@@ -162,13 +162,15 @@ class PaoAzzPlatformAudits(models.Model):
                     rec_purchase_order_line = self.env["purchase.order.line"].search(domain,order='id desc')
                     for line in rec_purchase_order_line:
                         if line.product_id.id in rec.audit_template_id.product_ids.ids:
-                            pol_id = line.id
-                            break
+                            if len(line.pao_platform_audit_ids) != line.product_qty and line.product_qty > 0:
+                                pol_id = line.id
+                                break
                     if not pol_id:
                         for line in rec_purchase_order_line:
                             if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
-                                pol_id = line.id                        
-                                break
+                                if len(line.pao_platform_audit_ids) != line.product_qty and line.product_qty > 0:
+                                    pol_id = line.id                        
+                                    break
             rec.purchase_order_line_id = pol_id
 
     @api.depends('audit_template_id')
@@ -184,13 +186,15 @@ class PaoAzzPlatformAudits(models.Model):
                 rec_sale_order_line = self.env["sale.order.line"].search(domain,order='id desc')
                 for line in rec_sale_order_line.filtered(lambda l: not l.order_id.pao_is_a_child_sales_order):
                     if line.product_id.id in rec.audit_template_id.product_ids.ids:
-                        sol_id = line.id
-                        break
+                        if len(line.pao_platform_audit_ids) != line.product_uom_qty and line.product_uom_qty > 0:
+                            sol_id = line.id
+                            break
                 if not sol_id:
                     for line in rec_sale_order_line:
                         if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
-                            sol_id = line.id                        
-                            break
+                            if len(line.pao_platform_audit_ids) != line.product_uom_qty and line.product_uom_qty > 0:
+                                sol_id = line.id                        
+                                break
             rec.sale_order_line_id = sol_id
 
     def _search_sale_order_line(self, organization):
