@@ -87,6 +87,8 @@ class PaoAzzPlatformAudits(models.Model):
         string= "Shipper",
     )
 
+    #email_list = email.split(',')
+
     #Related Fields
     organization_id = fields.Many2one(
         comodel_name='servicereferralagreement.organization',
@@ -116,6 +118,16 @@ class PaoAzzPlatformAudits(models.Model):
         store=True,
         ondelete='restrict',
     ) 
+
+
+
+
+
+
+
+
+
+
 
     sale_order_line_id = fields.Many2one(
         'sale.order.line',

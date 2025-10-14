@@ -11,4 +11,9 @@ class PaoPlatformEntities(models.Model):
         required=True,
         string= "name",
     )  
+    entity_type_id = fields.Many2one(
+        comodel_name='pao.platform.entities.type',
+        string='Entity Type',
+        ondelete='restrict',
+    )    
     

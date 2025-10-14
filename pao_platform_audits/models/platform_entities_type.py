@@ -11,4 +11,8 @@ class PaoPlatformEntitiesType(models.Model):
         required=True,
         string= "name",
     )
-    
+    entity_ids = fields.One2many(
+        comodel_name='pao.platform.entities',
+        inverse_name='entity_type_id',
+        string='Entities',
+    )
