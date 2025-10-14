@@ -251,7 +251,7 @@ class PaoAzzPlatformAudits(models.Model):
                                         sol_id = line.id
                                         break
                               
-                if not sol_id and first_sol_id
+                if not sol_id and first_sol_id:
                     sol_id = first_sol_id
                 if not sol_id:
                     for line in rec_sale_ol:
