@@ -212,6 +212,7 @@ class PaoAzzPlatformAudits(models.Model):
                     for line in rec_purchase_order_line:
                         if line.product_id.id in rec.audit_template_id.product_ids.ids:
                             if len(line.pao_platform_audit_ids) != line.product_qty and line.product_qty > 0:
+
                                 pol_id = line.id
                                 break
                     if not pol_id:
@@ -228,18 +229,32 @@ class PaoAzzPlatformAudits(models.Model):
             date_search = rec.audit_date - relativedelta(months=6)
             domain = [("create_date",">=",date_search),("state","!=","cancel")]
             sol_id = None
+            first_sol_id = None
             if rec.organization_id:
                 domain.append(("organization_id","=",rec.organization_id.id))
                 if rec.registration_number_id:
                     domain.append(("registrynumber_id","=",rec.registration_number_id.id))
+                
                 rec_sale_order_line = self.env["sale.order.line"].search(domain,order='id desc')
-                for line in rec_sale_order_line.filtered(lambda l: not l.order_id.pao_is_a_child_sales_order):
+                rec_sale_ol = rec_sale_order_line.filtered(lambda l: not l.order_id.pao_is_a_child_sales_order):
+                
+                for line in rec_sale_ol:
+                    if sol_id:
+                        break
                     if line.product_id.id in rec.audit_template_id.product_ids.ids:
                         if len(line.pao_platform_audit_ids) != line.product_uom_qty and line.product_uom_qty > 0:
-                            sol_id = line.id
-                            break
+                            if not first_sol_id:
+                                first_sol_id = line.id
+                            if rec.entity_ids:
+                                for ent in rec.entity_ids:
+                                    if ent.name.lower() in line.name.lower():
+                                        sol_id = line.id
+                                        break
+                              
+                if not sol_id and first_sol_id
+                    sol_id = first_sol_id
                 if not sol_id:
-                    for line in rec_sale_order_line:
+                    for line in rec_sale_ol:
                         if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
                             if len(line.pao_platform_audit_ids) != line.product_uom_qty and line.product_uom_qty > 0:
                                 sol_id = line.id                        
