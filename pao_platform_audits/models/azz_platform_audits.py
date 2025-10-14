@@ -173,23 +173,24 @@ class PaoAzzPlatformAudits(models.Model):
             if rec.entities:
                 entity_list = rec.entities.split('|')
                 for entity in entity_list:
-                    entity_type = entity.split(':')
-                    type_name = entity_type[0].strip()
-                    entity_name = entity_type[1].strip()
-                    rec_type = self.env["pao.platform.entities.type"].search([("name","=",type_name)], limit=1)
-                    if not rec_type:
-                        rec_type = self.env["pao.platform.entities.type"].create({"name": type_name})
-                        rec_entity = self.env["pao.platform.entities"].create({"name": entity_name, "entity_type_id": rec_type.id })
-                        ids.append(rec_entity.id)
-                    else:
-                        rec_entity = self.env["pao.platform.entities"].search([("name","=",entity_name)],limit=1)
-                        if not rec_entity:
-                            rec_entity = self.env["pao.platform.entities"].create({"name": entity_name, "entity_type_id": rec_type.id }) 
-                        ids.append(rec_entity.id)
+                    if entity and entity.strip() != "":
+                        entity_type = entity.split(':')
+                        type_name = entity_type[0].strip()
+                        entity_name = entity_type[1].strip()
+                        rec_type = self.env["pao.platform.entities.type"].search([("name","=",type_name)], limit=1)
+                        if not rec_type:
+                            rec_type = self.env["pao.platform.entities.type"].create({"name": type_name})
+                            rec_entity = self.env["pao.platform.entities"].create({"name": entity_name, "entity_type_id": rec_type.id })
+                            ids.append(rec_entity.id)
+                        else:
+                            rec_entity = self.env["pao.platform.entities"].search([("name","=",entity_name)],limit=1)
+                            if not rec_entity:
+                                rec_entity = self.env["pao.platform.entities"].create({"name": entity_name, "entity_type_id": rec_type.id }) 
+                            ids.append(rec_entity.id)
 
             if len(ids) > 0:
                 rec.entity_ids = [(6, 0, ids)]
-                
+
 
     @api.depends('sale_order_line_id')
     def _compute_purchase_order_line(self):
