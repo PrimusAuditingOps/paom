@@ -8,6 +8,7 @@ class PaoAzzPlatformAudits(models.Model):
     _name = "pao.azz.platform.audits"
     _description = "PAO Azz Platform Audits"
     _rec_name = "audit_id"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     audit_date = fields.Date(
         required=True,
@@ -86,8 +87,6 @@ class PaoAzzPlatformAudits(models.Model):
     shipper = fields.Char(
         string= "Shipper",
     )
-
-    #email_list = email.split(',')
 
     #Related Fields
     entity_ids = fields.Many2many(
