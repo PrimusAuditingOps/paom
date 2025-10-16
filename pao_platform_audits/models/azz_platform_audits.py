@@ -133,7 +133,7 @@ class PaoAzzPlatformAudits(models.Model):
         compute='_compute_sale_order_line',
         store=True,
     )
-    sale_order_line_name = fields.Char(
+    sale_order_line_name = fields.Text(
         related='sale_order_line_id.name'
     )
     order_state = fields.Selection(
@@ -149,7 +149,7 @@ class PaoAzzPlatformAudits(models.Model):
         compute='_compute_purchase_order_line',
         store=True,
     )
-    purchase_order_line_name = fields.Char(
+    purchase_order_line_name = fields.Text(
         related='purchase_order_line_id.name'
     )
     purchase_state = fields.Selection(
