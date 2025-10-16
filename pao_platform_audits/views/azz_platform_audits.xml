@@ -6,11 +6,99 @@
         <field name="arch" type="xml">
             <form string="Azz Platform Audits">
                 <sheet>
-                    <group col="2">
-                        <field name="audit_id"/>
-                        <field name="audit_date"/>
-                        <field name="organization_id"/>
-                        <field name="organization_id"/>
+                   <group string="Audit Platform Information">
+                        <group>
+                            <field name="app_id"/>
+                        </group>
+                        <group>
+                            <field name="audit_id"/>
+                        </group>
+                        <group>
+                            <field name="audit_date"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="audit_template"/>
+                        </group>
+                        <group>
+                            <field name="template_version"/>
+                        </group>
+                        <group>
+                            <field name="organization"/>
+                        </group>
+                        <group>
+                            <field name="entities"/>
+                        </group>
+                        <group>
+                            <field name="coordinator"/>
+                        </group>
+                        <group>
+                            <field name="auditor"/>
+                        </group>
+                        
+                        <group>
+                            <field name="country"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="city"/>
+                        </group>
+                        <group>
+                            <field name="plc"/>
+                        </group>
+                    
+                    </group>
+                    
+                    
+                    <group string="Audit Odoo Information">
+                        <group>
+                            <field name="app_id"/>
+                        </group>
+                        <group>
+                            <field name="audit_id"/>
+                        </group>
+                        <group>
+                            <field name="audit_date"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="audit_template"/>
+                        </group>
+                        <group>
+                            <field name="template_version"/>
+                        </group>
+                        <group>
+                            <field name="organization"/>
+                        </group>
+                        <group>
+                            <field name="entities"/>
+                        </group>
+                        <group>
+                            <field name="coordinator"/>
+                        </group>
+                        <group>
+                            <field name="auditor"/>
+                        </group>
+                        
+                        <group>
+                            <field name="country"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="city"/>
+                        </group>
+                        <group>
+                            <field name="plc"/>
+                        </group>
+                    
                     </group>
                 </sheet>
                 <div class="oe_chatter">

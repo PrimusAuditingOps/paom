@@ -127,22 +127,14 @@ class PaoAzzPlatformAudits(models.Model):
         store=True,
         ondelete='restrict',
     ) 
-
-
-
-
-
-
-
-
-
-
-
     sale_order_line_id = fields.Many2one(
         'sale.order.line',
         string='Sale Order Line',
         compute='_compute_sale_order_line',
         store=True,
+    )
+    sale_order_line_name = fields.Char(
+        related='sale_order_line_id.name'
     )
     order_state = fields.Selection(
         related='sale_order_line_id.state'
@@ -156,6 +148,9 @@ class PaoAzzPlatformAudits(models.Model):
         string='Purchase Order Line',
         compute='_compute_purchase_order_line',
         store=True,
+    )
+    purchase_order_line_name = fields.Char(
+        related='purchase_order_line_id.name'
     )
     purchase_state = fields.Selection(
         related='purchase_order_line_id.state'
