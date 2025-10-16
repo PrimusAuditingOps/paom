@@ -24,12 +24,14 @@ class MexicanAccountReportCustomHandlerInherit(models.AbstractModel):
             #Columnas vacías
             # 9, 10, 13, 14, 15, 16, 18, 19, 20. 22 - 46,
             
-            data[7] = round(float(values.get('paid_8', 0))) or '' # Pagado al 8%
+            # Revisar datos columna 6 despues de USA, nacionalidad
+            
+            data[7] = round(float(values.get('paid_8', 0))) # Pagado al 8%
             # data[8] = '' # Notas de credito fronterizas (rara vez tiene info)
-            data[11] = round(float(values.get('paid_16', 0))) or '' # Pagado al 16%
-            data[12] = round(float(values.get('refunds', 0)) / 0.16) or '' # Reembolso / 0.16
-            data[17] = round(float(values.get('paid_8', 0)) * 0.08) or '' # IVA de la región fronteriza (data[7] * 0.08)
-            data[21] = round(float(values.get('paid_16', 0)) * 0.16) or '' # IVA de data[11]
+            data[11] = round(float(values.get('paid_16', 0))) # Pagado al 16%
+            data[12] = round(float(values.get('refunds', 0)) / 0.16) # Reembolso / 0.16
+            data[17] = round(float(values.get('paid_8', 0)) * 0.08) # IVA de la región fronteriza (data[7] * 0.08)
+            data[21] = round(float(values.get('paid_16', 0)) * 0.16) # IVA de data[11]
             
             
             # data[53] = 'test'
