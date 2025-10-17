@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-05 04:23+0000\n"
-"PO-Revision-Date: 2025-08-05 04:23+0000\n"
+"POT-Creation-Date: 2025-10-08 00:40+0000\n"
+"PO-Revision-Date: 2025-10-08 00:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,15 +21,31 @@ msgid "Consultant"
 msgstr "Promotor"
 
 #. module: pao_quotation_consultant
+#: model:ir.model,name:pao_quotation_consultant.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: pao_quotation_consultant
 #: model:ir.model,name:pao_quotation_consultant.model_purchase_report
 msgid "Purchase Report"
 msgstr "Reporte de compras"
 
 #. module: pao_quotation_consultant
+#: model:ir.model.fields,field_description:pao_quotation_consultant.field_account_bank_statement_line__pao_promotor_id
+#: model:ir.model.fields,field_description:pao_quotation_consultant.field_account_move__pao_promotor_id
+#: model:ir.model.fields,field_description:pao_quotation_consultant.field_account_payment__pao_promotor_id
 #: model:ir.model.fields,field_description:pao_quotation_consultant.field_purchase_report__pao_quotation_consultant_id
 #: model:ir.model.fields,field_description:pao_quotation_consultant.field_sale_report__pao_promotor_id
+#: model_terms:ir.ui.view,arch_db:pao_quotation_consultant.pao_account_move_consultant_search_inherit
 msgid "Quotation Consultant"
 msgstr "Promotor de la cotización"
+
+#. module: pao_quotation_consultant
+#: model:ir.model.fields,field_description:pao_quotation_consultant.field_account_bank_statement_line__pao_promotor_payment
+#: model:ir.model.fields,field_description:pao_quotation_consultant.field_account_move__pao_promotor_payment
+#: model:ir.model.fields,field_description:pao_quotation_consultant.field_account_payment__pao_promotor_payment
+msgid "Quotation Consultant Payment"
+msgstr "Pago del Promotor de la Cotización"
 
 #. module: pao_quotation_consultant
 #: model:ir.model,name:pao_quotation_consultant.model_sale_report
@@ -40,3 +56,8 @@ msgstr "Reporte de análisis de ventas"
 #: model:ir.model,name:pao_quotation_consultant.model_sale_order
 msgid "Sales Order"
 msgstr "Orden de venta"
+
+#. module: pao_quotation_consultant
+#: model_terms:ir.ui.view,arch_db:pao_quotation_consultant.pao_account_move_consultant_view_tree
+msgid "Total"
+msgstr ""
