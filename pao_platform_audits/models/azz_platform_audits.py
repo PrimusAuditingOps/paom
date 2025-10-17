@@ -11,7 +11,7 @@ class PaoAzzPlatformAudits(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
 
-    state = fields.Selection(
+    search_state = fields.Selection(
         selection=[
             ('not_found', "Not Found"),
             ('needs_validation', "Needs Validation"),
@@ -241,14 +241,14 @@ class PaoAzzPlatformAudits(models.Model):
                         if line.product_id.id in rec.audit_template_id.product_ids.ids:
                             if len(line.pao_platform_audit_ids) != line.product_qty and line.product_qty > 0:
                                 pol_id = line.id
-                                rec.state = "needs_validation"
+                                rec.search_state = "needs_validation"
                                 break
                     if not pol_id:
                         for line in rec_purchase_order_line:
                             if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
                                 if len(line.pao_platform_audit_ids) != line.product_qty and line.product_qty > 0:
                                     pol_id = line.id
-                                    rec.state = "needs_validation"                        
+                                    rec.search_state = "needs_validation"                        
                                     break
             rec.purchase_order_line_id = pol_id
 
@@ -272,7 +272,7 @@ class PaoAzzPlatformAudits(models.Model):
                         break
                     if line.product_id.id in rec.audit_template_id.product_ids.ids:
                         if len(line.pao_platform_audit_ids) != line.product_uom_qty and line.product_uom_qty > 0:
-                            rec.state = "found"
+                            rec.search_state = "found"
                             if not first_sol_id:
                                 first_sol_id = line.id
                             if rec.entity_ids:
@@ -287,7 +287,7 @@ class PaoAzzPlatformAudits(models.Model):
                     for line in rec_sale_ol:
                         if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
                             if len(line.pao_platform_audit_ids) != line.product_uom_qty and line.product_uom_qty > 0:
-                                rec.state = "needs_validation"
+                                rec.search_state = "needs_validation"
                                 sol_id = line.id                        
                                 break
             rec.sale_order_line_id = sol_id

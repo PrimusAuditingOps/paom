@@ -5,8 +5,11 @@
         <field name="model">pao.azz.platform.audits</field>
         <field name="arch" type="xml">
             <form string="Azz Platform Audits">
-                
+                <header>
+                     <field name="search_state" widget="statusbar"/>
+                </header>
                 <sheet>
+                    <field name="search_state" invisible="1"/>
                    <group string="Audit Platform Information">
                         <group>
                             <field name="app_id"/>
