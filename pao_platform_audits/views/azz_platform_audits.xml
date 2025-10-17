@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <form string="Azz Platform Audits">
                 <sheet>
+                   <sheet>
                    <group string="Audit Platform Information">
                         <group>
                             <field name="app_id"/>
@@ -55,48 +56,50 @@
                     
                     
                     <group string="Audit Odoo Information">
+                        
+                        
                         <group>
-                            <field name="app_id"/>
+                            <field name="order_id"/>
                         </group>
                         <group>
-                            <field name="audit_id"/>
+                            <field name="order_state"/>
+                        </group>
+                        
+                        <group>
+                            <field name="pruchase_id"/>
                         </group>
                         <group>
-                            <field name="audit_date"/>
+                            <field name="purchase_state"/>
                         </group>
+                        
                         <group>
-                            <field name="status"/>
-                        </group>
-                        <group>
-                            <field name="audit_template"/>
+                            <field name="sale_order_line_name"/>
                         </group>
                         <group>
                             <field name="template_version"/>
                         </group>
                         <group>
-                            <field name="organization"/>
+                            <field name="organization_id"/>
                         </group>
                         <group>
-                            <field name="entities"/>
+                            <field name="registration_number_id"/>
                         </group>
                         <group>
                             <field name="coordinator"/>
                         </group>
                         <group>
-                            <field name="auditor"/>
+                            <field name="coordinator"/>
                         </group>
                         
                         <group>
-                            <field name="country"/>
+                            <field name="pruchase_country"/>
                         </group>
                         <group>
-                            <field name="state"/>
+                            <field name="pruchase_id_state"/>
                         </group>
+                        
                         <group>
-                            <field name="city"/>
-                        </group>
-                        <group>
-                            <field name="plc"/>
+                            <field name="pruchase_id_city"/>
                         </group>
                     
                     </group>

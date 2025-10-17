@@ -167,6 +167,9 @@ class PaoAzzPlatformAudits(models.Model):
     pruchase_id_city = fields.Many2one(
         related='purchase_order_line_id.order_id.audit_city_id'
     )
+    pruchase_partner_id = fields.Many2one(
+        related='purchase_order_line_id.order_id.partner_id'
+    )
 
     
     
