@@ -122,6 +122,7 @@
         <field name="arch" type="xml">
 
             <tree string="Azz Platform Audits">
+                <field name="search_state" decoration-success="search_state == 'found'" decoration-warning="search_state == 'needs_validation'" widget="badge"/>
                 <field name="order_id"/>
                 <field name="sale_order_line_id"/>
                 <field name="order_state"/>
