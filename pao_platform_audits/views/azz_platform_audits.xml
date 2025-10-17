@@ -29,6 +29,7 @@
         <field name="arch" type="xml">
             <form string="Azz Platform Audits">
                 <header>
+                        <button name="validate_audit"  string="Validate" type="object"  invisible="search_state == 'found'"/>
                      <field name="search_state" widget="statusbar"/>
                 </header>
                 <sheet>

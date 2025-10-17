@@ -381,3 +381,8 @@ class PaoAzzPlatformAudits(models.Model):
             )
         )
         return records                
+
+    
+    def validate_audit(self):
+        for rec in self:
+            rec.write({"search_state": "found"})
