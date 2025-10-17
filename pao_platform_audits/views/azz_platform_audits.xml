@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Azz Platform Audits">
                 <header>
-                     <field name="state" widget="statusbar" statusbar_visible="not_found,needs_validation,found"/>
+                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
                    <group string="Audit Platform Information">
