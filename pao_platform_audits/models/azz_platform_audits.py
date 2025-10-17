@@ -187,12 +187,6 @@ class PaoAzzPlatformAudits(models.Model):
         related='purchase_order_line_id.order_id.partner_id'
     )
 
-    
-
-    
-    
-    
-
     @api.depends('entities')
     def _compute_entity_ids(self):
         for rec in self:
