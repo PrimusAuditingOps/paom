@@ -87,6 +87,7 @@ class SendRaWizard(models.Model):
                     'ra_template_id': self.template_id.id,
                     'reminder_days': self.reminder_days,
                     'ra_sent_date': fields.Date.today(),
+                    'subject': self.subject,
                 })
             elif not self.reminder_action:
                 self.purchase_order_id.ra_sent = True
@@ -96,7 +97,8 @@ class SendRaWizard(models.Model):
                     'request_travel_expenses': self.request_travel_expenses,
                     'reminder_days': self.reminder_days,
                     'ra_sent_date': fields.Date.today(),
-                    'ra_template_id': self.template_id.id
+                    'ra_template_id': self.template_id.id,
+                    'subject': self.subject,
                 })
         
         # Re-compute template with the values of the RA documents related to the PO

@@ -64,6 +64,8 @@ class RADocument(models.Model):
     
     ra_template_id = fields.Many2one('mail.template', readonly=True)
     
+    subject = fields.Char(default = '')
+    
     @api.model
     def _get_access_token(self):
         return uuid.uuid4().hex
@@ -147,7 +149,7 @@ class RADocument(models.Model):
             days_passed = (today - rec.ra_sent_date).days
 
             if 0 < days_passed <= rec.reminder_days:
-                wizard = self.env['send.ra.wizard'].create({
+                wizard_vals = {
                     'purchase_order_id': rec.purchase_order_id.id,
                     'reminder_action': True,
                     'reminder_days': rec.reminder_days,
@@ -157,7 +159,12 @@ class RADocument(models.Model):
                     'composition_mode': 'comment',
                     'model': 'purchase.order',
                     'res_ids': rec.purchase_order_id.ids,
-                })
+                }
+
+                if rec.subject:
+                    wizard_vals['subject'] = rec.subject
+
+                wizard = self.env['send.ra.wizard'].create(wizard_vals)
                 
                 wizard.action_send_mail()
                 
