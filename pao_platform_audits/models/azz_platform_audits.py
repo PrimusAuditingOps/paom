@@ -142,7 +142,9 @@ class PaoAzzPlatformAudits(models.Model):
     order_id = fields.Many2one(
         related='sale_order_line_id.order_id'
     )
-
+    coordinator_id = fields.Many2one(
+        related='sale_order_line_id.coordinator_id'
+    )
     purchase_order_line_id = fields.Many2one(
         'purchase.order.line',
         string='Purchase Order Line',
@@ -170,6 +172,8 @@ class PaoAzzPlatformAudits(models.Model):
     pruchase_partner_id = fields.Many2one(
         related='purchase_order_line_id.order_id.partner_id'
     )
+
+    
 
     
     
