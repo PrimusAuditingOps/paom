@@ -161,10 +161,10 @@ class PaoAzzPlatformAudits(models.Model):
     pruchase_country = fields.Many2one(
         related='purchase_order_line_id.order_id.audit_country_id'
     )
-    pruchase_id.state = fields.Many2one(
+    pruchase_id_state = fields.Many2one(
         related='purchase_order_line_id.order_id.audit_state_id'
     )
-    pruchase_id.city = fields.Many2one(
+    pruchase_id_city = fields.Many2one(
         related='purchase_order_line_id.order_id.audit_city_id'
     )
 
