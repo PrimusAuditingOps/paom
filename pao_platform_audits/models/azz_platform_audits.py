@@ -60,7 +60,6 @@ class PaoAzzPlatformAudits(models.Model):
         string= "Audit Template",
     )
     template_version = fields.Char(
-        required=True,
         string= "Template Version",
     )
     organization = fields.Char(
