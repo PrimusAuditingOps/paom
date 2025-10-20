@@ -37,7 +37,10 @@ class PaoAzzPlatformAudits(models.Model):
     )
     status = fields.Char(
         required=True,
-        string= "Status",
+        string= "Audit Status",
+    )
+    app_status = fields.Char(
+        string= "APP Status",
     )
     app_id = fields.Char(
         required=True,
@@ -45,6 +48,9 @@ class PaoAzzPlatformAudits(models.Model):
     )
     is_announced = fields.Char(
         string= "Is Announced",
+    )
+    audit_visit_type = fields.Char(
+        string= "Audit Visit Type",
     )
     pre_assessment = fields.Char(
         string= "Pre-assessment",
@@ -78,7 +84,7 @@ class PaoAzzPlatformAudits(models.Model):
         string= "Platform Coordinator",
     )
     plc = fields.Char(
-        string= "PLC",
+        string= "Registration Number",
     )
     cycle = fields.Char(
         string= "Cycle",
@@ -193,22 +199,30 @@ class PaoAzzPlatformAudits(models.Model):
             ids = []
             rec.entity_ids = None
             if rec.entities:
-                entity_list = rec.entities.split('|')
-                for entity in entity_list:
-                    if entity and entity.strip() != "":
-                        entity_type = entity.split(':')
-                        type_name = entity_type[0].strip()
-                        entity_name = entity_type[1].strip()
-                        rec_type = self.env["pao.platform.entities.type"].search([("name","=",type_name)], limit=1)
-                        if not rec_type:
-                            rec_type = self.env["pao.platform.entities.type"].create({"name": type_name})
-                            rec_entity = self.env["pao.platform.entities"].create({"name": entity_name, "entity_type_id": rec_type.id })
-                            ids.append(rec_entity.id)
-                        else:
-                            rec_entity = self.env["pao.platform.entities"].search([("name","=",entity_name)],limit=1)
-                            if not rec_entity:
-                                rec_entity = self.env["pao.platform.entities"].create({"name": entity_name, "entity_type_id": rec_type.id }) 
-                            ids.append(rec_entity.id)
+                if 'PA-PGFS' in rec.plc:
+                        rec_entity = self.env["pao.platform.entities"].search([("name","=",rec.entities)],limit=1)
+                        if not rec_entity:
+                            rec_entity = self.env["pao.platform.entities"].create({"name": rec.entities }) 
+                        ids.append(rec_entity.id)
+                
+                else:
+
+                    entity_list = rec.entities.split('|')
+                    for entity in entity_list:
+                        if entity and entity.strip() != "":
+                            entity_type = entity.split(':')
+                            type_name = entity_type[0].strip()
+                            entity_name = entity_type[1].strip()
+                            rec_type = self.env["pao.platform.entities.type"].search([("name","=",type_name)], limit=1)
+                            if not rec_type:
+                                rec_type = self.env["pao.platform.entities.type"].create({"name": type_name})
+                                rec_entity = self.env["pao.platform.entities"].create({"name": entity_name, "entity_type_id": rec_type.id })
+                                ids.append(rec_entity.id)
+                            else:
+                                rec_entity = self.env["pao.platform.entities"].search([("name","=",entity_name)],limit=1)
+                                if not rec_entity:
+                                    rec_entity = self.env["pao.platform.entities"].create({"name": entity_name, "entity_type_id": rec_type.id }) 
+                                ids.append(rec_entity.id)
 
             if len(ids) > 0:
                 rec.entity_ids = [(6, 0, ids)]
