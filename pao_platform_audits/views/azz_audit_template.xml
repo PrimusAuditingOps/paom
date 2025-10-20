@@ -16,13 +16,6 @@
                         <field name="name"/>
                     </group>
                     <notebook>
-                        <page string="Audit Template Version">
-                            <field name="template_version_ids" widget="many2many">
-                                <tree string="Audit Template Version">
-                                    <field name="name"/>
-                                </tree>
-                            </field>
-                        </page>
                         <page string="Products">
                             <field name="product_ids" widget="many2many">
                                 <tree string="Products">
@@ -31,6 +24,14 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Audit Template Version">
+                            <field name="template_version_ids" widget="many2many">
+                                <tree string="Audit Template Version">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
                     </notebook>
                 </sheet>
             </form>

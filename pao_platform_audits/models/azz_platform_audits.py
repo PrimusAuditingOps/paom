@@ -198,14 +198,13 @@ class PaoAzzPlatformAudits(models.Model):
             ids = []
             rec.entity_ids = None
             if rec.entities:
-                if 'PA-PGFS' in rec.plc:
-                        rec_entity = self.env["pao.platform.entities"].search([("name","=",rec.entities)],limit=1)
-                        if not rec_entity:
-                            rec_entity = self.env["pao.platform.entities"].create({"name": rec.entities }) 
-                        ids.append(rec_entity.id)
+                if rec.plc and 'PA-PGFS'in rec.plc:
+                    rec_entity = self.env["pao.platform.entities"].search([("name","=",rec.entities)],limit=1)
+                    if not rec_entity:
+                        rec_entity = self.env["pao.platform.entities"].create({"name": rec.entities }) 
+                    ids.append(rec_entity.id)
                 
                 else:
-
                     entity_list = rec.entities.split('|')
                     for entity in entity_list:
                         if entity and entity.strip() != "":
