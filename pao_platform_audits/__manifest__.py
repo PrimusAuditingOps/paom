@@ -16,6 +16,7 @@
     'data': [
         # security
         'security/ir.model.access.csv',
+        'security/security.xml',
         # data
         # demo
         # reports
@@ -23,7 +24,6 @@
         'wizard/platform_audit_wizard.xml',
         'views/azz_platform_audits.xml',
         'views/azz_audit_template.xml',
-        'views/security.xml',
     ],
     'external_dependencies': {
         'python': ['openpyxl'],
