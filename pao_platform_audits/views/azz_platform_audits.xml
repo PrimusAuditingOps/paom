@@ -129,6 +129,10 @@
                         <group>
                             <field name="pruchase_id_city"/>
                         </group>
+                        <group>
+                             <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                       
                     
                     </group>
                 </sheet>
@@ -166,7 +170,8 @@
                 <field name="organization"/>
                 <field name="plc"/>
                 <field name="auditor"/>
-                <field name="coordinator"/>    
+                <field name="coordinator"/>   
+                 <field name="company_id" groups="base.group_multi_company" readonly="1"/> 
             </tree>
         </field>
     </record>
