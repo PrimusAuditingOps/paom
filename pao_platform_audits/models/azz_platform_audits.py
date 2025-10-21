@@ -427,25 +427,12 @@ class PaoAzzPlatformAudits(models.Model):
             rec.write({"search_state": "found"})
 
 
-
-    
-
     @api.model
     def create(self, vals):
-        _logger.error(vals)
-        _logger.error(self.coordinator_id)
-        #if vals.get('user_id') and not vals.get('company_id'):
-        #    if user:
-        #        vals['company_id'] = user.company_id and user.company_id.id or False
+        
+        if vals.get('coordinator') and not vals.get('company_id'):
+            coordinator_name = vals.get('coordinator')
+            rec = self.env["pao.platform.coordinator"].search([("name","=",coordinator_name)],limit=1)
+            if rec and rec.user_id:
+                vals['company_id'] = rec.user_id.company_id and rec.user_id.company_id.id or False
         return super().create(vals)
-
-    def write(self, vals):
-        _logger.error(vals)
-        _logger.error(self.coordinator_id)
-        #if 'user_id' in vals and 'company_id' not in vals:
-        #    user = self._resolve_user_from_val(vals.get('user_id') or False)
-        #    if user:
-        #        vals['company_id'] = user.company_id and user.company_id.id or False
-        #    else:
-        #        vals['company_id'] = False
-        return super().write(vals)

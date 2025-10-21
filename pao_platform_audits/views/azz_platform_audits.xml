@@ -12,7 +12,7 @@
                 <field name="audit_template"/>
                 <field name="sale_order_line_name"/>
                 <field name="organization_id"/>
-                <field name="registration_number_id"/>
+                <field name="registration_number_id"/> 
                 
 
                 <filter name="filter_not_found" string="Not Found" domain="[('search_state', '=', 'not_found')]"/>
@@ -27,7 +27,7 @@
         <field name="name">pao.azz.platform.audits.view.form</field>
         <field name="model">pao.azz.platform.audits</field>
         <field name="arch" type="xml">
-            <form string="Azz Platform Audits">
+            <form string="Platform Audits">
                 <header>
                         <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state == 'found'"/>
                      <field name="search_state" widget="statusbar"/>
@@ -145,7 +145,7 @@
         <field name="model">pao.azz.platform.audits</field>
         <field name="arch" type="xml">
 
-            <tree string="Azz Platform Audits">
+            <tree string="Platform Audits">
                 <field name="order_id"/>
                 <field name="sale_order_line_id"/>
                 <field name="order_state" widget="badge"/>
@@ -173,7 +173,7 @@
 
 
     <record id="pao_azz_platform_audits_action" model="ir.actions.act_window">
-        <field name="name">Azz Audits</field>
+        <field name="name">Audits</field>
         <field name="res_model">pao.azz.platform.audits</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
@@ -183,7 +183,7 @@
     </record>
 
     <menuitem id="pao_azz_platform_audits_finance"
-            name="Azz Audits"
+            name="Audits"
             parent="account.menu_finance_receivables"
             action="pao_azz_platform_audits_action"
             sequence="120"/>
