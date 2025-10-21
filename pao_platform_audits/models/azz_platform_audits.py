@@ -11,6 +11,13 @@ class PaoAzzPlatformAudits(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
 
+    company_id = fields.Many2one(
+        'res.company', 
+        'Company', 
+        copy=False,
+        index=True,
+    )
+
     search_state = fields.Selection(
         selection=[
             ('not_found', "Not Found"),
@@ -146,6 +153,14 @@ class PaoAzzPlatformAudits(models.Model):
         store=True,
         ondelete='restrict',
     ) 
+    coordinator_id = fields.Many2one(
+        comodel_name='pao.platform.coordinator',
+        string='Operation Specialist',
+        compute='_compute_coordinator_id',
+        store=True,
+        ondelete='restrict',
+    ) 
+
     sale_order_line_id = fields.Many2one(
         'sale.order.line',
         string='Sale Order Line',
@@ -323,6 +338,18 @@ class PaoAzzPlatformAudits(models.Model):
                 else: 
                     rec.audit_template_version_id = rec_template_version.id
 
+    @api.depends('coordinator')
+    def _compute_coordinator_id(self):
+        for rec in self:
+            rec.coordinator_id = None
+            if rec.coordinator:
+                recCoordinator = self.env["pao.platform.coordinator"].search([("name","=",rec.coordinator)], limit=1)
+                if not recCoordinator:
+                    coordinator = self.env["pao.platform.coordinator"].create({"name": rec.audit_template})
+                    rec.coordinator_id = coordinator.id
+                else: 
+                    rec.coordinator_id = recCoordinator.id
+    
     @api.depends('audit_template')
     def _compute_audit_template(self):
         for rec in self:
@@ -398,3 +425,27 @@ class PaoAzzPlatformAudits(models.Model):
     def validate_audit(self):
         for rec in self:
             rec.write({"search_state": "found"})
+
+
+
+    
+
+    @api.model
+    def create(self, vals):
+        _logger.error(vals)
+        _logger.error(self.coordinator_id)
+        #if vals.get('user_id') and not vals.get('company_id'):
+        #    if user:
+        #        vals['company_id'] = user.company_id and user.company_id.id or False
+        return super().create(vals)
+
+    def write(self, vals):
+        _logger.error(vals)
+        _logger.error(self.coordinator_id)
+        #if 'user_id' in vals and 'company_id' not in vals:
+        #    user = self._resolve_user_from_val(vals.get('user_id') or False)
+        #    if user:
+        #        vals['company_id'] = user.company_id and user.company_id.id or False
+        #    else:
+        #        vals['company_id'] = False
+        return super().write(vals)

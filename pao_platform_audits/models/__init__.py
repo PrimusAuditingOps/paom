@@ -9,5 +9,6 @@ from . import platform_organization
 from . import platform_entities
 from . import platform_entities_type
 from . import platform_auditor
+from . import platform_coordinator
 from . import platform_shipper
 from . import azz_platform_audits
