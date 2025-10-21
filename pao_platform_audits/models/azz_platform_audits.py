@@ -345,7 +345,7 @@ class PaoAzzPlatformAudits(models.Model):
             if rec.coordinator:
                 recCoordinator = self.env["pao.platform.coordinator"].search([("name","=",rec.coordinator)], limit=1)
                 if not recCoordinator:
-                    coordinator = self.env["pao.platform.coordinator"].create({"name": rec.audit_template})
+                    coordinator = self.env["pao.platform.coordinator"].create({"name": rec.coordinator})
                     rec.coordinator_id = coordinator.id
                 else: 
                     rec.coordinator_id = recCoordinator.id
