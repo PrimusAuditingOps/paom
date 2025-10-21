@@ -153,10 +153,10 @@ class PaoAzzPlatformAudits(models.Model):
         store=True,
         ondelete='restrict',
     ) 
-    coordinator_id = fields.Many2one(
+    operation_specialist_id = fields.Many2one(
         comodel_name='pao.platform.coordinator',
         string='Operation Specialist',
-        compute='_compute_coordinator_id',
+        compute='_compute_operation_specialist_id',
         store=True,
         ondelete='restrict',
     ) 
@@ -339,16 +339,16 @@ class PaoAzzPlatformAudits(models.Model):
                     rec.audit_template_version_id = rec_template_version.id
 
     @api.depends('coordinator')
-    def _compute_coordinator_id(self):
+    def _compute_operation_specialist_id(self):
         for rec in self:
-            rec.coordinator_id = None
+            rec.operation_specialist_id = None
             if rec.coordinator:
                 recCoordinator = self.env["pao.platform.coordinator"].search([("name","=",rec.coordinator)], limit=1)
                 if not recCoordinator:
                     coordinator = self.env["pao.platform.coordinator"].create({"name": rec.coordinator})
-                    rec.coordinator_id = coordinator.id
+                    rec.operation_specialist_id = coordinator.id
                 else: 
-                    rec.coordinator_id = recCoordinator.id
+                    rec.operation_specialist_id = recCoordinator.id
     
     @api.depends('audit_template')
     def _compute_audit_template(self):
