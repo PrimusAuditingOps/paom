@@ -21,7 +21,7 @@ class AccountMove(models.Model):
     pao_customer_promotor_id = fields.Many2one(
         comodel_name='comisionpromotores.promotor',
         compute='_pao_compute_customer_promotor_id', 
-        string='Promoter", 
+        string="Promoter", 
         store=True,
     )
     
