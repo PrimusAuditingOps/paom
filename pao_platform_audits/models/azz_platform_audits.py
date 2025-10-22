@@ -436,3 +436,10 @@ class PaoAzzPlatformAudits(models.Model):
             if rec and rec.user_id:
                 vals['company_id'] = rec.user_id.company_id and rec.user_id.company_id.id or False
         return super().create(vals)
+
+     def search_audit(self):
+        for rec in self:
+            rec._compute_purchase_order_line()
+            rec._compute_purchase_order_line()
+
+            

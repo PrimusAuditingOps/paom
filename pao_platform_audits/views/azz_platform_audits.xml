@@ -29,8 +29,9 @@
         <field name="arch" type="xml">
             <form string="Platform Audits">
                 <header>
-                        <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state != 'needs_validation'"/>
-                     <field name="search_state" widget="statusbar"/>
+                    <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state != 'needs_validation'"/>
+                    <button name="search_audit"  class="btn-primary" string="Search Audit" type="object" invisible="search_state != 'found'"/>
+                    <field name="search_state" widget="statusbar"/>
                 </header>
                 <sheet>
                     <field name="search_state" invisible="1"/>
