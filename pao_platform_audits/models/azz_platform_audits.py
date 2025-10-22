@@ -437,9 +437,22 @@ class PaoAzzPlatformAudits(models.Model):
                 vals['company_id'] = rec.user_id.company_id and rec.user_id.company_id.id or False
         return super().create(vals)
 
-     def search_audit(self):
+    def search_audit(self):
         for rec in self:
-            rec._compute_purchase_order_line()
+            rec.purchase_order_line_id = None
+            rec.sale_order_line_id = None
+            
+            if not rec.organization_id:
+                rec._compute_organization()
+            if not rec.registration_number_id:
+                rec._compute_registration_number()
+
+            rec._compute_sale_order_line()
             rec._compute_purchase_order_line()
 
-            
+    def unlink_audit(self):
+        for rec in self:
+            rec.purchase_order_line_id = None
+            rec.sale_order_line_id = None
+            rec.company_id = None
+            rec.search_state = "not_found"
