@@ -9,6 +9,8 @@
                 <field name="invoice_partner_display_name" position="after">
                     <field name="pao_promotor_id" optional="hide"/>
                     <field name="pao_promotor_payment" sum="Total" optional="hide"/>
+                    <field name="pao_customer_promotor_id" optional="hide"/>
+                    <field name="pao_customer_promotor_payment" sum="Total" optional="hide"/>
                 </field>
             </field>
     </record>
