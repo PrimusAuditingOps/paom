@@ -29,7 +29,7 @@
         <field name="arch" type="xml">
             <form string="Platform Audits">
                 <header>
-                        <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state == 'found'"/>
+                        <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state != 'needs_validation'"/>
                      <field name="search_state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -150,6 +150,7 @@
         <field name="arch" type="xml">
 
             <tree string="Platform Audits">
+                <field name="company_id" groups="base.group_multi_company" readonly="1"/> 
                 <field name="order_id"/>
                 <field name="sale_order_line_id"/>
                 <field name="order_state" widget="badge"/>
@@ -161,17 +162,11 @@
                 <field name="app_id"/>
                 <field name="audit_date"/>
                 <field name="status"/>
-                <field name="audit_template_id"/>
-                <field name="audit_template_version_id"/>
                 <field name="audit_template"/>
-                <field name="template_version"/>
-                <field name="registration_number_id"/>
-                <field name="organization_id"/>
                 <field name="organization"/>
                 <field name="plc"/>
                 <field name="auditor"/>
                 <field name="coordinator"/>   
-                 <field name="company_id" groups="base.group_multi_company" readonly="1"/> 
             </tree>
         </field>
     </record>
