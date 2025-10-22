@@ -30,7 +30,7 @@
             <form string="Platform Audits" readonly="search_state == 'found' ">
                 <header>
                     <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state != 'needs_validation'"/>
-                    <button name="search_audit"  class="btn-primary" string="Search Audit" type="object" invisible="search_state != 'found'"/>
+                    <button name="search_audit"  class="btn-primary" string="Search Audit" type="object" invisible="search_state == 'found'"/>
                     <button name="unlink_audit"  class="btn-primary" string="Unlink Audit" type="object" invisible="search_state == 'not_found'"/>
                     <field name="search_state" widget="statusbar"/>
                 </header>
