@@ -17,6 +17,41 @@ class AccountMove(models.Model):
         store=True,
     )
 
+
+    pao_customer_promotor_id = fields.Many2one(
+        comodel_name='comisionpromotores.promotor',
+        compute='_pao_compute_customer_promotor_id', 
+        string="Promoter", 
+        store=True,
+    )
+    
+    pao_customer_promotor_payment = fields.Monetary(
+        compute='_get_customer_promotor_id_pay', 
+        string='Promoter payment',
+        store=True,
+    )
+
+    @api.depends('pao_promotor_id','partner_id')
+    def _pao_compute_customer_promotor_id(self):
+        for rec in self:
+            rec.pao_customer_promotor_id = None
+            if not rec.pao_promotor_id:
+                rec.pao_customer_promotor_id = rec.partner_id.promotor_id.id
+            
+    @api.depends('pao_customer_promotor_id')
+    def _get_customer_promotor_id_pay(self):
+        for rec in self:
+            payqty = 0.0
+            rec.pao_customer_promotor_payment = 0.00
+            if rec.pao_customer_promotor_id and rec.pao_customer_promotor_id.porcentaje and rec.pao_customer_promotor_id.porcentaje > 0:
+                for r in rec.invoice_line_ids:
+                    if r.product_id.pao_commission_payment:
+                        payqty += r.price_subtotal
+
+                rec.pao_customer_promotor_payment = round((payqty * rec.pao_customer_promotor_id.porcentaje) / 100,2)
+
+
+
     @api.depends('invoice_origin')
     def _pao_compute_pao_promotor_id(self):
         for rec in self:
