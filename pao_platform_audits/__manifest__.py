@@ -11,7 +11,7 @@
     'description': """
     
     """,
-    'depends': ['base','account','servicereferralagreement','pao_sign_ra','pao_master_sales_order'
+    'depends': ['base','sale','account','servicereferralagreement','pao_sign_ra','pao_master_sales_order'
     ],
     'data': [
         # security
@@ -25,6 +25,7 @@
         'views/azz_platform_audits.xml',
         'views/azz_audit_template.xml',
         'views/azz_audit_coordinator.xml',
+        'views/sales_report_views.xml',
     ],
     'external_dependencies': {
         'python': ['openpyxl'],

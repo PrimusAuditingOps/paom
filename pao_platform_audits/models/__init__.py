@@ -12,3 +12,4 @@ from . import platform_auditor
 from . import platform_coordinator
 from . import platform_shipper
 from . import azz_platform_audits
+from . import sales_report
