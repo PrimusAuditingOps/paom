@@ -11,5 +11,5 @@ class SaleOrderLine(models.Model):
     pao_platform_audit_ids = fields.One2many(
         'pao.azz.platform.audits',
         'sale_order_line_id',
-        string='Platform Audits'
+        string='Audit ID'
     )
