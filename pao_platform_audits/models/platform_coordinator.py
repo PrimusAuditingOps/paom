@@ -11,6 +11,7 @@ class PaoPlatformCoordinator(models.Model):
         required=True,
         string= "name",
     )
+    active = fields.Boolean(string="Active", default=True)
     user_id = fields.Many2one(
         'res.users', 
         string="Operations Specialist",

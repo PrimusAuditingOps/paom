@@ -11,4 +11,5 @@ class PaoPlatformAuditor(models.Model):
         required=True,
         string= "name",
     )
+    active = fields.Boolean(string="Active", default=True)
     

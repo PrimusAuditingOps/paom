@@ -10,12 +10,14 @@ class PaoAzzPlatformAudits(models.Model):
     _rec_name = "audit_id"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-
+    active = fields.Boolean(string="Active", default=True)
+    
     company_id = fields.Many2one(
         'res.company', 
         'Company', 
         copy=False,
         index=True,
+        default=lambda self: self.env.company
     )
 
     search_state = fields.Selection(
@@ -55,6 +57,15 @@ class PaoAzzPlatformAudits(models.Model):
     )
     is_announced = fields.Char(
         string= "Is Announced",
+    )
+    module_9 = fields.Char(
+        string= "Module 9",
+    )
+    autid_type_code = fields.Char(
+        string= "Audit Type Code",
+    )
+    preventive_control = fields.Char(
+        string= "Preventive Control",
     )
     audit_visit_type = fields.Char(
         string= "Audit Visit Type",
@@ -260,18 +271,27 @@ class PaoAzzPlatformAudits(models.Model):
                     rec_purchase_order_line = self.env["purchase.order.line"].search(domain,order='id desc')
                     for line in rec_purchase_order_line:
                         if line.product_id.id in rec.audit_template_id.product_ids.ids:
-                            if len(line.pao_platform_audit_ids) != line.product_qty and line.product_qty > 0:
+                            if len(line.pao_platform_audit_ids.ids) != line.product_qty and line.product_qty > 0:
                                 pol_id = line.id
                                 rec.search_state = "needs_validation"
                                 break
                     if not pol_id:
                         for line in rec_purchase_order_line:
                             if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
-                                if len(line.pao_platform_audit_ids) != line.product_qty and line.product_qty > 0:
+                                if len(line.pao_platform_audit_ids.ids) != line.product_qty and line.product_qty > 0:
                                     pol_id = line.id
                                     rec.search_state = "needs_validation"                        
                                     break
-            rec.purchase_order_line_id = pol_id
+            if pol_id:
+                rec.purchase_order_line_id = pol_id
+                rec.write({"pao_platform_audit_ids": [(4,pol_id)]})
+                rec.purchase_order_line_id.write({"pao_platform_audit_ids": [(4,rec.id)]})
+                if rec.module_9.lower() == "yes":
+                    for line in rec.purchase_order_line_id.order_id.order_line.filtered(lambda l: l.product_id.pao_is_module_9 == True):
+                        if len(line.pao_platform_audit_ids.ids) != line.product_qty and line.product_qty > 0:
+                            line..write({"pao_platform_audit_ids": [(4,rec.id)]})
+                            break
+
 
     @api.depends('audit_template_id')
     def _compute_sale_order_line(self):
@@ -292,7 +312,7 @@ class PaoAzzPlatformAudits(models.Model):
                     if sol_id:
                         break
                     if line.product_id.id in rec.audit_template_id.product_ids.ids:
-                        if len(line.pao_platform_audit_ids) != line.product_uom_qty and line.product_uom_qty > 0:
+                        if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
                             rec.search_state = "found"
                             if not first_sol_id:
                                 first_sol_id = line.id
@@ -307,11 +327,19 @@ class PaoAzzPlatformAudits(models.Model):
                 if not sol_id:
                     for line in rec_sale_ol:
                         if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
-                            if len(line.pao_platform_audit_ids) != line.product_uom_qty and line.product_uom_qty > 0:
+                            if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
                                 rec.search_state = "needs_validation"
                                 sol_id = line.id                        
                                 break
-            rec.sale_order_line_id = sol_id
+            if sol_id:
+                rec.sale_order_line_id = sol_id
+                rec.sale_order_line_id.write({"pao_platform_audit_ids": [(4,rec.id)]})
+                if rec.module_9.lower() == "yes":
+                    for line in rec.sale_order_line_id.order_id.order_line.filtered(lambda l: l.product_id.pao_is_module_9 == True):
+                        if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
+                            line..write({"pao_platform_audit_ids": [(4,rec.id)]})
+                            break
+            
 
     def _search_sale_order_line(self, organization):
         records = self.env["servicereferralagreement.organization"].search([("name", "ilike", organization.lower())])
@@ -427,16 +455,6 @@ class PaoAzzPlatformAudits(models.Model):
             rec.write({"search_state": "found"})
 
 
-    @api.model
-    def create(self, vals):
-        
-        if vals.get('coordinator') and not vals.get('company_id'):
-            coordinator_name = vals.get('coordinator')
-            rec = self.env["pao.platform.coordinator"].search([("name","=",coordinator_name)],limit=1)
-            if rec and rec.user_id:
-                vals['company_id'] = rec.user_id.company_id and rec.user_id.company_id.id or False
-        return super().create(vals)
-
     def search_audit(self):
         for rec in self:
             rec.purchase_order_line_id = None
@@ -452,7 +470,11 @@ class PaoAzzPlatformAudits(models.Model):
 
     def unlink_audit(self):
         for rec in self:
+            if rec.purchase_order_line_id:
+                rec.purchase_order_line_id.write({'pao_platform_audit_ids': [(3, rec.id)]})
+            if rec.sale_order_line_id:
+                rec.sale_order_line_id.write({'pao_platform_audit_ids': [(3, rec.id)]})
+
             rec.purchase_order_line_id = None
             rec.sale_order_line_id = None
-            rec.company_id = None
             rec.search_state = "not_found"

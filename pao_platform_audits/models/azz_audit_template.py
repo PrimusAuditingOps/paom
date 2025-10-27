@@ -13,6 +13,7 @@ class PaoAzzAuditTemplate(models.Model):
         string= "Name",
         translate=True,
     )
+    active = fields.Boolean(string="Active", default=True)
     template_version_ids = fields.One2many(
         comodel_name='pao.azz.template.version',
         inverse_name='pao_audit_template_id',

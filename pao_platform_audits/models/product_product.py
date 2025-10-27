@@ -12,4 +12,4 @@ class ProductProduct(models.Model):
         comodel_name='pao.azz.audit.template',
         string='Audit Template',
         ondelete='restrict',
-    )    
+    )   

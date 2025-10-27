@@ -26,6 +26,7 @@
         'views/azz_audit_template.xml',
         'views/azz_audit_coordinator.xml',
         'views/sales_report_views.xml',
+        'view/product_template.xml',
     ],
     'external_dependencies': {
         'python': ['openpyxl'],
