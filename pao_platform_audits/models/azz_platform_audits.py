@@ -349,7 +349,7 @@ class PaoAzzPlatformAudits(models.Model):
             
 
     def _search_sale_order_line(self, organization):
-        records = self.env["servicereferralagreement.organization"].search([("company_id","=",rec.env.company.id),("name", "ilike", organization.lower())])
+        records = self.env["servicereferralagreement.organization"].search([("company_id","=",self.env.company.id),("name", "ilike", organization.lower())])
         records = records.sorted(
             key=lambda r: (
                 (r.name or '').lower().find(organization.lower()) if organization.lower() in (r.name or '').lower() else 9999,
@@ -436,7 +436,7 @@ class PaoAzzPlatformAudits(models.Model):
                                 break
                                 
     def _search_registration_number(self, organization,registration_number):
-        domain = [("company_id","=",rec.env.company.id),("organization_id","=",organization),("name","ilike",registration_number.lower())]
+        domain = [("company_id","=",self.env.company.id),("organization_id","=",organization),("name","ilike",registration_number.lower())]
         records = self.env["servicereferralagreement.registrynumber"].search(domain)
         records = records.sorted(
             key=lambda r: (
@@ -447,7 +447,7 @@ class PaoAzzPlatformAudits(models.Model):
         return records 
 
     def _search_organization(self, organization):
-        records = self.env["servicereferralagreement.organization"].search([("company_id","=",rec.env.company.id),("name", "ilike", organization.lower())])
+        records = self.env["servicereferralagreement.organization"].search([("company_id","=",self.env.company.id),("name", "ilike", organization.lower())])
         records = records.sorted(
             key=lambda r: (
                 (r.name or '').lower().find(organization.lower()) if organization.lower() in (r.name or '').lower() else 9999,
