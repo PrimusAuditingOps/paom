@@ -10,6 +10,13 @@ class PaoAzzPlatformAudits(models.Model):
     _rec_name = "audit_id"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+
+    _sql_constraints = [
+        ('uc_pao_platform_audit',
+         'UNIQUE(audit_id,company_id,audit_date,organization,plc)',
+         "There is already an Audit with this ID"),
+    ]
+
     active = fields.Boolean(string="Active", default=True)
     
     company_id = fields.Many2one(
