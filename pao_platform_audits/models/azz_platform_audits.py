@@ -291,7 +291,7 @@ class PaoAzzPlatformAudits(models.Model):
                                     break
             if pol_id:
                 rec.purchase_order_line_id = pol_id
-                rec.write({"pao_platform_audit_ids": [(4,pol_id)]})
+                #rec.write({"pao_platform_audit_ids": [(4,pol_id)]})
                 rec.purchase_order_line_id.write({"pao_platform_audit_ids": [(4,rec.id)]})
                 if rec.module_9.lower() == "yes":
                     for line in rec.purchase_order_line_id.order_id.order_line.filtered(lambda l: l.product_id.pao_is_module_9 == True):
