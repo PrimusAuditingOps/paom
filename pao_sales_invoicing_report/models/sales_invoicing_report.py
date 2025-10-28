@@ -178,6 +178,7 @@ class SalesInvoicingReport(models.Model):
             so.invoice_status,
             so.date_order,
             l.quantity,
+            r.rate,
             prcr.rate,
             partner.cgg_group_id,
             partner.promotor_id,
