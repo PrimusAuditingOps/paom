@@ -37,14 +37,15 @@ class AccountMoveLine(models.Model):
         move_vals = exchange_diff_vals.get('move_values', {})
         line_ids = move_vals.get('line_ids', [])
         
-        has_exchange_amount = True
+        has_exchange_amount = False
         for line_cmd in line_ids:
             if line_cmd[0] == 0:  # Command.create
                 line_vals = line_cmd[2]
                 debit = line_vals.get('debit', 0)
                 credit = line_vals.get('credit', 0)
-                if debit != 0 and credit != 0:
-                    has_exchange_amount = False
+                # Exchange line has non-zero debit OR credit (not both)
+                if (debit > 0 and credit == 0) or (credit > 0 and debit == 0):
+                    has_exchange_amount = True
                     break
         
         # Skip if no exchange amount (empty exchange entry)
@@ -71,46 +72,29 @@ class AccountMoveLine(models.Model):
 
     def _add_exchange_difference_cash_basis_vals(self, exchange_diff_vals):
         """
-        OVERRIDE to prevent base Odoo from adding tax lines here,
-        because we handle it in _create_exchange_difference_moves instead.
+        OVERRIDE to add tax adjustment lines to exchange entry
+        for FULL reconciliation flow (FLOW B).
         
-        This prevents DUPLICATE tax lines for FULL exchange entries.
-        
-        We still need to return caba_lines_to_reconcile for base reconciliation logic.
+        This method is called from _reconcile_plan_with_sync() at line 2689.
+        We MUST modify exchange_diff_vals here so that line 2692 check passes.
         """
         # Check if we should handle this with our custom logic
         if not self._should_apply_pao_exchange_rate_tax_fix():
             # Use base logic for non-custom cases
             return super()._add_exchange_difference_cash_basis_vals(exchange_diff_vals)
         
-        # For our custom cases, we DON'T add lines here
-        # (they will be added in _create_exchange_difference_moves)
-        # But we still need to collect caba_lines_to_reconcile for reconciliation
+        # For FULL reconciliation, we need to:
+        # 1. Add tax adjustment lines to exchange_diff_vals
+        # 2. Collect caba_lines_to_reconcile for reconciliation
         
-        caba_lines_to_reconcile = defaultdict(lambda: self.env['account.move.line'])
+        # Get payment rates
+        payment_rates_map = self._get_payment_rates_by_invoice()
         
-        for move in self.move_id:
-            move_values = move._collect_tax_cash_basis_values()
-            if not move_values or not move_values['is_fully_paid']:
-                continue
-            
-            # Collect CABA lines for reconciliation (from base logic)
-            cash_basis_moves = self.env['account.move'].search([
-                ('tax_cash_basis_origin_move_id', '=', move.id)
-            ])
-            
-            caba_transition_accounts = self.env['account.account']
-            for line in cash_basis_moves.line_ids:
-                if line.tax_repartition_line_id:
-                    transition_account = line.tax_line_id.cash_basis_transition_account_id
-                    caba_transition_accounts |= transition_account
-                    if line.account_id.reconcile:
-                        caba_lines_to_reconcile[(move, line.account_id, line.tax_repartition_line_id)] |= line
-            
-            # Collect the caba lines affecting the transition account
-            for transition_line in filter(lambda x: x.account_id in caba_transition_accounts, cash_basis_moves.line_ids):
-                caba_reconcile_key = (transition_line.move_id, transition_line.account_id, transition_line.tax_repartition_line_id)
-                caba_lines_to_reconcile[caba_reconcile_key] |= transition_line
+        # Add tax adjustment lines (this MODIFIES exchange_diff_vals!)
+        caba_lines_to_reconcile = self._pao_add_exchange_diff_cash_basis_with_proper_rate(
+            exchange_diff_vals,
+            payment_rates_map
+        )
         
         return caba_lines_to_reconcile
     
@@ -121,25 +105,35 @@ class AccountMoveLine(models.Model):
         Returns True if:
         1. There are invoices with cash basis taxes involved
         2. Company has tax exigibility enabled
-        3. There are partial reconcile records (payments made)
+        3. There are CABA entries (existing or to be processed)
         """
         # Check if any of the moves have cash basis taxes
         for move in self.move_id:
             if not move.is_invoice(include_receipts=True):
                 continue
-                
+            
+            # Check for cash basis tax lines on the invoice
+            has_cash_basis_tax = any(
+                line.tax_line_id and 
+                line.tax_line_id.tax_exigibility == 'on_payment'
+                for line in move.line_ids
+            )
+            
+            if not has_cash_basis_tax:
+                continue
+            
+            # Check if there are EXISTING CABA entries
+            existing_caba = self.env['account.move'].search([
+                ('tax_cash_basis_origin_move_id', '=', move.id)
+            ], limit=1)
+            
+            if existing_caba:
+                return True
+            
+            # OR check if there are pending CABA to process
             move_values = move._collect_tax_cash_basis_values()
             if move_values and move_values.get('to_process_lines'):
-                # Check if there are tax lines with on_payment exigibility
-                has_cash_basis_tax = any(
-                    caba_treatment == 'tax' and line.tax_line_id.tax_exigibility == 'on_payment'
-                    for caba_treatment, line in move_values['to_process_lines']
-                )
-                if has_cash_basis_tax:
-                    # Verify there are partials (payments)
-                    partials = self.matched_debit_ids + self.matched_credit_ids
-                    if partials:
-                        return True
+                return True
         
         return False
     
@@ -342,14 +336,17 @@ class AccountMoveLine(models.Model):
         exchange_line_vals = None
         exchange_line_idx = None
         
+        exchange_accounts = [
+            self.company_id.income_currency_exchange_account_id.id,
+            self.company_id.expense_currency_exchange_account_id.id
+        ]
+        
         for idx, line_cmd in enumerate(existing_line_vals_list):
             if line_cmd[0] == 0:  # Command.create
                 line_vals = line_cmd[2]
-                if ('Currency exchange rate difference' in line_vals.get('name', '') and
-                    line_vals.get('account_id') in [
-                        self.company_id.income_currency_exchange_account_id.id,
-                        self.company_id.expense_currency_exchange_account_id.id
-                    ]):
+                # Detect exchange line by account_id (not by name string)
+                if (line_vals.get('account_id') in exchange_accounts and
+                    not line_vals.get('full_reconcile_id')):
                     exchange_line_vals = line_vals
                     exchange_line_idx = idx
                     break
