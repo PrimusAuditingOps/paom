@@ -414,6 +414,7 @@ class PaoAzzPlatformAudits(models.Model):
     @api.depends('organization')
     def _compute_organization(self):
         for rec in self:
+            _logger.error(rec.env.company.id)
             rec.organization_id = None
             domain = [("name","=",rec.organization),("company_id","=",rec.env.company.id)]
             organization = self.env["servicereferralagreement.organization"].search(domain)
