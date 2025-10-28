@@ -264,7 +264,7 @@ class PaoAzzPlatformAudits(models.Model):
         for rec in self:
             pol_id = None
             if rec.sale_order_line_id:
-                purchase_line = self.env["purchase.order.line"].search([("company_id","=",rec.env.company.id),("state","!=","cancel"),("sra_sale_line_ids","in",[rec.sale_order_line_id.id])])
+                purchase_line = self.env["purchase.order.line"].search([("company_id","=",rec.company_id.id),("state","!=","cancel"),("sra_sale_line_ids","in",[rec.sale_order_line_id.id])])
                 for line in purchase_line:
                     pol_id = line.id
                     break
@@ -304,7 +304,7 @@ class PaoAzzPlatformAudits(models.Model):
     def _compute_sale_order_line(self):
         for rec in self:
             date_search = rec.audit_date - relativedelta(months=6)
-            domain = [("create_date",">=",date_search),("state","!=","cancel"),("company_id","=",rec.env.company.id)]
+            domain = [("create_date",">=",date_search),("state","!=","cancel"),("company_id","=",rec.company_id.id)]
             sol_id = None
             first_sol_id = None
             if rec.organization_id:
@@ -349,7 +349,7 @@ class PaoAzzPlatformAudits(models.Model):
             
 
     def _search_sale_order_line(self, organization):
-        records = self.env["servicereferralagreement.organization"].search([("company_id","=",self.env.company.id),("name", "ilike", organization.lower())])
+        records = self.env["servicereferralagreement.organization"].search([("company_id","=",rec.company_id.id),("name", "ilike", organization.lower())])
         records = records.sorted(
             key=lambda r: (
                 (r.name or '').lower().find(organization.lower()) if organization.lower() in (r.name or '').lower() else 9999,
@@ -414,9 +414,8 @@ class PaoAzzPlatformAudits(models.Model):
     @api.depends('organization')
     def _compute_organization(self):
         for rec in self:
-            _logger.error(rec.company_id.id)
             rec.organization_id = None
-            domain = [("name","=",rec.organization),("company_id","=",rec.env.company.id)]
+            domain = [("name","=",rec.organization),("company_id","=",rec.company_id.id)]
             organization = self.env["servicereferralagreement.organization"].search(domain)
             if organization:
                 for org in organization:
@@ -431,13 +430,13 @@ class PaoAzzPlatformAudits(models.Model):
                     if not rec.plc or rec.plc != "1": #Is not an Organic Audit
                         if rec.app_id:
                             for org in organization_search:
-                                domain = [("company_id","=",rec.env.company.id),("organization_id","=",org.id),("name","ilike",str(rec.app_id) if not rec.plc else rec.plc)]
+                                domain = [("company_id","=",rec.company_id.id),("organization_id","=",org.id),("name","ilike",str(rec.app_id) if not rec.plc else rec.plc)]
                                 reg_number = self.env["servicereferralagreement.registrynumber"].search(domain)
                                 rec.organization_id = org.id
                                 break
                                 
     def _search_registration_number(self, organization,registration_number):
-        domain = [("company_id","=",self.env.company.id),("organization_id","=",organization),("name","ilike",registration_number.lower())]
+        domain = [("company_id","=",rec.company_id.id),("organization_id","=",organization),("name","ilike",registration_number.lower())]
         records = self.env["servicereferralagreement.registrynumber"].search(domain)
         records = records.sorted(
             key=lambda r: (
@@ -448,7 +447,7 @@ class PaoAzzPlatformAudits(models.Model):
         return records 
 
     def _search_organization(self, organization):
-        records = self.env["servicereferralagreement.organization"].search([("company_id","=",self.env.company.id),("name", "ilike", organization.lower())])
+        records = self.env["servicereferralagreement.organization"].search([("company_id","=",rec.company_id.id),("name", "ilike", organization.lower())])
         records = records.sorted(
             key=lambda r: (
                 (r.name or '').lower().find(organization.lower()) if organization.lower() in (r.name or '').lower() else 9999,
