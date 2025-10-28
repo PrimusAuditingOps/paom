@@ -23,7 +23,7 @@ class VsqBudgetLine(models.Model):
     month = fields.Integer(string='Mes (1-12)', required=True)
     qty = fields.Float(string='Cantidad', default=0.0)
     amount = fields.Monetary(string='Importe', compute='_compute_amount', store=True)
-    company_currency_id = fields.Many2one('res.currency', compute='_compute_currency', store=True)
+    company_currency_id = fields.Many2one('res.currency', string='Moneda',default=2,)
 
     _sql_constraints = [
         ('unique_line_month', 'unique(budget_id, product_id, partner_id, month)',
@@ -35,10 +35,7 @@ class VsqBudgetLine(models.Model):
         for rec in self:
             rec.amount = (rec.price_unit or 0.0) * (rec.qty or 0.0)
 
-    @api.depends('budget_id.company_id')
-    def _compute_currency(self):
-        for rec in self:
-            rec.company_currency_id = rec.budget_id.company_id.currency_id or self.env.company.currency_id
+ 
 
 
 # -------------------------
@@ -78,7 +75,7 @@ class VsqBudgetFlatLine(models.Model):
     m12 = fields.Float("Dic", default=0.0)
 
     total = fields.Monetary(string='Total', compute='_compute_total', store=True)
-    company_currency_id = fields.Many2one('res.currency', compute='_compute_currency', store=True)
+    company_currency_id = fields.Many2one('res.currency', string='Moneda',default=2,)
 
     @api.depends('m01','m02','m03','m04','m05','m06','m07','m08','m09','m10','m11','m12','price_unit')
     def _compute_total(self):
@@ -86,7 +83,3 @@ class VsqBudgetFlatLine(models.Model):
             qty_sum = sum((rec.m01,rec.m02,rec.m03,rec.m04,rec.m05,rec.m06,rec.m07,rec.m08,rec.m09,rec.m10,rec.m11,rec.m12))
             rec.total = qty_sum * (rec.price_unit or 0.0)
 
-    @api.depends('budget_id.company_id')
-    def _compute_currency(self):
-        for rec in self:
-            rec.company_currency_id = rec.budget_id.company_id.currency_id or self.env.company.currency_id
