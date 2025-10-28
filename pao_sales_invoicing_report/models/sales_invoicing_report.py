@@ -128,7 +128,7 @@ class SalesInvoicingReport(models.Model):
                             abs(
                                 COALESCE((
                                     SELECT SUM(
-                                        ol.price_subtotal,0)
+                                        ol.price_subtotal)
                                     
                                     FROM account_move_line ol
                                         JOIN account_move orig_a ON ol.move_id = orig_a.id
