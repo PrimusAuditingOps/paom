@@ -20,7 +20,7 @@ class VsqBudgetLine(models.Model):
     product_id = fields.Many2one('product.product', string='Producto/Servicio')
     product_type = fields.Selection([('gfs','PrimusGFS'),('org','Organico')], string='Esquema')
     price_unit = fields.Monetary(string='Precio unitario', currency_field='company_currency_id')
-    month = fields.Integer(string='Mes (1-12)', required=True)
+    month = fields.Char(string='Mes', required=True)
     qty = fields.Float(string='Cantidad', default=0.0)
     amount = fields.Monetary(string='Importe', compute='_compute_amount', currency_field='company_currency_id', store=True)
     company_currency_id = fields.Many2one('res.currency', string='Moneda',default=2,)
