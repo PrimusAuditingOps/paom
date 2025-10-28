@@ -18,6 +18,7 @@ class SalesInvoicingReport(models.Model):
     account_id = fields.Many2one('account.account', 'Account', readonly=True)
     invoice_date = fields.Date('Invoice Date', readonly=True)
     product_id = fields.Many2one('product.product', 'Product Variant', readonly=True)
+    account_line_name = fields.Char('Line Name', readonly=True)
     product_uom = fields.Many2one('uom.uom', 'Unit of Measure', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Customer', readonly=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
@@ -81,6 +82,7 @@ class SalesInvoicingReport(models.Model):
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.price_subtotal / CASE COALESCE(r.rate, 0) WHEN 0 THEN 1.0 ELSE r.rate END) * CASE WHEN prcr.rate IS NOT NULL THEN prcr.rate ELSE 1 END ELSE 0 END * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as usd_untaxed_total,
             
             l.product_id as product_id,
+            l.name as account_line_name,
             t.uom_id as product_uom,
             
             l.account_id as account_id,
@@ -151,6 +153,7 @@ class SalesInvoicingReport(models.Model):
             sl.service_start_date,
             sl.service_end_date,
             l.product_id,
+            l.name,
             t.uom_id,
             t.categ_id,
             a.name,
