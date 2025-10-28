@@ -113,7 +113,38 @@ class SalesInvoicingReport(models.Model):
             a.invoice_origin,
             sl.service_start_date as order_start_date,
             sl.service_end_date as order_end_date,
-            l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
+            
+            --l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
+            
+            -- quantity: si la invoice es RINV (reversión), verificamos si la reversión es total o parcial
+            CASE
+            WHEN a.name LIKE 'RINV%' THEN
+                (
+                CASE
+                    WHEN abs(
+                    COALESCE(l.price_subtotal / (CASE COALESCE(r.rate,0) WHEN 0 THEN 1.0 ELSE r.rate END), 0)
+                    )
+                    >=
+                    abs(
+                        COALESCE((
+                        SELECT SUM(ol.price_subtotal / (CASE COALESCE(r_orig.rate,0) WHEN 0 THEN 1.0 ELSE r_orig.rate END))
+                        FROM account_move_line ol
+                            JOIN account_move orig_a ON ol.move_id = orig_a.id
+                            LEFT JOIN res_currency_rate r_orig ON (r_orig.currency_id = ol.currency_id) AND r_orig.name = orig_a.invoice_date AND r_orig.company_id = orig_a.company_id
+                        WHERE orig_a.name = a.invoice_origin
+                            AND ol.name = l.name
+                        ), 0)
+                    )
+                    THEN -1
+                    ELSE 0
+                END
+                ) * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END
+            ELSE
+                l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END
+            END as quantity,
+
+            
+            
             c.id as currency_id,
             partner.state_id as state_id,
             partner.city_id as city_id 
