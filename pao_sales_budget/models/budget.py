@@ -22,7 +22,7 @@ class VsqBudgetLine(models.Model):
     price_unit = fields.Monetary(string='Precio unitario', currency_field='company_currency_id')
     month = fields.Integer(string='Mes (1-12)', required=True)
     qty = fields.Float(string='Cantidad', default=0.0)
-    amount = fields.Monetary(string='Importe', compute='_compute_amount', store=True)
+    amount = fields.Monetary(string='Importe', compute='_compute_amount', currency_field='company_currency_id', store=True)
     company_currency_id = fields.Many2one('res.currency', string='Moneda',default=2,)
 
     _sql_constraints = [
@@ -74,7 +74,7 @@ class VsqBudgetFlatLine(models.Model):
     m11 = fields.Float("Nov", default=0.0)
     m12 = fields.Float("Dic", default=0.0)
 
-    total = fields.Monetary(string='Total', compute='_compute_total', store=True)
+    total = fields.Monetary(string='Total', compute='_compute_total', currency_field='company_currency_id', store=True)
     company_currency_id = fields.Many2one('res.currency', string='Moneda',default=2,)
 
     @api.depends('m01','m02','m03','m04','m05','m06','m07','m08','m09','m10','m11','m12','price_unit')
