@@ -122,20 +122,16 @@ class SalesInvoicingReport(models.Model):
                     (
                         CASE
                             WHEN abs(
-                                COALESCE(l.price_subtotal / NULLIF(CASE COALESCE(r.rate,0) WHEN 0 THEN 1.0 ELSE r.rate END,0), 0)
+                                COALESCE(l.price_subtotal, 0)
                             )
                             >=
                             abs(
                                 COALESCE((
                                     SELECT SUM(
-                                        ol.price_subtotal / NULLIF(CASE COALESCE(r_orig.rate,0) WHEN 0 THEN 1.0 ELSE r_orig.rate END,0)
+                                        ol.price_subtotal,0)
                                     )
                                     FROM account_move_line ol
                                         JOIN account_move orig_a ON ol.move_id = orig_a.id
-                                        LEFT JOIN res_currency_rate r_orig
-                                            ON (r_orig.currency_id = ol.currency_id)
-                                            AND r_orig.name = orig_a.invoice_date
-                                            AND r_orig.company_id = orig_a.company_id
                                     WHERE (
                                         orig_a.id = a.reversed_entry_id 
                                     )
