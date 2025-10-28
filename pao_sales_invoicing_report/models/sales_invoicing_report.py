@@ -141,7 +141,7 @@ class SalesInvoicingReport(models.Model):
                                     )
                                     AND ol.name = l.name
                                 ), 0)
-                            )
+                            ) - 0.01
                             THEN -1
                             ELSE 0
                         END
