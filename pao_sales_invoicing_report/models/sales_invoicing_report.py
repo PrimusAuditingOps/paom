@@ -137,16 +137,15 @@ class SalesInvoicingReport(models.Model):
                                             AND r_orig.name = orig_a.invoice_date
                                             AND r_orig.company_id = orig_a.company_id
                                     WHERE (
-                                        orig_a.id = a.reversed_entry_id  -- caso normal de reversión directa
-                                        OR orig_a.name = a.invoice_origin  -- fallback si no hay reversed_entry_id
+                                        orig_a.id = a.reversed_entry_id 
                                     )
                                     AND ol.name = l.name
                                 ), 0)
-                            ) - 0.01  -- tolerancia para redondeo
+                            )
                             THEN -1
                             ELSE 0
                         END
-                    ) * -1  -- aplicar signo negativo siempre en RINV
+                    )
                 ELSE
                     l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END
             END AS quantity,
