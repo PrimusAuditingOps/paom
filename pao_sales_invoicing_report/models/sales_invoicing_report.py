@@ -129,11 +129,11 @@ class SalesInvoicingReport(models.Model):
                                 COALESCE((
                                     SELECT SUM(
                                         ol.price_subtotal,0)
-                                    )
+                                    
                                     FROM account_move_line ol
                                         JOIN account_move orig_a ON ol.move_id = orig_a.id
                                     WHERE (
-                                        orig_a.id = a.reversed_entry_id 
+                                        orig_a.id = a.reversed_entry_id AND orig_a.currency_id = a.currency_id
                                     )
                                     AND ol.name = l.name
                                 ), 0)
