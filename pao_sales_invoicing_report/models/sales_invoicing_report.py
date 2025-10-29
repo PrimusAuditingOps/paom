@@ -86,13 +86,10 @@ class SalesInvoicingReport(models.Model):
                     SELECT ol.product_id
                     FROM account_move_line ol
                     JOIN account_move oa ON ol.move_id = oa.id
-                    --JOIN product_product op ON ol.product_id = op.id
+                    JOIN product_product op ON ol.product_id = op.id
                     WHERE oa.id = a.reversed_entry_id
-                        AND oa.currency_id = a.currency_id
-                        AND
-                            TRIM(l.name) ILIKE TRIM(REGEXP_REPLACE(ol.name, '^\[[^]]*\]\s*', ''))
-                        
-                        
+                        AND orig_a.currency_id = a.currency_id
+                        AND l.name ILIKE CONCAT('%[', orig_p.default_code, ']%')
                     LIMIT 1
                 ), l.product_id)
                 ELSE l.product_id
@@ -142,7 +139,7 @@ class SalesInvoicingReport(models.Model):
                                     JOIN account_move oa ON ol.move_id = oa.id
                                 WHERE oa.id = a.reversed_entry_id
                                     AND oa.currency_id = a.currency_id
-                                    AND ol.name ILIKE CONCAT('%', l.name, '%')
+                                    AND ol.name = l.name
                             ), 0))
                         THEN l.quantity * -1
                         ELSE 0
@@ -193,7 +190,7 @@ class SalesInvoicingReport(models.Model):
             partner.promotor_id,
             sl.service_start_date,
             sl.service_end_date,
-            --l.product_id,
+            l.product_id,
             l.name,
             t.uom_id,
             t.categ_id,
