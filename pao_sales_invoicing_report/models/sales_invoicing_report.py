@@ -82,7 +82,7 @@ class SalesInvoicingReport(models.Model):
             
             --l.product_id as product_id,
             CASE 
-                WHEN a.name LIKE 'RINV%' THEN COALESCE((
+                WHEN a.name ILIKE 'RINV%' THEN COALESCE((
                     SELECT ol.product_id
                     FROM account_move_line ol
                     JOIN account_move oa ON ol.move_id = oa.id
