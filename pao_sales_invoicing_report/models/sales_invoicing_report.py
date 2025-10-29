@@ -93,14 +93,14 @@ class SalesInvoicingReport(models.Model):
                         AND oa.currency_id = a.currency_id
                         AND (
                             l.name ILIKE CONCAT('%[', op.default_code, ']%')
-                            OR REPLACE(LOWER(l.name), '[', '') ILIKE LOWER(ot.name)
-                            OR LOWER(l.name) ILIKE LOWER(ot.name)
+                            OR REPLACE(LOWER(l.name::text), '[', '') ILIKE LOWER(ot.name::text)
+                            OR LOWER(l.name::text) ILIKE LOWER(ot.name::text)
                         )
                         ORDER BY
                         CASE
                             WHEN l.name ILIKE CONCAT('%[', op.default_code, ']%') THEN 1
-                            WHEN LOWER(l.name) = LOWER(ot.name) THEN 2
-                            WHEN LOWER(l.name) ILIKE CONCAT('%', LOWER(ot.name), '%') THEN 3
+                            WHEN LOWER(l.name::text) = LOWER(ot.name::text) THEN 2
+                            WHEN LOWER(l.name::text) ILIKE CONCAT('%', LOWER(ot.name::text), '%') THEN 3
                             ELSE 4
                         END
                         LIMIT 1
