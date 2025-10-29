@@ -87,22 +87,9 @@ class SalesInvoicingReport(models.Model):
                         SELECT ol.product_id
                         FROM account_move_line ol
                         JOIN account_move oa ON ol.move_id = oa.id
-                        JOIN product_product op ON ol.product_id = op.id
-                        JOIN product_template ot ON op.product_tmpl_id = ot.id
                         WHERE oa.id = a.reversed_entry_id
                         AND oa.currency_id = a.currency_id
-                        AND (
-                            l.name ILIKE CONCAT('%[', op.default_code, ']%')
-                            OR REPLACE(LOWER(l.name::text), '[', '') ILIKE LOWER(ot.name::text)
-                            OR LOWER(l.name::text) ILIKE LOWER(ot.name::text)
-                        )
-                        ORDER BY
-                        CASE
-                            WHEN l.name ILIKE CONCAT('%[', op.default_code, ']%') THEN 1
-                            WHEN LOWER(l.name::text) = LOWER(ot.name::text) THEN 2
-                            WHEN LOWER(l.name::text) ILIKE CONCAT('%', LOWER(ot.name::text), '%') THEN 3
-                            ELSE 4
-                        END
+                        AND REPLACE(l.name, '[', '') ILIKE '%' || REPLACE(ol.name, '[', '') || '%'
                         LIMIT 1
                     ),
                     l.product_id
