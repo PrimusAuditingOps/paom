@@ -146,7 +146,7 @@ class SalesInvoicingReport(models.Model):
                     END
                 ELSE
                     l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END
-            END AS quantity
+            END AS quantity,
 
 
             
