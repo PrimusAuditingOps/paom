@@ -89,7 +89,9 @@ class SalesInvoicingReport(models.Model):
                         JOIN account_move oa ON ol.move_id = oa.id
                         WHERE oa.id = a.reversed_entry_id
                         AND oa.currency_id = a.currency_id
-                        AND REPLACE(l.name, '[', '') ILIKE '%' || REPLACE(ol.name, '[', '') || '%'
+                        -- eliminamos cualquier prefijo del tipo [XXXX] al inicio de los nombres
+                        AND REGEXP_REPLACE(l.name, '^\[[^]]*\]\s*', '', 'g') ILIKE 
+                            REGEXP_REPLACE(ol.name, '^\[[^]]*\]\s*', '', 'g')
                         LIMIT 1
                     ),
                     l.product_id
