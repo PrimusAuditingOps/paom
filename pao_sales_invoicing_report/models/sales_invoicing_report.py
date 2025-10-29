@@ -94,7 +94,7 @@ class SalesInvoicingReport(models.Model):
                         
                         
                     LIMIT 1
-                ), 1001)
+                ), l.product_id)
                 ELSE l.product_id
             END AS product_id,
             
@@ -193,7 +193,7 @@ class SalesInvoicingReport(models.Model):
             partner.promotor_id,
             sl.service_start_date,
             sl.service_end_date,
-            l.product_id,
+            --l.product_id,
             l.name,
             t.uom_id,
             t.categ_id,
