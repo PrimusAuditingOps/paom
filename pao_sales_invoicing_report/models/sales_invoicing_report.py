@@ -99,7 +99,7 @@ class SalesInvoicingReport(models.Model):
                     LIMIT 1
                 ), l.product_id)
                 ELSE l.product_id
-            END AS product_id
+            END AS product_id,
             
             t.uom_id as product_uom,
             
