@@ -18,7 +18,6 @@ class SalesInvoicingReport(models.Model):
     account_id = fields.Many2one('account.account', 'Account', readonly=True)
     invoice_date = fields.Date('Invoice Date', readonly=True)
     product_id = fields.Many2one('product.product', 'Product Variant', readonly=True)
-    account_line_name = fields.Char('Line Name', readonly=True)
     product_uom = fields.Many2one('uom.uom', 'Unit of Measure', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Customer', readonly=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
@@ -81,8 +80,21 @@ class SalesInvoicingReport(models.Model):
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.price_total / CASE COALESCE(r.rate, 0) WHEN 0 THEN 1.0 ELSE r.rate END) * CASE WHEN prcr.rate IS NOT NULL THEN prcr.rate ELSE 1 END ELSE 0 END * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as usd_total,
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.price_subtotal / CASE COALESCE(r.rate, 0) WHEN 0 THEN 1.0 ELSE r.rate END) * CASE WHEN prcr.rate IS NOT NULL THEN prcr.rate ELSE 1 END ELSE 0 END * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as usd_untaxed_total,
             
-            l.product_id as product_id,
-            l.name as account_line_name,
+            --l.product_id as product_id,
+            CASE 
+                WHEN a.name LIKE 'RINV%' THEN (
+                    SELECT orig_l.product_id
+                    FROM account_move_line orig_l
+                    JOIN account_move orig_a ON orig_l.move_id = orig_a.id
+                    JOIN product_product orig_p ON orig_l.product_id = orig_p.id
+                    WHERE orig_a.id = a.reversed_entry_id
+                        AND orig_a.currency_id = a.currency_id
+                        AND l.name ILIKE CONCAT('%[', orig_p.default_code, ']%')
+                    LIMIT 1
+                )
+                ELSE l.product_id
+            END AS product_id,
+            
             t.uom_id as product_uom,
             
             l.account_id as account_id,
@@ -119,32 +131,22 @@ class SalesInvoicingReport(models.Model):
             -- quantity: si la invoice es RINV (reversión), verificamos si la reversión es total o parcial
             CASE
                 WHEN a.name LIKE 'RINV%' THEN
-                    (
-                        CASE
-                            WHEN abs(
-                                COALESCE(l.price_subtotal, 0)
-                            )
-                            >=
-                            abs(
-                                COALESCE((
-                                    SELECT SUM(
-                                        ol.price_subtotal)
-                                    
+                    CASE
+                        WHEN abs(COALESCE(l.price_subtotal, 0)) >=
+                            abs(COALESCE((
+                                SELECT SUM(ol.price_subtotal)
                                     FROM account_move_line ol
-                                        JOIN account_move orig_a ON ol.move_id = orig_a.id
-                                    WHERE (
-                                        orig_a.id = a.reversed_entry_id AND orig_a.currency_id = a.currency_id
-                                    )
+                                    JOIN account_move orig_a ON ol.move_id = orig_a.id
+                                WHERE orig_a.id = a.reversed_entry_id
+                                    AND orig_a.currency_id = a.currency_id
                                     AND ol.name = l.name
-                                ), 0)
-                            ) - 0.01
-                            THEN -1
-                            ELSE 0
-                        END
-                    )
+                            ), 0))
+                        THEN -1
+                        ELSE 0
+                    END
                 ELSE
                     l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END
-            END AS quantity,
+            END AS quantity
 
 
             
