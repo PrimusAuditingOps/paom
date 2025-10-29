@@ -83,13 +83,18 @@ class SalesInvoicingReport(models.Model):
             --l.product_id as product_id,
             CASE 
                 WHEN a.name LIKE 'RINV%' THEN COALESCE((
-                    SELECT orig_l.product_id
-                    FROM account_move_line orig_l
-                    JOIN account_move orig_a ON orig_l.move_id = orig_a.id
-                    JOIN product_product orig_p ON orig_l.product_id = orig_p.id
-                    WHERE orig_a.id = a.reversed_entry_id
-                        AND orig_a.currency_id = a.currency_id
-                        AND l.name ILIKE CONCAT('%[', orig_p.default_code, ']%')
+                    SELECT ol.product_id
+                    FROM account_move_line ol
+                    JOIN account_move oa ON ol.move_id = oa.id
+                    JOIN product_product op ON ol.product_id = op.id
+                    WHERE oa.id = a.reversed_entry_id
+                        AND oa.currency_id = a.currency_id
+                        AND (
+                            l.name ILIKE CONCAT('%[', op.default_code, ']%')
+                            OR
+                            ol.name ILIKE CONCAT('%', l.name, '%')
+                        )
+                        
                     LIMIT 1
                 ), l.product_id)
                 ELSE l.product_id
@@ -136,9 +141,9 @@ class SalesInvoicingReport(models.Model):
                             abs(COALESCE((
                                 SELECT SUM(ol.price_subtotal)
                                     FROM account_move_line ol
-                                    JOIN account_move orig_a ON ol.move_id = orig_a.id
-                                WHERE orig_a.id = a.reversed_entry_id
-                                    AND orig_a.currency_id = a.currency_id
+                                    JOIN account_move oa ON ol.move_id = oa.id
+                                WHERE oa.id = a.reversed_entry_id
+                                    AND oa.currency_id = a.currency_id
                                     AND ol.name = l.name
                             ), 0))
                         THEN l.quantity * -1
