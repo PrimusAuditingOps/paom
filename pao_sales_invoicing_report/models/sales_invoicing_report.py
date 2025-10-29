@@ -86,7 +86,7 @@ class SalesInvoicingReport(models.Model):
                     SELECT ol.product_id
                     FROM account_move_line ol
                     JOIN account_move oa ON ol.move_id = oa.id
-                    JOIN product_product op ON ol.product_id = op.id
+                    --JOIN product_product op ON ol.product_id = op.id
                     WHERE oa.id = a.reversed_entry_id
                         AND oa.currency_id = a.currency_id
                         AND
@@ -129,9 +129,27 @@ class SalesInvoicingReport(models.Model):
             sl.service_start_date as order_start_date,
             sl.service_end_date as order_end_date,
             
-            l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
+            --l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
             
             -- quantity: si la invoice es RINV (reversión), verificamos si la reversión es total o parcial
+            CASE
+                WHEN a.name LIKE 'RINV%' THEN
+                    CASE
+                        WHEN abs(COALESCE(l.price_subtotal, 0)) >=
+                            abs(COALESCE((
+                                SELECT SUM(ol.price_subtotal)
+                                    FROM account_move_line ol
+                                    JOIN account_move oa ON ol.move_id = oa.id
+                                WHERE oa.id = a.reversed_entry_id
+                                    AND oa.currency_id = a.currency_id
+                                    AND ol.name ILIKE CONCAT('%', l.name, '%')
+                            ), 0))
+                        THEN l.quantity * -1
+                        ELSE 0
+                    END
+                ELSE
+                    l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END
+            END AS quantity,
 
 
             
