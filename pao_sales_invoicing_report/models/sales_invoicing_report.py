@@ -82,7 +82,7 @@ class SalesInvoicingReport(models.Model):
             
             --l.product_id as product_id,
             CASE 
-                WHEN a.name LIKE 'RINV%' THEN (
+                WHEN a.name LIKE 'RINV%' THEN COALESCE((
                     SELECT orig_l.product_id
                     FROM account_move_line orig_l
                     JOIN account_move orig_a ON orig_l.move_id = orig_a.id
@@ -91,7 +91,7 @@ class SalesInvoicingReport(models.Model):
                         AND orig_a.currency_id = a.currency_id
                         AND l.name ILIKE CONCAT('%[', orig_p.default_code, ']%')
                     LIMIT 1
-                )
+                ), l.product_id)
                 ELSE l.product_id
             END AS product_id,
             
