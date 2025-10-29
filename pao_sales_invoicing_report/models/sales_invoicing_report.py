@@ -86,15 +86,15 @@ class SalesInvoicingReport(models.Model):
                     SELECT ol.product_id
                     FROM account_move_line ol
                     JOIN account_move oa ON ol.move_id = oa.id
-                    JOIN product_product op ON ol.product_id = op.id
+                    --JOIN product_product op ON ol.product_id = op.id
                     WHERE oa.id = a.reversed_entry_id
                         AND oa.currency_id = a.currency_id
                         AND
-                            op.name ILIKE CONCAT('%', l.name, '%')
+                            ol.name ILIKE CONCAT('%', l.name, '%')
                         
                         
                     LIMIT 1
-                ), l.product_id)
+                ), 1001)
                 ELSE l.product_id
             END AS product_id,
             
