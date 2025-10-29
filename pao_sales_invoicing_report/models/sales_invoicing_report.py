@@ -89,7 +89,10 @@ class SalesInvoicingReport(models.Model):
                     JOIN product_product orig_p ON orig_l.product_id = orig_p.id
                     WHERE orig_a.id = a.reversed_entry_id
                         AND orig_a.currency_id = a.currency_id
-                        AND l.name ILIKE CONCAT('%[', orig_p.default_code, ']%')
+                        AND (
+                            l.name ILIKE CONCAT('%[', orig_p.default_code, ']%') OR
+                            l.name ILIKE CONCAT('%', orig_t.name, '%')
+                            )
                     LIMIT 1
                 ), l.product_id)
                 ELSE l.product_id
