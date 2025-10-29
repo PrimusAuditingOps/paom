@@ -92,7 +92,7 @@ class SalesInvoicingReport(models.Model):
                         AND (
                             l.name ILIKE CONCAT('%[', op.default_code, ']%')
                             OR
-                            ol.name ILIKE CONCAT('%', l.name, '%')
+                            TRIM(ol.name) ILIKE CONCAT('%', TRIM(l.name), '%')
                         )
                         
                     LIMIT 1
