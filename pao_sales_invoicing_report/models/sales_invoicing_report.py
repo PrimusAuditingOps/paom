@@ -141,7 +141,7 @@ class SalesInvoicingReport(models.Model):
                                     AND orig_a.currency_id = a.currency_id
                                     AND ol.name = l.name
                             ), 0))
-                        THEN -1
+                        THEN l.quantity * -1
                         ELSE 0
                     END
                 ELSE
