@@ -144,7 +144,7 @@ class SalesInvoicingReport(models.Model):
                                     JOIN account_move oa ON ol.move_id = oa.id
                                 WHERE oa.id = a.reversed_entry_id
                                     AND oa.currency_id = a.currency_id
-                                    AND ol.name = l.name
+                                    AND ol.name ILIKE CONCAT('%', l.name, '%')
                             ), 0))
                         THEN l.quantity * -1
                         ELSE 0
