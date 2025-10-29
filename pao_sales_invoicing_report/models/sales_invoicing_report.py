@@ -87,14 +87,11 @@ class SalesInvoicingReport(models.Model):
                     FROM account_move_line orig_l
                     JOIN account_move orig_a ON orig_l.move_id = orig_a.id
                     JOIN product_product orig_p ON orig_l.product_id = orig_p.id
-                    JOIN product_template orig_t ON orig_p.product_tmpl_id = orig_t.id
                     WHERE orig_a.id = a.reversed_entry_id
                         AND orig_a.currency_id = a.currency_id
                         AND (
-                            -- Coincidencia por referencia interna
-                            l.name::text ILIKE CONCAT('%[', orig_p.default_code, ']%')
-                            -- O coincidencia por nombre dentro del name original
-                            OR l.name::text ILIKE CONCAT('%', orig_t.name::text, '%')
+                            l.name ILIKE CONCAT('%[', orig_p.default_code, ']%') 
+                            OR l.name::text ILIKE REGEXP_REPLACE(orig_l.name::text, '^\[[^\]]*\]\s*', '')
                         )
                     LIMIT 1
                 ), l.product_id)
