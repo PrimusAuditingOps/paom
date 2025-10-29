@@ -89,11 +89,9 @@ class SalesInvoicingReport(models.Model):
                     JOIN product_product op ON ol.product_id = op.id
                     WHERE oa.id = a.reversed_entry_id
                         AND oa.currency_id = a.currency_id
-                        AND (
-                            l.name ILIKE CONCAT('%[', op.default_code, ']%')
-                            OR
-                            TRIM(ol.name) ILIKE CONCAT('%', TRIM(l.name), '%')
-                        )
+                        AND
+                            ol.name ILIKE CONCAT('%', l.name, '%')
+                        
                         
                     LIMIT 1
                 ), l.product_id)
@@ -144,7 +142,7 @@ class SalesInvoicingReport(models.Model):
                                     JOIN account_move oa ON ol.move_id = oa.id
                                 WHERE oa.id = a.reversed_entry_id
                                     AND oa.currency_id = a.currency_id
-                                    AND ol.name ILIKE CONCAT('%', l.name, '%')
+                                    AND ol.name = l.name
                             ), 0))
                         THEN l.quantity * -1
                         ELSE 0
