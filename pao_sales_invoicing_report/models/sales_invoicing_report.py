@@ -91,7 +91,7 @@ class SalesInvoicingReport(models.Model):
                         AND orig_a.currency_id = a.currency_id
                         AND (
                             l.name ILIKE CONCAT('%[', orig_p.default_code, ']%') OR
-                            l.name ILIKE CONCAT('%', orig_l.name, '%')
+                            orig_l.name ILIKE CONCAT('%', l.name, '%')
                             )
                     LIMIT 1
                 ), l.product_id)
