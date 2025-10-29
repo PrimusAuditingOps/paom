@@ -90,7 +90,7 @@ class SalesInvoicingReport(models.Model):
                     WHERE oa.id = a.reversed_entry_id
                         AND oa.currency_id = a.currency_id
                         AND
-                            ol.name LIKE CONCAT('%', l.name, '%')
+                            TRIM(l.name) ILIKE TRIM(REGEXP_REPLACE(ol.name, '^\[[^]]*\]\s*', ''))
                         
                         
                     LIMIT 1
