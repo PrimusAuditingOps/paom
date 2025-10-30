@@ -346,13 +346,13 @@ class PaoAzzPlatformAudits(models.Model):
                     child_orders = self.env["sale.order"].search([("pao_parent_id","=",rec.sale_order_line_id.order_id.id)])
                     for child in child_orders:
                         for line_child in child.order_line:
-                            if line_child.product_id.id == rec.sale_order_line_id.id and line_child.organization_id.id == rec.organization_id.id and line_child.registrynumber_id.id == rec.registrynumber_id.id:
+                            if line_child.product_id.id == rec.sale_order_line_id.id and line_child.organization_id.id == rec.sale_order_line_id.organization_id.id and line_child.registrynumber_id.id == rec.sale_order_line_id.registrynumber_id.id:
                                 if len(line_child.pao_platform_audit_ids.ids) != line_child.product_uom_qty and line_child.product_uom_qty > 0:
                                     line_child.write({"pao_platform_audit_ids": [(4,rec.id)]})
 
                         if rec.module_9.lower() == "yes":
                             for line_module_9 in child.order_line.filtered(lambda l: l.product_id.pao_is_module_9 == True):
-                                if line_module_9.organization_id.id == rec.organization_id.id and line_module_9.registrynumber_id.id == rec.registrynumber_id.id:
+                                if line_module_9.organization_id.id == rec.sale_order_line_id.organization_id.id and line_module_9.registrynumber_id.id == rec.sale_order_line_id.registrynumber_id.id:
                                     if len(line_module_9.pao_platform_audit_ids.ids) != line_module_9.product_uom_qty and line_child.line_module_9 > 0:
                                         line_module_9.write({"pao_platform_audit_ids": [(4,rec.id)]})
                 if rec.module_9.lower() == "yes":
