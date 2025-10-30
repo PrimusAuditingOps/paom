@@ -346,7 +346,7 @@ class PaoAzzPlatformAudits(models.Model):
                     child_orders = self.env["sale.order"].search([("pao_parent_id","=",rec.sale_order_line_id.order_id.id)])
                     for child in child_orders:
                         for line_child in child.order_line:
-                            if line_child.product_id.id == rec.sale_order_line_id.id and line_child.organization_id.id == rec.sale_order_line_id.organization_id.id and line_child.registrynumber_id.id == rec.sale_order_line_id.registrynumber_id.id:
+                            if line_child.product_id.id in rec.audit_template_id.product_ids.ids and line_child.organization_id.id == rec.sale_order_line_id.organization_id.id and line_child.registrynumber_id.id == rec.sale_order_line_id.registrynumber_id.id:
                                 if len(line_child.pao_platform_audit_ids.ids) != line_child.product_uom_qty and line_child.product_uom_qty > 0:
                                     line_child.write({"pao_platform_audit_ids": [(4,rec.id)]})
 
