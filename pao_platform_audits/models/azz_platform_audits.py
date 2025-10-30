@@ -353,7 +353,7 @@ class PaoAzzPlatformAudits(models.Model):
                         if rec.module_9.lower() == "yes":
                             for line_module_9 in child.order_line.filtered(lambda l: l.product_id.pao_is_module_9 == True):
                                 if line_module_9.organization_id.id == rec.sale_order_line_id.organization_id.id and line_module_9.registrynumber_id.id == rec.sale_order_line_id.registrynumber_id.id:
-                                    if len(line_module_9.pao_platform_audit_ids.ids) != line_module_9.product_uom_qty and line_child.line_module_9 > 0:
+                                    if len(line_module_9.pao_platform_audit_ids.ids) != line_module_9.product_uom_qty and line_module_9.product_uom_qty > 0:
                                         line_module_9.write({"pao_platform_audit_ids": [(4,rec.id)]})
                 if rec.module_9.lower() == "yes":
                     for line in rec.sale_order_line_id.order_id.order_line.filtered(lambda l: l.product_id.pao_is_module_9 == True):
