@@ -7,10 +7,12 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <div name="options" position="inside">
-                <span class="d-inline-block">
-                    <field name="pao_is_module_9"/>
-                    <label for="pao_is_module_9"/>
-                </span>
+                <div>
+                    <span class="d-inline-block">
+                        <field name="pao_is_module_9"/>
+                        <label for="pao_is_module_9"/>
+                    </span>
+                </div>
             </div>
         </field>
     </record>
