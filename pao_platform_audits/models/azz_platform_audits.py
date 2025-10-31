@@ -258,7 +258,6 @@ class PaoAzzPlatformAudits(models.Model):
             if len(ids) > 0:
                 rec.entity_ids = [(6, 0, ids)]
 
-
     @api.depends('sale_order_line_id')
     def _compute_purchase_order_line(self):
         for rec in self:
@@ -298,7 +297,6 @@ class PaoAzzPlatformAudits(models.Model):
                         if len(line.pao_platform_audit_ids.ids) != line.product_qty and line.product_qty > 0:
                             line.write({"pao_platform_audit_ids": [(4,rec.id)]})
                             break
-
 
     @api.depends('audit_template_id')
     def _compute_sale_order_line(self):
@@ -361,7 +359,6 @@ class PaoAzzPlatformAudits(models.Model):
                             line.write({"pao_platform_audit_ids": [(4,rec.id)]})
                             break
             
-
     def _search_sale_order_line(self, organization):
         records = self.env["servicereferralagreement.organization"].search([("company_id","=",self.company_id.id),("name", "ilike", organization.lower())])
         records = records.sorted(
@@ -372,9 +369,6 @@ class PaoAzzPlatformAudits(models.Model):
         )
         return records                
     
-
-
-
     @api.depends('audit_template_id')
     def _compute_audit_template_version(self):
         for rec in self:
@@ -423,8 +417,6 @@ class PaoAzzPlatformAudits(models.Model):
                             rec.registration_number_id = rn.id
                             break
 
-
-
     @api.depends('organization')
     def _compute_organization(self):
         for rec in self:
@@ -470,11 +462,9 @@ class PaoAzzPlatformAudits(models.Model):
         )
         return records                
 
-    
     def validate_audit(self):
         for rec in self:
             rec.write({"search_state": "found"})
-
 
     def search_audit(self):
         for rec in self:
@@ -491,6 +481,9 @@ class PaoAzzPlatformAudits(models.Model):
 
     def unlink_audit(self):
         for rec in self:
+            #[("pao_platform_audit_ids", "in", [19572])]
+            #
+
             if rec.purchase_order_line_id:
                 rec.purchase_order_line_id.write({'pao_platform_audit_ids': [(3, rec.id)]})
             if rec.sale_order_line_id:
