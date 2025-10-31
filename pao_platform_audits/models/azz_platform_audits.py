@@ -176,7 +176,6 @@ class PaoAzzPlatformAudits(models.Model):
         store=True,
         ondelete='restrict',
     ) 
-
     sale_order_line_id = fields.Many2one(
         'sale.order.line',
         string='Sale Order Line',
