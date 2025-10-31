@@ -106,7 +106,7 @@ class PaoAzzPlatformAudits(models.Model):
         string= "Platform Coordinator",
     )
     plc = fields.Char(
-        string= "Registration Number",
+        string= "Platform Registration Number",
     )
     cycle = fields.Char(
         string= "Cycle",

@@ -13,11 +13,19 @@
                 <field name="sale_order_line_name"/>
                 <field name="organization_id"/>
                 <field name="registration_number_id"/> 
+                <field name="module_9"/> 
+                <field name="plc"/>
+
                 
 
                 <filter name="filter_not_found" string="Not Found" domain="[('search_state', '=', 'not_found')]"/>
                 <filter name="filter_needs_validation" string="Needs Validation" domain="[('search_state', '=', 'needs_validation')]"/>
                 <filter name="filter_found" string="Found" domain="[('search_state', '=', 'found')]"/>
+
+
+                <filter name="group_search_status" string="Search Status" context="{'group_by':'search_state'}"/>
+                <filter name="group_platform_organization" string="Platform Organization" context="{'group_by':'organization'}"/>
+                <filter name="group_plc" string="Platform Registration Number" context="{'group_by':'plc'}"/>
 
             </search>
         </field>
