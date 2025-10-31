@@ -39,7 +39,6 @@ class PaoAzzPlatformAudits(models.Model):
         default='not_found'
     )
 
-
     audit_date = fields.Date(
         required=True,
         string= "Audit Date",
