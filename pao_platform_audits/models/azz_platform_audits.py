@@ -344,12 +344,14 @@ class PaoAzzPlatformAudits(models.Model):
                             if line_child.product_id.id in rec.audit_template_id.product_ids.ids and line_child.organization_id.id == rec.sale_order_line_id.organization_id.id and line_child.registrynumber_id.id == rec.sale_order_line_id.registrynumber_id.id:
                                 if len(line_child.pao_platform_audit_ids.ids) != line_child.product_uom_qty and line_child.product_uom_qty > 0:
                                     line_child.write({"pao_platform_audit_ids": [(4,rec.id)]})
+                                    break
 
                         if rec.module_9 and rec.module_9.lower() == "yes":
                             for line_module_9 in child.order_line.filtered(lambda l: l.product_id.pao_is_module_9 == True):
                                 if line_module_9.organization_id.id == rec.sale_order_line_id.organization_id.id and line_module_9.registrynumber_id.id == rec.sale_order_line_id.registrynumber_id.id:
                                     if len(line_module_9.pao_platform_audit_ids.ids) != line_module_9.product_uom_qty and line_module_9.product_uom_qty > 0:
                                         line_module_9.write({"pao_platform_audit_ids": [(4,rec.id)]})
+                                        break
                 if rec.module_9 and rec.module_9.lower() == "yes":
                     for line in rec.sale_order_line_id.order_id.order_line.filtered(lambda l: l.product_id.pao_is_module_9 == True):
                         if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
