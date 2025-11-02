@@ -10,7 +10,7 @@
                     <field name="employee_id" invisible="1"/>
                     <field name="process_run" invisible="1"/>
                     <field name="statement_filename" invisible="1"/>
-                    <field name="statement_file" filename="statement_filename" options="{'accepted_file_extensions': '.xlsx, .csv'}"/>
+                    <field name="statement_file" filename="statement_filename" options="{'accepted_file_extensions': '.xlsx, .csv, .pdf'}"/>
                 </group>
                 <footer>
                     <button name="action_import_statement" type="object" string="Upload" invisible="process_run" class="btn-primary"/>

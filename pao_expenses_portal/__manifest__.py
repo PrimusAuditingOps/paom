@@ -4,7 +4,7 @@
     "author": "Manuel Uzueta Gil",
     "category": "",
     "website": "",
-    "depends": ["hr_expense"],
+    "depends": ["hr_expense", "purchase_requisition"],
     'data': [
         'data/hr_expense_pivot_search_inherit.xml',
         
@@ -18,6 +18,7 @@
         'views/portal_expenses_view.xml',
         'views/portal_purchase_order_inherit.xml',
         'views/product_category_expense_inherit.xml',
+        'views/purchase_order_form_inherit.xml',
         'views/upload_expense_statement.xml',
         
         'security/ir.model.access.csv',

@@ -11,6 +11,7 @@ class ExpenseSheetInherit(models.Model):
     partner_id = fields.Many2one('res.partner', string='Contact')
     expense_scheme_id = fields.Many2one('expense.scheme', string='Scheme', default=None)
     country_code = fields.Char(related='company_id.country_code', string='Country Code')
+    from_external_auditor = fields.Boolean(default=False)
     
     employee_id = fields.Many2one(
         'hr.employee',
@@ -61,11 +62,11 @@ class ExpenseSheetInherit(models.Model):
         
         return bills_vals
     
-    @api.constrains('partner_id')
-    def _check_scheme(self):
-        for record in self:
-            if record.partner_id.ado_is_auditor and not record.expense_scheme_id:
-                raise ValidationError(_("You must define a Scheme."))
+    # @api.constrains('partner_id')
+    # def _check_scheme(self):
+    #     for record in self:
+    #         if record.partner_id.ado_is_auditor and not record.expense_scheme_id:
+    #             raise ValidationError(_("You must define a Scheme."))
     
 class ExpenseInherit(models.Model):
     _inherit = "hr.expense"
@@ -73,6 +74,8 @@ class ExpenseInherit(models.Model):
     partner_id = fields.Many2one('res.partner', string='Contact', required=True, domain=[('ado_is_auditor', '=', False)])
     
     country_code = fields.Char(related='company_id.country_code', string='Country Code')
+    
+    from_external_auditor = fields.Boolean(default=False)
 
     employee_id = fields.Many2one(
         'hr.employee',
@@ -86,6 +89,32 @@ class ExpenseInherit(models.Model):
     )
     
     uploaded_by_statement = fields.Boolean(default=False)
+    
+    is_complete = fields.Boolean(compute="_compute_is_complete", store=True)
+    
+    @api.depends('name', 'product_id', 'date', 'nb_attachment')
+    def _compute_is_complete(self):
+        
+        for record in self:
+            
+            if record.state != 'draft':
+                record.is_complete = True
+            else:
+                required_fields_filled = all([
+                    record.name,
+                    record.product_id,
+                    record.date,
+                ])
+
+                needs_attachment = (
+                    record.partner_id.ado_is_auditor and
+                    not record.partner_id.is_an_in_house_auditor and
+                    record.product_id.display_name == "Auditor Travel: Meal"
+                )
+
+                record.is_complete = required_fields_filled and (
+                    record.nb_attachment > 0 if needs_attachment else True
+                )
     
     @api.model
     def _prepare_move_lines_vals(self):

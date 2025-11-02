@@ -11,6 +11,7 @@
             </xpath>
             <xpath expr="//field[@name='employee_id']" position="after">
                 <field name="partner_id" widget="many2one_avatar_user"/>
+                <field name="purchase_order"/>
             </xpath>
         </field>
     </record>
@@ -22,11 +23,41 @@
         <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="from_external_auditor" invisible="1"/>
                 <field name="country_code" invisible="1"/>
                 <field name="partner_id" widget="many2one_avatar_user" readonly="state != 'draft'" invisible="not partner_id"/>
-                <field name="purchase_order" readonly="state != 'draft'" invisible="not purchase_order or employee_id or not partner_id.ado_is_auditor"/>
+                <field name="purchase_order" readonly="state != 'draft'" invisible="not purchase_order"/>
+            </xpath>
+            <xpath expr="//button[@name='action_submit_sheet']" position="attributes">
+                <attribute name="invisible">from_external_auditor</attribute>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="invisible">from_external_auditor</attribute>
             </xpath>
         </field>
     </record>
+
+
+
+
+    <record id="hr_expense.action_hr_expense_sheet_my_all" model="ir.actions.act_window">
+        <field name="domain">[('state', '!=', 'cancel'), ('from_external_auditor', '=', False)]</field>
+    </record>
+
+    <record id="hr_expense.action_hr_expense_sheet_all" model="ir.actions.act_window">
+        <field name="domain">[('from_external_auditor', '=', False)]</field>
+    </record>
+
+    <record id="action_expense_sheet_external_auditor" model="ir.actions.act_window">
+        <field name="name">External Auditor Expense Reports</field>
+        <field name="res_model">hr.expense.sheet</field>
+        <field name="view_mode">tree,form,kanban,pivot,graph</field>
+        <field name="domain">[('from_external_auditor', '=', True)]</field>
+    </record>
+
+    <menuitem id="menu_expense_sheet_external_auditor"
+            name="External Auditor Expense Reports"
+            parent="hr_expense.menu_hr_expense_reports"
+            action="action_expense_sheet_external_auditor"/>
 
 </odoo>

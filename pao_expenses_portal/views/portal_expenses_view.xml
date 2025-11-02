@@ -6,7 +6,7 @@
             <t t-set="portal_service_category_enable" t-value="True"/>
         </xpath>
         <div id="portal_service_category" position="inside">
-            <t t-if="request.env.user.partner_id.is_an_in_house_auditor" t-call="portal.portal_docs_entry">
+            <t t-if="request.env.user.partner_id.ado_is_auditor" t-call="portal.portal_docs_entry">
                 <t t-set="icon" t-value="'/purchase/static/src/img/rfq.svg'"/>
                 <t t-set="text">Add your travel expenses</t>
                 <t t-set="title">Expenses</t>
@@ -54,7 +54,8 @@
 
             <a class="btn btn-primary mb-3" href="/my/wallet">My Wallet</a>
 
-            <table t-if="expense_reports" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover">
+            <t t-if="expense_reports" t-call="portal.portal_table">
+            <!-- <table t-if="expense_reports" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover"> -->
                 <thead>
                     <tr class="active">
                         <th>
@@ -113,10 +114,10 @@
                         </div>
                     </div>
                 </t>
-
-            </table>
+            </t>
+            <!-- </table> -->
             <div t-if="not expense_reports" class="alert alert-warning mt-4" role="alert">
-                There are currently no expense reports for your account.
+                No expense reports found with the selected filters.
             </div>
 
             <br/>
@@ -145,7 +146,7 @@
                         <span>Expense Report</span>
                     </h3>
 
-                    <ul t-if="not new_report" class="mt-1 d-flex justify-content-end list-unstyled fw-bold">
+                    <ul t-if="not new_report and not is_external_auditor" class="mt-1 d-flex justify-content-end list-unstyled fw-bold">
                         <t t-set="option_counter" t-value="0"/>
                         <t t-foreach="stages_options" t-as="option">
                             <t t-set="option_counter" t-value="option_counter + 1"/>
@@ -162,11 +163,12 @@
 
                 <button t-if="submittable or new_report" class="btn btn-primary" type="submit">Save</button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" t-if="submittable" data-bs-target="#add_expenses">Add expenses</button>
-                <button t-if="submittable" type="submit" class="btn btn-primary" formaction="/my/expense_reports/submit">Submit</button>
+                <button t-if="submittable and not is_external_auditor" type="submit" class="btn btn-primary" formaction="/my/expense_reports/submit">Submit</button>
                 <t t-if="report">
                     <button t-if="report.state in ('submit', 'cancel', 'approve')" type="submit" class="btn btn-primary" formaction="/my/expense_reports/reset">Reset to Draft</button>
                 </t>
 
+                <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <input type="hidden" name="report_id" t-if="not new_report" t-att-value="report.id if report else ''"/>
 
@@ -334,6 +336,7 @@
             <div t-if="submittable" class="modal fade" id="add_expenses" tabindex="-1" aria-labelledby="add_expenses_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <form method="POST" action="/my/expense/new" id="new_expense_form" enctype="multipart/form-data">
+                        <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>
                         <input type="hidden" name="report_id" t-att-value="report.id"/>
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-content">
@@ -364,7 +367,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 row">
+                                <div t-if="not is_external_auditor" class="mb-3 row">
                                     <label for="payment_mode" class="fw-bold col-sm-3 col-form-label">Paid By</label>
                                     <div class="col-sm-9">
                                         <select name="payment_mode" class="form-select" required="1">
@@ -374,6 +377,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <input t-if="is_external_auditor" class="d-none" name="payment_mode" value="own_account"/>
 
                                 <div class="mb-3 row">
                                     <label for="expense_date" class="fw-bold col-sm-3 col-form-label">Expense Date</label>
@@ -385,7 +389,7 @@
                                 <div class="mb-3 row">
                                     <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                     <div class="col-sm-9">
-                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1"/>
+                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and not request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
                                     </div>
                                 </div>
 
@@ -425,6 +429,48 @@
                 </div>
             </div>
 
+            <script>
+                document.querySelectorAll('.modal').forEach(modal =&gt; {
+                    modal.addEventListener('shown.bs.modal', () =&gt; {
+                        const form = modal.querySelector('form');
+                        if (!form) return;
+
+                        const submitButton = modal.querySelector('button[type="submit"]');
+
+                        if (!form._listenerAdded) {
+                            form.addEventListener('submit', () =&gt; {
+                                if (submitButton) {
+                                    submitButton.disabled = true;
+                                }
+                            });
+                            form._listenerAdded = true; // Avoid adding multiple listeners if modal is opened multiple times
+                        }
+
+                        const categorySelect = modal.querySelector('select[name="expense_category"]');
+                        const receiptInput = modal.querySelector('input[name="receipt"]');
+                        
+                        if (categorySelect &amp;&amp; receiptInput){
+                            const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
+
+                            function updateReceiptRequired() {
+                                const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+                                const selectedText = selectedOption ? selectedOption.text.trim() : '';
+
+                                if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
+                                    receiptInput.required = false;
+                                } else {
+                                    receiptInput.required = true;
+                                }
+                            }
+                            
+                            updateReceiptRequired();
+
+                            categorySelect.addEventListener('change', updateReceiptRequired);
+                        }
+                    });
+                });
+            </script>
+
         </t>
     </template>
 
@@ -449,19 +495,20 @@
 
             <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target="#add_expense_to_report">Add to expense report</button>
 
-            <table t-if="expenses" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover">
+            <t t-if="expenses" t-call="portal.portal_table">
+            <!-- <table t-if="expenses" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover"> -->
                 <thead>
                     <tr class="active">
-                        <th></th>
+                        <th/>
                         <th>
-                            <span class='d-none d-md-inline'>Expense Date</span>
+                            <span class="d-none d-md-inline">Expense Date</span>
                         </th>
                         <th>Description</th>
                         <th>Report</th>
-                        <th class="text-end">Total (<span t-esc="currency"></span>)
+                        <th class="text-end">Total (<span t-esc="currency"/>)
                         </th>
                         <th class="text-center">Status</th>
-                        <th></th>
+                        <th/>
                     </tr>
                 </thead>
                 <t t-foreach="expenses" t-as="expense">
@@ -487,17 +534,17 @@
                             <span t-field="expense.state"/>
                         </td>
                         <td>
-                            <button class="btn btn-primary" t-if="expense.nb_attachment &lt; 1" type="button" data-bs-toggle="modal" t-att-data-bs-target="'#add_receipt_' + str(expense.id)">
+                            <button class="btn btn-primary" t-if="not expense.is_complete" type="button" data-bs-toggle="modal" t-att-data-bs-target="'#add_receipt_' + str(expense.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
                                     <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"/>
                                     <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
                                 </svg>
                             </button>
 
-                            <button class="btn btn-primary" t-if="expense.state in ('draft', 'submit')" type="button" data-bs-toggle="modal" t-att-data-bs-target="'#delete_expense_' + str(expense.id)">
+                            <button class="btn btn-primary" t-if="expense.state in ('draft', 'submit') and not expense.uploaded_by_statement" type="button" data-bs-toggle="modal" t-att-data-bs-target="'#delete_expense_' + str(expense.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
-                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                 </svg>
                             </button>
                         </td>
@@ -512,7 +559,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Delete expense</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                                     </div>
                                     <div class="modal-body">
 
@@ -532,48 +579,51 @@
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Add receipt</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <h4 class="modal-title">Complete expense</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                                     </div>
                                     <div class="modal-body">
-
-                                        <div class="mb-3 row">
+                                        <div class="mb-3 row"><div class="mb-3 row">
+                                            <label for="expense_category" class="fw-bold col-sm-3 col-form-label">Category</label>
+                                            <div class="col-sm-9">
+                                                <select name="expense_category" class="form-select" required="1">
+                                                    <option class="d-none" selected="1"/>
+                                                    <t t-foreach="categories" t-as="category">
+                                                        <option t-att-value="category.id">
+                                                            <t t-esc="category.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
                                             <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                             <div class="col-sm-9">
-                                                <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1"/>
+                                                <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and not request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
                                             </div>
                                         </div>
 
-                                        <button class="btn btn-primary mt-3" id="add_receipt_to_expense_button_form" type="submit">Save</button>
+                                        <button class="btn btn-primary mt-3 add-receipt-to-expense-button-form" type="submit">Save</button>
                                     </div>
                                 </div>
                             </form>
 
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const form1 = document.getElementById('add_receipt_to_expense_form');
-                                    const submitButton1 = document.getElementById('add_receipt_to_expense_button_form');
-
-                                    form1.addEventListener('submit', function() {
-                                        // Disable the submit button to prevent multiple submissions
-                                        submitButton1.disabled = true;
-                                    });
-                                });
-                            </script>
+                            
                         </div>
                     </div>
                 </t>
 
-            </table>
+            <!-- </table> -->
+            </t>
 
             <div class="modal fade" id="create_expense" tabindex="-1" aria-labelledby="create_expense_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <form method="POST" action="/my/wallet_expense/new" id="new_wallet_expense_form" enctype="multipart/form-data">
+                        <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>    
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Create expense</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                             </div>
                             <div class="modal-body">
 
@@ -588,7 +638,7 @@
                                     <label for="expense_category" class="fw-bold col-sm-3 col-form-label">Category</label>
                                     <div class="col-sm-9">
                                         <select name="expense_category" class="form-select" required="1">
-                                            <option class="d-none" selected="1"></option>
+                                            <option class="d-none" selected="1"/>
                                             <t t-foreach="categories" t-as="category">
                                                 <option t-att-value="category.id">
                                                     <t t-esc="category.name"/>
@@ -598,16 +648,17 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 row">
+                                <div t-if="not is_external_auditor" class="mb-3 row">
                                     <label for="payment_mode" class="fw-bold col-sm-3 col-form-label">Paid By</label>
                                     <div class="col-sm-9">
                                         <select name="payment_mode" class="form-select" required="1">
-                                            <option class="d-none" selected="1"></option>
+                                            <option class="d-none" selected="1"/>
                                             <option value="own_account">Employee (to reimburse)</option>
                                             <option value="company_account">Company</option>
                                         </select>
                                     </div>
                                 </div>
+                                <input t-if="is_external_auditor" class="d-none" name="payment_mode" value="own_account"/>
 
                                 <div class="mb-3 row">
                                     <label for="expense_date" class="fw-bold col-sm-3 col-form-label">Expense Date</label>
@@ -619,7 +670,7 @@
                                 <div class="mb-3 row">
                                     <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                     <div class="col-sm-9">
-                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1"/>
+                                        <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and not request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
                                     </div>
                                 </div>
 
@@ -630,7 +681,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <select name="currency_id" class="form-select" required="1">
-                                            <option class="d-none" selected="1"></option>
+                                            <option class="d-none" selected="1"/>
                                             <t t-foreach="currencies" t-as="currency">
                                                 <option t-att-value="currency.id">
                                                     <t t-esc="currency.name"/>
@@ -645,17 +696,6 @@
                         </div>
                     </form>
 
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const form2 = document.getElementById('new_wallet_expense_form');
-                            const submitButton2 = document.getElementById('new_wallet_expense_button_form');
-
-                            form2.addEventListener('submit', function() {
-                                // Disable the submit button to prevent multiple submissions
-                                submitButton2.disabled = true;
-                            });
-                        });
-                    </script>
                 </div>
             </div>
 
@@ -666,11 +706,11 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Add expenses to report</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                             </div>
                             <div class="modal-body">
                                 <select name="report_id" class="form-select" required="1">
-                                    <option class="d-none"></option>
+                                    <option class="d-none"/>
                                     <t t-foreach="reports" t-as="report">
                                         <option t-att-value="report.id">
                                             <t t-esc="report.name"/>
@@ -712,8 +752,50 @@
 
 
             <div t-if="not expenses" class="alert alert-warning mt-4" role="alert">
-                There are currently no expenses for your account.
+                No expenses found with the selected filters.
             </div>
+            
+            <script>
+                document.querySelectorAll('.modal').forEach(modal =&gt; {
+                    modal.addEventListener('shown.bs.modal', () =&gt; {
+                        const form = modal.querySelector('form');
+                        if (!form) return;
+
+                        const submitButton = modal.querySelector('button[type="submit"]');
+
+                        if (!form._listenerAdded) {
+                            form.addEventListener('submit', () =&gt; {
+                                if (submitButton) {
+                                    submitButton.disabled = true;
+                                }
+                            });
+                            form._listenerAdded = true; // Avoid adding multiple listeners if modal is opened multiple times
+                        }
+
+                        const categorySelect = modal.querySelector('select[name="expense_category"]');
+                        const receiptInput = modal.querySelector('input[name="receipt"]');
+                        
+                        if (categorySelect &amp;&amp; receiptInput){
+                            const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
+
+                            function updateReceiptRequired() {
+                                const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+                                const selectedText = selectedOption ? selectedOption.text.trim() : '';
+
+                                if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
+                                    receiptInput.required = false;
+                                } else {
+                                    receiptInput.required = true;
+                                }
+                            }
+                            
+                            updateReceiptRequired();
+
+                            categorySelect.addEventListener('change', updateReceiptRequired);
+                        }
+                    });
+                });
+            </script>
 
             <br/>
             <br/>

@@ -1,42 +1,100 @@
 from odoo import http, _
 from odoo.http import request
-from odoo.addons.purchase.controllers.portal import CustomerPortal
-from odoo.addons.portal.controllers.portal import pager as portal_pager
-from collections import OrderedDict
 import logging
 import base64
 import xlrd
 from datetime import date
+from odoo.addons.portal.controllers.portal import pager
+from collections import OrderedDict
+
+
+from odoo.http import request, content_disposition
+import os
 
 _logger = logging.getLogger(__name__)
 class ExpensesPortal(http.Controller):
     
     def is_user_auditor(self):
         user = request.env.user
-        return user.partner_id.is_an_in_house_auditor
+        # return user.partner_id.is_an_in_house_auditor
+        return user.partner_id.ado_is_auditor
     
-    @http.route('/my/expense_reports', type='http', methods=['GET'], auth='user', website=True, sitemap=False)
-    def my_expense_report(self, **kwargs):
+    def is_external_auditor(self):
+        partner = request.env.user.partner_id
+        return partner.ado_is_auditor and not partner.is_an_in_house_auditor
+    
+    def _get_expense_sheet_searchbar_sortings(self):
+        return {
+            'date': {'label': _('Date'), 'order': 'create_date desc'},
+            'state': {'label': _('State'), 'order': 'state'},
+        }
+        
+    def _get_expense_sheet_searchbar_filters(self):
+        return {
+            'all': {'label': _('All'), 'domain': []},
+            'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'draft')]},
+            'submitted': {'label': _('Submitted'), 'domain': [('state', '=', 'submitted')]},
+            'approved': {'label': _('Approved'), 'domain': [('state', '=', 'approve')]},
+            'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
+        }
+    
+    @http.route(['/my/expense_reports', '/my/expense_reports/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
+    def my_expense_report(self, page=1, sortby=None, filterby=None, url='/my/expense_reports', purchase_order=None, **kwargs):
         
         if not self.is_user_auditor():
             return request.redirect('/my/home')
         
         request.session.pop('error_expense', None)
         
-        user = request.env.user
+        searchbar_sortings = self._get_expense_sheet_searchbar_sortings()
+        if not sortby:
+            sortby = 'date'
+        order = searchbar_sortings[sortby]['order']
         
-        if request.env.company.country_code == 'MX':
-            expense_reports = request.env['hr.expense.sheet'].sudo().search([
+        searchbar_filters = self._get_expense_sheet_searchbar_filters()
+        if not filterby:
+            filterby = 'all'
+        domain = searchbar_filters[filterby]['domain']
+        
+        user = request.env.user
+        is_external_auditor = self.is_external_auditor()
+        if request.env.company.country_code == 'MX' or is_external_auditor:
+            domain += [
                 ('partner_id', '=', user.partner_id.id),
                 ('company_id', '=', request.env.company.id)
-            ])
+            ]
         else:
-            expense_reports = request.env['hr.expense.sheet'].sudo().search([
+            domain += [
                 ('employee_id', '=', user.employee_id.id),
                 ('company_id', '=', request.env.company.id)
-            ])
+            ]
         
-        return request.render('pao_expenses_portal.my_expense_reports_view', {'expense_reports': expense_reports, 'page_name': 'expense_reports'})
+        if purchase_order and purchase_order.isdigit():
+            domain += [
+                ('purchase_order', '=', int(purchase_order)),
+            ]
+        
+        page_detail = pager(
+            url = url,
+            total = request.env['hr.expense.sheet'].sudo().search_count(domain),
+            page = page,
+            step = 20,
+            url_args = {'sortby': sortby, 'filterby': filterby}
+        )
+        
+        expense_reports = request.env['hr.expense.sheet'].sudo().search(domain, order=order, limit=20, offset=page_detail['offset'])
+        
+        return request.render('pao_expenses_portal.my_expense_reports_view', {
+            'expense_reports': expense_reports, 
+            'page_name': 'expense_reports', 
+            'currency': request.env.company.currency_id.name,
+            'pager': page_detail,
+            'default_url': url,
+            'searchbar_sortings': searchbar_sortings, 
+            'sortby': sortby,
+            'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
+            'filterby': filterby,
+        })
     
     
     def get_categories(self):
@@ -70,9 +128,11 @@ class ExpensesPortal(http.Controller):
         if not self.is_user_auditor():
             return request.redirect('/my/home')
         
+        is_external_auditor = self.is_external_auditor()
+        
         stages_options = request.env['hr.expense.sheet']._fields['state']._description_selection(request.env)
         today = date.today().strftime('%Y-%m-%d')
-        values = {'page_name': 'expense_report_form_view', 'stages_options': stages_options, 'today': today}
+        values = {'page_name': 'expense_report_form_view', 'stages_options': stages_options, 'today': today, 'is_external_auditor': is_external_auditor}
         
         if report_id:
             report = request.env['hr.expense.sheet'].browse(report_id)
@@ -84,16 +144,6 @@ class ExpensesPortal(http.Controller):
         else:
             values.update({'new_report': True, 'report': None})
         
-        purchase_order_redirect  = kw.get("purchase_order")
-        if purchase_order_redirect:
-            if not self.purchase_order_has_expense_report(purchase_order_redirect, None):
-                purchase_order = request.env['purchase.order'].sudo().browse(int(purchase_order_redirect))
-                if purchase_order.exists() and purchase_order.state != 'cancel' and (purchase_order.ac_audit_status.name == 'Confirmada' or purchase_order.ac_audit_status.name == 'Confirmed') :
-                    values.update({'purchase_order_redirect': purchase_order_redirect})
-            else:
-                referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-                return request.redirect(referer_url)
-                    
         user = request.env.user
         purchase_orders_account = request.env['purchase.order'].sudo().search([
             ('partner_id', '=', user.partner_id.id),
@@ -101,13 +151,26 @@ class ExpensesPortal(http.Controller):
             '|', ('ac_audit_status.name', '=', 'Confirmada'), ('ac_audit_status.name', '=', 'Confirmed')
         ])
         
+        purchase_order_redirect  = kw.get("purchase_order")
+        if purchase_order_redirect:
+            # if not self.purchase_order_has_expense_report(purchase_order_redirect, None):
+                purchase_order = request.env['purchase.order'].sudo().browse(int(purchase_order_redirect))
+                if (purchase_order.exists() and 
+                    purchase_order.state != 'cancel' and 
+                    purchase_order.ac_audit_status.name in ('Confirmada', 'Confirmed') and
+                    purchase_order in purchase_orders_account
+                ):
+                    values.update({'purchase_order_redirect': purchase_order_redirect})
+            # else:
+            #     referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
+            #     return request.redirect(referer_url)
+        
         schemes = request.env['expense.scheme'].sudo().search([('company_id', '=', request.env.company.id)])
         
         values.update({'purchase_orders_account': purchase_orders_account, 'schemes': schemes, 'currency': request.env.company.currency_id.name})
         
         error_expense = request.session.get('error_expense')
         if error_expense:
-            
             values.update({'error_expense': error_expense})
         request.session.pop('error_expense', None)
         
@@ -123,6 +186,7 @@ class ExpensesPortal(http.Controller):
         summary = kw.get('report_summary')
         purchase_order = kw.get('report_purchase_order')
         scheme = kw.get('scheme')
+        is_external_auditor = kw.get('is_external_auditor')
 
         scheme_id = int(scheme) if scheme and scheme.isdigit() else None
         purchase_order_id = int(purchase_order) if purchase_order and purchase_order.isdigit() else None
@@ -132,22 +196,23 @@ class ExpensesPortal(http.Controller):
                     'name': summary,
                     'purchase_order': purchase_order_id, 
                     # 'payment_mode': 'company_account', ##{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
-                    'expense_scheme_id': scheme_id
+                    'expense_scheme_id': scheme_id,
+                    'from_external_auditor': bool(is_external_auditor),
                 } 
         
-        if self.purchase_order_has_expense_report(purchase_order, id):
-            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
-            request.session['error_expense'] = _('This purchase order already has a related expense report.')
-            return request.redirect(referer_url)
+        # if self.purchase_order_has_expense_report(purchase_order, id):
+        #     referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
+        #     request.session['error_expense'] = _('This purchase order already has a related expense report.')
+        #     return request.redirect(referer_url)
         
         if id:
             expense_sheet = request.env['hr.expense.sheet'].browse(int(id))
             expense_sheet.write(values)
         else:
-            if request.env.company.country_code == 'MX':
+            if request.env.company.country_code == 'MX' or is_external_auditor:
                 values.update({'partner_id': request.env.user.partner_id.id})
             else:
-                employee = request.env.user.employee_id
+                employee = request.env.user.employee_id or request.env.user.employee_ids[:1]
                 if not employee:
                     request.session['error_expense'] = _("The current user does not have an employee registered, it is necessary to have one to continue with the process.")
                 values.update({'employee_id': employee.id})
@@ -156,7 +221,8 @@ class ExpensesPortal(http.Controller):
             
         if purchase_order and purchase_order.isdigit():
             order = request.env['purchase.order'].sudo().browse(int(purchase_order))
-            order.write({'sheet_id': expense_sheet.id})
+            if order.exists():
+                expense_sheet.write({'purchase_order': order.id})
 
         return expense_sheet
     
@@ -234,16 +300,9 @@ class ExpensesPortal(http.Controller):
             report = request.env['hr.expense.sheet'].browse(int(report_id))
             
             if report.exists():
-                
-                purchase_order_id = report.purchase_order.id if report.purchase_order else None
-                if purchase_order_id:
-                    order = request.env['purchase.order'].sudo().browse(int(purchase_order_id))
-                    order.write({'sheet_id': None})
-
                 report.expense_line_ids.sudo().unlink()
                 report.sudo().unlink()
 
-            
             return request.redirect('/my/expense_reports')
 
 
@@ -256,6 +315,8 @@ class ExpensesPortal(http.Controller):
         
         if not self.is_user_auditor():
             return request.redirect('/my/home')
+        
+        is_external_auditor = self.is_external_auditor()
         
         report_id = kw.get("report_id")
         description = kw.get("description")
@@ -288,8 +349,8 @@ class ExpensesPortal(http.Controller):
             'tax_ids': tax_ids
             }
         
-        if request.env.company.country_code == 'MX':
-            values.update({'partner_id': partner.id})
+        if request.env.company.country_code == 'MX' or is_external_auditor:
+            values.update({'partner_id': partner.id, 'from_external_auditor': bool(is_external_auditor)})
         else:
             values.update({'employee_id': request.env.user.employee_id.id})
 
@@ -334,10 +395,11 @@ class ExpensesPortal(http.Controller):
         if expense_id:
             expense = request.env['hr.expense'].browse(int(expense_id))
             
-            if expense.exists() and user == expense.create_uid:
+            if expense.exists():
                 
                 if unlink == "1":
-                    expense.sudo().unlink()
+                    if not expense.uploaded_by_statement and user == expense.create_uid:
+                        expense.sudo().unlink()
                 else:
                     expense.sudo().write({'sheet_id': None, 'account_id': None})
             
@@ -349,39 +411,86 @@ class ExpensesPortal(http.Controller):
     
     
     
+    def _get_wallet_searchbar_sortings(self):
+        return {
+            'date': {'label': _('Date'), 'order': 'date desc'},
+            'state': {'label': _('State'), 'order': 'state'},
+        }
+        
+    def _get_wallet_searchbar_filters(self):
+        return {
+            'all': {'label': _('All'), 'domain': []},
+            'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'reported')]},
+            'submitted': {'label': _('Submitted'), 'domain': [('state', '=', 'submitted')]},
+            'approved': {'label': _('Approved'), 'domain': [('state', '=', 'approved')]},
+            'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
+        }
     
-    
-    @http.route('/my/wallet', type='http', auth='user', website=True)
-    def portal_my_wallet(self, **kw):
+    @http.route(['/my/wallet', '/my/wallet/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
+    def portal_my_wallet(self, page=1, sortby=None, filterby=None, url='/my/wallet', **kw):
         
         if not self.is_user_auditor():
             return request.redirect('/my/home')
         
-        user = request.env.user
+        searchbar_sortings = self._get_wallet_searchbar_sortings()
+        if not sortby:
+            sortby = 'date'
+        order = searchbar_sortings[sortby]['order']
         
-        if request.env.company.country_code == 'MX':
-            expenses = request.env['hr.expense'].sudo().search([
+        searchbar_filters = self._get_wallet_searchbar_filters()
+        if not filterby:
+            filterby = 'all'
+        domain = searchbar_filters[filterby]['domain']
+        
+        is_external_auditor = self.is_external_auditor()
+        
+        user = request.env.user
+        reports_domain = ''
+        
+        if request.env.company.country_code == 'MX' or is_external_auditor:
+            domain += [
                 ('partner_id', '=', user.partner_id.id)
-            ])
+            ]
             
-            reports = request.env['hr.expense.sheet'].sudo().search([
+            reports_domain = [
                 ('partner_id', '=', user.partner_id.id), ('state', '=', 'draft')
-            ])
+            ]
         else:
-            expenses = request.env['hr.expense'].sudo().search([
+            domain += [
                 ('employee_id', '=', user.employee_id.id)
-            ])
+            ]
             
-            reports = request.env['hr.expense.sheet'].sudo().search([
+            reports_domain = [
                 ('employee_id', '=', user.employee_id.id), ('state', '=', 'draft')
-            ])
+            ]
+            
+        page_detail = pager(
+            url = url,
+            total = request.env['hr.expense'].sudo().search_count(domain),
+            page = page,
+            step = 20,
+            url_args = {'sortby': sortby, 'filterby': filterby}
+        )
+        
+        expenses = request.env['hr.expense'].sudo().search(domain, order=order, limit=20, offset=page_detail['offset'])
+        reports = request.env['hr.expense.sheet'].sudo().search(reports_domain)
         
         today = date.today().strftime('%Y-%m-%d')
         values = {
-                    'reports': reports, 'expenses': expenses, 'page_name': 'wallet_expenses', 
+                    'reports': reports, 
+                    'expenses': expenses, 
+                    'page_name': 'wallet_expenses', 
                     'currency': request.env.company.currency_id.name, 
-                    'categories': self.get_categories(), 'currencies': self.get_currencies(),
-                    'today': today
+                    'categories': self.get_categories(), 
+                    'currencies': self.get_currencies(),
+                    'today': today,
+                    'pager': page_detail,
+                    'default_url': url,
+                    'searchbar_sortings': searchbar_sortings, 
+                    'sortby': sortby,
+                    'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
+                    'filterby': filterby,
+                    'is_external_auditor': is_external_auditor,
                 }
         
         error_expense = request.session.get('error_expense')
@@ -409,7 +518,7 @@ class ExpensesPortal(http.Controller):
         
         for expense_id in selected_expenses:
             expense = request.env['hr.expense'].sudo().browse(int(expense_id))
-            if expense.nb_attachment < 1:
+            if not expense.is_complete:
                 invalid_expenses_list.append(expense.name)
             else:
                 expense.sudo().write({'sheet_id': int(report_id)})
@@ -418,7 +527,7 @@ class ExpensesPortal(http.Controller):
                 
         if len(invalid_expenses_list) > 0: 
             invalid_expenses = ', '.join(map(str, invalid_expenses_list))
-            request.session['error_expense'] = _("The following expenses couldn't be added to the report because they do not have an attached receipt: %(invalid_expenses)s") % {'invalid_expenses': invalid_expenses}
+            request.session['error_expense'] = _("The following expenses were not added to the report because they are missing required information. Please review and complete them before attempting to add them again: %(invalid_expenses)s") % {'invalid_expenses': invalid_expenses}
         
         return request.redirect('/my/wallet')
     
@@ -431,10 +540,13 @@ class ExpensesPortal(http.Controller):
         
         request.session.pop('error_expense', None)
         
+        expense_category = kw.get("expense_category")
         receipts = request.httprequest.files.getlist("receipt")
         expense_id = kw.get("expense_id")
         
         expense = request.env['hr.expense'].browse(int(expense_id))
+        
+        expense.sudo().write({'product_id': int(expense_category)})
         
         _logger.warning(receipts)
         for receipt in receipts:

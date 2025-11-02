@@ -6,6 +6,13 @@ from datetime import datetime, timedelta
 import dateutil.parser
 from odoo.exceptions import UserError
 
+
+
+import tempfile
+import subprocess
+import base64
+import re
+
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -49,6 +56,9 @@ class UploadExpenseStatement(models.TransientModel):
                 self.employee_id = self.env.user.employee_id.id
             else:
                 send_notification_to_user = True
+                
+            if not self.employee_id.user_id:
+                raise UserError(_('This employee does not have a linked user. A linked user is required to continue this process.'))
             
             if self.env.company.country_code not in ('MX', 'US', 'CR', 'CL'):
                 raise UserError(_('This process is not available for your company. Please contact IT support.'))
@@ -58,8 +68,15 @@ class UploadExpenseStatement(models.TransientModel):
                 expenses = self._process_csv_file(base64.b64decode(self.statement_file))
             elif '.xlsx' in self.statement_filename:
                 expenses = self._process_excel_file(base64.b64decode(self.statement_file))
+            elif '.pdf' in self.statement_filename:
+                if self.env.company.country_code != 'US':
+                    raise UserError(_('Unsupported file format. Please upload a CSV or Excel file with a correct format.'))
+                expenses = self._process_pdf_file(base64.b64decode(self.statement_file))
             else:
-                raise UserError(_('Unsupported file format. Please upload a CSV or Excel file with a correct format.'))
+                raise UserError(_('Unsupported file format. Please upload a CSV, Excel or PDF (Wex only) file with a correct format.'))
+            
+            if len(expenses) < 1:
+                raise UserError(_('No transactions found. Please check the file.'))
             
             for expense in expenses:
                 if send_notification_to_user:
@@ -67,7 +84,7 @@ class UploadExpenseStatement(models.TransientModel):
                         'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
                         'summary': _('New expense to complete and send for approval'),
                         'note': _('You have a new expense to complete and send for approval.'),
-                        'res_model_id': self.env['ir.model'].search([('model', '=', 'hr.expense')], limit=1).id,
+                        'res_model_id': self.env['ir.model'].sudo().search([('model', '=', 'hr.expense')], limit=1).id,
                         'res_id': expense.id,
                         'user_id': expense.employee_id.user_id.id,
                         'create_uid': odoo_bot.id,
@@ -87,6 +104,95 @@ class UploadExpenseStatement(models.TransientModel):
             }
         self.process_run = True
         return {'type': 'ir.actions.client', 'tag': 'reload'}
+    
+    def _process_pdf_file(self, file_binary):
+        results = []
+
+        with tempfile.NamedTemporaryFile(suffix=".pdf") as pdf_file:
+            pdf_file.write(file_binary)
+            pdf_file.flush()
+
+            try:
+                output = subprocess.check_output(['pdftotext', '-layout', pdf_file.name, '-'], stderr=subprocess.STDOUT)
+                text = output.decode('utf-8')
+            except subprocess.CalledProcessError as e:
+                _logger.error("pdftotext failed: %s", e.output.decode())
+                return results
+
+        # Clean and read all lines
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        expenses = []
+
+        i = 0
+        while i < len(lines) - 2:
+            line1 = lines[i]
+            line2 = lines[i + 1]
+            line3 = lines[i + 2]
+
+            # Skip if first line doesn't look like a date
+            if not re.match(r'\d{2}/\d{2}/\d{2}', line1):
+                i += 1
+                continue
+
+            full_line = f"{line1} {line2} {line3}"
+            _logger.warning("CANDIDATE: %s", full_line)
+
+            match = re.match(
+                r"(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>[\d.]+)\s+US\$\d+\.\d{0,2}\s+(?P<cardholder>[A-Z\s,]+?)\s+(?P<account>\*\d{4})\s+(?P<rest>.+)",
+                full_line
+            )
+
+            if match:
+                # Extract groups
+                date = match.group("date")
+                amount = match.group("amount")
+                cardholder = match.group("cardholder").strip()
+                account_number = match.group("account").strip()
+                rest = match.group("rest").strip()
+
+                # Extract merchant name: goes up until first group of two digits followed by a space
+                merchant_match = re.match(r"(.+?)\s+(\d{2})\b", rest)
+
+                merchant_name = merchant_match.group(1).strip()
+                year_suffix = merchant_match.group(2)
+
+                # Fix year (assuming 20xx)
+                full_date_str = f"{date}{year_suffix}"
+                try:
+                    date_obj = datetime.strptime(full_date_str, "%m/%d/%Y")
+                except ValueError:
+                    # Try with 2-digit year
+                    date_obj = datetime.strptime(full_date_str, "%m/%d/%y")
+                    
+                expense_data = {
+                    "date": date_obj.date(),
+                    "amount": float(amount),
+                    "cardholder": cardholder,
+                    "account_number": account_number,
+                    "merchant_name": merchant_name,
+                }
+                results.append(expense_data)
+            
+                i += 3  # Skip next 2 lines since we already used them
+            else:
+                _logger.debug("No match for block starting at line %s", i)
+                i += 1
+
+        # Create hr.expense records
+        for rec in results:
+            expense = self.env['hr.expense'].create({
+                'name': rec['merchant_name'],
+                'date': rec['date'],
+                'employee_id': self.employee_id.id,
+                'partner_id': None,
+                'total_amount_currency': rec['amount'],
+                'currency_id': self.env.company.currency_id.id,
+                'payment_mode': 'company_account',
+                'uploaded_by_statement': True,
+            })
+            expenses.append(expense)
+
+        return expenses
     
     def _process_csv_file(self, file_content):
         reader = csv.reader(file_content.decode('utf-8').splitlines())  # Decode for CSV handling
