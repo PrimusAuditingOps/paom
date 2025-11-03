@@ -10,14 +10,11 @@
     'description': """
     
     """,
-    'category': 'Sales',
+    'category': '',
     'depends': ['base','product','sale'],
     'data': [
         'security/ir.model.access.csv',
-        'views/vsq_budget_views.xml',
-        'views/vsq_budget_flat_views.xml',
+        'views/pao_sales_budget.xml',
     ],
-    'installable': True,
-    'application': False,
     'license': 'LGPL-3',
 }
