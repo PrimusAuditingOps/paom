@@ -13,7 +13,7 @@
             <!-- filtro que aplica la agrupación por defecto -->
             <filter name="group_by_region_category_customer"
                     string="Default Group"
-                    context="{'group_by': ['region_id','customer_category','customer_name']}"
+                    context="{'group_by': 'region_id','customer_category','customer_name'}"
                     default="True"/>
         </search>
     </field>
