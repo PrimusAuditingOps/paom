@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 import calendar
 
@@ -17,27 +17,99 @@ class PAOSalesBudget(models.Model):
 
     def generate_budget_action(self):
         self.ensure_one()
-        
-        
-        """
+        customer_category = ["Clientes Clave", "Promotor", "Clientes Individuales", "Clientes Nuevos"]
+        team = self.env["crm.team"].search([("pao_include_in_budget","=",True)])
+        date_from = '{0}-09-01'.format(self.year-1)
+        date_to = '{0}-08-31'.format(self.year) 
+        for region in team:
+            for customer_type in customer_category:
+                if customer_type == "Clientes Clave":
+                    groups = self.env["customergroups.group"].search([("pao_include_in_budget","=",True)])
+                    for group in groups:
+                        domain = [('move_id.state', '=', 'posted'),
+                            ('move_id.move_type', '=', 'out_invoice'),  
+                            ('move_id.invoice_date', '>=', date_from),
+                            ('move_id.invoice_date', '<=', date_to),
+                            ("product_id.can_be_commissionable", "=", True),
+                            ("move_id.partner_id.cgg_group_id", "=", group.id),
+                            ("move_id.partner_id.team_id", "=", region.id)
+                        ]
+                        self.create_budget_line(domain,region,customer_type,group.name,"simple")
+                elif customer_type == "Promotor":
+                    promotors = self.env["comisionpromotores.promotor"].search([("pao_include_in_budget","=",True)])
+                    for promotor in promotors:
+                        domain = [('move_id.state', '=', 'posted'),
+                            ('move_id.move_type', '=', 'out_invoice'),  
+                            ('move_id.invoice_date', '>=', date_from),
+                            ('move_id.invoice_date', '<=', date_to),
+                            ("product_id.can_be_commissionable", "=", True),
+                            ("move_id.partner_id.promotor_id", "=", promotor.id),
+                            ("move_id.partner_id.team_id", "=", region.id)
+                        ]
+                        self.create_budget_line(domain,region,customer_type,promotor.name,"simple")
+                elif customer_type == "Clientes Individuales":
+                    domain = [
+                        ('move_id.state', '=', 'posted'),
+                        ('move_id.move_type', '=', 'out_invoice'),
+                        ('move_id.invoice_date', '>=', date_from),
+                        ('move_id.invoice_date', '<=', date_to),
+                        ('product_id.can_be_commissionable', '=', True),
+                        ('move_id.partner_id.team_id', '=', region.id),
+                        '|',
+                            ('move_id.partner_id.promotor_id', '=', False),
+                            ('move_id.partner_id.promotor_id.pao_include_in_budget', '=', False),
+                        '|',
+                            ('move_id.partner_id.cgg_group_id', '=', False),
+                            ('move_id.partner_id.cgg_group_id.pao_include_in_budget', '=', False)
+                    ]
+                    self.create_budget_line(domain,region,customer_type,"Clientes Ind.","simple")
+                else:
+                    budget_line = self.env['vsq.budget.line'].search([("region_id","=",region.id),("customer_category","=","Clientes Individuales")])
+                    to_create = []
+                    for line in budget_line:
+                        line_vals = {
+                            'budget_id': line.budget_id.id,
+                            'region_id': line.region.id,
+                            'customer_category': customer_type,
+                            'customer_name': customer_type,
+                            'product_id': line.product_id.id,
+                            'price_unit': line.price_unit,
+                            'm01': line.m01,
+                            'm02': line.m02,
+                            'm03': line.m03,
+                            'm04': line.m04,
+                            'm05': line.m05,
+                            'm06': line.m06,
+                            'm07': line.m07,
+                            'm08': line.m08,
+                            'm09': line.m09,
+                            'm10': line.m10,
+                            'm11': line.m11,
+                            'm12': line.m12,
+                        }
+                        to_create.append(line_vals)
+
+                    # Crear en batches
+                    created = []
+                    BATCH = 200
+                    for i in range(0, len(to_create), BATCH):
+                        chunk = to_create[i:i+BATCH]
+                        created_chunk = budget_line.sudo().create(chunk)
+                        created += created_chunk
+            
+        return {'message': _('Se han creado las líneas de presupuesto')}
+    
+    def create_budget_line(self,domain,region,customer_type,customer_name,avg_type):
         
         budget_line = self.env['vsq.budget.line']
         AML = self.env['account.move.line']
-        date_from = '{0}-09-01'.format(self.year-1)
-        date_to = '{0}-08-31'.format(self.year) 
         target_currency = self.currency_id
-        domain = [
-            ('move_id.state', '=', 'posted'),
-            ('move_id.move_type', 'in', ('out_invoice',)),  # solo facturas de venta
-            ('move_id.invoice_date', '>=', date_from),
-            ('move_id.invoice_date', '<=', date_to),
-            ("product_id.can_be_commissionable", "=", True),
-        ]
+        
 
         lines = AML.search(domain, order='move_id.invoice_date')
-        if not lines:
-            _logger.info("No se encontraron facturas en el rango %s - %s", date_from, date_to)
-            return {'message': 'No se encontraron líneas de factura en el rango especificado.', 'created': 0}
+        #if not lines:
+        #    _logger.info("No se encontraron facturas en el rango %s - %s", date_from, date_to)
+        #    return {'message': 'No se encontraron líneas de factura en el rango especificado.', 'created': 0}
 
         # Estructura de agregación por (product_id, partner_id)
         # para cada mes 1..12 almacenamos:
@@ -67,7 +139,6 @@ class PAOSalesBudget(models.Model):
             inv_date = inv.invoice_date or inv.invoice_date or fields.Date.context_today(self)
             m = month_index(inv_date)
             product = ln.product_id
-            partner = inv.partner_id
 
             unit = float(ln.price_unit or 0.0)
             qty = float(getattr(ln, 'quantity', 0.00) or 0.0)
@@ -81,7 +152,7 @@ class PAOSalesBudget(models.Model):
                 _logger.exception("Fallo convert currency for line %s: %s", ln.id, e)
                 unit_conv = unit
 
-            key = (product.id, partner.id if partner else False)
+            key = (product.id)
             data[key]['qty_by_month'][m] += qty
             if avg_type == 'simple':
                 # para promedio simple guardamos la medida convertida en la lista (por mes)
@@ -92,14 +163,10 @@ class PAOSalesBudget(models.Model):
                 data[key]['priceqty_by_month'][m] += unit_conv * qty
                 # keep qty_by_month for denominator
 
-        # Preparar creación: opcionalmente borrar existentes
-        if replace_existing:
-            existed = BudgetLine.search([('budget_id', '=', budget.id)])
-            if existed:
-                existed.unlink()
+        
 
         to_create = []
-        for (prod_id, partner_id), vals in data.items():
+        for (prod_id), vals in data.items():
             # calcular promedio por todo el periodo (simple) o por mes según quieras:
             # El requerimiento: "promedio simple en base al rango de la fecha" -> calculamos promedio simple sobre todas las líneas del año
             all_prices = []
@@ -114,9 +181,11 @@ class PAOSalesBudget(models.Model):
                 months[field_name] = float(vals['qty_by_month'].get(m, 0.0))
 
             line_vals = {
-                'budget_id': budget.id,
-                'customer_name': partner_id or False,
-                'product_id': prod_id or False,
+                'budget_id': self.id,
+                'region_id': region.id,
+                'customer_category': customer_type,
+                'customer_name': customer_name,
+                'product_id': prod_id,
                 'price_unit': avg_price,
                 **months,
             }
@@ -127,30 +196,19 @@ class PAOSalesBudget(models.Model):
         BATCH = 200
         for i in range(0, len(to_create), BATCH):
             chunk = to_create[i:i+BATCH]
-            created_chunk = BudgetLine.sudo().create(chunk)
+            created_chunk = budget_line.sudo().create(chunk)
             created += created_chunk
 
-        _logger.info("populate_budget_lines_from_invoices: creado %d lines para budget %s", len(created), budget.id)
-        return {'message': _('Se han creado %d líneas de presupuesto') % len(created), 'created_ids': [r.id for r in created]}
-
-        """
+        
 class PAOSalesBudgetLine(models.Model):
     _name = "pao.sales.budget.line"
     _description = "PAO Annual Sales Budget Lines"
 
 
     budget_id = fields.Many2one('pao.sales.budget', string='Budget', required=True, ondelete='cascade')
-    region_id = fields.Many2one(
-        'crm.team', 
-        string='Region',
-        ondelete='restrict', 
-    )
-    total_amount = fields.Monetary(string='Total Amount', compute='_compute_total', currency_field='currency_id', store=True)
-    total_quantity = fields.Float(string='Total Quantity', compute='_compute_total', store=True)
-
+    region_id = fields.Many2one('crm.team', string='Region',ondelete='restrict',)
     customer_category = fields.Char(string='Customer Category')
     customer_name = fields.Char(string='Customer Name')
-    
     product_id = fields.Many2one('product.product', string='Producto')
     currency_id = fields.Many2one(related='budget_id.currency_id')
     price_unit = fields.Monetary(string='Average Price', currency_field='currency_id')
@@ -167,7 +225,8 @@ class PAOSalesBudgetLine(models.Model):
     m10 = fields.Float("Oct", default=0.0)
     m11 = fields.Float("Nov", default=0.0)
     m12 = fields.Float("Dec", default=0.0)
-
+    total_amount = fields.Monetary(string='Total Amount', compute='_compute_total', currency_field='currency_id', store=True)
+    total_quantity = fields.Float(string='Total Quantity', compute='_compute_total', store=True)
    
 
     @api.depends('m01','m02','m03','m04','m05','m06','m07','m08','m09','m10','m11','m12','price_unit')
