@@ -20,7 +20,7 @@ class PAOSalesBudget(models.Model):
 
     def action_view_budget_line(self):
         self.ensure_one()
-         action = {
+        action = {
             'res_model': 'pao.sales.budget.line',
             'type': 'ir.actions.act_window',
             'view_mode': 'tree',
