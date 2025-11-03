@@ -89,18 +89,18 @@ class PAOSalesBudget(models.Model):
                             'customer_name': customer_type,
                             'product_id': line.product_id.id,
                             'price_unit': line.price_unit,
-                            'm01': line.m01,
-                            'm02': line.m02,
-                            'm03': line.m03,
-                            'm04': line.m04,
-                            'm05': line.m05,
-                            'm06': line.m06,
-                            'm07': line.m07,
-                            'm08': line.m08,
-                            'm09': line.m09,
-                            'm10': line.m10,
-                            'm11': line.m11,
-                            'm12': line.m12,
+                            'm01': 0,
+                            'm02': 0,
+                            'm03': 0,
+                            'm04': 0,
+                            'm05': 0,
+                            'm06': 0,
+                            'm07': 0,
+                            'm08': 0,
+                            'm09': 0,
+                            'm10': 0,
+                            'm11': 0,
+                            'm12': 0,
                         }
                         to_create.append(line_vals)
 
@@ -219,13 +219,14 @@ class PAOSalesBudget(models.Model):
 class PAOSalesBudgetLine(models.Model):
     _name = "pao.sales.budget.line"
     _description = "PAO Annual Sales Budget Lines"
-
+    _order = "region_id, customer_category, customer_name, product_id_reference ASC"
 
     budget_id = fields.Many2one('pao.sales.budget', string='Budget', required=True, ondelete='cascade')
     region_id = fields.Many2one('crm.team', string='Region',ondelete='restrict',)
     customer_category = fields.Char(string='Customer Category')
     customer_name = fields.Char(string='Customer Name')
     product_id = fields.Many2one('product.product', string='Producto')
+    product_id_reference = fields.Char(related='product_id.default_code', store=True)
     currency_id = fields.Many2one(related='budget_id.currency_id')
     price_unit = fields.Monetary(string='Average Price', currency_field='currency_id')
     # meses

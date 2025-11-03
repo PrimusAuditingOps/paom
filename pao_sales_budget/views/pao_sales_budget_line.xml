@@ -1,4 +1,24 @@
 <odoo>
+
+  <record id="pao_sales_budget_line_view_search" model="ir.ui.view">
+    <field name="name">pao.sales.budget.line.view.search</field>
+    <field name="model">pao.sales.budget.line</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="region_id"/>
+            <field name="customer_category"/>
+            <field name="customer_name"/>
+            <field name="product_id"/>
+
+            <!-- filtro que aplica la agrupación por defecto -->
+            <filter name="group_by_region_category_customer"
+                    string="Default Group"
+                    context="{'group_by': ['region_id','customer_category','customer_name']}"
+                    default="True"/>
+        </search>
+    </field>
+  </record>
+
   <record id="pao_sales_budget_line_view_tree" model="ir.ui.view">
     <field name="name">pao.sales.budget.line.view.tree</field>
     <field name="model">pao.sales.budget.line</field>
