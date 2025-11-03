@@ -67,11 +67,11 @@ class PAOSalesBudget(models.Model):
                     ]
                     self.create_budget_line(domain,region,customer_type,"Clientes Ind.","simple")
                 else:
-                    budget_line = self.env['pao.sales.budget'].search([("region_id","=",region.id),("customer_category","=","Clientes Individuales")])
+                    budget_line = self.env['pao.sales.budget.line'].search([("region_id","=",region.id),("customer_category","=","Clientes Individuales")])
                     to_create = []
                     for line in budget_line:
                         line_vals = {
-                            'budget_id': 1,
+                            'budget_id': self.id,
                             'region_id': line.region.id,
                             'customer_category': customer_type,
                             'customer_name': customer_type,
@@ -104,7 +104,7 @@ class PAOSalesBudget(models.Model):
     
     def create_budget_line(self,domain,region,customer_type,customer_name,avg_type):
         
-        budget_line = self.env['pao.sales.budget']
+        budget_line = self.env['pao.sales.budget.line']
         AML = self.env['account.move.line']
         target_currency = self.currency_id
         
@@ -185,7 +185,7 @@ class PAOSalesBudget(models.Model):
                 months[field_name] = float(vals['qty_by_month'].get(m, 0.0))
 
             line_vals = {
-                'budget_id': 1,
+                'budget_id': self.id,
                 'region_id': region.id,
                 'customer_category': customer_type,
                 'customer_name': customer_name,
