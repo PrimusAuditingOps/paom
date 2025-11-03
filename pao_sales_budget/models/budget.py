@@ -24,7 +24,6 @@ class PAOSalesBudget(models.Model):
             'res_model': 'pao.sales.budget.line',
             'type': 'ir.actions.act_window',
             'view_mode': 'tree',
-            'view_id': 'pao_sales_budget_line_view_tree',
             'name': _("Budget Lines"),
             'target': 'new',   
             'domain': [('budget_id', '=', self.id)],
