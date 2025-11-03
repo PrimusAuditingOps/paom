@@ -26,6 +26,10 @@
         <field name="product_id"/>
          <field name="currency_id" optional="hide"/>
         <field name="price_unit" sum="Total" options="{'currency_field': 'currency_id'}"/>
+        <field name="m09" sum="Total"/>
+        <field name="m10" sum="Total"/>
+        <field name="m11" sum="Total"/>
+        <field name="m12" sum="Total"/>
         <field name="m01" sum="Total"/>
         <field name="m02" sum="Total"/>
         <field name="m03" sum="Total"/>
@@ -34,10 +38,6 @@
         <field name="m06" sum="Total"/>
         <field name="m07" sum="Total"/>
         <field name="m08" sum="Total"/>
-        <field name="m09" sum="Total"/>
-        <field name="m10" sum="Total"/>
-        <field name="m11" sum="Total"/>
-        <field name="m12" sum="Total"/>
         <field name="total_quantity" sum="Total"/>
         <field name="total_amount" sum="Total"/>
         
