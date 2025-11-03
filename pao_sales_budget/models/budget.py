@@ -72,7 +72,7 @@ class PAOSalesBudget(models.Model):
                     for line in budget_line:
                         line_vals = {
                             'budget_id': self.id,
-                            'region_id': line.region.id,
+                            'region_id': line.region_id.id,
                             'customer_category': customer_type,
                             'customer_name': customer_type,
                             'product_id': line.product_id.id,
