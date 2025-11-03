@@ -64,7 +64,7 @@ class PAOSalesBudget(models.Model):
                     ]
                     self.create_budget_line(domain,region,customer_type,"Clientes Ind.","simple")
                 else:
-                    budget_line = self.env['vsq.budget.line'].search([("region_id","=",region.id),("customer_category","=","Clientes Individuales")])
+                    budget_line = self.env['pao.sales.budget'].search([("region_id","=",region.id),("customer_category","=","Clientes Individuales")])
                     to_create = []
                     for line in budget_line:
                         line_vals = {
@@ -101,7 +101,7 @@ class PAOSalesBudget(models.Model):
     
     def create_budget_line(self,domain,region,customer_type,customer_name,avg_type):
         
-        budget_line = self.env['vsq.budget.line']
+        budget_line = self.env['pao.sales.budget']
         AML = self.env['account.move.line']
         target_currency = self.currency_id
         
