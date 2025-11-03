@@ -20,13 +20,22 @@
       <form string="Sales Budget">
         <header>
           <button string="Generate Budget" type="object" class="btn-primary" name="generate_budget_action"/>
+          <div class="o_not_full oe_button_box">
+              <button name="action_view_budget_line" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not line_ids">
+                  <div class="o_field_widget o_stat_info">
+                      <span class="o_stat_value">Budget Lines</span>
+                  </div>
+              </button>
+          </div>
+        
         </header>
         <sheet>
           <group>
             <field name="name"/>
             <field name="currency_id"/>
-            <field name="year"/>
+            <field name="year" widget="char"/>
             <field name="company_id" readonly="1"/>
+            <field name="line_ids" invisible="1"/>
           </group>
         </sheet>
       </form>

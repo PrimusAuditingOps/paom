@@ -18,6 +18,19 @@ class PAOSalesBudget(models.Model):
     line_ids = fields.One2many('pao.sales.budget.line', 'budget_id', string='Lines', copy=False)
 
 
+    def action_view_budget_line(self):
+        self.ensure_one()
+         action = {
+            'res_model': 'pao.sales.budget.line',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree',
+            'view_id': 'pao_sales_budget_line_view_tree',
+            'name': _("Budget Lines"),
+            'target': 'new',   
+            'domain': [('budget_id', '=', self.id)],
+        }
+        return action
+
     def generate_budget_action(self):
         self.ensure_one()
         customer_category = ["Clientes Clave", "Promotor", "Clientes Individuales", "Clientes Nuevos"]

@@ -18,6 +18,7 @@
         'views/crm_team.xml',
         'views/customergroups_group.xml',
         'views/comisionpromotores.xml',
+        'views/pao_sales_budget_line.xml',
     ],
     'license': 'LGPL-3',
 }
