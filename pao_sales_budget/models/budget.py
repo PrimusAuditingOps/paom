@@ -106,7 +106,8 @@ class PAOSalesBudget(models.Model):
         target_currency = self.currency_id
         
 
-        lines = AML.search(domain, order='move_id.invoice_date')
+        lines = AML.search(domain)
+        lines = lines.sorted(key=lambda l: l.move_id.invoice_date or date.min)
         #if not lines:
         #    _logger.info("No se encontraron facturas en el rango %s - %s", date_from, date_to)
         #    return {'message': 'No se encontraron líneas de factura en el rango especificado.', 'created': 0}
