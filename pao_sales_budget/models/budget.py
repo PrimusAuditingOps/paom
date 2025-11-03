@@ -25,7 +25,8 @@ class PAOSalesBudget(models.Model):
             'type': 'ir.actions.act_window',
             'view_mode': 'tree',
             'name': _("Budget Lines"),
-            'target': 'current',   
+            'target': 'current',  
+            'context': {'group_by': ['region_id', 'customer_category', 'customer_name']} ,
             'domain': [('budget_id', '=', self.id)],
         }
         return action
