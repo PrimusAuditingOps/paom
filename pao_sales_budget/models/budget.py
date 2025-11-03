@@ -71,7 +71,7 @@ class PAOSalesBudget(models.Model):
                     to_create = []
                     for line in budget_line:
                         line_vals = {
-                            'budget_id': line.budget_id.id,
+                            'budget_id': self.id,
                             'region_id': line.region.id,
                             'customer_category': customer_type,
                             'customer_name': customer_type,
