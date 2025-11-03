@@ -6,7 +6,7 @@
       <tree string="Sales Budget">
         <field name="name"/>
         <field name="currency_id"/>
-        <field name="year"/>
+        <field name="year" widget="char"/>
         <field name="company_id"/>
         
       </tree>
@@ -18,6 +18,9 @@
     <field name="model">pao.sales.budget</field>
     <field name="arch" type="xml">
       <form string="Sales Budget">
+        <header>
+          <button string="Generate Budget" type="object" class="oe_highlight m-3" name="generate_budget_action"/>
+        </header>
         <sheet>
           <group>
             <field name="name"/>
@@ -25,7 +28,6 @@
             <field name="year"/>
             <field name="company_id" readonly="1"/>
           </group>
-         
         </sheet>
       </form>
     </field>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_sales_budget_customergroups_view_form" model="ir.ui.view">
+        <field name="name">pao.sales.budget.customergroups.view.form</field>
+        <field name="model">crm.team</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="customergroups.customergroups_view_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="pao_include_in_budget"/>  
+            </field>
+            
+        </field>
+    </record>
+
+    <record id="pao_sales_budget_customergroups_view_tree" model="ir.ui.view">
+        <field name="name">pao.sales.budget.customergroups.view.tree</field>
+        <field name="model">account.move</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="customergroups.customergroups_group_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="pao_include_in_budget"/>
+                </field>
+            </field>
+    </record>
+</odoo>

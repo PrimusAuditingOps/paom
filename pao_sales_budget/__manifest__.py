@@ -11,10 +11,13 @@
     
     """,
     'category': '',
-    'depends': ['base','product','sale'],
+    'depends': ['base','product','sale','comisionpromotores','customergroups','crm'],
     'data': [
         'security/ir.model.access.csv',
         'views/pao_sales_budget.xml',
+        'views/crm_team.xml',
+        'views/customergroups_group.xml',
+        'views/comisionpromotores.xml',
     ],
     'license': 'LGPL-3',
 }

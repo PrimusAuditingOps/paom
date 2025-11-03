@@ -8,12 +8,132 @@ class PAOSalesBudget(models.Model):
     _description = "PAO Annual Sales Budget"
 
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, copy=False)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
-    currency_id = fields.Many2one('res.currency', string='Currency', default=2, required=True)
-    year = fields.Integer(string='Año', required=True, default=lambda self: fields.Date.context_today(self).year)
-    line_ids = fields.One2many('pao.sales.budget.line', 'budget_id', string='Lines', copy=True)
+    currency_id = fields.Many2one('res.currency',copy=False, string='Currency', default=2, required=True)
+    year = fields.Integer(string='Año', required=True, copy=False, default=lambda self: fields.Date.context_today(self).year)
+    line_ids = fields.One2many('pao.sales.budget.line', 'budget_id', string='Lines', copy=False)
 
+
+    def generate_budget_action(self):
+        self.ensure_one()
+        
+        
+        """
+        
+        budget_line = self.env['vsq.budget.line']
+        AML = self.env['account.move.line']
+        date_from = '{0}-09-01'.format(self.year-1)
+        date_to = '{0}-08-31'.format(self.year) 
+        target_currency = self.currency_id
+        domain = [
+            ('move_id.state', '=', 'posted'),
+            ('move_id.move_type', 'in', ('out_invoice',)),  # solo facturas de venta
+            ('move_id.invoice_date', '>=', date_from),
+            ('move_id.invoice_date', '<=', date_to),
+            ("product_id.can_be_commissionable", "=", True),
+        ]
+
+        lines = AML.search(domain, order='move_id.invoice_date')
+        if not lines:
+            _logger.info("No se encontraron facturas en el rango %s - %s", date_from, date_to)
+            return {'message': 'No se encontraron líneas de factura en el rango especificado.', 'created': 0}
+
+        # Estructura de agregación por (product_id, partner_id)
+        # para cada mes 1..12 almacenamos:
+        # - qty_by_month[m] => sum qty
+        # - price_list[m] => lista de unit_converted (para promedio simple)
+        data = defaultdict(lambda: {
+            'qty_by_month': defaultdict(float),
+            'price_list_by_month': defaultdict(list),
+        })
+
+        def month_index(date_val):
+            # date_val puede ser date/datetime/str
+            if isinstance(date_val, str):
+                try:
+                    dt = fields.Date.from_string(date_val)
+                except Exception:
+                    dt = fields.Date.context_today(self)
+            elif isinstance(date_val, (datetime,)):
+                dt = date_val.date()
+            else:
+                dt = date_val
+            return dt.month
+
+        # Procesar cada línea
+        for ln in lines:
+            inv = ln.move_id
+            inv_date = inv.invoice_date or inv.invoice_date or fields.Date.context_today(self)
+            m = month_index(inv_date)
+            product = ln.product_id
+            partner = inv.partner_id
+
+            unit = float(ln.price_unit or 0.0)
+            qty = float(getattr(ln, 'quantity', 0.00) or 0.0)
+
+            
+            src_currency = inv.currency_id or inv.company_id.currency_id or self.env.company.currency_id
+            
+            try:
+                unit_conv = src_currency._convert(unit, target_currency, inv.company_id, inv_date)
+            except Exception as e:
+                _logger.exception("Fallo convert currency for line %s: %s", ln.id, e)
+                unit_conv = unit
+
+            key = (product.id, partner.id if partner else False)
+            data[key]['qty_by_month'][m] += qty
+            if avg_type == 'simple':
+                # para promedio simple guardamos la medida convertida en la lista (por mes)
+                data[key]['price_list_by_month'][m].append(unit_conv)
+            else:
+                # para ponderado guardamos unit_conv * qty y sumaremos luego
+                data[key].setdefault('priceqty_by_month', defaultdict(float))
+                data[key]['priceqty_by_month'][m] += unit_conv * qty
+                # keep qty_by_month for denominator
+
+        # Preparar creación: opcionalmente borrar existentes
+        if replace_existing:
+            existed = BudgetLine.search([('budget_id', '=', budget.id)])
+            if existed:
+                existed.unlink()
+
+        to_create = []
+        for (prod_id, partner_id), vals in data.items():
+            # calcular promedio por todo el periodo (simple) o por mes según quieras:
+            # El requerimiento: "promedio simple en base al rango de la fecha" -> calculamos promedio simple sobre todas las líneas del año
+            all_prices = []
+            for m in range(1, 13):
+                all_prices.extend(vals['price_list_by_month'].get(m, []))
+            avg_price = float(sum(all_prices) / len(all_prices)) if all_prices else 0.0
+
+            # llenar meses m01..m12 con la suma de qty por mes
+            months = {}
+            for m in range(1, 13):
+                field_name = f"m{m:02d}"
+                months[field_name] = float(vals['qty_by_month'].get(m, 0.0))
+
+            line_vals = {
+                'budget_id': budget.id,
+                'customer_name': partner_id or False,
+                'product_id': prod_id or False,
+                'price_unit': avg_price,
+                **months,
+            }
+            to_create.append(line_vals)
+
+        # Crear en batches
+        created = []
+        BATCH = 200
+        for i in range(0, len(to_create), BATCH):
+            chunk = to_create[i:i+BATCH]
+            created_chunk = BudgetLine.sudo().create(chunk)
+            created += created_chunk
+
+        _logger.info("populate_budget_lines_from_invoices: creado %d lines para budget %s", len(created), budget.id)
+        return {'message': _('Se han creado %d líneas de presupuesto') % len(created), 'created_ids': [r.id for r in created]}
+
+        """
 class PAOSalesBudgetLine(models.Model):
     _name = "pao.sales.budget.line"
     _description = "PAO Annual Sales Budget Lines"
@@ -25,15 +145,15 @@ class PAOSalesBudgetLine(models.Model):
         string='Region',
         ondelete='restrict', 
     )
-    customer_category = fields.Char(string='Customer Category')
-    customer_name = fields.Char(string='Customer Name')
-    product_id = fields.Many2one('product.product', string='Producto')
-    currency_id = fields.Many2one(related='budget_id.currency_id')
-    price_unit = fields.Monetary(string='Precio unitario', currency_field='currency_id')
     total_amount = fields.Monetary(string='Total Amount', compute='_compute_total', currency_field='currency_id', store=True)
     total_quantity = fields.Float(string='Total Quantity', compute='_compute_total', store=True)
 
-
+    customer_category = fields.Char(string='Customer Category')
+    customer_name = fields.Char(string='Customer Name')
+    
+    product_id = fields.Many2one('product.product', string='Producto')
+    currency_id = fields.Many2one(related='budget_id.currency_id')
+    price_unit = fields.Monetary(string='Average Price', currency_field='currency_id')
     # meses
     m01 = fields.Float("Jan", default=0.0)
     m02 = fields.Float("Feb", default=0.0)
