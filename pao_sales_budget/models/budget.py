@@ -25,7 +25,7 @@ class PAOSalesBudget(models.Model):
             'type': 'ir.actions.act_window',
             'view_mode': 'tree',
             'name': _("Budget Lines"),
-            'target': 'new',   
+            'target': 'current',   
             'domain': [('budget_id', '=', self.id)],
         }
         return action
