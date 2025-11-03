@@ -71,7 +71,7 @@ class PAOSalesBudget(models.Model):
                     to_create = []
                     for line in budget_line:
                         line_vals = {
-                            'budget_id': self.id,
+                            'budget_id': 1,
                             'region_id': line.region.id,
                             'customer_category': customer_type,
                             'customer_name': customer_type,
@@ -185,7 +185,7 @@ class PAOSalesBudget(models.Model):
                 months[field_name] = float(vals['qty_by_month'].get(m, 0.0))
 
             line_vals = {
-                'budget_id': self.id,
+                'budget_id': 1,
                 'region_id': region.id,
                 'customer_category': customer_type,
                 'customer_name': customer_name,
