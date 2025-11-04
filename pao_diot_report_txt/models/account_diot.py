@@ -13,7 +13,13 @@ class MexicanAccountReportCustomHandlerInherit(models.AbstractModel):
         old_lines = result['file_content'].decode('utf-8').split('\n')
 
         for (partner, values), line in zip(partner_and_values_to_report.items(), old_lines):
-            if not line.strip():
+            fields_to_check = (
+                'paid_16', 'paid_16_non_cred', 'paid_8', 'paid_8_non_cred',
+                'importation_16', 'paid_0', 'exempt', 'withheld', 'refunds'
+            )
+
+            if (not any(values.get(field) for field in fields_to_check) or not line.strip()):
+                # don't report if there isn't any amount to report
                 continue
 
             data = line.split('|')
