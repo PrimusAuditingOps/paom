@@ -41,9 +41,9 @@ class MexicanAccountReportCustomHandlerInherit(models.AbstractModel):
             data[7] = round(float(values.get('paid_8', 0))) # Pagado al 8%
             # data[8] = '' # Notas de credito fronterizas (rara vez tiene info)
             data[11] = round(float(values.get('paid_16', 0))) # Pagado al 16%
-            data[12] = round(float(values.get('refunds', 0)) / 0.16) # Reembolso / 0.16
-            data[17] = round(float(values.get('paid_8', 0)) * 0.08) # IVA de la región fronteriza (data[7] * 0.08)
-            data[21] = round(float(values.get('paid_16', 0)) * 0.16) # IVA de data[11]
+            data[12] = round(round(float(values.get('refunds', 0))) / 0.16) # Reembolso / 0.16
+            data[17] = round(round(float(values.get('paid_8', 0))) * 0.08) # IVA de la región fronteriza (data[7] * 0.08)
+            data[21] = round((round(float(values.get('paid_16', 0))) - float(data[12])) * 0.16) # IVA de data[11]
             
             
             # data[53] = 'test'

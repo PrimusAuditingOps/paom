@@ -702,7 +702,7 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                         "contactzip": $("#contactzip").val().trim(), 
                         "contacttelephone": $("#contacttelephone").val().trim(),
                         "contactemail": $("#contactemail").val().trim(),
-                        "index": this.datas.length,
+                        "index": $("#site_index").val() !== "" ? parseInt($("#site_index").val()) : this.datas.length,
                         "products": this.products,
                         "not_direct_line_memebers_grasp": document.getElementById("not_direct_line_memebers_grasp").value,
                         "not_direct_line_quantity_members_grasp": document.getElementById("not_direct_line_quantity_members_grasp").value,
