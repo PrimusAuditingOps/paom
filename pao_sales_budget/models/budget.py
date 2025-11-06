@@ -23,7 +23,7 @@ class PAOSalesBudget(models.Model):
         action = {
             'res_model': 'pao.sales.budget.line',
             'type': 'ir.actions.act_window',
-            'view_mode': 'tree',
+            'view_mode': 'tree,pivot',
             'name': _("Budget Lines"),
             'target': 'current',  
             'context': {'group_by': ['region_id', 'customer_category', 'customer_name'], 'default_budget_id': self.id } ,
@@ -227,8 +227,9 @@ class PAOSalesBudgetLine(models.Model):
     customer_category = fields.Char(string='Customer Category')
     customer_name = fields.Char(string='Customer Name')
     product_id = fields.Many2one('product.product', string='Producto')
-    product_id_reference = fields.Char(related='product_id.default_code', store=True)
     currency_id = fields.Many2one(related='budget_id.currency_id')
+    product_id_reference = fields.Char(related='product_id.default_code', store=True)
+    pao_sales_budget_scheme_id = fields.Many2one(related='product_id.pao_sales_budget_scheme_id',store=True)
     price_unit = fields.Monetary(string='Average Price', currency_field='currency_id')
     # meses
     m01 = fields.Float("Jan", default=0.0)

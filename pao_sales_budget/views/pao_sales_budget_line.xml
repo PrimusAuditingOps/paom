@@ -44,6 +44,29 @@
       </tree>
     </field>
   </record>
+
+  <record id="pao_sales_budget_line_view_pivot" model="ir.ui.view">
+        <field name="name">pao.sales.budget.line.view.pivot</field>
+        <field name="model">pao.sales.budget.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Sales Budget Line" sample="1">
+                <field name="pao_sales_budget_scheme_id" type="col"/>
+                <field name="m09" type="measure"/>
+                <field name="m10" type="measure"/>
+                <field name="m11" type="measure"/>
+                <field name="m12" type="measure"/>
+                <field name="m01" type="measure"/>
+                <field name="m02" type="measure"/>
+                <field name="m03" type="measure"/>
+                <field name="m04" type="measure"/>
+                <field name="m05" type="measure"/>
+                <field name="m06" type="measure"/>
+                <field name="m07" type="measure"/>
+                <field name="m08" type="measure"/>
+            </pivot>
+        </field>
+  </record>
+
   <record id="action_pao_sales_budget_line" model="ir.actions.act_window">
     <field name="name">Sales Budget Line</field>
     <field name="res_model">pao.sales.budget.line</field>
