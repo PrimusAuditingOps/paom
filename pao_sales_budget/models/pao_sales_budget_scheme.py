@@ -1,3 +1,8 @@
+from odoo import models, fields
+from logging import getLogger
+
+_logger = getLogger(__name__)
+
 class PAOSalesBudgetScheme(models.Model):
     _name = 'pao.sales.budget.scheme'
     _description = 'PAO Sales Budget Scheme'
