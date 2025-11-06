@@ -9,19 +9,7 @@
     </field>
   </record>
 
-  <record id="pao_sales_budget_scheme_view_form" model="ir.ui.view">
-    <field name="name">pao.sales.budget.scheme.view.form</field>
-    <field name="model">pao.sales.budget.scheme</field>
-    <field name="arch" type="xml">
-      <form string="Sales Budget Scheme Form">
-        <sheet>
-          <group>
-            <field name="name"/>
-          </group>
-        </sheet>
-      </form>
-    </field>
-  </record>
+  
 
   <record id="action_pao_sales_budget_scheme" model="ir.actions.act_window">
     <field name="name">Sales Budget Scheme</field>
