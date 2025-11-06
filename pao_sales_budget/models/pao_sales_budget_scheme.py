@@ -11,7 +11,10 @@ class PAOSalesBudgetScheme(models.Model):
          'UNIQUE(name)',
          "There is already a scheme with this name"),
     ]
-    name = fields.Char(string="Sales Budget Scheme", required= True)
+    name = fields.Char(
+        string = "Sales Budget Scheme", 
+        required= True
+    )
     product_template_ids = fields.One2many('product.template',
                                          inverse_name='pao_sales_budget_scheme_id',
                                          string='Products')
