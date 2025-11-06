@@ -265,7 +265,7 @@ class PaoAzzPlatformAudits(models.Model):
                     pol_id = line.id
                     break
             if not pol_id:       
-                date_search = rec.audit_date - relativedelta(months=6)
+                date_search = rec.audit_date - relativedelta(months=12)
                 domain = [("create_date",">=",date_search),("state","!=","cancel")]
                 if rec.organization_id:
                     domain.append(("organization_id","=",rec.organization_id.id))
@@ -276,14 +276,16 @@ class PaoAzzPlatformAudits(models.Model):
                         if line.product_id.id in rec.audit_template_id.product_ids.ids:
                             if len(line.pao_platform_audit_ids.ids) != line.product_qty and line.product_qty > 0:
                                 pol_id = line.id
-                                rec.search_state = "needs_validation"
+                                if rec.search_state != "found":
+                                    rec.search_state = "needs_validation"
                                 break
                     if not pol_id:
                         for line in rec_purchase_order_line:
                             if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
                                 if len(line.pao_platform_audit_ids.ids) != line.product_qty and line.product_qty > 0:
                                     pol_id = line.id
-                                    rec.search_state = "needs_validation"                        
+                                    if rec.search_state != "found":
+                                        rec.search_state = "needs_validation"                        
                                     break
             if pol_id:
                 rec.purchase_order_line_id = pol_id
@@ -298,7 +300,7 @@ class PaoAzzPlatformAudits(models.Model):
     @api.depends('audit_template_id')
     def _compute_sale_order_line(self):
         for rec in self:
-            date_search = rec.audit_date - relativedelta(months=6)
+            date_search = rec.audit_date - relativedelta(months=12)
             domain = [("create_date",">=",date_search),("state","!=","cancel"),("company_id","=",rec.company_id.id)]
             sol_id = None
             first_sol_id = None
