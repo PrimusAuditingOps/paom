@@ -27,17 +27,29 @@
          <field name="currency_id" optional="hide"/>
         <field name="price_unit" sum="Total" options="{'currency_field': 'currency_id'}"/>
         <field name="m09" sum="Total"/>
+        <field name="m09_amount" optional="hide" sum="Total"/>
         <field name="m10" sum="Total"/>
+        <field name="m10_amount" optional="hide" sum="Total"/>
         <field name="m11" sum="Total"/>
+        <field name="m11_amount" optional="hide" sum="Total"/>
         <field name="m12" sum="Total"/>
+        <field name="m12_amount" optional="hide" sum="Total"/>
         <field name="m01" sum="Total"/>
+        <field name="m01_amount" optional="hide" sum="Total"/>
         <field name="m02" sum="Total"/>
+        <field name="m02_amount" optional="hide" sum="Total"/>
         <field name="m03" sum="Total"/>
+        <field name="m03_amount" optional="hide" sum="Total"/>
         <field name="m04" sum="Total"/>
+        <field name="m04_amount" optional="hide" sum="Total"/>
         <field name="m05" sum="Total"/>
+        <field name="m05_amount" optional="hide" sum="Total"/>
         <field name="m06" sum="Total"/>
+        <field name="m06_amount" optional="hide" sum="Total"/>
         <field name="m07" sum="Total"/>
+        <field name="m07_amount" optional="hide" sum="Total"/>
         <field name="m08" sum="Total"/>
+        <field name="m08_amount" optional="hide" sum="Total"/>
         <field name="total_quantity" sum="Total"/>
         <field name="total_amount" sum="Total"/>
         

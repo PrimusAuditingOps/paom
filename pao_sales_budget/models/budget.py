@@ -231,7 +231,7 @@ class PAOSalesBudgetLine(models.Model):
     product_id_reference = fields.Char(related='product_id.default_code', store=True)
     pao_sales_budget_scheme_id = fields.Many2one(related='product_id.pao_sales_budget_scheme_id',store=True)
     price_unit = fields.Monetary(string='Average Price', currency_field='currency_id')
-    # meses
+    # Quantity Month
     m01 = fields.Float("Jan", default=0.0)
     m02 = fields.Float("Feb", default=0.0)
     m03 = fields.Float("Mar", default=0.0)
@@ -244,8 +244,74 @@ class PAOSalesBudgetLine(models.Model):
     m10 = fields.Float("Oct", default=0.0)
     m11 = fields.Float("Nov", default=0.0)
     m12 = fields.Float("Dec", default=0.0)
+    # Amount Month
+    m01_amount = fields.Float("Total Amount Jan", compute='_compute_total_jan', currency_field='currency_id', store=True)
+    m02_amount = fields.Float("Total Amount Feb", compute='_compute_total_feb', currency_field='currency_id', store=True)
+    m03_amount = fields.Float("Total Amount Mar", compute='_compute_total_mar', currency_field='currency_id', store=True)
+    m04_amount = fields.Float("Total Amount Apr", compute='_compute_total_apr', currency_field='currency_id', store=True)
+    m05_amount = fields.Float("Total Amount May", compute='_compute_total_may', currency_field='currency_id', store=True)
+    m06_amount = fields.Float("Total Amount Jun", compute='_compute_total_jun', currency_field='currency_id', store=True)
+    m07_amount = fields.Float("Total Amount Jul", compute='_compute_total_jul', currency_field='currency_id', store=True)
+    m08_amount = fields.Float("Total Amount Aug", compute='_compute_total_aug', currency_field='currency_id', store=True)
+    m09_amount = fields.Float("Total Amount Sep", compute='_compute_total_sep', currency_field='currency_id', store=True)
+    m10_amount = fields.Float("Total Amount Oct", compute='_compute_total_oct', currency_field='currency_id', store=True)
+    m11_amount = fields.Float("Total Amount Nov", compute='_compute_total_nov', currency_field='currency_id', store=True)
+    m12_amount = fields.Float("Total Amount Dec", compute='_compute_total_dec', currency_field='currency_id', store=True)
+
+
     total_amount = fields.Monetary(string='Total Amount', compute='_compute_total', currency_field='currency_id', store=True)
     total_quantity = fields.Float(string='Total Quantity', compute='_compute_total', store=True)
+
+
+    @api.depends('m01','price_unit')
+    def _compute_total_jan(self):
+        for rec in self:
+            rec.m01_amount = rec.m01 * (rec.price_unit or 0.0)
+    
+    @api.depends('m02','price_unit')
+    def _compute_total_feb(self):
+        for rec in self:
+            rec.m02_amount = rec.m02 * (rec.price_unit or 0.0)    
+    @api.depends('m03','price_unit')
+    def _compute_total_mar(self):
+        for rec in self:
+            rec.m03_amount = rec.m03 * (rec.price_unit or 0.0)  
+    @api.depends('m04','price_unit')
+    def _compute_total_apr(self):
+        for rec in self:
+            rec.m04_amount = rec.m04 * (rec.price_unit or 0.0)  
+    @api.depends('m05','price_unit')
+    def _compute_total_may(self):
+        for rec in self:
+            rec.m05_amount = rec.m05 * (rec.price_unit or 0.0)  
+    @api.depends('m06','price_unit')
+    def _compute_total_jun(self):
+        for rec in self:
+            rec.m06_amount = rec.m06 * (rec.price_unit or 0.0)  
+    @api.depends('m07','price_unit')
+    def _compute_total_jul(self):
+        for rec in self:
+            rec.m07_amount = rec.m07 * (rec.price_unit or 0.0)  
+    @api.depends('m08','price_unit')
+    def _compute_total_aug(self):
+        for rec in self:
+            rec.m08_amount = rec.m08 * (rec.price_unit or 0.0)  
+    @api.depends('m09','price_unit')
+    def _compute_total_sep(self):
+        for rec in self:
+            rec.m09_amount = rec.m09 * (rec.price_unit or 0.0)  
+    @api.depends('m10','price_unit')
+    def _compute_total_oct(self):
+        for rec in self:
+            rec.m10_amount = rec.m10 * (rec.price_unit or 0.0)  
+    @api.depends('m11','price_unit')
+    def _compute_total_nov(self):
+        for rec in self:
+            rec.m11_amount = rec.m11 * (rec.price_unit or 0.0)  
+    @api.depends('m12','price_unit')
+    def _compute_total_dec(self):
+        for rec in self:
+            rec.m12_amount = rec.m12 * (rec.price_unit or 0.0)  
    
 
     @api.depends('m01','m02','m03','m04','m05','m06','m07','m08','m09','m10','m11','m12','price_unit')
