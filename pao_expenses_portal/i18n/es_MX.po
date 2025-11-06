@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 20:21+0000\n"
-"PO-Revision-Date: 2025-07-31 20:21+0000\n"
+"POT-Creation-Date: 2025-11-05 19:16+0000\n"
+"PO-Revision-Date: 2025-11-05 19:16+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -371,6 +371,13 @@ msgstr "Reporte de gastos"
 
 #. module: pao_expenses_portal
 #. odoo-python
+#: code:addons/pao_expenses_portal/models/upload_statement.py:0
+#, python-format
+msgid "Expenses Uploaded"
+msgstr "Gastos subidos"
+
+#. module: pao_expenses_portal
+#. odoo-python
 #: code:addons/pao_expenses_portal/models/hr_expense_sheet.py:0
 #, python-format
 msgid "Expenses must be completed before adding them to a report."
@@ -609,8 +616,9 @@ msgid ""
 " required information. Please review and complete them before attempting to "
 "add them again: %(invalid_expenses)s"
 msgstr ""
-"Los siguientes gastos no se agregaron al informe porque les falta información requerida. "
-"Por favor, revísalos y complétalos antes de intentar agregarlos nuevamente: %(invalid_expenses)s"
+"Los siguientes gastos no se agregaron al informe porque les falta "
+"información requerida. Por favor, revísalos y complétalos antes de intentar "
+"agregarlos nuevamente: %(invalid_expenses)s"
 
 #. module: pao_expenses_portal
 #. odoo-python
@@ -790,3 +798,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "own_account"
 msgstr ""
+
+#. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/models/upload_statement.py:0
+#, python-format
+msgid "{} expense(s) uploaded successfully. Total amount: ${:,.2f}"
+msgstr "{} gasto(s) importado(s) correctamente. Importe total: ${:,.2f}"

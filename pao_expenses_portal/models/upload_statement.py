@@ -63,12 +63,12 @@ class UploadExpenseStatement(models.TransientModel):
             if self.env.company.country_code not in ('MX', 'US', 'CR', 'CL'):
                 raise UserError(_('This process is not available for your company. Please contact IT support.'))
             
-            
-            if '.csv' in self.statement_filename:
+            filename = self.statement_filename.lower()
+            if '.csv' in filename:
                 expenses = self._process_csv_file(base64.b64decode(self.statement_file))
-            elif '.xlsx' in self.statement_filename:
+            elif '.xlsx' in filename:
                 expenses = self._process_excel_file(base64.b64decode(self.statement_file))
-            elif '.pdf' in self.statement_filename:
+            elif '.pdf' in filename:
                 if self.env.company.country_code != 'US':
                     raise UserError(_('Unsupported file format. Please upload a CSV or Excel file with a correct format.'))
                 expenses = self._process_pdf_file(base64.b64decode(self.statement_file))
@@ -103,7 +103,21 @@ class UploadExpenseStatement(models.TransientModel):
                 }
             }
         self.process_run = True
-        return {'type': 'ir.actions.client', 'tag': 'reload'}
+        
+        num_expenses = len(expenses)
+        total_amount = sum(exp.total_amount_currency for exp in expenses)
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'type': 'success',
+                'title': _('Expenses Uploaded'),
+                'message': _('{} expense(s) uploaded successfully. Total amount: ${:,.2f}').format(num_expenses, total_amount),
+                'sticky': True,
+                'next': {'type': 'ir.actions.act_window_close'},
+            }
+        }
+    
     
     def _process_pdf_file(self, file_binary):
         results = []
@@ -136,16 +150,16 @@ class UploadExpenseStatement(models.TransientModel):
 
             full_line = f"{line1} {line2} {line3}"
             _logger.warning("CANDIDATE: %s", full_line)
-
+            
             match = re.match(
-                r"(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>[\d.]+)\s+US\$\d+\.\d{0,2}\s+(?P<cardholder>[A-Z\s,]+?)\s+(?P<account>\*\d{4})\s+(?P<rest>.+)",
+                r"(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>[\d,]+\.\d{2})\s+US\$[\d,]*\.?\d*\s+(?P<cardholder>[A-Z\s,]+?)\s+(?P<account>\*\d{4})\s+(?P<rest>.+)",
                 full_line
             )
 
             if match:
                 # Extract groups
                 date = match.group("date")
-                amount = match.group("amount")
+                amount = match.group("amount").replace(',', '')
                 cardholder = match.group("cardholder").strip()
                 account_number = match.group("account").strip()
                 rest = match.group("rest").strip()
