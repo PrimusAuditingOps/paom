@@ -20,7 +20,7 @@
         'views/comisionpromotores.xml',
         'views/pao_sales_budget_line.xml',
         'views/product_template.xml',
-        #'views/pao_sales_budget_scheme.xml',
+        'views/pao_sales_budget_scheme.xml',
     ],
     'license': 'LGPL-3',
 }

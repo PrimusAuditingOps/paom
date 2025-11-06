@@ -13,7 +13,7 @@
     <field name="name">pao.sales.budget.scheme.view.form</field>
     <field name="model">pao.sales.budget.scheme</field>
     <field name="arch" type="xml">
-      <form string="Sales Budget Scheme">
+      <form string="Sales Budget Scheme Form">
         <sheet>
           <group>
             <field name="name"/>
@@ -27,9 +27,9 @@
     <field name="name">Sales Budget Scheme</field>
     <field name="res_model">pao.sales.budget.scheme</field>
     <field name="view_mode">tree,form</field>
-    <field name="view_id" ref="pao_sales_budget_view_tree"/>
+    <field name="view_id" ref="pao_sales_budget_scheme_view_tree"/>
   </record>
-  
+
   <menuitem id="pao_sales_budget_scheme"
             name="Sales Budget Scheme"
             parent="sale.menu_sales_config"
