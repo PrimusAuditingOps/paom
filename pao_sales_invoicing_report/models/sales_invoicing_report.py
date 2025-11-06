@@ -29,6 +29,7 @@ class SalesInvoicingReport(models.Model):
     mxn_untaxed_total = fields.Monetary(string='MXN Untaxed Total', currency_field='currency_id', readonly=True)
     
     product_tmpl_id = fields.Many2one('product.template', 'Product', readonly=True)
+    pao_sales_budget_scheme_id = fields.Many2one('pao.sales.budget.scheme',string='Sales Budget Scheme',readonly=True)
     categ_id = fields.Many2one('product.category', 'Product Category', readonly=True)
     nbr = fields.Integer('# of Lines', readonly=True)
     team_id = fields.Many2one('crm.team', 'Sales Team', readonly=True)
@@ -99,6 +100,7 @@ class SalesInvoicingReport(models.Model):
             so.team_id as team_id,
             partner.pao_old_sales_team_id as pao_old_sales_team_id,
             p.product_tmpl_id,
+            p.pao_sales_budget_scheme_id,
             partner.country_id as country_id,
             partner.industry_id as industry_id,
             partner.commercial_partner_id as commercial_partner_id,
@@ -169,6 +171,7 @@ class SalesInvoicingReport(models.Model):
             so.team_id,
             partner.pao_old_sales_team_id,
             p.product_tmpl_id,
+            p.pao_sales_budget_scheme_id,
             partner.country_id,
             partner.industry_id,
             partner.commercial_partner_id,
