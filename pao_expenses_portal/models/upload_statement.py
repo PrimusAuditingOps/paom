@@ -152,7 +152,7 @@ class UploadExpenseStatement(models.TransientModel):
             _logger.warning("CANDIDATE: %s", full_line)
             
             match = re.match(
-                r"(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>[\d,]+\.\d{2})\s+US\$[\d,]*\.?\d*\s+(?P<cardholder>[A-Z\s,]+?)\s+(?P<account>\*\d{4})\s+(?P<rest>.+)",
+                r"(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>[\d,]+\.\d{2})\s+US\$\S+\s+(?P<cardholder>.+?)\s+(?P<account>\*\d{4})\s+(?P<rest>.+)",
                 full_line
             )
 
