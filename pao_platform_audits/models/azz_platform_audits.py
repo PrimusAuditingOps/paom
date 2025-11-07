@@ -142,7 +142,7 @@ class PaoAzzPlatformAudits(models.Model):
         string= "Total Days Sedex",
     )
     workers = fields.Char(
-        string= "Total Days Sedex",
+        string= "Workers",
     )
 
     #Related Fields
