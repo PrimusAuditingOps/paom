@@ -50,7 +50,6 @@ class PaoAzzPlatformAudits(models.Model):
         string= "Audit ID",
     )
     status = fields.Char(
-        required=True,
         string= "Audit Status",
     )
     app_status = fields.Char(
@@ -67,7 +66,7 @@ class PaoAzzPlatformAudits(models.Model):
         string= "Module 9",
     )
     autid_type_code = fields.Char(
-        string= "Audit Type Code",
+        string= "Audit Type",
     )
     preventive_control = fields.Char(
         string= "Preventive Control",
@@ -129,6 +128,22 @@ class PaoAzzPlatformAudits(models.Model):
     shipper = fields.Char(
         string= "Shipper",
     )
+    #smeta
+    schedule_type_audit = fields.Char(
+        string= "Schedule Type Audit",
+    )
+    review_of_ca = fields.Char(
+        string= "Review of CA",
+    )
+    apsca_status = fields.Char(
+        string= "APSCA Status",
+    )
+    total_days_sedex = fields.Char(
+        string= "Total Days Sedex",
+    )
+    workers = fields.Char(
+        string= "Total Days Sedex",
+    )
 
     #Related Fields
     entity_ids = fields.Many2many(
@@ -140,6 +155,7 @@ class PaoAzzPlatformAudits(models.Model):
         compute='_compute_entity_ids',
         store=True,
     )
+    
 
     organization_id = fields.Many2one(
         comodel_name='servicereferralagreement.organization',
