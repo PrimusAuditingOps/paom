@@ -498,8 +498,6 @@ class PaoAzzPlatformAudits(models.Model):
 
     def unlink_audit(self):
         for rec in self:
-            #[("pao_platform_audit_ids", "in", [19572])]
-            #
             purchase_line = self.env["purchase.order.line"].search([("company_id","=",rec.company_id.id),("pao_platform_audit_ids","in",[rec.id])])
             for poline in purchase_line:
                 poline.write({'pao_platform_audit_ids': [(3, rec.id)]})
