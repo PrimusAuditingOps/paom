@@ -500,7 +500,14 @@ class PaoAzzPlatformAudits(models.Model):
         for rec in self:
             #[("pao_platform_audit_ids", "in", [19572])]
             #
-
+            purchase_line = self.env["purchase.order.line"].search([("company_id","=",rec.company_id.id),("pao_platform_audit_ids","in",[rec.id])])
+            for poline in purchase_line:
+                poline.write({'pao_platform_audit_ids': [(3, rec.id)]})
+            
+            sale_line = self.env["sale.order.line"].search([("company_id","=",rec.company_id.id),("pao_platform_audit_ids","in",[rec.id])])
+            for soline in sale_line:
+                soline.write({'pao_platform_audit_ids': [(3, rec.id)]})
+            
             if rec.purchase_order_line_id:
                 rec.purchase_order_line_id.write({'pao_platform_audit_ids': [(3, rec.id)]})
             if rec.sale_order_line_id:
