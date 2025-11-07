@@ -512,6 +512,7 @@ class PaoAzzPlatformAudits(models.Model):
             if rec.sale_order_line_id:
                 rec.sale_order_line_id.write({'pao_platform_audit_ids': [(3, rec.id)]})
 
-            rec.purchase_order_line_id = None
+            
             rec.sale_order_line_id = None
+            rec.purchase_order_line_id = None
             rec.search_state = "not_found"
