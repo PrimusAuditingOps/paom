@@ -244,7 +244,7 @@ class PaoAzzPlatformAudits(models.Model):
             ids = []
             rec.entity_ids = None
             if rec.entities:
-                if rec.plc and 'PA-PGFS'in rec.plc:
+                if rec.plc and ('PA-PGFS'in rec.plc or 'PAO-SMETA' in rec.plc):
                     rec_entity = self.env["pao.platform.entities"].search([("name","=",rec.entities)],limit=1)
                     if not rec_entity:
                         rec_entity = self.env["pao.platform.entities"].create({"name": rec.entities }) 
