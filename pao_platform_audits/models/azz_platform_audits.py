@@ -487,7 +487,8 @@ class PaoAzzPlatformAudits(models.Model):
         for rec in self:
             rec.purchase_order_line_id = None
             rec.sale_order_line_id = None
-            
+            rec.search_state = "not_found"
+
             if not rec.organization_id:
                 rec._compute_organization()
             if not rec.registration_number_id:
