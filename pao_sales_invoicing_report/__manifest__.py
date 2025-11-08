@@ -8,6 +8,7 @@
     'data': [
         'views/sales_invoicing_report_views.xml',
         'views/menu_item_accounting_sales_report.xml',
+        'views/account_move_line_view.xml',
         
         'security/ir.model.access.csv',
     ],

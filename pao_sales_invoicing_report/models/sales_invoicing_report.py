@@ -68,7 +68,7 @@ class SalesInvoicingReport(models.Model):
     
     quantity = fields.Float('Invoiced Quantity', readonly=True)
     quotation_promoter = fields.Many2one('comisionpromotores.promotor', 'Quotation Consultant', readonly=True)
-
+    
     def _select(self, fields=None):
         if not fields:
             fields = {}
@@ -81,8 +81,12 @@ class SalesInvoicingReport(models.Model):
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.price_total / CASE COALESCE(r.rate, 0) WHEN 0 THEN 1.0 ELSE r.rate END) * CASE WHEN prcr.rate IS NOT NULL THEN prcr.rate ELSE 1 END ELSE 0 END * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as usd_total,
             CASE WHEN l.product_id IS NOT NULL THEN sum(l.price_subtotal / CASE COALESCE(r.rate, 0) WHEN 0 THEN 1.0 ELSE r.rate END) * CASE WHEN prcr.rate IS NOT NULL THEN prcr.rate ELSE 1 END ELSE 0 END * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as usd_untaxed_total,
             
-            l.product_id as product_id,
-            t.uom_id as product_uom,
+            --l.product_id as product_id,
+            pr.product_resolved_id as product_id,
+            pt.uom_id as product_uom,
+            pt.categ_id as categ_id,
+            pp.product_tmpl_id as product_tmpl_id,
+            
             
             l.account_id as account_id,
             count(*) as nbr,
@@ -95,10 +99,8 @@ class SalesInvoicingReport(models.Model):
             a.campaign_id as campaign_id,
             a.medium_id as medium_id,
             a.source_id as source_id,
-            t.categ_id as categ_id,
             so.team_id as team_id,
             partner.pao_old_sales_team_id as pao_old_sales_team_id,
-            p.product_tmpl_id,
             partner.country_id as country_id,
             partner.industry_id as industry_id,
             partner.commercial_partner_id as commercial_partner_id,
@@ -112,12 +114,37 @@ class SalesInvoicingReport(models.Model):
             a.invoice_origin,
             sl.service_start_date as order_start_date,
             sl.service_end_date as order_end_date,
-            l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
+            
+            --l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END as quantity,
+            
+            -- quantity: si la invoice es RINV (reversión), verificamos si la reversión es total o parcial
+            CASE
+                WHEN a.name NOT LIKE 'RINV%' THEN
+                    l.quantity * CASE WHEN a.move_type = 'out_refund' THEN -1 ELSE 1 END
+                ELSE
+                    CASE
+                        WHEN abs(COALESCE(l.price_subtotal, 0)) >=
+                            abs(COALESCE((
+                                SELECT SUM(ol.price_subtotal)
+                                    FROM account_move_line ol
+                                    JOIN account_move oa ON ol.move_id = oa.id
+                                WHERE oa.id = a.reversed_entry_id
+                                    AND oa.currency_id = a.currency_id
+                                    AND ol.name = l.name
+                            ), 0))
+                        THEN l.quantity * -1
+                        ELSE 0
+                    END
+            END AS quantity,
+
+
+            
+            
             c.id as currency_id,
             partner.state_id as state_id,
             partner.city_id as city_id, 
             so.pao_promotor_id as quotation_promoter 
-             
+            
         """
 
         for field in fields.values():
@@ -125,20 +152,48 @@ class SalesInvoicingReport(models.Model):
         return select_
 
     def _from(self, from_clause=''):
-        from_ = """
+        from_ = f"""
                     account_move_line l
-                      inner join account_move a on (l.move_id = a.id)
+                        inner join account_move a on (l.move_id = a.id)
                         left join sale_order_line_invoice_rel rel on (rel.invoice_line_id = l.id)
                         left join sale_order_line sl on (sl.id = rel.order_line_id)
                         left join sale_order so on (so.id = sl.order_id)
-                        join res_partner partner on a.partner_id = partner.id
-                        inner join product_product p on (l.product_id = p.id)
-                            left join product_template t on (p.product_tmpl_id = t.id)
+                        join res_partner partner on a.partner_id = partner.id 
+                        LEFT JOIN LATERAL (
+                            SELECT
+                                CASE 
+                                    WHEN a.name NOT LIKE 'RINV%' THEN 
+                                        l.product_id
+                                    ELSE 
+                                        COALESCE(
+                                            (SELECT ol.product_id
+                                                FROM account_move_line ol
+                                                WHERE ol.id = l.reversed_line_id
+                                                LIMIT 1),
+                                            (SELECT ol.product_id
+                                                FROM account_move_line ol
+                                                JOIN account_move oa ON ol.move_id = oa.id
+                                                JOIN product_product op ON ol.product_id = op.id
+                                                WHERE oa.id = a.reversed_entry_id
+                                                AND oa.currency_id = a.currency_id
+                                                AND (
+                                                    l.name ILIKE CONCAT('%[', op.default_code, ']%') 
+                                                    OR ol.name ILIKE CONCAT('%', l.name, '%')
+                                                )
+                                                LIMIT 1),
+                                            l.product_id
+                                        )
+                                END AS product_resolved_id
+                        ) pr ON TRUE
+
+                        LEFT JOIN product_product pp ON pp.id = pr.product_resolved_id
+                        LEFT JOIN product_template pt ON pp.product_tmpl_id = pt.id
+
                     inner join res_currency c on (c.id = l.currency_id)
                         left join res_currency_rate r on (c.id = r.currency_id) and r.name = a.invoice_date and r.company_id = a.company_id
 			            left join res_currency_rate prcr on (prcr.name::date = a.invoice_date::date and prcr.currency_id = 2) and prcr.company_id = a.company_id
-                %s
-        """ % from_clause
+        {from_clause}
+        """
         return from_
 
     def _group_by(self, groupby=''):
@@ -152,9 +207,10 @@ class SalesInvoicingReport(models.Model):
             partner.promotor_id,
             sl.service_start_date,
             sl.service_end_date,
-            l.product_id,
-            t.uom_id,
-            t.categ_id,
+            pr.product_resolved_id,
+            pt.uom_id,
+            pt.categ_id,
+            pp.product_tmpl_id,
             a.name,
             a.invoice_date,
             a.partner_id,
@@ -168,7 +224,6 @@ class SalesInvoicingReport(models.Model):
             partner.pao_office_id,
             so.team_id,
             partner.pao_old_sales_team_id,
-            p.product_tmpl_id,
             partner.country_id,
             partner.industry_id,
             partner.commercial_partner_id,
@@ -197,7 +252,7 @@ class SalesInvoicingReport(models.Model):
             fields = {}
         invoice_report_fields = self._select_additional_fields(fields)
         with_ = ("WITH %s" % with_clause) if with_clause else ""
-        return '%s (SELECT %s FROM %s WHERE a.state = \'posted\' AND a.move_type IN (\'out_invoice\', \'out_refund\') GROUP BY %s)' % \
+        return '%s (SELECT %s FROM %s WHERE a.state = \'posted\' AND a.move_type IN (\'out_invoice\', \'out_refund\') AND pr.product_resolved_id IS NOT NULL GROUP BY %s)' % \
                 (with_, self._select(invoice_report_fields), self._from(from_clause), self._group_by(groupby))
 
     def init(self):

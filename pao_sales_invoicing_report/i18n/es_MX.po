@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-04 18:40+0000\n"
-"PO-Revision-Date: 2025-07-04 18:40+0000\n"
+"POT-Creation-Date: 2025-11-05 19:18+0000\n"
+"PO-Revision-Date: 2025-11-05 19:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -136,6 +136,11 @@ msgid "Invoiced Quantity"
 msgstr "Cantidad facturada"
 
 #. module: pao_sales_invoicing_report
+#: model:ir.model,name:pao_sales_invoicing_report.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte contable"
+
+#. module: pao_sales_invoicing_report
 #: model:ir.model.fields,field_description:pao_sales_invoicing_report.field_sales_invoicing_report__mxn_total
 msgid "MXN Total"
 msgstr "Total MXN"
@@ -209,6 +214,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_sales_invoicing_report.field_sales_invoicing_report__quotation_promoter
 msgid "Quotation Consultant"
 msgstr "Promotor de la cotización"
+
+#. module: pao_sales_invoicing_report
+#: model:ir.model.fields,help:pao_sales_invoicing_report.field_account_move_line__reversed_line_id
+msgid "Reference to the original invoice line that this line reverses"
+msgstr "Referencia a la línea de factura original que esta línea revierte"
+
+#. module: pao_sales_invoicing_report
+#: model:ir.model.fields,field_description:pao_sales_invoicing_report.field_account_move_line__reversed_line_id
+msgid "Reversed Line"
+msgstr "Línea revertida"
 
 #. module: pao_sales_invoicing_report
 #: model_terms:ir.ui.view,arch_db:pao_sales_invoicing_report.sales_invoicing_report_view_pivot
