@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record model="ir.rule" id="pao_sales_budget_comp_rule">
+        <field name="name">PAO Sales Budget multi-company</field>
+        <field name="model_id" ref="model_pao_sales_budget"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="pao_sales_budget_schemes_comp_rule">
+        <field name="name">PAO Sales Budget Schemes multi-company</field>
+        <field name="model_id" ref="model_pao_sales_budget_scheme"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

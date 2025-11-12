@@ -14,6 +14,7 @@
     'depends': ['base','product','sale','comisionpromotores','customergroups','crm'],
     'data': [
         'security/ir.model.access.csv',
+        'security/rules.xml',
         'views/pao_sales_budget.xml',
         'views/crm_team.xml',
         'views/customergroups_group.xml',
@@ -21,6 +22,7 @@
         'views/pao_sales_budget_line.xml',
         'views/product_template.xml',
         'views/pao_sales_budget_scheme.xml',
+        
     ],
     'license': 'LGPL-3',
 }
