@@ -14,7 +14,7 @@ class PAOSalesBudget(models.Model):
     name = fields.Char(required=True, copy=False)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
     currency_id = fields.Many2one('res.currency',copy=False, string='Currency', default=2, required=True)
-    year = fields.Integer(string='Año', required=True, copy=False, default=lambda self: fields.Date.context_today(self).year)
+    year = fields.Integer(string='Year', required=True, copy=False, default=lambda self: fields.Date.context_today(self).year)
     line_ids = fields.One2many('pao.sales.budget.line', 'budget_id', string='Lines', copy=False)
 
 
