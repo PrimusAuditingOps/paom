@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-15 20:51+0000\n"
-"PO-Revision-Date: 2025-09-15 20:51+0000\n"
+"POT-Creation-Date: 2025-11-13 18:43+0000\n"
+"PO-Revision-Date: 2025-11-13 18:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -654,7 +654,7 @@ msgstr ""
 #: code:addons/pao_sign_ra/models/ra_document.py:0
 #, python-format
 msgid "A reminder email was sent to the customer."
-msgstr "Se envió un correo de recordatorio al cliente".
+msgstr "Se envió un correo de recordatorio al cliente."
 
 #. module: pao_sign_ra
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
@@ -894,6 +894,11 @@ msgid "Download RA"
 msgstr "Descargar RA"
 
 #. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+msgid "Edit and Resend"
+msgstr "Editar y reenviar"
+
+#. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__email_layout_xmlid
 msgid "Email Notification Layout"
 msgstr ""
@@ -937,6 +942,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__has_message
 msgid "Has Message"
 msgstr ""
+
+#. module: pao_sign_ra
+#. odoo-python
+#: code:addons/pao_sign_ra/models/purchase_order.py:0
+#, python-format
+msgid "Hello %(mention_html)s, the auditor has signed and accepted the RA."
+msgstr "Hola %(mention_html)s, el auditor ha firmado y aceptado el RA."
 
 #. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__id
@@ -1230,6 +1242,13 @@ msgid "RA Templates Manager"
 msgstr "Administrador de Plantillas RA"
 
 #. module: pao_sign_ra
+#. odoo-python
+#: code:addons/pao_sign_ra/models/ra_document.py:0
+#, python-format
+msgid "RA sent manually."
+msgstr "RA reenviado manualmente"
+
+#. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__ra_document_id
 msgid "Ra Document"
 msgstr "Documento RA"
@@ -1346,7 +1365,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__reminder_days
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__reminder_days
 msgid "Reminder days"
-msgstr "Dias de recordatorio"
+msgstr "Días de recordatorio"
 
 #. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__render_model
@@ -1506,6 +1525,7 @@ msgid "Su respuesta ha sido registrada."
 msgstr ""
 
 #. module: pao_sign_ra
+#: model:ir.model.fields,field_description:pao_sign_ra.field_ra_document__subject
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__subject
 msgid "Subject"
 msgstr "Asunto"
@@ -1544,14 +1564,7 @@ msgstr "La solicitud de firma de RA fue cancelada o no existe."
 #: code:addons/pao_sign_ra/controller/portal.py:0
 #, python-format
 msgid "The auditor has declined the RA."
-msgstr "El auditor rechazó el RA"
-
-#. module: pao_sign_ra
-#. odoo-python
-#: code:addons/pao_sign_ra/controller/portal.py:0
-#, python-format
-msgid "The auditor has signed and accepted the RA."
-msgstr "El auditor ha firmado y aceptado el RA."
+msgstr "El auditor rechazó el RA."
 
 #. module: pao_sign_ra
 #. odoo-python
@@ -1572,7 +1585,7 @@ msgstr "El coordinador no tiene una firma registrada."
 #: code:addons/pao_sign_ra/models/ra_document.py:0
 #, python-format
 msgid "The previously signed RA has been canceled."
-msgstr ""
+msgstr "El RA previamente firmado ha sido cancelado."
 
 #. module: pao_sign_ra
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.process_complete_ra_request_portal_view
@@ -1596,6 +1609,13 @@ msgid ""
 msgstr ""
 "Esto cancelará la solicitud de RA, y necesitarás crear una nueva para "
 "enviársela de nuevo al contacto."
+
+#. module: pao_sign_ra
+#: model_terms:ir.ui.view,arch_db:pao_sign_ra.ra_document_form_view
+msgid ""
+"This will resend the email immediately with the original details. No edit "
+"screen will appear. Continue?"
+msgstr "Esto reenviará el correo de inmediato con los datos originales. No se mostrará ninguna pantalla de edición. ¿Deseas continuar?"
 
 #. module: pao_sign_ra
 #: model:ir.model.fields,field_description:pao_sign_ra.field_send_ra_wizard__model_is_thread
@@ -1676,7 +1696,7 @@ msgstr "Debes seleccionar un coordinador para continuar con el proceso."
 msgid ""
 "You must select an organization in the order lines to procced with the "
 "process."
-msgstr ""
+msgstr "Debes seleccionar una organizaciíon en las líneas de la orden para continuar con el proceso."
 
 #. module: pao_sign_ra
 #: model_terms:ir.ui.view,arch_db:pao_sign_ra.send_ra_wizard_view_form

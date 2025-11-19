@@ -56,6 +56,23 @@ class PurchaseOrder(models.Model):
             'domain': [('purchase_order_id', '=', self.id), ('status', '!=', 'cancel')],
         }
     
+    def sign_ra_action(self, ra_document): 
+            
+        mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{ra_document.create_uid.id}">@{ra_document.create_uid.name}</a>'
+
+        message = _('Hello %(mention_html)s, the auditor has signed and accepted the RA.'
+                ) % {'mention_html': mention_html}
+        
+        message = self.message_post(
+            body=message,
+            partner_ids=[ra_document.create_uid.partner_id.id],
+            body_is_html = True
+        )
+        
+        self.message_notify(
+            message_id=message.id,
+        )
+    
     def notify_ra_request_progress(self, message):
         odoo_bot = self.env.ref('base.partner_root')
         self.message_post(
@@ -74,7 +91,7 @@ class PurchaseOrder(models.Model):
             elif attribute == 'token':
                 return str(self.ra_document_ids[0].access_token)
     
-    def send_referral_agreement_action(self, ra_document_id = None, resend_action=False, registration_numbers_ids=None, request_travel_expenses=True, reminder_days = 0, template_id = None):
+    def send_referral_agreement_action(self, ra_document_id = None, resend_action=False, subject=None, registration_numbers_ids=None, request_travel_expenses=True, reminder_days = 0, template_id = None):
         '''
         This function opens a window to compose an email, with the edi purchase template message loaded by default
         '''
@@ -105,6 +122,11 @@ class PurchaseOrder(models.Model):
             'default_email_layout_xmlid': "mail.mail_notification_layout_with_responsible_signature",
             'force_email': True,
         })
+        
+        if subject:
+            ctx.update({
+                'default_subject': subject,
+            })
 
         lang = self.env.context.get('lang')
         if {'default_template_id', 'default_model', 'default_res_id'} <= ctx.keys():

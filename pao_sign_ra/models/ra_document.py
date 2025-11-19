@@ -98,12 +98,44 @@ class RADocument(models.Model):
         for rec in self:
             registration_numbers_names = rec.pao_registration_numbers_ids.mapped('name')
             rec.name = rec.purchase_order_id.name + ' - ' + (', '.join(registration_numbers_names))
+            
+    def action_quick_resend(self):
+        for rec in self:
+            if rec.status == 'sent':
+                wizard_vals = {
+                        'purchase_order_id': rec.purchase_order_id.id,
+                        'reminder_action': True,
+                        'reminder_days': rec.reminder_days,
+                        'ra_document_id': rec.id,
+                        'request_travel_expenses': rec.request_travel_expenses,
+                        'template_id': rec.ra_template_id.id,
+                        'composition_mode': 'comment',
+                        'model': 'purchase.order',
+                        'res_ids': rec.purchase_order_id.ids,
+                    }
+
+                if rec.subject:
+                    wizard_vals['subject'] = rec.subject
+
+                wizard = self.env['send.ra.wizard'].create(wizard_vals)
+                    
+                wizard.action_send_mail()
+                
+                # odoo_bot = self.env.ref('base.partner_root')
+                rec.message_post(
+                    body=_("RA sent manually."),
+                    message_type='notification',
+                    # subtype_xmlid='mail.mt_comment',
+                    # author_id=odoo_bot.id
+                )
+
     
     def action_resend(self):
         if self.status == 'sent':
             return self.purchase_order_id.send_referral_agreement_action(
                 ra_document_id = self.id,
-                resend_action=True, 
+                resend_action=True,
+                subject = self.subject,
                 registration_numbers_ids=self.pao_registration_numbers_ids.ids, 
                 request_travel_expenses = self.request_travel_expenses, 
                 reminder_days = self.reminder_days,

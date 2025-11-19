@@ -207,8 +207,7 @@ class SignRAPortal(portal.CustomerPortal):
                         'attachment_ids': [(4, attachment.id)]
                     })
                 
-            message=_('The auditor has signed and accepted the RA.')
-            ra_document.purchase_order_id.notify_ra_request_progress(message)
+            ra_document.purchase_order_id.sign_ra_action(ra_document)
 
         return {
             'force_refresh': True,

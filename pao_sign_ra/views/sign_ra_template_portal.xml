@@ -27,7 +27,7 @@
                             <div class="col-md-12">
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <label for="travelexpenses">Please add your detailed travel expenses:</label>
-                                <textarea class="form-control" id="travel_expenses" name="travel_expenses" rows="4"></textarea>
+                                <textarea class="form-control" id="travel_expenses" name="travel_expenses" rows="4" required="1"></textarea>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
