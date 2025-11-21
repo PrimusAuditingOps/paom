@@ -6,5 +6,12 @@ class ProjectTask(models.Model):
 
     pao_total_due = fields.Monetary(
         string="Total Due",
-        default=0,
+        currency_field='currency_id',
+        default=0.00,
+    )
+    currency_id = fields.Many2one(
+        'res.currency',
+        string='Moneda',
+        default=lambda self: self.env.company.currency_id.id or False,
+        readonly=True,
     )
