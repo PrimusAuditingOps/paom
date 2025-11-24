@@ -14,7 +14,7 @@ class ResPartner(models.Model):
     
     company_id = fields.Many2one(
         comodel_name='res.company',
-        string='Company',readonly=True,
+        string='Company'
         default=None)
 
     @api.onchange('city_id')
