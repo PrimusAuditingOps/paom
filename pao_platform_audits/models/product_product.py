@@ -11,5 +11,5 @@ class ProductProduct(models.Model):
     pao_audit_template_id = fields.Many2one(
         comodel_name='pao.azz.audit.template',
         string='Audit Template',
-        ondelete='restrict',
+        ondelete='set null',
     )   
