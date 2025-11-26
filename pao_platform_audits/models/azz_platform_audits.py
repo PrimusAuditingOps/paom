@@ -438,25 +438,26 @@ class PaoAzzPlatformAudits(models.Model):
     @api.depends('organization')
     def _compute_organization(self):
         for rec in self:
-            rec.organization_id = None
-            domain = [("name","=",rec.organization),("company_id","=",rec.company_id.id)]
-            organization = self.env["servicereferralagreement.organization"].search(domain)
-            if organization:
-                for org in organization:
-                    rec.organization_id = org.id
-            else:
-                organization_search = self._search_organization(rec.organization)
-                if organization_search:
-                    for organization_s in organization_search:
-                        rec.organization_id = organization_s.id
-                        break
+            if rec.organization:
+                rec.organization_id = None
+                domain = [("name","=",rec.organization),("company_id","=",rec.company_id.id)]
+                organization = self.env["servicereferralagreement.organization"].search(domain)
+                if organization:
+                    for org in organization:
+                        rec.organization_id = org.id
                 else:
-                     if not rec.plc or rec.plc != "1": #Is not an Organic Audit
-                        domain = [("company_id","=",rec.company_id.id),("name","ilike",str(rec.app_id) if not rec.plc else rec.plc)]
-                        reg_number = self.env["servicereferralagreement.registrynumber"].search(domain)
-                        for rn in reg_number:
-                            rec.organization_id = rn.organization_id.id
+                    organization_search = self._search_organization(rec.organization)
+                    if organization_search:
+                        for organization_s in organization_search:
+                            rec.organization_id = organization_s.id
                             break
+                    else:
+                        if not rec.plc or rec.plc != "1": #Is not an Organic Audit
+                            domain = [("company_id","=",rec.company_id.id),("name","ilike",str(rec.app_id) if not rec.plc else rec.plc)]
+                            reg_number = self.env["servicereferralagreement.registrynumber"].search(domain)
+                            for rn in reg_number:
+                                rec.organization_id = rn.organization_id.id
+                                break
 
                                 
     def _search_registration_number(self, organization,registration_number):
