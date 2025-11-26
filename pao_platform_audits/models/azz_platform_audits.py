@@ -294,6 +294,8 @@ class PaoAzzPlatformAudits(models.Model):
                                 pol_id = line.id
                                 if rec.search_state != "found":
                                     rec.search_state = "needs_validation"
+                                    _logger.error("Entro pol_id 1")
+                                    _logger.error(audit_id)
                                 break
                     if not pol_id:
                         for line in rec_purchase_order_line:
@@ -301,6 +303,8 @@ class PaoAzzPlatformAudits(models.Model):
                                 if len(line.pao_platform_audit_ids.ids) != line.product_qty and line.product_qty > 0:
                                     pol_id = line.id
                                     if rec.search_state != "found":
+                                        _logger.error("Entro pol_id 2")
+                                        _logger.error(audit_id)
                                         rec.search_state = "needs_validation"                        
                                     break
             if pol_id:
@@ -335,6 +339,8 @@ class PaoAzzPlatformAudits(models.Model):
                         if line.product_id.id in rec.audit_template_id.product_ids.ids:
                             if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
                                 rec.search_state = "found"
+                                _logger.error("Entro")
+                                _logger.error(audit_id)
                                 if not first_sol_id:
                                     first_sol_id = line.id
                                 if rec.entity_ids:
