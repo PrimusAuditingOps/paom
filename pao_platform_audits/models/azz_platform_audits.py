@@ -449,14 +449,14 @@ class PaoAzzPlatformAudits(models.Model):
                     for organization_s in organization_search:
                         rec.organization_id = organization_s.id
                         break
+                else:
+                     if not rec.plc or rec.plc != "1": #Is not an Organic Audit
+                        domain = [("company_id","=",rec.company_id.id),("name","ilike",str(rec.app_id) if not rec.plc else rec.plc)]
+                        reg_number = self.env["servicereferralagreement.registrynumber"].search(domain)
+                        for rn in reg_number:
+                            rec.organization_id = rn.organization_id.id
+                            break
 
-                    if not rec.plc or rec.plc != "1": #Is not an Organic Audit
-                        if rec.app_id:
-                            for org in organization_search:
-                                domain = [("company_id","=",rec.company_id.id),("organization_id","=",org.id),("name","ilike",str(rec.app_id) if not rec.plc else rec.plc)]
-                                reg_number = self.env["servicereferralagreement.registrynumber"].search(domain)
-                                rec.organization_id = org.id
-                                break
                                 
     def _search_registration_number(self, organization,registration_number):
         domain = [("company_id","=",self.company_id.id),("organization_id","=",organization),("name","ilike",registration_number.lower())]
