@@ -1,0 +1,57 @@
+<odoo>
+  <record id="pao_sales_budget_view_tree" model="ir.ui.view">
+    <field name="name">pao.sales.budget.view.tree</field>
+    <field name="model">pao.sales.budget</field>
+    <field name="arch" type="xml">
+      <tree string="Sales Budget">
+        <field name="name"/>
+        <field name="currency_id"/>
+        <field name="year" widget="char"/>
+        <field name="company_id"/>
+        
+      </tree>
+    </field>
+  </record>
+
+  <record id="pao_sales_budget_view_form" model="ir.ui.view">
+    <field name="name">pao.sales.budget.view.form</field>
+    <field name="model">pao.sales.budget</field>
+    <field name="arch" type="xml">
+      <form string="Sales Budget">
+        <header>
+          <button string="Generate Budget" invisible="line_ids" type="object" class="btn-primary" name="generate_budget_action"/>
+          <div class="o_not_full oe_button_box">
+              <button name="action_view_budget_line" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not line_ids">
+                  <div class="o_field_widget o_stat_info">
+                      <span class="o_stat_value">Budget Lines</span>
+                  </div>
+              </button>
+          </div>
+        
+        </header>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="currency_id"/>
+            <field name="year" widget="char"/>
+            <field name="company_id" readonly="1"/>
+            <field name="line_ids" invisible="1"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_pao_sales_budget" model="ir.actions.act_window">
+    <field name="name">Sales Budget</field>
+    <field name="res_model">pao.sales.budget</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" ref="pao_sales_budget_view_tree"/>
+  </record>
+  <menuitem id="pao_sales_budget_item"
+            name="Sales Budget"
+            parent="sale.menu_sales_config"
+            action="action_pao_sales_budget"
+            sequence="5"/>
+  
+</odoo>

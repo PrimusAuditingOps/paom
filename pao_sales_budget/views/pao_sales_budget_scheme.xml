@@ -1,0 +1,27 @@
+<odoo>
+  <record id="pao_sales_budget_scheme_view_tree" model="ir.ui.view">
+    <field name="name">pao.sales.budget.scheme.view.tree</field>
+    <field name="model">pao.sales.budget.scheme</field>
+    <field name="arch" type="xml">
+      <tree string="Sales Budget Scheme">
+        <field name="name"/>
+      </tree>
+    </field>
+  </record>
+
+  
+
+  <record id="action_pao_sales_budget_scheme" model="ir.actions.act_window">
+    <field name="name">Sales Budget Scheme</field>
+    <field name="res_model">pao.sales.budget.scheme</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" ref="pao_sales_budget_scheme_view_tree"/>
+  </record>
+
+  <menuitem id="pao_sales_budget_scheme"
+            name="Sales Budget Schemes"
+            parent="sale.menu_sales_config"
+            action="action_pao_sales_budget_scheme"
+            sequence="6"/>
+  
+</odoo>
