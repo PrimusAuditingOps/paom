@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="pao_azz_platform_audits_view_search" model="ir.ui.view">
+        <field name="name">pao.azz.platform.audits.view.search</field>
+        <field name="model">pao.azz.platform.audits</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="audit_id"/>
+                <field name="app_id"/>
+                <field name="organization"/>
+                <field name="audit_template"/>
+                <field name="sale_order_line_name"/>
+                <field name="organization_id"/>
+                <field name="registration_number_id"/> 
+                <field name="module_9"/> 
+                <field name="plc"/>
+
+                
+
+                <filter name="filter_not_found" string="Not Found" domain="[('search_state', '=', 'not_found')]"/>
+                <filter name="filter_needs_validation" string="Needs Validation" domain="[('search_state', '=', 'needs_validation')]"/>
+                <filter name="filter_found" string="Found" domain="[('search_state', '=', 'found')]"/>
+
+
+                <filter name="group_search_status" string="Search Status" context="{'group_by':'search_state'}"/>
+                <filter name="group_platform_organization" string="Platform Organization" context="{'group_by':'organization'}"/>
+                <filter name="group_plc" string="Platform Registration Number" context="{'group_by':'plc'}"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="pao_azz_platform_audits_view_form" model="ir.ui.view">
+        <field name="name">pao.azz.platform.audits.view.form</field>
+        <field name="model">pao.azz.platform.audits</field>
+        <field name="arch" type="xml">
+            <form string="Platform Audits" readonly="search_state == 'found' ">
+                <header>
+                    <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state != 'needs_validation'"/>
+                    <button name="search_audit"  string="Search Audit" type="object" invisible="search_state == 'found'"/>
+                    <button name="unlink_audit"  string="Unlink Audit" type="object" invisible="search_state == 'not_found'"/>
+                    <field name="search_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <field name="search_state" invisible="1"/>
+                   <group string="Audit Platform Information">
+                        <group>
+                            <field name="app_id"/>
+                        </group>
+                        <group>
+                            <field name="audit_id"/>
+                        </group>
+                        <group>
+                            <field name="audit_date"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="audit_template"/>
+                        </group>
+                        <group>
+                            <field name="template_version"/>
+                        </group>
+                         <group>
+                            <field name="plc"/>
+                        </group>
+                        <group>
+                            <field name="organization"/>
+                        </group>
+                        <group>
+                            <field name="entities"/>
+                        </group>
+                        <group>
+                            <field name="coordinator"/>
+                        </group>
+                        <group>
+                            <field name="auditor"/>
+                        </group>
+                        
+                        <group>
+                            <field name="country"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="city"/>
+                        </group>
+                        <group>
+                            <field name="module_9"/>
+                        </group>
+                       
+                    
+                    </group>
+                    
+                    
+                    <group string="Audit Odoo Information">
+                        
+                        
+                        <group>
+                            <label for="order_id" string="Sales Order"/>
+                            <field nolabel="1" name="order_id"/>
+                        </group>
+                        <group>
+                             <label for="order_state" string="Sales Order State"/>
+                            <field nolabel="1" name="order_state"/>
+                        </group>
+                        
+                        <group>
+                            <label for="pruchase_id" string="Purchase Order"/>
+                            <field nolabel="1" name="pruchase_id"/>
+                        </group>
+                        <group>
+                            <label for="purchase_state" string="Purchase Order State"/>
+                            <field nolabel="1" name="purchase_state"/>
+                        </group>
+                        
+                        <group>
+                            <field name="sale_order_line_name"/>
+                        </group>
+                        <group>
+                            <field name="pruchase_partner_id"/>
+                        </group>
+                        <group>
+                            <field name="organization_id"/>
+                        </group>
+                        <group>
+                            <field name="registration_number_id"/>
+                        </group>
+                        <group>
+                            <field name="coordinator_id"/>
+                        </group>
+                        
+                        <group>
+                            <field name="pruchase_country"/>
+                        </group>
+                        <group>
+                            <field name="pruchase_id_state"/>
+                        </group>
+                        
+                        <group>
+                            <field name="pruchase_id_city"/>
+                        </group>
+                        <group>
+                             <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                       
+                    
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_azz_platform_audits_view_tree" model="ir.ui.view">
+        <field name="name">pao.azz.platform.audits.view.tree</field>
+        <field name="model">pao.azz.platform.audits</field>
+        <field name="arch" type="xml">
+
+            <tree string="Platform Audits">
+                <field name="company_id" groups="base.group_multi_company" readonly="1"/> 
+                <field name="order_id"/>
+                <field name="sale_order_line_id"/>
+                <field name="order_state" widget="badge"/>
+                <field name="pruchase_id"/>
+                <field name="purchase_order_line_id"/>
+                <field name="purchase_state" widget="badge"/>
+                <field name="search_state" decoration-success="search_state == 'found'" decoration-warning="search_state == 'needs_validation'" widget="badge"/>
+                <field name="audit_id"/>
+                <field name="app_id"/>
+                <field name="audit_date"/>
+                <field name="status"/>
+                <field name="audit_template"/>
+                <field name="organization"/>
+                <field name="plc"/>
+                <field name="auditor"/>
+                <field name="coordinator"/>   
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_azz_platform_audits_action" model="ir.actions.act_window">
+        <field name="name">Audits</field>
+        <field name="res_model">pao.azz.platform.audits</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Azz Audits
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pao_azz_platform_audits_finance"
+            name="Audits"
+            parent="account.menu_finance_receivables"
+            action="pao_azz_platform_audits_action"
+            sequence="120"/>
+
+</odoo>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+  
+
+
+
+    <record id="pao_azz_audit_coordinator_view_form" model="ir.ui.view">
+        <field name="name">pao.platform.coordinator.view.form</field>
+        <field name="model">pao.platform.coordinator</field>
+        <field name="arch" type="xml">
+            <form string="Audit Coordinator">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                        <field name="user_id"/>
+                        
+                    </group>
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_azz_audit_coordinator_view_tree" model="ir.ui.view">
+        <field name="name">pao.platform.coordinator.view.tree</field>
+        <field name="model">pao.platform.coordinator</field>
+        <field name="arch" type="xml">
+            <tree string="Audit Coordinator">
+                <field name="name"/>
+                <field name="user_id"/>
+               
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_azz_audit_coordinator_action" model="ir.actions.act_window">
+        <field name="name">Audit Coordinator</field>
+        <field name="res_model">pao.platform.coordinator</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first Audit Coordinator
+            </p>
+        </field>
+    </record>
+
+    <!--<menuitem id="pao_azz_audit_coordinator_finance"
+            name="Audit Coordinator"
+            parent="account.menu_finance_receivables"
+            action="pao_azz_audit_coordinator_action"
+            sequence="140"/>-->
+
+</odoo>
