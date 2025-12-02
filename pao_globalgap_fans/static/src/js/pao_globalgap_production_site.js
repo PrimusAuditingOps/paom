@@ -41,6 +41,13 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
          * @param {Object} parent
          */
         start: function (parent) {
+            const params = new URLSearchParams(window.location.search);
+            const newOrganization = params.get("new_organization");
+
+            if (!newOrganization) {
+                alert("Recuerde actualizar la información de sus sitios de producción ya registrados utilizando el botón Actualizar al final de esta página.");
+            }
+
             $("#btn_send_sites").prop('disabled', true);
 
             this.countries = document.querySelector('#sitecountry');
@@ -885,22 +892,34 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
             });  
         },
         _onClickSaveProductionSite: async function (ev) {
-            var production_site = JSON.parse($("#sites").val());
-            
-            if (production_site.length>0){
-                await this.rpc('/pao/fillout/fans/production_site_phu',
-                {
-                    'cr_token': $("#fr_token").val().trim(),
-                    'cr_id': $("#fr_id").val().trim(), 
-                    'sites': $("#sites").val().trim(), 
-                }).then(function (data) {
-                    window.location = data.redirect_url;           
-    
-                });
-            }
-            else{
+            var sites = JSON.parse($("#sites").val());
+
+            if (sites.length === 0) {
                 alert("Favor de agregar un sitio de producción.");
+                return;
             }
+
+            // Validate site_is in all sites
+            const missingSiteIs = sites
+                .filter(site => site.site_is === undefined || site.site_is === null || site.site_is === "" || site.site_is === false)
+                .map(site => site.name);
+
+            if (missingSiteIs.length > 0) {
+                alert(
+                    "Favor de volver a especificar si el sitio es 'Propio', 'Arrendado (Sin contrato) ó Arrendado (Con contrato) para los siguientes sitios:\n\n" +
+                    missingSiteIs.join("\n")
+                );
+                return;
+            }
+
+            // If everything is OK → send request
+            await this.rpc('/pao/fillout/fans/production_site_phu', {
+                'cr_token': $("#fr_token").val().trim(),
+                'cr_id': $("#fr_id").val().trim(),
+                'sites': $("#sites").val().trim(),
+            }).then(function (data) {
+                window.location = data.redirect_url;
+            });
             
     
         },

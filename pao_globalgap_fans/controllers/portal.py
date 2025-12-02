@@ -164,17 +164,25 @@ class CustomerPortal(portal.CustomerPortal):
             "contact_email": contact_email,
             "contact_position": contact_position,
             "rights_of_access": str(rights_of_access), 
-        } 
+        }
+        
+        new_organization = False
     
         if fr_sudo.organization_id:
             fr_sudo.organization_id.write(organization_data)
         else:
             organization = request.env['pao.globalgap.organization'].sudo().create(organization_data)
             fr_sudo.write({"organization_id": organization.id})
+            new_organization = True
         
         base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        redirect_url = url_join(base_url, '/pao/fillout/fans/production_site/%s/%s' % (fr_id, fr_token))
+        
+        if new_organization:
+            redirect_url += '?new_organization=True'
+            
         return {
-            'redirect_url':  url_join(base_url, '/pao/fillout/fans/production_site/%s/%s' % (fr_id, fr_token))
+            'redirect_url':  redirect_url
         }
 
     @http.route(['/pao/fillout/fans/production_site/<int:fan_id>/<string:fan_token>'], type='http', auth="public", website=True)
