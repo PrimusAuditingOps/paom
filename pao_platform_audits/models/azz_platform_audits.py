@@ -282,7 +282,7 @@ class PaoAzzPlatformAudits(models.Model):
                     break
             if not pol_id and rec.audit_date:       
                 date_search = rec.audit_date - relativedelta(months=12)
-                domain = [("create_date",">=",date_search),("state","!=","cancel")]
+                domain = [("service_start_date",">=",date_search),("state","!=","cancel")]
                 if rec.organization_id:
                     domain.append(("organization_id","=",rec.organization_id.id))
                     if rec.registration_number_id:
@@ -317,8 +317,8 @@ class PaoAzzPlatformAudits(models.Model):
     def _compute_sale_order_line(self):
         for rec in self:
             if rec.audit_date:
-                date_search = rec.audit_date - relativedelta(months=12)
-                domain = [("create_date",">=",date_search),("state","!=","cancel"),("company_id","=",rec.company_id.id)]
+                date_search = rec.audit_date - relativedelta(months=6)
+                domain = [("service_start_date",">=",date_search),("state","!=","cancel"),("company_id","=",rec.company_id.id)]
                 sol_id = None
                 first_sol_id = None
                 if rec.organization_id:
