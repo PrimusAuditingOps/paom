@@ -43,6 +43,19 @@ class PaoAnniversaryReminder(models.Model):
         copy=False,
         readonly=True
     )
+    
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)
+    
+    
+    def update_existing_companies(self):
+        reminders = self.search([])
+        for rec in reminders:
+            if rec.purchase_order_id:
+                rec.company_id = rec.purchase_order_id.company_id.id
+
             
     @api.model
     def _get_access_token(self):
@@ -206,12 +219,16 @@ class PaoAnniversaryReminder(models.Model):
         purchase_order_lines = self.env['purchase.order.line'].search(domain)
         
         registry_numbers = []
+        mx_count = 0
 
         for line in purchase_order_lines:
             
             if line.registrynumber_id.id not in registry_numbers:
             
                 registry_numbers.append(line.registrynumber_id.id)
+                
+                if line.order_id.company_id.country_code == 'MX':
+                    mx_count += 1
                 
                 new_anniversary_reminder = self.create({
                     'organization_id': line.organization_id.id,
@@ -222,12 +239,13 @@ class PaoAnniversaryReminder(models.Model):
                     'status': 'pending',
                     'language_id': self._set_reminder_language(line.organization_id.country_id.code).id,
                     'purchase_order_id': line.order_id.id,
-                    'scheme_name': line.registrynumber_id.scheme_id.name
+                    'scheme_name': line.registrynumber_id.scheme_id.name,
+                    'company_id': line.order_id.company_id.id
                 })
         
         odoo_bot = self.env.ref('base.partner_root')
         
-        number_reminders = len(registry_numbers)
+        number_reminders = mx_count
         if number_reminders > 0:
             message=_('%(number_reminders)s reminders have been added today.') % {'number_reminders': number_reminders}
             channel = self.env['discuss.channel'].search([('name', 'ilike', 'Aniversarios')], limit=1) 

@@ -7,6 +7,7 @@
     "depends": ["base", "purchase", "servicereferralagreement"],
     'data': [
         'security/ir.model.access.csv',
+        'security/rules.xml',
         
         'data/cron_data.xml',
         'data/mail_template.xml',
