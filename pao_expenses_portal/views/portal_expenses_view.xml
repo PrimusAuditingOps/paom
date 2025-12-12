@@ -253,6 +253,7 @@
                         </th>
                         <th class="text-center">Category</th>
                         <th class="text-end">Description</th>
+                        <th class="text-end">Internal Notes</th>
                         <th class="text-end">Customer to Reinvoice</th>
                         <th class="text-end">Taxes</th>
                         <th class="text-center">Paid By</th>
@@ -271,6 +272,9 @@
                         </td>
                         <td>
                             <span t-field="expense.name"/>
+                        </td>
+                        <td>
+                            <span t-field="expense.description"/>
                         </td>
                         <td class="text-center">
                             <span t-field="expense.sale_order_id"/>
@@ -499,7 +503,9 @@
             <!-- <table t-if="expenses" class="o_list_table position-relative table table-sm o_list_table_ungrouped table-striped o_portal_my_doc_table mb-0 table-hover"> -->
                 <thead>
                     <tr class="active">
-                        <th/>
+                        <th class="text-center">
+                            <input type="checkbox" class="form-check-input" id="select_all_expenses"/>
+                        </th>
                         <th>
                             <span class="d-none d-md-inline">Expense Date</span>
                         </th>
@@ -514,7 +520,7 @@
                 <t t-foreach="expenses" t-as="expense">
                     <tr>
                         <td>
-                            <input class="form-check-input" name="selected_expenses" type="checkbox" t-if="expense.state == 'draft'" t-att-value="expense.id" t-att-id="'expense_' + str(expense.id)" t-att-disabled="expense.state != 'draft'"/>
+                            <input class="form-check-input expense-checkbox" name="selected_expenses" type="checkbox" t-if="expense.state == 'draft'" t-att-value="expense.id" t-att-id="'expense_' + str(expense.id)" t-att-disabled="expense.state != 'draft'"/>
                         </td>
                         <td>
                             <span t-field="expense.date"/>
@@ -583,23 +589,32 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="mb-3 row"><div class="mb-3 row">
-                                            <label for="expense_category" class="fw-bold col-sm-3 col-form-label">Category</label>
-                                            <div class="col-sm-9">
-                                                <select name="expense_category" class="form-select" required="1">
-                                                    <option class="d-none" selected="1"/>
-                                                    <t t-foreach="categories" t-as="category">
-                                                        <option t-att-value="category.id">
-                                                            <t t-esc="category.name"/>
-                                                        </option>
-                                                    </t>
-                                                </select>
+                                        <div class="mb-3 row">
+                                            <div class="mb-3 row">
+
+                                                <label for="expense_category" class="fw-bold col-sm-3 col-form-label">Category</label>
+                                                <div class="col-sm-9">
+                                                    <select name="expense_category" class="form-select" required="1">
+                                                        <option class="d-none" selected="1"/>
+                                                        <t t-foreach="categories" t-as="category">
+                                                            <option t-att-value="category.id">
+                                                                <t t-esc="category.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
+
                                             <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-9 mb-3">
                                                 <input name="receipt" type="file" class="form-control" accept=".pdf, image/*, .doc, .docx, .xml" required="1" multiple="1" t-att-data-require-attachment="str(request.env.user.partner_id.ado_is_auditor and not request.env.user.partner_id.is_an_in_house_auditor).lower()"/>
                                             </div>
+
+                                            <label for="description" class="fw-bold col-sm-3 col-form-label">Internal Notes</label>
+                                            <div class="col-sm-9">
+                                                <input name="description" type="text" class="form-control"/>
+                                            </div>
+
                                         </div>
 
                                         <button class="btn btn-primary mt-3 add-receipt-to-expense-button-form" type="submit">Save</button>
@@ -607,7 +622,7 @@
                                 </div>
                             </form>
 
-                            
+
                         </div>
                     </div>
                 </t>
@@ -618,7 +633,7 @@
             <div class="modal fade" id="create_expense" tabindex="-1" aria-labelledby="create_expense_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <form method="POST" action="/my/wallet_expense/new" id="new_wallet_expense_form" enctype="multipart/form-data">
-                        <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>    
+                        <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-content">
                             <div class="modal-header">
@@ -724,6 +739,20 @@
                     </form>
 
                     <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            const selectAll = document.getElementById("select_all_expenses");
+                            if (!selectAll) return;
+
+                            selectAll.addEventListener("change", function () {
+                                const checkboxes = document.querySelectorAll(".expense-checkbox");
+                                checkboxes.forEach(cb => {
+                                    if (!cb.disabled) {
+                                        cb.checked = selectAll.checked;
+                                    }
+                                });
+                            });
+                        });
+
                         document.getElementById('add_expenses_to_report_form').addEventListener('submit', function() {
                             event.preventDefault();
 
@@ -754,7 +783,7 @@
             <div t-if="not expenses" class="alert alert-warning mt-4" role="alert">
                 No expenses found with the selected filters.
             </div>
-            
+
             <script>
                 document.querySelectorAll('.modal').forEach(modal =&gt; {
                     modal.addEventListener('shown.bs.modal', () =&gt; {

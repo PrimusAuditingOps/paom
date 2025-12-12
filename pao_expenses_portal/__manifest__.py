@@ -12,6 +12,7 @@
         
         'views/account_move_inherit.xml',
         'views/hr_employeee_form_inherit.xml',
+        'views/expense_categories_view.xml',
         'views/expense_scheme_views.xml',
         'views/hr_expense_sheet_view.xml',
         'views/hr_expense_view.xml',

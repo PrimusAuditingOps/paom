@@ -543,10 +543,11 @@ class ExpensesPortal(http.Controller):
         expense_category = kw.get("expense_category")
         receipts = request.httprequest.files.getlist("receipt")
         expense_id = kw.get("expense_id")
+        description = kw.get("description")
         
         expense = request.env['hr.expense'].browse(int(expense_id))
         
-        expense.sudo().write({'product_id': int(expense_category)})
+        expense.sudo().write({'product_id': int(expense_category), 'description': description})
         
         _logger.warning(receipts)
         for receipt in receipts:

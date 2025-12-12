@@ -29,7 +29,7 @@
                 <field name="purchase_order" readonly="state != 'draft'" invisible="not purchase_order"/>
             </xpath>
             <xpath expr="//button[@name='action_submit_sheet']" position="attributes">
-                <attribute name="invisible">from_external_auditor</attribute>
+                <attribute name="invisible">state != 'draft' or from_external_auditor</attribute>
             </xpath>
             <xpath expr="//field[@name='state']" position="attributes">
                 <attribute name="invisible">from_external_auditor</attribute>
