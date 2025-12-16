@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+   
+    <record model="ir.rule" id="pao_mailing_contact_tag_comp_rule">
+        <field name="name">PAO Mailing Contact Tag multi-company</field>
+        <field name="model_id" ref="model_pao_mailing_contact_tag"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
