@@ -1,3 +1,5 @@
+from odoo import fields, models, _
+
 class PaoMailingContactTag(models.Model):
     _description = 'Pao Mailing Contact Tag'
     _name = 'pao.mailing.contact.tag'
