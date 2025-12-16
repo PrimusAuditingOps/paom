@@ -1,4 +1,5 @@
 from odoo import fields, models, _
+from random import randint
 
 class PaoMailingContactTag(models.Model):
     _description = 'Pao Mailing Contact Tag'
