@@ -6,6 +6,25 @@ from collections import defaultdict
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
+
+    def _prepare_exchange_difference_move_vals(self, amounts_list, company=None, exchange_date=None, **kwargs):
+        """ Super, assign ref with invoice name """
+        res = super(AccountMoveLine, self)._prepare_exchange_difference_move_vals(amounts_list, company, exchange_date, **kwargs)
+        if res.get('move_values'):
+            res.get('move_values')['ref'] = self.get_invoice_reference()
+        return res
+
+    def get_invoice_reference(self):
+        """ Get list of invoice name """
+        # Try to get related sale order from stock moves
+        move_ids = self.mapped('move_id')
+        result = ''
+        if move_ids:
+            # If multiple SOs, join their name
+            list_name = [name for name in move_ids.mapped('display_name') if name]
+            if list_name:
+                result = ', '.join(list_name)
+        return result
     
     @api.model
     def _create_exchange_difference_moves(self, exchange_diff_values_list):
@@ -428,7 +447,10 @@ class AccountMoveLine(models.Model):
             # Get accounts based on debit/credit side (like CABA entry)
             if is_gain:
                 # CREDIT side: use final tax account
-                tax_account = tax_repartition_line.account_id
+                account_tax_exchange = tax_repartition_line.account_id
+                if tax_id and tax_id.use_cash_basis_trans_account:
+                    account_tax_exchange = tax_id.cash_basis_transition_account_id
+                tax_account = account_tax_exchange
                 tax_line_debit = 0.0
                 tax_line_credit = tax_amount
                 tax_line_amount_currency = -tax_amount_currency

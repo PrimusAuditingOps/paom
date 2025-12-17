@@ -24,6 +24,7 @@
         'account',
     ],
     'data': [
+        "views/account_tax_views.xml"
     ],
     'assets': {
     },

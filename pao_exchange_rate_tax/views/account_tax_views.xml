@@ -1,0 +1,14 @@
+<odoo>
+
+    <record id="view_tax_form" model="ir.ui.view">
+        <field name="name">pao.exchange.rate.inherit.account.tax.form</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <field name="cash_basis_transition_account_id" position="after">
+                <field name="use_cash_basis_trans_account"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
