@@ -518,3 +518,8 @@ class PaoAzzPlatformAudits(models.Model):
             rec.sale_order_line_id = None
             rec.purchase_order_line_id = None
             rec.search_state = "not_found"
+    
+    def search_not_founf_audit(self):
+        records = self.env["pao.azz.platform.audits"].search([("search_state","=","not_found"),("active","=",True)])
+        for rec in records:
+            rec.search_audit()
