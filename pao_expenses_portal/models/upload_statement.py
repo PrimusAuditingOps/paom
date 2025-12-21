@@ -152,14 +152,26 @@ class UploadExpenseStatement(models.TransientModel):
             _logger.warning("CANDIDATE: %s", full_line)
             
             match = re.match(
-                r"(?P<date>\d{2}/\d{2}/\d{2})\s+US\$(?P<amount>[\d,]+\.\d{2})\s+US\$\S+\s+(?P<cardholder>.+?)\s+(?P<account>\*\d{4})\s+(?P<rest>.+)",
+                r"(?P<date>\d{2}/\d{2}/\d{2})\s+"
+                r"US\$(?P<amount>\(?[\d,]+\.\d{2}\)?)\s+"
+                r"US\$\S+\s+"
+                r"(?P<cardholder>.+?)\s+"
+                r"(?P<account>\*\d{4})\s+"
+                r"(?P<rest>.+)",
                 full_line
             )
 
             if match:
                 # Extract groups
                 date = match.group("date")
-                amount = match.group("amount").replace(',', '')
+                # amount = match.group("amount").replace(',', '')
+                
+                raw_amount = match.group("amount")
+                is_negative = raw_amount.startswith('(') and raw_amount.endswith(')')
+                amount = float(raw_amount.replace('(', '').replace(')', '').replace(',', ''))
+                if is_negative:
+                    amount = -amount
+                    
                 cardholder = match.group("cardholder").strip()
                 account_number = match.group("account").strip()
                 rest = match.group("rest").strip()
@@ -180,7 +192,7 @@ class UploadExpenseStatement(models.TransientModel):
                     
                 expense_data = {
                     "date": date_obj.date(),
-                    "amount": float(amount),
+                    "amount": amount,
                     "cardholder": cardholder,
                     "account_number": account_number,
                     "merchant_name": merchant_name,
