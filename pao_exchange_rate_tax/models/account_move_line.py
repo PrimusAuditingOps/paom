@@ -7,10 +7,6 @@ from collections import defaultdict
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-
-
-
-
     def _prepare_exchange_difference_move_vals(self, amounts_list, company=None, exchange_date=None, **kwargs):
         """ Super, assign ref with invoice name """
         res = super(AccountMoveLine, self)._prepare_exchange_difference_move_vals(amounts_list, company, exchange_date, **kwargs)
