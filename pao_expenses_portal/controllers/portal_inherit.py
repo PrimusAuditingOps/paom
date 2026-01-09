@@ -198,7 +198,7 @@ class ExpensesPortal(http.Controller):
                     # 'payment_mode': 'company_account', ##{{DEJAR QUE AUDITOR SELECCIONE PAID BY?}}
                     'expense_scheme_id': scheme_id,
                     'from_external_auditor': bool(is_external_auditor),
-                } 
+                }
         
         # if self.purchase_order_has_expense_report(purchase_order, id):
         #     referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
@@ -223,6 +223,17 @@ class ExpensesPortal(http.Controller):
             order = request.env['purchase.order'].sudo().browse(int(purchase_order))
             if order.exists():
                 expense_sheet.write({'purchase_order': order.id})
+        
+        if not bool(is_external_auditor) and request.env.company.country_code == 'US':
+            expenses = expense_sheet.expense_line_ids.filtered(
+                lambda e: not e.analytic_distribution
+            )
+            if expenses:
+                expenses.write({
+                    'analytic_distribution': {
+                        '344': 100
+                    }
+                })
 
         return expense_sheet
     
