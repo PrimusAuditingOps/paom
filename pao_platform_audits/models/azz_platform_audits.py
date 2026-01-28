@@ -155,7 +155,13 @@ class PaoAzzPlatformAudits(models.Model):
         compute='_compute_entity_ids',
         store=True,
     )
-    
+    not_relate_sol = fields.Many2many(
+        'sale.order.line', 
+        'pao_azz_platform_audits_not_relate_sol_rel',
+        'platform_id', 
+        'sale_order_line_id', 
+        string='Not relate Sales Order Line',
+    )
 
     organization_id = fields.Many2one(
         comodel_name='servicereferralagreement.organization',
@@ -280,6 +286,7 @@ class PaoAzzPlatformAudits(models.Model):
                 for line in purchase_line:
                     pol_id = line.id
                     break
+            """
             if not pol_id and rec.audit_date:       
                 date_search = rec.audit_date - relativedelta(months=12)
                 domain = [("service_start_date",">=",date_search),("state","!=","cancel")]
@@ -303,6 +310,7 @@ class PaoAzzPlatformAudits(models.Model):
                                     if rec.search_state != "found":
                                         rec.search_state = "needs_validation"                        
                                     break
+            """
             if pol_id:
                 rec.purchase_order_line_id = pol_id
                 #rec.write({"pao_platform_audit_ids": [(4,pol_id)]})
@@ -326,32 +334,35 @@ class PaoAzzPlatformAudits(models.Model):
                     if rec.registration_number_id:
                         domain.append(("registrynumber_id","=",rec.registration_number_id.id))
                     
-                    rec_sale_order_line = self.env["sale.order.line"].search(domain,order='id desc')
-                    rec_sale_ol = rec_sale_order_line.filtered(lambda l: not l.order_id.pao_is_a_child_sales_order)
-                    
-                    for line in rec_sale_ol:
-                        if sol_id:
-                            break
-                        if line.product_id.id in rec.audit_template_id.product_ids.ids:
-                            if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
-                                rec.search_state = "found"
-                                if not first_sol_id:
-                                    first_sol_id = line.id
-                                if rec.entity_ids:
-                                    for ent in rec.entity_ids:
-                                        if ent.name.lower() in line.name.lower():
-                                            sol_id = line.id
-                                            break
-                                
-                    if not sol_id and first_sol_id:
-                        sol_id = first_sol_id
-                    if not sol_id:
+                    if rec.not_relate_sol:
+                        domain.append(("id","not in",rec.not_relate_sol))
+                    if rec.registration_number_id or rec.plc == "1":
+                        rec_sale_order_line = self.env["sale.order.line"].search(domain,order='id desc')
+                        rec_sale_ol = rec_sale_order_line.filtered(lambda l: not l.order_id.pao_is_a_child_sales_order)
+                        
                         for line in rec_sale_ol:
-                            if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
+                            if sol_id:
+                                break
+                            if line.product_id.id in rec.audit_template_id.product_ids.ids:
                                 if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
-                                    rec.search_state = "needs_validation"
-                                    sol_id = line.id                        
-                                    break
+                                    rec.search_state = "found"
+                                    if not first_sol_id:
+                                        first_sol_id = line.id
+                                    if rec.entity_ids:
+                                        for ent in rec.entity_ids:
+                                            if ent.name.lower() in line.name.lower():
+                                                sol_id = line.id
+                                                break
+                                    
+                        if not sol_id and first_sol_id:
+                            sol_id = first_sol_id
+                        if not sol_id:
+                            for line in rec_sale_ol:
+                                if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
+                                    if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
+                                        rec.search_state = "needs_validation"
+                                        sol_id = line.id                        
+                                        break
                 if sol_id:
                     rec.sale_order_line_id = sol_id
                     rec.sale_order_line_id.write({"pao_platform_audit_ids": [(4,rec.id)]})
@@ -501,6 +512,8 @@ class PaoAzzPlatformAudits(models.Model):
 
     def unlink_audit(self):
         for rec in self:
+            
+            
             purchase_line = self.env["purchase.order.line"].search([("company_id","=",rec.company_id.id),("pao_platform_audit_ids","in",[rec.id])])
             for poline in purchase_line:
                 poline.write({'pao_platform_audit_ids': [(3, rec.id)]})
@@ -512,7 +525,10 @@ class PaoAzzPlatformAudits(models.Model):
             if rec.purchase_order_line_id:
                 rec.purchase_order_line_id.write({'pao_platform_audit_ids': [(3, rec.id)]})
             if rec.sale_order_line_id:
+                if rec.search_state == "needs_validation":
+                    rec.not_relate_sol = [(4, rec.sale_order_line_id.id)] 
                 rec.sale_order_line_id.write({'pao_platform_audit_ids': [(3, rec.id)]})
+            
 
             
             rec.sale_order_line_id = None
