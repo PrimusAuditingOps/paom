@@ -23,5 +23,21 @@ class ProjectTask(models.Model):
             ('CR', "MKT CR"),
             ('CL', "MKT CL"),
         ],
-        string="Responsible",)
+        string="Responsible",
+        tracking=True,
+    )
+    
+    pao_requirement = fields.Selection(
+        selection=[
+            ('0', "Electronic signatures / Business cards."),
+            ('1', "Upload documents to the website."),
+            ('2', "Memos for satellite offices."),
+            ('3', "Updates to existing designs"),
+            ('4', "New designs (banners, flyers, etc.)"),
+            ('5', "Souvenir orders - USA"),
+        ],
+        string="Responsible",
+        tracking=True,
+    )
+    
     
