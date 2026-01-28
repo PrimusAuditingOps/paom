@@ -335,7 +335,7 @@ class PaoAzzPlatformAudits(models.Model):
                         domain.append(("registrynumber_id","=",rec.registration_number_id.id))
                     
                     if rec.not_relate_sol:
-                        domain.append(("id","not in",rec.not_relate_sol))
+                        domain.append(("id","not in",rec.not_relate_sol.ids))
                     if rec.registration_number_id or rec.plc == "1":
                         rec_sale_order_line = self.env["sale.order.line"].search(domain,order='id desc')
                         rec_sale_ol = rec_sale_order_line.filtered(lambda l: not l.order_id.pao_is_a_child_sales_order)
