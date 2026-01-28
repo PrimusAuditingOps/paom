@@ -36,7 +36,7 @@ class ProjectTask(models.Model):
             ('4', "New designs (banners, flyers, etc.)"),
             ('5', "Souvenir orders - USA"),
         ],
-        string="Responsible",
+        string="Requirement",
         tracking=True,
     )
     
