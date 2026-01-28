@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_project_task_amount_due_view_kanban" model="ir.ui.view">
+        <field name="name">pao.project.task.amount.due.view.kanban</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="pao_total_due"/>
+            </field>
+            <xpath expr="//span[field[@name='parent_id']]" position="after">
+                <span style="display: block; margin-top: 4px;">
+                    <field name="pao_total_due"/>
+                </span>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="pao_project_task_amount_due_view_tree" model="ir.ui.view">
+        <field name="name">pao.project.task.amount.due.view.tree</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.project_task_view_tree_main_base"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="currency_id" invisible="1" />
+                <field name="pao_total_due" sum="Total Due" />
+            </field>
+            
+        </field>
+    </record>
+</odoo>
