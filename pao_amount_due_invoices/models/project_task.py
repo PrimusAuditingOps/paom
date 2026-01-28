@@ -15,3 +15,13 @@ class ProjectTask(models.Model):
         default=lambda self: self.env.company.currency_id.id or False,
         readonly=True,
     )
+    
+    pao_responsible = fields.Selection(
+        selection=[
+            ('US', "MKT USA"),
+            ('MX', "MKT MX"),
+            ('CR', "MKT CR"),
+            ('CL', "MKT CL"),
+        ],
+        string="Responsible",)
+    
