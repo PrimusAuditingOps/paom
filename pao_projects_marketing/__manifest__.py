@@ -6,8 +6,7 @@
     "website": "https://paomx.com",
     "depends": ["base", "project"],
     'data': [
-       
-        # 'views/project_task.xml',
+        'views/project_task.xml',
     ],
     'license': 'LGPL-3',
 }
