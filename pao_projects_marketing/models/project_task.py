@@ -23,18 +23,9 @@ class ProjectTask(models.Model):
             ('3', "Updates to existing designs"),
             ('4', "New designs (banners, flyers, etc.)"),
             ('5', "Souvenir orders - USA"),
+            ('9', "Other"),
         ],
         string="Requirement",
         tracking=True,
     )
-    
-    @api.onchange('pao_requirement')
-    def _onchange_pao_requirement(self):
-        if not self.pao_requirement:
-            return
-
-        descriptions = dict(self._fields['pao_requirement'].selection)
-
-        self.description = descriptions.get(self.pao_requirement, '')
-    
     
