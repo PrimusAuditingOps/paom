@@ -547,11 +547,3 @@ class PaoAzzPlatformAudits(models.Model):
         for rec in records:
             rec._compute_purchase_order_line()
     
-    @api.depends('sale_order_line_id.order_id.state')
-    def _unlink_sale_order_line(self):
-        _logger.error("Entro metodo")
-        for rec in self:
-            _logger.error("Entro")
-            _logger.error(rec.sale_order_line_id.state)
-            if rec.sale_order_line_id.state == 'cancel':
-                rec.unlink_audit()
