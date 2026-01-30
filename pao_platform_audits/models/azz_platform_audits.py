@@ -547,8 +547,8 @@ class PaoAzzPlatformAudits(models.Model):
         for rec in records:
             rec._compute_purchase_order_line()
     
-    @api.depends('sale_order_line_id.state')
+    @api.depends('sale_order_line_id','sale_order_line_id.state')
     def _unlink_sale_order_line(self):
         for rec in self:
-            if rec.sale_order_line_id.state == "cancel":
+            if rec.sale_order_line_id.state == 'cancel':
                 rec.unlink_audit()
