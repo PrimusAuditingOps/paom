@@ -546,3 +546,9 @@ class PaoAzzPlatformAudits(models.Model):
         records = self.env["pao.azz.platform.audits"].search([("purchase_order_line_id", "=", False), ("sale_order_line_id", "!=", False),("active","=",True)])
         for rec in records:
             rec._compute_purchase_order_line()
+    
+    @api.depends('sale_order_line_id.state')
+    def _unlink_sale_order_line(self):
+        for rec in self:
+            if rec.sale_order_line_id.state == "cancel":
+                rec.unlink_audit()
