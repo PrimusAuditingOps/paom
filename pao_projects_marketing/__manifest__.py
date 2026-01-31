@@ -1,7 +1,7 @@
 {
-    "name": "PAO: Amount Due Invoices",
+    "name": "PAO: Projects Marketing",
     "version": "1.0",
-    "author": "Samuel Castro",
+    "author": "Manuel Uzueta Gil",
     "category": "",
     "website": "https://paomx.com",
     "depends": ["base", "project"],
