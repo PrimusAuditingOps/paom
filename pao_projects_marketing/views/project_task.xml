@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_project_task_marketing_fields" model="ir.ui.view">
+        <field name="name">pao.project.task.marketing.fields</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="pao_responsible" invisible="project_id != 11"/>
+                <field name="pao_requirement_id" invisible="project_id != 11" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" domain="[('project_id', '=', project_id)]"/>
+            </field>
+            
+        </field>
+    </record>
+</odoo>

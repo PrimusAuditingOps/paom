@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="pao_requirement_types_tree_view" model="ir.ui.view">
+        <field name="name">ra.templates.tree.view</field>
+        <field name="model">pao.requirement.types.project</field>
+        <field name="arch" type="xml">
+            <tree string="Requirement Types" editable="bottom">
+                <field name="name"/>
+                <field name="project_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_requirement_types_action" model="ir.actions.act_window">
+        <field name="name">Requirement Types</field>
+        <field name="res_model">pao.requirement.types.project</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="menu_item_pao_requirement_types" name="Requirement Types" parent="project.menu_project_config" action="pao_requirement_types_action"/>
+    
+</odoo>
