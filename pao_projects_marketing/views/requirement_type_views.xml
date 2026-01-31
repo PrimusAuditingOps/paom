@@ -5,10 +5,14 @@
         <field name="name">ra.templates.tree.view</field>
         <field name="model">pao.requirement.types.project</field>
         <field name="arch" type="xml">
-            <tree string="RA Templates Manager" editable="bottom">
+            <tree string="RA Templates Manager">
                 <field name="name"/>
                 <field name="project_id"/>
             </tree>
+            <form string="RA Templates Manager">
+                <field name="name"/>
+                <field name="project_id"/>
+            </form>
         </field>
     </record>
 
