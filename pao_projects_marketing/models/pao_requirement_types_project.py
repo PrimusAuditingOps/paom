@@ -6,7 +6,7 @@ class PAORequirementTypesProject(models.Model):
     
     name = fields.Char(string="Name", required=True,translate=True)
     
-    project_id = fields.Many2many(
+    project_id = fields.Many2one(
         comodel_name='project.project',
         string='Project',
         required=True

@@ -6,7 +6,7 @@
         <field name="model">pao.requirement.types.project</field>
         <field name="arch" type="xml">
             <tree string="RA Templates Manager" editable="bottom">
-                <field name="name" widget="handle"/>
+                <field name="name"/>
                 <field name="project_id"/>
             </tree>
         </field>
