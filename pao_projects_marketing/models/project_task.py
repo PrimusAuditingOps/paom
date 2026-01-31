@@ -15,7 +15,7 @@ class ProjectTask(models.Model):
         tracking=True,
     )
     
-    pao_requirement_id = fields.Many2many(
+    pao_requirement_id = fields.Many2one(
         comodel_name='pao.requirement.types.project',
         string='Requirement',
         tracking=True,
