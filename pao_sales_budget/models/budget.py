@@ -155,7 +155,7 @@ class PAOSalesBudget(models.Model):
             inv = ln.move_id
             inv_date = inv.invoice_date or inv.invoice_date or fields.Date.context_today(self)
             m = month_index(inv_date)
-            product = ln.product_id
+            product = ln.product_id.product_tmpl_id
 
             unit = float(ln.price_unit or 0.0)
             qty = float(getattr(ln, 'quantity', 0.00) or 0.0)
@@ -226,7 +226,7 @@ class PAOSalesBudgetLine(models.Model):
     region_id = fields.Many2one('crm.team', string='Region',ondelete='restrict',)
     customer_category = fields.Char(string='Customer Category')
     customer_name = fields.Char(string='Customer Name')
-    product_id = fields.Many2one('product.product', string='Producto')
+    product_id = fields.Many2one('product.template', string='Producto')
     currency_id = fields.Many2one(related='budget_id.currency_id')
     product_id_reference = fields.Char(related='product_id.default_code', store=True)
     pao_sales_budget_scheme_id = fields.Many2one(related='product_id.pao_sales_budget_scheme_id',store=True)
