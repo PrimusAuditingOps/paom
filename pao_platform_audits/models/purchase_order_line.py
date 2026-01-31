@@ -10,6 +10,6 @@ class PurchaseOrderLine(models.Model):
 
     pao_platform_audit_ids = fields.Many2many(
         string='Audit ID', 
-        comodel_name='pao.azz.platform.audits'
-    
+        comodel_name='pao.azz.platform.audits',
+        copy=False,
     )
