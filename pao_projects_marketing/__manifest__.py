@@ -8,6 +8,7 @@
     'data': [
         'views/project_task.xml',
         'views/requirement_type_views.xml',
+        'security/ir.model.access.csv',
     ],
     'license': 'LGPL-3',
 }
