@@ -4,7 +4,7 @@ class AccountMoveInherit(models.Model):
 
     _inherit='account.move'
     
-    auto_exchange_rate_lines_value = fields.Float(string="Automatic Exchange Rate", copy=False)
+    auto_exchange_rate_lines_value = fields.Float(string="Exchange Rate", copy=False)
     
     exchange_rate_applied = fields.Boolean(default=False, copy=False)
     

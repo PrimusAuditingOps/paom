@@ -6,14 +6,18 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <field name="tax_cash_basis_origin_move_id" position="after">
-                <label for="auto_exchange_rate_lines_value"/>
-                <div>
+                <label for="auto_exchange_rate_lines_value" invisible="state != 'draft' or country_code != 'CL'"/>
+                <div invisible="state != 'draft' or country_code != 'CL'">
                     <field name="exchange_rate_applied" invisible="1"/>
                     <field name="auto_exchange_rate_lines_value" readonly="exchange_rate_applied" style="width:100px !important; margin-right: 10px !important;"/>
                     <button name="apply_exchange_rate_lines_action" invisible ="exchange_rate_applied" string="Apply" class="btn btn-sm btn-primary" type="object"/>
                     <button name="undo_exchange_rate_lines_action" invisible ="not exchange_rate_applied" string="Undo" class="btn btn-sm btn-primary" type="object"/>
                 </div>
             </field>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">exchange_rate_applied</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>
