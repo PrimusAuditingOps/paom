@@ -35,7 +35,3 @@ class AccountMoveInherit(models.Model):
                     line.price_unit = new_price
                     
             move.exchange_rate_applied = False
-    
-    # def _check_partner_id_has_the_same_company(self):
-    #     for rec in self:
-    #         return True
