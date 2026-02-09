@@ -15,12 +15,8 @@
                 </div>
             </field>
 
-            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="after">
-                <field name="move.exchange_rate_applied" invisible="1"/>
-            </xpath>
-
             <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">
-                <attribute name="readonly">exchange_rate_applied</attribute>
+                <attribute name="readonly">parent.exchange_rate_applied</attribute>
             </xpath>
         </field>
     </record>
