@@ -1,6 +1,9 @@
+from odoo import fields, models, api
+
+
 class PurchaseSelectOrganizationsWizard(models.TransientModel):
     _name = 'purchase.select.organization.wizard'
-    _description = 'Seleccionar organization de la solicitud de compra'
+    _description = 'Purchase Select Organization Wizard'
 
     purchase_order_id = fields.Many2one(
         'purchase.order',
