@@ -30,7 +30,7 @@ class PurchaseSelectOrganizationsWizard(models.TransientModel):
 
         res.update({
             'purchase_order_id': po.id,
-            'organization_ids': [(6, 0, organizations.ids)],
+            #'organization_ids': [(6, 0, organizations.ids)],
         })
 
         return res
