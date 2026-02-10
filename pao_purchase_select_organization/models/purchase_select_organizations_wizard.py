@@ -13,6 +13,8 @@ class PurchaseSelectOrganizationsWizard(models.TransientModel):
 
     organization_ids = fields.Many2many(
         'servicereferralagreement.organization',
+        'pao_purchase_select_organization_wizard_rel',
+        'wizard_id', 'organization_id',
         string='Organization'
     )
 
