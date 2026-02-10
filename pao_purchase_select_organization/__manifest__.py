@@ -15,7 +15,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/organization_wizard.xml',
-        #'views/purchase_order.xml',
+        'views/purchase_order.xml',
         
     ],
     'license': 'LGPL-3',
