@@ -1,0 +1,36 @@
+<record id="view_purchase_select_organization_wizard_form" model="ir.ui.view">
+    <field name="name">purchase.select.organization.wizard.form</field>
+    <field name="model">purchase.select.organization.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Select Organization">
+            <sheet>
+
+                <field name="purchase_order_id" invisible="1"/>
+
+                <group>
+                    <field
+                        name="organization_ids"
+                        widget="many2many_tags"
+                        options="{'no_create': True}"
+                        domain="[('id', 'in', context.get('available_organization_ids', []))]"
+                    />
+                </group>
+
+                <footer>
+                    <button
+                        string="Confirm"
+                        type="object"
+                        name="action_confirm"
+                        class="btn-primary"
+                    />
+                    <button
+                        string="Cancel"
+                        special="cancel"
+                        class="btn-secondary"
+                    />
+                </footer>
+
+            </sheet>
+        </form>
+    </field>
+</record>
