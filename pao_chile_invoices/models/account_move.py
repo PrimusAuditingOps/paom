@@ -27,7 +27,7 @@ class AccountMoveInherit(models.Model):
             rate = move.auto_exchange_rate_lines_value
 
             if move.state != 'draft' or not rate or not move.exchange_rate_applied:
-                continue
+                continue 
 
             for line in move.invoice_line_ids:
                 if line.price_unit:
