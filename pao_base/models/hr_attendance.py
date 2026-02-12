@@ -50,7 +50,7 @@ class HelpdeskTicket(models.Model):
                 if not current_attendance:
                     self.env['hr.attendance'].with_user(user_id).create({
                         'employee_id': employee.id,
-                        'check_in': now_offset,
+                        'check_in': now_offset_utc,
                         'in_mode': 'systray',
                         'in_latitude': data['latitude'],
                         'in_longitude': data['longitude'],
@@ -62,7 +62,7 @@ class HelpdeskTicket(models.Model):
                 else:
                     current_attendance.with_user(user_id).write({
                         # 'employee_id': employee.id,
-                        'check_out': now_offset,
+                        'check_out': now_offset_utc,
                         'out_mode': 'systray',
                         'out_latitude': data['latitude'],
                         'out_longitude': data['longitude'],
