@@ -7,13 +7,10 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='picking_type_id']" position="after">
-                <button
-                    name="action_open_select_organization_wizard"
-                    type="object"
-                    string="Select Organization"
-                    class="oe_highlight"
-                    invisible = "state not in ['draft', 'sent'] or country_code != 'CL' "
-                />
+               <button name="action_open_select_organization_wizard" type="object" string="Filter Organization" class="oe_highlight" invisible="state not in ['draft', 'sent'] or country_code != 'CL' ">
+                Filter Organization 
+                <i class="fa fa-filter me-1"/>
+                </button>
             </xpath>
 
         </field>
