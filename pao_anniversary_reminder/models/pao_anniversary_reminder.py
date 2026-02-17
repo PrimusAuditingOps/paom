@@ -191,7 +191,7 @@ class PaoAnniversaryReminder(models.Model):
         if self.attempt > 0:
             mention_html = f'<a href="/web#model=res.user&amp;id={self.reminder_sender_id.id}" class="o_mail_redirect" data-oe-id="{self.reminder_sender_id.id}" data-oe-model="res.users" target="_blank">@{self.reminder_sender_id.name}</a>'
             
-            message = _('Hello %(mention_html)s, has responded that they are not ready to begin their audit process.'
+            message = _('Hello %(mention_html)s, the customer has responded that they are not ready to begin their audit process.'
                         ) % {'mention_html': mention_html}
             
             self.notify_action(message)
