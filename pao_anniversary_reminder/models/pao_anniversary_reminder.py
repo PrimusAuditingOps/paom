@@ -86,6 +86,7 @@ class PaoAnniversaryReminder(models.Model):
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 accept_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=accept' % (record.id, record.access_token))
                 reject_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=reject' % (record.id, record.access_token))
+                not_ready_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=not_ready' % (record.id, record.access_token))
                 
                 context = {'lang': self.language_id.code}
                 
@@ -93,7 +94,7 @@ class PaoAnniversaryReminder(models.Model):
                 raw_body = raw_body.replace("%7B", "{")
                 raw_body = raw_body.replace("%7D", "}")
                 
-                rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, organization=record.organization_id.name, registry_number = record.registrynumber_id.name)
+                rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, not_ready_link = not_ready_link, organization=record.organization_id.name, registry_number = record.registrynumber_id.name)
                 
                 subject = template.with_context(context).subject + ' ' + record.scheme_name +": " + record.organization_id.name
                 message = rendered_body

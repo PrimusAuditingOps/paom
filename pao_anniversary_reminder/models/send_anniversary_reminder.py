@@ -33,6 +33,7 @@ class SendAnniversaryReminder(models.TransientModel):
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 accept_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=accept' % (record.anniversary_reminder_id.id, record.anniversary_reminder_id.access_token))
                 reject_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=reject' % (record.anniversary_reminder_id.id, record.anniversary_reminder_id.access_token))
+                not_ready_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=not_ready' % (record.id, record.access_token))
                 
                 context = {'lang': self.language_id.code}
                 
@@ -40,7 +41,7 @@ class SendAnniversaryReminder(models.TransientModel):
                 raw_body = raw_body.replace("%7B", "{")
                 raw_body = raw_body.replace("%7D", "}")
                 
-                rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, organization=record.organization, registry_number = record.registry_number)
+                rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, not_ready_link = not_ready_link, organization=record.organization, registry_number = record.registry_number)
                 
                 record.subject = record.mail_template_id.with_context(context).subject + ' ' + record.scheme +": " + record.organization
                 record.message = rendered_body
