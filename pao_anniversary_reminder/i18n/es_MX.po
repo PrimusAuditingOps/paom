@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-17 19:46+0000\n"
-"PO-Revision-Date: 2026-02-17 19:46+0000\n"
+"POT-Creation-Date: 2026-02-17 20:03+0000\n"
+"PO-Revision-Date: 2026-02-17 20:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -158,6 +158,11 @@ msgid "Audit Offer"
 msgstr "oferta de auditoría"
 
 #. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_mass_reminder_wizard__preview_body
+msgid "Body Preview"
+msgstr "Vista previa de mensaje"
+
+#. module: pao_anniversary_reminder
 #: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.send_anniversary_reminder_view_form
 #: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.send_mass_reminder_wizard_form
 msgid "Cancel"
@@ -287,7 +292,8 @@ msgid ""
 "Hello %(mention_html)s, the customer has responded that they are not ready "
 "to begin their audit process."
 msgstr ""
-"Hola %(mention_html)s, el cliente ha respondido que no está listo para comenzar con su proceso de auditoría."
+"Hola %(mention_html)s, el cliente ha respondido que no está listo para "
+"comenzar con su proceso de auditoría."
 
 #. module: pao_anniversary_reminder
 #: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__id
@@ -623,11 +629,21 @@ msgid "Subject"
 msgstr "Asunto"
 
 #. module: pao_anniversary_reminder
+#: model:ir.model.fields,field_description:pao_anniversary_reminder.field_send_mass_reminder_wizard__preview_subject
+msgid "Subject Preview"
+msgstr "Vista previa de asunto"
+
+#. module: pao_anniversary_reminder
 #. odoo-python
 #: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
 #, python-format
 msgid "Successfully!"
 msgstr "Éxito"
+
+#. module: pao_anniversary_reminder
+#: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.send_mass_reminder_wizard_form
+msgid "Template Preview"
+msgstr "Vista previa de plantilla"
 
 #. module: pao_anniversary_reminder
 #: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.reminder_exception_page_view
