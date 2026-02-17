@@ -24,10 +24,9 @@ class SendMassReminderWizard(models.TransientModel):
 
     @api.onchange('mail_template_id')
     def _onchange_mail_template(self):
-        context = {'lang': self.language_id.code}
         if self.mail_template_id:
-            self.preview_subject = self.mail_template_id.with_context(context).subject
-            self.preview_body = self.mail_template_id.with_context(context).body_html
+            self.preview_subject = self.mail_template_id.subject
+            self.preview_body = self.mail_template_id.body_html
         else:
             self.preview_subject = False
             self.preview_body = False
