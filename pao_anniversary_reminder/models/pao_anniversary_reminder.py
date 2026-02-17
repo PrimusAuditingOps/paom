@@ -155,7 +155,7 @@ class PaoAnniversaryReminder(models.Model):
                 },
             }
             
-    def mass_reminder_wizard_action(self, records):
+    def mass_reminder_wizard_action(self):
         return {
             'name': _('Send Mass Reminders'),
             'type': 'ir.actions.act_window',
@@ -163,7 +163,7 @@ class PaoAnniversaryReminder(models.Model):
             'view_mode': 'form',
             'target': 'new',
             'context': {
-                'active_ids': records.ids,
+                'active_ids': self.ids,
             }
         }
     
