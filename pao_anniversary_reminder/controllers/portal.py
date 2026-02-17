@@ -17,11 +17,12 @@ class ReminderPortal(portal.CustomerPortal):
         if reminder_sudo.status in ('pending', 'progress', 'confirm', 'lost'):
             return request.render('pao_anniversary_reminder.reminder_exception_page_view')
         
+        action = request.params.get('action')
+        
         if action == 'not_ready':
             reminder_sudo.not_ready_audit()
             return request.render('pao_anniversary_reminder.response_sent_template')
         
-        action = request.params.get('action')
         action_label = _('Accept') if action == 'accept' else _('Reject')
         action_link = '/anniversary_reminder/%s/%s/response' % (id, token)
         
