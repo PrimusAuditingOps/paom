@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-17 19:14+0000\n"
-"PO-Revision-Date: 2026-02-17 19:14+0000\n"
+"POT-Creation-Date: 2026-02-17 19:46+0000\n"
+"PO-Revision-Date: 2026-02-17 19:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -166,7 +166,7 @@ msgstr "Cancelar"
 #. module: pao_anniversary_reminder
 #: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__company_id
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: pao_anniversary_reminder
 #: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
@@ -261,15 +261,6 @@ msgstr ""
 #: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
 #, python-format
 msgid ""
-"Hello %(mention_html)s, has responded that they are not ready to begin their"
-" audit process."
-msgstr ""
-
-#. module: pao_anniversary_reminder
-#. odoo-python
-#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
-#, python-format
-msgid ""
 "Hello %(mention_html)s, the customer has accepted the offer to schedule "
 "their audit%(observations)s. Please contact them to specify the details"
 msgstr ""
@@ -287,6 +278,16 @@ msgid ""
 msgstr ""
 "Hola %(mention_html)s, el cliente ha rechazado la oferta para agendar su "
 "auditoría debido a las siguientes razones: %(reasons)s"
+
+#. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
+#, python-format
+msgid ""
+"Hello %(mention_html)s, the customer has responded that they are not ready "
+"to begin their audit process."
+msgstr ""
+"Hola %(mention_html)s, el cliente ha respondido que no está listo para comenzar con su proceso de auditoría."
 
 #. module: pao_anniversary_reminder
 #: model:ir.model.fields,field_description:pao_anniversary_reminder.field_pao_anniversary_reminder__id
@@ -567,9 +568,12 @@ msgid "Send Mass Reminder Wizard"
 msgstr ""
 
 #. module: pao_anniversary_reminder
+#. odoo-python
+#: code:addons/pao_anniversary_reminder/models/pao_anniversary_reminder.py:0
 #: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.send_mass_reminder_wizard_form
+#, python-format
 msgid "Send Mass Reminders"
-msgstr ""
+msgstr "Enviar recordatorios en masa"
 
 #. module: pao_anniversary_reminder
 #: model_terms:ir.ui.view,arch_db:pao_anniversary_reminder.pao_anniversary_reminder_view_form
