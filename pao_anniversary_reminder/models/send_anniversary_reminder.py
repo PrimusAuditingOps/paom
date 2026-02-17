@@ -33,7 +33,7 @@ class SendAnniversaryReminder(models.TransientModel):
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 accept_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=accept' % (record.anniversary_reminder_id.id, record.anniversary_reminder_id.access_token))
                 reject_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=reject' % (record.anniversary_reminder_id.id, record.anniversary_reminder_id.access_token))
-                not_ready_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=not_ready' % (record.id, record.access_token))
+                not_ready_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=not_ready' % (record.anniversary_reminder_id.id, record.anniversary_reminder_id.access_token))
                 
                 context = {'lang': self.language_id.code}
                 
