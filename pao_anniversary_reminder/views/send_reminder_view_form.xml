@@ -27,7 +27,11 @@
         <field name="arch" type="xml">
             <form string="Send Mass Reminders">
                 <group>
-                    <field name="mail_template_id"/>
+                    <field name="mail_template_id" options="{'no_create':True, 'create_edit': false, 'no_open': True}"/>
+                </group>
+                <group string="Template Preview" colspan="4">
+                    <field name="preview_subject" readonly="1"/>
+                    <field name="preview_body" widget="html" readonly="1"/>
                 </group>
                 <footer>
                     <button string="Send" type="object" name="action_send" class="btn-primary"/>

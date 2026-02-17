@@ -263,7 +263,7 @@ class PaoAnniversaryReminder(models.Model):
                 if country_code in country_counts:
                     country_counts[country_code] += 1
                 
-                new_anniversary_reminder = self.create({
+                self.create({
                     'organization_id': line.organization_id.id,
                     'registrynumber_id': line.registrynumber_id.id,
                     'name': line.organization_id.name + ' - ' +line.registrynumber_id.name,
