@@ -72,7 +72,7 @@ class PaoAnniversaryReminder(models.Model):
         today = requested_tz.fromutc(datetime.utcnow())
         return today.date()
     
-    def send_mass_reminders(self):
+    def send_mass_reminders(self, template):
         for record in self:
             if record.registrynumber_id and record.organization_id and record.attempt < 3 and record.status not in ('progress', 'confirm', 'lost'):
                 
@@ -81,7 +81,7 @@ class PaoAnniversaryReminder(models.Model):
                 if record.attempt == 0:
                     record.access_token = record._get_access_token()
                 
-                template = self.env.ref('pao_anniversary_reminder.mail_template_anniversary_reminder')
+                # template = self.env.ref('pao_anniversary_reminder.mail_template_anniversary_reminder')
                 
                 base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                 accept_link = url_join(base_url, '/anniversary_reminder/%s/%s?action=accept' % (record.id, record.access_token))
@@ -186,6 +186,15 @@ class PaoAnniversaryReminder(models.Model):
             self.status = 'lost'
             self.notify_action(message)
             
+    def not_ready_audit(self):
+        if self.attempt > 0:
+            mention_html = f'<a href="/web#model=res.user&amp;id={self.reminder_sender_id.id}" class="o_mail_redirect" data-oe-id="{self.reminder_sender_id.id}" data-oe-model="res.users" target="_blank">@{self.reminder_sender_id.name}</a>'
+            
+            message = _('Hello %(mention_html)s, has responded that they are not ready to begin their audit process.'
+                        ) % {'mention_html': mention_html}
+            
+            self.notify_action(message)
+            
 
     def notify_action(self, message, attachment=None):
         user = self.reminder_sender_id
@@ -219,16 +228,27 @@ class PaoAnniversaryReminder(models.Model):
         purchase_order_lines = self.env['purchase.order.line'].search(domain)
         
         registry_numbers = []
-        mx_count = 0
-
+        # mx_count = 0
+        country_counts = {
+            'MX': 0,
+            'US': 0,
+            'CL': 0,
+            'CR': 0,
+        }
+        
         for line in purchase_order_lines:
             
             if line.registrynumber_id.id not in registry_numbers:
             
                 registry_numbers.append(line.registrynumber_id.id)
                 
-                if line.order_id.company_id.country_code == 'MX':
-                    mx_count += 1
+                country_code = line.order_id.company_id.country_code
+                
+                # if line.order_id.company_id.country_code == 'MX':
+                #     mx_count += 1
+                
+                if country_code in country_counts:
+                    country_counts[country_code] += 1
                 
                 new_anniversary_reminder = self.create({
                     'organization_id': line.organization_id.id,
@@ -245,12 +265,21 @@ class PaoAnniversaryReminder(models.Model):
         
         odoo_bot = self.env.ref('base.partner_root')
         
-        number_reminders = mx_count
-        if number_reminders > 0:
-            message=_('%(number_reminders)s reminders have been added today.') % {'number_reminders': number_reminders}
-            channel = self.env['discuss.channel'].search([('name', 'ilike', 'Aniversarios')], limit=1) 
-            if channel:
-                channel.sudo().message_post(body=message, message_type='comment', subtype_xmlid='mail.mt_comment', author_id=odoo_bot.id)
+        channel_map = {
+            'MX': 'Aniversarios',
+            'US': 'CHANNEL_TBA',
+            'CL': 'CHANNEL_TBA',
+            'CR': 'CHANNEL_TBA',
+        }
+        
+        # number_reminders = mx_count
+        # if number_reminders > 0:
+        for country_code, count in country_counts.items():
+            if count > 0:
+                message=_('%(number_reminders)s reminders have been added today.') % {'number_reminders': count}
+                channel = self.env['discuss.channel'].search([('name', 'ilike', channel_map[country_code])], limit=1) 
+                if channel:
+                    channel.sudo().message_post(body=message, message_type='comment', subtype_xmlid='mail.mt_comment', author_id=odoo_bot.id)
                     
     
     def change_status_action(self):
