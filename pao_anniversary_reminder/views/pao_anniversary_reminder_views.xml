@@ -103,16 +103,7 @@
         <field name="state">code</field>
         <field name="code">
             if records:
-                action = {
-                    'name': _('Send Mass Reminders'),
-                    'type': 'ir.actions.act_window',
-                    'res_model': 'send.mass.reminder.wizard',
-                    'view_mode': 'form',
-                    'target': 'new',
-                    'context': {
-                        'active_ids': records.ids,
-                    }
-                }
+                action = rec.mass_reminder_wizard_action(records)
         </field>
     </record>
 </odoo>

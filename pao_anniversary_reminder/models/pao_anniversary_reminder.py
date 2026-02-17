@@ -154,6 +154,18 @@ class PaoAnniversaryReminder(models.Model):
                     'default_language_id': self.language_id.id
                 },
             }
+            
+    def mass_reminder_wizard_action(self, records):
+        return {
+            'name': _('Send Mass Reminders'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'send.mass.reminder.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'active_ids': records.ids,
+            }
+        }
     
     def confirm_audit(self):
         if self.status == 'progress':
