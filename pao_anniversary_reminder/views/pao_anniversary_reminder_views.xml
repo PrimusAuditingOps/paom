@@ -103,8 +103,6 @@
         <field name="state">code</field>
         <field name="code">
             if records:
-                <!-- for rec in records:
-                    action = rec.send_mass_reminders() -->
                 action = {
                     'type': 'ir.actions.act_window',
                     'res_model': 'send.mass.reminder.wizard',
