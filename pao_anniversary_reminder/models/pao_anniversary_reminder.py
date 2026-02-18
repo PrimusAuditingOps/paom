@@ -315,7 +315,7 @@ class PaoAnniversaryReminder(models.Model):
         # number_reminders = mx_count
         # if number_reminders > 0:
         for country_code, count in country_counts.items():
-            # if count > 0:
+            if count > 0:
                 message=_('%(number_reminders)s reminders have been added today.') % {'number_reminders': count}
                 channel = self.env['discuss.channel'].search([('name', 'ilike', channel_map[country_code])], limit=1) 
                 if channel:
