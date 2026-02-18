@@ -216,13 +216,13 @@ class PaoAnniversaryReminder(models.Model):
             self.notify_action(message)
             
 
-    def notify_action(self, message, attachment=None):
+    def notify_action(self, message_text, attachment=None):
         user = self.reminder_sender_id
         
         attachments = [attachment.id] if attachment else None
         
         message = self.message_post(
-            body=message,
+            body=message_text,
             partner_ids=[user.partner_id.id],
             attachment_ids=attachments,
             body_is_html = True
@@ -249,7 +249,7 @@ class PaoAnniversaryReminder(models.Model):
         </a>
         '''
         
-        channel_message = f"{message} - {record_link}"
+        channel_message = f"{message_text} - {record_link}"
         
         channel = self.env['discuss.channel'].search([('name', 'ilike', channel_map[country_code])], limit=1) 
         if channel:
