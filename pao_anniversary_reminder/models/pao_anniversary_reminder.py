@@ -7,6 +7,13 @@ from odoo.exceptions import ValidationError
 from werkzeug.urls import url_join
 
 class PaoAnniversaryReminder(models.Model):
+    
+    CHANNEL_MAP = {
+        'MX': 'Aniversarios',
+        'US': 'REMINDERS USA',
+        'CL': 'CHANNEL_TBA',
+        'CR': 'CHANNEL_TBA',
+    }
 
     _name="pao.anniversary.reminder"
     _description = "Anniversary reminder to customers"
@@ -225,6 +232,28 @@ class PaoAnniversaryReminder(models.Model):
             message_id=message.id,
         )
         
+        country_code = self.purchase_order_id.company_id.country_code
+        odoo_bot = self.env.ref('base.partner_root')
+        
+        channel_map = self.CHANNEL_MAP
+        
+        record_url = f'/web#id={self.id}&model={self._name}&view_type=form'
+
+        record_link = f'''
+        <a href="{record_url}"
+        class="o_mail_redirect"
+        data-oe-id="{self.id}"
+        data-oe-model="{self._name}"
+        target="_blank">
+        {self.name}
+        </a>
+        '''
+        channel_message = f"{message} - {record_link}"
+        
+        channel = self.env['discuss.channel'].search([('name', 'ilike', channel_map[country_code])], limit=1) 
+        if channel:
+            channel.sudo().message_post(body=channel_message, message_type='comment', subtype_xmlid='mail.mt_comment', author_id=odoo_bot.id)
+        
             
     def get_customers_to_remind(self, date=None):
         
@@ -278,12 +307,7 @@ class PaoAnniversaryReminder(models.Model):
         
         odoo_bot = self.env.ref('base.partner_root')
         
-        channel_map = {
-            'MX': 'Aniversarios',
-            'US': 'CHANNEL_TBA',
-            'CL': 'CHANNEL_TBA',
-            'CR': 'CHANNEL_TBA',
-        }
+        channel_map = self.CHANNEL_MAP
         
         # number_reminders = mx_count
         # if number_reminders > 0:

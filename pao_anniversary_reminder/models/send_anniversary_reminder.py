@@ -20,7 +20,8 @@ class SendAnniversaryReminder(models.TransientModel):
         string='Mail Template',
         comodel_name='mail.template',
         domain = [('model','=','send.anniversary.reminder')],
-        default = lambda self: self.env.ref('pao_anniversary_reminder.mail_template_anniversary_reminder')
+        # default = lambda self: self.env.ref('pao_anniversary_reminder.mail_template_anniversary_reminder')
+        required=True
     )
     
     @api.onchange('mail_template_id')
