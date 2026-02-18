@@ -253,7 +253,7 @@ class PaoAnniversaryReminder(models.Model):
         
         channel = self.env['discuss.channel'].search([('name', 'ilike', channel_map[country_code])], limit=1) 
         if channel:
-            channel.sudo().message_post(body=channel_message, message_type='comment', subtype_xmlid='mail.mt_comment', author_id=odoo_bot.id)
+            channel.sudo().message_post(body=channel_message, message_type='comment', subtype_xmlid='mail.mt_comment', author_id=odoo_bot.id, body_is_html = True)
         
             
     def get_customers_to_remind(self, date=None):
