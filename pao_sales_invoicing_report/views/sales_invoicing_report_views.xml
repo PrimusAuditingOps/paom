@@ -6,6 +6,7 @@
             <field name="model">sales.invoicing.report</field>
             <field name="arch" type="xml">
                 <pivot string="Sales Invoicing Analysis">
+                    <field name="invoice_date" type="col" interval="month"/>
                     <field name="categ_id" type="row"/>
                     <field name="invoice_id" type="measure"/>
                     <field name="quantity" type="measure"/>
@@ -22,6 +23,12 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sales.invoicing.report</field>
         <field name="view_mode">pivot</field>
+        <field name="context">
+            {
+                'pivot_measures': ['quantity'],
+                'group_by': ['invoice_date:month']
+            }
+        </field>
     </record>
 
 </odoo>
