@@ -248,6 +248,7 @@ class PaoAnniversaryReminder(models.Model):
         {self.name}
         </a>
         '''
+        
         channel_message = f"{message} - {record_link}"
         
         channel = self.env['discuss.channel'].search([('name', 'ilike', channel_map[country_code])], limit=1) 
