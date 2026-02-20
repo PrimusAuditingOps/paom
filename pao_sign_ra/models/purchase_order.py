@@ -5,7 +5,7 @@ import uuid
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
     
-    ra_sent = fields.Boolean(default=False)
+    ra_sent = fields.Boolean(default=False, copy=False, readonly=True)
     ra_document_ids = fields.One2many(
         comodel_name='ra.document',
         inverse_name='purchase_order_id',
