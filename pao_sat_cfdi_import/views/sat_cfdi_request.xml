@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <record id="pao_sat_cfdi_request_view_form" model="ir.ui.view">
+        <field name="name">pao.sat.cfdi.request.view.form</field>
+        <field name="model">pao.sat.cfdi.request</field>
+        <field name="arch" type="xml">
+            <form string="SAT CFDI Request">
+                <!--<header>
+                    <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state != 'needs_validation'"/>
+                    <button name="search_audit"  string="Search Audit" type="object" invisible="search_state == 'found'"/>
+                    <button name="unlink_audit"  string="Unlink Audit" type="object" invisible="search_state == 'not_found'"/>
+                    <field name="search_state" widget="statusbar"/>
+                </header>-->
+                <sheet>
+                    <group>
+                         <group>
+                            <field name="cfdi_type"/>
+                        </group>
+                        <group>
+                            <field name="request_id"/>
+                        </group>
+                        <group>
+                            <field name="requester_vat"/>
+                        </group>
+                        <group>
+                            <field name="verification_state"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                        </group>
+                        <group>
+                            <field name="message"/>
+                        </group>
+                         <group>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="verification_state_code"/>
+                        </group>
+                        <group>
+                            <field name="receiver_rfc"/>
+                        </group>
+                        <group>
+                            <field name="total_cfdi"/>
+                        </group>
+                        
+                    </group>
+                   
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_sat_cfdi_request_view_tree" model="ir.ui.view">
+        <field name="name">pao.sat.cfdi.request.view.tree</field>
+        <field name="model">pao.sat.cfdi.request</field>
+        <field name="arch" type="xml">
+            <tree string="SAT CFDI Request">
+                <field name="cfdi_type"/>
+                <field name="request_id"/>
+                <field name="create_date"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="verification_state"/>
+                <field name="verification_state_code"/>
+                <field name="total_cfdi" />
+                <field name="message"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_sat_cfdi_request_action" model="ir.actions.act_window">
+        <field name="name">SAT CFDI Request</field>
+        <field name="res_model">pao.sat.cfdi.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first SAT CFDI Request
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pao_sat_cfdi_request_option"
+            name="SAT CFDI Request"
+            parent="account.menu_finance_receivables"
+            action="pao_sat_cfdi_request_action"
+            sequence="80"/>
+
+</odoo>
