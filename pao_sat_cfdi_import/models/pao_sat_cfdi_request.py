@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from ..services.sat_descarga_service import SatDescargaMasivaService
+#from ..services.sat_descarga_service import SatDescargaMasivaService
 
 class SATCFDIRequest(models.Model):
     _name = "pao.sat.cfdi.request"
