@@ -14,6 +14,9 @@ import uuid
 import pytz
 import requests
 import jwt
+import time
+import datetime
+import jwt
 from cryptography.hazmat.primitives.serialization import load_der_private_key
 from cryptography import x509
 
@@ -46,13 +49,13 @@ class SATDownloadService(models.AbstractModel):
 
         requested_tz = pytz.timezone('America/Mexico_City')
         now = requested_tz.fromutc(datetime.utcnow())
-        now = now.date()
+        #now = now.date()
 
         payload = {
             "sub": rfc,
             "jti": str(uuid.uuid4()),
-            "iat": now,
-            "exp": now + timedelta(minutes=5)
+            "iat": int(now.timestamp()),
+            "exp": int((now + timedelta(minutes=5)).timestamp())
         }
 
         token = jwt.encode(
