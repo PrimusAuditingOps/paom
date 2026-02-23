@@ -8,6 +8,7 @@ from cryptography.hazmat.primitives.serialization import load_der_private_key
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography import x509
+from odoo import models
 
 
 class SATDownloadService(models.AbstractModel):
