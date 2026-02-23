@@ -16,7 +16,8 @@ import requests
 import jwt
 import time
 import datetime
-import jwt
+from zeep import Client
+from zeep.wsse.signature import Signature
 from cryptography.hazmat.primitives.serialization import load_der_private_key
 from cryptography import x509
 
