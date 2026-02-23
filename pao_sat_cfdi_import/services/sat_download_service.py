@@ -33,9 +33,7 @@ class SATDownloadService(models.AbstractModel):
 
     #AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
     #AUTH_WSDL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
-    AUTH_URL = "https://cfdidescargamasiva.sat.gob.mx/api/autenticacion"
-
-
+    AUTH_URL = "https://api.descargamasiva.sat.gob.mx/Autenticacion"
 
     def _get_jwt(self, cer_base64, key_base64, password, rfc):
 
