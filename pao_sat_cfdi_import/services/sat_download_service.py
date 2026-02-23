@@ -21,7 +21,7 @@ class SATDownloadService(models.AbstractModel):
     AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
 
 
-    def auth_sat(rfc, cer_bytes, key_bytes, key_password):
+    def auth_sat(self, rfc, cer_bytes, key_bytes, key_password):
 
         cer_bytes = base64.b64decode(cer_bytes)
         key_bytes = base64.b64decode(key_bytes)
