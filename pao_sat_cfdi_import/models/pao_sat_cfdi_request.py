@@ -60,7 +60,7 @@ class SATCFDIRequest(models.Model):
         _logger.error(data)
         if data:
             service = self.env["pao.sat.service"]
-            response = service.auth(
+            response = service.auth_sat(
                 self.env.company.vat,
                 data.content,
                 data.key,

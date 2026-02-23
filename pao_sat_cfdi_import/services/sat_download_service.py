@@ -33,54 +33,35 @@ class SATDownloadService(models.AbstractModel):
 
     #AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
     #AUTH_WSDL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
-    AUTH_URL = "https://api.descargamasiva.sat.gob.mx/Autenticacion"
+    AUTH_URL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
 
-    def _get_jwt(self, cer_base64, key_base64, password, rfc):
-
+   
+    def auth_sat(self, rfc, cer_base64, key_base64, password):
+        # Decodificar archivos Odoo (base64)
         cer_bytes = base64.b64decode(cer_base64)
         key_bytes = base64.b64decode(key_base64)
 
-        private_key = load_der_private_key(
-            key_bytes,
+        # Crear cliente SOAP
+        client = Client(self.AUTH_WSDL)
+
+        # Configurar firma WS-Security
+        wsse = Signature(
+            key_file=None,
+            certfile=None,
+            key_data=key_bytes,
+            cert_data=cer_bytes,
             password=password.encode()
         )
 
-        requested_tz = pytz.timezone('America/Mexico_City')
-        now = requested_tz.fromutc(datetime.utcnow())
-        #now = now.date()
+        client.wsse = wsse
 
-        payload = {
-            "sub": rfc,
-            "jti": str(uuid.uuid4()),
-            "iat": int(now.timestamp()),
-            "exp": int((now + timedelta(minutes=5)).timestamp())
-        }
+        # Llamar método
+        response = client.service.Autentica()
 
-        token = jwt.encode(
-            payload,
-            private_key,
-            algorithm="RS256"
-        )
-
-        return token
-
-    def auth(self, rfc, cer, key, password):
-
-        jwt_token = self._get_jwt(cer, key, password, rfc)
-
-        headers = {
-            "Authorization": f"Bearer {jwt_token}",
-            "Content-Type": "application/json"
-        }
-
-        response = requests.post(self.AUTH_URL, headers=headers)
-
-        response.raise_for_status()
-
-        return response.json()
-
-    def auth_sat(self, rfc, cer_bytes, key_bytes, key_password):
-
+        return response
+        """
+        
+        
         cer_bytes = base64.b64decode(cer_bytes)
         key_bytes = base64.b64decode(key_bytes)
 
@@ -162,3 +143,5 @@ class SATDownloadService(models.AbstractModel):
         response = client.service.Autentica(xml_string)
 
         return response
+
+        """
