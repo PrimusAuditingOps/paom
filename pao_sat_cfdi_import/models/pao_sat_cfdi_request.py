@@ -57,7 +57,7 @@ class SATCFDIRequest(models.Model):
         requested_tz = pytz.timezone('America/Mexico_City')
         today = requested_tz.fromutc(datetime.utcnow())
         today = today.date()
-        data = self.env["l10n_mx_edi.certificate"].search([('date_start', '>=', today), ('date_end', '<=', today)], limit=1)
+        data = self.env["l10n_mx_edi.certificate"].search([('date_end', '>=', today)], limit=1)
         _logger.error(data)
         if data:
             response = SATDownloadService.auth_sat(
