@@ -5,7 +5,7 @@
         <field name="model">send.anniversary.reminder</field>
         <field name="arch" type="xml">
             <form>
-                <group col="2"> 
+                <group col="2">
                     <field name="email_address"/>
                     <field name="subject" placeholder="Enter Subject"/>
                     <field name="message" placeholder="Enter Message..."/>
@@ -16,6 +16,26 @@
                 <footer>
                     <button string="Send" name="send_mail" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="send_mass_reminder_wizard_form" model="ir.ui.view">
+        <field name="name">send.mass.reminder.wizard.form</field>
+        <field name="model">send.mass.reminder.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send Mass Reminders">
+                <group>
+                    <field name="mail_template_id" options="{'no_create':True, 'create_edit': false, 'no_open': True}"/>
+                </group>
+                <group string="Template Preview" colspan="4">
+                    <field name="preview_subject" readonly="1"/>
+                    <field name="preview_body" widget="html" readonly="1"/>
+                </group>
+                <footer>
+                    <button string="Send" type="object" name="action_send" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
                 </footer>
             </form>
         </field>

@@ -103,8 +103,7 @@
         <field name="state">code</field>
         <field name="code">
             if records:
-                for rec in records:
-                    action = rec.send_mass_reminders()
+                action = records.mass_reminder_wizard_action()
         </field>
     </record>
 </odoo>
