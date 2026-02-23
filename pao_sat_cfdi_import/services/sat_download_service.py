@@ -10,7 +10,8 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography import x509
 
 
-class SATDownloadService:
+class SATDownloadService(models.AbstractModel):
+    _name = "pao.sat.service":
     #AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
     #REQUEST_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc?wsdl"
     #CONSULT_WSDL = "https://cfdidescargamasivaconsulta.clouda.sat.gob.mx/ConsultaSolicitudService.svc?wsdl"
@@ -97,7 +98,7 @@ class SATDownloadService:
 
         xml_string = etree.tostring(envelope, encoding="utf-8")
 
-        client = Client(AUTH_WSDL)
+        client = Client(self.AUTH_WSDL)
 
         response = client.service.Autentica(xml_string)
 

@@ -2,7 +2,6 @@
 import pytz
 from datetime import datetime, timedelta
 from odoo import models, fields, api
-from ..services.sat_download_service import SATDownloadService
 from logging import getLogger
 from odoo.exceptions import ValidationError
 
@@ -60,7 +59,8 @@ class SATCFDIRequest(models.Model):
         data = self.env["l10n_mx_edi.certificate"].search([('date_end', '>=', today)], limit=1)
         _logger.error(data)
         if data:
-            response = SATDownloadService.auth_sat(
+            service = self.env["pao.sat.service"]
+            response = service.auth_sat(
                 "",
                 data.content,
                 data.key,
