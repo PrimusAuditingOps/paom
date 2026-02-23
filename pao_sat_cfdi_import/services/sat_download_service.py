@@ -1,12 +1,21 @@
+#import base64
+#import uuid
+#import pytz
+#from datetime import datetime, timedelta
+#from lxml import etree
+#from zeep import Client
+#from cryptography.hazmat.primitives.serialization import load_der_private_key
+#from cryptography.hazmat.primitives import hashes
+#from cryptography.hazmat.primitives.asymmetric import padding
+#from cryptography import x509
+
 import base64
 import uuid
 import pytz
-from datetime import datetime, timedelta
-from lxml import etree
-from zeep import Client
+import datetime
+import requests
+import jwt
 from cryptography.hazmat.primitives.serialization import load_der_private_key
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography import x509
 from odoo import models
 
@@ -19,7 +28,54 @@ class SATDownloadService(models.AbstractModel):
     #DOWNLOAD_WSDL = "https://cfdidescargamasivaconsulta.clouda.sat.gob.mx/DescargaService.svc?wsdl"
 
     #AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
-    AUTH_WSDL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
+    #AUTH_WSDL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
+    AUTH_URL = "https://cfdidescargamasiva.sat.gob.mx/api/autenticacion"
+
+
+
+    def _get_jwt(self, cer_base64, key_base64, password, rfc):
+
+        cer_bytes = base64.b64decode(cer_base64)
+        key_bytes = base64.b64decode(key_base64)
+
+        private_key = load_der_private_key(
+            key_bytes,
+            password=password.encode()
+        )
+
+        requested_tz = pytz.timezone('America/Mexico_City')
+        now = requested_tz.fromutc(datetime.utcnow())
+        now = now.date()
+
+        payload = {
+            "sub": rfc,
+            "jti": str(uuid.uuid4()),
+            "iat": now,
+            "exp": now + datetime.timedelta(minutes=5)
+        }
+
+        token = jwt.encode(
+            payload,
+            private_key,
+            algorithm="RS256"
+        )
+
+        return token
+
+    def auth(self, rfc, cer, key, password):
+
+        jwt_token = self._get_jwt(cer, key, password, rfc)
+
+        headers = {
+            "Authorization": f"Bearer {jwt_token}",
+            "Content-Type": "application/json"
+        }
+
+        response = requests.post(self.AUTH_URL, headers=headers)
+
+        response.raise_for_status()
+
+        return response.json()
 
     def auth_sat(self, rfc, cer_bytes, key_bytes, key_password):
 
