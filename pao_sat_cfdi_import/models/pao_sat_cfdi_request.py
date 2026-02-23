@@ -2,7 +2,7 @@
 import pytz
 from datetime import datetime, timedelta
 from odoo import models, fields, api
-from ..services.sat_descarga_service import SatDescargaMasivaService
+from ..services.sat_download_service import SatDescargaMasivaService
 from logging import getLogger
 from odoo.exceptions import ValidationError
 
