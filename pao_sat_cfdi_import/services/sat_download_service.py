@@ -52,7 +52,7 @@ class SATDownloadService(models.AbstractModel):
             "sub": rfc,
             "jti": str(uuid.uuid4()),
             "iat": now,
-            "exp": now + datetime.timedelta(minutes=5)
+            "exp": now + timedelta(minutes=5)
         }
 
         token = jwt.encode(
