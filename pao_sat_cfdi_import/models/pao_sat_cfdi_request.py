@@ -1,5 +1,12 @@
+
+import pytz
+from datetime import datetime, timedelta
 from odoo import models, fields, api
-#from ..services.sat_descarga_service import SatDescargaMasivaService
+from ..services.sat_descarga_service import SatDescargaMasivaService
+from logging import getLogger
+from odoo.exceptions import ValidationError
+
+_logger = getLogger(__name__)
 
 class SATCFDIRequest(models.Model):
     _name = "pao.sat.cfdi.request"
@@ -8,8 +15,7 @@ class SATCFDIRequest(models.Model):
     
     cfdi_type = fields.Selection(
         selection=[
-            ('I', "Recibidos"),
-            
+            ('I', "Recibidos"),  
         ],
         string="Sense of CFDI",
         default='I',
@@ -45,6 +51,22 @@ class SATCFDIRequest(models.Model):
     total_cfdi = fields.Integer(
         string="Total CFDI",
     )
+
+    def download_package(self):
+        self.ensure_one()
+        requested_tz = pytz.timezone('America/Mexico_City')
+        today = requested_tz.fromutc(datetime.utcnow())
+        today = today.date()
+        data = self.env["l10n_mx_edi.certificate"].search([('date_start', '>=', today), ('date_end', '<=', today)], limit=1)
+        _logger.error(data)
+        if data:
+            response = SatDescargaMasivaService.auth_sat(
+                "",
+                data.content,
+                data.key,
+                data.password
+            )
+            raise ValidationError(response)
 
 
 

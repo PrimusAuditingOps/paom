@@ -7,12 +7,12 @@
         <field name="model">pao.sat.cfdi.request</field>
         <field name="arch" type="xml">
             <form string="SAT CFDI Request">
-                <!--<header>
-                    <button name="validate_audit"  class="btn-primary" string="Validate" type="object"  invisible="search_state != 'needs_validation'"/>
-                    <button name="search_audit"  string="Search Audit" type="object" invisible="search_state == 'found'"/>
+               <header>
+                    <button name="download_package"  class="btn-primary" string="Test" type="object"/>
+                     <!--<button name="search_audit"  string="Search Audit" type="object" invisible="search_state == 'found'"/>
                     <button name="unlink_audit"  string="Unlink Audit" type="object" invisible="search_state == 'not_found'"/>
-                    <field name="search_state" widget="statusbar"/>
-                </header>-->
+                    <field name="search_state" widget="statusbar"/>-->
+                </header>
                 <sheet>
                     <group>
                          <group>
