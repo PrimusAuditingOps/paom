@@ -61,7 +61,7 @@ class SATCFDIRequest(models.Model):
         if data:
             service = self.env["pao.sat.service"]
             response = service.auth(
-                self.company_id.vat,
+                self.env.company.vat,
                 data.content,
                 data.key,
                 data.password
