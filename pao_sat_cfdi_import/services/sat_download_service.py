@@ -21,6 +21,9 @@ class SATDownloadService:
 
     def auth_sat(rfc, cer_bytes, key_bytes, key_password):
 
+        cer_bytes = base64.b64decode(cer_bytes)
+        key_bytes = base64.b64decode(key_bytes)
+
         cert = x509.load_der_x509_certificate(cer_bytes)
         cert_b64 = base64.b64encode(cer_bytes).decode()
 
