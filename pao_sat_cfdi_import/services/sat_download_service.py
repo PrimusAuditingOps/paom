@@ -12,12 +12,12 @@
 import base64
 import uuid
 import pytz
-from datetime import datetime, timedelta
-import datetime
 import requests
 import jwt
 from cryptography.hazmat.primitives.serialization import load_der_private_key
 from cryptography import x509
+
+from datetime import datetime, timedelta
 from odoo import models
 
 
