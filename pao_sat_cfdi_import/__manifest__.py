@@ -15,6 +15,8 @@
     'data': [
         'security/ir.model.access.csv',
         'views/sat_cfdi_request.xml',
+        'views/pao_l10n_mx_edi_fiel_certificate_view.xml',
+        'views/res_company.xml',
         #'data/ir_cron.xml',
     ],
     'assets': {

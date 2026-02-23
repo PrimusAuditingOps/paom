@@ -34,37 +34,13 @@ class SATDownloadService(models.AbstractModel):
 
     #AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
     #AUTH_WSDL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
-    AUTH_WSDL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
+    AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc?wsdl"
 
    
     def auth_sat(self, rfc, cer_base64, key_base64, password):
-        # Decodificar archivos Odoo (base64)
+      
         cer_bytes = base64.b64decode(cer_base64)
         key_bytes = base64.b64decode(key_base64)
-
-        # Crear cliente SOAP
-        client = Client(self.AUTH_WSDL)
-
-        # Configurar firma WS-Security
-        wsse = Signature(
-            key_file=None,
-            certfile=None,
-            key_data=key_bytes,
-            cert_data=cer_bytes,
-            password=password.encode()
-        )
-
-        client.wsse = wsse
-
-        # Llamar método
-        response = client.service.Autentica()
-
-        return response
-        """
-        
-        
-        cer_bytes = base64.b64decode(cer_bytes)
-        key_bytes = base64.b64decode(key_bytes)
 
         cert = x509.load_der_x509_certificate(cer_bytes)
         cert_b64 = base64.b64encode(cer_bytes).decode()
@@ -76,7 +52,7 @@ class SATDownloadService(models.AbstractModel):
 
         requested_tz = pytz.timezone('America/Mexico_City')
         created = requested_tz.fromutc(datetime.utcnow())
-        created = created.date()
+        #created = created.date()
         expires = created + timedelta(minutes=5)
 
         created_str = created.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
@@ -145,4 +121,4 @@ class SATDownloadService(models.AbstractModel):
 
         return response
 
-        """
+  
