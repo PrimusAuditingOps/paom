@@ -11,7 +11,7 @@ from cryptography import x509
 
 
 class SATDownloadService(models.AbstractModel):
-    _name = "pao.sat.service":
+    _name = "pao.sat.service"
     #AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
     #REQUEST_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc?wsdl"
     #CONSULT_WSDL = "https://cfdidescargamasivaconsulta.clouda.sat.gob.mx/ConsultaSolicitudService.svc?wsdl"
