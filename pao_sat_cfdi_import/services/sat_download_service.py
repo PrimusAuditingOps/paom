@@ -21,11 +21,10 @@ import xmlsec
 import tempfile
 import subprocess
 from OpenSSL import crypto
-from logging import getLogger
+
 from datetime import datetime, timedelta
 from odoo import models
 
-_logger = getLogger(__name__)
 
 class SATDownloadService(models.AbstractModel):
     _name = "pao.sat.service"
@@ -149,63 +148,59 @@ class SATDownloadService(models.AbstractModel):
     # -----------------------------------------------------------------
     def _sign(self, envelope, certificate,token_id):
         # Crear archivos temporales porque xmlsec trabaja con archivos
-        #with tempfile.NamedTemporaryFile(delete=False) as cer_file, \
-        #     tempfile.NamedTemporaryFile(delete=False) as key_file:
+        with tempfile.NamedTemporaryFile(delete=False) as cer_file, \
+             tempfile.NamedTemporaryFile(delete=False) as key_file:
 
-            #cer_file.write(base64.b64decode(certificate.content))
-            #key_file.write(base64.b64decode(certificate.key))
+            cer_file.write(base64.b64decode(certificate.content))
+            key_file.write(base64.b64decode(certificate.key))
 
-            #cer_file.flush()
-            #key_file.flush()
+            cer_file.flush()
+            key_file.flush()
 
-        signature_node = xmlsec.template.create(
-            envelope,
-            xmlsec.Transform.EXCL_C14N,
-            xmlsec.Transform.RSA_SHA1
-        )
-        key_info = xmlsec.template.ensure_key_info(signature_node)
+            signature_node = xmlsec.template.create(
+                envelope,
+                xmlsec.Transform.EXCL_C14N,
+                xmlsec.Transform.RSA_SHA1
+            )
+            key_info = xmlsec.template.ensure_key_info(signature_node)
 
-        str_node = etree.SubElement(
-            key_info,
-            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}SecurityTokenReference'
-        )
+            str_node = etree.SubElement(
+                key_info,
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}SecurityTokenReference'
+            )
 
-        etree.SubElement(
-            str_node,
-            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Reference',
-            URI=f'#{token_id}',
-            ValueType='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3'
-        )
+            etree.SubElement(
+                str_node,
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Reference',
+                URI=f'#{token_id}',
+                ValueType='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3'
+            )
 
-        
+            
 
-        envelope.find(
-            './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
-        ).append(signature_node)
+            envelope.find(
+                './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+            ).append(signature_node)
+    
+            ref = xmlsec.template.add_reference(
+                signature_node,
+                xmlsec.Transform.SHA1,
+                uri='#_0'
+            )
+            
+            xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
+            xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
-        ref = xmlsec.template.add_reference(
-            signature_node,
-            xmlsec.Transform.SHA1,
-            uri='#_0'
-        )
-        
-        ref = xmlsec.template.add_reference(
-            signature_node,
-            xmlsec.Transform.SHA1,
-            uri='#_0'
-        )
-        xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
+            cer_path, key_path = self._prepare_key_and_cert(certificate)
 
-        cer_path, key_path = self._prepare_key_and_cert(certificate)
+            key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
+            key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
 
-        key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
-        key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
+            ctx = xmlsec.SignatureContext()
+            ctx.key = key
+            xmlsec.tree.add_ids(envelope, ["Id"])
+            ctx.sign(signature_node)
 
-        ctx = xmlsec.SignatureContext()
-        ctx.key = key
-        #xmlsec.tree.add_ids(envelope, ["Id"])
-        ctx.sign(signature_node)
-        
         return envelope
 
     # -----------------------------------------------------------------
@@ -219,7 +214,7 @@ class SATDownloadService(models.AbstractModel):
 
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
-        _logger.error(signed_envelope)
+
         session = Session()
         transport = Transport(session=session)
 
