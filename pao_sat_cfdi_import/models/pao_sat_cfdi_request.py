@@ -56,15 +56,12 @@ class SATCFDIRequest(models.Model):
         requested_tz = pytz.timezone('America/Mexico_City')
         today = requested_tz.fromutc(datetime.utcnow())
         today = today.date()
-        data = self.env["l10n_mx_edi.certificate"].search([('date_end', '>=', today)], limit=1)
+        data = self.env["pao.l10n_mx_edi.fiel"].search([('date_end', '>=', today),('company_id', '=', self.env.company.id)], limit=1)
         _logger.error(data)
         if data:
             service = self.env["pao.sat.service"]
-            response = service.auth_sat(
-                self.env.company.vat,
-                data.content,
-                data.key,
-                data.password
+            response = service.auth(
+                data
             )
             raise ValidationError(response)
 

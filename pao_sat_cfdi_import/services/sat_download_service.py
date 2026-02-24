@@ -12,14 +12,13 @@
 import base64
 import uuid
 import pytz
-import requests
-import jwt
-import time
 import datetime
+from lxml import etree
 from zeep import Client
-from zeep.wsse.signature import Signature
-from cryptography.hazmat.primitives.serialization import load_der_private_key
-from cryptography import x509
+from zeep.transports import Transport
+from requests import Session
+import xmlsec
+import tempfile
 
 from datetime import datetime, timedelta
 from odoo import models
@@ -36,7 +35,140 @@ class SATDownloadService(models.AbstractModel):
     #AUTH_WSDL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
     AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc?wsdl"
 
-   
+
+
+
+
+
+    def _create_timestamp(self):
+        requested_tz = pytz.timezone('America/Mexico_City')
+        created = requested_tz.fromutc(datetime.utcnow())
+        created = datetime.datetime.utcnow()
+        expires = created + timedelta(minutes=5)
+
+        return (
+            created.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
+            expires.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+        )
+
+    # -----------------------------------------------------------------
+    # Construir SOAP Envelope
+    # -----------------------------------------------------------------
+    def _build_envelope(self, cert_b64):
+        created, expires = self._create_timestamp()
+        token_id = f"uuid-{uuid.uuid4()}-1"
+
+        NSMAP = {
+            's': 'http://schemas.xmlsoap.org/soap/envelope/',
+            'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd',
+            'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
+        }
+
+        envelope = etree.Element('{http://schemas.xmlsoap.org/soap/envelope/}Envelope', nsmap=NSMAP)
+        header = etree.SubElement(envelope, '{http://schemas.xmlsoap.org/soap/envelope/}Header')
+        security = etree.SubElement(
+            header,
+            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+        )
+
+        timestamp = etree.SubElement(
+            security,
+            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp',
+            Id='_0'
+        )
+
+        etree.SubElement(timestamp,
+            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Created'
+        ).text = created
+
+        etree.SubElement(timestamp,
+            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Expires'
+        ).text = expires
+
+        binary_token = etree.SubElement(
+            security,
+            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken',
+            Id=token_id
+        )
+        binary_token.text = cert_b64
+
+        body = etree.SubElement(envelope, '{http://schemas.xmlsoap.org/soap/envelope/}Body')
+        etree.SubElement(body, 'Autentica', xmlns="http://DescargaMasivaTerceros.gob.mx")
+
+        return envelope
+
+    # -----------------------------------------------------------------
+    # Firmar usando certificado almacenado en Odoo
+    # -----------------------------------------------------------------
+    def _sign(self, envelope, certificate):
+        # Crear archivos temporales porque xmlsec trabaja con archivos
+        with tempfile.NamedTemporaryFile(delete=False) as cer_file, \
+             tempfile.NamedTemporaryFile(delete=False) as key_file:
+
+            cer_file.write(base64.b64decode(certificate.content))
+            key_file.write(base64.b64decode(certificate.key))
+
+            cer_file.flush()
+            key_file.flush()
+
+            signature_node = xmlsec.template.create(
+                envelope,
+                xmlsec.Transform.EXCL_C14N,
+                xmlsec.Transform.RSA_SHA1
+            )
+
+            envelope.find(
+                './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+            ).append(signature_node)
+
+            ref = xmlsec.template.add_reference(
+                signature_node,
+                xmlsec.Transform.SHA1,
+                uri='#_0'
+            )
+
+            xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
+
+            key = xmlsec.Key.from_file(
+                key_file.name,
+                xmlsec.KeyFormat.PEM,
+                certificate.password
+            )
+
+            key.load_cert_from_file(cer_file.name, xmlsec.KeyFormat.PEM)
+
+            ctx = xmlsec.SignatureContext()
+            ctx.key = key
+            ctx.sign(signature_node)
+
+        return envelope
+
+    # -----------------------------------------------------------------
+    # Método público
+    # -----------------------------------------------------------------
+    def auth(self,certificate):
+
+        cert_b64 = base64.b64encode(
+            base64.b64decode(certificate.content)
+        ).decode()
+
+        envelope = self._build_envelope(cert_b64)
+        signed_envelope = self._sign(envelope, certificate)
+
+        session = Session()
+        transport = Transport(session=session)
+
+        client = Client(self.AUTH_WSDL, transport=transport)
+
+        response = client.transport.post(
+            client.wsdl.location,
+            etree.tostring(signed_envelope),
+            headers={'Content-Type': 'text/xml; charset=utf-8'}
+        )
+
+        return response.content
+
+    """
     def auth_sat(self, rfc, cer_base64, key_base64, password):
       
         cer_bytes = base64.b64decode(cer_base64)
@@ -121,4 +253,4 @@ class SATDownloadService(models.AbstractModel):
 
         return response
 
-  
+    """
