@@ -243,11 +243,7 @@ class SATDownloadService(models.AbstractModel):
 
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
-        _logger.error(etree.tostring(
-            signed_envelope,
-            xml_declaration=True,
-            encoding='utf-8'
-        ))
+        _logger.error(etree.tostring(signed_envelope,pretty_print=True,encoding="unicode"))
         session = Session()
         transport = Transport(session=session)
 
@@ -255,11 +251,7 @@ class SATDownloadService(models.AbstractModel):
 
         response = client.transport.post(
             client.wsdl.location,
-            etree.tostring(
-                signed_envelope,
-                xml_declaration=True,
-                encoding='utf-8'
-            ),
+            etree.tostring(signed_envelope),
             headers={'Content-Type': 'text/xml; charset=utf-8'}
         )
 
