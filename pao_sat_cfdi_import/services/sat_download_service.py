@@ -124,7 +124,8 @@ class SATDownloadService(models.AbstractModel):
             header,
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security',
             {
-                '{http://schemas.xmlsoap.org/soap/envelope/}mustUnderstand': '1'
+                '{http://schemas.xmlsoap.org/soap/envelope/}mustUnderstand': '1',
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': 'SECURITY-1'
             }
         )
 
@@ -208,7 +209,7 @@ class SATDownloadService(models.AbstractModel):
         ref = xmlsec.template.add_reference(
             signature_node,
             xmlsec.Transform.SHA1,
-            uri='#_0'
+            uri='#SECURITY-1'
         )
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
