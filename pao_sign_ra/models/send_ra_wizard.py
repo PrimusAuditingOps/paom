@@ -91,6 +91,7 @@ class SendRaWizard(models.Model):
                 })
             elif not self.reminder_action:
                 self.purchase_order_id.ra_sent = True
+                self.purchase_order_id.state = 'sent'
                 self.env["ra.document"].create({
                     'pao_registration_numbers_ids': self.available_registration_numbers_ids,
                     'purchase_order_id': self.purchase_order_id.id,
