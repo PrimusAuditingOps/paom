@@ -199,10 +199,7 @@ class SATDownloadService(models.AbstractModel):
         security_node.append(signature_node)
 
         # Registrar Id
-        xmlsec.tree.add_ids(
-            envelope,
-            ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
-        )
+        xmlsec.tree.add_ids(envelope, ["Id"])
 
         # Crear referencia
         ref = xmlsec.template.add_reference(
@@ -215,22 +212,14 @@ class SATDownloadService(models.AbstractModel):
         # Obtener PEM ya convertido correctamente
         cer_path, key_path = self._prepare_key_and_cert(certificate)
 
-        _logger.error("KEY PATH: %s", key_path)
-        _logger.error("CER PATH: %s", cer_path)
-
-        with open(key_path, "r") as f:
-            _logger.error("KEY CONTENT:\n%s", f.read())
-
-        with open(cer_path, "r") as f:
-            _logger.error("CERT CONTENT:\n%s", f.read())
-
+        
         # Cargar key PEM limpia
         key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
         key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
 
         ctx = xmlsec.SignatureContext()
         ctx.key = key
-
+        xmlsec.enable_debug_trace(True)
         # Firmar
         ctx.sign(signature_node)
 
