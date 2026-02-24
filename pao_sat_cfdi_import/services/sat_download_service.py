@@ -160,13 +160,14 @@ class SATDownloadService(models.AbstractModel):
             envelope.find(
                 './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
             ).append(signature_node)
-
+    
             ref = xmlsec.template.add_reference(
                 signature_node,
                 xmlsec.Transform.SHA1,
                 uri='#_0'
             )
-
+            
+            xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
             xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
             cer_path, key_path = self._prepare_key_and_cert(certificate)
@@ -176,6 +177,7 @@ class SATDownloadService(models.AbstractModel):
 
             ctx = xmlsec.SignatureContext()
             ctx.key = key
+            xmlsec.tree.add_ids(envelope, ["Id"])
             ctx.sign(signature_node)
 
         return envelope
