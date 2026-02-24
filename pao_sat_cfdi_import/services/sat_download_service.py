@@ -202,7 +202,7 @@ class SATDownloadService(models.AbstractModel):
             
 
             envelope.find(
-                './/{http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+                './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
             ).append(signature_node)
     
             ref = xmlsec.template.add_reference(
@@ -224,6 +224,7 @@ class SATDownloadService(models.AbstractModel):
                 envelope,
                 ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
             )
+
             ctx.sign(signature_node)
 
         return envelope
