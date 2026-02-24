@@ -94,27 +94,33 @@ class SATDownloadService(models.AbstractModel):
         )
 
     # -----------------------------------------------------------------
-    # Construir SOAP Envelope
+    # Ccambios
     # -----------------------------------------------------------------
     def _build_envelope(self, cert_b64):
+
         created, expires = self._create_timestamp()
         token_id = f"uuid-{uuid.uuid4()}-1"
 
         NSMAP = {
             's': 'http://schemas.xmlsoap.org/soap/envelope/',
-            'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wsswssecurity-utility-1.0.xsd',
-            #'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
+            'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd',
+            'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
         }
 
-        envelope = etree.Element('{http://schemas.xmlsoap.org/soap/envelope/}Envelope', nsmap=NSMAP)
-        header = etree.SubElement(envelope, '{http://schemas.xmlsoap.org/soap/envelope/}Header')
+        envelope = etree.Element(
+            '{http://schemas.xmlsoap.org/soap/envelope/}Envelope',
+            nsmap=NSMAP
+        )
+
+        header = etree.SubElement(
+            envelope,
+            '{http://schemas.xmlsoap.org/soap/envelope/}Header'
+        )
+
         security = etree.SubElement(
             header,
-            '{http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
-            #'{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
-              
+            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
         )
-        
 
         timestamp = etree.SubElement(
             security,
@@ -124,11 +130,13 @@ class SATDownloadService(models.AbstractModel):
             }
         )
 
-        etree.SubElement(timestamp,
+        etree.SubElement(
+            timestamp,
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Created'
         ).text = created
 
-        etree.SubElement(timestamp,
+        etree.SubElement(
+            timestamp,
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Expires'
         ).text = expires
 
@@ -137,14 +145,22 @@ class SATDownloadService(models.AbstractModel):
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken',
             {
                 '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': token_id,
-                'ValueType': 'http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-x509-token-profile-1.0#X509v3',
-                'EncodingType': 'http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-soap-message-security1.0#Base64Binary',
+                'ValueType': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3',
+                'EncodingType': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary',
             }
         )
+
         binary_token.text = cert_b64
 
-        body = etree.SubElement(envelope, '{http://schemas.xmlsoap.org/soap/envelope/}Body')
-        etree.SubElement(body, 'Autentica', xmlns="http://DescargaMasivaTerceros.gob.mx")
+        body = etree.SubElement(
+            envelope,
+            '{http://schemas.xmlsoap.org/soap/envelope/}Body'
+        )
+
+        etree.SubElement(
+            body,
+            '{http://DescargaMasivaTerceros.gob.mx}Autentica'
+        )
 
         return envelope, token_id
 
@@ -204,7 +220,10 @@ class SATDownloadService(models.AbstractModel):
 
             ctx = xmlsec.SignatureContext()
             ctx.key = key
-            xmlsec.tree.add_ids(envelope, ["Id"])
+            xmlsec.tree.add_ids(
+                envelope,
+                ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
+            )
             ctx.sign(signature_node)
 
         return envelope
