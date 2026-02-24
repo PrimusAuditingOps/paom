@@ -122,7 +122,10 @@ class SATDownloadService(models.AbstractModel):
 
         security = etree.SubElement(
             header,
-            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security',
+            {
+                '{http://schemas.xmlsoap.org/soap/envelope/}mustUnderstand': '1'
+            }
         )
 
         timestamp = etree.SubElement(
