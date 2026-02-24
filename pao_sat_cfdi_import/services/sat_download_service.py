@@ -170,14 +170,14 @@ class SATDownloadService(models.AbstractModel):
     # -----------------------------------------------------------------
     # Firmar usando certificado almacenado en Odoo
     # -----------------------------------------------------------------
-    def _sign(self, envelope, certificate,token_id):
-       
+    def _sign(self, envelope, certificate, token_id):
 
         signature_node = xmlsec.template.create(
             envelope,
             xmlsec.Transform.EXCL_C14N,
             xmlsec.Transform.RSA_SHA1
         )
+
         key_info = xmlsec.template.ensure_key_info(signature_node)
 
         str_node = etree.SubElement(
@@ -188,47 +188,47 @@ class SATDownloadService(models.AbstractModel):
         etree.SubElement(
             str_node,
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Reference',
-            ValueType='http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-x509-token-profile-1.0#X509v3',
+            ValueType='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3',
             URI=f'#{token_id}'
-            #ValueType='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3'
-                        
         )
 
-        
-
-        envelope.find(
+        # Insertar Signature dentro de Security
+        security_node = envelope.find(
             './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
-        ).append(signature_node)
+        )
+        security_node.append(signature_node)
 
+        # Registrar Id
+        xmlsec.tree.add_ids(
+            envelope,
+            ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
+        )
+
+        # Crear referencia
         ref = xmlsec.template.add_reference(
             signature_node,
             xmlsec.Transform.SHA1,
             uri='#_0'
         )
-        
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
+        # Obtener PEM ya convertido correctamente
         cer_path, key_path = self._prepare_key_and_cert(certificate)
 
+        # Cargar key PEM limpia
         key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
         key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
 
         ctx = xmlsec.SignatureContext()
         ctx.key = key
-        #xmlsec.tree.add_ids(envelope, ["Id"])
-        xmlsec.tree.add_ids(
-            envelope,
-            ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
-        )
-        _logger.error(envelope.xpath('//*[@u:Id]', namespaces={
-            'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'
-        }))
+
+        # Firmar
         ctx.sign(signature_node)
 
         return envelope
 
     # -----------------------------------------------------------------
-    # Método público
+    # Método públicor
     # -----------------------------------------------------------------
     def auth(self,certificate):
 
