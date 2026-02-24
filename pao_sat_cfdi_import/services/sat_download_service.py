@@ -19,6 +19,8 @@ from zeep.transports import Transport
 from requests import Session
 import xmlsec
 import tempfile
+import subprocess
+from OpenSSL import crypto
 
 from datetime import datetime, timedelta
 from odoo import models
@@ -37,7 +39,46 @@ class SATDownloadService(models.AbstractModel):
 
 
 
+    def _prepare_key_and_cert(self, data):
 
+        # Decodificar base64
+        cer_der = base64.b64decode(data.certificate)
+        key_der = base64.b64decode(data.key)
+        password = data.password
+
+        # Crear archivos temporales
+        cer_der_file = tempfile.NamedTemporaryFile(delete=False)
+        key_der_file = tempfile.NamedTemporaryFile(delete=False)
+
+        cer_der_file.write(cer_der)
+        key_der_file.write(key_der)
+
+        cer_der_file.close()
+        key_der_file.close()
+
+        # Convertir CER DER → PEM
+        cer_pem_file = tempfile.NamedTemporaryFile(delete=False)
+        subprocess.run([
+            "openssl",
+            "x509",
+            "-inform", "DER",
+            "-outform", "PEM",
+            "-in", cer_der_file.name,
+            "-out", cer_pem_file.name
+        ])
+
+        # Convertir KEY DER → PEM desencriptado
+        key_pem_file = tempfile.NamedTemporaryFile(delete=False)
+        subprocess.run([
+            "openssl",
+            "pkcs8",
+            "-inform", "DER",
+            "-in", key_der_file.name,
+            "-passin", f"pass:{password}",
+            "-out", key_pem_file.name
+        ])
+
+        return cer_pem_file.name, key_pem_file.name
 
 
     def _create_timestamp(self):
@@ -128,13 +169,10 @@ class SATDownloadService(models.AbstractModel):
 
             xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
-            key = xmlsec.Key.from_file(
-                key_file.name,
-                xmlsec.KeyFormat.PEM,
-                certificate.password
-            )
+            cer_path, key_path = self._prepare_key_and_cert(company)
 
-            key.load_cert_from_file(cer_file.name, xmlsec.KeyFormat.PEM)
+            key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
+            key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
 
             ctx = xmlsec.SignatureContext()
             ctx.key = key
