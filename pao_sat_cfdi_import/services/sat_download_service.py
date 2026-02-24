@@ -114,7 +114,7 @@ class SATDownloadService(models.AbstractModel):
         timestamp = etree.SubElement(
             security,
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp',
-            Id='_0'
+            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': '_0'
         )
 
         etree.SubElement(timestamp,
@@ -128,19 +128,23 @@ class SATDownloadService(models.AbstractModel):
         binary_token = etree.SubElement(
             security,
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken',
-            Id=token_id
+            {
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': token_id,
+                'ValueType': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3',
+                'EncodingType': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary',
+            }
         )
         binary_token.text = cert_b64
 
         body = etree.SubElement(envelope, '{http://schemas.xmlsoap.org/soap/envelope/}Body')
         etree.SubElement(body, 'Autentica', xmlns="http://DescargaMasivaTerceros.gob.mx")
 
-        return envelope
+        return envelope, token_id
 
     # -----------------------------------------------------------------
     # Firmar usando certificado almacenado en Odoo
     # -----------------------------------------------------------------
-    def _sign(self, envelope, certificate):
+    def _sign(self, envelope, certificate,token_id):
         # Crear archivos temporales porque xmlsec trabaja con archivos
         with tempfile.NamedTemporaryFile(delete=False) as cer_file, \
              tempfile.NamedTemporaryFile(delete=False) as key_file:
@@ -156,6 +160,21 @@ class SATDownloadService(models.AbstractModel):
                 xmlsec.Transform.EXCL_C14N,
                 xmlsec.Transform.RSA_SHA1
             )
+            key_info = xmlsec.template.ensure_key_info(signature_node)
+
+            str_node = etree.SubElement(
+                key_info,
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}SecurityTokenReference'
+            )
+
+            etree.SubElement(
+                str_node,
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Reference',
+                URI=f'#{token_id}',
+                ValueType='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3'
+            )
+
+            
 
             envelope.find(
                 './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
@@ -191,8 +210,8 @@ class SATDownloadService(models.AbstractModel):
             base64.b64decode(certificate.content)
         ).decode()
 
-        envelope = self._build_envelope(cert_b64)
-        signed_envelope = self._sign(envelope, certificate)
+        envelope, token_id = self._build_envelope(cert_b64)
+        signed_envelope = self._sign(envelope, certificate, token_id)
 
         session = Session()
         transport = Transport(session=session)
