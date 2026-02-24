@@ -214,7 +214,6 @@ class SATDownloadService(models.AbstractModel):
             uri='#_0'
         )
         
-        xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
         # Obtener PEM ya convertido correctamente
