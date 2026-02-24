@@ -209,9 +209,10 @@ class SATDownloadService(models.AbstractModel):
         ref = xmlsec.template.add_reference(
             signature_node,
             xmlsec.Transform.SHA1,
-            uri='#SECURITY-1'   # <--- este cambio es crucial
+            uri='#_0'
         )
-
+        
+        xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
         # Obtener PEM ya convertido correctamente
