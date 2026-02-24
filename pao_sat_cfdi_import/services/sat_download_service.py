@@ -102,15 +102,17 @@ class SATDownloadService(models.AbstractModel):
 
         NSMAP = {
             's': 'http://schemas.xmlsoap.org/soap/envelope/',
-            'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd',
-            'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
+            'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wsswssecurity-utility-1.0.xsd',
+            #'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
         }
 
         envelope = etree.Element('{http://schemas.xmlsoap.org/soap/envelope/}Envelope', nsmap=NSMAP)
         header = etree.SubElement(envelope, '{http://schemas.xmlsoap.org/soap/envelope/}Header')
         security = etree.SubElement(
             header,
-            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+            'o': '{http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+            #'{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+              
         )
 
         timestamp = etree.SubElement(
@@ -134,8 +136,8 @@ class SATDownloadService(models.AbstractModel):
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken',
             {
                 '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': token_id,
-                'ValueType': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3',
-                'EncodingType': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary',
+                'ValueType': 'http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-x509-token-profile-1.0#X509v3',
+                'EncodingType': 'http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-soap-message-security1.0#Base64Binary',
             }
         )
         binary_token.text = cert_b64
@@ -174,8 +176,10 @@ class SATDownloadService(models.AbstractModel):
             etree.SubElement(
                 str_node,
                 '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Reference',
-                URI=f'#{token_id}',
-                ValueType='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3'
+                ValueType='http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-x509-token-profile-1.0#X509v3',
+                URI=f'#{token_id}'
+                #ValueType='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3'
+                           
             )
 
             
@@ -190,7 +194,6 @@ class SATDownloadService(models.AbstractModel):
                 uri='#_0'
             )
             
-            xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
             xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
             cer_path, key_path = self._prepare_key_and_cert(certificate)
