@@ -102,7 +102,7 @@ class SATDownloadService(models.AbstractModel):
     def _build_envelope(self, cert_b64):
 
         created, expires = self._create_timestamp()
-        token_id = f"uuid-{uuid.uuid4()}-1"
+        token_id = f"uuid-{uuid.uuid4()}-112"
 
         NSMAP = {
             'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd',
