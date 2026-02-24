@@ -105,9 +105,9 @@ class SATDownloadService(models.AbstractModel):
         token_id = f"uuid-{uuid.uuid4()}-1"
 
         NSMAP = {
-            's': 'http://schemas.xmlsoap.org/soap/envelope/',
             'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd',
-            'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
+            's': 'http://schemas.xmlsoap.org/soap/envelope/',
+            #'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
         }
 
         envelope = etree.Element(
@@ -125,6 +125,9 @@ class SATDownloadService(models.AbstractModel):
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security',
             {
                 '{http://schemas.xmlsoap.org/soap/envelope/}mustUnderstand': '1',
+            },
+             nsmap={
+                'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
             }
         )
 
