@@ -6,6 +6,7 @@
             <field name="model">sales.invoicing.report</field>
             <field name="arch" type="xml">
                 <pivot string="Sales Invoicing Analysis">
+                    <field name="invoice_date" type="col" interval="month"/>
                     <field name="categ_id" type="row"/>
                     <field name="invoice_id" type="measure"/>
                     <field name="quantity" type="measure"/>
@@ -17,11 +18,33 @@
             </field>
     </record>
 
+    <record id="sales_invoicing_report_view_search" model="ir.ui.view">
+        <field name="name">sales.invoicing.report.view.search</field>
+        <field name="model">sales.invoicing.report</field>
+        <field name="arch" type="xml">
+            <search string="Sales Invoicing Analysis">
+                <field name="invoice_date"/>
+                <filter string="Invoice Date" name="year" invisible="1" date="invoice_date" default_period="this_year"/>
+                <separator/>
+                <filter name="filter_date" date="invoice_date" default_period="this_month"/>
+                <separator/>
+                <field name="team_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="categ_id"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
+
     <record id="pao_action_sales_invoicing_report" model="ir.actions.act_window">
         <field name="name">Sales Invoicing Report</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sales.invoicing.report</field>
         <field name="view_mode">pivot</field>
+        <field name="search_view_id" ref="sales_invoicing_report_view_search"/>
+    
     </record>
+
+    
 
 </odoo>
