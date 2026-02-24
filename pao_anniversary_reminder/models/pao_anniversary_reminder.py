@@ -11,8 +11,8 @@ class PaoAnniversaryReminder(models.Model):
     CHANNEL_MAP = {
         'MX': 'Aniversarios',
         'US': 'REMINDERS USA',
-        'CL': 'CHANNEL_TBA',
-        'CR': 'CHANNEL_TBA',
+        'CL': 'RECORDATORIOS CHILE', #TBR
+        'CR': 'RECORDATORIOS CR', #TBR
     }
 
     _name="pao.anniversary.reminder"
