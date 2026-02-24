@@ -92,8 +92,8 @@ class SATDownloadService(models.AbstractModel):
         expires = created + timedelta(minutes=5)
 
         return (
-            created.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
-            expires.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+            created.strftime('%Y-%m-%dT%H:%M:%S'),
+            expires.strftime('%Y-%m-%dT%H:%M:%S')
         )
 
     # -----------------------------------------------------------------
@@ -105,9 +105,9 @@ class SATDownloadService(models.AbstractModel):
         token_id = f"uuid-{uuid.uuid4()}-1"
 
         NSMAP = {
-            's': 'http://schemas.xmlsoap.org/soap/envelope/',
             'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd',
-            'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
+            's': 'http://schemas.xmlsoap.org/soap/envelope/',
+            #'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
         }
 
         envelope = etree.Element(
@@ -125,7 +125,9 @@ class SATDownloadService(models.AbstractModel):
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security',
             {
                 '{http://schemas.xmlsoap.org/soap/envelope/}mustUnderstand': '1',
-                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': 'SECURITY-1'
+            },
+             nsmap={
+                'o': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd',
             }
         )
 
@@ -209,9 +211,9 @@ class SATDownloadService(models.AbstractModel):
         ref = xmlsec.template.add_reference(
             signature_node,
             xmlsec.Transform.SHA1,
-            uri='#SECURITY-1'   # <--- este cambio es crucial
+            uri='#_0'
         )
-
+        
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
         # Obtener PEM ya convertido correctamente
@@ -241,7 +243,11 @@ class SATDownloadService(models.AbstractModel):
 
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
-        _logger.error(etree.tostring(signed_envelope,pretty_print=True,encoding="unicode"))
+        _logger.error(etree.tostring(
+            signed_envelope,
+            xml_declaration=True,
+            encoding='utf-8'
+        ))
         session = Session()
         transport = Transport(session=session)
 
@@ -249,7 +255,11 @@ class SATDownloadService(models.AbstractModel):
 
         response = client.transport.post(
             client.wsdl.location,
-            etree.tostring(signed_envelope),
+            etree.tostring(
+                signed_envelope,
+                xml_declaration=True,
+                encoding='utf-8'
+            ),
             headers={'Content-Type': 'text/xml; charset=utf-8'}
         )
 
