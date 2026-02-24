@@ -169,7 +169,7 @@ class SATDownloadService(models.AbstractModel):
 
             xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
 
-            cer_path, key_path = self._prepare_key_and_cert(company)
+            cer_path, key_path = self._prepare_key_and_cert(certificate)
 
             key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
             key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
