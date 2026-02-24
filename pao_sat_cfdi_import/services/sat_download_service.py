@@ -148,20 +148,40 @@ class SATDownloadService(models.AbstractModel):
     # -----------------------------------------------------------------
     def _sign(self, envelope, certificate,token_id):
         # Crear archivos temporales porque xmlsec trabaja con archivos
-        with tempfile.NamedTemporaryFile(delete=False) as cer_file, \
-             tempfile.NamedTemporaryFile(delete=False) as key_file:
+        #with tempfile.NamedTemporaryFile(delete=False) as cer_file, \
+        #     tempfile.NamedTemporaryFile(delete=False) as key_file:
 
-            cer_file.write(base64.b64decode(certificate.content))
-            key_file.write(base64.b64decode(certificate.key))
+            #cer_file.write(base64.b64decode(certificate.content))
+            #key_file.write(base64.b64decode(certificate.key))
 
-            cer_file.flush()
-            key_file.flush()
+            #cer_file.flush()
+            #key_file.flush()
 
             signature_node = xmlsec.template.create(
                 envelope,
                 xmlsec.Transform.EXCL_C14N,
                 xmlsec.Transform.RSA_SHA1
             )
+
+            security_node = envelope.find(
+                './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+            )
+            security_node.append(signature_node)
+
+            # Registrar atributo Id del namespace utility
+            xmlsec.tree.add_ids(
+                envelope,
+                ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
+            )
+
+            ref = xmlsec.template.add_reference(
+                signature_node,
+                xmlsec.Transform.SHA1,
+                uri='#_0'
+            )
+
+            xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
+
             key_info = xmlsec.template.ensure_key_info(signature_node)
 
             str_node = etree.SubElement(
@@ -176,21 +196,6 @@ class SATDownloadService(models.AbstractModel):
                 ValueType='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3'
             )
 
-            
-
-            envelope.find(
-                './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
-            ).append(signature_node)
-    
-            ref = xmlsec.template.add_reference(
-                signature_node,
-                xmlsec.Transform.SHA1,
-                uri='#_0'
-            )
-            
-            xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
-            xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
-
             cer_path, key_path = self._prepare_key_and_cert(certificate)
 
             key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
@@ -198,10 +203,9 @@ class SATDownloadService(models.AbstractModel):
 
             ctx = xmlsec.SignatureContext()
             ctx.key = key
-            xmlsec.tree.add_ids(envelope, ["Id"])
             ctx.sign(signature_node)
 
-        return envelope
+            return envelope
 
     # -----------------------------------------------------------------
     # Método público
