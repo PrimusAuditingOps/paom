@@ -114,6 +114,7 @@ class SATDownloadService(models.AbstractModel):
             #'{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
               
         )
+        
 
         timestamp = etree.SubElement(
             security,
@@ -185,7 +186,7 @@ class SATDownloadService(models.AbstractModel):
             
 
             envelope.find(
-                './/{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+                './/{http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
             ).append(signature_node)
     
             ref = xmlsec.template.add_reference(
