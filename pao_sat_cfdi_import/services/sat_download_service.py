@@ -42,7 +42,7 @@ class SATDownloadService(models.AbstractModel):
     def _prepare_key_and_cert(self, data):
 
         # Decodificar base64
-        cer_der = base64.b64decode(data.certificate)
+        cer_der = base64.b64decode(data.content)
         key_der = base64.b64decode(data.key)
         password = data.password
 
