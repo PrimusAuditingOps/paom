@@ -43,7 +43,6 @@ class SATDownloadService(models.AbstractModel):
     def _create_timestamp(self):
         requested_tz = pytz.timezone('America/Mexico_City')
         created = requested_tz.fromutc(datetime.utcnow())
-        created = datetime.datetime.utcnow()
         expires = created + timedelta(minutes=5)
 
         return (
