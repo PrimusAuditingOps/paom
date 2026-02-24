@@ -35,3 +35,12 @@ class AccountMoveInherit(models.Model):
                     line.price_unit = new_price
                     
             move.exchange_rate_applied = False
+            
+    def remove_fees_lines_action(self):
+        for move in self:
+            fee_lines = move.invoice_line_ids.filtered(
+                lambda line: line.name and line.name.startswith('FEE ')
+            )
+            if fee_lines:
+                fee_lines.unlink()
+            
