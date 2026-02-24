@@ -21,10 +21,12 @@ import xmlsec
 import tempfile
 import subprocess
 from OpenSSL import crypto
-
+from logging import getLogger
 from datetime import datetime, timedelta
 from odoo import models
 
+
+_logger = getLogger(__name__)
 
 class SATDownloadService(models.AbstractModel):
     _name = "pao.sat.service"
@@ -214,7 +216,7 @@ class SATDownloadService(models.AbstractModel):
 
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
-
+        _logger.error(signed_envelope)
         session = Session()
         transport = Transport(session=session)
 
