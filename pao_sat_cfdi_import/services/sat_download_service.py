@@ -77,8 +77,11 @@ class SATDownloadService(models.AbstractModel):
             "-inform", "DER",
             "-in", key_der_file.name,
             "-passin", f"pass:{password}",
+            "-topk8",
+            "-nocrypt",
+            "-outform", "PEM",
             "-out", key_pem_file.name
-        ])
+        ], check=True)
 
         return cer_pem_file.name, key_pem_file.name
 
@@ -168,15 +171,7 @@ class SATDownloadService(models.AbstractModel):
     # Firmar usando certificado almacenado en Odoo
     # -----------------------------------------------------------------
     def _sign(self, envelope, certificate,token_id):
-        # Crear archivos temporales porque xmlsec trabaja con archivos
-        with tempfile.NamedTemporaryFile(delete=False) as cer_file, \
-             tempfile.NamedTemporaryFile(delete=False) as key_file:
-
-            cer_file.write(base64.b64decode(certificate.content))
-            key_file.write(base64.b64decode(certificate.key))
-
-            cer_file.flush()
-            key_file.flush()
+       
 
             signature_node = xmlsec.template.create(
                 envelope,
