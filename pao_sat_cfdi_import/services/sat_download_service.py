@@ -110,7 +110,7 @@ class SATDownloadService(models.AbstractModel):
         header = etree.SubElement(envelope, '{http://schemas.xmlsoap.org/soap/envelope/}Header')
         security = etree.SubElement(
             header,
-            'o': '{http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+            '{http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
             #'{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
               
         )
