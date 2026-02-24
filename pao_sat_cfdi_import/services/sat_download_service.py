@@ -216,7 +216,7 @@ class SATDownloadService(models.AbstractModel):
 
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
-        _logger.error(signed_envelope)
+        _logger.error(etree.tostring(signed_envelope,pretty_print=True,encoding="unicode"))
         session = Session()
         transport = Transport(session=session)
 
