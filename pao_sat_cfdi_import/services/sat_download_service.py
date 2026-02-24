@@ -92,8 +92,8 @@ class SATDownloadService(models.AbstractModel):
         expires = created + timedelta(minutes=5)
 
         return (
-            created.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
-            expires.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+            created.strftime('%Y-%m-%dT%H:%M:%S'),
+            expires.strftime('%Y-%m-%dT%H:%M:%S')
         )
 
     # -----------------------------------------------------------------
