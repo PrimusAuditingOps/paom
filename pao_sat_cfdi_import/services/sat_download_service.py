@@ -215,6 +215,15 @@ class SATDownloadService(models.AbstractModel):
         # Obtener PEM ya convertido correctamente
         cer_path, key_path = self._prepare_key_and_cert(certificate)
 
+        _logger.error("KEY PATH: %s", key_path)
+        _logger.error("CER PATH: %s", cer_path)
+
+        with open(key_path, "r") as f:
+            _logger.error("KEY CONTENT:\n%s", f.read())
+
+        with open(cer_path, "r") as f:
+            _logger.error("CERT CONTENT:\n%s", f.read())
+
         # Cargar key PEM limpia
         key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
         key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
