@@ -215,8 +215,14 @@ class SATDownloadService(models.AbstractModel):
 
         ctx = xmlsec.SignatureContext()
         ctx.key = key
-        xmlsec.tree.add_ids(envelope, ["Id"])
-        _logger.error(envelope.xpath('//*[@Id]'))
+        #xmlsec.tree.add_ids(envelope, ["Id"])
+        xmlsec.tree.add_ids(
+            envelope,
+            ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
+        )
+        _logger.error(envelope.xpath('//*[@u:Id]', namespaces={
+            'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'
+        }))
         ctx.sign(signature_node)
 
         return envelope
