@@ -263,16 +263,25 @@ class SATDownloadService(models.AbstractModel):
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
         _logger.error(etree.tostring(signed_envelope,encoding="utf-8"))
-        session = Session()
-        transport = Transport(session=session)
-
-        client = Client(self.AUTH_WSDL, transport=transport)
-
-        response = client.transport.post(
-            client.wsdl.location,
-            etree.tostring(signed_envelope),
-            headers={'Content-Type': 'text/xml; charset=utf-8'}
+        response = requests.post(
+            "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc",
+            data=etree.tostring(signed_envelope),
+            headers={
+                "Content-Type": "text/xml; charset=utf-8",
+                "SOAPAction": '"http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica"'
+            }
         )
+                
+        #session = Session()
+        #transport = Transport(session=session)
+
+        #client = Client(self.AUTH_WSDL, transport=transport)
+
+        #response = client.transport.post(
+        #    client.wsdl.location,
+        #    etree.tostring(signed_envelope),
+        #    headers={'Content-Type': 'text/xml; charset=utf-8'}
+        #)
 
         return response.content
 

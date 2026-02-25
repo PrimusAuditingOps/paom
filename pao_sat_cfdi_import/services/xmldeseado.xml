@@ -1,91 +1,24 @@
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wsswssecurity-utility-1.0.xsd">
+    xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
     <s:Header>
-        <ActivityId CorrelationId="c5478a6f-8f27-43f4-bc97-bea17612517c"
-            xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">00
-            000000-0000-0000-0000-000000000000</ActivityId>
         <o:Security s:mustUnderstand="1"
-            xmlns:o="http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
             <u:Timestamp u:Id="_0">
-                <u:Created>2022-02-15T19:06:32.002Z</u:Created>
-                <u:Expires>2022-02-15T19:11:32.002Z</u:Expires>
+                <u:Created>2026-02-25T00:29:56.668Z</u:Created>
+                <u:Expires>2026-02-25T00:34:56.668Z</u:Expires>
             </u:Timestamp>
-            <o:BinarySecurityToken u:Id="uuid-726d6583-bb04-4d74-8841-
-f0d404dffadb-4"
-                ValueType="http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-x509-token-profile-1.0#X509v3"
-                EncodingType="http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-soap-message-security1.0#Base64Binary">MIIG6jCCBNKgAwIBAgIUMzAwMDEwMDAwMDA0MDAw
-                MDk0MjQwDQYJKoZIhvcNAQELBQAwggErMQ8wDQYDVQQDDAZBQyBVQV
-                QxLjAsBgNVBAoMJVNFUlZJQ0lPIERFIEFETUlOSVNUUkFDSU9OIFRSSUJVVE
-                FSSUExGjAYBgNVBAsMEVNBVC1JRVMgQXV0aG9yaXR5MSgwJgYJKoZIhvcN
-                AQkBFhlvc2Nhci5tYXJ0aW5lekBzYXQuZ29iLm14MR0wGwYDVQQJDBQzcmE
-                gY2VycmFkYSBkZSBjYWRpejEOMAwGA1UEEQwFMDYzNzAxCzAJBgNVBAYT
-                Ak1YMRkwFwYDVQQIDBBDSVVEQUQgREUgTUVYSUNPMREwDwYDVQQHD
-                AhDT1lPQUNBTjERMA8GA1UELRMIMi41LjQuNDUxJTAjBgkqhkiG9w0BCQITFn
-                Jlc3BvbnNhYmxlOiBBQ0RNQS1TQVQwHhcNMjExMDI5MDEzNTQzWhcNMjU
-                xMDI5MDEzNTQzWjCCAhAxSTBHBgNVBAMTQFNJTkRJQ0FUTyBERSBDSE9
-                GRVJFUyBERSBUQVhJUyBZIENPTUJJUyBERUwgU0VSVklDSU8gUFVCTElDT
-                yBUUkExggEYMIIBFAYDVQQpE4IBC1NJTkRJQ0FUTyBERSBDSE9GRVJFUyBE
-                RSBUQVhJUyBZIENPTUJJUyBERUwgU0VSVklDSU8gUFVCTElDTyBUUkFOU1
-                BPUlRJU1RBUyBERSBNQVRFUklBTEVTIFBBUkEgTEEgQ09OU1RSVUNDSU9O
-                IFNFTUlMTEEgREVMIENBTVBPIFkgRU1QTEVBRE9TIERFIExBIENPTlNUUlVDQ
-                0lPTiBDT05FWE9TIFkgU0lNSUxBUkVTIERFTCBFU1RBRE8gREUgTUlDSE9BQ
-                0FOIExJQy4gUk9ET0xGTyBDSUVORlVFR09TIE1BUklOIFNJTiBUSVBPIERFIFN
-                PQ0lFREFEIFMgQSBCIERFIEMgVjFJMEcGA1UEChNAU0lORElDQVRPIERFIEN
-                IT0ZFUkVTIERFIFRBWElTIFkgQ09NQklTIERFTCBTRVJWSUNJTyBQVUJMSUN
-                PIFRSQTElMCMGA1UELRMcQVhUOTQwNzI3RlA4IC8gVkFBRTczMTAyMTEyM
-                TEeMBwGA1UEBRMVIC8gVkFBRTczMTAyMUhNQ1pMRjAxMRUwEwYDVQQL
-                EwxBWFQ5NDA3MjdGUDgwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggE
-                KAoIBAQCSz7GYj9+3USinhhFlu9TwLeFpq6kW9j9aS+3yqxdvYO/CBJvO7QCIx
-                wwsyVLmkm5bdydEglmIELcJ/yRyytNU62sgIIxC1yKn9WgLkJPw0JTsQPJWO+
-                wElpuO5cH7e2p/cpaVK5AUQlpb8RnH9cpwBUkXsZsVNKd8NR3547dqGNcIle
-                c+m20Y744tDnEgZZ+T5E9+cGYOH/aZdnN8gKC/hSRCOlNIbVXKCjJuVTa2GV7
-                ffhnpVtHrecSHlj5JNH7LGUKj+kjL8rY6DmdmkVe0bja63/Ou7dTAMHHYas1NO
-                Hly72PPvIT5S0/gMm/i/uSdtTTK8QEie7RDAB3+iGQFAgMBAAGjHTAbMAwGA1
-                UdEwEB/wQCMAAwCwYDVR0PBAQDAgbAMA0GCSqGSIb3DQEBCwUAA4IC
-                AQBeTqiXE4ikT+t69VcIEqV69O+EOHa92wqwcZN8LHcGc1mwEPlwoKeD3yy9
-                AxH+Dr+mE/2DbjVrPLS9XYONpy/Ll4XU6rQQVP334v4rqi43GS+RLnoVITWrtj0
-                VKIJmyAwKUmgtT4ZD/BmSrqQ5NP6B/uZuurSlOl05MXmE5M9Evo44/2C595r
-                QmIM8r50LSj6OWPaWXd4rCf79gID8FFl6aSCnrOu7Gj5p33fugzDL6N99NJ4a
-                RQdHfWLjGbHWBN3yTlMs22TRuYIilZEPhRogx6jlmOzgBA/70ItMbE1f+SuB7uZ
-                qYmROZzjLmcsAZ4XbUFXqJ2VvcYuYsKBzjh7Az+X59bCBLD26zOkqGy4jdIjk1l
-                gbosOWChEQs8ehUi4rpYTOrfX9zl3KBNbN2UmIC2bGEpQI4BOkOF71Vi/AYhP
-                Fe5wB+8rLgJPu7AURu39UIMPlQM4N8so+1m2sjCFy+R1mAMGMdbtVbUjjfmp
-                Wmg6slAHENd/hjkmPtOQFZ3SULWwSISS3ak4taQakujIztTO6C1694WB2vXa7
-                2QHNe9wCoyDytIoq9mhJGusICFACfVVWKyL3S74yE1YNJsHcwgHm76umciaa
-                dO3ka3hzQ79u+5nhttNwkwuQAnwHCdVM0SE/3ptjFoyYRQ7BzNzWx6YQSI3K
-                459miVfvhGaF7g==</o:BinarySecurityToken>
-            <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-                <SignedInfo>
-                    <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xmlexc-c14n#" />
-                    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsasha1" />
-                    <Reference URI="#_0">
-                        <Transforms>
-                            <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
-                        </Transforms>
-                        <DigestMethod
-                            Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-                        <DigestValue>PGHeLUNdZvws7kjlTpPPxlY2XGM=</DigestValue>
-                    </Reference>
-                </SignedInfo>
-
-                <SignatureValue>K8vjpiExzxNDvD0hVPQlAXw5LOafN0xNyd6TpT0PF/aiE6wej
-                    LE8iyqk8IEehoKOe6MR3Fz0JKl1ELSkhlNU1RAZ6qQdQpPAP2HNE+hzHoGLitN
-                    ycR30VZ3/aUVvesqNC/KZP+uRp3zPlED9OOO9rqUiN87xChi3yCHXm41cyrDSy
-                    gUyzfIfS+GfseJxSbVBFcKs1AiHRAI8j4ZAhq/tOjjxr4mRYK4nKQ6yRYnIMR3OEls
-                    F27+4b0tCmWUNTLDpys7KG9XRkBZzNRmWIHNgnwSXop+uIPSeZkJmGt081
-                    tn+/EI9TtIBlFb2hBw41hS2Ugf17+ycv0F8mv017eUqgA==</SignatureValue>
-                <KeyInfo>
-                    <o:SecurityTokenReference>
-                        <o:Reference
-                            ValueType="http://docs.oasis-open.org/wss/2004/01/oasis200401-wss-x509-token-profile-1.0#X509v3"
-                            URI="#uuid-726d6583-bb04-
-4d74-8841-f0d404dffadb-4" />
-                    </o:SecurityTokenReference>
-                </KeyInfo>
-            </Signature>
         </o:Security>
     </s:Header>
     <s:Body>
-        <Autentica xmlns="http://DescargaMasivaTerceros.gob.mx" />
+        <s:Fault>
+            <faultcode xmlns:a="http://schemas.microsoft.com/ws/2005/05/addressing/none">
+                a:ActionNotSupported</faultcode>
+            <faultstring xml:lang="en-US">The message with Action '' cannot be processed at the
+                receiver, due to a ContractFilter mismatch at the EndpointDispatcher. This may be
+                because of either a contract mismatch (mismatched Actions between sender and
+                receiver) or a binding/security mismatch between the sender and the receiver. Check
+                that sender and receiver have the same contract and the same binding (including
+                security requirements, e.g. Message, Transport, None).</faultstring>
+        </s:Fault>
     </s:Body>
 </s:Envelope>
