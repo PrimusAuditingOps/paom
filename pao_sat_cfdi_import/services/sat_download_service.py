@@ -169,7 +169,7 @@ class SATDownloadService(models.AbstractModel):
             }
         )
 
-        binary_token.text = cert_b64
+        binary_token.text = cert_b64.replace("\n", "")
 
         #body = etree.SubElement(
         #    envelope,
@@ -227,7 +227,10 @@ class SATDownloadService(models.AbstractModel):
         security_node.append(signature_node)
 
         # Registrar Id
-        xmlsec.tree.add_ids(envelope, ["Id"])
+        xmlsec.tree.add_ids(
+            envelope,
+            ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
+        )
 
         # Crear referencia
         ref = xmlsec.template.add_reference(
