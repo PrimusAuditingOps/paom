@@ -19,7 +19,7 @@ class SendAnniversaryReminder(models.TransientModel):
         compute='_compute_available_currencies'
     )
 
-    @api.depends('move_id')
+    @api.depends('move_id.invoice_line_ids')
     def _compute_available_currencies(self):
         for wizard in self:
             if wizard.move_id:

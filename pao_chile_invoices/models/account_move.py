@@ -75,6 +75,8 @@ class ProductProductInherit(models.Model):
 
     _inherit='product.product'
     
+    country_code = fields.Char(related='company_id.country_code')
+    
     def _default_base_currency(self):
         company = self.env.company
         if company.country_id and company.country_id.code == 'CL':
