@@ -227,9 +227,15 @@ class SATDownloadService(models.AbstractModel):
         security_node.append(signature_node)
 
         # Registrar Id
-        xmlsec.tree.add_ids(
-            envelope,
-            ["{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"]
+        xmlsec.tree.add_ids(envelope, ["Id"])
+
+        # Verificar que los nodos existan
+        assert envelope.xpath('//*[@u:Id="_0"]',
+            namespaces={'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'}
+        )
+
+        assert envelope.xpath('//*[@u:Id="Body"]',
+            namespaces={'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'}
         )
 
         # Crear referencia
