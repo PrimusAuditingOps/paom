@@ -6,8 +6,9 @@
         <field name="arch" type="xml">
             <form>
                 <group col="2">
-                    <field name="exchange_rate_lines_value" invisible="context.get('undo_action') == True"/>
+                    <field name="move_id" invisible="1"/>
                     <field name="available_currency_ids" invisible="1"/>
+                    <field name="exchange_rate_lines_value" invisible="context.get('undo_action') == True"/>
                     <field name="currency_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                 </group>
                 <footer>

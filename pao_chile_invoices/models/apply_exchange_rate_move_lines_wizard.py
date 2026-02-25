@@ -45,16 +45,38 @@ class SendAnniversaryReminder(models.TransientModel):
                 lambda l: l.product_id.base_currency_id == self.currency_id
             )
 
-        # if not lines_to_update:
-        #     raise UserError(_("No lines found matching the selected currency."))
-
-        for line in lines_to_update:
-            line.price_unit *= self.exchange_rate_lines_value
-            line.exchange_rate_value = self.exchange_rate_lines_value
-            line.exchange_rate_applied = True
-
-        return {'type': 'ir.actions.act_window_close'}
-    
+        updated_lines_count = len(lines_to_update)
+        
+        if updated_lines_count <= 0:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'type': 'warning',
+                    'title': _('No lines were updated with the exchange rate.'),
+                    'message': _('No lines were updated. Please verify the selected currency and ensure there are lines without an exchange rate applied.'),
+                    'sticky': True,
+                    'next': {'type': 'ir.actions.act_window_close'},
+                }
+            }
+        else:
+            for line in lines_to_update:
+                line.price_unit *= self.exchange_rate_lines_value
+                line.exchange_rate_value = self.exchange_rate_lines_value
+                line.exchange_rate_applied = True
+                
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'type': 'success',
+                    'title': _('Exchange Rate Applied'),
+                    'message': _('The exchange rate has been applied to %s lines.') % updated_lines_count,
+                    'sticky': True,
+                    'next': {'type': 'ir.actions.act_window_close'},
+                }
+            }
+        
     
     def undo_exchange_rate_lines_action(self):
         self.ensure_one()
@@ -70,13 +92,36 @@ class SendAnniversaryReminder(models.TransientModel):
             lines_to_update = lines_to_update.filtered(
                 lambda l: l.product_id.base_currency_id == self.currency_id
             )
+            
+        updated_lines_count = len(lines_to_update)
 
-        # if not lines_to_update:
-        #     raise UserError(_("No lines found matching the selected currency."))
+        if updated_lines_count <= 0:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'type': 'warning',
+                    'title': _('No lines were reverted.'),
+                    'message': _('No lines were updated. Please verify the selected currency and ensure there are lines with an exchange rate applied.'),
+                    'sticky': True,
+                    'next': {'type': 'ir.actions.act_window_close'},
+                }
+            }
+        else:
+            for line in lines_to_update:
+                line.price_unit /= line.exchange_rate_value
+                line.exchange_rate_applied = False
+                line.exchange_rate_value = None
 
-        for line in lines_to_update:
-            line.price_unit /= line.exchange_rate_value
-            line.exchange_rate_applied = False
-            line.exchange_rate_value = None
-
-        return {'type': 'ir.actions.act_window_close'}
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'type': 'success',
+                    'title': _('Exchange Rate Reverted'),
+                    'message': _('The exchange rate has been reverted to %s lines.') % updated_lines_count,
+                    'sticky': True,
+                    'next': {'type': 'ir.actions.act_window_close'},
+                }
+            }
+        
