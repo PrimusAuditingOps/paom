@@ -20,7 +20,7 @@
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="after">
-                <field name="exchange_rate_applied" invisible="1"/>
+                <field name="exchange_rate_applied" invisible="1" column_invisible="1"/>
             </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">

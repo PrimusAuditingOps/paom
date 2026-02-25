@@ -11,7 +11,7 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
     
     currency_id = fields.Many2one('res.currency', domain="[('id', 'in', available_currency_ids)]")
     
-    available_currency_ids = fields.Many2many('res.currency', compute='_compute_available_currencies')
+    available_currency_ids = fields.Many2many('res.currency', compute='_compute_available_lines_currencies')
     
     undo_action = fields.Boolean()
     
@@ -20,12 +20,12 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
     available_line_ids = fields.Many2many(
         'account.move.line',
         string="Available Lines",
-        domain="""
-            [
-                ('move_id', '=', move_id),
-                ('display_type', '=', 'product'),
-            ]
-        """
+        domain="[('id', 'in', filtered_line_ids)]"
+    )
+    
+    filtered_line_ids = fields.Many2many(
+        'account.move.line',
+        compute="_compute_available_lines_currencies"
     )
     
     @api.model
@@ -46,7 +46,7 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
     #             wizard.available_currency_ids = False
     
     @api.depends('move_id.invoice_line_ids', 'move_id.invoice_line_ids.exchange_rate_applied', 'undo_action')
-    def _compute_available_currencies(self):
+    def _compute_available_lines_currencies(self):
         for wizard in self:
             if not wizard.move_id:
                 wizard.available_currency_ids = False
@@ -58,6 +58,8 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
                 lines = lines.filtered(lambda l: not l.exchange_rate_applied)
             else:
                 lines = lines.filtered(lambda l: l.exchange_rate_applied)
+                
+            wizard.filtered_line_ids = lines
 
             currencies = lines.mapped('product_id.base_currency_id').filtered(lambda c: c)
 
