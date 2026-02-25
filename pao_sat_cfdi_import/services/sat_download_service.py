@@ -319,6 +319,7 @@ class SATDownloadService(models.AbstractModel):
         if auth_result["success"]:
             token = auth_result["token"]
 
+
             NSMAP = {
                 's': 'http://schemas.xmlsoap.org/soap/envelope/',
                 'des': 'http://DescargaMasivaTerceros.sat.gob.mx'
@@ -328,21 +329,6 @@ class SATDownloadService(models.AbstractModel):
                 '{http://schemas.xmlsoap.org/soap/envelope/}Envelope',
                 nsmap=NSMAP
             )
-
-            header = etree.SubElement(
-                envelope,
-                '{http://schemas.xmlsoap.org/soap/envelope/}Header'
-            )
-
-            auth = etree.SubElement(
-                header,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}Autenticacion'
-            )
-
-            etree.SubElement(
-                auth,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}Token'
-            ).text = token
 
             body = etree.SubElement(
                 envelope,
@@ -370,7 +356,8 @@ class SATDownloadService(models.AbstractModel):
                 data=xml_bytes,
                 headers={
                     "Content-Type": "text/xml; charset=utf-8",
-                    "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"'
+                    "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
+                    "Authorization": f'WRAP access_token="{token}"'
                 }
             )
 
