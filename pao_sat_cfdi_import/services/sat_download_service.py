@@ -378,6 +378,8 @@ class SATDownloadService(models.AbstractModel):
                 }
             )
             _logger.error(response)
+            _logger.error(response.status_code)
+            _logger.error(response.text)
             data = response
         
         return data
