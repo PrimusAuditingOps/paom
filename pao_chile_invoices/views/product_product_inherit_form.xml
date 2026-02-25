@@ -6,9 +6,8 @@
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name="arch" type="xml">
             <field name="uom_po_id" position="after">
-                    <field name="country_code" invisible="1"/>
-                    <field name="base_currency_id" invisible="country_code != 'CL'"/>
-                </div>
+                <field name="country_code" invisible="1"/>
+                <field name="base_currency_id" invisible="country_code != 'CL'"/>
             </field>
         </field>
     </record>
