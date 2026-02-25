@@ -145,7 +145,7 @@ class SATDownloadService(models.AbstractModel):
             security,
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp',
             {
-                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': 'TS-1'
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': '_0'
             }
         )
 
@@ -171,16 +171,9 @@ class SATDownloadService(models.AbstractModel):
 
         binary_token.text = cert_b64.replace("\n", "")
 
-        #body = etree.SubElement(
-        #    envelope,
-        #    '{http://schemas.xmlsoap.org/soap/envelope/}Body'
-        #)
         body = etree.SubElement(
             envelope,
-            '{http://schemas.xmlsoap.org/soap/envelope/}Body',
-            {
-                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': 'Body'
-            }
+            '{http://schemas.xmlsoap.org/soap/envelope/}Body'
         )
 
         etree.SubElement(
@@ -203,7 +196,7 @@ class SATDownloadService(models.AbstractModel):
         signature_node = xmlsec.template.create(
             envelope,
             xmlsec.Transform.EXCL_C14N,
-            xmlsec.Transform.RSA_SHA256
+            xmlsec.Transform.RSA_SHA1
         )
 
         key_info = xmlsec.template.ensure_key_info(signature_node)
@@ -230,28 +223,17 @@ class SATDownloadService(models.AbstractModel):
         xmlsec.tree.add_ids(envelope, ["Id"])
 
         # Verificar que los nodos existan
-        assert envelope.xpath('//*[@u:Id="TS-1"]',
-            namespaces={'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'}
-        )
-
-        assert envelope.xpath('//*[@u:Id="Body"]',
-            namespaces={'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'}
-        )
+       
 
         # Crear referencia
         ref = xmlsec.template.add_reference(
             signature_node,
-            xmlsec.Transform.SHA256,
-            uri='#TS-1'
+            xmlsec.Transform.SHA1,
+            uri='#_0'
         )
 
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
-        ref_body = xmlsec.template.add_reference(
-            signature_node,
-            xmlsec.Transform.SHA256,
-            uri='#Body'
-        )
-        xmlsec.template.add_transform(ref_body, xmlsec.Transform.EXCL_C14N)
+        
         
 
         # Obtener PEM ya convertido correctamente
@@ -280,7 +262,7 @@ class SATDownloadService(models.AbstractModel):
 
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
-        _logger.error(etree.tostring(signed_envelope,pretty_print=True,encoding="unicode"))
+        _logger.error(etree.tostring(signed_envelope,encoding="utf-8"))
         session = Session()
         transport = Transport(session=session)
 
