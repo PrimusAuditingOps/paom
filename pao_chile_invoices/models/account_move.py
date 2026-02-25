@@ -76,7 +76,8 @@ class ProductProductInherit(models.Model):
     _inherit='product.product'
     
     def _default_base_currency(self):
-        if self.company_id.country_id.code == 'CL':
+        company = self.env.company
+        if company.country_id and company.country_id.code == 'CL':
             return self.env.ref('base.USD', raise_if_not_found=False)
         return False
     

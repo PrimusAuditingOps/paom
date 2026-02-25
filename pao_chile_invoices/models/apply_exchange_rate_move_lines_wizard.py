@@ -9,22 +9,26 @@ class SendAnniversaryReminder(models.TransientModel):
     
     exchange_rate_lines_value = fields.Float(string="Exchange Rate", required=True, copy=False)
     
-    currency_id = fields.Many2one('res.currency', string="Currency", default=None)
+    currency_id = fields.Many2one(
+        'res.currency',
+        domain="[('id', 'in', available_currency_ids)]"
+    )
     
-    @api.onchange('move_id')
-    def _onchange_move_id(self):
-        if not self.move_id:
-            return
+    available_currency_ids = fields.Many2many(
+        'res.currency',
+        compute='_compute_available_currencies'
+    )
 
-        currencies = self.move_id.invoice_line_ids.mapped(
-            'product_id.base_currency_id'
-        ).filtered(lambda c: c)
-
-        return {
-            'domain': {
-                'currency_id': [('id', 'in', currencies.ids)]
-            }
-        }
+    @api.depends('move_id')
+    def _compute_available_currencies(self):
+        for wizard in self:
+            if wizard.move_id:
+                currencies = wizard.move_id.invoice_line_ids.mapped(
+                    'product_id.base_currency_id'
+                ).filtered(lambda c: c)
+                wizard.available_currency_ids = currencies
+            else:
+                wizard.available_currency_ids = False
     
     def apply_exchange_rate_lines_action(self):
         self.ensure_one()
