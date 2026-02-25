@@ -20,7 +20,13 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
     available_line_ids = fields.Many2many(
         'account.move.line',
         string="Available Lines",
-        domain="[('move_id', '=', move_id)]"
+        domain="""
+            [
+                ('move_id', '=', move_id),
+                ('display_type', '=', False),
+                ('tax_line_id', '=', False)
+            ]
+        """
     )
     
     @api.model
