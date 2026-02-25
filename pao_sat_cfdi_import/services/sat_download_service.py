@@ -22,7 +22,7 @@ import tempfile
 import subprocess
 from OpenSSL import crypto
 from logging import getLogger
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from odoo import models
 
 
@@ -87,6 +87,15 @@ class SATDownloadService(models.AbstractModel):
 
 
     def _create_timestamp(self):
+        created = datetime.now(timezone.utc)
+        expires = created + timedelta(minutes=5)
+
+        return (
+            created.strftime('%Y-%m-%dT%H:%M:%SZ'),
+            expires.strftime('%Y-%m-%dT%H:%M:%SZ')
+        )
+        
+        """
         requested_tz = pytz.timezone('America/Mexico_City')
         created = requested_tz.fromutc(datetime.utcnow())
         expires = created + timedelta(minutes=5)
@@ -95,6 +104,7 @@ class SATDownloadService(models.AbstractModel):
             created.strftime('%Y-%m-%dT%H:%M:%SZ'),
             expires.strftime('%Y-%m-%dT%H:%M:%SZ')
         )
+        """
 
     # -----------------------------------------------------------------
     # Ccambios
