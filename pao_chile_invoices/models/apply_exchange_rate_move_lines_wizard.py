@@ -23,8 +23,7 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
         domain="""
             [
                 ('move_id', '=', move_id),
-                ('display_type', '=', False),
-                ('tax_line_id', '=', False)
+                ('display_type', '=', 'product'),
             ]
         """
     )
