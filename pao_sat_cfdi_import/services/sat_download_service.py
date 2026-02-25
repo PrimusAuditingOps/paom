@@ -12,6 +12,7 @@
 import base64
 import uuid
 import pytz
+import requests
 import datetime
 from lxml import etree
 from zeep import Client
