@@ -321,18 +321,18 @@ class SATDownloadService(models.AbstractModel):
 
 
             NSMAP = {
-                's': 'http://www.w3.org/2003/05/soap-envelope',
+                's': 'http://schemas.xmlsoap.org/soap/envelope/',
                 'des': 'http://DescargaMasivaTerceros.sat.gob.mx'
             }
 
             envelope = etree.Element(
-                '{http://www.w3.org/2003/05/soap-envelope}Envelope',
+                '{http://schemas.xmlsoap.org/soap/envelope/}Envelope',
                 nsmap=NSMAP
             )
 
             body = etree.SubElement(
                 envelope,
-                '{http://www.w3.org/2003/05/soap-envelope}Body'
+                '{http://schemas.xmlsoap.org/soap/envelope/}Body'
             )
 
             solicita = etree.SubElement(
@@ -340,22 +340,40 @@ class SATDownloadService(models.AbstractModel):
                 '{http://DescargaMasivaTerceros.sat.gob.mx}SolicitaDescarga'
             )
 
-            etree.SubElement(
+            solicitud = etree.SubElement(
                 solicita,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}solicitud',
-                RfcSolicitante=certificate.vat,
-                FechaInicial=fecha_inicio_str,
-                FechaFinal=fecha_fin_str,
-                TipoSolicitud="CFDI"
+                '{http://DescargaMasivaTerceros.sat.gob.mx}solicitud'
             )
+
+            etree.SubElement(
+                solicitud,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}RfcSolicitante'
+            ).text = certificate.vat
+
+            etree.SubElement(
+                solicitud,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}FechaInicial'
+            ).text = fecha_inicio_str
+
+            etree.SubElement(
+                solicitud,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}FechaFinal'
+            ).text = fecha_fin_str
+
+            etree.SubElement(
+                solicitud,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}TipoSolicitud'
+            ).text = "CFDI"
+
 
             xml_bytes = etree.tostring(envelope, encoding="utf-8", xml_declaration=True)
 
             response = requests.post(
                 "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
                 data=xml_bytes,
-                headers={
-                    "Content-Type": 'application/soap+xml; charset=utf-8; action="http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
+                headers = {
+                    "Content-Type": "text/xml; charset=utf-8",
+                    "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
                     "Authorization": f'WRAP access_token="{token}"'
                 }
             )
