@@ -61,7 +61,9 @@ class SATCFDIRequest(models.Model):
         if data:
             service = self.env["pao.sat.service"]
             response = service.request_download(
-                data
+                data,
+                self.start_date,
+                self.end_date
             )
             raise ValidationError(response)
 
