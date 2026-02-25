@@ -1,7 +1,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
-class SendAnniversaryReminder(models.TransientModel):
+class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
     _name = 'apply.exchange.rate.move.lines.wizard'
     _description = 'Apply exchange rate move lines wizard'
     
@@ -53,8 +53,20 @@ class SendAnniversaryReminder(models.TransientModel):
     def apply_exchange_rate_lines_action(self):
         self.ensure_one()
 
-        if self.move_id.state != 'draft' or not self.exchange_rate_lines_value:
+        if self.move_id.state != 'draft':
             return
+        
+        if not self.exchange_rate_lines_value:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'type': 'warning',
+                    'title': _('Invalid Exchange Rate value.'),
+                    'message': _('Please enter a valid exchange rate before applying.'),
+                    'sticky': False,
+                }
+            }
 
         lines_to_update = self.move_id.invoice_line_ids.filtered(
             lambda l: not l.exchange_rate_applied

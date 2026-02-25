@@ -106,3 +106,20 @@ class ProductProductInherit(models.Model):
         return False
     
     base_currency_id = fields.Many2one('res.currency', string="Base Currency", default=_default_base_currency, copy=False)
+    
+    def update_base_currencies_chilean_products(self):
+        usd = self.env.ref('base.USD', raise_if_not_found=False)
+        if not usd:
+            return False
+
+        products = self.search([
+            ('country_code', '=', 'CL'),
+            ('base_currency_id', '=', False),
+        ])
+
+        products.write({
+            'base_currency_id': usd.id
+        })
+
+        return True
+        
