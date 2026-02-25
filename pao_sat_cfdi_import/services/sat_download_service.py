@@ -161,9 +161,16 @@ class SATDownloadService(models.AbstractModel):
 
         binary_token.text = cert_b64
 
+        #body = etree.SubElement(
+        #    envelope,
+        #    '{http://schemas.xmlsoap.org/soap/envelope/}Body'
+        #)
         body = etree.SubElement(
             envelope,
-            '{http://schemas.xmlsoap.org/soap/envelope/}Body'
+            '{http://schemas.xmlsoap.org/soap/envelope/}Body',
+            {
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': 'Body'
+            }
         )
 
         etree.SubElement(
@@ -178,10 +185,15 @@ class SATDownloadService(models.AbstractModel):
     # -----------------------------------------------------------------
     def _sign(self, envelope, certificate, token_id):
 
+        #signature_node = xmlsec.template.create(
+        #    envelope,
+        #    xmlsec.Transform.EXCL_C14N,
+        #    xmlsec.Transform.RSA_SHA1
+        #)
         signature_node = xmlsec.template.create(
             envelope,
             xmlsec.Transform.EXCL_C14N,
-            xmlsec.Transform.RSA_SHA1
+            xmlsec.Transform.RSA_SHA256
         )
 
         key_info = xmlsec.template.ensure_key_info(signature_node)
@@ -210,12 +222,18 @@ class SATDownloadService(models.AbstractModel):
         # Crear referencia
         ref = xmlsec.template.add_reference(
             signature_node,
-            xmlsec.Transform.SHA1,
+            xmlsec.Transform.SHA256,
             uri='#_0'
         )
-        
-        xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
+
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
+        ref_body = xmlsec.template.add_reference(
+            signature_node,
+            xmlsec.Transform.SHA256,
+            uri='#Body'
+        )
+        xmlsec.template.add_transform(ref_body, xmlsec.Transform.EXCL_C14N)
+        
 
         # Obtener PEM ya convertido correctamente
         cer_path, key_path = self._prepare_key_and_cert(certificate)
@@ -227,7 +245,6 @@ class SATDownloadService(models.AbstractModel):
 
         ctx = xmlsec.SignatureContext()
         ctx.key = key
-        xmlsec.enable_debug_trace(True)
         # Firmar
         ctx.sign(signature_node)
 
