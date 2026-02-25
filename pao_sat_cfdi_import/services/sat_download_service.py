@@ -145,7 +145,7 @@ class SATDownloadService(models.AbstractModel):
             security,
             '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp',
             {
-                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': '_0'
+                '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id': 'TS-1'
             }
         )
 
@@ -242,7 +242,7 @@ class SATDownloadService(models.AbstractModel):
         ref = xmlsec.template.add_reference(
             signature_node,
             xmlsec.Transform.SHA256,
-            uri='#_0'
+            uri='#TS-1'
         )
 
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
