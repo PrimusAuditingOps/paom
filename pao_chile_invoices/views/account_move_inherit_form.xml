@@ -6,6 +6,8 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='preview_invoice']" position="after">
+                    <field name="can_apply_exchange_rate" invisible="1"/>
+                    <field name="can_undo_exchange_rate" invisible="1"/>
                     <button invisible="state != 'draft' or country_code != 'CL' or not can_apply_exchange_rate" string="Apply Exchange Rate" type="object" class="oe_highlight btn btn-secondary" name="exchange_rate_lines_wizard_action" context="{'action':'apply'}"/>
                     <button invisible="state != 'draft' or country_code != 'CL' or not can_undo_exchange_rate" string="Undo Exchange Rate" type="object" class="oe_highlight btn btn-secondary" name="exchange_rate_lines_wizard_action" context="{'action':'undo'}"/>
                 <!-- <label for="auto_exchange_rate_lines_value" invisible="state != 'draft' or country_code != 'CL'"/> -->
