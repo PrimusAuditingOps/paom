@@ -18,17 +18,44 @@ class SendAnniversaryReminder(models.TransientModel):
         'res.currency',
         compute='_compute_available_currencies'
     )
+    
+    undo_action = fields.Boolean()
+    
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        res['undo_action'] = self.env.context.get('undo_action', False)
+        return res
 
-    @api.depends('move_id.invoice_line_ids')
+    # @api.depends('move_id.invoice_line_ids')
+    # def _compute_available_currencies(self):
+    #     for wizard in self:
+    #         if wizard.move_id:
+    #             currencies = wizard.move_id.invoice_line_ids.mapped(
+    #                 'product_id.base_currency_id'
+    #             ).filtered(lambda c: c)
+    #             wizard.available_currency_ids = currencies
+    #         else:
+    #             wizard.available_currency_ids = False
+    
+    @api.depends('move_id.invoice_line_ids', 'move_id.invoice_line_ids.exchange_rate_applied', 'undo_action')
     def _compute_available_currencies(self):
         for wizard in self:
-            if wizard.move_id:
-                currencies = wizard.move_id.invoice_line_ids.mapped(
-                    'product_id.base_currency_id'
-                ).filtered(lambda c: c)
-                wizard.available_currency_ids = currencies
-            else:
+            if not wizard.move_id:
                 wizard.available_currency_ids = False
+                continue
+
+            lines = wizard.move_id.invoice_line_ids
+
+            if not wizard.undo_action:
+                lines = lines.filtered(lambda l: not l.exchange_rate_applied)
+
+            else:
+                lines = lines.filtered(lambda l: l.exchange_rate_applied)
+
+            currencies = lines.mapped('product_id.base_currency_id').filtered(lambda c: c)
+
+            wizard.available_currency_ids = currencies
     
     def apply_exchange_rate_lines_action(self):
         self.ensure_one()
