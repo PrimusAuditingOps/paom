@@ -373,7 +373,7 @@ class SATDownloadService(models.AbstractModel):
                 data=xml_bytes,
                 headers = {
                     "Content-Type": "text/xml; charset=utf-8",
-                    "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
+                    "SOAPAction": "http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga",
                     "Authorization": f'WRAP access_token="{token}"'
                 }
             )
@@ -383,3 +383,7 @@ class SATDownloadService(models.AbstractModel):
             data = response
         
         return data
+
+    https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc
+    https://cfdidescargamasiva.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc
+    https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc
