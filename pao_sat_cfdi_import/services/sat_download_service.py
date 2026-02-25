@@ -377,7 +377,7 @@ class SATDownloadService(models.AbstractModel):
                     "Authorization": f'WRAP access_token="{token}"'
                 }
             )
-            
+            _logger.error(xml_bytes)
             _logger.error(f'WRAP access_token="{token}"')
             _logger.error(response.status_code)
             _logger.error(response.text)
