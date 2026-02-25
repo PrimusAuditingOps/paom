@@ -272,103 +272,45 @@ class SATDownloadService(models.AbstractModel):
                 "SOAPAction": '"http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica"'
             }
         )
+        _logger.error(response.content)
+        
+        return self._parse_auth_response(response.content)
+
+
+
+        #root = etree.fromstring(response.content)
+
+        #ns = {
+        #    's': 'http://schemas.xmlsoap.org/soap/envelope/',
+        #    'd': 'http://DescargaMasivaTerceros.gob.mx'
+        #}
+
+        #token = root.find('.//d:AutenticaResult', namespaces=ns).text
+
                 
-        #session = Session()
-        #transport = Transport(session=session)
+    
+    def _parse_auth_response(self, xml_response):
 
-        #client = Client(self.AUTH_WSDL, transport=transport)
+        root = etree.fromstring(xml_response)
 
-        #response = client.transport.post(
-        #    client.wsdl.location,
-        #    etree.tostring(signed_envelope),
-        #    headers={'Content-Type': 'text/xml; charset=utf-8'}
-        #)
-
-        return response.content
-
-    """
-    def auth_sat(self, rfc, cer_base64, key_base64, password):
-      
-        cer_bytes = base64.b64decode(cer_base64)
-        key_bytes = base64.b64decode(key_base64)
-
-        cert = x509.load_der_x509_certificate(cer_bytes)
-        cert_b64 = base64.b64encode(cer_bytes).decode()
-
-        private_key = load_der_private_key(
-            key_bytes,
-            password=key_password.encode()
-        )
-
-        requested_tz = pytz.timezone('America/Mexico_City')
-        created = requested_tz.fromutc(datetime.utcnow())
-        #created = created.date()
-        expires = created + timedelta(minutes=5)
-
-        created_str = created.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-        expires_str = expires.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-
-  
-        NSMAP = {
-            's': 'http://www.w3.org/2003/05/soap-envelope',
-            'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'
+        ns = {
+            's': 'http://schemas.xmlsoap.org/soap/envelope/',
+            'd': 'http://DescargaMasivaTerceros.gob.mx'
         }
 
-        envelope = etree.Element(
-            '{http://www.w3.org/2003/05/soap-envelope}Envelope',
-            nsmap=NSMAP
-        )
+        fault = root.find('.//s:Fault', namespaces=ns)
+        if fault is not None:
+            fault_string = fault.findtext('faultstring')
+            raise Exception(f"Error SAT Autenticacion: {fault_string}")
 
-        header = etree.SubElement(
-            envelope,
-            '{http://www.w3.org/2003/05/soap-envelope}Header'
-        )
+        token_node = root.find('.//d:AutenticaResult', namespaces=ns)
 
-        security = etree.SubElement(
-            header,
-            'Security',
-            nsmap={'wsse': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'}
-        )
+        if token_node is None or not token_node.text:
+            raise Exception("No se recibió token de autenticación del SAT.")
 
-        timestamp = etree.SubElement(
-            security,
-            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp'
-        )
+        token = token_node.text.strip()
 
-        etree.SubElement(timestamp, 'Created').text = created_str
-        etree.SubElement(timestamp, 'Expires').text = expires_str
-
-        timestamp_c14n = etree.tostring(timestamp, method="c14n")
-
-        digest = hashes.Hash(hashes.SHA256())
-        digest.update(timestamp_c14n)
-        digest_value = base64.b64encode(digest.finalize()).decode()
-
-        signature = private_key.sign(
-            timestamp_c14n,
-            padding.PKCS1v15(),
-            hashes.SHA256()
-        )
-
-        signature_b64 = base64.b64encode(signature).decode()
-
-        signature_node = etree.SubElement(security, 'Signature')
-
-        signed_info = etree.SubElement(signature_node, 'SignedInfo')
-        etree.SubElement(signed_info, 'DigestValue').text = digest_value
-
-        etree.SubElement(signature_node, 'SignatureValue').text = signature_b64
-
-        key_info = etree.SubElement(signature_node, 'KeyInfo')
-        x509_data = etree.SubElement(key_info, 'X509Data')
-        etree.SubElement(x509_data, 'X509Certificate').text = cert_b64
-
-        xml_string = etree.tostring(envelope, encoding="utf-8")
-
-        client = Client(self.AUTH_WSDL)
-
-        response = client.service.Autentica(xml_string)
-
-        return response
-
-    """
+        return {
+            "success": True,
+            "token": token
+        }
