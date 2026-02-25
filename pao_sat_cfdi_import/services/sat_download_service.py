@@ -230,7 +230,7 @@ class SATDownloadService(models.AbstractModel):
         xmlsec.tree.add_ids(envelope, ["Id"])
 
         # Verificar que los nodos existan
-        assert envelope.xpath('//*[@u:Id="_0"]',
+        assert envelope.xpath('//*[@u:Id="TS-1"]',
             namespaces={'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'}
         )
 
