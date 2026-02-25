@@ -15,6 +15,14 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
     
     undo_action = fields.Boolean()
     
+    manual_selection = fields.Boolean(string="Select lines manually", default=False)
+    
+    available_line_ids = fields.Many2many(
+        'account.move.line',
+        string="Available Lines",
+        domain="[('move_id', '=', move_id)]"
+    )
+    
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)

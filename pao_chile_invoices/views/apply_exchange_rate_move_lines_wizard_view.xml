@@ -9,7 +9,9 @@
                     <field name="move_id" invisible="1"/>
                     <field name="available_currency_ids" invisible="1"/>
                     <field name="exchange_rate_lines_value" invisible="context.get('undo_action') == True"/>
-                    <field name="currency_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="currency_id" invisible="manual_selection" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="manual_selection"/>
+                    <field name="available_line_ids" invisible="not manual_selection"/>
                 </group>
                 <footer>
                     <button string="Apply" name="apply_exchange_rate_lines_action" invisible="context.get('undo_action') == True" type="object" class="btn-primary"/>
