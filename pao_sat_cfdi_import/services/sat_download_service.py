@@ -359,7 +359,7 @@ class SATDownloadService(models.AbstractModel):
                     "Authorization": f'WRAP access_token="{token}"'
                 }
             )
-
-            data = response.content
+            _logger.error(response)
+            data = response
         
         return data
