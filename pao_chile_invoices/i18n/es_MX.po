@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-25 17:15+0000\n"
-"PO-Revision-Date: 2026-02-25 17:15+0000\n"
+"POT-Creation-Date: 2026-02-25 21:09+0000\n"
+"PO-Revision-Date: 2026-02-25 21:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -37,6 +37,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_chile_invoices.field_apply_exchange_rate_move_lines_wizard__available_currency_ids
 msgid "Available Currency"
 msgstr "Moneda disponible"
+
+#. module: pao_chile_invoices
+#: model:ir.model.fields,field_description:pao_chile_invoices.field_apply_exchange_rate_move_lines_wizard__available_line_ids
+msgid "Available Line"
+msgstr "Línea disponible"
 
 #. module: pao_chile_invoices
 #: model:ir.model.fields,field_description:pao_chile_invoices.field_product_product__base_currency_id
@@ -118,6 +123,18 @@ msgid "ID"
 msgstr ""
 
 #. module: pao_chile_invoices
+#. odoo-python
+#: code:addons/pao_chile_invoices/models/apply_exchange_rate_move_lines_wizard.py:0
+#, python-format
+msgid "Invalid Exchange Rate value."
+msgstr "Tipo de cambio inválido."
+
+#. module: pao_chile_invoices
+#: model:ir.model.fields,field_description:pao_chile_invoices.field_apply_exchange_rate_move_lines_wizard__line_ids
+msgid "Invoice Lines"
+msgstr "Líneas de factura"
+
+#. module: pao_chile_invoices
 #: model:ir.model,name:pao_chile_invoices.model_account_move
 msgid "Journal Entry"
 msgstr "Asiento contable"
@@ -154,7 +171,7 @@ msgstr "No se revirtió ninguna línea."
 #: code:addons/pao_chile_invoices/models/apply_exchange_rate_move_lines_wizard.py:0
 #, python-format
 msgid "No lines were updated with the exchange rate."
-msgstr "No se actualizó ninguna línea con el tipo de cambio.”
+msgstr "No se actualizó ninguna línea con el tipo de cambio."
 
 #. module: pao_chile_invoices
 #. odoo-python
@@ -164,7 +181,8 @@ msgid ""
 "No lines were updated. Please verify the selected currency and ensure there "
 "are lines with an exchange rate applied."
 msgstr ""
-"No se actualizó ninguna línea. Verifique la moneda seleccionada y asegúrese de que existan líneas con un tipo de cambio aplicado.”
+"No se actualizó ninguna línea. Verifique la moneda seleccionada y asegúrese "
+"de que existan líneas con un tipo de cambio aplicado."
 
 #. module: pao_chile_invoices
 #. odoo-python
@@ -174,7 +192,16 @@ msgid ""
 "No lines were updated. Please verify the selected currency and ensure there "
 "are lines without an exchange rate applied."
 msgstr ""
-"No se actualizó ninguna línea. Verifique la moneda seleccionada y asegúrese de que existan líneas a las que aún no se les haya aplicado un tipo de cambio."
+"No se actualizó ninguna línea. Verifique la moneda seleccionada y asegúrese "
+"de que existan líneas a las que aún no se les haya aplicado un tipo de "
+"cambio."
+
+#. module: pao_chile_invoices
+#. odoo-python
+#: code:addons/pao_chile_invoices/models/apply_exchange_rate_move_lines_wizard.py:0
+#, python-format
+msgid "Please enter a valid exchange rate before applying."
+msgstr "Por favor ingrese un tipo de cambio válido antes de aplicar."
 
 #. module: pao_chile_invoices
 #: model:ir.model,name:pao_chile_invoices.model_product_product
@@ -185,6 +212,11 @@ msgstr "Variantes de producto"
 #: model:ir.actions.server,name:pao_chile_invoices.remove_fee_move_lines_action_server
 msgid "Remove fees"
 msgstr "Remover fees"
+
+#. module: pao_chile_invoices
+#: model:ir.model.fields,field_description:pao_chile_invoices.field_apply_exchange_rate_move_lines_wizard__manual_selection
+msgid "Select lines manually"
+msgstr "Seleccionar líneas manualmente"
 
 #. module: pao_chile_invoices
 #: model:ir.model.fields,help:pao_chile_invoices.field_product_product__country_code
