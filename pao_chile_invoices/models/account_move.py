@@ -1,4 +1,4 @@
-from odoo import models, fields, _
+from odoo import models, fields, api, _
 
 class AccountMoveInherit(models.Model):
 
@@ -36,7 +36,29 @@ class AccountMoveInherit(models.Model):
                     
     #         move.exchange_rate_applied = False
     
-    def apply_exchange_rate_lines_wizard_action(self):
+    can_apply_exchange_rate = fields.Boolean(
+        compute='_compute_exchange_rate_buttons'
+    )
+    can_undo_exchange_rate = fields.Boolean(
+        compute='_compute_exchange_rate_buttons'
+    )
+
+    @api.depends('invoice_line_ids.exchange_rate_applied')
+    def _compute_exchange_rate_buttons(self):
+        for move in self:
+            lines = move.invoice_line_ids
+
+            move.can_apply_exchange_rate = any(
+                not line.exchange_rate_applied
+                for line in lines
+            )
+
+            move.can_undo_exchange_rate = any(
+                line.exchange_rate_applied
+                for line in lines
+            )
+    
+    def exchange_rate_lines_wizard_action(self):
         for move in self:
             
             action = self.env.context.get('action', False)

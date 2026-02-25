@@ -7,17 +7,11 @@ class SendAnniversaryReminder(models.TransientModel):
     
     move_id = fields.Many2one('account.move', string="Move", required=True)
     
-    exchange_rate_lines_value = fields.Float(string="Exchange Rate", required=True, copy=False)
+    exchange_rate_lines_value = fields.Float(string="Exchange Rate", default=None, required=True, copy=False)
     
-    currency_id = fields.Many2one(
-        'res.currency',
-        domain="[('id', 'in', available_currency_ids)]"
-    )
+    currency_id = fields.Many2one('res.currency', domain="[('id', 'in', available_currency_ids)]")
     
-    available_currency_ids = fields.Many2many(
-        'res.currency',
-        compute='_compute_available_currencies'
-    )
+    available_currency_ids = fields.Many2many('res.currency', compute='_compute_available_currencies')
     
     undo_action = fields.Boolean()
     
@@ -49,7 +43,6 @@ class SendAnniversaryReminder(models.TransientModel):
 
             if not wizard.undo_action:
                 lines = lines.filtered(lambda l: not l.exchange_rate_applied)
-
             else:
                 lines = lines.filtered(lambda l: l.exchange_rate_applied)
 
@@ -98,7 +91,7 @@ class SendAnniversaryReminder(models.TransientModel):
                 'params': {
                     'type': 'success',
                     'title': _('Exchange Rate Applied'),
-                    'message': _('The exchange rate has been applied to %s lines.') % updated_lines_count,
+                    'message': _('The exchange rate has been applied to %s line(s).') % updated_lines_count,
                     'sticky': True,
                     'next': {'type': 'ir.actions.act_window_close'},
                 }
@@ -146,7 +139,7 @@ class SendAnniversaryReminder(models.TransientModel):
                 'params': {
                     'type': 'success',
                     'title': _('Exchange Rate Reverted'),
-                    'message': _('The exchange rate has been reverted to %s lines.') % updated_lines_count,
+                    'message': _('The exchange rate has been reverted to %s line(s).') % updated_lines_count,
                     'sticky': True,
                     'next': {'type': 'ir.actions.act_window_close'},
                 }
