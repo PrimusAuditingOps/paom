@@ -17,13 +17,13 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
     
     manual_selection = fields.Boolean(string="Select lines manually", default=False)
     
-    available_line_ids = fields.Many2many(
+    line_ids = fields.Many2many(
         'account.move.line',
-        string="Available Lines",
-        domain="[('id', 'in', filtered_line_ids)]"
+        string="Invoice Lines",
+        domain="[('id', 'in', available_line_ids)]"
     )
     
-    filtered_line_ids = fields.Many2many(
+    available_line_ids = fields.Many2many(
         'account.move.line',
         compute="_compute_available_lines_currencies"
     )
@@ -50,6 +50,7 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
         for wizard in self:
             if not wizard.move_id:
                 wizard.available_currency_ids = False
+                wizard.available_line_ids = False
                 continue
 
             lines = wizard.move_id.invoice_line_ids
@@ -59,7 +60,7 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
             else:
                 lines = lines.filtered(lambda l: l.exchange_rate_applied)
                 
-            wizard.filtered_line_ids = lines
+            wizard.available_line_ids = lines
 
             currencies = lines.mapped('product_id.base_currency_id').filtered(lambda c: c)
 
@@ -82,15 +83,18 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
                     'sticky': False,
                 }
             }
-
-        lines_to_update = self.move_id.invoice_line_ids.filtered(
-            lambda l: not l.exchange_rate_applied
-        )
-
-        if self.currency_id:
-            lines_to_update = lines_to_update.filtered(
-                lambda l: l.product_id.base_currency_id == self.currency_id
+            
+        if self.manual_selection:
+            lines_to_update = self.line_ids
+        else:
+            lines_to_update = self.move_id.invoice_line_ids.filtered(
+                lambda l: not l.exchange_rate_applied
             )
+
+            if self.currency_id:
+                lines_to_update = lines_to_update.filtered(
+                    lambda l: l.product_id.base_currency_id == self.currency_id
+                )
 
         updated_lines_count = len(lines_to_update)
         
@@ -131,14 +135,17 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
         if self.move_id.state != 'draft':
             return
 
-        lines_to_update = self.move_id.invoice_line_ids.filtered(
-            lambda l: l.exchange_rate_applied
-        )
-
-        if self.currency_id:
-            lines_to_update = lines_to_update.filtered(
-                lambda l: l.product_id.base_currency_id == self.currency_id
+        if self.manual_selection:
+            lines_to_update = self.line_ids
+        else:
+            lines_to_update = self.move_id.invoice_line_ids.filtered(
+                lambda l: l.exchange_rate_applied
             )
+
+            if self.currency_id:
+                lines_to_update = lines_to_update.filtered(
+                    lambda l: l.product_id.base_currency_id == self.currency_id
+                )
             
         updated_lines_count = len(lines_to_update)
 
