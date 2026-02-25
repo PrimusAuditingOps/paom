@@ -321,18 +321,18 @@ class SATDownloadService(models.AbstractModel):
 
 
             NSMAP = {
-                's': 'http://schemas.xmlsoap.org/soap/envelope/',
+                's': 'http://www.w3.org/2003/05/soap-envelope',
                 'des': 'http://DescargaMasivaTerceros.sat.gob.mx'
             }
 
             envelope = etree.Element(
-                '{http://schemas.xmlsoap.org/soap/envelope/}Envelope',
+                '{http://www.w3.org/2003/05/soap-envelope}Envelope',
                 nsmap=NSMAP
             )
 
             body = etree.SubElement(
                 envelope,
-                '{http://schemas.xmlsoap.org/soap/envelope/}Body'
+                '{http://www.w3.org/2003/05/soap-envelope}Body'
             )
 
             solicita = etree.SubElement(
@@ -349,14 +349,13 @@ class SATDownloadService(models.AbstractModel):
                 TipoSolicitud="CFDI"
             )
 
-            xml_bytes = etree.tostring(envelope, encoding="utf-8")
+            xml_bytes = etree.tostring(envelope, encoding="utf-8", xml_declaration=True)
 
             response = requests.post(
                 "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
                 data=xml_bytes,
                 headers={
-                    "Content-Type": "text/xml; charset=utf-8",
-                    "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
+                    "Content-Type": 'application/soap+xml; charset=utf-8; action="http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
                     "Authorization": f'WRAP access_token="{token}"'
                 }
             )
