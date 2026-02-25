@@ -12,6 +12,7 @@
 import base64
 import uuid
 import pytz
+import requests
 import datetime
 from lxml import etree
 from zeep import Client
@@ -22,7 +23,7 @@ import tempfile
 import subprocess
 from OpenSSL import crypto
 from logging import getLogger
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from odoo import models
 
 
@@ -87,14 +88,24 @@ class SATDownloadService(models.AbstractModel):
 
 
     def _create_timestamp(self):
+        created = datetime.now(timezone.utc)
+        expires = created + timedelta(minutes=5)
+
+        return (
+            created.strftime('%Y-%m-%dT%H:%M:%SZ'),
+            expires.strftime('%Y-%m-%dT%H:%M:%SZ')
+        )
+        
+        """
         requested_tz = pytz.timezone('America/Mexico_City')
         created = requested_tz.fromutc(datetime.utcnow())
         expires = created + timedelta(minutes=5)
 
         return (
-            created.strftime('%Y-%m-%dT%H:%M:%S'),
-            expires.strftime('%Y-%m-%dT%H:%M:%S')
+            created.strftime('%Y-%m-%dT%H:%M:%SZ'),
+            expires.strftime('%Y-%m-%dT%H:%M:%SZ')
         )
+        """
 
     # -----------------------------------------------------------------
     # Ccambios
@@ -102,7 +113,7 @@ class SATDownloadService(models.AbstractModel):
     def _build_envelope(self, cert_b64):
 
         created, expires = self._create_timestamp()
-        token_id = f"uuid-{uuid.uuid4()}-1"
+        token_id = f"uuid-{uuid.uuid4()}-4"
 
         NSMAP = {
             'u': 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd',
@@ -159,7 +170,7 @@ class SATDownloadService(models.AbstractModel):
             }
         )
 
-        binary_token.text = cert_b64
+        binary_token.text = cert_b64.replace("\n", "")
 
         body = etree.SubElement(
             envelope,
@@ -178,6 +189,11 @@ class SATDownloadService(models.AbstractModel):
     # -----------------------------------------------------------------
     def _sign(self, envelope, certificate, token_id):
 
+        #signature_node = xmlsec.template.create(
+        #    envelope,
+        #    xmlsec.Transform.EXCL_C14N,
+        #    xmlsec.Transform.RSA_SHA1
+        #)
         signature_node = xmlsec.template.create(
             envelope,
             xmlsec.Transform.EXCL_C14N,
@@ -207,14 +223,19 @@ class SATDownloadService(models.AbstractModel):
         # Registrar Id
         xmlsec.tree.add_ids(envelope, ["Id"])
 
+        # Verificar que los nodos existan
+       
+
         # Crear referencia
         ref = xmlsec.template.add_reference(
             signature_node,
             xmlsec.Transform.SHA1,
             uri='#_0'
         )
-        
+
         xmlsec.template.add_transform(ref, xmlsec.Transform.EXCL_C14N)
+        
+        
 
         # Obtener PEM ya convertido correctamente
         cer_path, key_path = self._prepare_key_and_cert(certificate)
@@ -226,7 +247,6 @@ class SATDownloadService(models.AbstractModel):
 
         ctx = xmlsec.SignatureContext()
         ctx.key = key
-        xmlsec.enable_debug_trace(True)
         # Firmar
         ctx.sign(signature_node)
 
@@ -243,25 +263,26 @@ class SATDownloadService(models.AbstractModel):
 
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
-        _logger.error(etree.tostring(
-            signed_envelope,
-            xml_declaration=True,
-            encoding='utf-8'
-        ))
-        session = Session()
-        transport = Transport(session=session)
-
-        client = Client(self.AUTH_WSDL, transport=transport)
-
-        response = client.transport.post(
-            client.wsdl.location,
-            etree.tostring(
-                signed_envelope,
-                xml_declaration=True,
-                encoding='utf-8'
-            ),
-            headers={'Content-Type': 'text/xml; charset=utf-8'}
+        _logger.error(etree.tostring(signed_envelope,encoding="utf-8"))
+        response = requests.post(
+            "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc",
+            data=etree.tostring(signed_envelope),
+            headers={
+                "Content-Type": "text/xml; charset=utf-8",
+                "SOAPAction": '"http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica"'
+            }
         )
+                
+        #session = Session()
+        #transport = Transport(session=session)
+
+        #client = Client(self.AUTH_WSDL, transport=transport)
+
+        #response = client.transport.post(
+        #    client.wsdl.location,
+        #    etree.tostring(signed_envelope),
+        #    headers={'Content-Type': 'text/xml; charset=utf-8'}
+        #)
 
         return response.content
 

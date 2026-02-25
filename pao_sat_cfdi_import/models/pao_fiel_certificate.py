@@ -159,8 +159,8 @@ class Fiel(models.Model):
             if now > after:
                 raise ValidationError(_('The certificate is expired since %s', record.date_end))
             # Check the pair key/password
-            #try:
-            #    key_pem = self._get_pem_key(self.key, self.password)
-            #    crypto.load_privatekey(crypto.FILETYPE_PEM, key_pem)
-            #except Exception:
-            #    raise ValidationError(_('The certificate key and/or password is/are invalid.'))
+            try:
+                key_pem = self._get_pem_key(self.key, self.password)
+                crypto.load_privatekey(crypto.FILETYPE_PEM, key_pem)
+            except Exception:
+                raise ValidationError(_('The certificate key and/or password is/are invalid.'))
