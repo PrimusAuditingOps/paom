@@ -5,23 +5,25 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
-            <field name="tax_cash_basis_origin_move_id" position="after">
-                <label for="auto_exchange_rate_lines_value" invisible="state != 'draft' or country_code != 'CL'"/>
-                <div invisible="state != 'draft' or country_code != 'CL'">
-                    <field name="exchange_rate_applied" invisible="1"/>
+            <xpath expr="//button[@name='preview_invoice']" position="after">
+                    <button invisible="state != 'draft' or country_code != 'CL'" string="Apply Exchange Rate" type="object" class="oe_highlight btn btn-secondary" name="apply_exchange_rate_lines_wizard_action" context="{'action':'apply'}"/>
+                    <button invisible="state != 'draft' or country_code != 'CL'" string="Undo Exchange Rate" type="object" class="oe_highlight btn btn-secondary" name="apply_exchange_rate_lines_wizard_action" context="{'action':'undo'}"/>
+                <!-- <label for="auto_exchange_rate_lines_value" invisible="state != 'draft' or country_code != 'CL'"/> -->
+                <!-- <div invisible="state != 'draft' or country_code != 'CL'"> -->
+                    <!-- <field name="exchange_rate_applied" invisible="1"/>
                     <field name="auto_exchange_rate_lines_value" readonly="exchange_rate_applied" style="width:100px !important; margin-right: 10px !important;"/>
                     <button name="apply_exchange_rate_lines_action" invisible ="exchange_rate_applied" string="Apply" class="btn btn-sm btn-primary" type="object"/>
-                    <button name="undo_exchange_rate_lines_action" invisible ="not exchange_rate_applied" string="Undo" class="btn btn-sm btn-primary" type="object"/>
-                </div>
-            </field>
+                    <button name="undo_exchange_rate_lines_action" invisible ="not exchange_rate_applied" string="Undo" class="btn btn-sm btn-primary" type="object"/> -->
+                <!-- </div> -->
+            </xpath>
 
             <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">
-                <attribute name="readonly">parent.exchange_rate_applied</attribute>
+                <attribute name="readonly">exchange_rate_applied</attribute>
             </xpath>
         </field>
     </record>
 
-    <record id="send_reminders_action_server" model="ir.actions.server">
+    <record id="remove_fee_move_lines_action_server" model="ir.actions.server">
         <field name="name">Remove fees</field>
         <field name="type">ir.actions.server</field>
         <field name="model_id" ref="account.move"/>
@@ -29,7 +31,7 @@
         <field name="state">code</field>
         <field name="code">
             if records:
-                action = records.remove_fees_lines_action()
+                action = records.remove_fee_lines_action()
         </field>
     </record>
 </odoo>
