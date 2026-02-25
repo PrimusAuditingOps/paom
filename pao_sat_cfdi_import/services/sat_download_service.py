@@ -25,6 +25,7 @@ from OpenSSL import crypto
 from logging import getLogger
 from datetime import datetime, timedelta, timezone
 from odoo import models
+from odoo.exceptions import UserError
 
 
 _logger = getLogger(__name__)
@@ -255,7 +256,7 @@ class SATDownloadService(models.AbstractModel):
     # -----------------------------------------------------------------
     # Método públicor aqui
     # -----------------------------------------------------------------
-    def auth(self,certificate):
+    def _auth(self,certificate):
 
         cert_b64 = base64.b64encode(
             base64.b64decode(certificate.content)
@@ -278,16 +279,6 @@ class SATDownloadService(models.AbstractModel):
 
 
 
-        #root = etree.fromstring(response.content)
-
-        #ns = {
-        #    's': 'http://schemas.xmlsoap.org/soap/envelope/',
-        #    'd': 'http://DescargaMasivaTerceros.gob.mx'
-        #}
-
-        #token = root.find('.//d:AutenticaResult', namespaces=ns).text
-
-                
     
     def _parse_auth_response(self, xml_response):
 
@@ -301,12 +292,12 @@ class SATDownloadService(models.AbstractModel):
         fault = root.find('.//s:Fault', namespaces=ns)
         if fault is not None:
             fault_string = fault.findtext('faultstring')
-            raise Exception(f"Error SAT Autenticacion: {fault_string}")
+            raise UserError(f"Error SAT: {fault_string}")
 
         token_node = root.find('.//d:AutenticaResult', namespaces=ns)
 
         if token_node is None or not token_node.text:
-            raise Exception("No se recibió token de autenticación del SAT.")
+            raise UserError("No se recibió token de autenticación del SAT.")
 
         token = token_node.text.strip()
 
@@ -314,3 +305,82 @@ class SATDownloadService(models.AbstractModel):
             "success": True,
             "token": token
         }
+
+
+    def request_download(self, certificate, start_date, end_date):
+        data = ""
+        auth_result = self._auth(certificate)
+        fecha_inicio_dt = datetime.combine(start_date, datetime.min.time())
+        fecha_fin_dt = datetime.combine(end_date, datetime.max.time().replace(microsecond=0))
+
+        fecha_inicio_str = fecha_inicio_dt.strftime('%Y-%m-%dT%H:%M:%S')
+        fecha_fin_str = fecha_fin_dt.strftime('%Y-%m-%dT%H:%M:%S')
+        
+        if auth_result["success"]:
+            token = auth_result["token"]
+
+
+            NSMAP = {
+                's': 'http://schemas.xmlsoap.org/soap/envelope/',
+                'des': 'http://DescargaMasivaTerceros.sat.gob.mx'
+            }
+
+            envelope = etree.Element(
+                '{http://schemas.xmlsoap.org/soap/envelope/}Envelope',
+                nsmap=NSMAP
+            )
+
+            body = etree.SubElement(
+                envelope,
+                '{http://schemas.xmlsoap.org/soap/envelope/}Body'
+            )
+
+            solicita = etree.SubElement(
+                body,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}SolicitaDescarga'
+            )
+
+            solicitud = etree.SubElement(
+                solicita,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}solicitud'
+            )
+
+            etree.SubElement(
+                solicitud,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}RfcSolicitante'
+            ).text = certificate.vat
+
+            etree.SubElement(
+                solicitud,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}FechaInicial'
+            ).text = fecha_inicio_str
+
+            etree.SubElement(
+                solicitud,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}FechaFinal'
+            ).text = fecha_fin_str
+
+            etree.SubElement(
+                solicitud,
+                '{http://DescargaMasivaTerceros.sat.gob.mx}TipoSolicitud'
+            ).text = "CFDI"
+
+
+            xml_bytes = etree.tostring(envelope, encoding="utf-8", xml_declaration=True)
+
+            response = requests.post(
+                "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
+                data=xml_bytes,
+                headers = {
+                    "Content-Type": "text/xml; charset=utf-8",
+                    "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
+                    "Authorization": f'WRAP access_token="{token}"'
+                }
+            )
+            _logger.error(xml_bytes)
+            _logger.error(f'WRAP access_token="{token}"')
+            _logger.error(response.status_code)
+            _logger.error(response.text)
+            data = response
+        
+        return data

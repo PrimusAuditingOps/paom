@@ -22,6 +22,7 @@
                             <field name="content"/>
                             <field name="key"/>
                             <field name="password" password="True"/>
+                            <field name="vat"/>
                             <label for="date_start" string="Validity"/>
                             <div>
                                 <field name="date_start"/> -
@@ -50,6 +51,7 @@
             <field name="arch" type="xml">
                 <tree string="Fiel Certificate Tree">
                     <field name="serial_number"/>
+                    <field name="vat"/>
                     <field name="date_start"/>
                     <field name="date_end"/>
                     <field name="company_id"/>

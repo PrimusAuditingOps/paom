@@ -47,6 +47,10 @@ class Fiel(models.Model):
         required=True,
         attachment=False,
     )
+    vat = fields.Char(
+        string='VAT',
+        required=True,
+    )
     password = fields.Char(
         string='Fiel Certificate Password',
         help='Password for the Certificate Key',

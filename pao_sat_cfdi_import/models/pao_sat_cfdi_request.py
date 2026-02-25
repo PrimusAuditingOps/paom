@@ -60,8 +60,10 @@ class SATCFDIRequest(models.Model):
         _logger.error(data)
         if data:
             service = self.env["pao.sat.service"]
-            response = service.auth(
-                data
+            response = service.request_download(
+                data,
+                self.start_date,
+                self.end_date
             )
             raise ValidationError(response)
 
