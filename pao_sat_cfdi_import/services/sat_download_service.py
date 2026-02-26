@@ -408,7 +408,6 @@ class SATDownloadService(models.AbstractModel):
             "solicitud",
             Id="Solicitud",
             RfcEmisor=certificate.vat,
-            RfcACuentaTerceros="",
             RfcSolicitante=certificate.vat,
             FechaInicial=fecha_inicio_str,
             FechaFinal=fecha_fin_str,
@@ -456,7 +455,7 @@ class SATDownloadService(models.AbstractModel):
         )
 
         NSMAP = {
-            "s": "http://www.w3.org/2003/05/soap-envelope"
+            "s": "http://schemas.xmlsoap.org/soap/envelope/"
         }
 
         envelope = etree.Element(
@@ -483,9 +482,10 @@ class SATDownloadService(models.AbstractModel):
 
         NS_SAT = "http://DescargaMasivaTerceros.sat.gob.mx"
 
-        solicita_descarga = etree.SubElement(
+        solicita = etree.SubElement(
             body,
-            etree.QName(NS_SAT, "SolicitaDescarga")
+            "SolicitaDescarga",
+            nsmap={None: NS_DESCARGA}
         )
 
         solicita_descarga.append(solicitud)
