@@ -476,17 +476,14 @@ class SATDownloadService(models.AbstractModel):
 
         body = etree.SubElement(
             envelope,
-            etree.QName(NSMAP["s"], "Body"),
-            nsmap={
-                "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                "xsd": "http://www.w3.org/2001/XMLSchema"
-            }
+            etree.QName(NSMAP["s"], "Body")
         )
+
+        NS_SAT = "http://DescargaMasivaTerceros.sat.gob.mx"
 
         solicita_descarga = etree.SubElement(
             body,
-            "SolicitaDescarga",
-            nsmap={None: "http://DescargaMasivaTerceros.sat.gob.mx"}
+            etree.QName(NS_SAT, "SolicitaDescarga")
         )
 
         solicita_descarga.append(solicitud)
