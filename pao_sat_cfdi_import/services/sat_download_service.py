@@ -466,7 +466,14 @@ class SATDownloadService(models.AbstractModel):
         )
         activity.text = activity_id
 
-        body = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Body"))
+        body = etree.SubElement(
+            envelope,
+            etree.QName(NSMAP["s"], "Body"),
+            nsmap={
+                "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                "xsd": "http://www.w3.org/2001/XMLSchema"
+            }
+        )
 
         solicita_descarga = etree.SubElement(
             body,
