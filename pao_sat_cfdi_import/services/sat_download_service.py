@@ -407,6 +407,8 @@ class SATDownloadService(models.AbstractModel):
         solicitud = etree.Element(
             "solicitud",
             Id="Solicitud",
+            RfcEmisor=certificate.vat,
+            RfcACuentaTerceros="",
             RfcSolicitante=certificate.vat,
             FechaInicial=fecha_inicio_str,
             FechaFinal=fecha_fin_str,
