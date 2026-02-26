@@ -419,14 +419,6 @@ class SATDownloadService(models.AbstractModel):
             xmlsec.Transform.RSA_SHA1,
             ns="ds"
         )
-        c14n_method = signature_node.find(
-            ".//{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod"
-        )
-        c14n_method.set(
-            "Algorithm",
-            "http://www.w3.org/TR/2001/REC-xml-c14n20010315"
-        )
-
         solicitud.insert(0, signature_node)
 
         ref = xmlsec.template.add_reference(
@@ -451,6 +443,14 @@ class SATDownloadService(models.AbstractModel):
         ctx.key = key
 
         ctx.sign(signature_node)
+
+        c14n_method = signature_node.find(
+            ".//{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod"
+        )
+        c14n_method.set(
+            "Algorithm",
+            "http://www.w3.org/TR/2001/REC-xml-c14n20010315"
+        )
 
         NSMAP = {
             "s": "http://schemas.xmlsoap.org/soap/envelope/"
