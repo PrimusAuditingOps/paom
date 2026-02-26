@@ -495,9 +495,19 @@ class SATDownloadService(models.AbstractModel):
             "Authorization": f'WRAP access_token="{token}"'
         }
 
+        _logger.error("===== XML QUE ESTÁS GENERANDO =====")
+        _logger.error(xml_request.decode())
+        
         response = requests.post(url, data=xml_request, headers=headers)
-        _logger.error(xml_request)
-        _logger.error(f'WRAP access_token="{token}"')
+
+
+        _logger.error("===== HEADERS ENVIADOS =====")
+        _logger.error(response.request.headers)
+
+        _logger.error("===== BODY ENVIADO =====")
+        _logger.error(response.request.body.decode() if isinstance(response.request.body, bytes) else response.request.body)
+        
+
             
         data = response
         if response.status_code != 200:
