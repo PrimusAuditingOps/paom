@@ -389,120 +389,112 @@ class SATDownloadService(models.AbstractModel):
 
     def request_download(self, certificate, start_date, end_date):
         data = ""
-        rfc_emisor=certificate.vat
-        rfc_receptor=certificate.vat
         url = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc"
+
         auth_result = self._auth(certificate)
+
+        if not auth_result["success"]:
+            raise UserError("No fue posible autenticarse con el SAT")
+
+        token = auth_result["token"]
+
         fecha_inicio_dt = datetime.combine(start_date, datetime.min.time())
         fecha_fin_dt = datetime.combine(end_date, datetime.max.time().replace(microsecond=0))
 
         fecha_inicio_str = fecha_inicio_dt.strftime('%Y-%m-%dT%H:%M:%S')
         fecha_fin_str = fecha_fin_dt.strftime('%Y-%m-%dT%H:%M:%S')
-        
-        if auth_result["success"]:
-            token = auth_result["token"]
 
-            solicitud = etree.Element(
-                "solicitud",
-                Id="Solicitud",
-                RfcSolicitante=certificate.vat,
-                FechaInicial=fecha_inicio_str,
-                FechaFinal=fecha_fin_str,
-                TipoSolicitud="CFDI"
-            )
+        solicitud = etree.Element(
+            "solicitud",
+            Id="Solicitud",
+            RfcSolicitante=certificate.vat,
+            FechaInicial=fecha_inicio_str,
+            FechaFinal=fecha_fin_str,
+            TipoSolicitud="CFDI"
+        )
 
-            if rfc_emisor:
-                solicitud.set("RfcEmisor", rfc_emisor)
+        signature_node = xmlsec.template.create(
+            solicitud,
+            xmlsec.Transform.C14N,      
+            xmlsec.Transform.RSA_SHA1,
+            ns="ds"
+        )
 
-            if rfc_receptor:
-                solicitud.set("RfcReceptor", rfc_receptor)
+        solicitud.insert(0, signature_node)
 
-            signature_node = xmlsec.template.create(
-                solicitud,
-                xmlsec.Transform.C14N,
-                xmlsec.Transform.RSA_SHA1,
-                ns="ds"
-            )
+        ref = xmlsec.template.add_reference(
+            signature_node,
+            xmlsec.Transform.SHA1,
+            uri=""
+        )
 
-            solicitud.insert(0, signature_node)
+        xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
 
-            ref = xmlsec.template.add_reference(
-                signature_node,
-                xmlsec.Transform.SHA1,
-                uri=""
-            )
+        key_info = xmlsec.template.ensure_key_info(signature_node)
+        xmlsec.template.add_x509_data(key_info)
 
-            xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
+        xmlsec.tree.add_ids(solicitud, ["Id"])
 
-            key_info = xmlsec.template.ensure_key_info(signature_node)
-            xmlsec.template.add_x509_data(key_info)
+        cer_path, key_path = self._prepare_key_and_cert(certificate)
 
-            # cargar certificado
-            key = xmlsec.Key.from_memory(
-                self.private_key_pem,
-                xmlsec.KeyFormat.PEM,
-                None
-            )
+        key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
+        key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
 
-            key.load_cert_from_memory(
-                self.certificate_pem,
-                xmlsec.KeyFormat.PEM
-            )
+        ctx = xmlsec.SignatureContext()
+        ctx.key = key
 
-            ctx = xmlsec.SignatureContext()
-            ctx.key = key
-            ctx.sign(signature_node)
+        ctx.sign(signature_node)
 
-            NSMAP = {
-                "s": "http://schemas.xmlsoap.org/soap/envelope/",
-                "des": "http://DescargaMasivaTerceros.sat.gob.mx"
-            }
+        NSMAP = {
+            "s": "http://schemas.xmlsoap.org/soap/envelope/",
+            "des": "http://DescargaMasivaTerceros.sat.gob.mx"
+        }
 
-            envelope = etree.Element(
-                etree.QName(NSMAP["s"], "Envelope"),
-                nsmap=NSMAP
-            )
+        envelope = etree.Element(
+            etree.QName(NSMAP["s"], "Envelope"),
+            nsmap=NSMAP
+        )
 
-            header = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Header"))
+        header = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Header"))
 
-            # ActivityId obligatorio
-            activity_id = str(uuid.uuid4())
-            activity = etree.SubElement(
-                header,
-                "ActivityId",
-                xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics",
-                CorrelationId=activity_id
-            )
-            activity.text = activity_id
+        activity_id = str(uuid.uuid4())
 
-            body = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Body"))
+        activity = etree.SubElement(
+            header,
+            "{http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics}ActivityId",
+            CorrelationId=activity_id
+        )
+        activity.text = activity_id
 
-            solicita_descarga = etree.SubElement(
-                body,
-                etree.QName(NSMAP["des"], "SolicitaDescarga")
-            )
+        body = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Body"))
 
-            solicita_descarga.append(solicitud)
+        solicita_descarga = etree.SubElement(
+            body,
+            etree.QName(NSMAP["des"], "SolicitaDescarga")
+        )
 
-            xml_request = etree.tostring(
-                envelope,
-                pretty_print=True,
-                encoding="utf-8",
-                xml_declaration=True
-            )
+        solicita_descarga.append(solicitud)
 
-            headers = {
-                "Content-Type": "text/xml; charset=utf-8",
-                "SOAPAction": "http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga",
-                "Authorization": f'WRAP access_token="{token}"'
-            }
-            _logger.error(etree.tostring(signed_envelope,encoding="utf-8"))
-            # ===============================
-            response = requests.post(url, data=xml_request, headers=headers)
+        xml_request = etree.tostring(
+            envelope,
+            encoding="utf-8",
+            xml_declaration=True
+        )
+
+        headers = {
+            "Content-Type": "text/xml; charset=utf-8",
+            "SOAPAction": "http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga",
+            "Authorization": f'WRAP access_token="{token}"'
+        }
+
+        response = requests.post(url, data=xml_request, headers=headers)
+        _logger.error(xml_request)
+        _logger.error(f'WRAP access_token="{token}"')
+            
             data = response
-            if response.status_code != 200:
-                raise Exception(f"Error SAT {response.status_code}: {response.text}")
+        if response.status_code != 200:
+            raise UserError(f"Error SAT {response.status_code}: {response.text}")
 
-            _logger.error(response.text)
-
-        return data
+        _logger.error(response.status_code)
+        _logger.error(response.text)
+        return response
