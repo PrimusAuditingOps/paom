@@ -491,7 +491,7 @@ class SATDownloadService(models.AbstractModel):
         _logger.error(xml_request)
         _logger.error(f'WRAP access_token="{token}"')
             
-            data = response
+        data = response
         if response.status_code != 200:
             raise UserError(f"Error SAT {response.status_code}: {response.text}")
 
