@@ -426,7 +426,7 @@ class SATDownloadService(models.AbstractModel):
         ref = xmlsec.template.add_reference(
             signature_node,
             xmlsec.Transform.SHA1,
-            uri=""
+            uri="#Solicitud"
         )
 
 
