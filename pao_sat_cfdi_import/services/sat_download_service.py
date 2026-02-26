@@ -498,8 +498,8 @@ class SATDownloadService(models.AbstractModel):
         )
         token = token.replace("\n", "").replace("\r", "").strip()
         headers = {
-           "Content-Type": 'application/soap+xml; charset=utf-8; action="http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
-           "Authorization": f'WRAP access_token="{token}"'
+            "Content-Type": "application/soap+xml; charset=utf-8",
+            "Authorization": f'WRAP access_token="{token}"'
         }
 
         _logger.error("===== XML QUE ESTÁS GENERANDO =====")
