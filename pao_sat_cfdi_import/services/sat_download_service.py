@@ -417,8 +417,7 @@ class SATDownloadService(models.AbstractModel):
         signature_node = xmlsec.template.create(
             solicitud,
             xmlsec.Transform.C14N,      
-            xmlsec.Transform.RSA_SHA1,
-            ns="ds"
+            xmlsec.Transform.RSA_SHA1
         )
         solicitud.insert(0, signature_node)
 
