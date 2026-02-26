@@ -427,6 +427,13 @@ class SATDownloadService(models.AbstractModel):
             uri="#Solicitud"
         )
 
+        cer_bytes = base64.b64decode(certificate.content)
+
+        cert = x509.load_der_x509_certificate(cer_bytes, default_backend())
+
+        issuer_name = cert.issuer.rfc4514_string()
+        serial_number = str(cert.serial_number)
+
 
         xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
 
@@ -434,8 +441,12 @@ class SATDownloadService(models.AbstractModel):
         x509_data = xmlsec.template.add_x509_data(key_info)
 
         issuer_serial = xmlsec.template.x509_data_add_issuer_serial(x509_data)
-        xmlsec.template.x509_issuer_serial_add_issuer_name(issuer_serial)
-        xmlsec.template.x509_issuer_serial_add_serial_number(issuer_serial)
+
+        issuer_name_node = xmlsec.template.x509_issuer_serial_add_issuer_name(issuer_serial)
+        issuer_name_node.text = issuer_name
+
+        serial_node = xmlsec.template.x509_issuer_serial_add_serial_number(issuer_serial)
+        serial_node.text = serial_number
 
         xmlsec.template.x509_data_add_certificate(x509_data)
 
