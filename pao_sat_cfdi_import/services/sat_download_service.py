@@ -485,7 +485,7 @@ class SATDownloadService(models.AbstractModel):
         solicita = etree.SubElement(
             body,
             "SolicitaDescarga",
-            nsmap={None: NS_DESCARGA}
+            nsmap={None: NS_SAT}
         )
 
         solicita_descarga.append(solicitud)
