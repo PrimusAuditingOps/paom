@@ -387,7 +387,7 @@ class SATDownloadService(models.AbstractModel):
 
 
 
-    def request_download(self, token, certificate, start_date, end_date):
+    def request_download(self, certificate, start_date, end_date):
         data = ""
         rfc_emisor=certificate.vat
         rfc_receptor=certificate.vat
@@ -405,7 +405,7 @@ class SATDownloadService(models.AbstractModel):
             solicitud = etree.Element(
                 "solicitud",
                 Id="Solicitud",
-                RfcSolicitante=rfc_solicitante,
+                RfcSolicitante=certificate.vat,
                 FechaInicial=fecha_inicio_str,
                 FechaFinal=fecha_fin_str,
                 TipoSolicitud="CFDI"
