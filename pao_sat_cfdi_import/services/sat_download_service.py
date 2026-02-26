@@ -482,7 +482,7 @@ class SATDownloadService(models.AbstractModel):
 
         NS_SAT = "http://DescargaMasivaTerceros.sat.gob.mx"
 
-        solicita_descarga etree.SubElement(
+        solicita_descarga = etree.SubElement(
             body,
             "SolicitaDescarga",
             nsmap={None: NS_SAT}
