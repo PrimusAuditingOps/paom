@@ -427,6 +427,7 @@ class SATDownloadService(models.AbstractModel):
             uri=""
         )
 
+
         xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
 
         key_info = xmlsec.template.ensure_key_info(signature_node)
@@ -453,7 +454,7 @@ class SATDownloadService(models.AbstractModel):
         )
 
         NSMAP = {
-            "s": "http://schemas.xmlsoap.org/soap/envelope/"
+            "s": "http://www.w3.org/2003/05/soap-envelope"
         }
 
         envelope = etree.Element(
@@ -497,9 +498,8 @@ class SATDownloadService(models.AbstractModel):
         )
         token = token.replace("\n", "").replace("\r", "").strip()
         headers = {
-            "Content-Type": "text/xml; charset=utf-8",
-            "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
-            "Authorization": f'WRAP access_token="{token}"'
+           "Content-Type": 'application/soap+xml; charset=utf-8; action="http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
+           "Authorization": f'WRAP access_token="{token}"'
         }
 
         _logger.error("===== XML QUE ESTÁS GENERANDO =====")
