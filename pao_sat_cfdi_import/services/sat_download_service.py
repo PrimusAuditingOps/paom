@@ -491,7 +491,7 @@ class SATDownloadService(models.AbstractModel):
 
         headers = {
             "Content-Type": "text/xml; charset=utf-8",
-            "SOAPAction": "http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga",
+            "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
             "Authorization": f'WRAP access_token="{token}"'
         }
 
