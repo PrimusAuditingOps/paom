@@ -431,7 +431,13 @@ class SATDownloadService(models.AbstractModel):
         xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
 
         key_info = xmlsec.template.ensure_key_info(signature_node)
-        xmlsec.template.add_x509_data(key_info)
+        x509_data = xmlsec.template.add_x509_data(key_info)
+
+        issuer_serial = xmlsec.template.x509_data_add_issuer_serial(x509_data)
+        xmlsec.template.x509_issuer_serial_add_issuer_name(issuer_serial)
+        xmlsec.template.x509_issuer_serial_add_serial_number(issuer_serial)
+
+        xmlsec.template.x509_data_add_certificate(x509_data)
 
         xmlsec.tree.add_ids(solicitud, ["Id"])
 
