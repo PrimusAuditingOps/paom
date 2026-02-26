@@ -419,6 +419,13 @@ class SATDownloadService(models.AbstractModel):
             xmlsec.Transform.RSA_SHA1,
             ns="ds"
         )
+        c14n_method = signature_node.find(
+            ".//{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod"
+        )
+        c14n_method.set(
+            "Algorithm",
+            "http://www.w3.org/TR/2001/REC-xml-c14n20010315"
+        )
 
         solicitud.insert(0, signature_node)
 
@@ -488,7 +495,7 @@ class SATDownloadService(models.AbstractModel):
             encoding="utf-8",
             xml_declaration=True
         )
-
+        token = token.replace("\n", "").replace("\r", "").strip()
         headers = {
             "Content-Type": "text/xml; charset=utf-8",
             "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
