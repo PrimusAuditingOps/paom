@@ -446,8 +446,7 @@ class SATDownloadService(models.AbstractModel):
         ctx.sign(signature_node)
 
         NSMAP = {
-            "s": "http://schemas.xmlsoap.org/soap/envelope/",
-            "des": "http://DescargaMasivaTerceros.sat.gob.mx"
+            "s": "http://schemas.xmlsoap.org/soap/envelope/"
         }
 
         envelope = etree.Element(
@@ -461,7 +460,8 @@ class SATDownloadService(models.AbstractModel):
 
         activity = etree.SubElement(
             header,
-            "{http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics}ActivityId",
+            "ActivityId",
+            nsmap={None: "http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics"},
             CorrelationId=activity_id
         )
         activity.text = activity_id
@@ -470,7 +470,8 @@ class SATDownloadService(models.AbstractModel):
 
         solicita_descarga = etree.SubElement(
             body,
-            etree.QName(NSMAP["des"], "SolicitaDescarga")
+            "SolicitaDescarga",
+            nsmap={None: "http://DescargaMasivaTerceros.sat.gob.mx"}
         )
 
         solicita_descarga.append(solicitud)
