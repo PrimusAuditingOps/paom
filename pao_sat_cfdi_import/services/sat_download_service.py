@@ -14,6 +14,8 @@ import uuid
 import pytz
 import requests
 import datetime
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
 from lxml import etree
 from zeep import Client
 from zeep.transports import Transport
