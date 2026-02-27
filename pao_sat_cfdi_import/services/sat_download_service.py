@@ -659,13 +659,14 @@ class SATDownloadService(models.AbstractModel):
                 "sat": "http://DescargaMasivaTerceros.sat.gob.mx"
             }
 
-            result = root.xpath(
+            root = etree.fromstring(response)
+
+            node = root.xpath(
                 "//sat:VerificaSolicitudDescargaResult",
                 namespaces=ns
-            )
+            )[0]
 
-            if result:
-                node = result[0]
+            if node:
 
                 estado_solicitud = node.get("EstadoSolicitud")
                 cod_estatus_solicitud = node.get("CodigoEstadoSolicitud")
@@ -674,7 +675,8 @@ class SATDownloadService(models.AbstractModel):
                 numero_cfdi = node.get("NumeroCFDIs")
 
                 paquetes = node.xpath(
-                    ".//*[local-name()='IdsPaquetes']/text()"
+                    ".//sat:IdsPaquetes/text()",
+                    namespaces=ns
                 )
 
                 return {
