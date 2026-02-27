@@ -516,11 +516,13 @@ class SATDownloadService(models.AbstractModel):
         token = auth_result["token"]
 
 
+        NS_SAT = "http://DescargaMasivaTerceros.sat.gob.mx"
         solicitud = etree.Element(
-            "solicitud",
+            etree.QName(NS_SAT, "solicitud"),
             IdSolicitud=request_id,
             RfcSolicitante=requester_vat
         )
+
         signature_node = xmlsec.template.create(
             solicitud,
             xmlsec.Transform.C14N,      
@@ -615,10 +617,9 @@ class SATDownloadService(models.AbstractModel):
 
         solicita_descarga = etree.SubElement(
             body,
-            "VerificaSolicitudDescarga",
-            #nsmap={None: NS_SAT}
+            etree.QName(NS_SAT, "VerificaSolicitudDescarga")
         )
-
+        
         solicita_descarga.append(solicitud)
 
         xml_request = etree.tostring(
