@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <form string="SAT CFDI Request">
                <header>
-                    <button name="download_package"  class="btn-primary" string="Test" type="object"/>
+                    <button name="download_package" invisible="request_id" class="btn-primary" string="Test" type="object"/>
                      <!--<button name="search_audit"  string="Search Audit" type="object" invisible="search_state == 'found'"/>
                     <button name="unlink_audit"  string="Unlink Audit" type="object" invisible="search_state == 'not_found'"/>
                     <field name="search_state" widget="statusbar"/>-->

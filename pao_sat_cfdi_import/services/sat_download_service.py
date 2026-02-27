@@ -14,20 +14,23 @@ import uuid
 import pytz
 import requests
 import datetime
+import xmlsec
+import tempfile
+import subprocess
+import xml.etreeElementTree. as ET
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from lxml import etree
 from zeep import Client
 from zeep.transports import Transport
 from requests import Session
-import xmlsec
-import tempfile
-import subprocess
 from OpenSSL import crypto
 from logging import getLogger
 from datetime import datetime, timedelta, timezone
 from odoo import models
 from odoo.exceptions import UserError
+
+
 
 
 _logger = getLogger(__name__)
@@ -471,10 +474,30 @@ class SATDownloadService(models.AbstractModel):
         data = response
         if response.status_code != 200:
             raise UserError(f"Error SAT {response.status_code}: {response.text}")
+        else:
+            root = ET.fromstring(xml_response)
+            ns = {
+                's': 'http://schemas.xmlsoap.org/soap/envelope/',
+                'sat': 'http://DescargaMasivaTerceros.sat.gob.mx'
+            }
+
+            result = root.find('.//sat:SolicitaDescargaRecibidosResult', ns)
+
+            if result is not None:
+                id_solicitud = result.attrib.get('IdSolicitud')
+                rfc_solicitante = result.attrib.get('RfcSolicitante')
+                cod_estatus = result.attrib.get('CodEstatus')
+                mensaje = result.attrib.get('Mensaje')
+
+                return {
+                    "id_solicitud":id_solicitud,
+                    "rfc_solicitante":rfc_solicitante,
+                    "cod_estatus":cod_estatus,
+                    "mensaje": mensaje
+                }
 
         _logger.error(response.status_code)
         _logger.error(response.text)
-        return response
     
 
     def request_download2(self, certificate, start_date, end_date):

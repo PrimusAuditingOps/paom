@@ -57,7 +57,6 @@ class SATCFDIRequest(models.Model):
         today = requested_tz.fromutc(datetime.utcnow())
         today = today.date()
         data = self.env["pao.l10n_mx_edi.fiel"].search([('date_end', '>=', today),('company_id', '=', self.env.company.id)], limit=1)
-        _logger.error(data)
         if data:
             service = self.env["pao.sat.service"]
             response = service.request_download(
@@ -65,7 +64,16 @@ class SATCFDIRequest(models.Model):
                 self.start_date,
                 self.end_date
             )
-            raise ValidationError(response)
+            if response:
+                self.write(
+                    {
+                        "request_id": response["id_solicitud"],
+                        "verification_state_code": response["cod_estatus"],
+                        "message": response["mensaje"],
+                        "requester_vat": response["rfc_solicitante"]
+                    }
+                )
+
 
 
 
