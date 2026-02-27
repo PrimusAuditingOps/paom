@@ -578,17 +578,17 @@ class SATDownloadService(models.AbstractModel):
         )
 
         NSMAP = {
-            "s": "http://schemas.xmlsoap.org/soap/envelope/",
+            "soapenv": "http://schemas.xmlsoap.org/soap/envelope/",
             "des": "http://DescargaMasivaTerceros.sat.gob.mx",
             "xd": "http://www.w3.org/2000/09/xmldsig#"
         }
 
         envelope = etree.Element(
-            etree.QName(NSMAP["s"], "Envelope"),
+            etree.QName(NSMAP["soapenv"], "Envelope"),
             nsmap=NSMAP
         )
 
-        header = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Header"))
+        header = etree.SubElement(envelope, etree.QName(NSMAP["soapenv"], "Header"))
 
         #activity_id = str(uuid.uuid4())
 
@@ -604,7 +604,7 @@ class SATDownloadService(models.AbstractModel):
 
         body = etree.SubElement(
             envelope,
-            etree.QName(NSMAP["s"], "Body"),
+            etree.QName(NSMAP["soapenv"], "Body"),
             #nsmap={
             #    "xsi": "http://www.w3.org/2001/XMLSchema-instance",
             #    "xsd": "http://www.w3.org/2001/XMLSchema"
@@ -636,17 +636,22 @@ class SATDownloadService(models.AbstractModel):
         _logger.error(xml_request.decode())
         
         
-        #response = requests.post(
-        #    "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
-        #    data=xml_request,
-        #    headers={
-        #        "Content-Type": "text/xml; charset=utf-8",
-        #        "Authorization": f'WRAP access_token="{token}"',
-        #        "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescargaRecibidos"'
-        #    }
-        #)
+        response = requests.post(
+            "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc",
+            data=xml_request,
+            headers={
+                "Content-Type": "text/xml; charset=utf-8",
+                "Authorization": f'WRAP access_token="{token}"',
+                "SOAPAction": '"http://descargamasivaterceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga"'
+            }
+        )
 
-        #response = requests.post(url, data=xml_request, headers=headers)
+        if response.status_code != 200:
+            raise UserError(f"Error SAT {response.status_code}: {response.text}")
+        else:
+            _logger.error(response.status_code)
+            _logger.error(response.text)
+            _logger.error(response)
 
         
     
