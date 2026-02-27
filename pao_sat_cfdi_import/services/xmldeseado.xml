@@ -6,11 +6,11 @@ Authorization: WRAP access_token="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3
 Content-Length: 4641 
 Host: cfdidescargamasivasolicitud.clouda.sat.gob.mx 
  
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
    xmlns:des="http://DescargaMasivaTerceros.sat.gob.mx"
    xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
-   <soapenv:Header/>
-   <soapenv:Body>
+   <s:Header/>
+   <s:Body>
       <des:VerificaSolicitudDescarga>
          <des:solicitud IdSolicitud="4E80345D-917F-40BB-A98F4A73939343C5" RfcSolicitante="AXT940727FP8">
             <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
@@ -38,5 +38,5 @@ Host: cfdidescargamasivasolicitud.clouda.sat.gob.mx
             </Signature>
          </des:solicitud>
       </des:VerificaSolicitudDescarga>
-   </soapenv:Body>
-</soapenv:Envelope> 
+    </s:Body>
+</s:Envelope> 

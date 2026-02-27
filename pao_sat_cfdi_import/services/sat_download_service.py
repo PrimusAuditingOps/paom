@@ -578,17 +578,17 @@ class SATDownloadService(models.AbstractModel):
         )
 
         NSMAP = {
-            "soapenv": "http://schemas.xmlsoap.org/soap/envelope/",
+            "s": "http://schemas.xmlsoap.org/soap/envelope/",
             "des": "http://DescargaMasivaTerceros.sat.gob.mx",
             "xd": "http://www.w3.org/2000/09/xmldsig#"
         }
 
         envelope = etree.Element(
-            etree.QName(NSMAP["soapenv"], "Envelope"),
+            etree.QName(NSMAP["s"], "Envelope"),
             nsmap=NSMAP
         )
 
-        header = etree.SubElement(envelope, etree.QName(NSMAP["soapenv"], "Header"))
+        header = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Header"))
 
         #activity_id = str(uuid.uuid4())
 
@@ -604,7 +604,7 @@ class SATDownloadService(models.AbstractModel):
 
         body = etree.SubElement(
             envelope,
-            etree.QName(NSMAP["soapenv"], "Body"),
+            etree.QName(NSMAP["s"], "Body"),
             #nsmap={
             #    "xsi": "http://www.w3.org/2001/XMLSchema-instance",
             #    "xsd": "http://www.w3.org/2001/XMLSchema"
