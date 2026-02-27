@@ -581,8 +581,7 @@ class SATDownloadService(models.AbstractModel):
 
         NSMAP = {
             "s": "http://schemas.xmlsoap.org/soap/envelope/",
-            "des": "http://DescargaMasivaTerceros.sat.gob.mx",
-            "xd": "http://www.w3.org/2000/09/xmldsig#"
+            "des": "http://DescargaMasivaTerceros.sat.gob.mx"
         }
 
         envelope = etree.Element(
