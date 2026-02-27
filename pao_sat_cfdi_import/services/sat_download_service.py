@@ -674,8 +674,7 @@ class SATDownloadService(models.AbstractModel):
                 numero_cfdi = node.get("NumeroCFDIs")
 
                 paquetes = node.xpath(
-                    ".//sat:IdsPaquetes/text()",
-                    namespaces=ns
+                    ".//*[local-name()='IdsPaquetes']/text()"
                 )
 
                 return {
