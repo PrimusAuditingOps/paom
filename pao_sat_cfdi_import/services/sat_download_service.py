@@ -680,8 +680,8 @@ class SATDownloadService(models.AbstractModel):
                 
                 return {
                     "estado_solicitud":estado_solicitud,
-                    "cod_estatus_solicitud":rfc_solicitante,
-                    "codigo_estatus":cod_estatus,
+                    "cod_estatus_solicitud":cod_estatus_solicitud,
+                    "codigo_estatus":codigo_estatus,
                     "mensaje": mensaje,
                     "numero_cfdi": numero_cfdi,
                     "paquetes": paquetes

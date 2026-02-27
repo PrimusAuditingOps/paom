@@ -99,7 +99,7 @@ class SATCFDIRequest(models.Model):
                     if not cfdi_package:
                         self.env["pao.sat.cfdi.packages"].create(
                             {
-                                "name": package,
+                                "name": str(package),
                                 "sat_cfdi_request_id": self.id
                             }
                         )
