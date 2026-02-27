@@ -653,7 +653,6 @@ class SATDownloadService(models.AbstractModel):
             _logger.error(response.text)
             _logger.error(response)
 
-            root = etree.fromstring(response)
             ns = {
                 "s": "http://schemas.xmlsoap.org/soap/envelope/",
                 "sat": "http://DescargaMasivaTerceros.sat.gob.mx"
@@ -674,14 +673,13 @@ class SATDownloadService(models.AbstractModel):
                 mensaje = node.get("Mensaje")
                 numero_cfdi = node.get("NumeroCFDIs")
 
-                paquetes = [] 
+                paquetes = []
                 """
                 = node.xpath(
                     ".//sat:IdsPaquetes/text()",
                     namespaces=ns
-                )   
+                )
                 """
-
                 return {
                     "estado_solicitud":id_solicitud,
                     "cod_estatus_solicitud":rfc_solicitante,
