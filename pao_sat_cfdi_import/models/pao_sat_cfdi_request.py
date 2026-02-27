@@ -94,15 +94,15 @@ class SATCFDIRequest(models.Model):
                 self.requester_vat
             )
             if response:
-                #for package in response["paquetes"]:
-                #    cfdi_package = self.self.env["pao.sat.cfdi.packages"].search([("name","=",package),("sat_cfdi_request_id","=",self.id)])
-                #    if not cfdi_package:
-                #        self.env["pao.sat.cfdi.packages"].create(
-                #            {
-                #                "name": package,
-                #                "sat_cfdi_request_id": self.id
-                #            }
-                #        )
+                for package in response["paquetes"]:
+                    cfdi_package = self.self.env["pao.sat.cfdi.packages"].search([("name","=",package),("sat_cfdi_request_id","=",self.id)])
+                    if not cfdi_package:
+                        self.env["pao.sat.cfdi.packages"].create(
+                            {
+                                "name": package,
+                                "sat_cfdi_request_id": self.id
+                            }
+                        )
                 self.write(
                     {
                         "verification_state": response["estado_solicitud"],
