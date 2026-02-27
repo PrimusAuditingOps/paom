@@ -619,7 +619,7 @@ class SATDownloadService(models.AbstractModel):
             body,
             etree.QName(NS_SAT, "VerificaSolicitudDescarga")
         )
-        
+
         solicita_descarga.append(solicitud)
 
         xml_request = etree.tostring(
@@ -643,7 +643,7 @@ class SATDownloadService(models.AbstractModel):
             headers={
                 "Content-Type": "text/xml; charset=utf-8",
                 "Authorization": f'WRAP access_token="{token}"',
-                "SOAPAction": '"http://descargamasivaterceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga"'
+                "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga"'
             }
         )
 
