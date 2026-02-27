@@ -74,7 +74,20 @@ class SATCFDIRequest(models.Model):
                     }
                 )
 
-
+    def request_status(self):
+        self.ensure_one()
+        requested_tz = pytz.timezone('America/Mexico_City')
+        today = requested_tz.fromutc(datetime.utcnow())
+        today = today.date()
+        data = self.env["pao.l10n_mx_edi.fiel"].search([('date_end', '>=', today),('company_id', '=', self.env.company.id)], limit=1)
+        if data:
+            service = self.env["pao.sat.service"]
+            service.request_status(
+                data,
+                self.request_id,
+                self.requester_vat
+            )
+            
 
 
     

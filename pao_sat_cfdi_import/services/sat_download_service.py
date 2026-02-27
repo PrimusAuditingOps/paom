@@ -503,6 +503,151 @@ class SATDownloadService(models.AbstractModel):
                     "mensaje": mensaje
                 }
 
+
+    def request_status(self, certificate, request_id, requester_vat):
+        data = ""
+        url = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc"
+
+        auth_result = self._auth(certificate)
+
+        if not auth_result["success"]:
+            raise UserError("No fue posible autenticarse con el SAT")
+
+        token = auth_result["token"]
+
+
+        solicitud = etree.Element(
+            "solicitud",
+            IdSolicitud=request_id,
+            RfcSolicitante=requester_vat
+        )
+        signature_node = xmlsec.template.create(
+            solicitud,
+            xmlsec.Transform.C14N,      
+            xmlsec.Transform.RSA_SHA1
+        )
+        solicitud.insert(0, signature_node)
+
+        ref = xmlsec.template.add_reference(
+            signature_node,
+            xmlsec.Transform.SHA1,
+            uri=""
+        )
+
+        cer_bytes = base64.b64decode(certificate.content)
+
+        cert = x509.load_der_x509_certificate(cer_bytes, default_backend())
+
+        issuer_name = cert.issuer.rfc4514_string()
+        serial_number = str(cert.serial_number)
+
+
+        xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
+
+        key_info = xmlsec.template.ensure_key_info(signature_node)
+        x509_data = xmlsec.template.add_x509_data(key_info)
+
+        issuer_serial = xmlsec.template.x509_data_add_issuer_serial(x509_data)
+
+        issuer_name_node = xmlsec.template.x509_issuer_serial_add_issuer_name(issuer_serial)
+        issuer_name_node.text = issuer_name
+
+        serial_node = xmlsec.template.x509_issuer_serial_add_serial_number(issuer_serial)
+        serial_node.text = serial_number
+
+        xmlsec.template.x509_data_add_certificate(x509_data)
+
+        xmlsec.tree.add_ids(solicitud, ["Id"])
+
+        cer_path, key_path = self._prepare_key_and_cert(certificate)
+
+        key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
+        key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
+
+        ctx = xmlsec.SignatureContext()
+        ctx.key = key
+
+        ctx.sign(signature_node)
+
+        c14n_method = signature_node.find(
+            ".//{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod"
+        )
+        c14n_method.set(
+            "Algorithm",
+            "http://www.w3.org/TR/2001/REC-xml-c14n20010315"
+        )
+
+        NSMAP = {
+            "s": "http://schemas.xmlsoap.org/soap/envelope/",
+            "xmlns:des": "http://DescargaMasivaTerceros.sat.gob.mx",
+            "xmlns:xd": "http://www.w3.org/2000/09/xmldsig#"
+        }
+
+        envelope = etree.Element(
+            etree.QName(NSMAP["s"], "Envelope"),
+            nsmap=NSMAP
+        )
+
+        header = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Header"))
+
+        #activity_id = str(uuid.uuid4())
+
+        #activity = etree.SubElement(
+        #    header,
+        #    "ActivityId",
+        #    nsmap={None: "http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics"},
+        #    CorrelationId=activity_id
+        #)
+        #activity.text = activity_id
+
+       
+
+        body = etree.SubElement(
+            envelope,
+            etree.QName(NSMAP["s"], "Body"),
+            #nsmap={
+            #    "xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            #    "xsd": "http://www.w3.org/2001/XMLSchema"
+            #}
+        )
+
+        NS_SAT = "http://DescargaMasivaTerceros.sat.gob.mx"
+
+        solicita_descarga = etree.SubElement(
+            body,
+            "VerificaSolicitudDescarga",
+            #nsmap={None: NS_SAT}
+        )
+
+        solicita_descarga.append(solicitud)
+
+        xml_request = etree.tostring(
+            envelope,
+            encoding="utf-8",
+            xml_declaration=True
+        )
+        token = token.replace("\n", "").replace("\r", "").strip()
+        headers = {
+            "Content-Type": "application/soap+xml; charset=utf-8",
+            "Authorization": f'WRAP access_token="{token}"'
+        }
+
+        _logger.error("===== XML QUE ESTÁS GENERANDO =====")
+        _logger.error(xml_request.decode())
+        
+        
+        #response = requests.post(
+        #    "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
+        #    data=xml_request,
+        #    headers={
+        #        "Content-Type": "text/xml; charset=utf-8",
+        #        "Authorization": f'WRAP access_token="{token}"',
+        #        "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescargaRecibidos"'
+        #    }
+        #)
+
+        #response = requests.post(url, data=xml_request, headers=headers)
+
         
     
 
