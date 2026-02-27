@@ -673,7 +673,7 @@ class SATDownloadService(models.AbstractModel):
                 mensaje = node.get("Mensaje")
                 numero_cfdi = node.get("NumeroCFDIs")
 
-                paquetes = result_node.xpath(
+                paquetes = node.xpath(
                     ".//sat:IdsPaquetes/text()",
                     namespaces=ns
                 )
