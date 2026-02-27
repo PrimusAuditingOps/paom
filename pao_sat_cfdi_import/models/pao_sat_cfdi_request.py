@@ -51,6 +51,12 @@ class SATCFDIRequest(models.Model):
         string="Total CFDI",
     )
 
+    packages_ids= fields.One2many(
+        'pao.sat.cfdi.packages',
+        inverse_name='sat_cfdi_request_id',
+        string='Packages'
+    )
+
     def download_package(self):
         self.ensure_one()
         requested_tz = pytz.timezone('America/Mexico_City')
@@ -82,12 +88,29 @@ class SATCFDIRequest(models.Model):
         data = self.env["pao.l10n_mx_edi.fiel"].search([('date_end', '>=', today),('company_id', '=', self.env.company.id)], limit=1)
         if data:
             service = self.env["pao.sat.service"]
-            service.request_status(
+            response = service.request_status(
                 data,
                 self.request_id,
                 self.requester_vat
             )
-            
+            if response:
+                for package in response["paquetes"]:
+                    cfdi_package = self.self.env["pao.sat.cfdi.packages"].search([("name","=",package),("sat_cfdi_request_id","=",self.id)])
+                    if not cfdi_package:
+                        self.env["pao.sat.cfdi.packages"].create(
+                            {
+                                "name": package,
+                                "sat_cfdi_request_id": self.id
+                            }
+                        )
+                self.write(
+                    {
+                        "verification_state": response["estado_solicitud"],
+                        "verification_state_code": response["codigo_estatus"],
+                        "message": response["mensaje"],
+                        "total_cfdi": response["numero_cfdi"]
+                    }
+                )
 
 
     

@@ -653,6 +653,40 @@ class SATDownloadService(models.AbstractModel):
             _logger.error(response.text)
             _logger.error(response)
 
+            root = etree.fromstring(response)
+            ns = {
+                "s": "http://schemas.xmlsoap.org/soap/envelope/",
+                "sat": "http://DescargaMasivaTerceros.sat.gob.mx"
+            }
+
+            result = root.xpath(
+                "//sat:VerificaSolicitudDescargaResult",
+                namespaces=ns
+            )
+
+            if result:
+                node = result[0]
+
+                estado_solicitud = node.get("EstadoSolicitud")
+                cod_estatus_solicitud = node.get("CodigoEstadoSolicitud")
+                codigo_estatus = node.get("CodEstatus")
+                mensaje = node.get("Mensaje")
+                numero_cfdi = node.get("NumeroCFDIs")
+
+                paquetes = result_node.xpath(
+                    ".//sat:IdsPaquetes/text()",
+                    namespaces=ns
+                )
+
+                return {
+                    "estado_solicitud":id_solicitud,
+                    "cod_estatus_solicitud":rfc_solicitante,
+                    "codigo_estatus":cod_estatus,
+                    "mensaje": mensaje,
+                    "numero_cfdi": numero_cfdi,
+                    "paquetes": paquetes
+                }
+
         
     
 
