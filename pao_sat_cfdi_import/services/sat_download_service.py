@@ -329,18 +329,12 @@ class SATDownloadService(models.AbstractModel):
 
         solicitud = etree.Element(
             "solicitud",
-            Complemento="",
-            EstadoComprobante="1",
+            EstadoComprobante="Vigente",
             FechaInicial=fecha_inicio_str,
             FechaFinal=fecha_fin_str,
-            Folio="",
-            RfcACuentaTerceros="",
-            RfcEmisor=certificate.vat,
-            RfcSolicitante=certificate.vat,
-            TipoComprobante="I",
-            TipoSolicitud="CFDI"
+            TipoSolicitud="CFDI",
+            RfcReceptor=certificate.vat
         )
-
         signature_node = xmlsec.template.create(
             solicitud,
             xmlsec.Transform.C14N,      
@@ -433,7 +427,7 @@ class SATDownloadService(models.AbstractModel):
 
         solicita_descarga = etree.SubElement(
             body,
-            "SolicitaDescarga",
+            "SolicitaDescargaRecibidos",
             nsmap={None: NS_SAT}
         )
 
@@ -459,7 +453,7 @@ class SATDownloadService(models.AbstractModel):
             headers={
                 "Content-Type": "text/xml; charset=utf-8",
                 "Authorization": f'WRAP access_token="{token}"',
-                "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"'
+                "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescargaRecibidos"'
             }
         )
 
