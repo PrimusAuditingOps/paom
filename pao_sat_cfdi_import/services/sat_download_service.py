@@ -436,7 +436,9 @@ class SATDownloadService(models.AbstractModel):
         solicita_descarga.append(solicitud)
 
         xml_request = etree.tostring(
-            envelope
+            envelope,
+            encoding="utf-8",
+            xml_declaration=True
         )
         token = token.replace("\n", "").replace("\r", "").strip()
         headers = {
@@ -449,7 +451,7 @@ class SATDownloadService(models.AbstractModel):
         
         response = requests.post(
             "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
-            data=etree.tostring(xml_request),
+            data=xml_request,
             headers={
                 "Content-Type": "text/xml; charset=utf-8",
                 "Authorization": f'WRAP access_token="{token}"',
