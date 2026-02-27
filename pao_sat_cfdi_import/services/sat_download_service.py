@@ -17,7 +17,6 @@ import datetime
 import xmlsec
 import tempfile
 import subprocess
-import xml.etreeElementTree as ET
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from lxml import etree
@@ -475,19 +474,27 @@ class SATDownloadService(models.AbstractModel):
         if response.status_code != 200:
             raise UserError(f"Error SAT {response.status_code}: {response.text}")
         else:
-            root = ET.fromstring(xml_response)
+            _logger.error(response.status_code)
+            _logger.error(response.text)
+            _logger.error(response)
+            root = etree.fromstring(response)
             ns = {
-                's': 'http://schemas.xmlsoap.org/soap/envelope/',
-                'sat': 'http://DescargaMasivaTerceros.sat.gob.mx'
+                "s": "http://schemas.xmlsoap.org/soap/envelope/",
+                "sat": "http://DescargaMasivaTerceros.sat.gob.mx"
             }
 
-            result = root.find('.//sat:SolicitaDescargaRecibidosResult', ns)
+            result = root.xpath(
+                "//sat:SolicitaDescargaRecibidosResult",
+                namespaces=ns
+            )
 
-            if result is not None:
-                id_solicitud = result.attrib.get('IdSolicitud')
-                rfc_solicitante = result.attrib.get('RfcSolicitante')
-                cod_estatus = result.attrib.get('CodEstatus')
-                mensaje = result.attrib.get('Mensaje')
+            if result:
+                node = result[0]
+
+                id_solicitud = node.get("IdSolicitud")
+                rfc_solicitante = node.get("RfcSolicitante")
+                cod_estatus = node.get("CodEstatus")
+                mensaje = node.get("Mensaje")
 
                 return {
                     "id_solicitud":id_solicitud,
@@ -496,8 +503,7 @@ class SATDownloadService(models.AbstractModel):
                     "mensaje": mensaje
                 }
 
-        _logger.error(response.status_code)
-        _logger.error(response.text)
+        
     
 
   
