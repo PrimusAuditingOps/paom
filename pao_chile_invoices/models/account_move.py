@@ -80,11 +80,12 @@ class AccountMoveInherit(models.Model):
             
     def remove_fee_lines_action(self):
         for move in self:
-            fee_lines = move.invoice_line_ids.filtered(
-                lambda line: line.name and line.name.startswith('FEE ')
-            )
-            if fee_lines:
-                fee_lines.unlink()
+            if move.state == 'draft':
+                fee_lines = move.invoice_line_ids.filtered(
+                    lambda line: line.name and line.name.startswith('FEE ')
+                )
+                if fee_lines:
+                    fee_lines.unlink()
             
 class AccountMoveLineInherit(models.Model):
 
