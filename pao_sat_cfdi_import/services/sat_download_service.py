@@ -337,7 +337,7 @@ class SATDownloadService(models.AbstractModel):
             RfcACuentaTerceros="",
             RfcEmisor=certificate.vat,
             RfcSolicitante=certificate.vat,
-            TipoComprobante="I"
+            TipoComprobante="I",
             TipoSolicitud="CFDI"
         )
 
