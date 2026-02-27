@@ -95,7 +95,7 @@ class SATCFDIRequest(models.Model):
             )
             if response:
                 for package in response["paquetes"]:
-                    cfdi_package = self.self.env["pao.sat.cfdi.packages"].search([("name","=",str(package)),("sat_cfdi_request_id","=",self.id)])
+                    cfdi_package = self.env["pao.sat.cfdi.packages"].search([("name","=",str(package)),("sat_cfdi_request_id","=",self.id)])
                     if not cfdi_package:
                         self.env["pao.sat.cfdi.packages"].create(
                             {
