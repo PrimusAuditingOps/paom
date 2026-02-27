@@ -329,11 +329,15 @@ class SATDownloadService(models.AbstractModel):
 
         solicitud = etree.Element(
             "solicitud",
-            Id="Solicitud",
-            RfcEmisor=certificate.vat,
-            RfcSolicitante=certificate.vat,
+            Complemento="",
+            EstadoComprobante="1",
             FechaInicial=fecha_inicio_str,
             FechaFinal=fecha_fin_str,
+            Folio="",
+            RfcACuentaTerceros="",
+            RfcEmisor=certificate.vat,
+            RfcSolicitante=certificate.vat,
+            TipoComprobante="I"
             TipoSolicitud="CFDI"
         )
 
@@ -347,7 +351,7 @@ class SATDownloadService(models.AbstractModel):
         ref = xmlsec.template.add_reference(
             signature_node,
             xmlsec.Transform.SHA1,
-            uri="#Solicitud"
+            uri=""
         )
 
         cer_bytes = base64.b64decode(certificate.content)
