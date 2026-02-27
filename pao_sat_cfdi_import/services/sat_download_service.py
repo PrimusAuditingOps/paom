@@ -17,7 +17,7 @@ import datetime
 import xmlsec
 import tempfile
 import subprocess
-import xml.etreeElementTree. as ET
+import xml.etreeElementTree as ET
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from lxml import etree
@@ -500,82 +500,4 @@ class SATDownloadService(models.AbstractModel):
         _logger.error(response.text)
     
 
-    def request_download2(self, certificate, start_date, end_date):
-        data = ""
-        auth_result = self._auth(certificate)
-        fecha_inicio_dt = datetime.combine(start_date, datetime.min.time())
-        fecha_fin_dt = datetime.combine(end_date, datetime.max.time().replace(microsecond=0))
-
-        fecha_inicio_str = fecha_inicio_dt.strftime('%Y-%m-%dT%H:%M:%S')
-        fecha_fin_str = fecha_fin_dt.strftime('%Y-%m-%dT%H:%M:%S')
-        
-        if auth_result["success"]:
-            token = auth_result["token"]
-
-
-            NSMAP = {
-                's': 'http://schemas.xmlsoap.org/soap/envelope/',
-                'des': 'http://DescargaMasivaTerceros.sat.gob.mx'
-            }
-
-            envelope = etree.Element(
-                '{http://schemas.xmlsoap.org/soap/envelope/}Envelope',
-                nsmap=NSMAP
-            )
-
-            body = etree.SubElement(
-                envelope,
-                '{http://schemas.xmlsoap.org/soap/envelope/}Body'
-            )
-
-            solicita = etree.SubElement(
-                body,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}SolicitaDescarga'
-            )
-
-            solicitud = etree.SubElement(
-                solicita,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}solicitud'
-            )
-
-            etree.SubElement(
-                solicitud,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}RfcSolicitante'
-            ).text = certificate.vat
-
-            etree.SubElement(
-                solicitud,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}FechaInicial'
-            ).text = fecha_inicio_str
-
-            etree.SubElement(
-                solicitud,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}FechaFinal'
-            ).text = fecha_fin_str
-
-            etree.SubElement(
-                solicitud,
-                '{http://DescargaMasivaTerceros.sat.gob.mx}TipoSolicitud'
-            ).text = "CFDI"
-
-
-            xml_bytes = etree.tostring(envelope, encoding="utf-8", xml_declaration=True)
-
-            response = requests.post(
-                "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
-                data=xml_bytes,
-                headers = {
-                    "Content-Type": "text/xml; charset=utf-8",
-                    "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"',
-                    "Authorization": f'WRAP access_token="{token}"'
-                }
-            )
-            _logger.error(xml_bytes)
-            _logger.error(f'WRAP access_token="{token}"')
-            _logger.error(response.status_code)
-            _logger.error(response.text)
-            data = response
-        
-        return data
-
-
+  
