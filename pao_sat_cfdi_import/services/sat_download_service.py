@@ -687,7 +687,168 @@ class SATDownloadService(models.AbstractModel):
                     "paquetes": paquetes
                 }
 
-        
-    
+    def download_package(self, certificate, package_id, requester_vat):
+     
+        auth_result = self._auth(certificate)
 
+        if not auth_result["success"]:
+            raise UserError("No fue posible autenticarse con el SAT")
+
+        token = auth_result["token"]
+
+
+        NS_SAT = "http://DescargaMasivaTerceros.sat.gob.mx"
+        solicitud = etree.Element(
+            etree.QName(NS_SAT, "peticionDescarga"),
+            IdPaquete=package_id,
+            RfcSolicitante=requester_vat
+        )
+
+        signature_node = xmlsec.template.create(
+            solicitud,
+            xmlsec.Transform.C14N,      
+            xmlsec.Transform.RSA_SHA1
+        )
+        solicitud.insert(0, signature_node)
+
+        ref = xmlsec.template.add_reference(
+            signature_node,
+            xmlsec.Transform.SHA1,
+            uri=""
+        )
+
+        cer_bytes = base64.b64decode(certificate.content)
+
+        cert = x509.load_der_x509_certificate(cer_bytes, default_backend())
+
+        issuer_name = cert.issuer.rfc4514_string()
+        serial_number = str(cert.serial_number)
+
+
+        xmlsec.template.add_transform(ref, xmlsec.Transform.ENVELOPED)
+
+        key_info = xmlsec.template.ensure_key_info(signature_node)
+        x509_data = xmlsec.template.add_x509_data(key_info)
+
+        issuer_serial = xmlsec.template.x509_data_add_issuer_serial(x509_data)
+
+        issuer_name_node = xmlsec.template.x509_issuer_serial_add_issuer_name(issuer_serial)
+        issuer_name_node.text = issuer_name
+
+        serial_node = xmlsec.template.x509_issuer_serial_add_serial_number(issuer_serial)
+        serial_node.text = serial_number
+
+        xmlsec.template.x509_data_add_certificate(x509_data)
+
+        xmlsec.tree.add_ids(solicitud, ["Id"])
+
+        cer_path, key_path = self._prepare_key_and_cert(certificate)
+
+        key = xmlsec.Key.from_file(key_path, xmlsec.KeyFormat.PEM)
+        key.load_cert_from_file(cer_path, xmlsec.KeyFormat.PEM)
+
+        ctx = xmlsec.SignatureContext()
+        ctx.key = key
+
+        ctx.sign(signature_node)
+
+        c14n_method = signature_node.find(
+            ".//{http://www.w3.org/2000/09/xmldsig#}CanonicalizationMethod"
+        )
+        c14n_method.set(
+            "Algorithm",
+            "http://www.w3.org/TR/2001/REC-xml-c14n20010315"
+        )
+
+        NSMAP = {
+            "s": "http://schemas.xmlsoap.org/soap/envelope/",
+            "des": "http://DescargaMasivaTerceros.sat.gob.mx"
+        }
+
+        envelope = etree.Element(
+            etree.QName(NSMAP["s"], "Envelope"),
+            nsmap=NSMAP
+        )
+
+        header = etree.SubElement(envelope, etree.QName(NSMAP["s"], "Header"))
+
+        body = etree.SubElement(
+            envelope,
+            etree.QName(NSMAP["s"], "Body"),
+        )
+
+        NS_SAT = "http://DescargaMasivaTerceros.sat.gob.mx"
+
+        solicita_descarga = etree.SubElement(
+            body,
+            etree.QName(NS_SAT, "PeticionDescargaMasivaTercerosEntrada")
+        )
+
+        solicita_descarga.append(solicitud)
+
+        xml_request = etree.tostring(
+            envelope,
+            encoding="utf-8",
+            xml_declaration=True
+        )
+        token = token.replace("\n", "").replace("\r", "").strip()
+        
+
+        _logger.error("===== XML QUE ESTÁS GENERANDO =====")
+        _logger.error(xml_request.decode())
+        
+        """
+
+        response = requests.post(
+            "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc",
+            data=xml_request,
+            headers={
+                "Content-Type": "text/xml; charset=utf-8",
+                "Authorization": f'WRAP access_token="{token}"',
+                "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga"'
+            }
+        )
+
+        if response.status_code != 200:
+            raise UserError(f"Error SAT {response.status_code}: {response.text}")
+        else:
+            _logger.error(response.status_code)
+            _logger.error(response.text)
+            _logger.error(response)
+
+            ns = {
+                "s": "http://schemas.xmlsoap.org/soap/envelope/",
+                "sat": "http://DescargaMasivaTerceros.sat.gob.mx"
+            }
+
+            root = etree.fromstring(response.text)
+
+            node = root.xpath(
+                "//sat:VerificaSolicitudDescargaResult",
+                namespaces=ns
+            )[0]
+
+            if node:
+
+                estado_solicitud = node.get("EstadoSolicitud")
+                cod_estatus_solicitud = node.get("CodigoEstadoSolicitud")
+                codigo_estatus = node.get("CodEstatus")
+                mensaje = node.get("Mensaje")
+                numero_cfdi = node.get("NumeroCFDIs")
+
+                paquetes = node.xpath(
+                    ".//sat:IdsPaquetes/text()",
+                    namespaces=ns
+                )
+                
+                return {
+                    "estado_solicitud":estado_solicitud,
+                    "cod_estatus_solicitud":cod_estatus_solicitud,
+                    "codigo_estatus":codigo_estatus,
+                    "mensaje": mensaje,
+                    "numero_cfdi": numero_cfdi,
+                    "paquetes": paquetes
+                }  
+    
+        """
   
