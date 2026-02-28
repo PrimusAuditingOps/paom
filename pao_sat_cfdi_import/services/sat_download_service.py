@@ -827,6 +827,7 @@ class SATDownloadService(models.AbstractModel):
                 namespaces=ns
             )
             if paquete:
+                _logger.error(paquete)
                 paquete_b64 = paquete[0]
                 return paquete_b64
            
