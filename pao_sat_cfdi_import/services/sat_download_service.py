@@ -797,15 +797,15 @@ class SATDownloadService(models.AbstractModel):
         _logger.error("===== XML QUE ESTÁS GENERANDO =====")
         _logger.error(xml_request.decode())
         
-        """
+        
 
         response = requests.post(
-            "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc",
+            "https://cfdidescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc",
             data=xml_request,
             headers={
                 "Content-Type": "text/xml; charset=utf-8",
                 "Authorization": f'WRAP access_token="{token}"',
-                "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga"'
+                "SOAPAction": '"http://DescargaMasivaTerceros.sat.gob.mx/IDescargaMasivaTercerosService/Descargar"'
             }
         )
 
@@ -816,39 +816,5 @@ class SATDownloadService(models.AbstractModel):
             _logger.error(response.text)
             _logger.error(response)
 
-            ns = {
-                "s": "http://schemas.xmlsoap.org/soap/envelope/",
-                "sat": "http://DescargaMasivaTerceros.sat.gob.mx"
-            }
-
-            root = etree.fromstring(response.text)
-
-            node = root.xpath(
-                "//sat:VerificaSolicitudDescargaResult",
-                namespaces=ns
-            )[0]
-
-            if node:
-
-                estado_solicitud = node.get("EstadoSolicitud")
-                cod_estatus_solicitud = node.get("CodigoEstadoSolicitud")
-                codigo_estatus = node.get("CodEstatus")
-                mensaje = node.get("Mensaje")
-                numero_cfdi = node.get("NumeroCFDIs")
-
-                paquetes = node.xpath(
-                    ".//sat:IdsPaquetes/text()",
-                    namespaces=ns
-                )
-                
-                return {
-                    "estado_solicitud":estado_solicitud,
-                    "cod_estatus_solicitud":cod_estatus_solicitud,
-                    "codigo_estatus":codigo_estatus,
-                    "mensaje": mensaje,
-                    "numero_cfdi": numero_cfdi,
-                    "paquetes": paquetes
-                }  
-    
-        """
+           
   
