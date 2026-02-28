@@ -815,6 +815,19 @@ class SATDownloadService(models.AbstractModel):
             _logger.error(response.status_code)
             _logger.error(response.text)
             _logger.error(response)
+            root = etree.fromstring(response.text)  # response debe ser bytes o string
 
+            ns = {
+                's': 'http://schemas.xmlsoap.org/soap/envelope/',
+                'sat': 'http://DescargaMasivaTerceros.sat.gob.mx'
+            }
+
+            paquete = root.xpath(
+                './/sat:Paquete/text()',
+                namespaces=ns
+            )
+            if paquete:
+                paquete_b64 = paquete[0]
+                return paquete_b64
            
   

@@ -126,3 +126,5 @@ class SATCFDIRequest(models.Model):
                     package.name,
                     self.requester_vat
                 )
+                if response:
+                    package.write({"zip_file":response,"zip_file_name":package.name+".zip"})
