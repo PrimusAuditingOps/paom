@@ -255,8 +255,17 @@ class SATCFDIRequest(models.Model):
 
                     if cfdi_date:
                         date = datetime.strptime(cfdi_date, "%Y-%m-%dT%H:%M:%S")
-
+                    
                     xml_text = xml_bytes.lstrip(b'\xef\xbb\xbf').decode('utf-8')
+                    parser = etree.XMLParser(remove_blank_text=True)
+                    root = etree.fromstring(xml_bytes, parser)
+
+                    xml_text = etree.tostring(
+                        root,
+                        pretty_print=True,
+                        encoding='unicode'
+                    )
+                    
                     self.env['pao.sat.cfdi.xml'].create(
                         {
                             'name': name,
