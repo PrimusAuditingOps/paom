@@ -75,9 +75,24 @@ class PAOSatCFDIXml(models.Model):
             if not rec.xml_file:
                 continue
 
-            xml_bytes = base64.b64decode(rec.xml_file)
+            try:
+                # Intentar decodificar base64
+                xml_bytes = base64.b64decode(rec.xml_file)
 
-            xml_bytes = xml_bytes.lstrip(b'\xef\xbb\xbf')
+                # Quitar BOM si existiera
+                xml_bytes = xml_bytes.lstrip(b'\xef\xbb\xbf')
 
-            rec.xml_text = xml_bytes.decode('utf-8')
+                # Intentar parsear para validar que sea XML real
+                parser = etree.XMLParser(recover=True)
+                root = etree.fromstring(xml_bytes, parser)
 
+                # Mostrar formateado bonito
+                rec.xml_text = etree.tostring(
+                    root,
+                    pretty_print=True,
+                    encoding='unicode'
+                )
+
+            except Exception as e:
+                # No romper el formulario
+                rec.xml_text = f"⚠ Archivo no válido o corrupto:\n{str(e)}"
