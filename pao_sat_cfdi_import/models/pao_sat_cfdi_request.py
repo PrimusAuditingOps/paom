@@ -132,7 +132,7 @@ class SATCFDIRequest(models.Model):
     
 
     def read_file(self):
-        for rec in self.packages_ids.
+        for rec in self.packages_ids:
             if rec.zip_file:
                 zip_bytes = base64.b64decode(rec.zip_file)
                 file_zip = zipfile.ZipFile(io.BytesIO(zip_bytes))
