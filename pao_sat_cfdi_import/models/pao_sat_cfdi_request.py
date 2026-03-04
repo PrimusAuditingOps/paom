@@ -255,6 +255,8 @@ class SATCFDIRequest(models.Model):
 
                     if cfdi_date:
                         date = datetime.strptime(cfdi_date, "%Y-%m-%dT%H:%M:%S")
+
+                    xml_text = xml_bytes.lstrip(b'\xef\xbb\xbf').decode('utf-8')
                     self.env['pao.sat.cfdi.xml'].create(
                         {
                             'name': name,
@@ -267,6 +269,7 @@ class SATCFDIRequest(models.Model):
                             'total': float(total) if total else 0.0,
                             'subtotal': float(subtotal) if subtotal else 0.0,
                             'currency': currency,
+                            'xml_text': xml_text,
                             'type_of_receipt': type_of_receipt,
                             'xml_files': base64.b64encode(xml_bytes),
                             'file_name': name + '.xml',

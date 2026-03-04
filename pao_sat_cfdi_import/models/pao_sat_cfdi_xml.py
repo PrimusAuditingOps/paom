@@ -48,7 +48,7 @@ class PAOSatCFDIXml(models.Model):
     currency = fields.Char(string="Currency")
     type_of_receipt = fields.Char(string="type of receipt")
 
-    xml_files = fields.Binary(string="XML",attachment=False)
+    xml_files = fields.Binary(string="XML")
     file_name = fields.Char(string="File Name")
 
     state = fields.Selection([
@@ -64,46 +64,4 @@ class PAOSatCFDIXml(models.Model):
 
     xml_text = fields.Text(
         string="XML Content",
-        compute="_compute_xml_text"
     )
-
-    @api.depends('xml_files')
-    def _compute_xml_text(self):
-        for rec in self:
-            rec.xml_text = False
-
-            if not rec.xml_files:
-                continue
-
-            try:
-                data = rec.xml_files
-
-                _logger.error(type(rec.xml_files))
-                _logger.error(rec.xml_files[:20])
-                if isinstance(data, str):
-                    xml_bytes = base64.b64decode(data)
-
-                elif isinstance(data, bytes):
-
-                    try:
-                        xml_bytes = base64.b64decode(data)
-                    except Exception:
-                        xml_bytes = data
-
-                else:
-                    rec.xml_text = "Tipo de dato inesperado"
-                    continue
-
-                xml_bytes = xml_bytes.lstrip(b'\xef\xbb\xbf')
-
-                parser = etree.XMLParser(recover=True)
-                root = etree.fromstring(xml_bytes, parser)
-
-                rec.xml_text = etree.tostring(
-                    root,
-                    pretty_print=True,
-                    encoding='unicode'
-                )
-
-            except Exception as e:
-                rec.xml_text = f"⚠ Archivo no válido o corrupto:\n{str(e)}"
