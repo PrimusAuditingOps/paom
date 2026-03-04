@@ -1,4 +1,5 @@
 import base64
+from lxml import etree
 from odoo import models, fields, api
 
 
@@ -67,12 +68,32 @@ class PAOSatCFDIXml(models.Model):
     @api.depends('xml_file')
     def _compute_xml_text(self):
         for rec in self:
-            if rec.xml_file:
-                try:
-                    xml_bytes = base64.b64decode(rec.xml_file)
-                    rec.xml_text = xml_bytes.decode('utf-8')
-                except Exception:
-                    rec.xml_text = "Error al decodificar XML"
-            else:
-                rec.xml_text = False
+            rec.xml_text = False
+
+            if not rec.xml_file:
+                continue
+
+            try:
+                data = rec.xml_file
+
+                if isinstance(data, str):
+                    data = base64.b64decode(data)
+
+                elif isinstance(data, bytes):
+                    try:
+                        data = base64.b64decode(data)
+                    except Exception:
+                        pass  
+
+                parser = etree.XMLParser(remove_blank_text=True)
+                root = etree.fromstring(data, parser)
+
+                rec.xml_text = etree.tostring(
+                    root,
+                    pretty_print=True,
+                    encoding='unicode'
+                )
+
+            except Exception as e:
+                rec.xml_text = f"Error procesando XML:\n{str(e)}"
 
