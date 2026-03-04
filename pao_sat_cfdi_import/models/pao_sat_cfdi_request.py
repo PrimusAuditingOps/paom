@@ -220,7 +220,7 @@ class SATCFDIRequest(models.Model):
                         description = concept.get('Descripcion')
                         unit_value = concept.get('ValorUnitario')
                         amount = concept.get('Importe')
-                        clave_prod_serv = concept.get('ClaveProdServ')
+                        prod_serv_key = concept.get('ClaveProdServ')
                         unity_key = concept.get('ClaveUnidad')
                         unity = concept.get('Unidad')
                         tax_object = concept.get('ObjetoImp')
