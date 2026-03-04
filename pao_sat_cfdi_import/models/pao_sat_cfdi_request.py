@@ -4,7 +4,11 @@ from datetime import datetime, timedelta
 from odoo import models, fields, api
 from logging import getLogger
 from odoo.exceptions import ValidationError
-
+import base64
+import zipfile
+import io
+from lxml import etree
+from odoo.exceptions import UserError
 _logger = getLogger(__name__)
 
 class SATCFDIRequest(models.Model):
