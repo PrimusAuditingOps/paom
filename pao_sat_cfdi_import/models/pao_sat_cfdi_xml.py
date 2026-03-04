@@ -1,7 +1,9 @@
 import base64
 from lxml import etree
 from odoo import models, fields, api
+from logging import getLogger
 
+_logger = getLogger(__name__)
 
 
 class PAOSatCfdiXmlLine(models.Model):
@@ -76,23 +78,23 @@ class PAOSatCFDIXml(models.Model):
             try:
                 data = rec.xml_file
 
+                _logger.error("TIPO:", type(data))
+
                 if isinstance(data, str):
+                    _logger.error("Es string base64")
                     data = base64.b64decode(data)
 
                 elif isinstance(data, bytes):
+                    _logger.error("Es bytes, intento base64 decode")
                     try:
                         data = base64.b64decode(data)
                     except Exception:
-                        pass  
+                        _logger.error("No era base64, ya eran bytes reales")
 
-                parser = etree.XMLParser(remove_blank_text=True)
-                root = etree.fromstring(data, parser)
+                _logger.error("Primeros 100 caracteres:")
+                _logger.error(data[:100])
 
-                rec.xml_text = etree.tostring(
-                    root,
-                    pretty_print=True,
-                    encoding='unicode'
-                )
+                rec.xml_text = data.decode('utf-8')
 
             except Exception as e:
                 rec.xml_text = f"Error procesando XML:\n{str(e)}"
