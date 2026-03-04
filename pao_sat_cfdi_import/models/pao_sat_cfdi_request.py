@@ -154,6 +154,9 @@ class SATCFDIRequest(models.Model):
                     xml_bytes = file_zip.read(file_name)
                     root = etree.fromstring(xml_bytes)
 
+                    _logger.error("Leyendo:", file_name)
+                    _logger.error("Primeros bytes reales:", xml_bytes[:50])
+
                     name = root.xpath(
                         'string(.//tfd:TimbreFiscalDigital/@UUID)',
                         namespaces=ns
