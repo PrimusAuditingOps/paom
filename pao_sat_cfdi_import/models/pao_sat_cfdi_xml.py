@@ -78,24 +78,19 @@ class PAOSatCFDIXml(models.Model):
             try:
                 data = rec.xml_file
 
-                _logger.error("TIPO:", type(data))
-
                 if isinstance(data, str):
-                    _logger.error("Es string base64")
-                    data = base64.b64decode(data)
+                    xml_bytes = base64.b64decode(data)
 
                 elif isinstance(data, bytes):
-                    _logger.error("Es bytes, intento base64 decode")
                     try:
-                        data = base64.b64decode(data)
+                        xml_bytes = base64.b64decode(data)
                     except Exception:
-                        _logger.error("No era base64, ya eran bytes reales")
+                        xml_bytes = data
 
-                _logger.error("Primeros 100 caracteres:")
-                _logger.error(data[:100])
+                xml_bytes = xml_bytes.lstrip(b'\xef\xbb\xbf')
 
-                rec.xml_text = data.decode('utf-8')
+                rec.xml_text = xml_bytes.decode('utf-8')
 
             except Exception as e:
-                rec.xml_text = f"Error procesando XML:\n{str(e)}"
+                rec.xml_text = f"Error leyendo XML:\n{str(e)}"
 
