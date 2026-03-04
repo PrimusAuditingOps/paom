@@ -11,7 +11,7 @@
                     <button name="request_download_package" invisible="request_id" class="btn-primary" string="Request Download" type="object"/>
                     <button name="request_status" invisible="not request_id" class="btn-primary" string="Get Status" type="object"/> 
                     <button name="download_package" invisible="not packages_ids" class="btn-primary" string="Request Download" type="object"/>
-
+                    <button name="read_file" invisible="not packages_ids" class="btn-primary" string="Generate XML" type="object"/>
                     <!--<button name="search_audit"  string="Search Audit" type="object" invisible="search_state == 'found'"/>
                     <button name="unlink_audit"  string="Unlink Audit" type="object" invisible="search_state == 'not_found'"/>
                     <field name="search_state" widget="statusbar"/>-->

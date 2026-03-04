@@ -129,3 +129,139 @@ class SATCFDIRequest(models.Model):
                 
                 if response:
                     package.write({"zip_file":response,"zip_file_name":package.name+".zip"})
+    
+
+    def read_file(self):
+        for rec in self.packages_ids.
+            if rec.zip_file:
+                zip_bytes = base64.b64decode(rec.zip_file)
+                file_zip = zipfile.ZipFile(io.BytesIO(zip_bytes))
+
+                ns = {
+                    'cfdi': 'http://www.sat.gob.mx/cfd/4',
+                    'tfd': 'http://www.sat.gob.mx/TimbreFiscalDigital'
+                }
+
+                for file_name in file_zip.namelist():
+
+                    if not file_name.lower().endswith('.xml'):
+                        continue
+
+                    xml_bytes = file_zip.read(file_name)
+                    root = etree.fromstring(xml_bytes)
+
+                    name = root.xpath(
+                        'string(.//tfd:TimbreFiscalDigital/@UUID)',
+                        namespaces=ns
+                    )
+
+                    if self.env['pao.sat.cfdi.xml'].search([('name', '=', name)]):
+                        continue
+
+                    vendor_vat = root.xpath(
+                        'string(.//cfdi:Emisor/@Rfc)',
+                        namespaces=ns
+                    )
+
+                    vendor_name = root.xpath(
+                        'string(.//cfdi:Emisor/@Nombre)',
+                        namespaces=ns
+                    )
+
+                    customer_vat = root.xpath(
+                        'string(.//cfdi:Receptor/@Rfc)',
+                        namespaces=ns
+                    )
+
+                    customer_name = root.xpath(
+                        'string(.//cfdi:Receptor/@Nombre)',
+                        namespaces=ns
+                    )
+
+                    cfdi_date = root.xpath(
+                        'string(/cfdi:Comprobante/@Fecha)',
+                        namespaces=ns
+                    )
+
+                    total = root.xpath(
+                        'string(/cfdi:Comprobante/@Total)',
+                        namespaces=ns
+                    )
+
+                    subtotal = root.xpath(
+                        'string(/cfdi:Comprobante/@SubTotal)',
+                        namespaces=ns
+                    )
+
+                    currency = root.xpath(
+                        'string(/cfdi:Comprobante/@Moneda)',
+                        namespaces=ns
+                    )
+
+                    type_of_receipt = root.xpath(
+                        'string(/cfdi:Comprobante/@TipoDeComprobante)',
+                        namespaces=ns
+                    )
+
+                    concepts = root.xpath(
+                        './/cfdi:Conceptos/cfdi:Concepto',
+                        namespaces=ns
+                    )
+
+                    lines = []
+
+                    for concept in concepts:
+
+                        quantity = concept.get('Cantidad')
+                        description = concept.get('Descripcion')
+                        unit_value = concept.get('ValorUnitario')
+                        amount = concept.get('Importe')
+                        clave_prod_serv = concept.get('ClaveProdServ')
+                        unity_key = concept.get('ClaveUnidad')
+                        unity = concept.get('Unidad')
+                        tax_object = concept.get('ObjetoImp')
+
+                        output_tax = concept.xpath(
+                            './/cfdi:Traslado/@Importe',
+                            namespaces=ns
+                        )
+
+                        withholding_tax = concept.xpath(
+                            './/cfdi:Retencion/@Importe',
+                            namespaces=ns
+                        )
+
+                        lines.append((0, 0, {
+                            'prod_serv_key': prod_serv_key,
+                            'description': description,
+                            'quantity': float(quantity) if quantity else 0.0,
+                            'unit_value': float(unit_value) if unit_value else 0.0,
+                            'amount': float(amount) if amount else 0.0,
+                            'unity_key': unity_key,
+                            'unity': unity,
+                            'tax_object': tax_object,
+                            'output_tax': float(output_tax[0]) if output_tax else 0.0,
+                            'withholding_tax': float(withholding_tax[0]) if withholding_tax else 0.0,
+                        }))
+
+                    self.env['pao.sat.cfdi.xml'].create(
+                        {
+                            'name': name,
+                            'vendor_vat': vendor_vat,
+                            'vendor_name': vendor_name,
+                            'customer_vat': customer_vat,
+                            'customer_name': customer_name,
+                            'pao_line_ids': lines,
+                            'cfdi_date': cfdi_date,
+                            'total': float(total) if total else 0.0,
+                            'subtotal': float(subtotal) if subtotal else 0.0,
+                            'currency': currency,
+                            'type_of_receipt': type_of_receipt,
+                            'xml_file': base64.b64encode(xml_bytes),
+                            'file_name': name + '.xml',
+                        }
+                    )
+
+
+
+

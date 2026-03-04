@@ -358,13 +358,13 @@ class PaoAzzPlatformAudits(models.Model):
                                     
                         if not sol_id and first_sol_id:
                             sol_id = first_sol_id
-                        if not sol_id:
-                            for line in rec_sale_ol:
-                                if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
-                                    if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
-                                        rec.search_state = "needs_validation"
-                                        sol_id = line.id                        
-                                        break
+                        #if not sol_id:
+                        #    for line in rec_sale_ol:
+                        #        if line.product_id.can_be_commissionable and not line.product_id.is_travel_expenses:
+                        #            if len(line.pao_platform_audit_ids.ids) != line.product_uom_qty and line.product_uom_qty > 0:
+                        #                rec.search_state = "needs_validation"
+                        #                sol_id = line.id                        
+                        #                break
                 if sol_id:
                     rec.sale_order_line_id = sol_id
                     rec.sale_order_line_id.write({"pao_platform_audit_ids": [(4,rec.id)]})
@@ -482,6 +482,9 @@ class PaoAzzPlatformAudits(models.Model):
                 abs(len(r.name or '') - len(registration_number))
             )
         )
+        if not records:
+            records = self.env["servicereferralagreement.registrynumber"].search([("name","=",registration_number)])
+        
         return records 
 
     def _search_organization(self, organization):

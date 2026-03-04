@@ -17,6 +17,7 @@
         'views/sat_cfdi_request.xml',
         'views/pao_l10n_mx_edi_fiel_certificate_view.xml',
         'views/res_company.xml',
+        'views/pao_sat_cfdi_xml.xml',
         #'data/ir_cron.xml',
     ],
     'assets': {
