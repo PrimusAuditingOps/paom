@@ -247,7 +247,11 @@ class SATCFDIRequest(models.Model):
                             'output_tax': float(output_tax[0]) if output_tax else 0.0,
                             'withholding_tax': float(withholding_tax[0]) if withholding_tax else 0.0,
                         }))
+                    
+                    date = False
 
+                    if cfdi_date:
+                        date = datetime.strptime(cfdi_date, "%Y-%m-%dT%H:%M:%S")
                     self.env['pao.sat.cfdi.xml'].create(
                         {
                             'name': name,
@@ -256,7 +260,7 @@ class SATCFDIRequest(models.Model):
                             'customer_vat': customer_vat,
                             'customer_name': customer_name,
                             'pao_line_ids': lines,
-                            'cfdi_date': cfdi_date,
+                            'cfdi_date': date,
                             'total': float(total) if total else 0.0,
                             'subtotal': float(subtotal) if subtotal else 0.0,
                             'currency': currency,
