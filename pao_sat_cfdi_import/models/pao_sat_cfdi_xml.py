@@ -1,4 +1,5 @@
-from odoo import models, fields
+import base64
+from odoo import models, fields, api
 
 
 
@@ -21,6 +22,7 @@ class PAOSatCfdiXmlLine(models.Model):
     tax_object = fields.Char(string="Tax Object")
     output_tax = fields.Float(string="Output Tax")
     withholding_tax = fields.Float(string="Withholding Tax")
+
 
 class PAOSatCFDIXml(models.Model):
     _name = 'pao.sat.cfdi.xml'
@@ -56,4 +58,21 @@ class PAOSatCFDIXml(models.Model):
         'cfdi_id',
         string="CFDI Lines"
     )
+
+    xml_text = fields.Text(
+        string="XML Content",
+        compute="_compute_xml_text"
+    )
+
+    @api.depends('xml_file')
+    def _compute_xml_text(self):
+        for rec in self:
+            if rec.xml_file:
+                try:
+                    xml_bytes = base64.b64decode(rec.xml_file)
+                    rec.xml_text = xml_bytes.decode('utf-8')
+                except Exception:
+                    rec.xml_text = "Error al decodificar XML"
+            else:
+                rec.xml_text = False
 

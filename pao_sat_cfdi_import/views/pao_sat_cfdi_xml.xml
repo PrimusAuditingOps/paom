@@ -40,10 +40,7 @@
                             <field name="type_of_receipt"/>
                         </group>
                         <group>
-                            <field name="file_name"/>
-                        </group>
-                        <group>
-                            <field name="xml_file"/>
+                            <field name="xml_file" readonly="1"/>
                         </group>
                         
                     </group>
@@ -63,6 +60,14 @@
                                     <field name="withholding_tax"/>
                                 </tree>
                             </field>
+                        </page>
+                    </notebook>
+                    <notebook>
+                        <page string="XML">
+                            <group>
+                                <field name="xml_text" widget="text" nolabel="1" attrs="{'readonly': True}" style="font-family: monospace; height: 400px;"/>
+                            </group>
+                            
                         </page>
                     </notebook>
                 </sheet>
