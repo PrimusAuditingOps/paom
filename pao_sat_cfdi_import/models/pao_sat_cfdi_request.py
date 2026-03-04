@@ -268,7 +268,7 @@ class SATCFDIRequest(models.Model):
                             'subtotal': float(subtotal) if subtotal else 0.0,
                             'currency': currency,
                             'type_of_receipt': type_of_receipt,
-                            'xml_file': base64.b64encode(xml_bytes),
+                            'xml_files': base64.b64encode(xml_bytes),
                             'file_name': name + '.xml',
                         }
                     )

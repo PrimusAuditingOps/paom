@@ -48,7 +48,7 @@ class PAOSatCFDIXml(models.Model):
     currency = fields.Char(string="Currency")
     type_of_receipt = fields.Char(string="type of receipt")
 
-    xml_file = fields.Binary(string="XML")
+    xml_files = fields.Binary(string="XML",attachment=False)
     file_name = fields.Char(string="File Name")
 
     state = fields.Selection([
@@ -67,19 +67,19 @@ class PAOSatCFDIXml(models.Model):
         compute="_compute_xml_text"
     )
 
-    @api.depends('xml_file')
+    @api.depends('xml_files')
     def _compute_xml_text(self):
         for rec in self:
             rec.xml_text = False
 
-            if not rec.xml_file:
+            if not rec.xml_files:
                 continue
 
             try:
-                data = rec.xml_file
+                data = rec.xml_files
 
-                _logger.error(type(rec.xml_file))
-                _logger.error(rec.xml_file[:20])
+                _logger.error(type(rec.xml_files))
+                _logger.error(rec.xml_files[:20])
                 if isinstance(data, str):
                     xml_bytes = base64.b64decode(data)
 
