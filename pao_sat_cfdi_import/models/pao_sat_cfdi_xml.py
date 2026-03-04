@@ -75,22 +75,9 @@ class PAOSatCFDIXml(models.Model):
             if not rec.xml_file:
                 continue
 
-            try:
-                data = rec.xml_file
+            xml_bytes = base64.b64decode(rec.xml_file)
 
-                if isinstance(data, str):
-                    xml_bytes = base64.b64decode(data)
+            xml_bytes = xml_bytes.lstrip(b'\xef\xbb\xbf')
 
-                elif isinstance(data, bytes):
-                    try:
-                        xml_bytes = base64.b64decode(data)
-                    except Exception:
-                        xml_bytes = data
-
-                xml_bytes = xml_bytes.lstrip(b'\xef\xbb\xbf')
-
-                rec.xml_text = xml_bytes.decode('utf-8')
-
-            except Exception as e:
-                rec.xml_text = f"Error leyendo XML:\n{str(e)}"
+            rec.xml_text = xml_bytes.decode('utf-8')
 
