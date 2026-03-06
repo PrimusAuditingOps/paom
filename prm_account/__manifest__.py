@@ -22,6 +22,10 @@
     'data': [
         'security/ir.model.access.csv',
         'views/account_move.xml',
-    ]
+    ],
+    'installable': True,
+    'application' : False,
+    'auto_install' : False,
+    'license': 'LGPL-3',
 }
 

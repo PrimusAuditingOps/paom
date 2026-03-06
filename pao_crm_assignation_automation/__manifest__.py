@@ -10,5 +10,8 @@
         'views/create_assingation_ticket_form.xml',
         'security/ir.model.access.csv'
     ],
-    'application': 'False'
+    'installable': True,
+    'application' : False,
+    'auto_install' : False,
+    'license': 'LGPL-3',
 }

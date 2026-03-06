@@ -9,5 +9,8 @@
         'views/res_partner_inherit.xml',
         'views/portal_sa_view.xml',
     ],
-    'application': 'False'
+    'installable': True,
+    'application' : False,
+    'auto_install' : False,
+    'license': 'LGPL-3',
 }

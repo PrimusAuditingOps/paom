@@ -8,5 +8,8 @@
     'data': [
         'views/portal_template.xml',
     ],
-    'application': 'False'
+    'installable': True,
+    'application' : False,
+    'auto_install' : False,
+    'license': 'LGPL-3',
 }

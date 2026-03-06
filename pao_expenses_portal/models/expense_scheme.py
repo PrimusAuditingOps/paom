@@ -3,7 +3,7 @@ from odoo.exceptions import ValidationError
 
 class ExpenseScheme(models.Model):
     _name = 'expense.scheme'
-    
+    _description = 'Expense Scheme'
     name = fields.Char(string="Name", required=True)
     internal_reference = fields.Char(string="Internal Reference")
     property_account_expense_id = fields.Many2one('account.account', company_dependent=True, required=True,

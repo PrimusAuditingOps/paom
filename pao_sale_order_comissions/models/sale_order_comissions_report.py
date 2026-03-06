@@ -8,6 +8,7 @@ _logger = getLogger(__name__)
 class SaleOrderCommissionsReport(models.Model):
 
     _name="sale.order.commissions.report"
+    _description = 'Sale Order Commissions Report'
     _auto = False
     _rec_name = 'order'
     _order = 'order desc'
