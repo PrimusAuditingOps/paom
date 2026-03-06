@@ -34,7 +34,7 @@ class AccountMove(models.Model):
                 dateinvoice = rec.invoice_date
 
             if rec.currency_id.name == 'MXN':
-                currencyrate = self._get_rates_currency(dateinvoice)
+                currencyrate = rec._get_rates_currency(dateinvoice)
                 if currencyrate:
                     rec.ad_usd_neto = round((rec.amount_untaxed * currencyrate.get('USD')),2)
             elif rec.currency_id.name == "USD":
@@ -47,7 +47,7 @@ class AccountMove(models.Model):
             if rec.invoice_date:
                 dateinvoice = rec.invoice_date
             if rec.currency_id.name == 'MXN':
-                currencyrate = self._get_rates_currency(dateinvoice)
+                currencyrate = rec._get_rates_currency(dateinvoice)
                 if currencyrate:
                     rec.ad_usd_iva = round((rec.amount_tax * currencyrate.get('USD')),2)
             elif rec.currency_id.name == "USD":
@@ -60,7 +60,7 @@ class AccountMove(models.Model):
             if rec.invoice_date:
                 dateinvoice = rec.invoice_date
             if rec.currency_id.name == 'MXN':
-                currencyrate = self._get_rates_currency(dateinvoice)
+                currencyrate = rec._get_rates_currency(dateinvoice)
                 if currencyrate:
                     rec.ad_usd_total = round((rec.amount_total * currencyrate.get('USD')),2)
             elif rec.currency_id.name == "USD":
@@ -73,7 +73,7 @@ class AccountMove(models.Model):
             if rec.invoice_date:
                 dateinvoice = rec.invoice_date
             if rec.currency_id.name == 'USD':
-                currencyrate = self._get_rates_currency(dateinvoice)
+                currencyrate = rec._get_rates_currency(dateinvoice)
                 if currencyrate:
                     rec.ad_mxn_neto = round((rec.amount_untaxed / currencyrate.get('USD')),2)
             elif rec.currency_id.name == 'MXN':
@@ -86,7 +86,7 @@ class AccountMove(models.Model):
             if rec.invoice_date:
                 dateinvoice = rec.invoice_date
             if rec.currency_id.name == 'USD':
-                currencyrate = self._get_rates_currency(dateinvoice)
+                currencyrate = rec._get_rates_currency(dateinvoice)
                 if currencyrate:
                     rec.ad_mxn_iva = round((rec.amount_tax / currencyrate.get('USD')),2)
             elif rec.currency_id.name == 'MXN':
@@ -99,7 +99,7 @@ class AccountMove(models.Model):
             if rec.invoice_date:
                 dateinvoice = rec.invoice_date
             if rec.currency_id.name == 'USD':
-                currencyrate = self._get_rates_currency(dateinvoice)
+                currencyrate = rec._get_rates_currency(dateinvoice)
                 if currencyrate:
                     rec.ad_mxn_total = round((rec.amount_total / currencyrate.get('USD')),2)
             elif rec.currency_id.name == 'MXN':
