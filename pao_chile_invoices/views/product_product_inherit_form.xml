@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_product_base_currency_view" model="ir.ui.view">
+        <field name="name">pao.product.base.currency.view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="uom_po_id" position="after">
+                <field name="country_code" invisible="1"/>
+                <field name="base_currency_id" invisible="country_code != 'CL'"/>
+            </field>
+        </field>
+    </record>
+</odoo>
