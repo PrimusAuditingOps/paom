@@ -93,12 +93,12 @@ class SATCFDIRequest(models.Model):
     )
 
     def create_request_download(self):
-        self.ensure_one()
         requested_tz = pytz.timezone('America/Mexico_City')
         today = requested_tz.fromutc(datetime.utcnow())
         yesterday = today - timedelta(days=1)
-        
+        _logger.error("Entro")
         record = self.env["pao.sat.cfdi.request"].search([("start_date","=",yesterday),("end_date","=",yesterday),("company_id","=",1)])
+        _logger.error(record)
         if not record:
             rec_id = self.env["pao.sat.cfdi.request"].create(
                 {
