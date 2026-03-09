@@ -248,7 +248,6 @@ class SATDownloadService(models.AbstractModel):
 
         envelope, token_id = self._build_envelope(cert_b64)
         signed_envelope = self._sign(envelope, certificate, token_id)
-        _logger.error(etree.tostring(signed_envelope,encoding="utf-8"))
         response = requests.post(
             "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc",
             data=etree.tostring(signed_envelope),
@@ -257,7 +256,6 @@ class SATDownloadService(models.AbstractModel):
                 "SOAPAction": '"http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica"'
             }
         )
-        _logger.error(response.content)
         
         return self._parse_auth_response(response.content)
 
@@ -421,8 +419,6 @@ class SATDownloadService(models.AbstractModel):
             "Authorization": f'WRAP access_token="{token}"'
         }
 
-        _logger.error("===== XML QUE ESTÁS GENERANDO =====")
-        _logger.error(xml_request.decode())
         
         response = requests.post(
             "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
@@ -437,21 +433,13 @@ class SATDownloadService(models.AbstractModel):
         #response = requests.post(url, data=xml_request, headers=headers)
 
 
-        _logger.error("===== HEADERS ENVIADOS =====")
-        _logger.error(response.request.headers)
-
-        _logger.error("===== BODY ENVIADO =====")
-        _logger.error(response.request.body.decode() if isinstance(response.request.body, bytes) else response.request.body)
-        
+  
 
             
         data = response
         if response.status_code != 200:
             raise UserError(f"Error SAT {response.status_code}: {response.text}")
         else:
-            _logger.error(response.status_code)
-            _logger.error(response.text)
-            _logger.error(response)
             root = etree.fromstring(response.text)
             ns = {
                 "s": "http://schemas.xmlsoap.org/soap/envelope/",
@@ -605,9 +593,6 @@ class SATDownloadService(models.AbstractModel):
             "Content-Type": "application/soap+xml; charset=utf-8",
             "Authorization": f'WRAP access_token="{token}"'
         }
-
-        _logger.error("===== XML QUE ESTÁS GENERANDO =====")
-        _logger.error(xml_request.decode())
         
         
         response = requests.post(
@@ -623,9 +608,7 @@ class SATDownloadService(models.AbstractModel):
         if response.status_code != 200:
             raise UserError(f"Error SAT {response.status_code}: {response.text}")
         else:
-            _logger.error(response.status_code)
-            _logger.error(response.text)
-            _logger.error(response)
+
 
             ns = {
                 "s": "http://schemas.xmlsoap.org/soap/envelope/",
@@ -767,9 +750,6 @@ class SATDownloadService(models.AbstractModel):
         )
         token = token.replace("\n", "").replace("\r", "").strip()
         
-
-        _logger.error("===== XML QUE ESTÁS GENERANDO =====")
-        _logger.error(xml_request.decode())
         
         
 
@@ -786,9 +766,7 @@ class SATDownloadService(models.AbstractModel):
         if response.status_code != 200:
             raise UserError(f"Error SAT {response.status_code}: {response.text}")
         else:
-            _logger.error(response.status_code)
-            _logger.error(response.text)
-            _logger.error(response)
+       
             root = etree.fromstring(response.text)  # response debe ser bytes o string
 
             ns = {
@@ -801,7 +779,6 @@ class SATDownloadService(models.AbstractModel):
                 namespaces=ns
             )
             if paquete:
-                _logger.error(paquete)
                 paquete_b64 = paquete[0]
                 return paquete_b64
            

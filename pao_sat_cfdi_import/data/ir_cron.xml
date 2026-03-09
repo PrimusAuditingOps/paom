@@ -14,6 +14,18 @@
             <field name="doall">True</field>
             <field name="code">model.create_request_download()</field>
         </record>
+        <record id="cron_pao_cfdi_get_status" forcecreate='True' model="ir.cron">
+            <field name="name">SAT CFDI Get Status</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="model_id" ref="pao_sat_cfdi_import.model_pao_sat_cfdi_request"/>
+            <field name="state">code</field>
+            <field name="doall">True</field>
+            <field name="code">model.request_status()</field>
+        </record>
 
     </data>
 </odoo>

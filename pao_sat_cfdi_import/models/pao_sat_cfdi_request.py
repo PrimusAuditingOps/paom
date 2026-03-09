@@ -96,9 +96,7 @@ class SATCFDIRequest(models.Model):
         requested_tz = pytz.timezone('America/Mexico_City')
         today = requested_tz.fromutc(datetime.utcnow())
         yesterday = today - timedelta(days=1)
-        _logger.error("Entro")
         record = self.env["pao.sat.cfdi.request"].search([("start_date","=",yesterday),("end_date","=",yesterday),("company_id","=",1)])
-        _logger.error(record)
         if not record:
             rec_id = self.env["pao.sat.cfdi.request"].create(
                 {
@@ -154,7 +152,6 @@ class SATCFDIRequest(models.Model):
         today = requested_tz.fromutc(datetime.utcnow())
         today = today.date()
 
-        
         records = self.env["pao.sat.cfdi.request"].search(
             [
                 ('request_state_code', '=', "5000"),
@@ -200,8 +197,6 @@ class SATCFDIRequest(models.Model):
                         }
                     )
 
-
-
     def download_package(self):
         self.ensure_one()
         requested_tz = pytz.timezone('America/Mexico_City')
@@ -240,8 +235,6 @@ class SATCFDIRequest(models.Model):
                         xml_bytes = file_zip.read(file_name)
                         root = etree.fromstring(xml_bytes)
 
-                        _logger.error(file_name)
-                        _logger.error(xml_bytes[:50])
 
                         name = root.xpath(
                             'string(.//tfd:TimbreFiscalDigital/@UUID)',
