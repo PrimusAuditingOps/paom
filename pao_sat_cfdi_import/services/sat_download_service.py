@@ -36,16 +36,6 @@ _logger = getLogger(__name__)
 
 class SATDownloadService(models.AbstractModel):
     _name = "pao.sat.service"
-    #AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
-    #REQUEST_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc?wsdl"
-    #CONSULT_WSDL = "https://cfdidescargamasivaconsulta.clouda.sat.gob.mx/ConsultaSolicitudService.svc?wsdl"
-    #DOWNLOAD_WSDL = "https://cfdidescargamasivaconsulta.clouda.sat.gob.mx/DescargaService.svc?wsdl"
-
-    #AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion.svc?wsdl"
-    #AUTH_WSDL = "https://cfdidescargamasiva.sat.gob.mx/Autenticacion.svc?wsdl"
-    AUTH_WSDL = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc?wsdl"
-
-
 
     def _prepare_key_and_cert(self, data):
 
@@ -91,7 +81,6 @@ class SATDownloadService(models.AbstractModel):
 
         return cer_pem_file.name, key_pem_file.name
 
-
     def _create_timestamp(self):
         created = datetime.now(timezone.utc)
         expires = created + timedelta(minutes=5)
@@ -112,9 +101,6 @@ class SATDownloadService(models.AbstractModel):
         )
         """
 
-    # -----------------------------------------------------------------
-    # Ccambios
-    # -----------------------------------------------------------------
     def _build_envelope(self, cert_b64):
 
         created, expires = self._create_timestamp()
@@ -189,9 +175,6 @@ class SATDownloadService(models.AbstractModel):
 
         return envelope, token_id
 
-    # -----------------------------------------------------------------
-    # Firmar usando certificado almacenado en Odoo
-    # -----------------------------------------------------------------
     def _sign(self, envelope, certificate, token_id):
 
         #signature_node = xmlsec.template.create(
@@ -257,9 +240,6 @@ class SATDownloadService(models.AbstractModel):
 
         return envelope
 
-    # -----------------------------------------------------------------
-    # Método públicor aqui
-    # -----------------------------------------------------------------
     def _auth(self,certificate):
 
         cert_b64 = base64.b64encode(
@@ -281,9 +261,6 @@ class SATDownloadService(models.AbstractModel):
         
         return self._parse_auth_response(response.content)
 
-
-
-    
     def _parse_auth_response(self, xml_response):
 
         root = etree.fromstring(xml_response)
@@ -309,8 +286,6 @@ class SATDownloadService(models.AbstractModel):
             "success": True,
             "token": token
         }
-
-
 
     def request_download(self, certificate, start_date, end_date):
         data = ""
@@ -502,7 +477,6 @@ class SATDownloadService(models.AbstractModel):
                     "cod_estatus":cod_estatus,
                     "mensaje": mensaje
                 }
-
 
     def request_status(self, certificate, request_id, requester_vat):
         data = ""

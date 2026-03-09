@@ -65,3 +65,14 @@ class PAOSatCFDIXml(models.Model):
     xml_text = fields.Text(
         string="XML Content",
     )
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, 
+        index=True,
+        default=lambda self: self.env.company
+    )
+    sat_cfdi_request_id = fields.Many2one(
+        'pao.sat.cfdi.request',
+        string='SAT CDFI request',
+        ondelete='cascade'
+    )

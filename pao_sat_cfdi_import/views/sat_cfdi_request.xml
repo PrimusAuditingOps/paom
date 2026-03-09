@@ -8,7 +8,8 @@
         <field name="arch" type="xml">
             <form string="SAT CFDI Request">
                <header>
-                    <button name="request_download_package" invisible="request_id" class="btn-primary" string="Request Download" type="object"/>
+                    <!--<button name="request_download_package" invisible="request_id" class="btn-primary" string="Request Download" type="object"/>
+                    -->
                     <button name="request_status" invisible="not request_id" class="btn-primary" string="Get Status" type="object"/> 
                     <button name="download_package" invisible="not packages_ids" class="btn-primary" string="Request Download" type="object"/>
                     <button name="read_file" invisible="not packages_ids" class="btn-primary" string="Generate XML" type="object"/>
@@ -28,7 +29,7 @@
                             <field name="requester_vat"/>
                         </group>
                         <group>
-                            <field name="verification_state"/>
+                            <field name="request_state_code"/>
                         </group>
                         <group>
                             <field name="start_date"/>
@@ -83,7 +84,7 @@
                 <field name="create_date"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
-                <field name="verification_state"/>
+                <field name="request_state_code"/>
                 <field name="verification_state_code"/>
                 <field name="total_cfdi" />
                 <field name="message"/>
