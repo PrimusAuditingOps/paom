@@ -147,7 +147,6 @@ class SATCFDIRequest(models.Model):
                 )
     """
     def request_status(self):
-        self.ensure_one()
         requested_tz = pytz.timezone('America/Mexico_City')
         today = requested_tz.fromutc(datetime.utcnow())
         today = today.date()
