@@ -462,7 +462,10 @@
                                 const selectedOption = categorySelect.options[categorySelect.selectedIndex];
                                 const selectedText = selectedOption ? selectedOption.text.trim() : '';
 
-                                if (requireReceipt &amp;&amp; selectedText === "Auditor: Per Diem - Meals") {
+                                const isPerDiemMeals = selectedText === "Auditor: Per Diem - Meals";
+                                const isAuditorMeal = selectedText === "Auditor Travel: Meal";
+
+                                if (requireReceipt &amp;&amp; isPerDiemMeals) {
                                     receiptInput.required = false;
                                     totalInput.value = 60;
                                     totalInput.readOnly = true;
@@ -476,10 +479,9 @@
                                     currencySelect.value = '';
                                 }
 
-                                if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
+                                // Override required if either exempt category is selected
+                                if (requireReceipt &amp;&amp; (isPerDiemMeals || isAuditorMeal)) {
                                     receiptInput.required = false;
-                                } else {
-                                    receiptInput.required = true;
                                 }
                             }
                             
@@ -829,7 +831,10 @@
                                 const selectedOption = categorySelect.options[categorySelect.selectedIndex];
                                 const selectedText = selectedOption ? selectedOption.text.trim() : '';
 
-                                if (requireReceipt &amp;&amp; selectedText === "Auditor: Per Diem - Meals") {
+                                const isPerDiemMeals = selectedText === "Auditor: Per Diem - Meals";
+                                const isAuditorMeal = selectedText === "Auditor Travel: Meal";
+
+                                if (requireReceipt &amp;&amp; isPerDiemMeals) {
                                     receiptInput.required = false;
                                     totalInput.value = 60;
                                     totalInput.readOnly = true;
@@ -843,10 +848,9 @@
                                     currencySelect.value = '';
                                 }
 
-                                if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
+                                // Override required if either exempt category is selected
+                                if (requireReceipt &amp;&amp; (isPerDiemMeals || isAuditorMeal)) {
                                     receiptInput.required = false;
-                                } else {
-                                    receiptInput.required = true;
                                 }
                             }
                             
