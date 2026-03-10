@@ -6,7 +6,7 @@
             <t t-set="portal_service_category_enable" t-value="True"/>
         </xpath>
         <div id="portal_service_category" position="inside">
-            <t t-if="len(request.env.user.partner_id.pao_agreements_ids) > 0 and request.env.user.partner_id.ado_is_auditor" t-call="portal.portal_docs_entry">
+            <t t-if="len(request.env.user.partner_id.pao_agreements_ids) > 0 and not request.env.user.partner_id.ado_is_auditor" t-call="portal.portal_docs_entry">
                 <t t-set="icon" t-value="'/purchase/static/src/img/rfq.svg'"/>
                 <t t-set="text">Manage your service agreements</t>
                 <t t-set="title">Service Agreements</t>
