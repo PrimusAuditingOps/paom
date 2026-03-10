@@ -181,7 +181,7 @@ class SATCFDIRequest(models.Model):
                                         {
                                             "name": str(package),
                                             "zip_file":response_download,
-                                            "zip_file_name":package.name+".zip",
+                                            "zip_file_name":package+".zip",
                                             "sat_cfdi_request_id": rec.id
                                         }
                                     )
