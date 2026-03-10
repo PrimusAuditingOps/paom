@@ -34,17 +34,6 @@ class ApplyExchangeRateMoveLinesWizard(models.TransientModel):
         res['undo_action'] = self.env.context.get('undo_action', False)
         return res
 
-    # @api.depends('move_id.invoice_line_ids')
-    # def _compute_available_currencies(self):
-    #     for wizard in self:
-    #         if wizard.move_id:
-    #             currencies = wizard.move_id.invoice_line_ids.mapped(
-    #                 'product_id.base_currency_id'
-    #             ).filtered(lambda c: c)
-    #             wizard.available_currency_ids = currencies
-    #         else:
-    #             wizard.available_currency_ids = False
-    
     @api.depends('move_id.invoice_line_ids', 'move_id.invoice_line_ids.exchange_rate_applied', 'undo_action')
     def _compute_available_lines_currencies(self):
         for wizard in self:

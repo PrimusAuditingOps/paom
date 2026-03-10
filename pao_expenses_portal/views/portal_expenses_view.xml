@@ -452,6 +452,8 @@
 
                         const categorySelect = modal.querySelector('select[name="expense_category"]');
                         const receiptInput = modal.querySelector('input[name="receipt"]');
+                        const totalInput = modal.querySelector('input[name="total"]');
+                        const currencySelect = modal.querySelector('select[name="currency_id"]');
                         
                         if (categorySelect &amp;&amp; receiptInput){
                             const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
@@ -459,6 +461,20 @@
                             function updateReceiptRequired() {
                                 const selectedOption = categorySelect.options[categorySelect.selectedIndex];
                                 const selectedText = selectedOption ? selectedOption.text.trim() : '';
+
+                                if (requireReceipt &amp;&amp; selectedText === "Auditor: Per Diem - Meals") {
+                                    receiptInput.required = false;
+                                    totalInput.value = 60;
+                                    totalInput.readOnly = true;
+                                    currencySelect.style.pointerEvents = 'none';
+                                    currencySelect.value = '2';
+                                } else {
+                                    receiptInput.required = true;
+                                    totalInput.value = "";
+                                    totalInput.readOnly = false;
+                                    currencySelect.style.pointerEvents = '';
+                                    currencySelect.value = '';
+                                }
 
                                 if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
                                     receiptInput.required = false;
@@ -803,6 +819,8 @@
 
                         const categorySelect = modal.querySelector('select[name="expense_category"]');
                         const receiptInput = modal.querySelector('input[name="receipt"]');
+                        const totalInput = modal.querySelector('input[name="total"]');
+                        const currencySelect = modal.querySelector('select[name="currency_id"]');
                         
                         if (categorySelect &amp;&amp; receiptInput){
                             const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
@@ -810,6 +828,20 @@
                             function updateReceiptRequired() {
                                 const selectedOption = categorySelect.options[categorySelect.selectedIndex];
                                 const selectedText = selectedOption ? selectedOption.text.trim() : '';
+
+                                if (requireReceipt &amp;&amp; selectedText === "Auditor: Per Diem - Meals") {
+                                    receiptInput.required = false;
+                                    totalInput.value = 60;
+                                    totalInput.readOnly = true;
+                                    currencySelect.style.pointerEvents = 'none';
+                                    currencySelect.value = '2';
+                                } else {
+                                    receiptInput.required = true;
+                                    totalInput.value = "";
+                                    totalInput.readOnly = false;
+                                    currencySelect.style.pointerEvents = '';
+                                    currencySelect.value = '';
+                                }
 
                                 if (requireReceipt &amp;&amp; selectedText === "Auditor Travel: Meal") {
                                     receiptInput.required = false;
