@@ -92,6 +92,18 @@ class ExpenseInherit(models.Model):
     
     is_complete = fields.Boolean(compute="_compute_is_complete", store=True)
     
+    has_receipts = fields.Boolean(
+        compute='_compute_has_receipts',
+        string='Has Receipts',
+    )
+
+    def _compute_has_receipts(self):
+        for expense in self:
+            expense.has_receipts = self.env['ir.attachment'].sudo().search_count([
+                ('res_model', '=', 'hr.expense'),
+                ('res_id', '=', expense.id),
+            ]) > 0
+    
     @api.depends('name', 'product_id', 'date', 'nb_attachment')
     def _compute_is_complete(self):
         

@@ -289,7 +289,7 @@
                         <td class="text-end">
                             <span t-field="expense.total_amount"/>
                         </td>
-                        <td>
+                        <td t-if="expense.has_receipts">
                             <a t-att-href="'/my/expense/%s/download_receipts' % str(expense.id)" class="btn btn-primary">
                                 <i class="fa fa-download"/>
                             </a>
