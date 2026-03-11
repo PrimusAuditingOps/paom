@@ -457,7 +457,7 @@ class ExpensesPortal(http.Controller):
                 attachment.raw,
                 headers=[
                     ('Content-Type', attachment.mimetype or 'application/octet-stream'),
-                    ('Content-Disposition', f'attachment; filename="{attachment.name}"'),
+                    ('Content-Disposition', f'attachment; filename="{expense.name + "_" + attachment.name}"'),
                 ]
             )
         
@@ -465,14 +465,14 @@ class ExpensesPortal(http.Controller):
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
             for attachment in attachments:
-                zip_file.writestr(attachment.name, attachment.raw)
+                zip_file.writestr({expense.name + "_" + attachment.name}, attachment.raw)
         
         zip_buffer.seek(0)
         return request.make_response(
             zip_buffer.read(),
             headers=[
                 ('Content-Type', 'application/zip'),
-                ('Content-Disposition', f'attachment; filename="receipts_{expense.name}.zip"'),
+                ('Content-Disposition', f'attachment; filename="receipts_{expense.date + "_" +expense.name}.zip"'),
             ]
         )
         
