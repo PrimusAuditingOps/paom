@@ -25,5 +25,8 @@
         'security/ir.model.access.csv',
         'security/rules.xml',
     ],
-    'application': 'False'
+    'installable': True,
+    'application' : False,
+    'auto_install' : False,
+    'license': 'LGPL-3',
 }
