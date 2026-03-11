@@ -506,7 +506,7 @@ class ExpensesPortal(http.Controller):
                 return request.not_found()
 
         # Gather all attachments from all expenses in the sheet
-        expense_ids = sheet.expense_ids.ids
+        expense_ids = sheet.expense_line_ids.ids
         attachments = request.env['ir.attachment'].sudo().search([
             ('res_model', '=', 'hr.expense'),
             ('res_id', 'in', expense_ids),
@@ -530,7 +530,7 @@ class ExpensesPortal(http.Controller):
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
             # Group by expense for cleaner filenames
-            expense_map = {e.id: e for e in sheet.expense_ids.sudo()}
+            expense_map = {e.id: e for e in sheet.expense_line_ids.sudo()}
             for attachment in attachments:
                 expense = expense_map.get(attachment.res_id)
                 expense_label = expense.name if expense else str(attachment.res_id)

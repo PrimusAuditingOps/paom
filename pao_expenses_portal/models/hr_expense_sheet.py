@@ -31,7 +31,7 @@ class ExpenseSheetInherit(models.Model):
         attachment_model = self.env['ir.attachment'].sudo()
         for sheet in self:
             # Get all expense IDs in this sheet
-            expense_ids = sheet.expense_ids.ids
+            expense_ids = sheet.expense_line_ids.ids
             if not expense_ids:
                 sheet.has_receipts = False
                 continue
