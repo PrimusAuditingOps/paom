@@ -522,7 +522,7 @@ class ExpensesPortal(http.Controller):
                 attachment.raw,
                 headers=[
                     ('Content-Type', attachment.mimetype or 'application/octet-stream'),
-                    ('Content-Disposition', f'attachment; filename="{sheet.name}_{expense_name.name}_{attachment.name}"'),
+                    ('Content-Disposition', f'attachment; filename="{sheet.name}_{expense_name}_{attachment.name}"'),
                 ]
             )
 
