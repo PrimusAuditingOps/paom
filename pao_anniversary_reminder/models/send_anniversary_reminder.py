@@ -42,7 +42,9 @@ class SendAnniversaryReminder(models.TransientModel):
                 raw_body = raw_body.replace("%7B", "{")
                 raw_body = raw_body.replace("%7D", "}")
                 
-                rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, not_ready_link = not_ready_link, organization=record.organization, registry_number = record.registry_number)
+                user_signature = self.env.user.signature if self.env.user.signature else ""
+                
+                rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, not_ready_link = not_ready_link, organization=record.organization, registry_number = record.registry_number, user_signature=user_signature)
                 
                 record.subject = record.mail_template_id.with_context(context).subject + ' ' + record.scheme +": " + record.organization
                 record.message = rendered_body
