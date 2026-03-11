@@ -260,6 +260,7 @@
                         <th class="text-end">Subtotal (<span t-esc="currency"></span>)
                         </th>
                         <th t-if="submittable"></th>
+                        <th t-if="submittable"></th>
                     </tr>
                 </thead>
                 <t t-foreach="report.expense_line_ids" t-as="expense">
@@ -287,6 +288,13 @@
                         </td>
                         <td class="text-end">
                             <span t-field="expense.total_amount"/>
+                        </td>
+                        <td t-if="submittable">
+                            <a t-att-href="'/my/expenses/%s/download_receipts' % str(expense.id)"
+                                class="btn btn-primary btn-sm"
+                                t-if="expense.attachment_ids">
+                                <i class="fa fa-download"/> Download Receipts
+                            </a>
                         </td>
                         <td t-if="submittable">
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" t-att-data-bs-target="'#delete_expense_' + str(expense.id)">

@@ -6,6 +6,8 @@ import xlrd
 from datetime import date
 from odoo.addons.portal.controllers.portal import pager
 from collections import OrderedDict
+import zipfile
+import io
 
 
 from odoo.http import request, content_disposition
@@ -417,8 +419,62 @@ class ExpensesPortal(http.Controller):
             referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
             return request.redirect(referer_url)
         
-    
-    
+    @http.route('/my/expense/<int:expense_id>/download_receipts', type='http', auth='user', website=True)
+    def download_expense_receipts(self, expense_id, **kwargs):
+        
+        if not self.is_user_auditor():
+            return request.redirect('/my/home')
+        
+        expense = request.env['hr.expense'].sudo().browse(expense_id)
+        
+        is_external_auditor = self.is_external_auditor()
+        
+        if not expense.exists():
+            return request.not_found()
+
+        # Internal user - validate through employee
+        if not is_external_auditor:
+            if expense.employee_id.user_id != request.env.user:
+                return request.not_found()
+        # External partner - validate through partner_id
+        else:
+            if expense.partner_id != request.env.user.partner_id:
+                return request.not_found()
+        
+        attachments = request.env['ir.attachment'].sudo().search([
+            ('res_model', '=', 'hr.expense'),
+            ('res_id', '=', expense_id),
+        ])
+        
+        if not attachments:
+            return request.not_found()
+        
+        if len(attachments) == 1:
+            # Single file — return directly
+            attachment = attachments[0]
+            return request.make_response(
+                attachment.raw,
+                headers=[
+                    ('Content-Type', attachment.mimetype or 'application/octet-stream'),
+                    ('Content-Disposition', f'attachment; filename="{attachment.name}"'),
+                ]
+            )
+        
+        # Multiple files — zip them
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            for attachment in attachments:
+                zip_file.writestr(attachment.name, attachment.raw)
+        
+        zip_buffer.seek(0)
+        return request.make_response(
+            zip_buffer.read(),
+            headers=[
+                ('Content-Type', 'application/zip'),
+                ('Content-Disposition', f'attachment; filename="receipts_{expense.name}.zip"'),
+            ]
+        )
+        
     
     
     
