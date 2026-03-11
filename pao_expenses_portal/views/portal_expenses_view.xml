@@ -290,10 +290,9 @@
                             <span t-field="expense.total_amount"/>
                         </td>
                         <td t-if="submittable">
-                            <a t-att-href="'/my/expenses/%s/download_receipts' % str(expense.id)"
-                                class="btn btn-primary btn-sm"
-                                t-if="expense.attachment_ids">
-                                <i class="fa fa-download"/> Download Receipts
+                            <a t-att-href="'/my/expense/%s/download_receipts' % str(expense.id)"
+                                class="btn btn-primary"
+                                <i class="fa fa-download"/>
                             </a>
                         </td>
                         <td t-if="submittable">

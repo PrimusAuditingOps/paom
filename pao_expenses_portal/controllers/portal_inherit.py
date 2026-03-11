@@ -423,7 +423,6 @@ class ExpensesPortal(http.Controller):
     def download_expense_receipts(self, expense_id, **kwargs):
         
         if not self.is_user_auditor():
-            _logger.warning("1*******************")
             return request.redirect('/my/home')
         
         expense = request.env['hr.expense'].sudo().browse(expense_id)
@@ -431,18 +430,15 @@ class ExpensesPortal(http.Controller):
         is_external_auditor = self.is_external_auditor()
         
         if not expense.exists():
-            _logger.warning("2*******************")
             return request.not_found()
 
         # Internal user - validate through employee
         if not is_external_auditor:
             if expense.employee_id.user_id != request.env.user:
-                _logger.warning("3*******************")
                 return request.not_found()
         # External partner - validate through partner_id
         else:
             if expense.partner_id != request.env.user.partner_id:
-                _logger.warning("4*******************")
                 return request.not_found()
         
         attachments = request.env['ir.attachment'].sudo().search([
@@ -451,8 +447,8 @@ class ExpensesPortal(http.Controller):
         ])
         
         if not attachments:
-            _logger.warning("5*******************")
-            return request.not_found()
+            request.session['error_expense'] = _("The selected expense has no receipts attached.")
+            return request.redirect('/my/expense_reports/' + str(expense.sheet_id.id))
         
         if len(attachments) == 1:
             # Single file — return directly
