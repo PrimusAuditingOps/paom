@@ -378,6 +378,8 @@ class ExpensesPortal(http.Controller):
             expense.sudo().write({'account_id': expense.sheet_id.expense_scheme_id.property_account_expense_id.id})
         
         for receipt in receipts:
+            if not receipt or not receipt.filename:
+                continue
             attachment_data = {
                 'name': receipt.filename,
                 'type': 'binary',

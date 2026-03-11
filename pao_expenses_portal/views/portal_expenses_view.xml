@@ -84,7 +84,7 @@
                         <td class="text-center" style="cursor:pointer" t-att-onclick="'window.location.href=\'/my/expense_reports/' + str(report.id) +'\''">
                             <span t-field="report.state"/>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <a t-if="report.has_receipts" t-att-href="'/my/expense_reports/%s/download_receipts' % str(report.id)" class="btn btn-primary">
                                 <i class="fa fa-download"/>
                             </a>
