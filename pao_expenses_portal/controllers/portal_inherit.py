@@ -6,6 +6,8 @@ import xlrd
 from datetime import date
 from odoo.addons.portal.controllers.portal import pager
 from collections import OrderedDict
+import zipfile
+import io
 
 
 from odoo.http import request, content_disposition
@@ -376,6 +378,8 @@ class ExpensesPortal(http.Controller):
             expense.sudo().write({'account_id': expense.sheet_id.expense_scheme_id.property_account_expense_id.id})
         
         for receipt in receipts:
+            if not receipt or not receipt.filename:
+                continue
             attachment_data = {
                 'name': receipt.filename,
                 'type': 'binary',
@@ -417,8 +421,132 @@ class ExpensesPortal(http.Controller):
             referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
             return request.redirect(referer_url)
         
-    
-    
+    @http.route('/my/expense/<int:expense_id>/download_receipts', type='http', auth='user', website=True)
+    def download_expense_receipts(self, expense_id, **kwargs):
+        
+        request.session.pop('error_expense', None)
+        
+        if not self.is_user_auditor():
+            return request.redirect('/my/home')
+        
+        expense = request.env['hr.expense'].sudo().browse(expense_id)
+        
+        is_external_auditor = self.is_external_auditor()
+        
+        if not expense.exists():
+            return request.not_found()
+
+        # Internal user - validate through employee
+        if not is_external_auditor:
+            if expense.employee_id.user_id != request.env.user:
+                return request.not_found()
+        # External partner - validate through partner_id
+        else:
+            if expense.partner_id != request.env.user.partner_id:
+                return request.not_found()
+        
+        attachments = request.env['ir.attachment'].sudo().search([
+            ('res_model', '=', 'hr.expense'),
+            ('res_id', '=', expense_id),
+        ])
+        
+        if not attachments:
+            if expense.sheet_id:
+                request.session['error_expense'] = _("The selected expense has no receipts attached.")
+                return request.redirect('/my/expense_reports/' + str(expense.sheet_id.id))
+            else:
+                return request.redirect('/my/expense_reports/')
+        
+        if len(attachments) == 1:
+            # Single file — return directly
+            attachment = attachments[0]
+            return request.make_response(
+                attachment.raw,
+                headers=[
+                    ('Content-Type', attachment.mimetype or 'application/octet-stream'),
+                    ('Content-Disposition', f'attachment; filename="{expense.name + "_" + attachment.name}"'),
+                ]
+            )
+        
+        # Multiple files — zip them
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            for attachment in attachments:
+                zip_file.writestr(expense.name + "_" + attachment.name, attachment.raw)
+        
+        zip_buffer.seek(0)
+        return request.make_response(
+            zip_buffer.read(),
+            headers=[
+                ('Content-Type', 'application/zip'),
+                ('Content-Disposition', f'attachment; filename="receipts_{str(expense.date) + "_" +expense.name}.zip"'),
+            ]
+        )
+        
+    @http.route('/my/expense_reports/<int:sheet_id>/download_receipts', type='http', auth='user', website=True)
+    def download_expense_report_receipts(self, sheet_id, **kwargs):
+        
+        request.session.pop('error_expense', None)
+
+        if not self.is_user_auditor():
+            return request.redirect('/my/home')
+
+        sheet = request.env['hr.expense.sheet'].sudo().browse(sheet_id)
+
+        is_external_auditor = self.is_external_auditor()
+
+        if not sheet.exists():
+            return request.not_found()
+
+        # Internal user - validate through employee
+        if not is_external_auditor:
+            if sheet.employee_id.user_id != request.env.user:
+                return request.not_found()
+        # External partner - validate through partner_id
+        else:
+            if sheet.partner_id != request.env.user.partner_id:
+                return request.not_found()
+
+        # Gather all attachments from all expenses in the sheet
+        expense_ids = sheet.expense_line_ids.ids
+        attachments = request.env['ir.attachment'].sudo().search([
+            ('res_model', '=', 'hr.expense'),
+            ('res_id', 'in', expense_ids),
+        ])
+
+        if not attachments:
+            return request.redirect('/my/expense_reports/')
+
+        if len(attachments) == 1:
+            attachment = attachments[0]
+            expense_name = request.env['hr.expense'].sudo().browse(attachment.res_id).name
+            return request.make_response(
+                attachment.raw,
+                headers=[
+                    ('Content-Type', attachment.mimetype or 'application/octet-stream'),
+                    ('Content-Disposition', f'attachment; filename="{sheet.name}_{expense_name}_{attachment.name}"'),
+                ]
+            )
+
+        # Multiple files — zip them all
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            # Group by expense for cleaner filenames
+            expense_map = {e.id: e for e in sheet.expense_line_ids.sudo()}
+            for attachment in attachments:
+                expense = expense_map.get(attachment.res_id)
+                expense_label = expense.name if expense else str(attachment.res_id)
+                zip_file.writestr(f"{expense_label}_{attachment.name}", attachment.raw)
+
+        zip_buffer.seek(0)
+        return request.make_response(
+            zip_buffer.read(),
+            headers=[
+                ('Content-Type', 'application/zip'),
+                ('Content-Disposition', f'attachment; filename="receipts_{sheet.name}.zip"'),
+            ]
+        )
+        
     
     
     

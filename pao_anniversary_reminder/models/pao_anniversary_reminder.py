@@ -101,7 +101,9 @@ class PaoAnniversaryReminder(models.Model):
                 raw_body = raw_body.replace("%7B", "{")
                 raw_body = raw_body.replace("%7D", "}")
                 
-                rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, not_ready_link = not_ready_link, organization=record.organization_id.name, registry_number = record.registrynumber_id.name)
+                user_signature = self.env.user.signature if self.env.user.signature else ""
+                
+                rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, not_ready_link = not_ready_link, organization=record.organization_id.name, registry_number = record.registrynumber_id.name, user_signature=user_signature)
                 
                 subject = template.with_context(context).subject + ' ' + record.scheme_name +": " + record.organization_id.name
                 message = rendered_body

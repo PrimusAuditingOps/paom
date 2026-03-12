@@ -22,6 +22,25 @@ class ExpenseSheetInherit(models.Model):
         tracking=True,
     )
     
+    has_receipts = fields.Boolean(
+        compute='_compute_has_receipts',
+        string='Has Receipts',
+    )
+
+    def _compute_has_receipts(self):
+        attachment_model = self.env['ir.attachment'].sudo()
+        for sheet in self:
+            # Get all expense IDs in this sheet
+            expense_ids = sheet.expense_line_ids.ids
+            if not expense_ids:
+                sheet.has_receipts = False
+                continue
+            # Check if any expense in the sheet has attachments
+            sheet.has_receipts = attachment_model.search_count([
+                ('res_model', '=', 'hr.expense'),
+                ('res_id', 'in', expense_ids),
+            ]) > 0
+    
     def action_sheet_move_create(self):
         
         if not self.partner_id and not self.employee_id:
@@ -91,6 +110,18 @@ class ExpenseInherit(models.Model):
     uploaded_by_statement = fields.Boolean(default=False)
     
     is_complete = fields.Boolean(compute="_compute_is_complete", store=True)
+    
+    has_receipts = fields.Boolean(
+        compute='_compute_has_receipts',
+        string='Has Receipts',
+    )
+
+    def _compute_has_receipts(self):
+        for expense in self:
+            expense.has_receipts = self.env['ir.attachment'].sudo().search_count([
+                ('res_model', '=', 'hr.expense'),
+                ('res_id', '=', expense.id),
+            ]) > 0
     
     @api.depends('name', 'product_id', 'date', 'nb_attachment')
     def _compute_is_complete(self):
