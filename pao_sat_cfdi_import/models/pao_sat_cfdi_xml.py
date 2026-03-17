@@ -47,21 +47,17 @@ class PAOSatCFDIXml(models.Model):
     subtotal = fields.Float(string="Subtotal")
     currency = fields.Char(string="Currency")
     type_of_receipt = fields.Char(string="type of receipt")
-
     xml_files = fields.Binary(string="XML")
     file_name = fields.Char(string="File Name")
-
     state = fields.Selection([
         ('draft', 'Draft'),
         ('processed', 'Done'),
     ], default='draft')
-
     pao_line_ids = fields.One2many(
         'pao.sat.cfdi.xml.line',
         'cfdi_id',
         string="CFDI Lines"
     )
-
     xml_text = fields.Text(
         string="XML Content",
     )
@@ -76,3 +72,119 @@ class PAOSatCFDIXml(models.Model):
         string='SAT CDFI request',
         ondelete='cascade'
     )
+
+    cfdi_use = fields.Selection(
+        [
+            ('G01', 'Adquisición de mercancías'),
+            ('G02', 'Devoluciones, descuentos o bonificaciones'),
+            ('G03', 'Gastos en general'),
+            ('I01 - I08', 'Inversiones'),
+            ('D01 - D10', 'Deducciones Personales'),
+            ('D01', 'Honorarios médicos, dentales y hospitalarios'),
+            ('D02', 'Gastos médicos por incapacidad o discapacidad'),
+            ('D03', 'Gastos funerales'),
+            ('D10', 'Pagos por servicios educativos (colegiaturas)'),,
+            ('S01', 'Sin efectos fiscales'),
+            ('CP01', 'Pagos'),
+            ('CN01', 'Nómina'),
+        ],
+        string="CFDI Use"
+    )
+
+    payment_method = fields.Char(
+        string="Payment Method"
+    )
+    
+    export = fields.Selection(
+        [
+            ('01', 'No aplica: Operaciones nacionales'),
+            ('02', 'Definitiva'),
+            ('03', 'Temporal'),
+            ('04', 'Definitiva sin enajenación'),
+        ],
+        string="Export",
+    )
+    
+    type_receipt = fields.Selection(
+        [
+            ('I', 'Ingreso'),
+            ('E', 'Egreso'),
+            ('T', 'Traslado'),
+            ('N', 'Nómina'),
+            ('P', 'Pago'),
+        ],
+        string="Type of Receipt",
+    )
+
+    exchange_rate = fields.Float(
+        string="Exchange Rate", 
+        default=0.00,
+    )
+    
+
+    customer_tax_regime = fields.Selection(
+        string="Customer Tax Regime",
+        [
+            ('601', 'REGIMEN GENERAL DE LEY PERSONAS MORALES'),
+            ('602', 'RÉGIMEN SIMPLIFICADO DE LEY PERSONAS MORALES'),
+            ('603', 'PERSONAS MORALES CON FINES NO LUCRATIVOS'),
+            ('604', 'RÉGIMEN DE PEQUEÑOS CONTRIBUYENTES'),
+            ('605', 'RÉGIMEN DE SUELDOS Y SALARIOS E INGRESOS ASIMILADOS A SALARIOS'),
+            ('606', 'RÉGIMEN DE ARRENDAMIENTO'),
+            ('607', 'RÉGIMEN DE ENAJENACIÓN O ADQUISICIÓN DE BIENES'),
+            ('608', 'RÉGIMEN DE LOS DEMÁS INGRESOS'),
+            ('609', 'RÉGIMEN DE CONSOLIDACIÓN'),
+            ('610', 'RÉGIMEN RESIDENTES EN EL EXTRANJERO SIN ESTABLECIMIENTO PERMANENTE EN MÉXICO'),
+            ('611', 'RÉGIMEN DE INGRESOS POR DIVIDENDOS (SOCIOS Y ACCIONISTAS)'),
+            ('612', 'RÉGIMEN DE LAS PERSONAS FÍSICAS CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES'),
+            ('613', 'RÉGIMEN INTERMEDIO DE LAS PERSONAS FÍSICAS CON ACTIVIDADES EMPRESARIALES'),
+            ('614', 'RÉGIMEN DE LOS INGRESOS POR INTERESES'),
+            ('615', 'RÉGIMEN DE LOS INGRESOS POR OBTENCIÓN DE PREMIOS'),
+            ('616', 'SIN OBLIGACIONES FISCALES'),
+            ('617', 'PEMEX'),
+            ('618', 'RÉGIMEN SIMPLIFICADO DE LEY PERSONAS FÍSICAS'),
+            ('619', 'INGRESOS POR LA OBTENCIÓN DE PRÉSTAMOS'),
+            ('620', 'SOCIEDADES COOPERATIVAS DE PRODUCCIÓN QUE OPTAN POR DIFERIR SUS INGRESOS'),
+            ('621', 'RÉGIMEN DE INCORPORACIÓN FISCAL'),
+            ('622', 'RÉGIMEN DE ACTIVIDADES AGRÍCOLAS, GANADERAS, SILVÍCOLAS Y PESQUERAS PM'),
+            ('623', 'RÉGIMEN DE OPCIONAL PARA GRUPOS DE SOCIEDADES'),
+            ('624', 'RÉGIMEN DE LOS COORDINADOS'),
+            ('625', 'RÉGIMEN DE LAS ACTIVIDADES EMPRESARIALES CON INGRESOS A TRAVÉS DE PLATAFORMAS TECNOLÓGICAS'),
+            ('626', 'RÉGIMEN SIMPLIFICADO DE CONFIANZA')
+        ], 
+    )
+
+
+    vendor_tax_regime = fields.Selection(
+        string="Vendor Tax Regime",
+        [
+            ('601', 'REGIMEN GENERAL DE LEY PERSONAS MORALES'),
+            ('602', 'RÉGIMEN SIMPLIFICADO DE LEY PERSONAS MORALES'),
+            ('603', 'PERSONAS MORALES CON FINES NO LUCRATIVOS'),
+            ('604', 'RÉGIMEN DE PEQUEÑOS CONTRIBUYENTES'),
+            ('605', 'RÉGIMEN DE SUELDOS Y SALARIOS E INGRESOS ASIMILADOS A SALARIOS'),
+            ('606', 'RÉGIMEN DE ARRENDAMIENTO'),
+            ('607', 'RÉGIMEN DE ENAJENACIÓN O ADQUISICIÓN DE BIENES'),
+            ('608', 'RÉGIMEN DE LOS DEMÁS INGRESOS'),
+            ('609', 'RÉGIMEN DE CONSOLIDACIÓN'),
+            ('610', 'RÉGIMEN RESIDENTES EN EL EXTRANJERO SIN ESTABLECIMIENTO PERMANENTE EN MÉXICO'),
+            ('611', 'RÉGIMEN DE INGRESOS POR DIVIDENDOS (SOCIOS Y ACCIONISTAS)'),
+            ('612', 'RÉGIMEN DE LAS PERSONAS FÍSICAS CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES'),
+            ('613', 'RÉGIMEN INTERMEDIO DE LAS PERSONAS FÍSICAS CON ACTIVIDADES EMPRESARIALES'),
+            ('614', 'RÉGIMEN DE LOS INGRESOS POR INTERESES'),
+            ('615', 'RÉGIMEN DE LOS INGRESOS POR OBTENCIÓN DE PREMIOS'),
+            ('616', 'SIN OBLIGACIONES FISCALES'),
+            ('617', 'PEMEX'),
+            ('618', 'RÉGIMEN SIMPLIFICADO DE LEY PERSONAS FÍSICAS'),
+            ('619', 'INGRESOS POR LA OBTENCIÓN DE PRÉSTAMOS'),
+            ('620', 'SOCIEDADES COOPERATIVAS DE PRODUCCIÓN QUE OPTAN POR DIFERIR SUS INGRESOS'),
+            ('621', 'RÉGIMEN DE INCORPORACIÓN FISCAL'),
+            ('622', 'RÉGIMEN DE ACTIVIDADES AGRÍCOLAS, GANADERAS, SILVÍCOLAS Y PESQUERAS PM'),
+            ('623', 'RÉGIMEN DE OPCIONAL PARA GRUPOS DE SOCIEDADES'),
+            ('624', 'RÉGIMEN DE LOS COORDINADOS'),
+            ('625', 'RÉGIMEN DE LAS ACTIVIDADES EMPRESARIALES CON INGRESOS A TRAVÉS DE PLATAFORMAS TECNOLÓGICAS'),
+            ('626', 'RÉGIMEN SIMPLIFICADO DE CONFIANZA')
+        ], 
+    )
+
+    

@@ -295,6 +295,34 @@ class SATCFDIRequest(models.Model):
 
                         lines = []
 
+                       
+                        type_receipt = root.xpath(
+                            'string(/cfdi:Comprobante/@TipoDeComprobante)',
+                            namespaces=ns
+                        )
+                        #exchange_rate
+                        customer_tax_regime = root.xpath(
+                            'string(.//cfdi:Receptor/@RegimenFiscalReceptor)',
+                            namespaces=ns
+                        )
+                        vendor_tax_regime = root.xpath(
+                            'string(.//cfdi:Emisor/@RegimenFiscal)',
+                            namespaces=ns
+                        )
+
+                        cfdi_use = root.xpath(
+                            'string(.//cfdi:Emisor/@UsoCFDI)',
+                            namespaces=ns
+                        )
+                        payment_method = root.xpath(
+                            'string(/cfdi:Comprobante/@MetodoPago)',
+                            namespaces=ns
+                        )
+                        export = root.xpath(
+                            'string(/cfdi:Comprobante/@Exportacion)',
+                            namespaces=ns
+                        )
+
                         for concept in concepts:
 
                             quantity = concept.get('Cantidad')
@@ -360,7 +388,14 @@ class SATCFDIRequest(models.Model):
                                 'type_of_receipt': type_of_receipt,
                                 'xml_files': base64.b64encode(xml_bytes),
                                 'file_name': name + '.xml',
-                                'sat_cfdi_request_id': request_id.id
+                                'sat_cfdi_request_id': request_id.id,
+                                'export': export,
+                                'payment_method': payment_method,
+                                'cfdi_use': cfdi_use,
+                                'vendor_tax_regime': vendor_tax_regime,
+                                'customer_tax_regime': customer_tax_regime,
+                                'type_receipt': type_receipt,
+
                             }
                         )
 
