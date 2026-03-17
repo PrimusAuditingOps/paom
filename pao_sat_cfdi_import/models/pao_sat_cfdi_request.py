@@ -288,10 +288,7 @@ class SATCFDIRequest(models.Model):
                             namespaces=ns
                         )
 
-                        concepts = root.xpath(
-                            './/cfdi:Conceptos/cfdi:Concepto',
-                            namespaces=ns
-                        )
+                        
 
                         lines = []
 
@@ -327,7 +324,25 @@ class SATCFDIRequest(models.Model):
                             namespaces=ns
                         )
 
+                        concepts = root.xpath(
+                            './/cfdi:Conceptos/cfdi:Concepto',
+                            namespaces=ns
+                        )
+
                         for concept in concepts:
+                            
+                            taxes_one = concept.xpath(
+                                './/cfdi:Impuestos/cfdi:Traslados',
+                                namespaces=ns
+                            )
+                            taxes_two = concept.xpath(
+                                './/cfdi:Impuestos/cfdi:Retenciones',
+                                namespaces=ns
+                            )
+
+                            _logger.error(taxes_one)
+                            _logger.error(taxes_two)
+
 
                             quantity = concept.get('Cantidad')
                             description = concept.get('Descripcion')
