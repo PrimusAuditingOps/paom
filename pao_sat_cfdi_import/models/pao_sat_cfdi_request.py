@@ -318,6 +318,10 @@ class SATCFDIRequest(models.Model):
                             'string(/cfdi:Comprobante/@MetodoPago)',
                             namespaces=ns
                         )
+                        method_of_payment = root.xpath(
+                            'string(/cfdi:Comprobante/@FormaPago)',
+                            namespaces=ns
+                        )
                         export = root.xpath(
                             'string(/cfdi:Comprobante/@Exportacion)',
                             namespaces=ns
@@ -395,7 +399,7 @@ class SATCFDIRequest(models.Model):
                                 'vendor_tax_regime': vendor_tax_regime,
                                 'customer_tax_regime': customer_tax_regime,
                                 'type_receipt': type_receipt,
-
+                                'method_of_payment': method_of_payment,
                             }
                         )
 
