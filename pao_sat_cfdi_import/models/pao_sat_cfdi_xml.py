@@ -120,10 +120,7 @@ class PAOSatCFDIXml(models.Model):
         string="Exchange Rate", 
         default=0.00,
     )
-    
-
     customer_tax_regime = fields.Selection(
-        string="Customer Tax Regime",
         [
             ('601', 'REGIMEN GENERAL DE LEY PERSONAS MORALES'),
             ('602', 'RÉGIMEN SIMPLIFICADO DE LEY PERSONAS MORALES'),
@@ -152,11 +149,11 @@ class PAOSatCFDIXml(models.Model):
             ('625', 'RÉGIMEN DE LAS ACTIVIDADES EMPRESARIALES CON INGRESOS A TRAVÉS DE PLATAFORMAS TECNOLÓGICAS'),
             ('626', 'RÉGIMEN SIMPLIFICADO DE CONFIANZA')
         ], 
+        string="Customer Tax Regime",
     )
 
 
     vendor_tax_regime = fields.Selection(
-        string="Vendor Tax Regime",
         [
             ('601', 'REGIMEN GENERAL DE LEY PERSONAS MORALES'),
             ('602', 'RÉGIMEN SIMPLIFICADO DE LEY PERSONAS MORALES'),
@@ -185,6 +182,7 @@ class PAOSatCFDIXml(models.Model):
             ('625', 'RÉGIMEN DE LAS ACTIVIDADES EMPRESARIALES CON INGRESOS A TRAVÉS DE PLATAFORMAS TECNOLÓGICAS'),
             ('626', 'RÉGIMEN SIMPLIFICADO DE CONFIANZA')
         ], 
+        string="Vendor Tax Regime",
     )
 
     
