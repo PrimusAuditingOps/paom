@@ -332,11 +332,11 @@ class SATCFDIRequest(models.Model):
                         for concept in concepts:
                             
                             taxes_one = concept.xpath(
-                                './/cfdi:Impuestos/cfdi:Traslados',
+                                '/cfdi:Impuestos/cfdi:Traslados',
                                 namespaces=ns
                             )
                             taxes_two = concept.xpath(
-                                './/cfdi:Impuestos/cfdi:Retenciones',
+                                '/cfdi:Impuestos/cfdi:Retenciones',
                                 namespaces=ns
                             )
                             _logger.error(concept)
