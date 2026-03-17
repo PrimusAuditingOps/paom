@@ -343,6 +343,11 @@ class SATCFDIRequest(models.Model):
                             _logger.error(taxes_one)
                             _logger.error(taxes_two)
 
+                            for t in taxes_one:
+                                _logger.error(t.get('Base'))
+
+                            for t in taxes_two:
+                                _logger.error(t.get('Base'))
 
                             quantity = concept.get('Cantidad')
                             description = concept.get('Descripcion')
