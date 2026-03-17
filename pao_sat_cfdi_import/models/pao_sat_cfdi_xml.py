@@ -83,7 +83,7 @@ class PAOSatCFDIXml(models.Model):
             ('D01', 'Honorarios médicos, dentales y hospitalarios'),
             ('D02', 'Gastos médicos por incapacidad o discapacidad'),
             ('D03', 'Gastos funerales'),
-            ('D10', 'Pagos por servicios educativos (colegiaturas)'),,
+            ('D10', 'Pagos por servicios educativos (colegiaturas)'),
             ('S01', 'Sin efectos fiscales'),
             ('CP01', 'Pagos'),
             ('CN01', 'Nómina'),
