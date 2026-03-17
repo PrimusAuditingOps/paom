@@ -311,7 +311,7 @@ class SATCFDIRequest(models.Model):
                         )
 
                         cfdi_use = root.xpath(
-                            'string(.//cfdi:Emisor/@UsoCFDI)',
+                            'string(.//cfdi:Receptor/@UsoCFDI)',
                             namespaces=ns
                         )
                         payment_method = root.xpath(
