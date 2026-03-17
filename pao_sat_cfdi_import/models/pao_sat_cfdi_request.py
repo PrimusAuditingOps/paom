@@ -339,7 +339,7 @@ class SATCFDIRequest(models.Model):
                                 './/cfdi:Impuestos/cfdi:Retenciones',
                                 namespaces=ns
                             )
-
+                            _logger.error(concept)
                             _logger.error(taxes_one)
                             _logger.error(taxes_two)
 
