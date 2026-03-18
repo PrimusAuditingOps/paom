@@ -9,8 +9,8 @@ _logger = getLogger(__name__)
 class PAOSatCfdiLineTaxes(models.Model):
     _name = 'pao.sat.cfdi.line.taxes'
     _description = 'SAT CFDI Lines Taxes'
-
-
+    _rec_name = "label"
+    
     name = fields.Selection(
         [
             ('001', 'ISR'),
@@ -18,6 +18,11 @@ class PAOSatCfdiLineTaxes(models.Model):
             ('003', 'IEPS'),
         ],
         string="Name",
+    )
+    label = fields.Char(
+        compute="_compute_label",
+        store=True
+        string="Tax",
     )
     tax_type = fields.Selection(
         [
@@ -35,3 +40,9 @@ class PAOSatCfdiLineTaxes(models.Model):
         string="CFDI Line",
         ondelete='cascade'
     )
+
+    def _compute_label(self):
+        for rec in self:
+            rec.label = dict(rec._fields['name'].selection).get(rec.name)
+
+    
