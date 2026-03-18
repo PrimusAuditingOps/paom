@@ -340,9 +340,8 @@ class SATCFDIRequest(models.Model):
                                 './/cfdi:Impuestos/cfdi:Retenciones/cfdi:Retencion',
                                 namespaces=ns
                             )
-                            _logger.error(traslados)
-                            _logger.error(retenciones)
-
+                            taxes = []
+                            
                             for traslado in traslados:
                                 impuesto = traslado.get('Impuesto')
                                 base = traslado.get('Base')
@@ -350,7 +349,14 @@ class SATCFDIRequest(models.Model):
                                 tasa = traslado.get('TasaOCuota')
                                 importe = traslado.get('Importe')
 
-                                _logger.error(base)
+                                taxes.append((0, 0, {
+                                    'name': impuesto,
+                                    'tax_type': "traslado",
+                                    'base': float(base) if base else 0.0,
+                                    'factor_type': tipo_factor,
+                                    'rate': float(tasa) if tasa else 0.0,
+                                    'amount': float(importe) if importe else 0.0,
+                                }))
 
                             for retencion in retenciones:
                                 impuesto = retencion.get('Impuesto')
@@ -358,9 +364,15 @@ class SATCFDIRequest(models.Model):
                                 tasa = retencion.get('TasaOCuota')
                                 importe = retencion.get('Importe')
 
-                                _logger.error(base)
+                                taxes.append((0, 0, {
+                                    'name': impuesto,
+                                    'tax_type': "retencion",
+                                    'base': float(base) if base else 0.0,
+                                    'factor_type': tipo_factor,
+                                    'rate': float(tasa) if tasa else 0.0,
+                                    'amount': float(importe) if importe else 0.0,
+                                }))
 
-                     
 
                             quantity = concept.get('Cantidad')
                             description = concept.get('Descripcion')
@@ -392,6 +404,7 @@ class SATCFDIRequest(models.Model):
                                 'tax_object': tax_object,
                                 'output_tax': float(output_tax[0]) if output_tax else 0.0,
                                 'withholding_tax': float(withholding_tax[0]) if withholding_tax else 0.0,
+                                'pao_tax_ids': taxes,
                             }))
                         
                         date = False

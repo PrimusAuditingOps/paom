@@ -26,6 +26,12 @@ class PAOSatCfdiXmlLine(models.Model):
     output_tax = fields.Float(string="Output Tax")
     withholding_tax = fields.Float(string="Withholding Tax")
 
+    pao_tax_ids = fields.One2many(
+        'pao.sat.cfdi.line.taxes',
+        'cfdi_line_id',
+        string="Taxes"
+    )
+
 
 class PAOSatCFDIXml(models.Model):
     _name = 'pao.sat.cfdi.xml'
