@@ -340,6 +340,8 @@ class SATCFDIRequest(models.Model):
                                 './/cfdi:Impuestos/cfdi:Retenciones/cfdi:Retencion',
                                 namespaces=ns
                             )
+                            _logger.error(traslados)
+                            _logger.error(retenciones)
 
                             for traslado in traslados:
                                 impuesto = traslado.get('Impuesto')
