@@ -10,7 +10,7 @@ class PAOSatCfdiLineTaxes(models.Model):
     _name = 'pao.sat.cfdi.line.taxes'
     _description = 'SAT CFDI Lines Taxes'
     _rec_name = "label"
-    
+
     name = fields.Selection(
         [
             ('001', 'ISR'),
@@ -21,7 +21,7 @@ class PAOSatCfdiLineTaxes(models.Model):
     )
     label = fields.Char(
         compute="_compute_label",
-        store=True
+        store=True,
         string="Tax",
     )
     tax_type = fields.Selection(
