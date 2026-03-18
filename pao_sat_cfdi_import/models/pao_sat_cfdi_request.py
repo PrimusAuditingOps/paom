@@ -350,7 +350,7 @@ class SATCFDIRequest(models.Model):
                                 tasa = traslado.get('TasaOCuota')
                                 importe = traslado.get('Importe')
 
-                                _logger.error("Traslado:")
+                                _logger.error(base)
 
                             for retencion in retenciones:
                                 impuesto = retencion.get('Impuesto')
@@ -358,7 +358,7 @@ class SATCFDIRequest(models.Model):
                                 tasa = retencion.get('TasaOCuota')
                                 importe = retencion.get('Importe')
 
-                                _logger.error("Retención:")
+                                _logger.error(base)
 
                      
 
