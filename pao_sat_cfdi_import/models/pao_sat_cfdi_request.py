@@ -331,23 +331,34 @@ class SATCFDIRequest(models.Model):
 
                         for concept in concepts:
                             
-                            taxes_one = concept.xpath(
-                                'string(/cfdi:Impuestos/cfdi:Traslados)',
+                            traslados = concept.xpath(
+                                './/cfdi:Impuestos/cfdi:Traslados/cfdi:Traslado',
                                 namespaces=ns
                             )
-                            taxes_two = concept.xpath(
-                                'string(/cfdi:Impuestos/cfdi:Retenciones)',
+
+                            retenciones = concept.xpath(
+                                './/cfdi:Impuestos/cfdi:Retenciones/cfdi:Retencion',
                                 namespaces=ns
                             )
-                            _logger.error(concept)
-                            _logger.error(taxes_one)
-                            _logger.error(taxes_two)
 
-                            for t in taxes_one:
-                                _logger.error(t.get('Base'))
+                            for traslado in traslados:
+                                impuesto = traslado.get('Impuesto')
+                                base = traslado.get('Base')
+                                tipo_factor = traslado.get('TipoFactor')
+                                tasa = traslado.get('TasaOCuota')
+                                importe = traslado.get('Importe')
 
-                            for t in taxes_two:
-                                _logger.error(t.get('Base'))
+                                _logger.error("Traslado:", impuesto, base, tipo_factor, tasa, importe)
+
+                            for retencion in retenciones:
+                                impuesto = retencion.get('Impuesto')
+                                base = retencion.get('Base')
+                                tasa = retencion.get('TasaOCuota')
+                                importe = retencion.get('Importe')
+
+                                _logger.error("Retención:", impuesto, base, tasa, importe)
+
+                     
 
                             quantity = concept.get('Cantidad')
                             description = concept.get('Descripcion')
