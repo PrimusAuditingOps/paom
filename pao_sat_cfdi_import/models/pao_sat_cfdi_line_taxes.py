@@ -40,7 +40,7 @@ class PAOSatCfdiLineTaxes(models.Model):
         string="CFDI Line",
         ondelete='cascade'
     )
-
+    @api.depends("name")
     def _compute_label(self):
         for rec in self:
             rec.label = dict(rec._fields['name'].selection).get(rec.name)
