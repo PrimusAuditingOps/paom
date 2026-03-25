@@ -241,6 +241,7 @@ class SATCFDIRequest(models.Model):
                         )
 
                         if self.env['pao.sat.cfdi.xml'].search([('name', '=', name)]):
+                            _logger.error(name)
                             continue
 
                         vendor_vat = root.xpath(
