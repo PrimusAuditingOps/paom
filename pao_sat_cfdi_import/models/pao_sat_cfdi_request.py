@@ -291,7 +291,7 @@ class SATCFDIRequest(models.Model):
                         
 
                         lines = []
-
+                        xml_taxes =[]
                        
                         type_receipt = root.xpath(
                             'string(/cfdi:Comprobante/@TipoDeComprobante)',
@@ -324,13 +324,40 @@ class SATCFDIRequest(models.Model):
                             namespaces=ns
                         )
 
+                        cfdi_taxes_ret = root.xpath(
+                            './/cfdi:Impuestos/cfdi:Retenciones/cfdi:Retencion',
+                            namespaces=ns
+                        )
+                        cfdi_taxes_tras = root.xpath(
+                            './/cfdi:Impuestos/cfdi:Traslado/cfdi:Traslado',
+                            namespaces=ns
+                        )
+                        
+                        taxes_list = []
+                        for cfdi_tax in cfdi_taxes_ret:
+                            impuesto = cfdi_tax.get('Impuesto')
+                            importe = cfdi_tax.get('Importe')
+                            taxes_list.append((0, 0, {
+                                'name': impuesto,
+                                'amount': float(importe) if importe else 0.0,
+                            }))
+                        for cfdi_tax in cfdi_taxes_tras:
+                            impuesto = cfdi_tax.get('Impuesto')
+                            importe = cfdi_tax.get('Importe')
+                            taxes_list.append((0, 0, {
+                                'name': impuesto,
+                                'amount': float(importe) if importe else 0.0,
+                            }))
+                           
+                        _logger.error(taxes_list)
                         concepts = root.xpath(
                             './/cfdi:Conceptos/cfdi:Concepto',
                             namespaces=ns
                         )
+                        
 
                         for concept in concepts:
-                            
+                            taxes = []
                             traslados = concept.xpath(
                                 './/cfdi:Impuestos/cfdi:Traslados/cfdi:Traslado',
                                 namespaces=ns
@@ -340,7 +367,7 @@ class SATCFDIRequest(models.Model):
                                 './/cfdi:Impuestos/cfdi:Retenciones/cfdi:Retencion',
                                 namespaces=ns
                             )
-                            taxes = []
+                            
                             
                             for traslado in traslados:
                                 impuesto = traslado.get('Impuesto')
@@ -431,6 +458,7 @@ class SATCFDIRequest(models.Model):
                                 'customer_name': customer_name,
                                 'pao_line_ids': lines,
                                 'cfdi_date': date,
+                                'tax_ids': xml_taxes,
                                 'total': float(total) if total else 0.0,
                                 'subtotal': float(subtotal) if subtotal else 0.0,
                                 'currency': currency,

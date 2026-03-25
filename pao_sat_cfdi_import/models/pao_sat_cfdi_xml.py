@@ -78,6 +78,12 @@ class PAOSatCFDIXml(models.Model):
         string='SAT CDFI request',
         ondelete='cascade'
     )
+    tax_ids = fields.One2many(
+        'pao.sat.cfdi.taxes',
+        'cfdi_id',
+        string="Taxes"
+    )
+    
     method_of_payment = fields.Selection(
         [
             ('01', 'Efectivo'),
