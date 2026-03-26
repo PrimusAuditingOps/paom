@@ -499,8 +499,8 @@ class SATCFDIRequest(models.Model):
                                 'type_receipt': type_receipt,
                                 'method_of_payment': method_of_payment,
                                 'tax_ids': taxes_list,
-                                'total_taxes_withheld': float(cfdi_ret_taxes_total) if cfdi_ret_taxes_total else 0.0,  
-                                'total_taxes_transferred': float(cfdi_tras_taxes_total) if cfdi_tras_taxes_total else 0.0,
+                                'withheld_taxes_total': float(cfdi_ret_taxes_total) if cfdi_ret_taxes_total else 0.0,  
+                                'transferred_taxes_total': float(cfdi_tras_taxes_total) if cfdi_tras_taxes_total else 0.0,
                             }
                         )
 
