@@ -213,6 +213,19 @@ class SATCFDIRequest(models.Model):
                 if response:
                     package.write({"zip_file":response,"zip_file_name":package.name+".zip"})
     
+    def search_related_document(self):
+        for xml in self:
+            if xml.type_of_receipt == "I":
+                domain = [
+                    ("move_type","=","in_invoice"),
+                    ("invoice_date","=",xml.cfdi_date.date()),
+                    ("partner_id.vat","=",xml.vendor_vat),
+                    ("l10n_mx_edi_cfdi_uuid","=", xml.name)
+                ]
+                data = self.env["account.move"].search(domain)
+                if data:
+                    for record in data:
+                            xml.write({"account_move_id": record.id})
 
     def read_file(self):
         for request_id in self:
@@ -478,7 +491,7 @@ class SATCFDIRequest(models.Model):
                             encoding='unicode'
                         )
                         
-                        self.env['pao.sat.cfdi.xml'].create(
+                        rec_id = self.env['pao.sat.cfdi.xml'].create(
                             {
                                 'name': name,
                                 'vendor_vat': vendor_vat,
@@ -508,6 +521,8 @@ class SATCFDIRequest(models.Model):
                                 'transferred_taxes_total': float(cfdi_tras_taxes_total) if cfdi_tras_taxes_total else 0.0,
                             }
                         )
+                        if rec_id:
+                            rec_id.search_related_document()
 
 
 
