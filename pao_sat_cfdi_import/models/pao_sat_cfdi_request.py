@@ -225,7 +225,7 @@ class SATCFDIRequest(models.Model):
                 data = self.env["account.move"].search(domain)
                 if data:
                     for record in data:
-                            xml.write({"account_move_id": record.id})
+                            xml.write({"account_move_id": record.id, "state": "processed"})
 
     def read_file(self):
         for request_id in self:
