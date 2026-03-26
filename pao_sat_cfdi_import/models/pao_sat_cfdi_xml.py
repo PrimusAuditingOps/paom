@@ -75,6 +75,11 @@ class PAOSatCFDIXml(models.Model):
         index=True,
         default=lambda self: self.env.company
     )
+    account_move_id = fields.Many2one(
+        'account.move',
+        string="Bill",
+        ondelete='set null'
+    )
     sat_cfdi_request_id = fields.Many2one(
         'pao.sat.cfdi.request',
         string='SAT CDFI request',

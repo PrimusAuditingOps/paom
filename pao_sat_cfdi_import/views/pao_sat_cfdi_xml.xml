@@ -16,21 +16,18 @@
                             <field name="name"/>
                         </group>
                         <group>
-                            <field name="vendor_vat"/>
+                            <field name="account_move_id"/>
                         </group>
                         <group>
                             <field name="vendor_name"/>
                         </group>
-
+                        <group>
+                            <field name="vendor_vat"/>
+                        </group>
                         <group>
                             <field name="vendor_tax_regime"/>
                         </group>
-                         
                         <group>
-                            <field name="customer_name"/>
-                        </group>
-                        <group>
-                            <field name="customer_tax_regime"/>
                         </group>
                         <group>
                             <field name="cfdi_date"/>
@@ -49,6 +46,12 @@
                         </group>
                          <group>
                             <field name="cfdi_use"/>
+                        </group>
+                        <group>
+                            <field name="customer_name"/>
+                        </group>
+                        <group>
+                            <field name="customer_tax_regime"/>
                         </group>
                         <group>
                             <field name="file_name" invisible="1"/>
@@ -86,25 +89,7 @@
                             <field name="subtotal" string="Subtotal" readonly="1"/>
                             <field name="withheld_taxes_total" string="Withheld Taxes Total" readonly="1"/>
                             <field name="transferred_taxes_total" string="Transferred Taxes Total" readonly="1"/>
-                            <!--
-                            <field name="amount_tax"
-                                string="IVA 16%"
-                                widget="monetary"
-                                options="{'currency_field': '1'}"
-                                readonly="1"/>
-            
-                            <field name="amount_isr_ret"
-                                string="ISR Retencion 10%"
-                                widget="monetary"
-                                options="{'currency_field': 'currency_id'}"
-                                readonly="1"/>
-            
-                            <field name="amount_iva_ret"
-                                string="IVA Retencion 10.6667%"
-                                widget="monetary"
-                                options="{'currency_field': '1'}"
-                                readonly="1"/>
-                            -->
+                          
                             <field name="total" string="Total" readonly="1"/>
             
                     </group>
