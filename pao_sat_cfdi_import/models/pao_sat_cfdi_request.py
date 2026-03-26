@@ -334,15 +334,20 @@ class SATCFDIRequest(models.Model):
                             namespaces=ns
                         )
 
-                        cfdi_ret_taxes_total = root.xpath(
-                            'string(.//cfdi:Impuestos/@TotalImpuestosRetenidos',
+                 
+                        cfdi_ret_taxes_total = 0.00
+                        cfdi_tras_taxes_total = 0.00
+                        ret_tras_taxes = root.xpath(
+                            './cfdi:Impuestos',
                             namespaces=ns
                         )
-                        cfdi_tras_taxes_total = root.xpath(
-                            'string(.//cfdi:Impuestos/@TotalImpuestosTrasladados',
-                            namespaces=ns
-                        )
-                        
+                        if ret_tras_taxes:
+                            node_tax = ret_tras_taxes[0]
+                            cfdi_ret_taxes_total = float(node_tax.get('TotalImpuestosRetenidos', 0.0))
+                            cfdi_tras_taxes_total = float(node_tax.get('TotalImpuestosTrasladados', 0.0))
+
+
+
                         taxes_list = []
                         for cfdi_tax in cfdi_taxes_ret:
                             impuesto = cfdi_tax.get('Impuesto')
