@@ -333,24 +333,47 @@ class SATCFDIRequest(models.Model):
                             './/cfdi:Impuestos/cfdi:Traslado/cfdi:Traslado',
                             namespaces=ns
                         )
+
+                        cfdi_ret_taxes_total = root.xpath(
+                            'string(.//cfdi:Impuestos/@TotalImpuestosRetenidos',
+                            namespaces=ns
+                        )
+                        cfdi_tras_taxes_total = root.xpath(
+                            'string(.//cfdi:Impuestos/@TotalImpuestosTrasladados',
+                            namespaces=ns
+                        )
                         
                         taxes_list = []
                         for cfdi_tax in cfdi_taxes_ret:
                             impuesto = cfdi_tax.get('Impuesto')
                             importe = cfdi_tax.get('Importe')
+                            base = traslado.get('Base')
+                            tipo_factor = traslado.get('TipoFactor')
+                            tasa = traslado.get('TasaOCuota')
+
                             taxes_list.append((0, 0, {
                                 'name': impuesto,
+                                'tax_type': "traslado",
+                                'base': float(base) if base else 0.0,
+                                'factor_type': tipo_factor,
+                                'rate': float(tasa) if tasa else 0.0,
                                 'amount': float(importe) if importe else 0.0,
                             }))
                         for cfdi_tax in cfdi_taxes_tras:
                             impuesto = cfdi_tax.get('Impuesto')
                             importe = cfdi_tax.get('Importe')
+                            base = traslado.get('Base')
+                            tipo_factor = traslado.get('TipoFactor')
+                            tasa = traslado.get('TasaOCuota')
                             taxes_list.append((0, 0, {
                                 'name': impuesto,
                                 'amount': float(importe) if importe else 0.0,
+                                'tax_type': "retencion",
+                                'base': float(base) if base else 0.0,
+                                'factor_type': tipo_factor,
+                                'rate': float(tasa) if tasa else 0.0,
                             }))
                            
-                        _logger.error(taxes_list)
                         concepts = root.xpath(
                             './/cfdi:Conceptos/cfdi:Concepto',
                             namespaces=ns
@@ -475,6 +498,9 @@ class SATCFDIRequest(models.Model):
                                 'customer_tax_regime': customer_tax_regime,
                                 'type_receipt': type_receipt,
                                 'method_of_payment': method_of_payment,
+                                'tax_ids': taxes_list,
+                                'total_taxes_withheld': float(cfdi_ret_taxes_total) if cfdi_ret_taxes_total else 0.0,  
+                                'total_taxes_transferred': float(cfdi_tras_taxes_total) if cfdi_tras_taxes_total else 0.0,
                             }
                         )
 

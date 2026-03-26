@@ -51,6 +51,8 @@ class PAOSatCFDIXml(models.Model):
     cfdi_date = fields.Datetime(string="CFDI Date")
     total = fields.Float(string="Total")
     subtotal = fields.Float(string="Subtotal")
+    withheld_taxes_total = fields.Float(string="Withheld Taxes Total")
+    transferred_taxes_total = fields.Float(string="Transferred Taxes Total")
     currency = fields.Char(string="Currency")
     type_of_receipt = fields.Char(string="type of receipt")
     xml_files = fields.Binary(string="XML")
