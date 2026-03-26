@@ -350,11 +350,11 @@ class SATCFDIRequest(models.Model):
 
                         taxes_list = []
                         for cfdi_tax in cfdi_taxes_ret:
-                            impuesto = cfdi_tax.get('Impuesto')
-                            importe = cfdi_tax.get('Importe')
-                            base = traslado.get('Base')
-                            tipo_factor = traslado.get('TipoFactor')
-                            tasa = traslado.get('TasaOCuota')
+                            impuesto = cfdi_tax.get('Impuesto') if cfdi_tax.get('Impuesto') else 0
+                            importe = cfdi_tax.get('Importe') if cfdi_tax.get('Importe') else 0
+                            base = cfdi_tax.get('Base') if cfdi_tax.get('Base') else 0
+                            tipo_factor = cfdi_tax.get('Base') if cfdi_tax.get('TipoFactor') else "" 
+                            tasa = cfdi_tax.get('TasaOCuota') if cfdi_tax.get('TasaOCuota') else 0
 
                             taxes_list.append((0, 0, {
                                 'name': impuesto,
@@ -365,11 +365,11 @@ class SATCFDIRequest(models.Model):
                                 'amount': float(importe) if importe else 0.0,
                             }))
                         for cfdi_tax in cfdi_taxes_tras:
-                            impuesto = cfdi_tax.get('Impuesto')
-                            importe = cfdi_tax.get('Importe')
-                            base = traslado.get('Base')
-                            tipo_factor = traslado.get('TipoFactor')
-                            tasa = traslado.get('TasaOCuota')
+                            impuesto = cfdi_tax.get('Impuesto') if cfdi_tax.get('Impuesto') else 0
+                            importe = cfdi_tax.get('Importe') if cfdi_tax.get('Importe') else 0
+                            base = cfdi_tax.get('Base') if cfdi_tax.get('Base') else 0
+                            tipo_factor = cfdi_tax.get('Base') if cfdi_tax.get('TipoFactor') else "" 
+                            tasa = cfdi_tax.get('TasaOCuota') if cfdi_tax.get('TasaOCuota') else 0
                             taxes_list.append((0, 0, {
                                 'name': impuesto,
                                 'amount': float(importe) if importe else 0.0,
