@@ -47,19 +47,29 @@ class AccountMoveInherit(models.Model):
 
         if origin == usd and self.currency_id == mxn:
             _logger.warning("ONCHANGE 3")
-            return {
-                # 'name': (_('Apply Exchange Rate')) if action == 'apply' else (_('Undo Exchange Rate')),
-                'type': 'ir.actions.act_window',
-                'res_model': 'auto.currency.conversion.wizard',
-                'view_mode': 'form',
-                'view_id': self.env.ref('pao_auto_conversion_invoices.auto_currency_conversion_wizard_form').id,
-                'target': 'new',
-                'context': {
-                    'default_move_id': self._origin.id,
-                    'default_from_currency_id': usd.id,
-                    'default_to_currency_id': mxn.id,
-                },
-            }
+            for line in self.invoice_line_ids:
+                line.price_unit = usd._convert(
+                    line.price_unit,
+                    mxn,
+                    self.company_id,
+                    self.invoice_date or fields.Date.today(),
+                )
+            #     line.exchange_rate_applied = True
+
+            # self.auto_conversion_applied = True
+            # return {
+            #     # 'name': (_('Apply Exchange Rate')) if action == 'apply' else (_('Undo Exchange Rate')),
+            #     'type': 'ir.actions.act_window',
+            #     'res_model': 'auto.currency.conversion.wizard',
+            #     'view_mode': 'form',
+            #     'view_id': self.env.ref('pao_auto_conversion_invoices.auto_currency_conversion_wizard_form').id,
+            #     'target': 'new',
+            #     'context': {
+            #         'default_move_id': self._origin.id,
+            #         'default_from_currency_id': usd.id,
+            #         'default_to_currency_id': mxn.id,
+            #     },
+            # }
             # return {'warning': {
             #     'title': _("TEST 1"),
             #     'message': _("TEST 2."),

@@ -49,7 +49,7 @@ class CurrencyChangeWizard(models.TransientModel):
             )
             line.exchange_rate_applied = True
 
-        move.auto_conversion_applied = False
+        move.auto_conversion_applied = True
         return {'type': 'ir.actions.act_window_close'}
 
     # def reject_currency_change(self):
