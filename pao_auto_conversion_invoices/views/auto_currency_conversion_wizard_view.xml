@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="auto_currency_conversion_wizard_form" model="ir.ui.view">
+        <field name="name">auto.currency.conversion.wizard.form</field>
+        <field name="model">auto.currency.conversion.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Currency Change">
+                <!-- <group>
+                    <group>
+                        <field name="move_id" invisible="1"/>
+                        <field name="from_currency_id"/>
+                        <field name="to_currency_id"/>
+                    </group>
+                    <group>
+                        <field name="date"/>
+                        <field name="exchange_rate"/>
+                    </group>
+                </group> -->
+                <div class="alert alert-warning" role="alert">
+                    The invoice lines prices will be converted from
+                    <strong><field name="from_currency_id" readonly="1" nolabel="1"/></strong>
+                    to
+                    <strong><field name="to_currency_id" readonly="1" nolabel="1"/></strong>
+                    using the exchange rate of <field name="date" readonly="1" nolabel="1"/>.
+                    <br/>
+                    Do you want to proceed?
+                </div>
+                <footer>
+                    <button string="Apply" name="apply_currency_change" type="object" class="btn-primary"/>
+                    <!-- <button string="Keep original currency" name="reject_currency_change" type="object" class="btn-secondary"/> -->
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
