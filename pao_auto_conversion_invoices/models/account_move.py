@@ -8,107 +8,78 @@ class AccountMoveInherit(models.Model):
     _inherit='account.move'
     
     auto_conversion_applied = fields.Boolean(default=False, copy=False)
+    can_auto_convert = fields.Boolean(default=False, copy=False)
     
-    can_undo_conversion = fields.Boolean(
-        compute='_compute_can_undo_conversion'
-    )
+    def apply_auto_convert_to_mxn(self):
+        if not self.can_auto_convert or self.company_id.id != 1 or self.auto_conversion_applied or self.state != 'draft':
+            return
 
-    @api.depends('invoice_line_ids.exchange_rate_applied')
-    def _compute_can_undo_conversion(self):
-        for move in self:
-            lines = move.invoice_line_ids
+        usd = self.env.ref('base.USD', raise_if_not_found=False)
+        mxn = self.env.ref('base.MXN', raise_if_not_found=False)
 
-            move.can_undo_conversion = any(
-                line.exchange_rate_applied
-                for line in lines
+        if not usd or not mxn:
+            return
+
+        date = self.invoice_date or fields.Date.today()
+        if not date:
+            return {'warning': {
+                'title': _("Exchange Rate Not Available"),
+                'message': _("No exchange rate was found for the invoice date or the current date. Please make sure a valid exchange rate exists for the selected currencies before proceeding"),
+            }}
+
+        rate = usd._get_conversion_rate(usd, mxn, self.company_id, date)
+        for line in self.invoice_line_ids:
+            line.price_unit = usd._convert(
+                line.price_unit,
+                mxn,
+                self.company_id,
+                date,
             )
-    
+            line.exchange_rate_value = rate
+            line.exchange_rate_applied = True
+
+        self.auto_conversion_applied = True
+        self.can_auto_convert = False
+        
+    def undo_auto_convert_to_mxn(self):
+        if not self.auto_conversion_applied or self.state != 'draft':
+            return
+
+        for line in self.invoice_line_ids:
+            if line.exchange_rate_applied:
+                # Reverse: MXN / rate = USD
+                line.price_unit /= line.exchange_rate_value
+                line.exchange_rate_applied = False
+                line.exchange_rate_value = None
+                
+        self.auto_conversion_applied = False
 
     @api.onchange('currency_id')
-    def _onchange_currency_id_prompt_wizard(self):
-        _logger.warning("ONCHANGE")
-        if self.company_id.id != 1 or self.auto_conversion_applied:
+    def _onchange_currency_id_activate_auto_convert(self):
+        if self.company_id.id != 1 or self.auto_conversion_applied or self.state != 'draft':
             return
+        
+        self.can_auto_convert = False
         
         # Only trigger when changing from USD to MXN
         usd = self.env.ref('base.USD', raise_if_not_found=False)
         mxn = self.env.ref('base.MXN', raise_if_not_found=False)
         
-        _logger.warning(str(usd) + " - " + str(mxn))
-
         if not usd or not mxn:
             return
 
         origin = self._origin.currency_id  # currency before the change
         
-        _logger.warning("Origin: " + str(origin))
-        
-        _logger.warning("ONCHANGE 2")
-
         if origin == usd and self.currency_id == mxn:
-            _logger.warning("ONCHANGE 3")
-            for line in self.invoice_line_ids:
-                line.price_unit = usd._convert(
-                    line.price_unit,
-                    mxn,
-                    self.company_id,
-                    self.invoice_date or fields.Date.today(),
-                )
-            #     line.exchange_rate_applied = True
-
-            # self.auto_conversion_applied = True
-            # return {
-            #     # 'name': (_('Apply Exchange Rate')) if action == 'apply' else (_('Undo Exchange Rate')),
-            #     'type': 'ir.actions.act_window',
-            #     'res_model': 'auto.currency.conversion.wizard',
-            #     'view_mode': 'form',
-            #     'view_id': self.env.ref('pao_auto_conversion_invoices.auto_currency_conversion_wizard_form').id,
-            #     'target': 'new',
-            #     'context': {
-            #         'default_move_id': self._origin.id,
-            #         'default_from_currency_id': usd.id,
-            #         'default_to_currency_id': mxn.id,
-            #     },
-            # }
-            # return {'warning': {
-            #     'title': _("TEST 1"),
-            #     'message': _("TEST 2."),
-            # }}
-            
-# class AccountMoveLineInherit(models.Model):
-
-#     _inherit='account.move.line'
-    
-#     exchange_rate_applied = fields.Boolean(default=False, copy=False)
-#     exchange_rate_value = fields.Float(copy=False)
-    
-# class ProductProductInherit(models.Model):
-
-#     _inherit='product.product'
-    
-#     country_code = fields.Char(related='company_id.country_code')
-    
-#     def _default_base_currency(self):
-#         company = self.env.company
-#         if company.country_id and company.country_id.code == 'CL':
-#             return self.env.ref('base.USD', raise_if_not_found=False)
-#         return False
-    
-#     base_currency_id = fields.Many2one('res.currency', string="Base Currency", default=_default_base_currency, copy=False)
-    
-#     def update_base_currencies_chilean_products(self):
-#         usd = self.env.ref('base.USD', raise_if_not_found=False)
-#         if not usd:
-#             return False
-
-#         products = self.search([
-#             ('country_code', '=', 'CL'),
-#             ('base_currency_id', '=', False),
-#         ])
-
-#         products.write({
-#             'base_currency_id': usd.id
-#         })
-
-#         return True
-        
+            self.can_auto_convert = True
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'type': 'info',
+                    'title': _('Price Conversion Available'),
+                    'message': _('The invoice currency has been changed from USD to MXN. Use the "Convert Prices" button to automatically apply the exchange rate to the invoice lines.'),
+                    'sticky': True,
+                    'next': {'type': 'ir.actions.act_window_close'},
+                }
+            }

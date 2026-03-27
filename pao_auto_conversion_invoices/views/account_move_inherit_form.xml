@@ -6,39 +6,15 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='preview_invoice']" position="after">
-                    <field name="can_apply_exchange_rate" invisible="1"/>
-                    <field name="can_undo_exchange_rate" invisible="1"/>
-                    <button invisible="state != 'draft' or country_code != 'CL' or not can_apply_exchange_rate" string="Apply Exchange Rate" type="object" class="oe_highlight btn btn-secondary" name="exchange_rate_lines_wizard_action" context="{'action':'apply'}"/>
-                    <button invisible="state != 'draft' or country_code != 'CL' or not can_undo_exchange_rate" string="Undo Exchange Rate" type="object" class="oe_highlight btn btn-secondary" name="exchange_rate_lines_wizard_action" context="{'action':'undo'}"/>
-                <!-- <label for="auto_exchange_rate_lines_value" invisible="state != 'draft' or country_code != 'CL'"/> -->
-                <!-- <div invisible="state != 'draft' or country_code != 'CL'"> -->
-                    <!-- <field name="exchange_rate_applied" invisible="1"/>
-                    <field name="auto_exchange_rate_lines_value" readonly="exchange_rate_applied" style="width:100px !important; margin-right: 10px !important;"/>
-                    <button name="apply_exchange_rate_lines_action" invisible ="exchange_rate_applied" string="Apply" class="btn btn-sm btn-primary" type="object"/>
-                    <button name="undo_exchange_rate_lines_action" invisible ="not exchange_rate_applied" string="Undo" class="btn btn-sm btn-primary" type="object"/> -->
-                <!-- </div> -->
+                    <field name="auto_conversion_applied" invisible="1"/>
+                    <field name="can_auto_convert" invisible="1"/>
+                    <button invisible="state != 'draft' or country_code != 'MX' or not can_auto_convert or auto_conversion_applied" string="Convert Prices" type="object" class="oe_highlight btn btn-secondary" name="apply_auto_convert_to_mxn" confirm="The invoice line prices will be converted to MXN using the exchange rate for the invoice date. Continue?"/>
+                    <button invisible="state != 'draft' or country_code != 'MX' or not auto_conversion_applied" string="Undo Convert Prices" type="object" class="oe_highlight btn btn-secondary" name="undo_auto_convert_to_mxn" confirm="The invoice lines prices will be reverted to their original currency. Continue?"/>
             </xpath>
 
-            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="after">
-                <field name="exchange_rate_applied" invisible="1" column_invisible="1"/>
+            <xpath expr="//div[@name='journal_div']//field[@name='currency_id']" position="attributes">
+                <attribute name="readonly">state != 'draft' or auto_conversion_applied</attribute>
             </xpath>
-
-            <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">
-                <attribute name="readonly">exchange_rate_applied</attribute>
-            </xpath>
-        </field>
-    </record>
-
-    <record id="remove_fee_move_lines_action_server" model="ir.actions.server">
-        <field name="name">Remove fees</field>
-        <field name="type">ir.actions.server</field>
-        <field name="model_id" ref="account.model_account_move"/>
-        <field name="binding_model_id" ref="account.model_account_move"/>
-        <field name="groups_id" eval="[(4, ref('pao.accounting_manager_chile'))]"/>
-        <field name="state">code</field>
-        <field name="code">
-            if records:
-                action = records.remove_fee_lines_action()
         </field>
     </record>
 </odoo>
