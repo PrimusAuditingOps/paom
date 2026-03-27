@@ -6,14 +6,23 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='preview_invoice']" position="after">
-                    <field name="auto_conversion_applied" invisible="1"/>
-                    <field name="can_auto_convert" invisible="1"/>
-                    <button invisible="state != 'draft' or country_code != 'MX' or not can_auto_convert or auto_conversion_applied" string="Convert Prices" type="object" class="oe_highlight btn btn-secondary" name="apply_auto_convert_to_mxn" confirm="The invoice line prices will be converted to MXN using the exchange rate for the invoice date. Continue?"/>
-                    <button invisible="state != 'draft' or country_code != 'MX' or not auto_conversion_applied" string="Undo Convert Prices" type="object" class="oe_highlight btn btn-secondary" name="undo_auto_convert_to_mxn" confirm="The invoice lines prices will be reverted to their original currency. Continue?"/>
+                <field name="auto_conversion_applied" invisible="1"/>
+                <field name="can_auto_convert" invisible="1"/>
+                <button invisible="state != 'draft' or country_code != 'MX' or not can_auto_convert or auto_conversion_applied" string="Convert Prices" type="object" class="oe_highlight btn btn-secondary" name="apply_auto_convert_to_mxn" confirm="The invoice line prices will be converted to MXN using the exchange rate for the invoice date. Continue?"/>
+                <button invisible="state != 'draft' or country_code != 'MX' or not auto_conversion_applied" string="Undo Convert Prices" type="object" class="oe_highlight btn btn-secondary" name="undo_auto_convert_to_mxn" confirm="The invoice lines prices will be reverted to their original currency. Continue?"/>
             </xpath>
 
             <xpath expr="//div[@name='journal_div']//field[@name='currency_id']" position="attributes">
                 <attribute name="readonly">state != 'draft' or auto_conversion_applied</attribute>
+            </xpath>
+
+            <xpath expr="//div[@name='journal_div']" position="before">
+                <div class="alert alert-info d-flex align-items-center mb-0" role="alert" invisible="not can_auto_convert or auto_conversion_applied">
+                    <i class="fa fa-info-circle me-2"/>
+        The invoice currency has been changed from USD to MXN. Use the 
+                    <strong class="mx-1">"Convert Prices"</strong> button to automatically 
+        apply the exchange rate to the invoice lines.
+                </div>
             </xpath>
         </field>
     </record>

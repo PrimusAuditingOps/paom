@@ -53,6 +53,8 @@ class AccountMoveInherit(models.Model):
                 line.exchange_rate_value = None
                 
         self.auto_conversion_applied = False
+        
+        self.currency_id = self.env.ref('base.USD', raise_if_not_found=False)
 
     @api.onchange('currency_id')
     def _onchange_currency_id_activate_auto_convert(self):
