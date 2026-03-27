@@ -71,6 +71,7 @@ class AccountMoveInherit(models.Model):
         origin = self._origin.currency_id  # currency before the change
         
         if origin == usd and self.currency_id == mxn:
+            _logger.warning("Invoice %s: Currency changed from USD to MXN, activating auto conversion option.", self.name)
             self.can_auto_convert = True
             return {
                 'type': 'ir.actions.client',
