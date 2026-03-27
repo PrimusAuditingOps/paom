@@ -44,9 +44,10 @@ class AccountMoveInherit(models.Model):
         _logger.warning("ONCHANGE 2")
 
         if origin == usd and self.currency_id == mxn:
+            _logger.warning("ONCHANGE 3")
             return {
                 'type': 'ir.actions.act_window',
-                'res_model': 'currency.change.wizard',
+                'res_model': 'auto.currency.conversion.wizard',
                 'view_mode': 'form',
                 'target': 'new',
                 'context': {
