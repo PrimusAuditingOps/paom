@@ -22,7 +22,7 @@ class AccountMoveInherit(models.Model):
     @api.onchange('currency_id')
     def _onchange_currency_id_prompt_wizard(self):
         
-        if self.company_id.country_code != 'MX':
+        if self.company_id.id == 1:
             return
         
         # Only trigger when changing from USD to MXN
