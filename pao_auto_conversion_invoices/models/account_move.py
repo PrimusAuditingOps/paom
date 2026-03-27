@@ -31,6 +31,8 @@ class AccountMoveInherit(models.Model):
         # Only trigger when changing from USD to MXN
         usd = self.env.ref('base.USD', raise_if_not_found=False)
         mxn = self.env.ref('base.MXN', raise_if_not_found=False)
+        
+        _logger.warning(str(usd) + " - " + str(mxn))
 
         if not usd or not mxn:
             return
