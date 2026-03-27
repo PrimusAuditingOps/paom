@@ -1,4 +1,7 @@
 from odoo import models, fields, api, _
+from logging import getLogger
+
+_logger = getLogger(__name__)
 
 class AccountMoveInherit(models.Model):
 
@@ -21,7 +24,7 @@ class AccountMoveInherit(models.Model):
 
     @api.onchange('currency_id')
     def _onchange_currency_id_prompt_wizard(self):
-        
+        _logger.warning("ONCHANGE")
         if self.company_id.id == 1:
             return
         
@@ -33,6 +36,8 @@ class AccountMoveInherit(models.Model):
             return
 
         origin = self._origin.currency_id  # currency before the change
+        
+        _logger.warning("ONCHANGE 2")
 
         if origin == usd and self.currency_id == mxn:
             return {
