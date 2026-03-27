@@ -7,6 +7,8 @@ class AccountMoveInherit(models.Model):
 
     _inherit='account.move'
     
+    auto_conversion_applied = fields.Boolean(default=False, copy=False)
+    
     can_undo_conversion = fields.Boolean(
         compute='_compute_can_undo_conversion'
     )
@@ -25,7 +27,7 @@ class AccountMoveInherit(models.Model):
     @api.onchange('currency_id')
     def _onchange_currency_id_prompt_wizard(self):
         _logger.warning("ONCHANGE")
-        if self.company_id.id != 1:
+        if self.company_id.id != 1 or self.auto_conversion_applied:
             return
         
         # Only trigger when changing from USD to MXN
@@ -46,9 +48,11 @@ class AccountMoveInherit(models.Model):
         if origin == usd and self.currency_id == mxn:
             _logger.warning("ONCHANGE 3")
             return {
+                # 'name': (_('Apply Exchange Rate')) if action == 'apply' else (_('Undo Exchange Rate')),
                 'type': 'ir.actions.act_window',
                 'res_model': 'auto.currency.conversion.wizard',
                 'view_mode': 'form',
+                'view_id': self.env.ref('pao_auto_conversion_invoices.auto_currency_conversion_wizard_form').id,
                 'target': 'new',
                 'context': {
                     'default_move_id': self._origin.id,
