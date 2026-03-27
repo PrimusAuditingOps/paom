@@ -76,13 +76,19 @@ class AccountMoveInherit(models.Model):
             _logger.warning("Invoice %s: Currency changed from USD to MXN, activating auto conversion option.", self.name)
             self.can_auto_convert = True
             return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'type': 'info',
+                'warning': {
                     'title': _('Price Conversion Available'),
                     'message': _('The invoice currency has been changed from USD to MXN. Use the "Convert Prices" button to automatically apply the exchange rate to the invoice lines.'),
-                    'sticky': True,
-                    'next': {'type': 'ir.actions.act_window_close'},
                 }
             }
+            # return {
+            #     'type': 'ir.actions.client',
+            #     'tag': 'display_notification',
+            #     'params': {
+            #         'type': 'info',
+            #         'title': _('Price Conversion Available'),
+            #         'message': _('The invoice currency has been changed from USD to MXN. Use the "Convert Prices" button to automatically apply the exchange rate to the invoice lines.'),
+            #         'sticky': True,
+            #         'next': {'type': 'ir.actions.act_window_close'},
+            #     }
+            # }

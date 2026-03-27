@@ -16,14 +16,14 @@
                 <attribute name="readonly">state != 'draft' or auto_conversion_applied</attribute>
             </xpath>
 
-            <xpath expr="//div[@name='journal_div']" position="before">
-                <div class="alert alert-info d-flex align-items-center mb-0" role="alert" invisible="not can_auto_convert or auto_conversion_applied">
+            <!-- <xpath expr="//div[@name='journal_div']/.." position="after">
+                <div class="alert alert-info alert-dismissible ms-2 mb-2 mt-2" role="alert" invisible="not can_auto_convert or auto_conversion_applied">
                     <i class="fa fa-info-circle me-2"/>
-        The invoice currency has been changed from USD to MXN. Use the 
-                    <strong class="mx-1">"Convert Prices"</strong> button to automatically 
-        apply the exchange rate to the invoice lines.
+                    The invoice currency has been changed from USD to MXN. 
+                    Use the <strong>"Convert Prices"</strong> button to automatically apply the exchange rate to the invoice lines.
+                    <span class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="cursor:pointer;"/>
                 </div>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
 </odoo>
