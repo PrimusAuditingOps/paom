@@ -39,6 +39,8 @@ class AccountMoveInherit(models.Model):
 
         origin = self._origin.currency_id  # currency before the change
         
+        _logger.warning("Origin: " + str(origin))
+        
         _logger.warning("ONCHANGE 2")
 
         if origin == usd and self.currency_id == mxn:
