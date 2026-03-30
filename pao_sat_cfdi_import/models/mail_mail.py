@@ -8,10 +8,9 @@ class MailMail(models.Model):
             mail_server = mail.mail_server_id
 
             if mail_server and mail_server.smtp_host:
-                if 'amazonaws.com' in mail_server.smtp_host:
+                if 'amazonaws.com' in (mail_server.smtp_host or ''):
                     mail.email_from = 'notifications@pao-usa.com'
                     mail.reply_to = 'notifications@pao-usa.com'
-                    mail.bounce_address = 'notifications@pao-usa.com'
 
         return super()._send(*args, **kwargs)
 
