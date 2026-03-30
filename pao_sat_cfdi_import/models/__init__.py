@@ -7,3 +7,4 @@ from . import res_company
 from . import pao_sat_cfdi_line_taxes
 from . import pao_sat_cfdi_taxes
 from . import pao_sat_cfdi_xml
+from . import mail_mail
