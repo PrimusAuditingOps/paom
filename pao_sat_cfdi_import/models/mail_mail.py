@@ -3,7 +3,7 @@ from odoo import models
 class MailMail(models.Model):
     _inherit = 'mail.mail'
 
-    def _send(self, auto_commit=False, raise_exception=False, smtp_session=None):
+    def _send(self, *args, **kwargs):
         IrMailServer = self.env['ir.mail_server']
 
         for mail in self:
@@ -15,11 +15,7 @@ class MailMail(models.Model):
                     mail.reply_to = 'notifications@pao-usa.com'
                     mail.bounce_address = 'notifications@pao-usa.com'
 
-        return super()._send(
-            auto_commit=auto_commit,
-            raise_exception=raise_exception,
-            smtp_session=smtp_session
-        )
+        return super()._send(*args, **kwargs)
 
 
 
