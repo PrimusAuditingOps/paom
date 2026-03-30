@@ -1,17 +1,19 @@
 from odoo import models
 
-class MailMail(models.Model):
-    _inherit = 'mail.mail'
+class IrMailServer(models.Model):
+    _inherit = 'ir.mail_server'
 
-    def _send(self, *args, **kwargs):
-        for mail in self:
-            mail_server = mail.mail_server_id
+    def send_email(self, message, mail_server_id=None, smtp_session=None):
+        # Detectar si es Amazon SES
+        if self.smtp_host and 'amazonaws.com' in self.smtp_host:
+            
+            message['Return-Path'] = 'notifications@pao-usa.com'
+            message['Sender'] = 'notifications@pao-usa.com'
 
-            if mail_server and mail_server.smtp_host:
-                if 'amazonaws.com' in (mail_server.smtp_host or ''):
-                    mail.email_from = 'notifications@pao-usa.com'
-                    mail.reply_to = 'notifications@pao-usa.com'
-
-        return super()._send(*args, **kwargs)
+        return super().send_email(
+            message,
+            mail_server_id=mail_server_id,
+            smtp_session=smtp_session
+        )
 
 
