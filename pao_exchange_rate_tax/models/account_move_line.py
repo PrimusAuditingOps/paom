@@ -553,8 +553,9 @@ class AccountMoveLine(models.Model):
                     # Invoice is credit side
                     payment_line = partial.debit_move_id
                 
-                # Accumulate paid amount in invoice currency
-                total_paid += abs(payment_line.amount_currency)
+                # total_paid += abs(payment_line.amount_currency)
+                # Accumulate paid amount in company currency
+                total_paid += abs(payment_line.balance)
             
             # Check for overpayment
             if total_paid > invoice_amount:
