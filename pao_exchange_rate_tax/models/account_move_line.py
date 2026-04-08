@@ -553,8 +553,9 @@ class AccountMoveLine(models.Model):
                     # Invoice is credit side
                     payment_line = partial.debit_move_id
                 
-                # Accumulate paid amount in invoice currency
-                total_paid += abs(payment_line.amount_currency)
+                # total_paid += abs(payment_line.amount_currency)
+                # Accumulate paid amount in company currency
+                total_paid += abs(payment_line.balance)
             
             # Check for overpayment
             if total_paid > invoice_amount:
@@ -742,7 +743,10 @@ class AccountMoveLine(models.Model):
             # Get accounts based on debit/credit side (like CABA entry)
             if is_gain:
                 # CREDIT side: use final tax account
-                tax_account = tax_repartition_line.account_id
+                account_tax_exchange = tax_repartition_line.account_id
+                if tax_id and tax_id.use_cash_basis_trans_account:
+                    account_tax_exchange = tax_id.cash_basis_transition_account_id
+                tax_account = account_tax_exchange
                 tax_line_debit = 0.0
                 tax_line_credit = tax_amount
                 tax_line_amount_currency = -tax_amount_currency
