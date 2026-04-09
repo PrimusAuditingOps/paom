@@ -1,0 +1,101 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_auto_conversion_invoices
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-09 04:03+0000\n"
+"PO-Revision-Date: 2026-04-09 04:03+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_auto_conversion_invoices
+#: model:ir.model.fields,field_description:pao_auto_conversion_invoices.field_account_bank_statement_line__auto_conversion_applied
+#: model:ir.model.fields,field_description:pao_auto_conversion_invoices.field_account_move__auto_conversion_applied
+#: model:ir.model.fields,field_description:pao_auto_conversion_invoices.field_account_payment__auto_conversion_applied
+msgid "Auto Conversion Applied"
+msgstr "Auto conversión aplicada"
+
+#. module: pao_auto_conversion_invoices
+#: model:ir.model.fields,field_description:pao_auto_conversion_invoices.field_account_bank_statement_line__can_auto_convert
+#: model:ir.model.fields,field_description:pao_auto_conversion_invoices.field_account_move__can_auto_convert
+#: model:ir.model.fields,field_description:pao_auto_conversion_invoices.field_account_payment__can_auto_convert
+msgid "Can Auto Convert"
+msgstr "Puede auto convertir"
+
+#. module: pao_auto_conversion_invoices
+#: model_terms:ir.ui.view,arch_db:pao_auto_conversion_invoices.pao_account_move_custom_exchange_rate_view
+msgid "Convert Prices"
+msgstr "Convertir precios"
+
+#. module: pao_auto_conversion_invoices
+#. odoo-python
+#: code:addons/pao_auto_conversion_invoices/models/account_move.py:0
+#, python-format
+msgid "Exchange Rate Not Available"
+msgstr "Tipo de cambio no disponible"
+
+#. module: pao_auto_conversion_invoices
+#: model:ir.model,name:pao_auto_conversion_invoices.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: pao_auto_conversion_invoices
+#. odoo-python
+#: code:addons/pao_auto_conversion_invoices/models/account_move.py:0
+#, python-format
+msgid ""
+"No exchange rate was found for the invoice date. Please make sure a valid "
+"exchange rate exists for the selected currencies before proceeding"
+msgstr ""
+"No se encontró un tipo de cambio para la fecha de la factura. Por favor, "
+"asegúrese de que exista un tipo de cambio válido para las monedas "
+"seleccionadas antes de continuar"
+
+#. module: pao_auto_conversion_invoices
+#. odoo-python
+#: code:addons/pao_auto_conversion_invoices/models/account_move.py:0
+#, python-format
+msgid "Price Conversion Available"
+msgstr "Conversión de precio disponible"
+
+#. module: pao_auto_conversion_invoices
+#. odoo-python
+#: code:addons/pao_auto_conversion_invoices/models/account_move.py:0
+#, python-format
+msgid ""
+"The invoice currency has been changed from USD to MXN. Use the \"Convert "
+"Prices\" button to automatically apply the exchange rate to the invoice "
+"lines."
+msgstr ""
+"La moneda de la factura ha sido cambiada de USD a MXN. Use el botón "
+"\"Convertir precios\" para aplicar automáticamente el tipo de cambio a las "
+"líneas de factura."
+
+#. module: pao_auto_conversion_invoices
+#: model_terms:ir.ui.view,arch_db:pao_auto_conversion_invoices.pao_account_move_custom_exchange_rate_view
+msgid ""
+"The invoice line prices will be converted to MXN using the exchange rate for"
+" the invoice date. Continue?"
+msgstr ""
+"Los precios de las líneas de factura serán convertidos a MXN usando el tipo "
+"de cambio de la fecha de factura. ¿Continuar?"
+
+#. module: pao_auto_conversion_invoices
+#: model_terms:ir.ui.view,arch_db:pao_auto_conversion_invoices.pao_account_move_custom_exchange_rate_view
+msgid ""
+"The invoice lines prices will be reverted to their original currency. "
+"Continue?"
+msgstr ""
+"Las líneas de factura serán revertidas a su moneda original. ¿Continuar?"
+
+#. module: pao_auto_conversion_invoices
+#: model_terms:ir.ui.view,arch_db:pao_auto_conversion_invoices.pao_account_move_custom_exchange_rate_view
+msgid "Undo Convert Prices"
+msgstr "Deshacer convertir precios"
