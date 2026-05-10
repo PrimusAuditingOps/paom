@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="pao_partner_upload_invoice_view_form" model="ir.ui.view">
+        <field name="name">pao.partner.upload.invoice.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="team_id" position="after">
+                    <field name="company_id" invisible="1"/>
+                    <field name="pao_upload_invoice_portal" invisible="company_id != 1"/>
+                </field>
+            </field>
+    </record>
+</odoo>
