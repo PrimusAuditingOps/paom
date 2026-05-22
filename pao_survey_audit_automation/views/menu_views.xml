@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dashboard en el menú principal de Encuestas -->
+    <menuitem id="menu_survey_audit_dashboard"
+        name="Dashboard"
+        action="action_survey_audit_dashboard"
+        parent="survey.menu_surveys"
+        sequence="5"/>
+
+    <!-- Submenú de configuración de catálogos -->
+    <menuitem id="menu_survey_audit_config"
+        name="Configuration"
+        parent="survey.menu_surveys"
+        sequence="90"/>
+
+    <menuitem id="menu_survey_compliment_tags"
+        name="Compliment Tags"
+        parent="menu_survey_audit_config"
+        action="action_survey_compliment_tag"
+        sequence="10"/>
+
+    <menuitem id="menu_survey_complaint_tags"
+        name="Complaint Tags"
+        parent="menu_survey_audit_config"
+        action="action_survey_complaint_tag"
+        sequence="20"/>
+
+</odoo>

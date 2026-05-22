@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_survey_question_dashboard_form_inherited" model="ir.ui.view">
+        <field name="name">view.survey.question.dashboard.form.inherited</field>
+        <field name="model">survey.question</field>
+        <field name="inherit_id" ref="survey.survey_question_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Dashboard Options" name="dashboard_options">
+                    <group string="Feedback">
+                        <field name="dashboard_feedback_type"/>
+                        <field name="dashboard_trigger_value" invisible="dashboard_feedback_type not in ('complaint', 'compliment')" required="dashboard_feedback_type in ('complaint', 'compliment')"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

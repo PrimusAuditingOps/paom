@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="pao_survey_audit_automation.SurveyAuditDashboard">
+        <div class="o_survey_audit_dashboard" style="overflow-y:auto; height:100%;">
+
+            <!-- Header con filtro de fechas -->
+            <div class="sad_header">
+                <div class="sad_header_left">
+                    <div class="sad_header_title">
+                        <i class="fa fa-bar-chart me-2"/>
+                        Survey Dashboard
+                    </div>
+                    <div class="sad_survey_select">
+                        <label class="sad_filter_label">Survey:</label>
+                        <select class="sad_survey_input" t-on-change="onSurveyChange">
+                            <option value="" disabled="1" t-att-selected="!state.surveyId">Select a survey...</option>
+                            <t t-foreach="state.surveys or []" t-as="survey" t-key="survey.id">
+                                <option t-att-value="survey.id" t-att-selected="state.surveyId != null and state.surveyId == survey.id" t-esc="survey.title"/>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+                <div class="sad_filters">
+                    <label class="sad_filter_label">From: </label>
+                    <input type="date" class="sad_date_input" t-att-value="state.dateFrom" t-on-change="(ev) => this.onDateChange('dateFrom', ev)"/>
+                    <label class="sad_filter_label">To: </label>
+                    <input type="date" class="sad_date_input" t-att-value="state.dateTo" t-on-change="(ev) => this.onDateChange('dateTo', ev)"/>
+                    <button class="sad_btn_print" t-on-click="printDashboard">
+                        <i class="fa fa-download me-1"/>Download
+                    </button>
+                    <button class="sad_btn_apply" t-on-click="loadData">
+                        <i class="fa fa-refresh me-1"/>Apply
+                    </button>
+                </div>
+            </div>
+
+            <!-- Spinner de carga -->
+            <div t-if="state.loading" class="sad_loading">
+                <i class="fa fa-spinner fa-spin fa-2x"/>
+                <span>Loading...</span>
+            </div>
+
+            <t t-if="!state.loading and !state.data">
+                <div class="sad_empty_state">
+                    <i class="fa fa-bar-chart fa-3x mb-3"/>
+                    <h4>No survey selected</h4>
+                    <p>Please select a survey from the dropdown above and click Apply to view the dashboard.</p>
+                </div>
+            </t>
+
+            <t t-if="!state.loading and state.data and state.surveyId">
+
+                <!-- Tops -->
+                <div class="sad_tops_grid">
+
+                    <div class="sad_top_card">
+                        <div class="sad_top_title">
+                            <i class="fa fa-thumbs-up me-1 text-success"/>
+                        Top 5 Compliments Tags
+                        </div>
+                        <t t-foreach="state.data.top_compliment_tags" t-as="item" t-key="item[0]">
+                            <div class="sad_top_row">
+                                <div class="sad_top_bar_wrap">
+                                    <span class="sad_top_name" t-esc="item[0]"/>
+                                    <div class="sad_top_bar">
+                                        <div class="sad_top_bar_fill sad_fill_green" t-attf-style="width:#{barPct(item[1], state.data.top_compliment_tags)}%"/>
+                                    </div>
+                                </div>
+                                <span class="sad_top_count" t-esc="item[1]"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="sad_top_card">
+                        <div class="sad_top_title">
+                            <i class="fa fa-thumbs-down me-1 text-danger"/>
+                        Top 5 Complaints Tags
+                        </div>
+                        <t t-foreach="state.data.top_complaint_tags" t-as="item" t-key="item[0]">
+                            <div class="sad_top_row">
+                                <div class="sad_top_bar_wrap">
+                                    <span class="sad_top_name" t-esc="item[0]"/>
+                                    <div class="sad_top_bar">
+                                        <div class="sad_top_bar_fill sad_fill_red" t-attf-style="width:#{barPct(item[1], state.data.top_complaint_tags)}%"/>
+                                    </div>
+                                </div>
+                                <span class="sad_top_count" t-esc="item[1]"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="sad_top_card">
+                        <div class="sad_top_title">
+                            <i class="fa fa-user me-1 text-success"/>
+                        Top 5 Auditors — Compliments Tags
+                        </div>
+                        <t t-foreach="state.data.top_auditors_compliments" t-as="item" t-key="item[0]">
+                            <div class="sad_top_row">
+                                <div class="sad_top_bar_wrap">
+                                    <span class="sad_top_name" t-esc="item[0]"/>
+                                    <div class="sad_top_bar">
+                                        <div class="sad_top_bar_fill sad_fill_teal" t-attf-style="width:#{barPct(item[1], state.data.top_auditors_compliments)}%"/>
+                                    </div>
+                                </div>
+                                <span class="sad_top_count" t-esc="item[1]"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="sad_top_card">
+                        <div class="sad_top_title">
+                            <i class="fa fa-user me-1 text-danger"/>
+                        Top 5 Auditors — Complaints Tags
+                        </div>
+                        <t t-foreach="state.data.top_auditors_complaints" t-as="item" t-key="item[0]">
+                            <div class="sad_top_row">
+                                <div class="sad_top_bar_wrap">
+                                    <span class="sad_top_name" t-esc="item[0]"/>
+                                    <div class="sad_top_bar">
+                                        <div class="sad_top_bar_fill sad_fill_red" t-attf-style="width:#{barPct(item[1], state.data.top_auditors_complaints)}%"/>
+                                    </div>
+                                </div>
+                                <span class="sad_top_count" t-esc="item[1]"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="sad_top_card">
+                        <div class="sad_top_title">
+                            <i class="fa fa-briefcase me-1 text-success"/>
+                        Top 5 Coordinators — Compliments Tags
+                        </div>
+                        <t t-foreach="state.data.top_coordinators_compliments" t-as="item" t-key="item[0]">
+                            <div class="sad_top_row">
+                                <div class="sad_top_bar_wrap">
+                                    <span class="sad_top_name" t-esc="item[0]"/>
+                                    <div class="sad_top_bar">
+                                        <div class="sad_top_bar_fill sad_fill_blue" t-attf-style="width:#{barPct(item[1], state.data.top_coordinators_compliments)}%"/>
+                                    </div>
+                                </div>
+                                <span class="sad_top_count" t-esc="item[1]"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="sad_top_card">
+                        <div class="sad_top_title">
+                            <i class="fa fa-briefcase me-1 text-danger"/>
+                        Top 5 Coordinators — Complaints Tags
+                        </div>
+                        <t t-foreach="state.data.top_coordinators_complaints" t-as="item" t-key="item[0]">
+                            <div class="sad_top_row">
+                                <div class="sad_top_bar_wrap">
+                                    <span class="sad_top_name" t-esc="item[0]"/>
+                                    <div class="sad_top_bar">
+                                        <div class="sad_top_bar_fill sad_fill_orange" t-attf-style="width:#{barPct(item[1], state.data.top_coordinators_complaints)}%"/>
+                                    </div>
+                                </div>
+                                <span class="sad_top_count" t-esc="item[1]"/>
+                            </div>
+                        </t>
+                    </div>
+
+                </div>                <!-- /.sad_tops_grid -->
+
+                <!-- KPIs superiores -->
+                <div class="sad_kpi_row">
+                    <div class="sad_kpi sad_kpi_blue">
+                        <div class="sad_kpi_value" t-esc="state.data.total_sent"/>
+                        <div class="sad_kpi_label">Surveys Sent</div>
+                    </div>
+                    <div class="sad_kpi sad_kpi_green">
+                        <div class="sad_kpi_value" t-esc="state.data.total_answered"/>
+                        <div class="sad_kpi_label">Surveys Answered</div>
+                        <div class="sad_kpi_pct" t-esc="pct(state.data.total_answered, state.data.total_sent)"/>
+                    </div>
+                    <t t-if="state.data.has_compliment_indicator">
+                        <div class="sad_kpi sad_kpi_teal">
+                            <div class="sad_kpi_value" t-esc="state.data.with_compliments"/>
+                            <div class="sad_kpi_label">With Compliments</div>
+                            <div class="sad_kpi_pct" t-esc="pct(state.data.with_compliments, state.data.total_answered)"/>
+                        </div>
+                    </t>
+                    <t t-if="state.data.has_complaint_indicator">
+                        <div class="sad_kpi sad_kpi_red">
+                            <div class="sad_kpi_value" t-esc="state.data.with_complaints"/>
+                            <div class="sad_kpi_label">With Complaints</div>
+                            <div class="sad_kpi_pct" t-esc="pct(state.data.with_complaints, state.data.total_answered)"/>
+                        </div>
+                    </t>
+                    <t t-if="state.data.has_max_score_indicator">
+                        <div class="sad_kpi sad_kpi_gold">
+                            <div class="sad_kpi_value" t-esc="state.data.max_score"/>
+                            <div class="sad_kpi_label">With Max Score</div>
+                            <div class="sad_kpi_pct" t-esc="pct(state.data.max_score, state.data.total_answered)"/>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="sad_charts_row">
+                    <div class="sad_chart_card">
+                        <div class="sad_chart_title">Sent vs. Answered</div>
+                        <canvas id="chartSentAnswered"/>
+                    </div>
+                    <t t-if="state.data.has_compliment_indicator">
+                        <div class="sad_chart_card">
+                            <div class="sad_chart_title">Answered with compliments</div>
+                            <canvas id="chartCompliments"/>
+                        </div>
+                    </t>
+                    <t t-if="state.data.has_complaint_indicator">
+                        <div class="sad_chart_card">
+                            <div class="sad_chart_title">Answered with complaints</div>
+                            <canvas id="chartComplaints"/>
+                        </div>
+                    </t>
+                    <t t-if="state.data.has_max_score_indicator">
+                        <div class="sad_chart_card">
+                            <div class="sad_chart_title">With Max Score</div>
+                            <canvas id="chartMaxScore"/>
+                        </div>
+                    </t>
+                    <t t-if="state.data.classification_available">
+                        <div class="sad_chart_card sad_chart_wide">
+                            <div class="sad_chart_title">Results: Positive / Neutral / Negative</div>
+                            <canvas id="chartResults"/>
+                        </div>
+                    </t>
+                </div>
+
+            </t>            <!-- /t-if data -->
+
+        </div>        <!-- /.o_survey_audit_dashboard -->
+    </t>
+
+</templates>

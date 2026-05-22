@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_survey_import_wizard_form" model="ir.ui.view">
+        <field name="name">survey.import.wizard.form</field>
+        <field name="model">survey.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Audit File">
+
+                <!-- PASO 1: Carga del archivo -->
+                <group invisible="wizard_state != 'upload'">
+                    <group string="File Selection">
+                        <field name="survey_id" readonly="1"/>
+                        <field name="file_data" filename="file_name" string="Xlsx File" required="1" widget="binary" options="{'accepted_file_extensions': '.xlsx, .csv'}"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Required columns in the file:</strong>
+                        <ul>
+                            <li>App ID, PGFSNumber, Organization Name, Audit ID</li>
+                            <li>Certification Date, Coordinator, Auditor</li>
+                            <li>Operation State, Operation Country</li>
+                            <li>Contact Name, Contact Email (separated by ";" if multiple)</li>
+                        </ul>
+                    </div>
+                </group>
+
+                <!-- PASO 2: Confirmación -->
+                <group string="Import Summary" invisible="wizard_state != 'confirm'"/>
+
+                <div invisible="wizard_state != 'confirm'">
+                    <field name="preview_html" widget="html" readonly="1" nolabel="1" colspan="2"/>
+                    <div class="alert alert-warning mt-3" role="alert">
+                        <strong>Confirm sending?</strong>
+                        One participation will be created per organization and the survey will be sent to
+                        all indicated email addresses. This action cannot be undone.
+                    </div>
+                </div>
+
+                <field name="wizard_state" invisible="1"/>
+
+                <footer>
+                    <!-- Paso 1 -->
+                    <button name="action_load_preview" type="object" string="Upload and Preview" class="btn-primary" invisible="wizard_state != 'upload'"/>
+
+                    <!-- Paso 2 -->
+                    <button name="action_import_and_send" type="object" string="Confirm and send surveys" class="btn-primary" confirm="Are you sure? The surveys will be sent to all contacts in the file." invisible="wizard_state != 'confirm'"/>
+
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>

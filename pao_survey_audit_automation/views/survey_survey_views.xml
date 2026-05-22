@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_survey_form_inherited" model="ir.ui.view">
+        <field name="name">survey.survey.form.audit</field>
+        <field name="model">survey.survey</field>
+        <field name="inherit_id" ref="survey.survey_survey_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="can_upload_file" invisible="1"/>
+                <button name="action_open_import_wizard" type="object" string="Upload File" class="btn-primary" icon="fa-upload" 
+                help="Import audit data from an XLSX file and automatically send surveys" invisible="not can_upload_file"/>
+            </xpath>
+
+            <xpath expr="//page[@name='options']" position="inside">
+                <group string="Admin Options" name="admin_options" groups="base.group_system">
+                    <field name="can_upload_file" groups="base.group_system"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='question_type']" position="after">
+                <field name="dashboard_feedback_type" widget="badge" optional="hide"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="File Column Mapping" name="column_mapping" invisible="not can_upload_file">
+                    <div class="alert alert-info" role="alert">
+                        <i class="fa fa-info-circle me-2"/>
+                        Configure which column name in the uploaded file corresponds
+                        to each field. The <strong>Contact Email</strong> mapping is required
+                        for the import to work.
+                    </div>
+                    <field name="column_mapping_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="field_name"/>
+                            <field name="column_name"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,1142 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_survey_audit_automation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-12 15:20+0000\n"
+"PO-Revision-Date: 2026-05-12 15:20+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "... and %s more records"
+msgstr "... y %s registros más"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_form_inherited
+msgid ""
+"<i class=\"fa fa-info-circle me-2\"/>\n"
+"                        Configure which column name in the uploaded file corresponds\n"
+"                        to each field. The <strong>Contact Email</strong> mapping is required\n"
+"                        for the import to work."
+msgstr ""
+"<i class=\"fa fa-info-circle me-2\"/>\n"
+"                        Configure qué nombre de columna en el archivo cargado corresponde\n"
+"                        a cada campo. El mapeo de correo de contacto es obligatorio\n"
+"                        para que la importación funcione."
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/models/survey_survey.py:0
+#, python-format
+msgid ""
+"<p>Dear %s,</p><p>We invite you to complete the following survey:</p><p><a "
+"href=\"%s\">%s</a></p><p>Thank you for your participation.</p>"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid ""
+"<strong>Confirm sending?</strong>\n"
+"                        One participation will be created per organization and the survey will be sent to\n"
+"                        all indicated email addresses. This action cannot be undone."
+msgstr ""
+"<strong>¿Confirmar envío?</strong>\n"
+"                        Se creará una participación por organización y la encuesta se enviará a todas las direcciones de correo electrónico indicadas. Esta acción no se puede deshacer."
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "<strong>Required columns in the file:</strong>"
+msgstr "<strong>Columnas obligatorias en el archivo:</strong>"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__active
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_form_inherited
+msgid "Admin Options"
+msgstr "Opciones de administrador"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_question__dashboard_trigger_value
+msgid ""
+"Answer value that will trigger this question to be counted in dashboard "
+"statistics."
+msgstr ""
+"Valor de respuesta que hará que esta pregunta sea tomada en cuenta en las "
+"estadísticas del dashboard."
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Answered"
+msgstr "Respondidas"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Answered with complaints"
+msgstr "Respondidas con quejas"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Answered with compliments"
+msgstr "Respondidas con cumplidos"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "App ID"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "App ID, PGFSNumber, Organization Name, Audit ID"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__app_id
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__app_id
+msgid "Application ID"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Are you sure? The surveys will be sent to all contacts in the file."
+msgstr ""
+"¿Estás seguro? Las encuestas serán enviadas a todos los contactos del "
+"archivo."
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_form_inherited
+msgid "Audit Details"
+msgstr "Detalles de auditoría"
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_audit_duration
+msgid "Audit Duration"
+msgstr "Duración de auditoría"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__audit_id
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__audit_id
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "Audit ID"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_form_inherited
+msgid "Audit Information"
+msgstr "Información de auditoría"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model,name:pao_survey_audit_automation.model_survey_import_wizard
+msgid "Audit import wizard from XLSX"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_auditor
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+#, python-format
+msgid "Auditor"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_auditor_conduct
+msgid "Auditor Conduct"
+msgstr "Conducta del Auditor"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__auditor_name
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__auditor_name
+msgid "Auditor Name"
+msgstr "Nombre de auditor"
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_billing
+msgid "Billing Issues"
+msgstr "Problemas de Facturación"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_survey__can_upload_file
+msgid "Can Upload File"
+msgstr "Puede subir archivo"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+msgid "Certification Date"
+msgstr "Fecha de certificación"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Certification Date, Coordinator, Auditor"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__certified_date
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__certified_date
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "Certified Date"
+msgstr "Fecha de certificación"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__color
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__color
+msgid "Color Index"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_survey__column_mapping_ids
+msgid "Column Mapping"
+msgstr "Mapeo de columnas"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__column_name
+msgid "Column name in file"
+msgstr "Nombre de la columna en el archivo"
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_communication
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_communication
+msgid "Communication"
+msgstr "Comunicación"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_question__dashboard_feedback_type__complaint
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_user_input_line__dashboard_feedback_type__complaint
+msgid "Complaint"
+msgstr "Queja"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_complaint_tag_form
+msgid "Complaint Tag"
+msgstr "Etiqueta de queja"
+
+#. module: pao_survey_audit_automation
+#: model:ir.actions.act_window,name:pao_survey_audit_automation.action_survey_complaint_tag
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__complaint_theme_ids
+#: model:ir.ui.menu,name:pao_survey_audit_automation.menu_survey_complaint_tags
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_complaint_tag_tree
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "Complaint Tags"
+msgstr "Etiquetas de queja"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model,name:pao_survey_audit_automation.model_survey_complaint_tag
+msgid "Complaint Theme Tag"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_form_inherited
+msgid "Complaints Tags"
+msgstr "Etiquejas de quejas"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_question__dashboard_feedback_type__compliment
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_user_input_line__dashboard_feedback_type__compliment
+msgid "Compliment"
+msgstr "Cumplido"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_compliment_tag_form
+msgid "Compliment Tag"
+msgstr "Etiqueta de cumplido"
+
+#. module: pao_survey_audit_automation
+#: model:ir.actions.act_window,name:pao_survey_audit_automation.action_survey_compliment_tag
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__compliment_theme_ids
+#: model:ir.ui.menu,name:pao_survey_audit_automation.menu_survey_compliment_tags
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_compliment_tag_tree
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "Compliment Tags"
+msgstr "Etiquetas de cumplido"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model,name:pao_survey_audit_automation.model_survey_compliment_tag
+msgid "Compliment Theme Tag"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_form_inherited
+msgid "Compliments Tags"
+msgstr "Etiquetas de cumplidos"
+
+#. module: pao_survey_audit_automation
+#: model:ir.ui.menu,name:pao_survey_audit_automation.menu_survey_audit_config
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Confirm and send surveys"
+msgstr "Confirmar y enviar encuestas"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_import_wizard__wizard_state__confirm
+msgid "Confirm sending"
+msgstr "Confirmar envío"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+msgid "Contact Email"
+msgstr "Correo de contacto"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__contact_email
+msgid "Contact Email(s)"
+msgstr "Correos de contacto"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__contact_email
+msgid "Contact Email(s) *"
+msgstr "Correos de contacto *"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+msgid "Contact Name"
+msgstr "Nombre de contacto"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__contact_name
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__contact_name
+msgid "Contact Name(s)"
+msgstr "Nombres de contacto"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Contact Name, Contact Email (separated by \";\" if multiple)"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "Contacts"
+msgstr "Contactos"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+#, python-format
+msgid "Coordinator"
+msgstr "Coordinador"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__coordinator_name
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__coordinator_name
+msgid "Coordinator Name"
+msgstr "Nombre de coordinador"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "Could not read the file. Make sure it is a valid .xlsx or .csv file.\n"
+msgstr ""
+"No se pudo leer el archivo. Asegúrate de que sea un archivo válido .xlsx o "
+".csv.\n"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__audit_country
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__audit_country
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "Country"
+msgstr "País"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__audit_country
+msgid "Country where the audit was conducted."
+msgstr "País donde se realizó la auditoría."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__create_uid
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__create_uid
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__create_uid
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__create_date
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__create_date
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__create_date
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_customer_service
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_customer_service
+msgid "Customer Service"
+msgstr "Atención al cliente"
+
+#. module: pao_survey_audit_automation
+#: model:ir.ui.menu,name:pao_survey_audit_automation.menu_survey_audit_dashboard
+msgid "Dashboard"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_question_dashboard_form_inherited
+msgid "Dashboard Options"
+msgstr "Opciones de Dashboard"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__certified_date
+msgid "Date when the audit service was certified."
+msgstr "Fecha en la que se certificó el servicio de auditoría."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_question__dashboard_feedback_type
+msgid ""
+"Defines whether this question should be considered as a compliment, "
+"complaint or max score indicator in dashboard statistics."
+msgstr ""
+"Define si esta pregunta debe considerarse como un cumplido, una queja o un "
+"indicador de puntuación máxima en las estadísticas del panel."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__display_name
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__display_name
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__display_name
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: pao_survey_audit_automation
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_efficiency
+msgid "Efficiency"
+msgstr "Eficiencia"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "Emails"
+msgstr "Correos"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "Emails to send:"
+msgstr "Correos a enviar:"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Error loading dashboard data: "
+msgstr "Error al cargar los datos del panel: "
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_column_mapping__column_name
+msgid "Exact column header name as it appears in the file."
+msgstr ""
+"Nombre exacto del encabezado de la columna tal como aparece en el archivo."
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_question_dashboard_form_inherited
+msgid "Feedback"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_question__dashboard_feedback_type
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input_line__dashboard_feedback_type
+msgid "Feedback Type"
+msgstr "Tipo de Feedback"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__field_name
+msgid "Field Name"
+msgstr "Nombre de campo"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_form_inherited
+msgid "File Column Mapping"
+msgstr "Mapeo de columnas del archivo"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__file_name
+msgid "File Name"
+msgstr "Nombre de archivo"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "File Selection"
+msgstr "Selección de archivo"
+
+#. module: pao_survey_audit_automation
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_flexibility
+msgid "Flexibility"
+msgstr "Flexibilidad"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "From:"
+msgstr "Desde:"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+msgid "Group by"
+msgstr "Agrupar por"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__has_complaint_answer
+msgid "Has Complaint Answer"
+msgstr "Tiene respuesta con queja"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__has_compliment_answer
+msgid "Has Compliment Answer"
+msgstr "Tiene respuesta con cumplido"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__id
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__id
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__id
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__app_id
+msgid "Identifier of the application in Azzule PrimusGFS."
+msgstr "Identificador de la solicitud en Azzule PrimusGFS."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__audit_id
+msgid "Identifier of the audit service in Azzule PrimusGFS."
+msgstr "Identificador del servicio de auditoría en Azzule PrimusGFS."
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/models/survey_survey.py:0
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+#, python-format
+msgid "Import Audit File"
+msgstr "Importar archivo de auditoría"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Import Summary"
+msgstr "Resumen de importación"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_form_inherited
+msgid "Import audit data from an XLSX file and automatically send surveys"
+msgstr ""
+"Importar datos de auditoría desde un archivo XLSX y enviar encuestas "
+"automáticamente"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__imported_from_file
+msgid "Imported from File"
+msgstr "Importado desde archivo"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+msgid "Imported from file"
+msgstr "Importado desde archivo"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__write_uid
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__write_uid
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__write_uid
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Última vez actualizado por"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__write_date
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__write_date
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__write_date
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__write_date
+msgid "Last Updated on"
+msgstr "Última vez actualizado el"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Loading..."
+msgstr "Cargando..."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_question__dashboard_feedback_type__max_score_indicator
+msgid "Max Score"
+msgstr "Puntuación máxima"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__auditor_name
+msgid "Name of the auditor who performed the service in the field."
+msgstr "Nombre del auditor que realizó el servicio en campo."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__coordinator_name
+msgid "Name of the operations specialist who coordinated the service."
+msgstr "Nombre del especialista de operaciones que coordinó el servicio."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__organization_name
+msgid "Name of the organization that received the audit service."
+msgstr "Nombre de la organización que recibió el servicio de auditoría."
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Negative"
+msgstr "Negativo"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Neutral"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "No survey selected"
+msgstr "Ninguna encuesta seleccionada"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "No valid records with email addresses found."
+msgstr ""
+"No se encontraron registros válidos con direcciones de correo electrónico."
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/models/survey_question.py:0
+#, python-format
+msgid "Only one question can be Max Score Indicator per survey."
+msgstr "Solo una pregunta puede configurarse como indicador de puntuación máxima por encuesta."
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Operation State, Operation Country"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+#, python-format
+msgid "Organization"
+msgstr "Organización"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__organization_name
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__organization_name
+msgid "Organization Name"
+msgstr "Nombre de organización"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Other"
+msgstr "Otros"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "Participations"
+msgstr "Participaciones"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid ""
+"Please select a survey from the dropdown above and click Apply to view the "
+"dashboard."
+msgstr ""
+"Por favor, seleccione una encuesta del menú desplegable superior y haga clic"
+" en Aplicar para ver el dashboard."
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "Please select an XLSX file before continuing."
+msgstr "Por favor, seleccione un archivo XLSX antes de continuar."
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Positive"
+msgstr "Positivo"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__preview_html
+msgid "Preview"
+msgstr "Vista previa"
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_process_clarity
+msgid "Process Clarity"
+msgstr "Claridad del proceso"
+
+#. module: pao_survey_audit_automation
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_professionalism
+msgid "Professionalism"
+msgstr "Profesionalismo"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "Records found:"
+msgstr "Registros encontrados:"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "Registration #"
+msgstr "# de registro"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__registration_number
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__registration_number
+msgid "Registration Number"
+msgstr "Número de registro"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__registration_number
+msgid "Registration number of the audited organization (PGFSNumber)"
+msgstr "Número de registro de la organización auditada (PGFSNumber)"
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_report_errors
+msgid "Report Errors"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_report_quality
+msgid "Report Quality"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "Responses with Complaints"
+msgstr "Respuestas con quejas"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "Responses with Compliments"
+msgstr "Respuestas con cumplidos"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Results: Positive / Neutral / Negative"
+msgstr "Resultados: Positivo / Neutral / Negativo"
+
+#. module: pao_survey_audit_automation
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_scheduling
+msgid "Scheduling"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_scheduling_delays
+msgid "Scheduling Delays"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_scope_selections
+msgid "Scope Selections"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Select a survey..."
+msgstr "Seleccione una encuesta..."
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Sent vs. Answered"
+msgstr "Enviadas vs. Respondidas"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_user_input__audit_state
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_column_mapping__field_name__audit_state
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_tree_inherited
+msgid "State"
+msgstr "Estado"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,help:pao_survey_audit_automation.field_survey_user_input__audit_state
+msgid "State where the audit was conducted."
+msgstr "Estado donde se realizó la auditoría."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model,name:pao_survey_audit_automation.model_survey_survey
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_column_mapping__survey_id
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__survey_id
+msgid "Survey"
+msgstr "Encuesta"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#: model:ir.actions.client,name:pao_survey_audit_automation.action_survey_audit_dashboard
+#, python-format
+msgid "Survey Dashboard"
+msgstr "Dashboard de encuestas"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__user_input_ids
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__user_input_ids
+msgid "Survey Inputs"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:ir.model,name:pao_survey_audit_automation.model_survey_question
+msgid "Survey Question"
+msgstr "Pregunta de la encuesta"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model,name:pao_survey_audit_automation.model_survey_user_input
+msgid "Survey User Input"
+msgstr "Encuesta de opinión de los usuarios"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model,name:pao_survey_audit_automation.model_survey_user_input_line
+msgid "Survey User Input Line"
+msgstr "Línea de entrada del usuario de la encuesta"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model,name:pao_survey_audit_automation.model_survey_column_mapping
+msgid "Survey file column mapping"
+msgstr "Mapeo de columnas del archivo de encuesta"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Survey:"
+msgstr "Encuesta:"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/models/survey_survey.py:0
+#, python-format
+msgid "Survey: %s"
+msgstr "Encuesta: %s"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Surveys Answered"
+msgstr "Encuestas respondidas"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Surveys Sent"
+msgstr "Encuestas enviadas"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_complaint_tag__name
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_compliment_tag__name
+msgid "Tag"
+msgstr "Etiqueta"
+
+#. module: pao_survey_audit_automation
+#: model:survey.complaint.tag,name:pao_survey_audit_automation.complaint_tag_technical_issues
+msgid "Technical Issues"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_knowledge
+msgid "Technical Knowledge"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid ""
+"The \"Contact Email\" field is not mapped in this survey.\n"
+"Please configure the column mapping in the survey settings."
+msgstr ""
+"El campo \"Correo electrónico\" no está mapeado en esta encuesta.\n"
+"Por favor, configure el mapeo de columnas en los ajustes de la encuesta."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.constraint,message:pao_survey_audit_automation.constraint_survey_complaint_tag_name_uniq
+msgid "The complaint tag name must be unique."
+msgstr "El nombre de la etiqueta de queja debe ser único."
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.constraint,message:pao_survey_audit_automation.constraint_survey_compliment_tag_name_uniq
+msgid "The compliment tag name must be unique."
+msgstr "El nombre de la etiqueta de cumplido debe ser único."
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "The file does not contain data or could not be read correctly."
+msgstr "El archivo no contiene datos o no se pudo leer correctamente."
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid "The file does not contain valid data."
+msgstr "El archvo no contiene información válida."
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid ""
+"The openpyxl library is not installed. Run: pip install openpyxl --break-"
+"system-packages"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid ""
+"The selected file is not a valid spreadsheet.\n"
+"Please upload a file in .xlsx or .csv format."
+msgstr ""
+"El archivo seleccionado no es una hoja de cálculo válida. Por favor, suba un"
+" archivo en formato .xlsx o .csv."
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/wizards/survey_import_wizard.py:0
+#, python-format
+msgid ""
+"This survey has no column mapping configured.\n"
+"Please configure the file column mapping in the survey settings before importing."
+msgstr ""
+"Esta encuesta no tiene configurado el mapeo de columnas. Por favor, "
+"configure el mapeo de columnas del archivo en los ajustes de la encuesta "
+"antes de importar."
+
+#. module: pao_survey_audit_automation
+#: model:survey.compliment.tag,name:pao_survey_audit_automation.compliment_tag_timeliness
+msgid "Timeliness"
+msgstr ""
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "To:"
+msgstr "Hasta:"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Top 5 Auditors — Complaints Tags"
+msgstr "Top 5 Auditores — Etiquetas de quejas"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Top 5 Auditors — Compliments Tags"
+msgstr "Top 5 Auditores — Etiquetas de cumplidos"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Top 5 Complaints Tags"
+msgstr "Top 5 Etiquetas de quejas"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Top 5 Compliments Tags"
+msgstr "Top 5 Etiquetas de cumplidos"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Top 5 Coordinators — Complaints Tags"
+msgstr "Top 5 Coordinadores — Etiquetas de quejas"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "Top 5 Coordinators — Compliments Tags"
+msgstr "Top 5 Coordinadores — Etiquetas de cumplidos"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__preview_emails
+msgid "Total emails to send"
+msgstr "Total de emails a enviar"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__preview_total
+msgid "Total records"
+msgstr "Total de registros"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_question__dashboard_trigger_value
+msgid "Trigger Value"
+msgstr "Valor del indicador"
+
+#. module: pao_survey_audit_automation
+#. odoo-python
+#: code:addons/pao_survey_audit_automation/models/survey_question.py:0
+#, python-format
+msgid "Trigger Value is required for Compliment or Complaint questions."
+msgstr "El valor del indicador es obligatorio para preguntas de tipo cumplido o queja."
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Unanswered"
+msgstr "Sin responder"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_form_inherited
+msgid "Upload File"
+msgstr "Subir archivo"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Upload and Preview"
+msgstr "Subir y previsualizar"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields.selection,name:pao_survey_audit_automation.selection__survey_import_wizard__wizard_state__upload
+msgid "Upload file"
+msgstr "Subir archivo"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "With Complaints"
+msgstr "Con quejas"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+msgid "With Complaints tags"
+msgstr "Con etiquetas de quejas"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "With Compliments"
+msgstr "Con cumplidos"
+
+#. module: pao_survey_audit_automation
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_user_input_search_inherited
+msgid "With Compliments tags"
+msgstr "Con etiquetas de cumplidos"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#: code:addons/pao_survey_audit_automation/static/src/xml/survey_dashboard.xml:0
+#, python-format
+msgid "With Max Score"
+msgstr "Con puntaje máximo"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Without Complaints"
+msgstr "Sin quejas"
+
+#. module: pao_survey_audit_automation
+#. odoo-javascript
+#: code:addons/pao_survey_audit_automation/static/src/js/survey_dashboard.js:0
+#, python-format
+msgid "Without Compliments"
+msgstr "Sin cumplidos"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__wizard_state
+msgid "Wizard State"
+msgstr "Estado de Wizard"
+
+#. module: pao_survey_audit_automation
+#: model:ir.model.fields,field_description:pao_survey_audit_automation.field_survey_import_wizard__file_data
+#: model_terms:ir.ui.view,arch_db:pao_survey_audit_automation.view_survey_import_wizard_form
+msgid "Xlsx File"
+msgstr "Archivo Xlsx"

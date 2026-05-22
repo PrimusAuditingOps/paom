@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_survey_user_input_form_inherited" model="ir.ui.view">
+        <field name="name">survey.user_input.form.audit</field>
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <field name="imported_from_file" invisible="1"/>
+                <page string="Audit Details" name="audit_details" invisible="not imported_from_file and state != 'done'">
+                    <group invisible="state != 'done'">
+                        <group string="Compliments Tags">
+                            <field name="compliment_theme_ids" nolabel="1" colspan="2" widget="many2many_tags" options="{'color_field': 'color', 'no_create': True, 'no_quick_create': True, 'no_create_edit': True}"/>
+                        </group>
+                        <group string="Complaints Tags">
+                            <field name="complaint_theme_ids" nolabel="1" colspan="2" widget="many2many_tags" options="{'color_field': 'color', 'no_create': True, 'no_quick_create': True, 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    <group string="Audit Information" invisible="not imported_from_file">
+                        <field name="registration_number" invisible="not registration_number" readonly="1"/>
+                        <field name="organization_name" invisible="not organization_name" readonly="1"/>
+                        <field name="app_id" invisible="not app_id" readonly="1"/>
+                        <field name="audit_id" invisible="not audit_id" readonly="1"/>
+                        <field name="certified_date" invisible="not certified_date" readonly="1"/>
+                        <field name="coordinator_name" invisible="not coordinator_name" readonly="1"/>
+                        <field name="auditor_name" invisible="not auditor_name" readonly="1"/>
+                        <field name="audit_state" invisible="not audit_state" readonly="1"/>
+                        <field name="audit_country" invisible="not audit_country" readonly="1"/>
+                        <field name="contact_name" invisible="not contact_name" readonly="1"/>
+                        <field name="contact_email" invisible="not contact_email" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='display_name']" position="after">
+                <field name="dashboard_feedback_type" widget="badge" optional="hide"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_survey_user_input_tree_inherited" model="ir.ui.view">
+        <field name="name">survey.user_input.tree.audit</field>
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_view_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="has_compliment_answer" string="Responses with Compliments" optional="hide"/>
+                <field name="has_complaint_answer" string="Responses with Complaints" optional="hide"/>
+                <field name="organization_name" optional="hide" string="Organization"/>
+                <field name="registration_number" optional="hide" string="Registration #"/>
+                <field name="certified_date" optional="hide" string="Certified Date"/>
+                <field name="coordinator_name" optional="hide" string="Coordinator"/>
+                <field name="auditor_name" optional="hide" string="Auditor"/>
+                <field name="app_id" optional="hide" string="App ID"/>
+                <field name="audit_id" optional="hide" string="Audit ID"/>
+                <field name="audit_state" optional="hide" string="State"/>
+                <field name="audit_country" optional="hide" string="Country"/>
+                <field name="compliment_theme_ids" widget="many2many_tags" optional="hide" string="Compliment Tags"/>
+                <field name="complaint_theme_ids" widget="many2many_tags" optional="hide" string="Complaint Tags"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_survey_user_input_search_inherited" model="ir.ui.view">
+        <field name="name">survey.user_input.search.audit</field>
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_view_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+
+                <field name="organization_name" string="Organization"/>
+                <field name="registration_number" string="Registration #"/>
+                <field name="auditor_name" string="Auditor"/>
+                <field name="coordinator_name" string="Coordinator"/>
+                <field name="audit_state" string="State"/>
+                <field name="audit_country" string="Country"/>
+                <field name="contact_name" string="Contact Name"/>
+                <field name="contact_email" string="Contact Email"/>
+                <field name="app_id" string="App ID"/>
+                <field name="audit_id" string="Audit ID"/>
+                <field name="compliment_theme_ids" string="Compliment Tags"/>
+                <field name="complaint_theme_ids" string="Complaint Tags"/>
+
+                <separator/>
+                <filter string="Imported from file" name="filter_imported" domain="[('imported_from_file', '=', True)]"/>
+                <filter string="With Compliments tags" name="filter_with_compliments" domain="[('compliment_theme_ids', '!=', False)]"/>
+                <filter string="With Complaints tags" name="filter_with_complaints" domain="[('complaint_theme_ids', '!=', False)]"/>
+                <filter string="Responses with Compliments" name="has_compliment_answer" domain="[('has_compliment_answer', '=', True)]"/>
+                <filter string="Responses with Complaints" name="has_complaint_answer" domain="[('has_complaint_answer', '=', True)]"/>
+
+                <separator/>
+                <group expand="0" string="Group by">
+                    <filter string="Auditor" name="group_auditor" context="{'group_by': 'auditor_name'}"/>
+                    <filter string="Coordinator" name="group_coordinator" context="{'group_by': 'coordinator_name'}"/>
+                    <filter string="Organization" name="group_organization" context="{'group_by': 'organization_name'}"/>
+                    <filter string="Registration #" name="group_registration" context="{'group_by': 'registration_number'}"/>
+                    <filter string="Country" name="group_country" context="{'group_by': 'audit_country'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'audit_state'}"/>
+                    <filter string="Certification Date" name="group_certified" context="{'group_by': 'certified_date:month'}"/>
+                </group>
+
+            </xpath>
+        </field>
+    </record>
+
+    <record id="survey_invite_view_wizard_form_inherited" model="ir.ui.view">
+        <field name="name">survey.invite.view.wizard.form.inherited</field>
+        <field name="model">survey.invite</field>
+        <field name="inherit_id" ref="survey.survey_invite_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_ids']" position="attributes">
+                <attribute name="required">not emails</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

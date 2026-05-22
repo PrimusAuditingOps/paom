@@ -1,0 +1,452 @@
+/* ── Survey Audit Dashboard ───────────────────────────────────────────────── */
+
+.o_survey_audit_dashboard {
+    padding: 24px;
+    background: var(--o-view-background-color, #f9f9f9);
+    font-family: var(--o-font-family, sans-serif);
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* ── Header ── */
+.sad_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--o-border-color, #e0e0e0);
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+.sad_header_left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.sad_survey_select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sad_survey_input {
+    padding: 6px 10px;
+    border: 1px solid var(--o-border-color, #ccc);
+    border-radius: 6px;
+    font-size: 13px;
+    background: #fff;
+    color: var(--o-main-text-color, #333);
+    min-width: 280px;
+    max-width: 400px;
+}
+
+.sad_header_title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--o-main-text-color, #1a1a1a);
+}
+
+.sad_filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sad_filter_label {
+    font-size: 13px;
+    color: var(--o-secondary-text-color, #666);
+    font-weight: 500;
+}
+
+.sad_date_input {
+    padding: 6px 10px;
+    border: 1px solid var(--o-border-color, #ccc);
+    border-radius: 6px;
+    font-size: 13px;
+    background: #fff;
+    color: var(--o-main-text-color, #333);
+}
+
+.sad_btn_apply {
+    padding: 6px 16px;
+    background: var(--o-brand-primary, #875A7B);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity .15s;
+}
+.sad_btn_apply:hover { opacity: .88; }
+
+/* ── Loading ── */
+.sad_loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0;
+    color: var(--o-secondary-text-color, #888);
+    gap: 12px;
+    font-size: 15px;
+}
+
+/* ── KPIs ── */
+.sad_kpi_row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.sad_kpi {
+    flex: 1 1 140px;
+    min-width: 120px;
+    max-width: 100%;
+    padding: 18px 20px;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    box-sizing: border-box;
+}
+
+.sad_kpi_value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.sad_kpi_label {
+    font-size: 12px;
+    opacity: .85;
+    font-weight: 500;
+}
+
+.sad_kpi_pct {
+    font-size: 13px;
+    opacity: .9;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.sad_kpi_blue  { background: linear-gradient(135deg, #185FA5 0%, #378ADD 100%); }
+.sad_kpi_green { background: linear-gradient(135deg, #3B6D11 0%, #639922 100%); }
+.sad_kpi_teal  { background: linear-gradient(135deg, #0F6E56 0%, #1D9E75 100%); }
+.sad_kpi_red   { background: linear-gradient(135deg, #A32D2D 0%, #E24B4A 100%); }
+.sad_kpi_gold  { background: linear-gradient(135deg, #854F0B 0%, #BA7517 100%); }
+
+/* ── Gráficas ── */
+.sad_charts_row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: start;
+}
+
+@media (max-width: 840px) {
+    .sad_charts_row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 580px) {
+    .sad_charts_row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+}
+
+.sad_chart_card {
+    min-width: 0;
+    width: 100%;
+    max-width: 650px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--o-border-color, #e0e0e0);
+    padding: 16px 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    box-sizing: border-box;
+}
+
+.sad_chart_wide {
+    max-width: 95%;
+}
+
+.sad_chart_card {
+    display: flex;
+    flex-direction: column;
+}
+
+.sad_chart_card canvas {
+    flex: 1;
+    min-height: 220px;
+}
+.sad_chart_wide {
+    grid-column: span 2;
+}
+
+.sad_chart_title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--o-secondary-text-color, #555);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+/* ── Tops ── */
+.sad_tops_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.sad_top_card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--o-border-color, #e0e0e0);
+    padding: 16px 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.sad_top_title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--o-secondary-text-color, #555);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.sad_top_row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.sad_top_bar_wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.sad_top_name {
+    font-size: 12px;
+    color: var(--o-main-text-color, #333);
+    display: block;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sad_top_bar {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.sad_top_bar_fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width .4s ease;
+}
+
+.sad_fill_green  { background: #639922; }
+.sad_fill_red    { background: #E24B4A; }
+.sad_fill_teal   { background: #1D9E75; }
+.sad_fill_blue   { background: #378ADD; }
+.sad_fill_orange { background: #BA7517; }
+
+.sad_top_count {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--o-main-text-color, #333);
+    min-width: 28px;
+    text-align: right;
+}
+
+.sad_empty_state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0;
+    color: var(--o-secondary-text-color, #888);
+    text-align: center;
+}
+
+.sad_empty_state h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--o-main-text-color, #333);
+}
+
+.sad_empty_state p {
+    font-size: 14px;
+}
+
+
+
+/* ── Filtros estilo Odoo ───────────────────────────────────── */
+
+.sad_filters,
+.sad_survey_select {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Select e inputs */
+.sad_survey_input,
+.sad_date_input {
+    height: 38px;
+    padding: 0 14px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--o-main-text-color, #212529);
+    font-size: 13px;
+    font-weight: 400;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background-color 0.18s ease;
+    
+    box-sizing: border-box;
+}
+
+/* Hover */
+.sad_survey_input:hover,
+.sad_date_input:hover {
+    border-color: #b8bec5;
+}
+
+/* Focus estilo Odoo */
+.sad_survey_input:focus,
+.sad_date_input:focus {
+    outline: none;
+    border-color: var(--o-brand-primary, #875A7B);
+    box-shadow: 0 0 0 3px rgba(135, 90, 123, 0.15);
+}
+
+/* Select específico */
+.sad_survey_input {
+    min-width: 300px;
+    appearance: none;
+    cursor: pointer;
+}
+
+/* Labels */
+.sad_filter_label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--o-secondary-text-color, #555);
+    margin-right: -4px;
+}
+
+/* Botón */
+.sad_btn_apply {
+    height: 38px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+
+    background: var(--o-brand-primary, #875A7B);
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.08s ease,
+        opacity 0.15s ease,
+        box-shadow 0.15s ease;
+
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+}
+
+.sad_btn_apply:hover {
+    opacity: .94;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+.sad_btn_apply:active {
+    transform: scale(0.98);
+}
+
+.sad_header {
+    align-items: flex-end;
+}
+
+
+/* Download option */
+
+.sad_btn_print {
+    padding: 6px 16px;
+    background: #fff;
+    color: var(--o-brand-primary, #875A7B);
+    border: 1px solid var(--o-brand-primary, #875A7B);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity .15s;
+}
+.sad_btn_print:hover { opacity: .88; }
+
+@media print {
+    /* Hide everything except the dashboard */
+    body > *:not(.o_web_client) { display: none; }
+    .o_action_manager > *:not(.o_action) { display: none; }
+    .o_main_navbar,
+    .o_menu_sections,
+    .o_searchview,
+    .o_control_panel,
+    .o_cp_buttons,
+    .sad_header,
+    .sad_btn_apply,
+    .sad_btn_print { display: none !important; }
+
+    .o_survey_audit_dashboard {
+        padding: 0;
+        height: auto;
+        overflow: visible;
+    }
+
+    .sad_charts_row,
+    .sad_tops_grid {
+        break-inside: avoid;
+    }
+
+    .sad_chart_card,
+    .sad_top_card,
+    .sad_kpi {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}

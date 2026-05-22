@@ -1,0 +1,32 @@
+{
+    "name": "PAO: Survey Audit Automation",
+    "version": "1.0",
+    "author": "Manuel Uzueta Gil",
+    "category": "",
+    "website": "https://paomx.com",
+    "depends": ["base", "survey", "mail", "web"],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/compliment_tags.xml',
+        'data/complaint_tags.xml',
+        'views/survey_tag_views.xml',
+        'views/survey_survey_views.xml',
+        'views/survey_user_input_views.xml',
+        'views/survey_import_wizard_views.xml',
+        'views/survey_dashboard_views.xml',
+        'views/menu_views.xml',
+        'views/survey_question_views.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'pao_survey_audit_automation/static/src/css/dashboard.css',
+            'pao_survey_audit_automation/static/src/xml/survey_dashboard.xml',
+            'pao_survey_audit_automation/static/src/js/survey_dashboard.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+        ],
+    },
+    'installable': True,
+    'application': False,
+    'license': 'LGPL-3',
+}
