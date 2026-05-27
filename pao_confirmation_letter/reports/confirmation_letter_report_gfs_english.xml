@@ -5,7 +5,10 @@
         <div id="pao_confirmation_letter_content">
             <div id="date" style="text-align:right;">
                 <p style="text-align: right;">
-                    Guadalajara, Jalisco, <span t-field="confirmationletter.create_date_text"/>
+                    <t t-if="confirmationletter.company_id.country_code == 'MX'">
+                        Guadalajara, Jalisco,
+                    </t>
+                    <span t-field="confirmationletter.create_date_text"/>
                 </p>
             </div>
             <div class="card-body">
@@ -43,20 +46,37 @@
                 <p>
                     At this time, we cannot confirm the results as the audits will not be finalized until the entire audit process is complete.
                 </p>
-                <p>
-                    Please make note that the auditor has 10 natural days to submit the preliminary results and the organization 
-                    has one calendar month from the date of the audit to work on their non-conformities, they can formally upload 
-                    responses in the system as soon as the preliminary results have been entered.
-                </p>
-                <p>
-                    Once submitted all corrective actions are reviewed and either accepted or rejected. When the review is complete, 
-                    the organization is notified and the audit is closed out. Should the organization meet certification 
-                    they will receive their certificate after the audit is closed. The entire process can take up to 45 days.
-                </p>
-                <p>
-                    Please contact Primus Auditing Ops by phone at +52 33 1981 8572 or by email at 
-                    <a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> / <a href='mailto:calidadmx@pao-mx.com.'>calidadmx@pao-mx.com.</a>
-                </p>
+                <t t-if="confirmationletter.company_id.country_code == 'US'">
+                    <p>
+                        Please note that the auditor has 15 days to submit the preliminary results and the organization has one 
+                        calendar month from the date of the audit to work on their non-conformities; they can formally upload 
+                        responses in the system as soon as the preliminary results have been entered.
+                    </p>
+                    <p>
+                        Once submitted, all corrective actions are reviewed and either accepted or rejected. When the review is complete the 
+                        organization is notified and the audit is closed out. Should the organization meet certification, they will receive their 
+                        certificate after the audit is closed.  The entire process can take up to 55 days.
+                    </p>
+                    <p>
+                        Please contact Primus Auditing Ops by phone at 805-623-5563 or by email at <a href='mailto:Opsusa@pao-usa.com'>Opsusa@pao-usa.com</a>
+                    </p>
+                </t>
+                <t t-else="">
+                    <p>
+                        Please make note that the auditor has 10 natural days to submit the preliminary results and the organization 
+                        has one calendar month from the date of the audit to work on their non-conformities, they can formally upload 
+                        responses in the system as soon as the preliminary results have been entered.
+                    </p>
+                    <p>
+                        Once submitted all corrective actions are reviewed and either accepted or rejected. When the review is complete, 
+                        the organization is notified and the audit is closed out. Should the organization meet certification 
+                        they will receive their certificate after the audit is closed. The entire process can take up to 45 days.
+                    </p>
+                    <p>
+                        Please contact Primus Auditing Ops by phone at +52 33 1981 8572 or by email at 
+                        <a href='mailto:auditmx@pao-mx.com'>auditmx@pao-mx.com</a> / <a href='mailto:calidadmx@pao-mx.com.'>calidadmx@pao-mx.com.</a>
+                    </p>
+                </t>
                 <p>
                     Best Regards,
                 </p>

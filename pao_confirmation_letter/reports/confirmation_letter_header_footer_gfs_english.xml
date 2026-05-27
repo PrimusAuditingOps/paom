@@ -9,32 +9,64 @@
             </div>
         </div>
         <div t-attf-class="footer o_boxed_footer">
-            <div class="text-center" style="font-family: 'Montserrat'; font-size: 10px; color: black;">
-                <p><b>Av. Lázaro Cárdenas #3478 Colonia Chapalita, Guadalajara, Jalisco, C.P. 44500</b>
-                    <br/>
-                    <b>USA:</b> HQ Santa Maria, CA <b>• Mexico:</b> Guadalajara <b>• Costa Rica:</b> San José <b>• Chile:</b> Viña del Mar
-                </p>
-            </div>
-            <br/>
-            <br/>
-            <br/>
-            <div class="row text-center" style="font-family: 'Montserrat'; height:50px; color: white; font-size: 12px; background-color: black;">
-                <div class="col-4">
-                    <br/>
-                    <i class="fa fa-envelope" style="color: #6ABF4B; margin-right: 6px;"></i> paomexico@primusauditingops.com
-                    <br/>
+            <t t-if="confirmationletter.company_id.country_code == 'US'">
+                <div class="text-center" style="font-family: 'Montserrat'; font-size: 10px; color: black;">
+                    <p><b>2615 S. Miller Street, Ste. 106  Santa Maria, CA 93455</b>
+                        <br/>
+                        <b>USA:</b> HQ Santa Maria, CA <b>• Mexico:</b> Guadalajara <b>• Costa Rica:</b> San José <b>• Chile:</b> Viña del Mar
+                    </p>
                 </div>
-                <div class="col-4">
-                    <br/>
-                    <i class="fa fa-phone" style="color: #6ABF4B; margin-right: 6px;"></i> 331. 981. 8572
-                    <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="row text-center" style="font-family: 'Montserrat'; height:50px; color: white; font-size: 12px; background-color: black;">
+                    <div class="col-4">
+                        <br/>
+                        <i class="fa fa-envelope" style="color: #6ABF4B; margin-right: 6px;"></i> auditing@primusauditingops.com
+                        <br/>
+                    </div>
+                    <div class="col-4">
+                        <br/>
+                        <i class="fa fa-phone" style="color: #6ABF4B; margin-right: 6px;"></i> +1 (805) 623-5563
+                        <br/>
+                    </div>
+                    <div class="col-4">
+                        <br/>
+                        <i class="fa fa-globe" style="color: #6ABF4B; margin-right: 6px;"></i> primusauditingops.com
+                        <br/>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <br/>
-                    <i class="fa fa-globe" style="color: #6ABF4B; margin-right: 6px;"></i> primusauditingops.com
-                    <br/>
+            </t>
+
+            <t t-else="">
+                <div class="text-center" style="font-family: 'Montserrat'; font-size: 10px; color: black;">
+                    <p><b>Av. Lázaro Cárdenas #3478 Colonia Chapalita, Guadalajara, Jalisco, C.P. 44500</b>
+                        <br/>
+                        <b>USA:</b> HQ Santa Maria, CA <b>• Mexico:</b> Guadalajara <b>• Costa Rica:</b> San José <b>• Chile:</b> Viña del Mar
+                    </p>
                 </div>
-            </div>
+                <br/>
+                <br/>
+                <br/>
+                <div class="row text-center" style="font-family: 'Montserrat'; height:50px; color: white; font-size: 12px; background-color: black;">
+                    <div class="col-4">
+                        <br/>
+                        <i class="fa fa-envelope" style="color: #6ABF4B; margin-right: 6px;"></i> paomexico@primusauditingops.com
+                        <br/>
+                    </div>
+                    <div class="col-4">
+                        <br/>
+                        <i class="fa fa-phone" style="color: #6ABF4B; margin-right: 6px;"></i> 331. 981. 8572
+                        <br/>
+                    </div>
+                    <div class="col-4">
+                        <br/>
+                        <i class="fa fa-globe" style="color: #6ABF4B; margin-right: 6px;"></i> primusauditingops.com
+                        <br/>
+                    </div>
+                </div>
+            </t>
+
         </div>
     </template>
 </odoo>
