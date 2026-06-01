@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="certificate_list_action" model="ir.actions.act_window">
+            <field name="name">Fiel Certificates</field>
+            <field name="res_model">pao.l10n_mx_edi.fiel</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{'search_default_my_certificates': 1}"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first fiel certificate</p>
+            </field>
+        </record>
+
+        <record id="pao_fiel_certificate_form_view" model="ir.ui.view">
+            <field name="name">pao.fiel.certificate.form</field>
+            <field name="model">pao.l10n_mx_edi.fiel</field>
+            <field name="arch" type="xml">
+                <form string="Fiel Certificate Form">
+                    <sheet>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="content"/>
+                            <field name="key"/>
+                            <field name="password" password="True"/>
+                            <field name="vat"/>
+                            <label for="date_start" string="Validity"/>
+                            <div>
+                                <field name="date_start"/> -
+                                <field name="date_end"/>
+                            </div>
+                            <field name="serial_number"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="certificate_search_view" model="ir.ui.view">
+            <field name="name">certificate.search</field>
+            <field name="model">pao.l10n_mx_edi.fiel</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="serial_number"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="pao_fiel_certificate_tree_view">
+            <field name="name">pao.fiel.certificate.tree</field>
+            <field name="model">pao.l10n_mx_edi.fiel</field>
+            <field name="arch" type="xml">
+                <tree string="Fiel Certificate Tree">
+                    <field name="serial_number"/>
+                    <field name="vat"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="res_company_fiel_view_form" model="ir.ui.view">
+        <field name="name">res.company.fiel.view.form</field>
+        <field name="model">res.company</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <page name="branches" position="after">
+                        <page string="Fiel Certificates" invisible="country_code != 'MX'">
+                          <field name="country_code" invisible="1"/>
+                          <field name="pao_l10n_mx_edi_certificate_ids" widget="many2many" context="{'company_id': id}">
+                              <tree string="Registered Fiel Certificates">
+                                  <field name="serial_number"/>
+                                  <field name="date_start"/>
+                                  <field name="date_end"/>
+                              </tree>
+                          </field>
+                        </page>
+                </page>
+            </field>
+    </record>
+</odoo>

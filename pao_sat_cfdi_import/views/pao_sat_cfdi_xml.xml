@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <record id="pao_sat_cfdi_xml_view_form" model="ir.ui.view">
+        <field name="name">pao.sat.cfdi.xml.view.form</field>
+        <field name="model">pao.sat.cfdi.xml</field>
+        <field name="arch" type="xml">
+            <form string="SAT CFDI XML" edit="0" create="0">
+               <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                           <field name="name"/>
+                       </group>
+                       <group>
+                           <field name="cfdi_date"/>
+                       </group>
+                       <group>
+                           <field name="vendor_name"/>
+                       </group>
+                       <group>
+                           <field name="vendor_vat"/>
+                       </group>
+                       <group colspan="2">
+                           <field name="vendor_tax_regime"/>
+                       </group>
+                       <group>
+                           <field name="cfdi_use"/>
+                       </group>
+                        <group>
+                           <field name="currency"/>
+                       </group>
+                       <group>
+                           <field name="method_of_payment"/>
+                       </group>
+                       <group>
+                           <field name="type_receipt"/>
+                       </group>
+                        <group colspan="2">
+                           <field name="payment_method"/>
+                       </group> 
+                       <group>
+                           <field name="customer_name"/>
+                       </group>
+                       <group>
+                           <field name="customer_tax_regime"/>
+                       </group>
+                       
+                        <group colspan="2">
+                           <field name="file_name" invisible="1"/>
+                           <field name="xml_files" filename="file_name" readonly="1"/>
+                       </group>
+                       
+                   </group>
+                    <notebook>
+                        <page string="Products/Services">
+                            <field name="pao_line_ids" widget="many2many">
+                                <tree string="Products/Services">
+                                    <field name="prod_serv_key"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="pao_tax_ids" widget="many2many_tags"/>
+                                    <field name="unity_key"/>
+                                    <field name="unity"/>
+                                    <field name="unit_value"/>
+                                    <field name="amount"/>
+                                    <field name="tax_object"/>
+                                    <field name="output_tax"/>
+                                    <field name="withholding_tax"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="XML">
+                            <group>
+                                <field name="xml_text" widget="text" nolabel="1" readonly="1" style="font-family: monospace;height:500px;width:1300px;white-space: pre-wrap;word-break: break-word;"/>
+                            </group>
+                            
+                        </page>
+                        <page string="Bills">
+                            <field name="account_move_ids" widget="many2many">
+                                <tree string="Bills">
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="invoice_date"/>
+                                    <field name="amount_untaxed_signed"/>
+                                    <field name="amount_tax_signed"/>
+                                    <field name="amount_total_signed"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="xml_total">
+                
+            
+                            <field name="subtotal" string="Subtotal" readonly="1"/>
+                            <field name="withheld_taxes_total" string="Withheld Taxes Total" readonly="1"/>
+                            <field name="transferred_taxes_total" string="Transferred Taxes Total" readonly="1"/>
+                          
+                            <field name="total" string="Total" readonly="1"/>
+            
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_sat_cfdi_xml_view_tree" model="ir.ui.view">
+        <field name="name">pao.sat.cfdi.xml.view.tree</field>
+        <field name="model">pao.sat.cfdi.xml</field>
+        <field name="arch" type="xml">
+            <tree string="SAT CFDI XML">
+                    <field name="cfdi_date"/>
+                    <field name="name"/>
+                    <field name="vendor_vat"/>
+                    <field name="vendor_name"/>
+                    <field name="customer_name"/>
+                    <field name="subtotal"/>
+                    <field name="total"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pao_sat_cfdi_xml_action" model="ir.actions.act_window">
+        <field name="name">SAT CFDI XML</field>
+        <field name="res_model">pao.sat.cfdi.xml</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create first SAT CFDI XML
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="pao_sat_cfdi_xml_option"
+            name="SAT CFDI XML"
+            parent="account.menu_finance_payables"
+            action="pao_sat_cfdi_xml_action"
+            sequence="80"/>
+
+</odoo>
