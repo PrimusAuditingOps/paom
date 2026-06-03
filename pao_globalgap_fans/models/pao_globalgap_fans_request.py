@@ -4,6 +4,7 @@ import uuid
 import base64
 from werkzeug.urls import url_join
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, formataddr, config, get_lang
+from datetime import date
 
 _logger = getLogger(__name__)
 
@@ -104,6 +105,7 @@ class PaoGlobalgapFansRequest(models.Model):
     qa_status = fields.Selection(
         selection=[
             ('pending', "Pending"),
+            ('to_approve', "Por Aprobar"),
             ('approved', "Approved"),
         ],
         string="QA Status",
@@ -133,6 +135,97 @@ class PaoGlobalgapFansRequest(models.Model):
         string='GLOBALG.A.P Organization',
         ondelete='restrict',
     )
+
+    qa_assignment_date = fields.Date(
+        string='Fecha de asignación QA',
+    )
+    audit_start_date = fields.Date(
+        string='Fecha inicio de auditoría',
+        compute='_compute_audit_date',
+        store=True,
+    )
+    audit_end_date = fields.Date(
+        string='Fecha fin de auditoría',
+        compute='_compute_audit_date',
+        store=True,
+    )
+
+    assignment_date_warning = fields.Selection(
+        selection=[
+            ('on_time', 'A tiempo'),
+            ('next_to_due', 'Por vencer'),
+            ('expired', 'Vencida'),
+        ],
+
+        string='Aviso fecha de auditoría',
+        compute='_compute_assignment_date_warning',
+    )
+
+    @api.depends('sale_order_id.purchase_order_id.order_line')
+    def _compute_audit_date(self):
+        for rec in self:
+            rec.audit_start_date = None
+            rec.audit_end_date = None
+            
+            for po in rec.sale_order_id.purchase_order_id.filtered(lambda l: l.state != "cancel"):
+                for line in po.order_line.filtered(lambda l: l.service_start_date).sorted(lambda l: l.service_start_date):
+                    rec.audit_start_date = line.service_start_date
+                    rec.audit_end_date = line.service_end_date
+                    break
+                if rec.audit_start_date:
+                    break
+
+
+    def _compute_assignment_date_warning(self):
+        today = date.today()
+        for rec in self:
+            rec.assignment_date_warning = None
+            if rec.audit_start_date:
+                dias = (rec.audit_start_date - today).days
+                if dias < 0:
+                    rec.assignment_date_warning = 'expired'
+                elif dias <= 15:
+                    rec.assignment_date_warning = 'next_to_due'
+                else:
+                    rec.assignment_date_warning = 'on_time'
+
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'request_status' in vals:
+            activity_type = self.env.ref('mail.mail_activity_data_todo')
+            
+            for record in self:
+                if vals.get("request_status") == "correction":
+                    record.qa_status = 'pending'
+                elif vals.get("request_status") == "signature_request":
+                    record.qa_status = 'to_approve'
+                    record.qa_assignment_date = date.today()
+                    user_notification = self.env['res.users'].browse(187)
+                    if user_notification:
+                        existing_activity = self.env["mail.activity"].search([
+                        ("res_model", "=", "pao.globalgap.fans.request"),
+                        ("res_id", "=", record.id),
+                        ("summary", "=", "Revisión de Aplicación GlobalG.A.P."),
+                            ], limit=1)
+                        if not existing_activity:
+                            record.activity_schedule(
+                                activity_type_id=activity_type.id,
+                                date_deadline=date.today(),
+                                summary="Revisión de Aplicación GlobalG.A.P.",
+                                note=_(
+                                    "Favor de revisar la aplicación"
+                                ),
+                                user_id=user_notification.id,
+                            )
+                            users = self.env['res.users'].browse([27, 332, 187,144])
+                            record.message_post(
+                                body="Se ha actualizado el estatus de QA para la Revisión de Aplicación GlobalG.A.P.",
+                                message_type='comment',
+                                subtype_xmlid='mail.mt_note',
+                                partner_ids=users.mapped('partner_id').ids,
+                            )
+        return res
 
     def action_approve(self):
         for rec in self:

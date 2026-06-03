@@ -56,6 +56,8 @@
 
                     <group col="2">
                         <field name="qa_status"/>
+                        <field name="qa_assignment_date" invisible="1"/>
+                        <field name="assignment_date_warning" invisible="not qa_assignment_date" widget="badge" decoration-danger="assignment_date_warning == 'expired'" decoration-warning="assignment_date_warning == 'next_to_due'" decoration-success="assignment_date_warning == 'on_time'"/>
                         <field name="request_url"/>
                     </group>
                     <group col="4">
@@ -74,6 +76,7 @@
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
                     <field name="message_ids"/>
                 </div>
             </form>
@@ -88,7 +91,11 @@
                 <field name="qa_status"/>
                 <field name="request_status"/>
                 <field name="capturist_id"/>
-                <field name="organization_id"/>
+                <field name="audit_start_date"/>
+                <field name="audit_end_date"/>
+                
+                <field name="assignment_date_warning" widget="badge" decoration-danger="assignment_date_warning == 'expired'" decoration-warning="assignment_date_warning == 'next_to_due'" decoration-success="assignment_date_warning == 'on_time'"/>
+
             </tree>
         </field>
     </record>

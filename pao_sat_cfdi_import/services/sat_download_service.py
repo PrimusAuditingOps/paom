@@ -460,6 +460,7 @@ class SATDownloadService(models.AbstractModel):
                 cod_estatus = node.get("CodEstatus")
                 mensaje = node.get("Mensaje")
                 estado_solicitud = node.get("EstadoSolicitud") 
+                cod_estatus_solicitud = node.get("CodigoEstadoSolicitud")
                 
 
                 return {
@@ -467,7 +468,8 @@ class SATDownloadService(models.AbstractModel):
                     "rfc_solicitante":rfc_solicitante,
                     "cod_estatus":cod_estatus,
                     "estado_solicitud": estado_solicitud,
-                    "mensaje": mensaje
+                    "mensaje": mensaje,
+                    "cod_estatus_solicitud":cod_estatus_solicitud,
                 }
 
     def request_status(self, certificate, request_id, requester_vat):
