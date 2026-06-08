@@ -181,7 +181,6 @@ class PurchaseOrderLine(models.Model):
             return
         if self.order_id.country_code == "MX":
             if self.product_id.pao_fixed_price_in_dollars:
-                self.write({"price_unit": 0.0})
                 auditor_price =  self.product_id.pao_fixed_price_product_ids.filtered(lambda l: l.partner_id.id == self.partner_id.id and l.country_id.id == self.order_id.audit_country_id.id and l.currency_id.id == 2)
                 for ap in auditor_price:
                         if self.order_id.currency_id.id == 33:

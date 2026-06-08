@@ -335,7 +335,6 @@ class PurchaseOrder(models.Model):
             if rec.country_code == "MX":
                 for line in rec.order_line:
                     if line.product_id.pao_fixed_price_in_dollars:
-                        line.write({"price_unit": 0.0})
                         auditor_price =  line.product_id.pao_fixed_price_product_ids.filtered(lambda l: l.partner_id.id == rec.partner_id.id and l.country_id.id == rec.audit_country_id.id and l.currency_id.id == 2)
                         for ap in auditor_price:
                                 if rec.currency_id.id == 33:
