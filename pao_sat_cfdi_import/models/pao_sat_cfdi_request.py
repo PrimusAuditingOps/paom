@@ -108,6 +108,7 @@ class SATCFDIRequest(models.Model):
                         "request_id": response["id_solicitud"],
                         "request_state_code": response["cod_estatus"],
                         "message": response["mensaje"],
+                        "verification_state": "2",
                         "requester_vat": response["rfc_solicitante"]
                     }
                 )
@@ -139,7 +140,7 @@ class SATCFDIRequest(models.Model):
                             "request_id": response["id_solicitud"],
                             "request_state_code": response["cod_estatus"],
                             "message": response["mensaje"],
-                            "verification_state": response["cod_estatus_solicitud"],
+                            "verification_state": "2",
                             "requester_vat": response["rfc_solicitante"]
                         }
                     )
