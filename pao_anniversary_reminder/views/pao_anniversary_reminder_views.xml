@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <tree string="Anniversary Reminder" create="false" default_order="service_start_date desc">
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="organization_id"/>
+				<field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="email_address"/>
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="registrynumber_id"/>
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="scheme_name"/>
                 <field decoration-success="status in ('progress', 'confirm')" decoration-danger="status == 'lost'" name="purchase_order_id" widget="man2one"/>

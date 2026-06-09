@@ -677,6 +677,9 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
                 $("#product").focus();
                 alert("Por favor capture por lo menos un producto para el Sitio de producción o PHU.");
             }
+            else if (!this._validateGRASPQuestion()) {
+                return;
+            }
             else{
 
                 if ($("#site_index").val() != ""){
@@ -791,12 +794,34 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
             }
         },
     
+        _validateGRASPQuestion: function () {
+            const selectedValue = document.getElementById("not_direct_line_memebers_grasp").value;
+            const visibleTable = document.querySelector(`.grasp-question-${selectedValue}`);
+
+            if (selectedValue === "2") { // If "No" is selected, skip validation
+                return true;
+            }
+
+            const numberInputs = visibleTable.querySelectorAll('input[type="number"]');
+
+            const hasValueGreaterThanZero = Array.from(numberInputs).some(input =>
+                Number(input.value) > 0
+            );
+
+            if (!hasValueGreaterThanZero) {
+                alert('Por favor ingrese el número de trabajadores que no son del núcleo familiar en la sección de "Información para el módulo GRASP".');
+                return false;
+            }
+
+            return true;
+        },
+
         _onGRASPQuestionChange: function (ev) {
             const selectedValue = document.getElementById("not_direct_line_memebers_grasp").value; 
             const targetClass = `grasp-question-${selectedValue}`;
             document.querySelectorAll('.grasp-question').forEach(item => {
                 if (item.classList.contains(targetClass)) {
-                    item.style.display = 'unset'; 
+                    item.style.display = 'unset';
                 } else {
                     item.style.display = 'none'; 
                 }

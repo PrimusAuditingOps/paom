@@ -443,13 +443,38 @@
                             </tr>
                         </thead>
                         <tbody style="text-align:center;">
-                            <t t-foreach="site.grasp_staff_ids" t-as="detail">
+                            <t t-if="site.grasp_staff_ids">
+                                <t t-foreach="site.grasp_staff_ids" t-as="detail">
+                                    <tr>
+                                        <td><span t-field="detail.employees_type" /></td>
+                                        <td><span t-field="detail.locals_male_quantity"/></td>
+                                        <td><span t-field="detail.locals_female_quantity"/></td>
+                                        <td><span t-field="detail.foreigners_male_quantity"/></td>
+                                        <td><span t-field="detail.foreigners_female_quantity"/></td>
+                                    </tr>
+                                </t>
+                            </t>
+                            <t t-else="">
                                 <tr>
-                                    <td><span t-field="detail.employees_type" /></td>
-                                    <td><span t-field="detail.locals_male_quantity"/></td>
-                                    <td><span t-field="detail.locals_female_quantity"/></td>
-                                    <td><span t-field="detail.foreigners_male_quantity"/></td>
-                                    <td><span t-field="detail.foreigners_female_quantity"/></td>
+                                    <td><span>Permanentes</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>Temporales</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>Subcontratados</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
+                                    <td><span>0</span></td>
                                 </tr>
                             </t>
                         </tbody>
