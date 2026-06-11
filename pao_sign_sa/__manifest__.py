@@ -46,6 +46,7 @@
         'reports/sa_header_footer_sustainability_usa.xml',
         'reports/sa_header_footer_sustentabilidad.xml',
         'reports/sa_header_footer_ue.xml',
+        'reports/sa_header_footer_fan_19.xml',
         
         # views
         'views/sa_add_globalgap_scheme.xml',
@@ -75,6 +76,7 @@
         'views/sale_order.xml',
         'views/product_template.xml',
         'views/service_agreements_general_tree_view.xml',
+        'views/sa_fan_19.xml',
 
     ],
     'assets': {

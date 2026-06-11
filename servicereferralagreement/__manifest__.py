@@ -28,6 +28,7 @@
         'security/ir_rules.xml',
         'reports/sustentabilidad.xml',
         'reports/haccp.xml',
+        'reports/fan_19_complementarios.xml',
         'reports/nop_lpo.xml',
         'reports/standard.xml',
         'reports/nop.xml',
@@ -48,6 +49,7 @@
         'reports/header_footer_ra_general.xml',
         'reports/header_footer_ra_gfs.xml',
         'reports/header_footer_ue.xml',
+        'reports/header_footer_fan_19_complementarios.xml',
 
         'reports/header_footer_sustainability_usa.xml',
         'reports/header_footer_standard_usa.xml',

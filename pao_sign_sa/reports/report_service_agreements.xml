@@ -174,9 +174,15 @@
                         </div>
                     </t>
                     <t t-if="values.scheme == 'HACCP'">
-                        <t t-call="pao_sign_sa.sa_header_footer_haccp"/>
+                        <!--<t t-call="pao_sign_sa.sa_header_footer_haccp"/>
                         <div class="page">
                             <t t-call="pao_sign_sa.sa_haccp_scheme">
+                                <t t-set="serviceagreement" t-value="values"/>
+                            </t>
+                        </div>-->
+                        <t t-call="pao_sign_sa.sa_header_footer_fan_19"/>
+                        <div class="page">
+                            <t t-call="pao_sign_sa.sa_fan_19">
                                 <t t-set="serviceagreement" t-value="values"/>
                             </t>
                         </div>
