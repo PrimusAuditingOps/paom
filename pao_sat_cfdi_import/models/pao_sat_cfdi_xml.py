@@ -246,6 +246,6 @@ class PAOSatCFDIXml(models.Model):
             data = self.env["account.move"].search(domain)
             if data:
                 for record in data:
-                        rec.write({"account_move_ids": [(4, rec.id)]})
+                    rec.write({"account_move_ids": [(4, record.id)]})
 
     
