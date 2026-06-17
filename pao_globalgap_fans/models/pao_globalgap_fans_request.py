@@ -430,7 +430,7 @@ class PaoGlobalgapFansRequest(models.Model):
     def regenerate_document(self):
         for rec in self:
             old_attachment_id = None
-            filename = "GLOBALGAP_Application_%s_%s.%s" % (rec.title,rec.organization_id.name, "pdf")
+            filename = "%s_%s.%s" % (rec.title,rec.organization_id.name, "pdf")
             pdf = rec.env['ir.actions.report'].sudo()._render_qweb_pdf('pao_globalgap_fans.globalgap_application_report', [rec.id], data= {"fanrequest": rec.sudo(),"print": True})[0]
             attachment = rec.env['ir.attachment'].sudo().create({
                 'name': filename,
