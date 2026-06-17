@@ -162,34 +162,37 @@ class UploadExpenseStatement(models.TransientModel):
             )
 
             if match:
-                # Extract groups
                 date = match.group("date")
-                # amount = match.group("amount").replace(',', '')
-                
                 raw_amount = match.group("amount")
                 is_negative = raw_amount.startswith('(') and raw_amount.endswith(')')
                 amount = float(raw_amount.replace('(', '').replace(')', '').replace(',', ''))
                 if is_negative:
                     amount = -amount
-                    
                 cardholder = match.group("cardholder").strip()
                 account_number = match.group("account").strip()
                 rest = match.group("rest").strip()
-
-                # Extract merchant name: goes up until first group of two digits followed by a space
-                merchant_match = re.match(r"(.+?)\s+(\d{2})\b", rest)
-
-                merchant_name = merchant_match.group(1).strip()
-                year_suffix = merchant_match.group(2)
-
-                # Fix year (assuming 20xx)
+                
+                # Extract merchant name and year using the correct pattern
+                year_pattern = re.search(
+                    r'^(.*?)\s+(\d{2})\s+\d{2}\s+1\s+US\$[\d,.]+$',
+                    rest
+                )
+                
+                if year_pattern:
+                    merchant_name = year_pattern.group(1).strip()
+                    year_suffix = year_pattern.group(2)
+                else:
+                    _logger.warning("Year pattern not found in rest: '%s'", rest)
+                    year_suffix = datetime.now().strftime("%y")
+                    merchant_match = re.match(r"(.+?)\s+(\d{2})\b", rest)
+                    merchant_name = merchant_match.group(1).strip()
+                
                 full_date_str = f"{date}{year_suffix}"
                 try:
                     date_obj = datetime.strptime(full_date_str, "%m/%d/%Y")
                 except ValueError:
-                    # Try with 2-digit year
                     date_obj = datetime.strptime(full_date_str, "%m/%d/%y")
-                    
+                
                 expense_data = {
                     "date": date_obj.date(),
                     "amount": amount,
@@ -198,7 +201,6 @@ class UploadExpenseStatement(models.TransientModel):
                     "merchant_name": merchant_name,
                 }
                 results.append(expense_data)
-            
                 i += 3  # Skip next 2 lines since we already used them
             else:
                 _logger.debug("No match for block starting at line %s", i)
