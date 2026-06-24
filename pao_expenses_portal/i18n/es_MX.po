@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-11 19:51+0000\n"
-"PO-Revision-Date: 2026-03-11 19:51+0000\n"
+"POT-Creation-Date: 2026-06-19 00:18+0000\n"
+"PO-Revision-Date: 2026-06-19 00:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,22 @@ msgstr ""
 "                                            <option value=\"own_account\">Empleado (a reembolsar)</option>\n"
 "                                            <option value=\"company_account\">Empresa</option>\n"
 "                                        </select>"
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
+msgid ""
+"<select name=\"payment_mode\" id=\"payment_mode\" class=\"form-select\">\n"
+"                                                <option class=\"d-none\" selected=\"1\"/>\n"
+"                                                <option value=\"own_account\">Employee (to reimburse)</option>\n"
+"                                                <option value=\"company_account\">Company</option>\n"
+"                                            </select>"
+msgstr ""
+"<select name=\"payment_mode\" id=\"payment_mode\" class=\"form-select\">\n"
+"                                                <option class=\"d-none\" selected=\"1\"/>\n"
+"                                                <option value=\"own_account\">Empleado (a reembolsar)</option>\n"
+"                                                <option value=\"company_account\">Empresa</option>\n"
+"                                            </select>"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
@@ -170,8 +186,10 @@ msgstr "¿Estás seguro de que deseas eliminar este reporte?"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
-msgid "Are you sure you want to remove this expense from the report?"
-msgstr "¿Estás seguro de que deseas quitar este gasto del reporte?"
+msgid ""
+"Are you sure you want to remove this expense from the report? The expense "
+"will not be deleted and will remain available in My Wallet."
+msgstr "¿Está seguro de que desea quitar este gasto del reporte? El gasto no será eliminado y seguirá estando disponible en Mi Cartera."
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.view_upload_expense_statement_form
@@ -213,6 +231,7 @@ msgid "Company"
 msgstr "Empresa"
 
 #. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "Complete expense"
 msgstr "Completar gasto"
@@ -272,13 +291,11 @@ msgstr "Fecha"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
-#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "Delete"
 msgstr "Eliminar"
 
 #. module: pao_expenses_portal
-#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "Delete expense"
 msgstr "Eliminar gasto"
@@ -358,6 +375,11 @@ msgstr "Reporte de gastos"
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.purchase_order_expenses_form_view_inherit
 msgid "Expense Reports"
 msgstr "Reportes de gastos"
+
+#. module: pao_expenses_portal
+#: model:ir.model,name:pao_expenses_portal.model_expense_scheme
+msgid "Expense Scheme"
+msgstr ""
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
@@ -489,6 +511,15 @@ msgid "No transactions found. Please check the file."
 msgstr "Ningua transacción encontrada, por favor verifique el archivo"
 
 #. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
+msgid ""
+"Note: Saving changes will replace all existing receipts for this expense. If"
+" you want to keep any current receipts, please upload them again. If you "
+"uploaded an incorrect receipt, simply upload the correct one and save."
+msgstr "Nota: Al guardar los cambios, los recibos actuales de este gasto serán reemplazados. Si desea conservar algún recibo existente, vuelva a cargarlo. Si agregó un recibo incorrecto, simplemente cargue el correcto y guarde los cambios."
+
+#. module: pao_expenses_portal
 #. odoo-python
 #: code:addons/pao_expenses_portal/models/hr_employee.py:0
 #, python-format
@@ -500,6 +531,13 @@ msgstr "Un solo empleado puede ser gerente de gastos."
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "Paid By"
 msgstr "Pagado por"
+
+#. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "Posted"
+msgstr "Publicado"
 
 #. module: pao_expenses_portal
 #: model:ir.model.fields,field_description:pao_expenses_portal.field_upload_expense_statement__process_run
@@ -528,6 +566,24 @@ msgstr "Orden de compra"
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "Receipt"
 msgstr "Recibo"
+
+#. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "Refused"
+msgstr "Rechazado"
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
+msgid "Remove"
+msgstr "Quitar"
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
+msgid "Remove expense from report"
+msgstr "Quitar gasto de reporte"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
@@ -564,6 +620,12 @@ msgstr "Esquemas"
 #, python-format
 msgid "State"
 msgstr "Estado"
+
+#. module: pao_expenses_portal
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense__state_sequence
+#: model:ir.model.fields,field_description:pao_expenses_portal.field_hr_expense_sheet__state_sequence
+msgid "State Sequence"
+msgstr ""
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view
@@ -683,6 +745,13 @@ msgstr ""
 #. module: pao_expenses_portal
 #. odoo-python
 #: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "To Report"
+msgstr "Por reportar"
+
+#. module: pao_expenses_portal
+#. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
 #: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
 #, python-format
 msgid "To Submit"
@@ -768,6 +837,13 @@ msgstr "Advertencia"
 
 #. module: pao_expenses_portal
 #. odoo-python
+#: code:addons/pao_expenses_portal/controllers/portal_inherit.py:0
+#, python-format
+msgid "You are not allowed to delete this expense."
+msgstr "No tienes permitido eliminar este gasto."
+
+#. module: pao_expenses_portal
+#. odoo-python
 #: code:addons/pao_expenses_portal/models/hr_expense_sheet.py:0
 #, python-format
 msgid "You cannot delete an expense that was uploaded via a bank statement."
@@ -812,11 +888,6 @@ msgstr "Debes definir un empleado."
 #, python-format
 msgid "You need to add expenses to the report in order to submit it."
 msgstr "Es necesario agregar gastos al reporte para poder enviarlo."
-
-#. module: pao_expenses_portal
-#: model:ir.model,name:pao_expenses_portal.model_expense_scheme
-msgid "expense.scheme"
-msgstr ""
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view

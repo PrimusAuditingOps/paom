@@ -25,6 +25,11 @@
         'security/ir.model.access.csv',
         'security/rules.xml',
     ],
+    'assets': {
+        'web.assets_frontend': [
+            'pao_expenses_portal/static/src/js/portal.js',
+        ],
+    },
     'installable': True,
     'application' : False,
     'auto_install' : False,

@@ -28,16 +28,18 @@ class ExpensesPortal(http.Controller):
     def _get_expense_sheet_searchbar_sortings(self):
         return {
             'date': {'label': _('Date'), 'order': 'create_date desc'},
-            'state': {'label': _('State'), 'order': 'state'},
+            'state': {'label': _('State'), 'order': 'state_sequence asc'},
         }
         
     def _get_expense_sheet_searchbar_filters(self):
         return {
             'all': {'label': _('All'), 'domain': []},
             'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'draft')]},
-            'submitted': {'label': _('Submitted'), 'domain': [('state', '=', 'submitted')]},
+            'submit': {'label': _('Submitted'), 'domain': [('state', '=', 'submit')]},
             'approved': {'label': _('Approved'), 'domain': [('state', '=', 'approve')]},
             'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
+            'post': {'label': _('Posted'), 'domain': [('state', '=', 'post')]},
+            'cancel': {'label': _('Refused'), 'domain': [('state', '=', 'cancel')]},
         }
     
     @http.route(['/my/expense_reports', '/my/expense_reports/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
@@ -332,6 +334,7 @@ class ExpensesPortal(http.Controller):
         is_external_auditor = self.is_external_auditor()
         
         report_id = kw.get("report_id")
+        name = kw.get("name")
         description = kw.get("description")
         expense_category = kw.get("expense_category")
         expense_date = kw.get("expense_date")
@@ -353,7 +356,8 @@ class ExpensesPortal(http.Controller):
             return request.redirect(referer_url)
         
         values = {
-            'name': description,
+            'name': name,
+            'description': description,
             'product_id': int(expense_category),
             'date': expense_date,
             'total_amount_currency': float(total),
@@ -394,7 +398,8 @@ class ExpensesPortal(http.Controller):
         if report_id:
             return request.redirect('/my/expense_reports/' + str(report_id))
         else:
-            return request.redirect('/my/wallet')
+            referer_url = request.httprequest.environ.get('HTTP_REFERER', '/')
+            return request.redirect(referer_url)
     
     @http.route(['/my/expense/delete'], type='http', auth='user', website=True, methods=['POST'])
     def portal_delete_expense(self, **kw):
@@ -415,6 +420,8 @@ class ExpensesPortal(http.Controller):
                 if unlink == "1":
                     if not expense.uploaded_by_statement and user == expense.create_uid:
                         expense.sudo().unlink()
+                    else:
+                        request.session['error_expense'] = _("You are not allowed to delete this expense.")
                 else:
                     expense.sudo().write({'sheet_id': None, 'account_id': None})
             
@@ -553,16 +560,18 @@ class ExpensesPortal(http.Controller):
     def _get_wallet_searchbar_sortings(self):
         return {
             'date': {'label': _('Date'), 'order': 'date desc'},
-            'state': {'label': _('State'), 'order': 'state'},
+            'state': {'label': _('State'), 'order': 'state_sequence asc'},
         }
         
     def _get_wallet_searchbar_filters(self):
         return {
             'all': {'label': _('All'), 'domain': []},
+            'to_report': {'label': _('To Report'), 'domain': [('state', '=', 'draft')]},
             'to_submit': {'label': _('To Submit'), 'domain': [('state', '=', 'reported')]},
             'submitted': {'label': _('Submitted'), 'domain': [('state', '=', 'submitted')]},
+            'refused': {'label': _('Refused'), 'domain': [('state', '=', 'refused')]},
             'approved': {'label': _('Approved'), 'domain': [('state', '=', 'approved')]},
-            'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]},
+            'done': {'label': _('Done'), 'domain': [('state', '=', 'done')]}
         }
     
     @http.route(['/my/wallet', '/my/wallet/page/<int:page>'], type='http', methods=['GET'], auth='user', website=True, sitemap=False)
@@ -668,27 +677,60 @@ class ExpensesPortal(http.Controller):
             invalid_expenses = ', '.join(map(str, invalid_expenses_list))
             request.session['error_expense'] = _("The following expenses were not added to the report because they are missing required information. Please review and complete them before attempting to add them again: %(invalid_expenses)s") % {'invalid_expenses': invalid_expenses}
         
-        return request.redirect('/my/wallet')
+        return request.redirect(
+            kw.get('redirect_url') or '/my/wallet'
+        )
     
     
     @http.route('/my/wallet/add_receipt_to_expense', type='http', auth='user', website=True, methods=['POST'])
-    def portal_add_receipt_to_expense(self, **kw):
-        
+    def portal_add_info_to_expense(self, **kw):
+
         if not self.is_user_auditor():
             return request.redirect('/my/home')
-        
+
         request.session.pop('error_expense', None)
-        
+
         expense_category = kw.get("expense_category")
         receipts = request.httprequest.files.getlist("receipt")
         expense_id = kw.get("expense_id")
         description = kw.get("description")
-        
+
+        name = kw.get("name")
+        payment_mode = kw.get("payment_mode")
+        expense_date = kw.get("expense_date")
+        total = kw.get("total")
+        currency_id = kw.get("currency_id")
+
         expense = request.env['hr.expense'].browse(int(expense_id))
-        
-        expense.sudo().write({'product_id': int(expense_category), 'description': description})
-        
-        _logger.warning(receipts)
+
+        vals = {
+            'product_id': int(expense_category),
+            'description': description,
+        }
+
+        if name:
+            vals['name'] = name
+
+        if payment_mode and not expense.sheet_id:
+            vals['payment_mode'] = payment_mode
+
+        if expense_date:
+            vals['date'] = expense_date
+
+        if total:
+            vals['total_amount_currency'] = float(total)
+
+        if currency_id:
+            vals['currency_id'] = int(currency_id)
+
+        expense.sudo().write(vals)
+
+        # Remove existing receipts
+        request.env['ir.attachment'].sudo().search([
+            ('res_model', '=', 'hr.expense'),
+            ('res_id', '=', expense.id),
+        ]).unlink()
+
         for receipt in receipts:
             attachment_data = {
                 'name': receipt.filename,
@@ -700,6 +742,7 @@ class ExpensesPortal(http.Controller):
                 'mimetype': receipt.content_type,
             }
             request.env['ir.attachment'].sudo().create(attachment_data)
-            
-        
-        return request.redirect('/my/wallet')
+
+        return request.redirect(
+            kw.get('redirect_url') or '/my/wallet'
+        )

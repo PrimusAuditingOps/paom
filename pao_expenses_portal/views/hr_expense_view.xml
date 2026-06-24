@@ -34,6 +34,13 @@
                     + [('can_be_expensed', '=', True), ('category_for_auditors', '=', False)]
                 </attribute>
             </xpath>
+
+            <xpath expr="//field[@name='price_unit']" position="before">
+                <label for="product_id" string="Auditor Categories" groups="pao.auditor_expenses_available"/>
+                <div groups="pao.auditor_expenses_available">
+                    <field name="product_id" readonly="not is_editable" domain="(company_id and ['|', ('company_id', '=', False), ('company_id', 'parent_of', [company_id])] or ['&amp;', ('company_id', '=', False), ('company_id', 'parent_of', [])]) + [('can_be_expensed', '=', True), ('category_for_auditors', '=', True)]"/>
+                </div>
+            </xpath>
         </field>
     </record>
 

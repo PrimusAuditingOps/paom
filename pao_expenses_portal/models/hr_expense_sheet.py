@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError, UserError
 import logging
 _logger = logging.getLogger(__name__)
 
+
 class ExpenseSheetInherit(models.Model):
     _inherit = 'hr.expense.sheet'
     
@@ -26,6 +27,25 @@ class ExpenseSheetInherit(models.Model):
         compute='_compute_has_receipts',
         string='Has Receipts',
     )
+    
+    state_sequence = fields.Integer(
+        compute='_compute_state_sequence',
+        store=True
+    )
+    
+    @api.depends('state')
+    def _compute_state_sequence(self):
+        order_map = {
+            'draft': 1,
+            'submit': 2,
+            'approve': 3,
+            'cancel': 4,
+            'post': 5,
+            'done': 6,
+        }
+
+        for record in self:
+            record.state_sequence = order_map.get(record.state, 999)
 
     def _compute_has_receipts(self):
         attachment_model = self.env['ir.attachment'].sudo()
@@ -86,7 +106,7 @@ class ExpenseSheetInherit(models.Model):
     #     for record in self:
     #         if record.partner_id.ado_is_auditor and not record.expense_scheme_id:
     #             raise ValidationError(_("You must define a Scheme."))
-    
+
 class ExpenseInherit(models.Model):
     _inherit = "hr.expense"
     
@@ -115,6 +135,25 @@ class ExpenseInherit(models.Model):
         compute='_compute_has_receipts',
         string='Has Receipts',
     )
+    
+    state_sequence = fields.Integer(
+        compute='_compute_state_sequence',
+        store=True
+    )
+
+    @api.depends('state')
+    def _compute_state_sequence(self):
+        order_map = {
+            'draft': 1,
+            'reported': 2,
+            'submitted': 3,
+            'refused': 4,
+            'approved': 5,
+            'done': 6,
+        }
+
+        for record in self:
+            record.state_sequence = order_map.get(record.state, 999)
 
     def _compute_has_receipts(self):
         for expense in self:
@@ -156,6 +195,23 @@ class ExpenseInherit(models.Model):
             expense_name = self.name.split('\n')[0][:64]
             vals.update({'name': f'{self.employee_id.name if self.employee_id else self.partner_id.name}: {expense_name}',})
         
+        return vals
+    
+    @api.model
+    def _prepare_payments_vals(self):
+        
+        vals = super(ExpenseInherit, self)._prepare_payments_vals()
+        sheet = self.sheet_id
+        vals['date'] = sheet.accounting_date or max(sheet.expense_line_ids.filtered(lambda exp: exp.date).mapped('date'), default=fields.Date.context_today(sheet))
+        
+        _logger.warning("Preparing payment vals for expense %s with context: %s", self.id, self.env.context)
+        if self.total_amount_currency < 0:
+            _logger.warning("Expense %s has negative amount, adjusting payment vals accordingly.", self.id)
+            vals.update({
+                'amount': abs(vals['amount']),
+                'payment_type': 'inbound',
+            })
+                    
         return vals
     
     @api.model
