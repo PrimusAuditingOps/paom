@@ -7,6 +7,7 @@ from odoo.addons.web.controllers.main import content_disposition
 from datetime import datetime
 import pytz
 import base64
+from itertools import groupby
 
 _logger = logging.getLogger(__name__)
 
@@ -178,27 +179,60 @@ class SignRAPortal(portal.CustomerPortal):
             ra_document.purchase_order_id.write({'sra_audit_signature': signature, 'sra_audit_signature_name': name, 'sra_audit_signature_date':today})
 
             country_code = ra_document.purchase_order_id.company_id.country_code
-            template = 'servicereferralagreement.report_rapurchaseorder' if country_code == 'MX' else 'pao_sign_ra.ra_report_foreign_company_template_action'
-            pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
-                template,
-                ra_document.purchase_order_id.id,
-            )[0]
+            if country_code == 'MX':
+                organization = None
+                reg_number = None
+                attachment_list = []
+                lines = ra_document.purchase_order_id.order_line.filtered(
+                    lambda l: l.product_id and l.registrynumber_id
+                ).sorted(
+                    key=lambda l: (l.organization_id.id, l.registrynumber_id.id)
+                )
+                
+                for line in lines:
+                    filename = "%s - %s - RA.pdf" % (line.registrynumber_id.name,line.organization_id.name)
+                    if  line.organization_id.id != organization or line.registrynumber_id.id != reg_number:
+                        pdf = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                            'pao_sign_ra.ra_report_mx_template_action', [ra_document.id], 
+                            data= {
+                                "doc": ra_document.purchase_order_id, 
+                                "line": line,
+                            }
+                        )[0]
+                        attach = request.env['ir.attachment'].sudo().create({
+                                'name': filename,
+                                'datas': base64.b64encode(pdf),
+                                'res_model': 'ra.document',
+                                'res_id': ra_document.id,
+                                'type': 'binary',  
+                            })
+                        attachment_list.append(attach.id)
+                        organization = line.organization_id.id
+                        reg_number = line.registrynumber_id.id
+                ra_document.write({"fragmented_attachment_ids": [(6, 0, attachment_list)],'status': 'sign'})
 
-            # Create an attachment record
-            attachment = request.env['ir.attachment'].sudo().create({
-                'name': 'Referral Agreement - %s.pdf' % ra_document.name,
-                'type': 'binary',
-                'datas': base64.b64encode(pdf_content),
-                'res_model': 'ra.document',
-                'res_id': ra_document.id,  # The record ID to which the attachment belongs
-                'mimetype': 'application/pdf',
-            })
+            else:
 
-            # Update the record's attachment_ids
-            ra_document.write({
-                'attachment_ids': [(4, attachment.id)],
-                'status': 'sign'
-            })
+                template = 'pao_sign_ra.ra_report_foreign_company_template_action'
+                pdf_content = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+                    template,
+                    ra_document.purchase_order_id.id,
+                )[0]
+
+                # Create an attachment record
+                attachment = request.env['ir.attachment'].sudo().create({
+                    'name': 'Referral Agreement - %s.pdf' % ra_document.name,
+                    'type': 'binary',
+                    'datas': base64.b64encode(pdf_content),
+                    'res_model': 'ra.document',
+                    'res_id': ra_document.id,  # The record ID to which the attachment belongs
+                    'mimetype': 'application/pdf',
+                })
+                # Update the record's attachment_ids
+                ra_document.write({
+                    'attachment_ids': [(4, attachment.id)],
+                    'status': 'sign'
+                })
             
             if country_code == 'US':
                 template = request.env['mail.template'].sudo().search([('name', '=', 'Referral Agreement Attachment')], limit=1)

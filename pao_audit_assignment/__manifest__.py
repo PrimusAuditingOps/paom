@@ -23,6 +23,7 @@
         'auditordaysoff'
     ],
     'data' : [
+        'security/groups.xml',
         'views/res_partner.xml',
     ],
     'assets': {

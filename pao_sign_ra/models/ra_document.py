@@ -38,12 +38,21 @@ class RADocument(models.Model):
     customer_id = fields.Many2one(related="purchase_order_id.sale_order_id.partner_id", string="Customer")
     
     organization_id = fields.Many2one('servicereferralagreement.organization', string="Organization", compute="_get_organization")
+    
+    country_code = fields.Char(related="purchase_order_id.company_id.country_code")
 
     request_travel_expenses = fields.Boolean(string="Request Travel Expenses", readonly=True)
     
     travel_expenses_posted = fields.Boolean(default=False)
     
     attachment_ids = fields.Many2many('ir.attachment', string="Attachments")
+    fragmented_attachment_ids = fields.Many2many(
+        'ir.attachment',
+        'ra_document_fragmented_attachment_rel',
+        'document_id',
+        'attachment_id',
+        string="Fragmented Attachments"
+    )
     
     pao_registration_numbers_ids = fields.Many2many(
         comodel_name='servicereferralagreement.registrynumber',
@@ -57,6 +66,7 @@ class RADocument(models.Model):
         ondelete='cascade',
         required=True,
     )
+    
         
     reminder_days = fields.Integer(string = 'Reminder days', default = 0)
     

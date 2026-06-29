@@ -14,6 +14,7 @@
         'data/ra_mail_templates_default.xml',
         # 'security/ir_rules.xml',
         # 'views/res_partner.xml',
+        'reports/ra_report_mx_template.xml',
         'views/ra_report_foreign_company.xml',
         'views/purchase_order.xml',
         'views/ra_mail_templates_views.xml',
