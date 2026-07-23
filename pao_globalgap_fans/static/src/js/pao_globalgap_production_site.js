@@ -798,7 +798,7 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
             const selectedValue = document.getElementById("not_direct_line_memebers_grasp").value;
             const visibleTable = document.querySelector(`.grasp-question-${selectedValue}`);
 
-            if (selectedValue === "2") { // If "No" is selected, skip validation
+            if (selectedValue !== "1") { // If "1" is not selected, skip validation
                 return true;
             }
 

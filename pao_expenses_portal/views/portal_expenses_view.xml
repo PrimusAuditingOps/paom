@@ -399,7 +399,7 @@
                                     <div class="mb-3 row edit_full_info">
                                         <label for="total" class="fw-bold col-sm-3 col-form-label">Total</label>
                                         <div class="col-sm-6 pe-1">
-                                            <input name="total" id="total" type="number" class="form-control"/>
+                                            <input name="total" id="total" type="number" step="0.01" class="form-control"/>
                                         </div>
                                         <div class="col-sm-3">
                                             <select name="currency_id" id="currency_id" class="form-select">
@@ -528,7 +528,7 @@
                                 <div class="mb-3 row">
                                     <label for="total" class="fw-bold col-sm-3 col-form-label">Total</label>
                                     <div class="col-sm-6 pe-1">
-                                        <input name="total" type="number" class="form-control" required="1"/>
+                                        <input name="total" type="number" step="0.01" class="form-control" required="1"/>
                                     </div>
                                     <div class="col-sm-3">
                                         <select name="currency_id" class="form-select" required="1">
@@ -829,7 +829,7 @@
                                     <div class="mb-3 row edit_full_info">
                                         <label for="total" class="fw-bold col-sm-3 col-form-label">Total</label>
                                         <div class="col-sm-6 pe-1">
-                                            <input name="total" id="total" type="number" class="form-control"/>
+                                            <input name="total" id="total" type="number" step="0.01" class="form-control"/>
                                         </div>
                                         <div class="col-sm-3">
                                             <select name="currency_id" id="currency_id" class="form-select">
@@ -923,7 +923,7 @@
                                 <div class="mb-3 row">
                                     <label for="total" class="fw-bold col-sm-3 col-form-label">Total</label>
                                     <div class="col-sm-6 pe-1">
-                                        <input name="total" type="number" class="form-control" required="1"/>
+                                        <input name="total" type="number" step="0.01" class="form-control" required="1"/>
                                     </div>
                                     <div class="col-sm-3">
                                         <select name="currency_id" class="form-select" required="1">
