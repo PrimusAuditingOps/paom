@@ -6,8 +6,8 @@
         <field name="model">invoice.report</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="invoice_number"/>
-                <field name="client_id"/>
+                <field name="invoice_id" widget="many2one"/>
+                <field name="client_id" optional="hide"/>
                 <field name="customer"/>
                 <field name="group"/>
                 <field name="auditor"/>
@@ -20,7 +20,13 @@
                 <field name="currency_id"/>
                 <field name="currency_rate"/>
                 <field name="price_subtotal"/>
-                <field name="mxn_subtotal"/>
+                <field name="company_currency_subtotal" invisible="not company_currency_subtotal"/>
+                <field name="usd_exchange_rate" invisible="not usd_exchange_rate" optional="hide"/>
+                <field name="usd_subtotal" invisible="not usd_subtotal" optional="hide"/>
+                <field name="eur_exchange_rate" invisible="not eur_exchange_rate" optional="hide"/>
+                <field name="eur_subtotal" invisible="not eur_subtotal" optional="hide"/>
+                <field name="tax_amount" optional="hide"/>
+                <field name="company_currency_tax" invisible="not company_currency_tax" optional="hide"/>
                 <field name="invoice_partner_name"/>
                 <field name="fiscal_folio"/>
                 <field name="invoice_date"/>

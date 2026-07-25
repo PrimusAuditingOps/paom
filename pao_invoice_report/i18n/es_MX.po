@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 23:55+0000\n"
-"PO-Revision-Date: 2025-09-05 23:55+0000\n"
+"POT-Creation-Date: 2026-07-13 20:51+0000\n"
+"PO-Revision-Date: 2026-07-13 20:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,11 +26,6 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: pao_invoice_report
-#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__category_id
-msgid "Category"
-msgstr "Categoría"
-
-#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__client_id
 msgid "Client ID"
 msgstr "ID Cliente"
@@ -39,6 +34,16 @@ msgstr "ID Cliente"
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__company_id
 msgid "Company"
 msgstr ""
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__company_currency_subtotal
+msgid "Company Currency Subtotal"
+msgstr "Subtotal en moneda de la empresa"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__company_currency_tax
+msgid "Company Currency Tax"
+msgstr "Impuesto en moneda de la empresa"
 
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__currency_id
@@ -64,6 +69,16 @@ msgstr "Nombre mostrado"
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__state__draft
 msgid "Draft"
 msgstr "Borrador"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__eur_exchange_rate
+msgid "EUR Exchange Rate"
+msgstr "Tasa de cambio EUR"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__eur_subtotal
+msgid "EUR Subtotal"
+msgstr "Subtotal EUR"
 
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__fiscal_folio
@@ -139,11 +154,6 @@ msgid "Invoicing Report"
 msgstr "Reporte de facturación"
 
 #. module: pao_invoice_report
-#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__mxn_subtotal
-msgid "MXN Subtotal"
-msgstr "Subtotal MXN"
-
-#. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__move_line_id
 msgid "Move Line"
 msgstr ""
@@ -162,6 +172,11 @@ msgstr "Origen"
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__price_subtotal
 msgid "Original Currency Subtotal"
 msgstr "Subtotal Moneda Origen"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__tax_amount
+msgid "Original Tax"
+msgstr "Impuesto Original"
 
 #. module: pao_invoice_report
 #: model:ir.model.fields.selection,name:pao_invoice_report.selection__invoice_report__payment_state__paid
@@ -247,6 +262,11 @@ msgstr "Fecha Inicio de Servicio"
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__state
 msgid "Status"
 msgstr "Estado"
+
+#. module: pao_invoice_report
+#: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__usd_exchange_rate
+msgid "USD Exchange Rate"
+msgstr "Tasa de cambio USD"
 
 #. module: pao_invoice_report
 #: model:ir.model.fields,field_description:pao_invoice_report.field_invoice_report__usd_subtotal
