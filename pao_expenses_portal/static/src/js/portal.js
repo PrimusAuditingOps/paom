@@ -183,7 +183,7 @@ function initAddReceiptToExpense() {
                     .querySelectorAll('input, select, textarea')
                     .forEach(field => {
                         field.required = false;
-                        field.value= "";
+                        field.value = "";
                     });
             });
         });
@@ -226,6 +226,18 @@ function initEditExpense() {
             document.getElementById('description').value =
                 this.dataset.description || '';
 
+            document.querySelectorAll('input[name="tax_ids"]').forEach(cb => {
+                cb.checked = false;
+            });
+
+            const taxIds = (this.dataset.taxIds || '')
+                .split(',')
+                .filter(Boolean);
+
+            document.querySelectorAll('input[name="tax_ids"]').forEach(cb => {
+                cb.checked = taxIds.includes(cb.value);
+            });
+
             const uploadedByStatement =
                 String(this.dataset.uploadedByStatement).toLowerCase() === 'true';
 
@@ -240,10 +252,13 @@ function initEditExpense() {
                             field.required = true;
                         });
 
-                    document.getElementById('name').value = this.dataset.name || '';
-                    
+                    name_field = document.getElementById('name');
+                    if (name_field) {
+                        name_field.value = this.dataset.name || '';
+                    }
+
                     payment_mode_field = document.getElementById('payment_mode');
-                    if (payment_mode_field){
+                    if (payment_mode_field) {
                         payment_mode_field.value = this.dataset.paymentMode || '';
                     }
 

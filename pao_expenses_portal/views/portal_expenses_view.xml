@@ -308,7 +308,8 @@
                                 t-att-data-payment-mode="expense.payment_mode or ''"
                                 t-att-data-expense-date="expense.date or ''"
                                 t-att-data-total="expense.total_amount_currency or 0"
-                                t-att-data-currency-id="expense.currency_id.id or ''">
+                                t-att-data-currency-id="expense.currency_id.id or ''"
+                                t-att-data-tax-ids="','.join(map(str, expense.tax_ids.ids))">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                                     <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                 </svg>
@@ -324,12 +325,14 @@
                     </tr>
                 </t>
 
-                <div class="modal fade" id="add_receipt_modal" tabindex="-1" aria-labelledby="add_receipt_label" aria-hidden="true">
+                <div class="modal fade modal_expense_from_scratch" id="add_receipt_modal" tabindex="-1" aria-labelledby="add_receipt_label" aria-hidden="true">
                     <div class="modal-dialog">
                         <form action="/my/wallet/add_receipt_to_expense" id="add_receipt_to_expense_form" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="expense_id" id="add_receipt_expense_id"/>
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input type="hidden" name="redirect_url" t-att-value="request.httprequest.full_path"/>
+                            <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>
+                            <input type="hidden" name="country_code" t-att-value="report.company_id.country_code"/>
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Complete expense</h4>
@@ -393,11 +396,41 @@
                                         <div class="col-sm-9">
                                             <input name="description" id="description" type="text" class="form-control" required="1"/>
                                         </div>
- 
+
+                                    </div>
+
+                                    <div class="mb-3 row" t-if="report.company_id.country_code =='CR'">
+                                        <label class="fw-bold col-sm-3 col-form-label">
+                                            Included Taxes
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <div class="row">
+                                                <t t-foreach="taxes" t-as="tax">
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <div class="form-check mb-2">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="checkbox"
+                                                                name="tax_ids"
+                                                                t-att-id="'tax_%s' % tax.id"
+                                                                t-att-value="tax.id"
+                                                                t-att-checked="expense and tax in expense.tax_ids"/>
+
+                                                            <label
+                                                                class="form-check-label"
+                                                                t-att-for="'tax_%s' % tax.id">
+                                                                <t t-esc="tax.display_name"/>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </div>
                                     </div>
                                     
                                     <div class="mb-3 row edit_full_info">
-                                        <label for="total" class="fw-bold col-sm-3 col-form-label">Total</label>
+                                        <label for="total" class="fw-bold col-sm-3 col-form-label">Subtotal</label>
                                         <div class="col-sm-6 pe-1">
                                             <input name="total" id="total" type="number" step="0.01" class="form-control"/>
                                         </div>
@@ -462,6 +495,7 @@
                 <div class="modal-dialog">
                     <form method="POST" action="/my/expense/new" id="new_expense_form" enctype="multipart/form-data">
                         <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>
+                        <input type="hidden" name="country_code" t-att-value="report.company_id.country_code"/>
                         <input type="hidden" name="report_id" t-att-value="report.id"/>
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-content">
@@ -525,8 +559,38 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-3 row" t-if="report.company_id.country_code =='CR'">
+                                    <label class="fw-bold col-sm-3 col-form-label">
+                                        Included Taxes
+                                    </label>
+
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <t t-foreach="taxes" t-as="tax">
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="form-check mb-2">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="checkbox"
+                                                            name="tax_ids"
+                                                            t-att-id="'tax_%s' % tax.id"
+                                                            t-att-value="tax.id"
+                                                            t-att-checked="expense and tax in expense.tax_ids"/>
+
+                                                        <label
+                                                            class="form-check-label"
+                                                            t-att-for="'tax_%s' % tax.id">
+                                                            <t t-esc="tax.display_name"/>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="mb-3 row">
-                                    <label for="total" class="fw-bold col-sm-3 col-form-label">Total</label>
+                                    <label for="total" class="fw-bold col-sm-3 col-form-label">Subtotal</label>
                                     <div class="col-sm-6 pe-1">
                                         <input name="total" type="number" step="0.01" class="form-control" required="1"/>
                                     </div>
@@ -715,7 +779,9 @@
                                 t-att-data-payment-mode="expense.payment_mode or ''"
                                 t-att-data-expense-date="expense.date or ''"
                                 t-att-data-total="expense.total_amount_currency or 0"
-                                t-att-data-currency-id="expense.currency_id.id or ''">
+                                t-att-data-currency-id="expense.currency_id.id or ''"
+                                t-att-data-tax-ids="','.join(map(str, expense.tax_ids.ids))">
+                                
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                                     <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
                                 </svg>
@@ -754,12 +820,13 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="add_receipt_modal" tabindex="-1" aria-labelledby="add_receipt_label" aria-hidden="true">
+                <div class="modal fade modal_expense_from_scratch" id="add_receipt_modal" tabindex="-1" aria-labelledby="add_receipt_label" aria-hidden="true">
                     <div class="modal-dialog">
                         <form action="/my/wallet/add_receipt_to_expense" id="add_receipt_to_expense_form" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="expense_id" id="add_receipt_expense_id"/>
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input type="hidden" name="redirect_url" t-att-value="request.httprequest.full_path"/>
+                            <input type="hidden" name="country_code" t-att-value="expenses.company_id.country_code"/>
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Complete expense</h4>
@@ -825,9 +892,38 @@
                                         </div>
  
                                     </div>
+
+                                    <div class="mb-3 row" t-if="expenses.company_id.country_code =='CR'">
+                                        <label class="fw-bold col-sm-3 col-form-label">
+                                            Included Taxes
+                                        </label>
+
+                                        <div class="col-sm-9">
+                                            <div class="row">
+                                                <t t-foreach="taxes" t-as="tax">
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <div class="form-check mb-2">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="checkbox"
+                                                                name="tax_ids"
+                                                                t-att-id="'tax_%s' % tax.id"
+                                                                t-att-value="tax.id"/>
+
+                                                            <label
+                                                                class="form-check-label"
+                                                                t-att-for="'tax_%s' % tax.id">
+                                                                <t t-esc="tax.display_name"/>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
                                     
                                     <div class="mb-3 row edit_full_info">
-                                        <label for="total" class="fw-bold col-sm-3 col-form-label">Total</label>
+                                        <label for="total" class="fw-bold col-sm-3 col-form-label">Subtotal</label>
                                         <div class="col-sm-6 pe-1">
                                             <input name="total" id="total" type="number" step="0.01" class="form-control"/>
                                         </div>
@@ -859,6 +955,7 @@
                     <form method="POST" action="/my/wallet_expense/new" id="new_wallet_expense_form" enctype="multipart/form-data">
                         <input type="hidden" name="is_external_auditor" t-att-value="is_external_auditor"/>
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="country_code" t-att-value="expenses.company_id.country_code"/>
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Create expense</h5>
@@ -920,8 +1017,38 @@
                                         </div>
                                 </div>
 
+                                <div class="mb-3 row" t-if="expenses.company_id.country_code =='CR'">
+                                    <label class="fw-bold col-sm-3 col-form-label">
+                                        Included Taxes
+                                    </label>
+
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <t t-foreach="taxes" t-as="tax">
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="form-check mb-2">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="checkbox"
+                                                            name="tax_ids"
+                                                            t-att-id="'tax_%s' % tax.id"
+                                                            t-att-value="tax.id"
+                                                            t-att-checked="expense and tax in expense.tax_ids"/>
+
+                                                        <label
+                                                            class="form-check-label"
+                                                            t-att-for="'tax_%s' % tax.id">
+                                                            <t t-esc="tax.display_name"/>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="mb-3 row">
-                                    <label for="total" class="fw-bold col-sm-3 col-form-label">Total</label>
+                                    <label for="total" class="fw-bold col-sm-3 col-form-label">Subtotal</label>
                                     <div class="col-sm-6 pe-1">
                                         <input name="total" type="number" step="0.01" class="form-control" required="1"/>
                                     </div>

@@ -171,7 +171,12 @@ class ExpensesPortal(http.Controller):
         
         schemes = request.env['expense.scheme'].sudo().search([('company_id', '=', request.env.company.id)])
         
-        values.update({'purchase_orders_account': purchase_orders_account, 'schemes': schemes, 'currency': request.env.company.currency_id.name})
+        taxes = request.env['account.tax'].sudo().search([
+            ('type_tax_use', '=', 'purchase'),
+            ('company_id', '=', request.env.company.id),
+        ])
+        
+        values.update({'taxes': taxes, 'purchase_orders_account': purchase_orders_account, 'schemes': schemes, 'currency': request.env.company.currency_id.name})
         
         error_expense = request.session.get('error_expense')
         if error_expense:
@@ -345,9 +350,13 @@ class ExpensesPortal(http.Controller):
         
         partner = request.env.user.partner_id
         
-        
         if partner.st_supplier_taxes_id:
             tax_ids = partner.st_supplier_taxes_id.taxes_id
+        elif request.env.company.country_code == 'CR':
+            tax_ids = [
+                int(tax)
+                for tax in request.httprequest.form.getlist('tax_ids')
+            ]
         elif request.env.company.country_code != 'MX':
             tax_ids = None
         else:
@@ -620,6 +629,11 @@ class ExpensesPortal(http.Controller):
             url_args = {'sortby': sortby, 'filterby': filterby}
         )
         
+        taxes = request.env['account.tax'].sudo().search([
+            ('type_tax_use', '=', 'purchase'),
+            ('company_id', '=', request.env.company.id),
+        ])
+        
         expenses = request.env['hr.expense'].sudo().search(domain, order=order, limit=20, offset=page_detail['offset'])
         reports = request.env['hr.expense.sheet'].sudo().search(reports_domain)
         
@@ -638,6 +652,7 @@ class ExpensesPortal(http.Controller):
                     'sortby': sortby,
                     'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
                     'filterby': filterby,
+                    'taxes': taxes,
                     'is_external_auditor': is_external_auditor,
                 }
         
@@ -702,6 +717,13 @@ class ExpensesPortal(http.Controller):
         currency_id = kw.get("currency_id")
 
         expense = request.env['hr.expense'].browse(int(expense_id))
+        
+        tax_ids = None
+        if request.env.company.country_code == 'CR':
+            tax_ids = [
+                int(tax)
+                for tax in request.httprequest.form.getlist('tax_ids')
+            ]
 
         vals = {
             'product_id': int(expense_category),
@@ -710,6 +732,9 @@ class ExpensesPortal(http.Controller):
 
         if name:
             vals['name'] = name
+
+        if tax_ids is not None:
+            vals['tax_ids'] = [(6, 0, tax_ids)]
 
         if payment_mode and not expense.sheet_id:
             vals['payment_mode'] = payment_mode
