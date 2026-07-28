@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_customer_segmentation" model="ir.ui.view">
+        <field name="name">res.partner.form.customer.segmentation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="pao_company_country_code" invisible="1"/>
+                <field name="customer_segment" readonly="1" invisible="pao_company_country_code != 'MX' or not is_company"/>
+                <field name="sales_customer_type" readonly="1" invisible="pao_company_country_code != 'MX' or not is_company"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_customer_segmentation" model="ir.ui.view">
+        <field name="name">res.partner.tree.customer.segmentation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="country_id" position="after">
+                <field name="pao_company_country_code" column_invisible="1"/>
+                <field name="customer_segment" optional="hide" readonly="1" invisible="pao_company_country_code != 'MX' or not is_company"/>
+                <field name="sales_customer_type" optional="hide" readonly="1" invisible="pao_company_country_code != 'MX' or not is_company"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_res_partner_filter_customer_segmentation" model="ir.ui.view">
+        <field name="name">res.partner.search.customer.segmentation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="after">
+                <separator groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <filter string="Cliente Clave" name="segment_key" domain="[('customer_segment', '=', 'key')]"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <filter string="Cliente de Promotor" name="segment_promoter" domain="[('customer_segment', '=', 'promoter')]"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <filter string="Cliente Individual" name="segment_individual" domain="[('customer_segment', '=', 'individual')]"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <separator groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <filter string="Cliente Nuevo" name="sales_type_new" domain="[('sales_customer_type', '=', 'new')]"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <filter string="Cliente Recuperado" name="sales_type_recovered" domain="[('sales_customer_type', '=', 'recovered')]"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <filter string="Cliente Actual" name="sales_type_current" domain="[('sales_customer_type', '=', 'current')]"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <filter string="Cliente Perdido" name="sales_type_lost" domain="[('sales_customer_type', '=', 'lost')]"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+            </filter>
+            <group name="group_by" position="inside">
+                <filter string="Segmento de Cliente" name="groupby_customer_segment" context="{'group_by': 'customer_segment'}"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+                <filter string="Tipo de Cliente de Venta" name="groupby_sales_customer_type" context="{'group_by': 'sales_customer_type'}"
+                        groups="pao_customer_segmentation.group_pao_customer_segmentation"/>
+            </group>
+        </field>
+    </record>
+</odoo>
