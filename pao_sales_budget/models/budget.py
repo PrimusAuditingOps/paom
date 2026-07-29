@@ -42,43 +42,39 @@ class PAOSalesBudget(models.Model):
                 if customer_type == "Clientes Clave":
                     groups = self.env["customergroups.group"].search([("pao_include_in_budget","=",True)])
                     for group in groups:
-                        domain = [('move_id.state', '=', 'posted'),
-                            ('move_id.move_type', '=', 'out_invoice'),  
-                            ('move_id.invoice_date', '>=', date_from),
-                            ('move_id.invoice_date', '<=', date_to),
-                            ("product_id.can_be_commissionable", "=", True),
-                            ("move_id.partner_id.cgg_group_id", "=", group.id),
-                            ("move_id.partner_id.team_id", "=", region.id)
+                        domain = [
+                            ('invoice_date', '>=', date_from),
+                            ('invoice_date', '<=', date_to),
+                            ('product_tmpl_id.can_be_commissionable', '=', True),
+                            ('group_id', '=', group.id),
+                            ('partner_id.team_id', '=', region.id),
                         ]
-                        self.create_budget_line(domain,region,customer_type,group.name,"simple")
+                        self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,group.name,"simple")
                 elif customer_type == "Promotor":
                     promotors = self.env["comisionpromotores.promotor"].search([("pao_include_in_budget","=",True)])
                     for promotor in promotors:
-                        domain = [('move_id.state', '=', 'posted'),
-                            ('move_id.move_type', '=', 'out_invoice'),  
-                            ('move_id.invoice_date', '>=', date_from),
-                            ('move_id.invoice_date', '<=', date_to),
-                            ("product_id.can_be_commissionable", "=", True),
-                            ("move_id.partner_id.promotor_id", "=", promotor.id),
-                            ("move_id.partner_id.team_id", "=", region.id)
+                        domain = [
+                            ('invoice_date', '>=', date_from),
+                            ('invoice_date', '<=', date_to),
+                            ('product_tmpl_id.can_be_commissionable', '=', True),
+                            ('promotor_id', '=', promotor.id),
+                            ('partner_id.team_id', '=', region.id),
                         ]
-                        self.create_budget_line(domain,region,customer_type,promotor.name,"simple")
+                        self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,promotor.name,"simple")
                 elif customer_type == "Clientes Individuales":
                     domain = [
-                        ('move_id.state', '=', 'posted'),
-                        ('move_id.move_type', '=', 'out_invoice'),
-                        ('move_id.invoice_date', '>=', date_from),
-                        ('move_id.invoice_date', '<=', date_to),
-                        ('product_id.can_be_commissionable', '=', True),
-                        ('move_id.partner_id.team_id', '=', region.id),
+                        ('invoice_date', '>=', date_from),
+                        ('invoice_date', '<=', date_to),
+                        ('product_tmpl_id.can_be_commissionable', '=', True),
+                        ('partner_id.team_id', '=', region.id),
                         '|',
-                            ('move_id.partner_id.promotor_id', '=', False),
-                            ('move_id.partner_id.promotor_id.pao_include_in_budget', '=', False),
+                            ('promotor_id', '=', False),
+                            ('promotor_id.pao_include_in_budget', '=', False),
                         '|',
-                            ('move_id.partner_id.cgg_group_id', '=', False),
-                            ('move_id.partner_id.cgg_group_id.pao_include_in_budget', '=', False)
+                            ('group_id', '=', False),
+                            ('group_id.pao_include_in_budget', '=', False)
                     ]
-                    self.create_budget_line(domain,region,customer_type,"Clientes Ind.","simple")
+                    self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,"Clientes Ind.","simple")
                 else:
                     budget_line = self.env['pao.sales.budget.line'].search([("region_id","=",region.id),("customer_category","=","Clientes Individuales")])
                     to_create = []
@@ -216,7 +212,101 @@ class PAOSalesBudget(models.Model):
             created_chunk = budget_line.sudo().create(chunk)
             created += created_chunk
 
-        
+    def create_budget_line_from_sales_invoicing_report(self,domain,region,customer_type,customer_name,avg_type):
+        """Igual que create_budget_line pero lee de sales.invoicing.report en vez de
+        account.move.line directamente. Esa vista ya incluye las notas de credito/DV
+        (out_refund) y resuelve, por linea, el producto original (aunque la DV se
+        facture con un producto de devoluciones distinto ante el SAT) y si la
+        devolucion fue total (resta la cantidad completa) o solo monetaria/parcial
+        (cantidad en 0, no se descuenta producto). Ver pao_sales_invoicing_report
+        para el detalle de esa logica.
+        """
+        budget_line = self.env['pao.sales.budget.line']
+        SIR = self.env['sales.invoicing.report'].sudo()
+        AML = self.env['account.move.line'].sudo()
+        target_currency = self.currency_id
+
+        lines = SIR.search(domain)
+
+        # Estructura de agregación por product_id, igual que create_budget_line
+        data = defaultdict(lambda: {
+            'qty_by_month': defaultdict(float),
+            'price_list_by_month': defaultdict(list),
+        })
+
+        def month_index(date_val):
+            if isinstance(date_val, str):
+                try:
+                    dt = fields.Date.from_string(date_val)
+                except Exception:
+                    dt = fields.Date.context_today(self)
+            elif isinstance(date_val, datetime):
+                dt = date_val.date()
+            else:
+                dt = date_val
+            return dt.month
+
+        for ln in lines:
+            m = month_index(ln.invoice_date)
+            product = ln.product_tmpl_id
+            qty = float(ln.quantity or 0.0)
+
+            key = product.id
+            data[key]['qty_by_month'][m] += qty
+
+            # Una devolución (qty <= 0) no es un dato de precio de venta, solo
+            # debe afectar la cantidad. El promedio de precio se calcula únicamente
+            # con líneas de venta reales.
+            if qty > 0:
+                aml = AML.browse(ln.id)
+                inv = aml.move_id
+                unit = float(aml.price_unit or 0.0)
+                src_currency = inv.currency_id or inv.company_id.currency_id or self.env.company.currency_id
+
+                try:
+                    unit_conv = src_currency._convert(unit, target_currency, inv.company_id, ln.invoice_date)
+                except Exception as e:
+                    _logger.exception("Fallo convert currency for line %s: %s", ln.id, e)
+                    unit_conv = unit
+
+                if avg_type == 'simple':
+                    data[key]['price_list_by_month'][m].append(unit_conv)
+                else:
+                    data[key].setdefault('priceqty_by_month', defaultdict(float))
+                    data[key]['priceqty_by_month'][m] += unit_conv * qty
+
+        to_create = []
+        for (prod_id), vals in data.items():
+            all_prices = []
+            for m in range(1, 13):
+                all_prices.extend(vals['price_list_by_month'].get(m, []))
+            avg_price = float(sum(all_prices) / len(all_prices)) if all_prices else 0.0
+
+            months = {}
+            for m in range(1, 13):
+                field_name = f"m{m:02d}"
+                months[field_name] = float(vals['qty_by_month'].get(m, 0.0))
+
+            line_vals = {
+                'budget_id': self.id,
+                'region_id': region.id,
+                'customer_category': customer_type,
+                'customer_name': customer_name,
+                'product_id': prod_id,
+                'price_unit': avg_price,
+                **months,
+            }
+            to_create.append(line_vals)
+
+        # Crear en batches
+        created = []
+        BATCH = 200
+        for i in range(0, len(to_create), BATCH):
+            chunk = to_create[i:i+BATCH]
+            created_chunk = budget_line.sudo().create(chunk)
+            created += created_chunk
+
+
 class PAOSalesBudgetLine(models.Model):
     _name = "pao.sales.budget.line"
     _description = "PAO Annual Sales Budget Lines"

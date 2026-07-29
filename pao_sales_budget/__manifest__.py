@@ -11,7 +11,7 @@
     
     """,
     'category': '',
-    'depends': ['base','product','sale','comisionpromotores','customergroups','crm'],
+    'depends': ['base','product','sale','comisionpromotores','customergroups','crm','pao_sales_invoicing_report'],
     'data': [
         'security/ir.model.access.csv',
         'security/rules.xml',
