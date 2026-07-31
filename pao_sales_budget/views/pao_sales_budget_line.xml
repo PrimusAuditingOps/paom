@@ -10,7 +10,11 @@
             <field name="customer_name"/>
             <field name="product_id"/>
 
-           
+            <group expand="1" string="Group By">
+                <filter name="group_by_region" string="Región" context="{'group_by': 'region_id'}"/>
+                <filter name="group_by_customer_category" string="Categoría de Cliente" context="{'group_by': 'customer_category'}"/>
+                <filter name="group_by_customer_name" string="Nombre de Cliente" context="{'group_by': 'customer_name'}"/>
+            </group>
         </search>
     </field>
   </record>

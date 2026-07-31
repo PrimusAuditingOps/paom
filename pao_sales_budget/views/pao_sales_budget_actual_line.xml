@@ -1,0 +1,71 @@
+<odoo>
+
+  <record id="pao_sales_budget_actual_line_view_search" model="ir.ui.view">
+    <field name="name">pao.sales.budget.actual.line.view.search</field>
+    <field name="model">pao.sales.budget.actual.line</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="region_id"/>
+            <field name="customer_category"/>
+            <field name="customer_name"/>
+            <field name="product_id"/>
+
+            <group expand="1" string="Group By">
+                <filter name="group_by_region" string="Región" context="{'group_by': 'region_id'}"/>
+                <filter name="group_by_customer_category" string="Categoría de Cliente" context="{'group_by': 'customer_category'}"/>
+                <filter name="group_by_customer_name" string="Nombre de Cliente" context="{'group_by': 'customer_name'}"/>
+            </group>
+        </search>
+    </field>
+  </record>
+
+  <record id="pao_sales_budget_actual_line_view_tree" model="ir.ui.view">
+    <field name="name">pao.sales.budget.actual.line.view.tree</field>
+    <field name="model">pao.sales.budget.actual.line</field>
+    <field name="arch" type="xml">
+      <tree string="Real Facturado" create="false" edit="false">
+        <field name="region_id"/>
+        <field name="customer_category"/>
+        <field name="customer_name"/>
+        <field name="product_id"/>
+        <field name="currency_id" optional="hide"/>
+        <field name="price_unit" optional="hide" options="{'currency_field': 'currency_id'}"/>
+        <field name="m09" sum="Total"/>
+        <field name="m10" sum="Total"/>
+        <field name="m11" sum="Total"/>
+        <field name="m12" sum="Total"/>
+        <field name="m01" sum="Total"/>
+        <field name="m02" sum="Total"/>
+        <field name="m03" sum="Total"/>
+        <field name="m04" sum="Total"/>
+        <field name="m05" sum="Total"/>
+        <field name="m06" sum="Total"/>
+        <field name="m07" sum="Total"/>
+        <field name="m08" sum="Total"/>
+        <field name="total_quantity" sum="Total"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="pao_sales_budget_actual_line_view_pivot" model="ir.ui.view">
+    <field name="name">pao.sales.budget.actual.line.view.pivot</field>
+    <field name="model">pao.sales.budget.actual.line</field>
+    <field name="arch" type="xml">
+      <pivot string="Real Facturado" sample="1">
+        <field name="m09" type="measure"/>
+        <field name="m10" type="measure"/>
+        <field name="m11" type="measure"/>
+        <field name="m12" type="measure"/>
+        <field name="m01" type="measure"/>
+        <field name="m02" type="measure"/>
+        <field name="m03" type="measure"/>
+        <field name="m04" type="measure"/>
+        <field name="m05" type="measure"/>
+        <field name="m06" type="measure"/>
+        <field name="m07" type="measure"/>
+        <field name="m08" type="measure"/>
+      </pivot>
+    </field>
+  </record>
+
+</odoo>

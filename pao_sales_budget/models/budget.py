@@ -1,6 +1,8 @@
+import base64
+import io
 from collections import defaultdict
 from datetime import datetime
-from odoo import models, api, fields, _
+from odoo import models, api, fields, tools, _
 from odoo.exceptions import UserError
 from logging import getLogger
 
@@ -18,6 +20,47 @@ class PAOSalesBudget(models.Model):
     line_ids = fields.One2many('pao.sales.budget.line', 'budget_id', string='Lines', copy=False)
 
 
+    def action_view_actual_line(self):
+        self.ensure_one()
+        action = {
+            'res_model': 'pao.sales.budget.actual.line',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,pivot',
+            'name': _("Actual Lines"),
+            'target': 'current',
+            'context': {
+                'search_default_group_by_region': 1,
+                'search_default_group_by_customer_category': 1,
+                'search_default_group_by_customer_name': 1,
+            },
+            'domain': [('budget_id', '=', self.id)],
+        }
+        return action
+
+    def action_view_variance_report(self):
+        self.ensure_one()
+        action = {
+            'res_model': 'pao.sales.budget.variance.report',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,pivot',
+            'name': _("Presupuestado vs Real"),
+            'target': 'current',
+            'domain': [('budget_id', '=', self.id)],
+        }
+        return action
+
+    def action_open_scheme_report_wizard(self):
+        self.ensure_one()
+        action = {
+            'res_model': 'pao.sales.budget.scheme.report.wizard',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'name': _("Reporte por Esquema"),
+            'target': 'new',
+            'context': {'default_budget_id': self.id},
+        }
+        return action
+
     def action_view_budget_line(self):
         self.ensure_one()
         action = {
@@ -26,17 +69,24 @@ class PAOSalesBudget(models.Model):
             'view_mode': 'tree,pivot',
             'name': _("Budget Lines"),
             'target': 'current',  
-            'context': {'group_by': ['region_id', 'customer_category', 'customer_name'], 'default_budget_id': self.id } ,
+            'context': {
+                'search_default_group_by_region': 1,
+                'search_default_group_by_customer_category': 1,
+                'search_default_group_by_customer_name': 1,
+                'default_budget_id': self.id,
+            },
             'domain': [('budget_id', '=', self.id)],
         }
         return action
 
-    def generate_budget_action(self):
-        self.ensure_one()
-        customer_category = ["Clientes Clave", "Promotor", "Clientes Individuales", "Clientes Nuevos"]
-        team = self.env["crm.team"].search([("pao_include_in_budget","=",True)])
-        date_from = '{0}-09-01'.format(self.year-1)
-        date_to = '{0}-08-31'.format(self.year) 
+    def _populate_budget_lines(self, team, date_from, date_to, target_model='pao.sales.budget.line'):
+        """Arma Clientes Clave / Promotor / Clientes Individuales para todas las
+        regiones en `team`, en el rango date_from-date_to, escribiendo en
+        target_model. La compartida por generate_budget_action (presupuesto,
+        temporada anterior completa) y action_refresh_actual (lo real, temporada
+        actual a la fecha) para no duplicar esta lógica en dos lugares.
+        """
+        customer_category = ["Clientes Clave", "Promotor", "Clientes Individuales"]
         for region in team:
             for customer_type in customer_category:
                 if customer_type == "Clientes Clave":
@@ -49,7 +99,7 @@ class PAOSalesBudget(models.Model):
                             ('group_id', '=', group.id),
                             ('partner_id.team_id', '=', region.id),
                         ]
-                        self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,group.name,"simple")
+                        self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,group.name,"simple",target_model=target_model)
                 elif customer_type == "Promotor":
                     promotors = self.env["comisionpromotores.promotor"].search([("pao_include_in_budget","=",True)])
                     for promotor in promotors:
@@ -60,7 +110,7 @@ class PAOSalesBudget(models.Model):
                             ('promotor_id', '=', promotor.id),
                             ('partner_id.team_id', '=', region.id),
                         ]
-                        self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,promotor.name,"simple")
+                        self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,promotor.name,"simple",target_model=target_model)
                 elif customer_type == "Clientes Individuales":
                     domain = [
                         ('invoice_date', '>=', date_from),
@@ -74,43 +124,208 @@ class PAOSalesBudget(models.Model):
                             ('group_id', '=', False),
                             ('group_id.pao_include_in_budget', '=', False)
                     ]
-                    self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,"Clientes Ind.","simple")
-                else:
-                    budget_line = self.env['pao.sales.budget.line'].search([("region_id","=",region.id),("customer_category","=","Clientes Individuales")])
-                    to_create = []
-                    for line in budget_line:
-                        line_vals = {
-                            'budget_id': self.id,
-                            'region_id': line.region_id.id,
-                            'customer_category': customer_type,
-                            'customer_name': customer_type,
-                            'product_id': line.product_id.id,
-                            'price_unit': line.price_unit,
-                            'm01': 0,
-                            'm02': 0,
-                            'm03': 0,
-                            'm04': 0,
-                            'm05': 0,
-                            'm06': 0,
-                            'm07': 0,
-                            'm08': 0,
-                            'm09': 0,
-                            'm10': 0,
-                            'm11': 0,
-                            'm12': 0,
-                        }
-                        to_create.append(line_vals)
+                    self.create_budget_line_from_sales_invoicing_report(domain,region,customer_type,"Clientes Ind.","simple",target_model=target_model)
 
-                    # Crear en batches
-                    created = []
-                    BATCH = 200
-                    for i in range(0, len(to_create), BATCH):
-                        chunk = to_create[i:i+BATCH]
-                        created_chunk = budget_line.sudo().create(chunk)
-                        created += created_chunk
-            
+        # Rescata facturas de 'VENTA PUBLICO EN GENERAL' y las suma/crea dentro de
+        # Clave/Promotor/Individuales según el cliente real de la cotización.
+        self.create_budget_line_from_public_general(team, date_from=date_from, date_to=date_to, target_model=target_model)
+
+    def generate_budget_action(self):
+        self.ensure_one()
+        team = self.env["crm.team"].search([("pao_include_in_budget","=",True)])
+        date_from = '{0}-09-01'.format(self.year-1)
+        date_to = '{0}-08-31'.format(self.year)
+
+        self._populate_budget_lines(team, date_from, date_to, target_model='pao.sales.budget.line')
+
+        # Clientes Nuevos: copia de Clientes Individuales (ya completo, incluyendo
+        # lo rescatado de VENTA PUBLICO EN GENERAL) con las cantidades en 0, para
+        # que el usuario defina a mano la meta de clientes nuevos a conseguir.
+        # Corre después de _populate_budget_lines para que cualquier producto
+        # nuevo agregado por el rescate de VENTA PUBLICO EN GENERAL también se copie.
+        for region in team:
+            budget_line = self.env['pao.sales.budget.line'].search([("region_id","=",region.id),("customer_category","=","Clientes Individuales")])
+            to_create = []
+            for line in budget_line:
+                line_vals = {
+                    'budget_id': self.id,
+                    'region_id': line.region_id.id,
+                    'customer_category': "Clientes Nuevos",
+                    'customer_name': "Clientes Nuevos",
+                    'product_id': line.product_id.id,
+                    'price_unit': line.price_unit,
+                    'm01': 0,
+                    'm02': 0,
+                    'm03': 0,
+                    'm04': 0,
+                    'm05': 0,
+                    'm06': 0,
+                    'm07': 0,
+                    'm08': 0,
+                    'm09': 0,
+                    'm10': 0,
+                    'm11': 0,
+                    'm12': 0,
+                }
+                to_create.append(line_vals)
+
+            # Crear en batches
+            created = []
+            BATCH = 200
+            for i in range(0, len(to_create), BATCH):
+                chunk = to_create[i:i+BATCH]
+                created_chunk = budget_line.sudo().create(chunk)
+                created += created_chunk
+
         return {'message': _('Se han creado las líneas de presupuesto')}
-    
+
+    def action_refresh_actual(self):
+        """Recalcula lo realmente facturado (pao.sales.budget.actual.line) de la
+        temporada que este presupuesto está proyectando, a la fecha. Borra y
+        vuelve a generar desde cero (no incremental) para que siempre refleje el
+        estado real de facturación al momento de darle clic.
+
+        OJO con las fechas: self.year es el año en que CIERRA la temporada BASE
+        (ej. year=2025 -> base Sep-2024 a Ago-2025, que es lo que usa
+        generate_budget_action). La temporada que este presupuesto proyecta -y
+        contra la que se compara lo real- es la siguiente: Sep-2025 a Ago-2026.
+        """
+        self.ensure_one()
+        ActualLine = self.env['pao.sales.budget.actual.line'].sudo()
+        ActualLine.search([('budget_id', '=', self.id)]).unlink()
+
+        team = self.env["crm.team"].search([("pao_include_in_budget","=",True)])
+        date_from = '{0}-09-01'.format(self.year)
+        season_end = '{0}-08-31'.format(self.year + 1)
+        today_str = fields.Date.context_today(self).strftime('%Y-%m-%d')
+        date_to = min(today_str, season_end)
+
+        self._populate_budget_lines(team, date_from, date_to, target_model='pao.sales.budget.actual.line')
+
+        return {'message': _('Se actualizó lo facturado real')}
+
+    def action_export_variance_excel(self):
+        """Genera y descarga el Excel de Presupuestado vs Real de este presupuesto,
+        una fila por región+categoría+cliente+producto, con columnas por mes
+        (Presupuestado / Real / Variación %) más una columna de total de temporada,
+        coloreadas igual que la vista en Odoo (rojo = debajo del presupuesto,
+        verde = en el presupuesto, amarillo = arriba del presupuesto, azul = venta
+        sin presupuesto).
+        """
+        self.ensure_one()
+        from odoo.tools.misc import xlsxwriter
+
+        VR = self.env['pao.sales.budget.variance.report'].sudo()
+        rows = VR.search([('budget_id', '=', self.id)])
+
+        months_order = ['09', '10', '11', '12', '01', '02', '03', '04', '05', '06', '07', '08']
+        month_labels = {'01': 'Ene', '02': 'Feb', '03': 'Mar', '04': 'Abr', '05': 'May', '06': 'Jun',
+                         '07': 'Jul', '08': 'Ago', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dic'}
+
+        grouped = defaultdict(lambda: {m: {'budgeted': 0.0, 'actual': 0.0} for m in months_order})
+        meta = {}
+        for r in rows:
+            key = (r.region_id.id, r.customer_category, r.customer_name, r.product_id.id)
+            grouped[key][r.month]['budgeted'] += r.budgeted_qty
+            grouped[key][r.month]['actual'] += r.actual_qty
+            meta[key] = (r.region_id.name or '', r.customer_category or '', r.customer_name or '', r.product_id.display_name or '')
+
+        def variance(budgeted, actual):
+            """Regresa (fracción de variación, sin_presupuesto). Cuando no hay
+            presupuesto pero sí venta, se usa un sentinel alto (999.9%) para que
+            resalte, en vez de dividir entre cero."""
+            if budgeted == 0:
+                return (9.999, True) if actual > 0 else (0.0, False)
+            return ((actual - budgeted) / budgeted, False)
+
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet('Presupuesto vs Real')
+
+        header_fmt = workbook.add_format({'bold': True, 'bg_color': '#D9D9D9', 'border': 1, 'align': 'center'})
+        label_fmt = workbook.add_format({'border': 1})
+        qty_fmt = workbook.add_format({'border': 1, 'num_format': '#,##0.00'})
+        pct_fmts = {
+            'danger': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#FFC7CE', 'font_color': '#9C0006'}),
+            'success': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#C6EFCE', 'font_color': '#006100'}),
+            'warning': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#FFEB9C', 'font_color': '#9C6500'}),
+            'unbudgeted': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#BDD7EE', 'font_color': '#1F4E78'}),
+        }
+
+        def pick_style(pct, unbudgeted):
+            if unbudgeted:
+                return pct_fmts['unbudgeted']
+            if pct < -0.0001:
+                return pct_fmts['danger']
+            elif pct > 0.0001:
+                return pct_fmts['warning']
+            return pct_fmts['success']
+
+        # Encabezados (2 filas: mes y sub-columna)
+        worksheet.merge_range(0, 0, 1, 0, 'Región', header_fmt)
+        worksheet.merge_range(0, 1, 1, 1, 'Categoría', header_fmt)
+        worksheet.merge_range(0, 2, 1, 2, 'Cliente', header_fmt)
+        worksheet.merge_range(0, 3, 1, 3, 'Producto', header_fmt)
+        col = 4
+        for m in months_order:
+            worksheet.merge_range(0, col, 0, col + 2, month_labels[m], header_fmt)
+            worksheet.write(1, col, 'Presup.', header_fmt)
+            worksheet.write(1, col + 1, 'Real', header_fmt)
+            worksheet.write(1, col + 2, 'Var %', header_fmt)
+            col += 3
+        worksheet.merge_range(0, col, 0, col + 2, 'Total Temporada', header_fmt)
+        worksheet.write(1, col, 'Presup.', header_fmt)
+        worksheet.write(1, col + 1, 'Real', header_fmt)
+        worksheet.write(1, col + 2, 'Var %', header_fmt)
+        total_col = col
+
+        worksheet.set_column(0, 3, 22)
+        worksheet.set_column(4, total_col + 2, 10)
+        worksheet.freeze_panes(2, 4)
+
+        row = 2
+        for key, months in grouped.items():
+            region_name, category, name, product_name = meta[key]
+            worksheet.write(row, 0, region_name, label_fmt)
+            worksheet.write(row, 1, category, label_fmt)
+            worksheet.write(row, 2, name, label_fmt)
+            worksheet.write(row, 3, product_name, label_fmt)
+
+            col = 4
+            total_b = total_a = 0.0
+            for m in months_order:
+                b = months[m]['budgeted']
+                a = months[m]['actual']
+                total_b += b
+                total_a += a
+                pct, unbudgeted = variance(b, a)
+                worksheet.write(row, col, b, qty_fmt)
+                worksheet.write(row, col + 1, a, qty_fmt)
+                worksheet.write(row, col + 2, pct, pick_style(pct, unbudgeted))
+                col += 3
+
+            pct_total, unbudgeted_total = variance(total_b, total_a)
+            worksheet.write(row, total_col, total_b, qty_fmt)
+            worksheet.write(row, total_col + 1, total_a, qty_fmt)
+            worksheet.write(row, total_col + 2, pct_total, pick_style(pct_total, unbudgeted_total))
+            row += 1
+
+        workbook.close()
+        xlsx_data = output.getvalue()
+
+        attachment = self.env['ir.attachment'].sudo().create({
+            'name': 'Presupuesto_vs_Real_%s.xlsx' % (self.name or self.id),
+            'type': 'binary',
+            'datas': base64.b64encode(xlsx_data),
+            'res_model': self._name,
+            'res_id': self.id,
+        })
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/web/content/%s?download=true' % attachment.id,
+            'target': 'self',
+        }
+
     def create_budget_line(self,domain,region,customer_type,customer_name,avg_type):
         
         budget_line = self.env['pao.sales.budget.line']
@@ -212,7 +427,7 @@ class PAOSalesBudget(models.Model):
             created_chunk = budget_line.sudo().create(chunk)
             created += created_chunk
 
-    def create_budget_line_from_sales_invoicing_report(self,domain,region,customer_type,customer_name,avg_type):
+    def create_budget_line_from_sales_invoicing_report(self,domain,region,customer_type,customer_name,avg_type,target_model='pao.sales.budget.line'):
         """Igual que create_budget_line pero lee de sales.invoicing.report en vez de
         account.move.line directamente. Esa vista ya incluye las notas de credito/DV
         (out_refund) y resuelve, por linea, el producto original (aunque la DV se
@@ -220,11 +435,24 @@ class PAOSalesBudget(models.Model):
         devolucion fue total (resta la cantidad completa) o solo monetaria/parcial
         (cantidad en 0, no se descuenta producto). Ver pao_sales_invoicing_report
         para el detalle de esa logica.
+
+        target_model permite reusar exactamente esta misma lógica para llenar
+        tanto pao.sales.budget.line (el presupuesto) como pao.sales.budget.actual.line
+        (lo realmente facturado), ambos con la misma forma de campos.
+
+        Solo cuando target_model es pao.sales.budget.actual.line: si el cliente
+        de la factura (res.partner.sales_customer_type, de pao_customer_segmentation)
+        es 'new', 'recovered' o 'lost' -es decir, no facturó en la temporada
+        anterior a la actual-, esa línea se manda a "Clientes Nuevos" en vez de a
+        customer_type/customer_name, porque no tiene una base de comparación en
+        su categoría normal.
         """
-        budget_line = self.env['pao.sales.budget.line']
+        budget_line = self.env[target_model]
         SIR = self.env['sales.invoicing.report'].sudo()
         AML = self.env['account.move.line'].sudo()
         target_currency = self.currency_id
+        is_actual = target_model == 'pao.sales.budget.actual.line'
+        NEW_CUSTOMER_TYPES = ('new', 'recovered', 'lost')
 
         lines = SIR.search(domain)
 
@@ -251,7 +479,12 @@ class PAOSalesBudget(models.Model):
             product = ln.product_tmpl_id
             qty = float(ln.quantity or 0.0)
 
-            key = product.id
+            if is_actual and ln.partner_id.sales_customer_type in NEW_CUSTOMER_TYPES:
+                row_type, row_name = "Clientes Nuevos", "Clientes Nuevos"
+            else:
+                row_type, row_name = customer_type, customer_name
+
+            key = (row_type, row_name, product.id)
             data[key]['qty_by_month'][m] += qty
 
             # Una devolución (qty <= 0) no es un dato de precio de venta, solo
@@ -276,7 +509,7 @@ class PAOSalesBudget(models.Model):
                     data[key]['priceqty_by_month'][m] += unit_conv * qty
 
         to_create = []
-        for (prod_id), vals in data.items():
+        for (row_type, row_name, prod_id), vals in data.items():
             all_prices = []
             for m in range(1, 13):
                 all_prices.extend(vals['price_list_by_month'].get(m, []))
@@ -287,16 +520,30 @@ class PAOSalesBudget(models.Model):
                 field_name = f"m{m:02d}"
                 months[field_name] = float(vals['qty_by_month'].get(m, 0.0))
 
-            line_vals = {
-                'budget_id': self.id,
-                'region_id': region.id,
-                'customer_category': customer_type,
-                'customer_name': customer_name,
-                'product_id': prod_id,
-                'price_unit': avg_price,
-                **months,
-            }
-            to_create.append(line_vals)
+            # "Clientes Nuevos" puede recibir aportes de varias llamadas distintas
+            # (una llamada por grupo/promotor/individuales) para el mismo producto,
+            # así que aquí sí hay que sumar a una línea existente en vez de asumir
+            # que la clave es única por llamada, como sí lo era antes de este redirect.
+            existing = budget_line.sudo().search([
+                ('budget_id', '=', self.id),
+                ('region_id', '=', region.id),
+                ('customer_category', '=', row_type),
+                ('customer_name', '=', row_name),
+                ('product_id', '=', prod_id),
+            ], limit=1)
+
+            if existing:
+                existing.sudo().write({field: existing[field] + months[field] for field in months})
+            else:
+                to_create.append({
+                    'budget_id': self.id,
+                    'region_id': region.id,
+                    'customer_category': row_type,
+                    'customer_name': row_name,
+                    'product_id': prod_id,
+                    'price_unit': avg_price,
+                    **months,
+                })
 
         # Crear en batches
         created = []
@@ -306,6 +553,158 @@ class PAOSalesBudget(models.Model):
             created_chunk = budget_line.sudo().create(chunk)
             created += created_chunk
 
+    def create_budget_line_from_public_general(self, team, date_from=None, date_to=None, target_model='pao.sales.budget.line'):
+        """Rescata facturas emitidas al contacto 'VENTA PUBLICO EN GENERAL'.
+
+        Facturación usa ese contacto genérico (sin equipo/grupo/promotor) cuando
+        el cliente real no pide factura a su nombre, pero la cotización que dio
+        origen a esa factura sí queda ligada al cliente real. Se usa esa
+        cotización (account.move.line.sale_line_ids.order_id) para resolver a
+        qué equipo/grupo/promotor pertenece la venta, y las cantidades se suman
+        a la línea existente en target_model para ese cliente si ya existe
+        (creada por las ramas normales de _populate_budget_lines), o se crea una
+        nueva si no. Si la línea de factura no tiene cotización ligada, se omite:
+        no hay forma de saber a quién pertenece esa venta.
+
+        Igual que en create_budget_line_from_sales_invoicing_report: solo cuando
+        target_model es pao.sales.budget.actual.line, si el cliente real de la
+        cotización es 'new', 'recovered' o 'lost' se manda a "Clientes Nuevos"
+        con prioridad sobre Clave/Promotor/Individuales.
+        """
+        budget_line = self.env[target_model].sudo()
+        SIR = self.env['sales.invoicing.report'].sudo()
+        AML = self.env['account.move.line'].sudo()
+        target_currency = self.currency_id
+        team_ids = set(team.ids)
+        is_actual = target_model == 'pao.sales.budget.actual.line'
+        NEW_CUSTOMER_TYPES = ('new', 'recovered', 'lost')
+
+        public_partner = self.env['res.partner'].sudo().search(
+            [('name', '=', 'VENTA PUBLICO EN GENERAL')], limit=1)
+        if not public_partner:
+            _logger.warning(
+                "No se encontró el contacto 'VENTA PUBLICO EN GENERAL', se omite el rescate de facturas.")
+            return
+
+        date_from = date_from or '{0}-09-01'.format(self.year - 1)
+        date_to = date_to or '{0}-08-31'.format(self.year)
+        domain = [
+            ('invoice_date', '>=', date_from),
+            ('invoice_date', '<=', date_to),
+            ('product_tmpl_id.can_be_commissionable', '=', True),
+            ('partner_id', '=', public_partner.id),
+        ]
+        lines = SIR.search(domain)
+
+        def month_index(date_val):
+            if isinstance(date_val, str):
+                try:
+                    dt = fields.Date.from_string(date_val)
+                except Exception:
+                    dt = fields.Date.context_today(self)
+            elif isinstance(date_val, datetime):
+                dt = date_val.date()
+            else:
+                dt = date_val
+            return dt.month
+
+        # Agrupación por (region, categoría, nombre, producto) resueltos desde la cotización
+        data = defaultdict(lambda: {
+            'qty_by_month': defaultdict(float),
+            'price_list_by_month': defaultdict(list),
+        })
+
+        for ln in lines:
+            aml = AML.browse(ln.id)
+            orders = aml.sale_line_ids.order_id
+            if not orders:
+                _logger.warning(
+                    "Línea de factura %s de 'VENTA PUBLICO EN GENERAL' sin cotización ligada, se omite.",
+                    aml.id)
+                continue
+            if len(orders) > 1:
+                _logger.warning(
+                    "Línea de factura %s de 'VENTA PUBLICO EN GENERAL' ligada a varias cotizaciones %s, se usa la primera.",
+                    aml.id, orders.ids)
+            real_partner = orders[0].partner_id
+            region = real_partner.team_id
+            if not region or region.id not in team_ids:
+                continue
+
+            if is_actual and real_partner.sales_customer_type in NEW_CUSTOMER_TYPES:
+                customer_type = "Clientes Nuevos"
+                customer_name = "Clientes Nuevos"
+            elif real_partner.cgg_group_id and real_partner.cgg_group_id.pao_include_in_budget:
+                customer_type = "Clientes Clave"
+                customer_name = real_partner.cgg_group_id.name
+            elif real_partner.promotor_id and real_partner.promotor_id.pao_include_in_budget:
+                customer_type = "Promotor"
+                customer_name = real_partner.promotor_id.name
+            else:
+                customer_type = "Clientes Individuales"
+                customer_name = "Clientes Ind."
+
+            m = month_index(ln.invoice_date)
+            product = ln.product_tmpl_id
+            qty = float(ln.quantity or 0.0)
+
+            key = (region.id, customer_type, customer_name, product.id)
+            data[key]['qty_by_month'][m] += qty
+
+            # Igual que en create_budget_line_from_sales_invoicing_report: las
+            # devoluciones no son un dato de precio de venta, solo afectan cantidad.
+            if qty > 0:
+                inv = aml.move_id
+                unit = float(aml.price_unit or 0.0)
+                src_currency = inv.currency_id or inv.company_id.currency_id or self.env.company.currency_id
+                try:
+                    unit_conv = src_currency._convert(unit, target_currency, inv.company_id, ln.invoice_date)
+                except Exception as e:
+                    _logger.exception("Fallo convert currency for line %s: %s", ln.id, e)
+                    unit_conv = unit
+                data[key]['price_list_by_month'][m].append(unit_conv)
+
+        to_create = []
+        for (region_id, customer_type, customer_name, prod_id), vals in data.items():
+            all_prices = []
+            for m in range(1, 13):
+                all_prices.extend(vals['price_list_by_month'].get(m, []))
+            avg_price = float(sum(all_prices) / len(all_prices)) if all_prices else 0.0
+
+            months = {}
+            for m in range(1, 13):
+                field_name = f"m{m:02d}"
+                months[field_name] = float(vals['qty_by_month'].get(m, 0.0))
+
+            existing = budget_line.search([
+                ('budget_id', '=', self.id),
+                ('region_id', '=', region_id),
+                ('customer_category', '=', customer_type),
+                ('customer_name', '=', customer_name),
+                ('product_id', '=', prod_id),
+            ], limit=1)
+
+            if existing:
+                # Solo se suman las cantidades a la línea existente; el precio
+                # promedio ya guardado no se recalcula (no hay forma de saber
+                # cuántas líneas originales lo componen para ponderar bien).
+                existing.write({field: existing[field] + months[field] for field in months})
+            else:
+                to_create.append({
+                    'budget_id': self.id,
+                    'region_id': region_id,
+                    'customer_category': customer_type,
+                    'customer_name': customer_name,
+                    'product_id': prod_id,
+                    'price_unit': avg_price,
+                    **months,
+                })
+
+        BATCH = 200
+        for i in range(0, len(to_create), BATCH):
+            chunk = to_create[i:i+BATCH]
+            budget_line.create(chunk)
+
 
 class PAOSalesBudgetLine(models.Model):
     _name = "pao.sales.budget.line"
@@ -314,7 +713,12 @@ class PAOSalesBudgetLine(models.Model):
 
     budget_id = fields.Many2one('pao.sales.budget', string='Budget', required=True, ondelete='cascade')
     region_id = fields.Many2one('crm.team', string='Region',ondelete='restrict',)
-    customer_category = fields.Char(string='Customer Category')
+    customer_category = fields.Selection([
+        ('Clientes Clave', 'Clientes Clave'),
+        ('Promotor', 'Promotor'),
+        ('Clientes Individuales', 'Clientes Individuales'),
+        ('Clientes Nuevos', 'Clientes Nuevos'),
+    ], string='Customer Category')
     customer_name = fields.Char(string='Customer Name')
     product_id = fields.Many2one('product.template', string='Producto')
     currency_id = fields.Many2one(related='budget_id.currency_id')
@@ -410,4 +814,195 @@ class PAOSalesBudgetLine(models.Model):
             qty_sum = sum((rec.m01,rec.m02,rec.m03,rec.m04,rec.m05,rec.m06,rec.m07,rec.m08,rec.m09,rec.m10,rec.m11,rec.m12))
             rec.total_amount = qty_sum * (rec.price_unit or 0.0)
             rec.total_quantity = qty_sum
+
+
+class PAOSalesBudgetActualLine(models.Model):
+    _name = "pao.sales.budget.actual.line"
+    _description = "PAO Annual Sales Budget Actual (Facturado) Lines"
+    _order = "region_id, customer_category, customer_name, product_id_reference ASC"
+
+    budget_id = fields.Many2one('pao.sales.budget', string='Budget', required=True, ondelete='cascade')
+    region_id = fields.Many2one('crm.team', string='Region', ondelete='restrict')
+    customer_category = fields.Selection([
+        ('Clientes Clave', 'Clientes Clave'),
+        ('Promotor', 'Promotor'),
+        ('Clientes Individuales', 'Clientes Individuales'),
+        ('Clientes Nuevos', 'Clientes Nuevos'),
+    ], string='Customer Category')
+    customer_name = fields.Char(string='Customer Name')
+    product_id = fields.Many2one('product.template', string='Producto')
+    currency_id = fields.Many2one(related='budget_id.currency_id')
+    product_id_reference = fields.Char(related='product_id.default_code', store=True)
+    pao_sales_budget_scheme_id = fields.Many2one(related='product_id.pao_sales_budget_scheme_id', store=True)
+    price_unit = fields.Monetary(string='Average Price', currency_field='currency_id')
+    # Quantity Month
+    m01 = fields.Float("Jan", default=0.0)
+    m02 = fields.Float("Feb", default=0.0)
+    m03 = fields.Float("Mar", default=0.0)
+    m04 = fields.Float("Apr", default=0.0)
+    m05 = fields.Float("May", default=0.0)
+    m06 = fields.Float("Jun", default=0.0)
+    m07 = fields.Float("Jul", default=0.0)
+    m08 = fields.Float("Aug", default=0.0)
+    m09 = fields.Float("Sep", default=0.0)
+    m10 = fields.Float("Oct", default=0.0)
+    m11 = fields.Float("Nov", default=0.0)
+    m12 = fields.Float("Dec", default=0.0)
+    # Amount Month (igual que pao.sales.budget.line, necesario para el reporte por esquema)
+    m01_amount = fields.Float("Total Amount Jan", compute='_compute_total_jan', store=True)
+    m02_amount = fields.Float("Total Amount Feb", compute='_compute_total_feb', store=True)
+    m03_amount = fields.Float("Total Amount Mar", compute='_compute_total_mar', store=True)
+    m04_amount = fields.Float("Total Amount Apr", compute='_compute_total_apr', store=True)
+    m05_amount = fields.Float("Total Amount May", compute='_compute_total_may', store=True)
+    m06_amount = fields.Float("Total Amount Jun", compute='_compute_total_jun', store=True)
+    m07_amount = fields.Float("Total Amount Jul", compute='_compute_total_jul', store=True)
+    m08_amount = fields.Float("Total Amount Aug", compute='_compute_total_aug', store=True)
+    m09_amount = fields.Float("Total Amount Sep", compute='_compute_total_sep', store=True)
+    m10_amount = fields.Float("Total Amount Oct", compute='_compute_total_oct', store=True)
+    m11_amount = fields.Float("Total Amount Nov", compute='_compute_total_nov', store=True)
+    m12_amount = fields.Float("Total Amount Dec", compute='_compute_total_dec', store=True)
+
+    total_quantity = fields.Float(string='Total Quantity', compute='_compute_total', store=True)
+    total_amount = fields.Monetary(string='Total Amount', compute='_compute_total', currency_field='currency_id', store=True)
+
+    @api.depends('m01','price_unit')
+    def _compute_total_jan(self):
+        for rec in self:
+            rec.m01_amount = rec.m01 * (rec.price_unit or 0.0)
+    @api.depends('m02','price_unit')
+    def _compute_total_feb(self):
+        for rec in self:
+            rec.m02_amount = rec.m02 * (rec.price_unit or 0.0)
+    @api.depends('m03','price_unit')
+    def _compute_total_mar(self):
+        for rec in self:
+            rec.m03_amount = rec.m03 * (rec.price_unit or 0.0)
+    @api.depends('m04','price_unit')
+    def _compute_total_apr(self):
+        for rec in self:
+            rec.m04_amount = rec.m04 * (rec.price_unit or 0.0)
+    @api.depends('m05','price_unit')
+    def _compute_total_may(self):
+        for rec in self:
+            rec.m05_amount = rec.m05 * (rec.price_unit or 0.0)
+    @api.depends('m06','price_unit')
+    def _compute_total_jun(self):
+        for rec in self:
+            rec.m06_amount = rec.m06 * (rec.price_unit or 0.0)
+    @api.depends('m07','price_unit')
+    def _compute_total_jul(self):
+        for rec in self:
+            rec.m07_amount = rec.m07 * (rec.price_unit or 0.0)
+    @api.depends('m08','price_unit')
+    def _compute_total_aug(self):
+        for rec in self:
+            rec.m08_amount = rec.m08 * (rec.price_unit or 0.0)
+    @api.depends('m09','price_unit')
+    def _compute_total_sep(self):
+        for rec in self:
+            rec.m09_amount = rec.m09 * (rec.price_unit or 0.0)
+    @api.depends('m10','price_unit')
+    def _compute_total_oct(self):
+        for rec in self:
+            rec.m10_amount = rec.m10 * (rec.price_unit or 0.0)
+    @api.depends('m11','price_unit')
+    def _compute_total_nov(self):
+        for rec in self:
+            rec.m11_amount = rec.m11 * (rec.price_unit or 0.0)
+    @api.depends('m12','price_unit')
+    def _compute_total_dec(self):
+        for rec in self:
+            rec.m12_amount = rec.m12 * (rec.price_unit or 0.0)
+
+    @api.depends('m01','m02','m03','m04','m05','m06','m07','m08','m09','m10','m11','m12','price_unit')
+    def _compute_total(self):
+        for rec in self:
+            qty_sum = sum((rec.m01,rec.m02,rec.m03,rec.m04,rec.m05,rec.m06,rec.m07,rec.m08,rec.m09,rec.m10,rec.m11,rec.m12))
+            rec.total_quantity = qty_sum
+            rec.total_amount = qty_sum * (rec.price_unit or 0.0)
+
+
+class PAOSalesBudgetVarianceReport(models.Model):
+    _name = "pao.sales.budget.variance.report"
+    _description = "PAO Sales Budget vs Actual Variance"
+    _auto = False
+    _order = "budget_id, region_id, customer_category, customer_name, product_id, month"
+
+    id = fields.Integer(readonly=True)
+    budget_id = fields.Many2one('pao.sales.budget', string='Budget', readonly=True)
+    region_id = fields.Many2one('crm.team', string='Region', readonly=True)
+    customer_category = fields.Selection([
+        ('Clientes Clave', 'Clientes Clave'),
+        ('Promotor', 'Promotor'),
+        ('Clientes Individuales', 'Clientes Individuales'),
+        ('Clientes Nuevos', 'Clientes Nuevos'),
+    ], string='Customer Category', readonly=True)
+    customer_name = fields.Char(string='Customer Name', readonly=True)
+    product_id = fields.Many2one('product.template', string='Producto', readonly=True)
+    month = fields.Selection([
+        ('09', 'Sep'), ('10', 'Oct'), ('11', 'Nov'), ('12', 'Dic'),
+        ('01', 'Ene'), ('02', 'Feb'), ('03', 'Mar'), ('04', 'Abr'),
+        ('05', 'May'), ('06', 'Jun'), ('07', 'Jul'), ('08', 'Ago'),
+    ], string='Mes', readonly=True)
+    budgeted_qty = fields.Float(string='Presupuestado', readonly=True)
+    actual_qty = fields.Float(string='Real', readonly=True)
+    variance_qty = fields.Float(string='Variación (Cant.)', readonly=True)
+    variance_pct = fields.Float(string='Variación %', readonly=True)
+
+    def init(self):
+        tools.drop_view_if_exists(self.env.cr, self._table)
+
+        # month se guarda como texto ('01'..'12') porque los Selection de Odoo
+        # requieren keys tipo string; con keys enteras, la reflexión de la
+        # selección revienta al instalar el módulo (ir.model.fields.selection).
+        budget_unpivot = "\n UNION ALL \n".join(
+            "SELECT budget_id, region_id, customer_category, customer_name, product_id, "
+            "'%(mm)s'::varchar AS month, m%(mm)s AS qty FROM pao_sales_budget_line" % {'mm': f'{m:02d}'}
+            for m in range(1, 13)
+        )
+        actual_unpivot = "\n UNION ALL \n".join(
+            "SELECT budget_id, region_id, customer_category, customer_name, product_id, "
+            "'%(mm)s'::varchar AS month, m%(mm)s AS qty FROM pao_sales_budget_actual_line" % {'mm': f'{m:02d}'}
+            for m in range(1, 13)
+        )
+
+        query = """
+            CREATE OR REPLACE VIEW %(table)s AS (
+                WITH budget_unpivot AS (
+                    %(budget_unpivot)s
+                ),
+                actual_unpivot AS (
+                    %(actual_unpivot)s
+                )
+                SELECT
+                    row_number() OVER () AS id,
+                    COALESCE(b.budget_id, a.budget_id) AS budget_id,
+                    COALESCE(b.region_id, a.region_id) AS region_id,
+                    COALESCE(b.customer_category, a.customer_category) AS customer_category,
+                    COALESCE(b.customer_name, a.customer_name) AS customer_name,
+                    COALESCE(b.product_id, a.product_id) AS product_id,
+                    COALESCE(b.month, a.month) AS month,
+                    COALESCE(b.qty, 0) AS budgeted_qty,
+                    COALESCE(a.qty, 0) AS actual_qty,
+                    (COALESCE(a.qty, 0) - COALESCE(b.qty, 0)) AS variance_qty,
+                    CASE
+                        WHEN COALESCE(b.qty, 0) = 0 AND COALESCE(a.qty, 0) > 0 THEN 9.999
+                        WHEN COALESCE(b.qty, 0) = 0 THEN 0
+                        ELSE ROUND(((COALESCE(a.qty, 0) - b.qty) / b.qty)::numeric, 4)
+                    END AS variance_pct
+                FROM budget_unpivot b
+                FULL OUTER JOIN actual_unpivot a
+                    ON b.budget_id = a.budget_id
+                    AND b.region_id = a.region_id
+                    AND b.customer_category = a.customer_category
+                    AND b.customer_name = a.customer_name
+                    AND b.product_id = a.product_id
+                    AND b.month = a.month
+            )
+        """ % {
+            'table': self._table,
+            'budget_unpivot': budget_unpivot,
+            'actual_unpivot': actual_unpivot,
+        }
+        self.env.cr.execute(query)
 

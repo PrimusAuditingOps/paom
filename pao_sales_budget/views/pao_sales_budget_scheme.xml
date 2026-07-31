@@ -8,6 +8,33 @@
       </tree>
     </field>
   </record>
+  <record id="pao_sales_budget_schemes_view_form" model="ir.ui.view">
+    <field name="name">pao.sales.budget.scheme.view.form</field>
+    <field name="model">pao.sales.budget.scheme</field>
+    <field name="arch" type="xml">
+      <form string="Esquemas del presupuesto">
+        <sheet>
+            <group col="4">
+                <field name="name"/>
+                <field name="company_id" invisible="1"/>
+            </group>
+            <notebook>
+                <page string="Productos">
+                    <field name="product_template_ids" widget="many2many" context="{'default_pao_sales_budget_scheme_id': id, 'company_id': company_id}">
+                        <tree string="Productos">
+                          <control>
+                            <create name="add_product_control" string="Agregar Productos"/>
+                          </control>
+                          <field name="name"/>
+                          <field name="default_code"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
 
   
 

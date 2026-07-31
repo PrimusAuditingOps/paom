@@ -3,4 +3,5 @@ from . import comisionpromotores_promotor
 from . import crm_team
 from . import customergroups_group
 from . import pao_sales_budget_scheme
+from . import pao_sales_budget_scheme_report_wizard
 from . import product_template

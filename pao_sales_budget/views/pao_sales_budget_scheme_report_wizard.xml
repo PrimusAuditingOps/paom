@@ -1,0 +1,29 @@
+<odoo>
+
+  <record id="pao_sales_budget_scheme_report_wizard_view_form" model="ir.ui.view">
+    <field name="name">pao.sales.budget.scheme.report.wizard.view.form</field>
+    <field name="model">pao.sales.budget.scheme.report.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Reporte por Esquema">
+        <group>
+          <field name="budget_id" readonly="1"/>
+          <field name="month"/>
+        </group>
+        <footer>
+          <button string="Generar" type="object" name="action_generate_report" class="btn-primary"/>
+          <button string="Exportar Excel" type="object" name="action_export_excel" class="btn-secondary" invisible="not report_html"/>
+          <button string="Cerrar" special="cancel" class="btn-secondary"/>
+        </footer>
+        <field name="report_html" widget="html" options="{'sanitize': false}" invisible="not report_html"/>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_pao_sales_budget_scheme_report_wizard" model="ir.actions.act_window">
+    <field name="name">Reporte por Esquema</field>
+    <field name="res_model">pao.sales.budget.scheme.report.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+</odoo>
