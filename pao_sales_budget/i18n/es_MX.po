@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-26 08:01+0000\n"
-"PO-Revision-Date: 2025-11-26 08:01+0000\n"
+"POT-Creation-Date: 2026-08-05 22:32+0000\n"
+"PO-Revision-Date: 2026-08-05 22:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,22 +21,79 @@ msgid "<span class=\"o_stat_value\">Budget Lines</span>"
 msgstr "<span class=\"o_stat_value\">Lineas del Presupuesto</span>"
 
 #. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_view_form
+msgid "<span class=\"o_stat_value\">Presupuesto vs Real</span>"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_view_form
+msgid "<span class=\"o_stat_value\">Real Facturado</span>"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__04
+msgid "Abr"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__04
+msgid "Abril"
+msgstr ""
+
+#. module: pao_sales_budget
+#. odoo-python
+#: code:addons/pao_sales_budget/models/budget.py:0
+#, python-format
+msgid "Actual Lines"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_view_form
+msgid "Actualizar Real"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__08
+msgid "Ago"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__08
+msgid "Agosto"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_schemes_view_form
+msgid "Agregar Productos"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m04
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m04
 msgid "Apr"
 msgstr "Abr"
 
 #. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
+msgid "Arriba del Presupuesto"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m08
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m08
 msgid "Aug"
 msgstr "Ago"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__price_unit
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__price_unit
 msgid "Average Price"
 msgstr "Precio Promedio"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__budget_id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__budget_id
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__budget_id
 msgid "Budget"
 msgstr "Presupuesto"
 
@@ -48,6 +105,39 @@ msgid "Budget Lines"
 msgstr "Lineas del Presupuesto"
 
 #. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_actual_line_view_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_line_view_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
+msgid "Categoría de Cliente"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_scheme_report_wizard_view_form
+msgid "Cerrar"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_actual_line__customer_category__clientes_clave
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_line__customer_category__clientes_clave
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__customer_category__clientes_clave
+msgid "Clientes Clave"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_actual_line__customer_category__clientes_individuales
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_line__customer_category__clientes_individuales
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__customer_category__clientes_individuales
+msgid "Clientes Individuales"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_actual_line__customer_category__clientes_nuevos
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_line__customer_category__clientes_nuevos
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__customer_category__clientes_nuevos
+msgid "Clientes Nuevos"
+msgstr ""
+
+#. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__company_id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme__company_id
 msgid "Company"
@@ -55,49 +145,110 @@ msgstr "Compañia"
 
 #. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__create_uid
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__create_uid
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__create_uid
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme__create_uid
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__create_date
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__create_date
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__create_date
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme__create_date
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__currency_id
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__currency_id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__currency_id
 msgid "Currency"
 msgstr "Moneda"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__customer_category
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__customer_category
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__customer_category
 msgid "Customer Category"
 msgstr "Categoria del Cliente"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__customer_name
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__customer_name
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__customer_name
 msgid "Customer Name"
 msgstr "Nombre del cliente"
 
 #. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
+msgid "Debajo del Presupuesto"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m12
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m12
 msgid "Dec"
 msgstr "Dic"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__12
+msgid "Dic"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__12
+msgid "Diciembre"
+msgstr ""
+
+#. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__display_name
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__display_name
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__display_name
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme__display_name
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__display_name
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__01
+msgid "Ene"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__01
+msgid "Enero"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_schemes_view_form
+msgid "Esquemas del presupuesto"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_scheme_report_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_view_form
+msgid "Exportar Excel"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m02
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m02
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__02
 msgid "Feb"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__02
+msgid "Febrero"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_scheme_report_wizard_view_form
+msgid "Generar"
 msgstr ""
 
 #. module: pao_sales_budget
@@ -106,9 +257,19 @@ msgid "Generate Budget"
 msgstr "Generar Presupuesto"
 
 #. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_actual_line_view_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_line_view_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
+msgid "Group By"
+msgstr ""
+
+#. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__id
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme__id
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__id
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__id
 msgid "ID"
 msgstr ""
 
@@ -121,36 +282,56 @@ msgid "Include in Budget"
 msgstr "Incluir en el presupuesto de ventas"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__product_id_reference
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__product_id_reference
 msgid "Internal Reference"
 msgstr "Referencia interna"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m01
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m01
 msgid "Jan"
 msgstr "Ene"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m07
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m07
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__07
 msgid "Jul"
 msgstr ""
 
 #. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__07
+msgid "Julio"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m06
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m06
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__06
 msgid "Jun"
 msgstr ""
 
 #. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__06
+msgid "Junio"
+msgstr ""
+
+#. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__write_uid
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__write_uid
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__write_uid
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme__write_uid
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__write_date
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__write_date
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__write_date
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme__write_date
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -160,13 +341,38 @@ msgid "Lines"
 msgstr "Lineas"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m03
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m03
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__03
 msgid "Mar"
 msgstr ""
 
 #. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__03
+msgid "Marzo"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m05
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m05
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__05
 msgid "May"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__05
+msgid "Mayo"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__month
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
+msgid "Mes"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__month
+msgid "Mes de Corte"
 msgstr ""
 
 #. module: pao_sales_budget
@@ -186,13 +392,34 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_actual_line_view_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_line_view_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
+msgid "Nombre de Cliente"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m11
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m11
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__11
 msgid "Nov"
 msgstr ""
 
 #. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__11
+msgid "Noviembre"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m10
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m10
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__10
 msgid "Oct"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__10
+msgid "Octubre"
 msgstr ""
 
 #. module: pao_sales_budget
@@ -201,9 +428,19 @@ msgid "PAO Annual Sales Budget"
 msgstr "Presupuesto Anual de Ventas"
 
 #. module: pao_sales_budget
+#: model:ir.model,name:pao_sales_budget.model_pao_sales_budget_actual_line
+msgid "PAO Annual Sales Budget Actual (Facturado) Lines"
+msgstr ""
+
+#. module: pao_sales_budget
 #: model:ir.model,name:pao_sales_budget.model_pao_sales_budget_line
 msgid "PAO Annual Sales Budget Lines"
 msgstr "Lineas del presupuesto anual de ventas"
+
+#. module: pao_sales_budget
+#: model:ir.model,name:pao_sales_budget.model_pao_sales_budget_scheme_report_wizard
+msgid "PAO Sales Budget - Reporte por Esquema (Mes vs Acumulado)"
+msgstr ""
 
 #. module: pao_sales_budget
 #: model:ir.model,name:pao_sales_budget.model_pao_sales_budget_scheme
@@ -211,13 +448,46 @@ msgid "PAO Sales Budget Scheme"
 msgstr "Esquema del presupuesto de ventas"
 
 #. module: pao_sales_budget
+#: model:ir.model,name:pao_sales_budget.model_pao_sales_budget_variance_report
+msgid "PAO Sales Budget vs Actual Variance"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__budgeted_qty
+msgid "Presupuestado"
+msgstr ""
+
+#. module: pao_sales_budget
+#. odoo-python
+#: code:addons/pao_sales_budget/models/budget.py:0
+#: model:ir.actions.act_window,name:pao_sales_budget.action_pao_sales_budget_variance_report
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_pivot
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_tree
+#, python-format
+msgid "Presupuestado vs Real"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__budget_id
+msgid "Presupuesto"
+msgstr ""
+
+#. module: pao_sales_budget
 #: model:ir.model,name:pao_sales_budget.model_product_template
 msgid "Product"
 msgstr "Producto"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__product_id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__product_id
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__product_id
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
 msgid "Producto"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_schemes_view_form
+msgid "Productos"
 msgstr ""
 
 #. module: pao_sales_budget
@@ -226,13 +496,56 @@ msgid "Products"
 msgstr "Productos"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_actual_line__customer_category__promotor
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_line__customer_category__promotor
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__customer_category__promotor
+msgid "Promotor"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__actual_qty
+msgid "Real"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_actual_line_view_pivot
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_actual_line_view_tree
+msgid "Real Facturado"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__region_id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__region_id
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__region_id
 msgid "Region"
 msgstr "Región"
 
 #. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_actual_line_view_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_line_view_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
+msgid "Región"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_scheme_report_wizard__report_html
+msgid "Reporte"
+msgstr ""
+
+#. module: pao_sales_budget
+#. odoo-python
+#: code:addons/pao_sales_budget/models/budget.py:0
+#: model:ir.actions.act_window,name:pao_sales_budget.action_pao_sales_budget_scheme_report_wizard
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_scheme_report_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_view_form
+#, python-format
+msgid "Reporte por Esquema"
+msgstr ""
+
+#. module: pao_sales_budget
 #: model:ir.actions.act_window,name:pao_sales_budget.action_pao_sales_budget
 #: model:ir.ui.menu,name:pao_sales_budget.pao_sales_budget_item
+#: model:ir.ui.menu,name:pao_sales_budget.pao_sales_budget_vendor
 #: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_view_form
 #: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_view_tree
 msgid "Sales Budget"
@@ -247,6 +560,7 @@ msgstr "Lineas del presupuesto de ventas"
 
 #. module: pao_sales_budget
 #: model:ir.actions.act_window,name:pao_sales_budget.action_pao_sales_budget_scheme
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__pao_sales_budget_scheme_id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__pao_sales_budget_scheme_id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_product_product__pao_sales_budget_scheme_id
 #: model:ir.model.fields,field_description:pao_sales_budget.field_product_template__pao_sales_budget_scheme_id
@@ -268,12 +582,31 @@ msgstr "Equipo de ventas"
 #. odoo-python
 #: code:addons/pao_sales_budget/models/budget.py:0
 #, python-format
+msgid "Se actualizó lo facturado real"
+msgstr ""
+
+#. module: pao_sales_budget
+#. odoo-python
+#: code:addons/pao_sales_budget/models/budget.py:0
+#, python-format
 msgid "Se han creado las líneas de presupuesto"
 msgstr ""
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m09
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m09
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_variance_report__month__09
 msgid "Sep"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields.selection,name:pao_sales_budget.selection__pao_sales_budget_scheme_report_wizard__month__09
+msgid "Septiembre"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_search
+msgid "Sin Presupuesto"
 msgstr ""
 
 #. module: pao_sales_budget
@@ -282,79 +615,120 @@ msgid "There is already a scheme with this name"
 msgstr "Ya existe un esquema con este nombre"
 
 #. module: pao_sales_budget
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_actual_line_view_tree
 #: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_line_view_tree
+#: model_terms:ir.ui.view,arch_db:pao_sales_budget.pao_sales_budget_variance_report_view_tree
 msgid "Total"
 msgstr ""
 
 #. module: pao_sales_budget
+#. odoo-python
+#: code:addons/pao_sales_budget/models/pao_sales_budget_scheme_report_wizard.py:0
+#: code:addons/pao_sales_budget/models/pao_sales_budget_scheme_report_wizard.py:0
+#: code:addons/pao_sales_budget/models/pao_sales_budget_scheme_report_wizard.py:0
+#: code:addons/pao_sales_budget/models/pao_sales_budget_scheme_report_wizard.py:0
+#, python-format
+msgid "Total / General"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__total_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__total_amount
 msgid "Total Amount"
 msgstr "Monto total"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m04_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m04_amount
 msgid "Total Amount Apr"
 msgstr "Monto total Abr"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m08_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m08_amount
 msgid "Total Amount Aug"
 msgstr "Monto total Ago"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m12_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m12_amount
 msgid "Total Amount Dec"
 msgstr "Monto total Dic"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m02_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m02_amount
 msgid "Total Amount Feb"
 msgstr "Monto total Feb"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m01_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m01_amount
 msgid "Total Amount Jan"
 msgstr "Monto total Ene"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m07_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m07_amount
 msgid "Total Amount Jul"
 msgstr "Monto total Jul"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m06_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m06_amount
 msgid "Total Amount Jun"
 msgstr "Monto total Jun"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m03_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m03_amount
 msgid "Total Amount Mar"
 msgstr "Monto total Mar"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m05_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m05_amount
 msgid "Total Amount May"
 msgstr "Monto total May"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m11_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m11_amount
 msgid "Total Amount Nov"
 msgstr "Monto total Nov"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m10_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m10_amount
 msgid "Total Amount Oct"
 msgstr "Monto total Oct"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__m09_amount
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__m09_amount
 msgid "Total Amount Sep"
 msgstr "Monto total Sep"
 
 #. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_actual_line__total_quantity
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_line__total_quantity
 msgid "Total Quantity"
 msgstr "Cantidad Total"
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__variance_pct
+msgid "Variación %"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget_variance_report__variance_qty
+msgid "Variación (Cant.)"
+msgstr ""
+
+#. module: pao_sales_budget
+#: model:res.groups,name:pao_sales_budget.group_pao_sales_budget_vendor
+msgid "View Sales Budget"
+msgstr "Ver presupuesto de venta"
 
 #. module: pao_sales_budget
 #: model:ir.model.fields,field_description:pao_sales_budget.field_pao_sales_budget__year
