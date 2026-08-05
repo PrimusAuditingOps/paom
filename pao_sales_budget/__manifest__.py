@@ -13,6 +13,7 @@
     'category': '',
     'depends': ['base','product','sale','comisionpromotores','customergroups','crm','pao_sales_invoicing_report','pao_customer_segmentation'],
     'data': [
+        'security/groups.xml',
         'security/ir.model.access.csv',
         'security/rules.xml',
         'views/pao_sales_budget.xml',

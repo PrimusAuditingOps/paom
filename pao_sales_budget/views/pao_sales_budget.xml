@@ -66,5 +66,12 @@
             parent="sale.menu_sales_config"
             action="action_pao_sales_budget"
             sequence="5"/>
+
+  <menuitem id="pao_sales_budget_vendor"
+            name="Sales Budget"
+            parent="sale.sale_order_menu"
+            action="action_pao_sales_budget"
+            groups="pao_sales_budget.group_pao_sales_budget_vendor"
+            sequence="110"/>
   
 </odoo>
