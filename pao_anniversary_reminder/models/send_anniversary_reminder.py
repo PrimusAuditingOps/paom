@@ -2,6 +2,10 @@ from odoo import api, fields, models, _
 from datetime import datetime
 from werkzeug.urls import url_join
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, formataddr, config, get_lang
+from logging import getLogger
+
+
+_logger = getLogger(__name__)
 
 class SendAnniversaryReminder(models.TransientModel):
     _name = 'send.anniversary.reminder'
@@ -43,6 +47,8 @@ class SendAnniversaryReminder(models.TransientModel):
                 raw_body = raw_body.replace("%7D", "}")
                 
                 user_signature = self.env.user.signature if self.env.user.signature else ""
+                
+                _logger.warning(user_signature)
                 
                 rendered_body = raw_body.format(accept_link = accept_link, reject_link = reject_link, not_ready_link = not_ready_link, organization=record.organization, registry_number = record.registry_number, user_signature=user_signature)
                 

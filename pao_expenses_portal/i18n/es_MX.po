@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-19 00:18+0000\n"
-"PO-Revision-Date: 2026-06-19 00:18+0000\n"
+"POT-Creation-Date: 2026-07-27 20:58+0000\n"
+"PO-Revision-Date: 2026-07-27 20:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -189,7 +189,14 @@ msgstr "¿Estás seguro de que deseas eliminar este reporte?"
 msgid ""
 "Are you sure you want to remove this expense from the report? The expense "
 "will not be deleted and will remain available in My Wallet."
-msgstr "¿Está seguro de que desea quitar este gasto del reporte? El gasto no será eliminado y seguirá estando disponible en Mi Cartera."
+msgstr ""
+"¿Está seguro de que desea quitar este gasto del reporte? El gasto no será "
+"eliminado y seguirá estando disponible en Mi Cartera."
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.hr_expense_form_view_inherit
+msgid "Auditor Categories"
+msgstr ""
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.view_upload_expense_statement_form
@@ -443,6 +450,12 @@ msgstr ""
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
+msgid "Included Taxes"
+msgstr "Incluir impuestos"
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
 msgid "Internal Notes"
 msgstr "Notas internas"
 
@@ -517,7 +530,11 @@ msgid ""
 "Note: Saving changes will replace all existing receipts for this expense. If"
 " you want to keep any current receipts, please upload them again. If you "
 "uploaded an incorrect receipt, simply upload the correct one and save."
-msgstr "Nota: Al guardar los cambios, los recibos actuales de este gasto serán reemplazados. Si desea conservar algún recibo existente, vuelva a cargarlo. Si agregó un recibo incorrecto, simplemente cargue el correcto y guarde los cambios."
+msgstr ""
+"Nota: Al guardar los cambios, los recibos actuales de este gasto serán "
+"reemplazados. Si desea conservar algún recibo existente, vuelva a cargarlo. "
+"Si agregó un recibo incorrecto, simplemente cargue el correcto y guarde los "
+"cambios."
 
 #. module: pao_expenses_portal
 #. odoo-python
@@ -648,6 +665,12 @@ msgstr "Enviado"
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
+msgid "Subtotal"
+msgstr ""
+
+#. module: pao_expenses_portal
+#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
 msgid "Subtotal ("
 msgstr ""
 
@@ -756,12 +779,6 @@ msgstr "Por reportar"
 #, python-format
 msgid "To Submit"
 msgstr "Por enviar"
-
-#. module: pao_expenses_portal
-#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expenses_details_view
-#: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_wallet_expenses_view
-msgid "Total"
-msgstr ""
 
 #. module: pao_expenses_portal
 #: model_terms:ir.ui.view,arch_db:pao_expenses_portal.my_expense_reports_view

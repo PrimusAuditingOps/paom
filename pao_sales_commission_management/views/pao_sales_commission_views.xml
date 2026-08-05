@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pao_sales_commission_tree" model="ir.ui.view">
+        <field name="name">pao.sales.commission.tree</field>
+        <field name="model">pao.sales.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Commissions" decoration-info="state == 'pending_invoicing'"
+                  decoration-warning="state in ('pending_service', 'outstanding_payable')"
+                  decoration-success="state == 'paid'"
+                  decoration-danger="state == 'under_review'">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="promotor_id"/>
+                <field name="promotor_type"/>
+                <field name="commissionable_base" sum="Base"/>
+                <field name="commission_percentage"/>
+                <field name="commission_amount" sum="Commission USD"/>
+                <field name="applied_exchange_rate"/>
+                <field name="commission_amount_mxn" sum="Commission MXN"/> 
+                <field name="payment_date"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'pending_invoicing'"
+                       decoration-warning="state in ('pending_service', 'outstanding_payable')"
+                       decoration-success="state == 'paid'"
+                       decoration-danger="state == 'under_review'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_sales_commission_form" model="ir.ui.view">
+        <field name="name">pao.sales.commission.form</field>
+        <field name="model">pao.sales.commission</field>
+        <field name="arch" type="xml">
+            <form string="Sales Commission">
+                <header>
+                    <button name="action_recalculate" type="object"
+                            string="Recalculate" class="btn-secondary"
+                            invisible="state in ('paid', 'under_review')"/>
+                    <button name="%(action_pao_sales_commission_pay_wizard)d"
+                            type="action" string="Mark as Paid"
+                            class="btn-primary"
+                            invisible="state != 'outstanding_payable'"
+                            context="{'default_comision_ids': [(6, 0, [active_id])]}"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="pending_invoicing,pending_service,outstanding_payable,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">View</span>
+                                <span class="o_stat_text">Sales</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Under Review"
+                            bg_color="bg-danger"
+                            invisible="state != 'under_review'"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Sales and Commission Agent">
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="user_id" readonly="1"/>
+                            <field name="promotor_id" readonly="1"/>
+                            <field name="promotor_type" readonly="1"/>
+                            <field name="related_user_id" readonly="1"/>
+                        </group>
+                        <group string="Amounts">
+                            <field name="currency_cotizacion_id" invisible="1"/>
+                            <field name="currency_mxn_id" invisible="1"/>
+                            <field name="commissionable_base" readonly="1"/>
+                            <field name="commission_percentage" readonly="1"/>
+                            <field name="commission_amount" readonly="1"/>
+                            <field name="reference_payment_id" readonly="1"/>
+                            <field name="applied_exchange_rate" readonly="1"/>
+                            <field name="commission_amount_mxn" readonly="1"
+                                   class="fw-bold fs-5"/>
+                        </group>
+                    </group>
+                    <separator string="Commissionable Product Lines"/>
+                    <field name="commission_line_ids" readonly="1">
+                        <tree string="Commissionable Product Lines" create="0" delete="0">
+                            <field name="product_id"/>
+                            <field name="product_uom_qty"/>
+                            <field name="price_unit"/>
+                            <field name="organization_id"/>
+                            <field name="registrynumber_id"/>
+                            <field name="service_start_date"/>
+                            <field name="service_end_date"/>
+                        </tree>
+                    </field>
+                    <group string="Service Validation (Coordinator only)"
+                           invisible="not requires_service_validation">
+                        <field name="requires_service_validation" invisible="1"/>
+                        <field name="service_performed" readonly="1"/>
+                        <field name="service_performed_date" readonly="1"/>
+                    </group>
+                    <group string="Alert" invisible="state != 'under_review'">
+                        <field name="alert_reason" readonly="1"/>
+                    </group>
+                    <group string="Payment" invisible="state != 'paid'">
+                        <field name="payment_date" readonly="1"/>
+                        <field name="paid_by" readonly="1"/>
+                        <field name="finance_payment_reference" readonly="1"/>
+                        <field name="finance_notes"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pao_sales_commission_search" model="ir.ui.view">
+        <field name="name">pao.sales.commission.search</field>
+        <field name="model">pao.sales.commission</field>
+        <field name="arch" type="xml">
+            <search string="Commissions">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="promotor_id"/>
+                <field name="related_user_id"/>
+                <filter string="Pending Invoicing"
+                        name="filter_pending_invoicing"
+                        domain="[('state', '=', 'pending_invoicing')]"/>
+                <filter string="Pending Service"
+                        name="filter_pending_service"
+                        domain="[('state', '=', 'pending_service')]"/>
+                <filter string="Outstanding Payable" name="filter_outstanding_payable"
+                        domain="[('state', '=', 'outstanding_payable')]"/>
+                <filter string="Paid" name="filter_paid"
+                        domain="[('state', '=', 'paid')]"/>
+                <filter string="Under Review" name="filter_under_review"
+                        domain="[('state', '=', 'under_review')]"/>
+                <separator/>
+                <filter string="External" name="filter_external"
+                        domain="[('promotor_type', '=', 'external')]"/>
+                <filter string="Sales" name="filter_sales"
+                        domain="[('promotor_type', '=', 'sales')]"/>
+                <filter string="Coordination" name="filter_coordination"
+                        domain="[('promotor_type', '=', 'coordination')]"/>
+                <group expand="0" string="Group by">
+                    <filter string="State" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Commission Agent" name="group_promotor"
+                            context="{'group_by': 'promotor_id'}"/>
+                    <filter string="Promoter Type" name="group_tipo"
+                            context="{'group_by': 'promotor_type'}"/>
+                    <filter string="Payment Month" name="group_payment_date"
+                            context="{'group_by': 'payment_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pao_sales_commission" model="ir.actions.act_window">
+        <field name="name">Commissions Payable</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_state': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Listed here are the commissions generated from
+                quotes with an assigned commission agent.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_pao_sales_commission_outstanding" model="ir.actions.act_window">
+        <field name="name">Outstanding / Payable</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'outstanding_payable')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_paid" model="ir.actions.act_window">
+        <field name="name">Payment history</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'paid')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_under_review" model="ir.actions.act_window">
+        <field name="name">Under Review</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'under_review')]</field>
+    </record>
+</odoo>

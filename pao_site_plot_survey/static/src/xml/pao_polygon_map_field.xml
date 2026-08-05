@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pao_site_plot_survey.PolygonMapField">
+        <div class="pao_polygon_map_wrapper">
+            <div t-if="state.error" class="alert alert-warning" role="alert">
+                <t t-esc="state.error"/>
+            </div>
+            <div t-else="">
+                <div class="mb-2" t-if="!props.readonly">
+                    <button t-if="!state.hasPolygon and !state.drawing" type="button" class="btn btn-primary btn-sm"
+                            t-on-click="startDrawing">Dibujar polígono</button>
+                    <t t-if="state.drawing">
+                        <button type="button" class="btn btn-primary btn-sm me-1"
+                                t-att-disabled="!state.canFinish" t-on-click="finishDrawing">Finalizar polígono</button>
+                        <button type="button" class="btn btn-secondary btn-sm"
+                                t-on-click="cancelDrawing">Cancelar</button>
+                        <span class="text-muted small ms-2">Haz clic en el mapa para agregar cada vértice (mínimo 3).</span>
+                    </t>
+                    <button t-if="state.hasPolygon and !state.drawing" type="button" class="btn btn-secondary btn-sm"
+                            t-on-click="startDrawing">Redibujar polígono</button>
+                </div>
+                <div t-ref="mapContainer" class="pao_polygon_map_canvas"/>
+                <div class="text-muted small mt-1">
+                    Área calculada (previsualización): <t t-esc="state.areaHa"/> ha
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

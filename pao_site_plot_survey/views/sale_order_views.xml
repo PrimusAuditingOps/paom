@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_pao_site_plot_survey" model="ir.ui.view">
+        <field name="name">sale.order.form.pao_site_plot_survey</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <field name="site_plot_ids" invisible="1"/>
+                <button name="action_view_site_plots" type="object"
+                        class="oe_stat_button" icon="fa-map-o"
+                        invisible="not site_plot_ids">
+                    <field name="site_plot_count" widget="statinfo" string="Sitios"/>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Sitios" name="pao_site_plots">
+                    <group>
+                        <field name="qa_user_ids" widget="many2many_tags"
+                               domain="[('groups_id', 'in', %(pao_site_plot_survey.group_calidad)d)]"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <div class="oe_button_box mb-2">
+                        <button name="%(pao_site_plot_survey.action_pao_site_plot_import_wizard)d"
+                                type="action" string="Importar KML/Excel" class="btn btn-secondary"/>
+                        <button name="action_send_sites_to_calidad" type="object"
+                                string="Enviar a Calidad" class="btn btn-primary"
+                                invisible="not site_plot_ids"/>
+                        <button name="action_export_site_plots_kml" type="object"
+                                string="Exportar KML" class="btn btn-secondary"
+                                invisible="not site_plot_ids"/>
+                        <button name="%(pao_site_plot_survey.action_pao_site_plot_overview_map)d"
+                                type="action" string="Ver mapa de sitios" class="btn btn-secondary"
+                                context="{'default_sale_order_id': id}"
+                                invisible="not site_plot_ids"/>
+                    </div>
+                    <field name="site_plot_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="declared_surface_ha"/>
+                            <field name="computed_surface_ha"/>
+                            <field name="source"/>
+                            <field name="state" widget="badge"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Servicios estimados" name="pao_site_plot_services">
+                    <field name="service_ids">
+                        <tree editable="bottom">
+                            <field name="sale_order_id" column_invisible="1"/>
+                            <field name="product_id"/>
+                            <field name="site_ids" widget="many2many_tags"/>
+                            <field name="calidad_qty" groups="pao_site_plot_survey.group_calidad"/>
+                            <field name="external_partner_id"/>
+                            <field name="external_qty"/>
+                            <field name="final_qty"/>
+                            <field name="estimate_source" widget="badge"/>
+                            <field name="sale_order_line_id" column_invisible="1"/>
+                            <button name="action_push_to_order_line" type="object"
+                                    string="Aplicar a la cotización" icon="fa-arrow-right"
+                                    invisible="not final_qty"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

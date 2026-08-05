@@ -84,6 +84,52 @@ class InvoiceReport(models.Model):
         string="Payment Status", readonly=True)
     company_id = fields.Many2one('res.company','Company', readonly=True)
     quotation_promoter = fields.Many2one('comisionpromotores.promotor', 'Quotation Consultant', readonly=True)
+    # usd_net = fields.Monetary(related='invoice_id.ad_usd_neto', string="USD Net", readonly=True)
+    # usd_total = fields.Monetary(related='invoice_id.ad_usd_total', string="USD Total", readonly=True)
+    # mxn_net = fields.Monetary(related='invoice_id.ad_mxn_neto', string="MXN Net", readonly=True)
+    # mxn_total = fields.Monetary(related='invoice_id.ad_mxn_total', string="MXN Total", readonly=True)
+    
+    # def _get_custom_currency_id(self):
+    #     for rec in self:
+    #         currency = rec.invoice_id.currency_id
+
+    #         if rec.move_line_id.exchange_rate_applied:
+    #             currency = rec.move_line_id.product_id.base_currency_id or currency
+
+    #         rec.currency_id = currency
+    
+    # def _convert_amount(self, amount, from_currency, to_currency, company, date, move_line):
+
+    #     if (
+    #         move_line
+    #         and move_line.exchange_rate_applied
+    #         and move_line.exchange_rate_value
+    #         and move_line.product_id.base_currency_id
+    #     ):
+    #         rate = move_line.exchange_rate_value
+    #         base_currency = move_line.product_id.base_currency_id
+
+    #         if not float_is_zero(rate, precision_digits=12):
+
+    #             # Same currency
+    #             if from_currency == to_currency:
+    #                 return amount
+
+    #             # Base currency -> Company/Invoice currency
+    #             if from_currency == base_currency:
+    #                 return amount * rate
+
+    #             # Company/Invoice currency -> Base currency
+    #             if to_currency == base_currency:
+    #                 return amount / rate
+
+    #     # Default Odoo conversion
+    #     return from_currency._convert(
+    #         amount,
+    #         to_currency,
+    #         company,
+    #         date,
+    #     )
     
     def _get_pao_custom_rate(self, rec):
         """Devuelve la tasa personalizada de la factura (rec.invoice_id)
@@ -146,6 +192,17 @@ class InvoiceReport(models.Model):
                 rec.invoice_date
             )
         
+    # def _get_rate(self):
+    #     for rec in self:
+    #         rec.currency_rate = -1
+    #         dateinvoice = rec.invoice_date
+    #         if dateinvoice:
+    #             if rec.currency_id.name == 'USD':
+    #                 currencyrate = rec.invoice_id._get_rates_currency(dateinvoice)
+    #                 rec.currency_rate = round((1 / currencyrate.get('USD')),6)
+    #             elif rec.currency_id.name == 'MXN':
+    #                 rec.currency_rate = 1
+    
     def _compute_company_currency_subtotal(self):
         for rec in self:
             rec.company_currency_subtotal = 0.0
@@ -170,6 +227,30 @@ class InvoiceReport(models.Model):
             )
     
                 
+    # def _get_usd_price(self):
+    #     usd = self.env.ref('base.USD')
+
+    #     for rec in self:
+    #         rec.usd_subtotal = 0.0
+    #         rec.usd_exchange_rate = 0.0
+
+    #         if not rec.invoice_date:
+    #             continue
+
+    #         rec.usd_subtotal = rec.currency_id._convert(
+    #             rec.price_subtotal,
+    #             usd,
+    #             rec.company_id,
+    #             rec.invoice_date,
+    #         )
+
+    #         rec.usd_exchange_rate = self.env['res.currency']._get_conversion_rate(
+    #             rec.currency_id,
+    #             usd,
+    #             rec.company_id,
+    #             rec.invoice_date,
+    #         )
+    
     def _get_usd_price(self):
         usd = self.env.ref('base.USD')
 
@@ -209,6 +290,30 @@ class InvoiceReport(models.Model):
                         rec.invoice_date,
                     )
             
+    # def _get_eur_price(self):
+    #     eur = self.env.ref('base.EUR')
+
+    #     for rec in self:
+    #         rec.eur_subtotal = 0.0
+    #         rec.eur_exchange_rate = 0.0
+
+    #         if not rec.invoice_date:
+    #             continue
+
+    #         rec.eur_subtotal = rec.currency_id._convert(
+    #             rec.price_subtotal,
+    #             eur,
+    #             rec.company_id,
+    #             rec.invoice_date,
+    #         )
+
+    #         rec.eur_exchange_rate = self.env['res.currency']._get_conversion_rate(
+    #             rec.currency_id,
+    #             eur,
+    #             rec.company_id,
+    #             rec.invoice_date,
+    #         )
+    
     def _get_eur_price(self):
         eur = self.env.ref('base.EUR')
 
@@ -278,6 +383,24 @@ class InvoiceReport(models.Model):
                 rec.invoice_date,
             )
     
+    # def _compute_company_currency_tax(self):
+    #     for rec in self:
+    #         rec.company_currency_tax = 0.0
+
+    #         if not rec.invoice_date:
+    #             continue
+
+    #         tax = rec.move_line_id.price_total - rec.move_line_id.price_subtotal
+
+    #         rec.company_currency_tax = rec._convert_amount(
+    #             tax,
+    #             rec.currency_id,
+    #             rec.company_id.currency_id,
+    #             rec.company_id,
+    #             rec.invoice_date,
+    #             rec.move_line_id,
+    #         )
+        
     def _select(self, fields=None):
         if not fields:
             fields = {}

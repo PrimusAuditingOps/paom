@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Hereda las vistas originales de comisionpromotores.promotor (módulo
+         comisionpromotores) para agregar los campos nuevos (promotor_type,
+         usuario_id) en lugar de mantener una vista propia por separado. -->
+
+    <record id="comisionpromotores_view_form_inherit_pao" model="ir.ui.view">
+        <field name="name">comisionpromotores.promotor.view.form.inherit.pao_sales_commission_management</field>
+        <field name="model">comisionpromotores.promotor</field>
+        <field name="inherit_id" ref="comisionpromotores.comisionpromotores_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='porcentaje']" position="after">
+                <field name="commission_rate"/>
+                <field name="promotor_type"/>
+                <field name="user_id"
+                       invisible="promotor_type == 'external'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="comisionpromotores_promotores_view_tree_inherit_pao" model="ir.ui.view">
+        <field name="name">comisionpromotores.promotores.view.tree.inherit.pao_sales_commission_management</field>
+        <field name="model">comisionpromotores.promotor</field>
+        <field name="inherit_id" ref="comisionpromotores.comisionpromotores_promotores_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='porcentaje']" position="after">
+                <field name="commission_rate"/>
+                <field name="promotor_type"/>
+                <field name="user_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

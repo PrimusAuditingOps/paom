@@ -21,6 +21,7 @@
         'views/product_category_expense_inherit.xml',
         'views/purchase_order_form_inherit.xml',
         'views/upload_expense_statement.xml',
+        'views/portal_rfq_order_inherit.xml',
         
         'security/ir.model.access.csv',
         'security/rules.xml',

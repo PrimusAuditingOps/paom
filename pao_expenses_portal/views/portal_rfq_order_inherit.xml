@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_purchase_rfqs_inherit" inherit_id="purchase.portal_my_purchase_rfqs">
+
+        <xpath expr="//thead/tr/th[1]" position="after">
+            <th>Organization</th>
+            <th>Registration Number</th>
+        </xpath>
+
+        <xpath expr="//t[@t-foreach='rfqs']//tr/td[1]" position="after">
+            <td>
+                <t t-set="organizations" t-value="', '.join(rfq.sudo().order_line.mapped('organization_id.name'))"/>
+                <span t-esc="organizations"/>
+            </td>
+            <td>
+                <t t-set="registration_numbers" t-value="', '.join(rfq.sudo().order_line.mapped('registrynumber_id.name'))"/>
+                <span t-esc="registration_numbers"/>
+            </td>
+        </xpath>
+
+    </template>
+
+
+    <template id="portal_our_orders_inherit" inherit_id="purchase.portal_my_purchase_orders">
+
+        <xpath expr="//thead/tr/th[1]" position="after">
+            <th>Registration Number</th>
+        </xpath>
+
+        <xpath expr="//t[@t-foreach='orders']//tr/td[1]" position="after">
+            <td>
+                <t t-set="registration_numbers" t-value="', '.join(order.sudo().order_line.mapped('registrynumber_id.name'))"/>
+                <span t-esc="registration_numbers"/>
+            </td>
+        </xpath>
+
+    </template>
+
+</odoo>

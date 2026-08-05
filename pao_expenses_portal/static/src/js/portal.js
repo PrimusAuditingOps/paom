@@ -75,6 +75,16 @@ function initExpenseModalListeners() {
             const receiptInput = modal.querySelector('input[name="receipt"]');
             const totalInput = modal.querySelector('input[name="total"]');
             const currencySelect = modal.querySelector('select[name="currency_id"]');
+            const internalNotes = modal.querySelector('input[name="description"]');
+            const countryCode = modal.querySelector('input[name="country_code"]');
+            const isExternalAuditor = modal.querySelector('input[name="is_external_auditor"]');
+
+            let countryCode_value = countryCode ? countryCode.value : "";
+
+            let isExternalAuditor_value = ""
+            if (isExternalAuditor) {
+                isExternalAuditor_value = isExternalAuditor.value;
+            }
 
             if (!categorySelect || !receiptInput || !totalInput || !currencySelect) {
                 return;
@@ -92,16 +102,22 @@ function initExpenseModalListeners() {
 
                     if (requireReceipt && isPerDiemMeals) {
                         receiptInput.required = false;
+                        if (internalNotes && isExternalAuditor_value.trim() == "True") {
+                            internalNotes.required = false;
+                        }
                         totalInput.value = 60;
                         totalInput.readOnly = true;
                         currencySelect.style.pointerEvents = 'none';
                         currencySelect.value = '2';
                     } else {
                         receiptInput.required = true;
-                        totalInput.value = "";
+                        if (internalNotes && countryCode_value.trim() == "US") {
+                            internalNotes.required = true;
+                        }
+                        // totalInput.value = "";
                         totalInput.readOnly = false;
                         currencySelect.style.pointerEvents = '';
-                        currencySelect.value = '';
+                        // currencySelect.value = '';
                     }
 
                     // Override required if either exempt category is selected
@@ -263,8 +279,8 @@ function initEditExpense() {
                     }
 
                     document.getElementById('expense_date').value = this.dataset.expenseDate || '';
-                    document.getElementById('total').value = this.dataset.total || '' 
-                    document.getElementById('currency_id').value = this.dataset.currencyId || '' 
+                    document.getElementById('total').value = this.dataset.total || ''
+                    document.getElementById('currency_id').value = this.dataset.currencyId || ''
                 } else {
 
                     container.classList.add('d-none');

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pao_site_plot_form" model="ir.ui.view">
+        <field name="name">pao.site.plot.form</field>
+        <field name="model">pao.site.plot</field>
+        <field name="arch" type="xml">
+            <form string="Sitio">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Nombre del sitio"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sale_order_id" options="{'no_create': True}"/>
+                            <field name="variety"/>
+                            <field name="location"/>
+                            <field name="source"/>
+                        </group>
+                        <group>
+                            <field name="declared_surface_ha"/>
+                            <field name="computed_surface_ha"/>
+                            <field name="surface_variance_pct"/>
+                            <field name="center_lat" readonly="1"/>
+                            <field name="center_lng" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Polígono">
+                            <field name="geojson_polygon" widget="pao_polygon_map" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pao_site_plot_list" model="ir.ui.view">
+        <field name="name">pao.site.plot.list</field>
+        <field name="model">pao.site.plot</field>
+        <field name="arch" type="xml">
+            <tree string="Sitios">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="declared_surface_ha"/>
+                <field name="computed_surface_ha"/>
+                <field name="source"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pao_site_plot" model="ir.actions.act_window">
+        <field name="name">Sitios</field>
+        <field name="res_model">pao.site.plot</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

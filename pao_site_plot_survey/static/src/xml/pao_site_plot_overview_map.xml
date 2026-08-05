@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pao_site_plot_survey.SitePlotOverviewMap">
+        <div class="pao_site_plot_overview_map d-flex flex-column h-100">
+            <div t-if="state.error" class="alert alert-warning m-2" role="alert">
+                <t t-esc="state.error"/>
+            </div>
+            <t t-else="">
+                <div class="p-2 border-bottom d-flex align-items-center flex-wrap">
+                    <button type="button" class="btn btn-sm me-2"
+                            t-att-class="state.measuring ? 'btn-danger' : 'btn-primary'"
+                            t-on-click="toggleMeasure">
+                        <t t-if="!state.measuring">Medir distancia</t>
+                        <t t-else="">Detener medición</t>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm me-2" t-on-click="clearMeasure">
+                        Limpiar medición
+                    </button>
+                    <span t-if="state.distanceText" class="fw-bold">
+                        Distancia total: <t t-esc="state.distanceText"/>
+                    </span>
+                    <span t-if="state.measuring" class="text-muted small ms-2">
+                        Haz clic en el mapa (o sobre un sitio) para agregar cada punto de medición.
+                    </span>
+                </div>
+                <div class="d-flex flex-grow-1" style="min-height: 500px;">
+                    <div t-ref="mapContainer" class="flex-grow-1"/>
+                    <div class="pao_site_plot_legend p-2 border-start" style="width: 260px; overflow-y: auto;">
+                        <h6>Sitios</h6>
+                        <div t-foreach="state.sites" t-as="site" t-key="site.id" class="mb-2 small d-flex">
+                            <span class="pao_site_color_dot me-2 mt-1"
+                                  t-attf-style="background-color:{{_siteColor(site.id)}}"/>
+                            <div>
+                                <div><b t-esc="site.name"/></div>
+                                <div t-if="site.variety" class="text-muted" t-esc="site.variety"/>
+                                <div t-if="site.location" class="text-muted" t-esc="site.location"/>
+                                <div>
+                                    <t t-esc="site.computed_surface_ha.toFixed(2)"/> ha
+                                    <span t-if="!site.geojson_polygon" class="text-warning">
+                                        (sin polígono)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 border-top">
+                    <h6>Servicios estimados</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered align-middle" style="font-size:12px;">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Servicio</th>
+                                    <th>Sitios</th>
+                                    <th>Cant. Calidad</th>
+                                    <th/>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="state.services" t-as="service" t-key="service.id">
+                                    <td t-esc="service.product_id ? service.product_id[1] : ''"/>
+                                    <td>
+                                        <t t-foreach="service.site_ids" t-as="siteId" t-key="siteId">
+                                            <span class="badge me-1"
+                                                  t-attf-style="background-color:{{_siteColor(siteId)}}"
+                                                  t-esc="_siteName(siteId)"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <input type="number" step="0.01" class="form-control form-control-sm"
+                                               style="width:90px;"
+                                               t-att-value="service.calidad_qty"
+                                               t-on-change="(ev) => this.onServiceQtyChange(service, ev)"/>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <button type="button" class="btn btn-link btn-sm p-0 text-danger"
+                                                t-on-click="() => this.removeService(service)">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="min-width:220px;">
+                                        <input type="text" class="form-control form-control-sm" t-ref="productSearchInput"
+                                               placeholder="Buscar por nombre o referencia…"
+                                               t-att-value="state.productSearch.text"
+                                               t-on-input="onProductSearchInput"
+                                               t-on-focus="onProductFocus"
+                                               t-on-blur="closeProductDropdown"/>
+                                        <div t-if="state.productSearch.open and state.productSearch.results.length"
+                                             class="list-group" t-att-style="state.productSearch.style">
+                                            <button t-foreach="state.productSearch.results" t-as="product" t-key="product.id"
+                                                    type="button" class="list-group-item list-group-item-action py-1"
+                                                    t-on-click="() => this.selectProduct(product)">
+                                                <span t-if="product.default_code" class="text-muted">[<t t-esc="product.default_code"/>]</span>
+                                                <t t-esc="product.name"/>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td style="min-width:220px;">
+                                        <div class="d-flex flex-wrap align-items-center gap-1" t-ref="siteTagBox"
+                                             style="border:1px solid #ced4da; border-radius:4px; padding:4px; min-height:31px; cursor:text;"
+                                             t-on-click="toggleSiteTagPicker">
+                                            <span t-foreach="state.newService.site_ids" t-as="siteId" t-key="siteId"
+                                                  class="badge d-flex align-items-center"
+                                                  t-attf-style="background-color:{{_siteColor(siteId)}}">
+                                                <t t-esc="_siteName(siteId)"/>
+                                                <a href="#" class="text-white ms-1"
+                                                   t-on-click.stop.prevent="() => this.removeSiteTag(siteId)">×</a>
+                                            </span>
+                                            <span t-if="!state.newService.site_ids.length" class="text-muted small">
+                                                Seleccionar sitios…
+                                            </span>
+                                        </div>
+                                        <div t-if="state.siteTagPicker.open" class="list-group"
+                                             t-att-style="state.siteTagPicker.style">
+                                            <input type="text" class="form-control form-control-sm"
+                                                   placeholder="Buscar sitio…"
+                                                   t-att-value="state.siteTagPicker.text"
+                                                   t-on-input="onSiteTagSearchInput"/>
+                                            <button t-foreach="availableSitesForPicker()" t-as="site" t-key="site.id"
+                                                    type="button" class="list-group-item list-group-item-action py-1"
+                                                    t-on-click="() => this.addSiteTag(site.id)">
+                                                <t t-esc="site.name"/>
+                                            </button>
+                                            <span t-if="!availableSitesForPicker().length" class="list-group-item text-muted py-1">
+                                                No hay más sitios disponibles.
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="number" step="0.01" class="form-control form-control-sm"
+                                               style="width:90px;"
+                                               t-model.number="state.newService.calidad_qty"/>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-sm" t-on-click="addService">
+                                            Agregar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

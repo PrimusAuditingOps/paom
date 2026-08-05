@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Categoría del módulo ─────────────────────────────────────────── -->
+    <record id="module_category_ena" model="ir.module.category">
+        <field name="name">GlobalGAP ENA</field>
+        <field name="sequence">100</field>
+    </record>
+
+    <!-- ── Grupo: Calidad (crea candidatos, importa Excel) ──────────────── -->
+    <record id="group_ena_calidad" model="res.groups">
+        <field name="name">Calidad</field>
+        <field name="category_id" ref="module_category_ena"/>
+        <field name="comment">
+            Puede registrar e importar productores candidatos Auditorías no anunciadas,
+            capturar justificación y datos técnicos.
+        </field>
+    </record>
+
+    <!-- ── Grupo: Coordinadora (gestiona seguimiento y programación) ─────── -->
+    <record id="group_ena_coordinadora" model="res.groups">
+        <field name="name">Coordinadora</field>
+        <field name="category_id" ref="module_category_ena"/>
+        <field name="comment">
+            Puede contactar productores, enviar notificaciones,
+            registrar fechas reales y marcar resultado de la Auditorías no anunciada.
+        </field>
+    </record>
+
+    <!-- ── Grupo: Administrador (acceso total) ──────────────────────────── -->
+    <record id="group_ena_admin" model="res.groups">
+        <field name="name">Administrador Auditorías no anunciadas</field>
+        <field name="category_id" ref="module_category_ena"/>
+        <field name="implied_ids" eval="[(4, ref('group_ena_calidad')), (4, ref('group_ena_coordinadora'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <field name="comment">
+            Acceso completo al módulo Auditorías no anunciadas incluyendo configuración y reportes.
+        </field>
+    </record>
+
+    <!-- ── Regla de registro: coordinadora solo ve sus ENAs asignadas ───── -->
+    <record id="rule_ena_coordinadora_own" model="ir.rule">
+        <field name="name">ENA: Coordinadora ve solo sus registros asignados</field>
+        <field name="model_id" ref="globalgap_ena.model_ena_solicitud"/>
+        <field name="domain_force"></field>
+        <field name="groups" eval="[(4, ref('group_ena_coordinadora'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+</odoo>

@@ -339,9 +339,13 @@ class ExpensesPortal(http.Controller):
         is_external_auditor = self.is_external_auditor()
         
         report_id = kw.get("report_id")
-        name = kw.get("name")
-        description = kw.get("description")
         expense_category = kw.get("expense_category")
+        
+        expense_category = request.env['product.product'].sudo().browse(int(expense_category))
+
+        name = kw.get("name") or expense_category.name
+                
+        description = kw.get("description")
         expense_date = kw.get("expense_date")
         payment_mode = kw.get("payment_mode")
         receipts = request.httprequest.files.getlist("receipt")
@@ -709,8 +713,11 @@ class ExpensesPortal(http.Controller):
         receipts = request.httprequest.files.getlist("receipt")
         expense_id = kw.get("expense_id")
         description = kw.get("description")
+        
+        expense_category = request.env['product.product'].sudo().browse(int(expense_category))
 
-        name = kw.get("name")
+        name = kw.get("name") or expense_category.name
+            
         payment_mode = kw.get("payment_mode")
         expense_date = kw.get("expense_date")
         total = kw.get("total")

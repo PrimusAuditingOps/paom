@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_pao_sales_commission_root" name="Commissions"
+              web_icon="pao_sales_commission_management,static/description/icon.png"
+              sequence="45"/>
+    
+    <menuitem id="menu_pao_sales_commission_commissions" name="Commissions"
+              parent="menu_pao_sales_commission_root" sequence="10"/>
+
+    
+
+    <menuitem id="menu_pao_sales_commission_all" name="All Commissions"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission" sequence="10"/>
+
+    <menuitem id="menu_pao_sales_commission_outstanding" name="Outstanding / Payable"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_outstanding" sequence="20"/>
+
+    <menuitem id="menu_pao_sales_commission_under_review" name="Under Review"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_under_review" sequence="30"/>
+
+    <menuitem id="menu_pao_sales_commission_paid" name="Payment History"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_paid" sequence="40"/>
+
+    <menuitem id="menu_pao_sales_commission_configuration" name="Configuration"
+              parent="menu_pao_sales_commission_root" sequence="80"/>
+
+    <menuitem id="menu_pao_sales_commission_agent" name="Commission Agent"
+              parent="menu_pao_sales_commission_configuration"
+              action="comisionpromotores.comisionpromotores_action" sequence="10"/>
+</odoo>

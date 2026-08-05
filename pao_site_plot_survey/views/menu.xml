@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- No root/app menu on purpose: access to Sitios is meant to go through
+         the sale.order smart button and "Sitios"/"Ver mapa de sitios" page,
+         not through a standalone entry in Odoo's main app menu. The
+         action_pao_site_plot action (defined in pao_site_plot_views.xml)
+         stays available for that smart button regardless of any menuitem. -->
+</odoo>

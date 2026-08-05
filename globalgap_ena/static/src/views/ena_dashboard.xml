@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+<t t-name="globalgap_ena.EnaDashboard">
+    <div class="ena-dashboard o_action p-3">
+
+        <!-- Cargando -->
+        <div t-if="state.loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"/>
+            <p class="mt-2 text-muted">Cargando datos...</p>
+        </div>
+
+        <t t-if="!state.loading">
+
+            <!-- ── Encabezado ──────────────────────────────────────────── -->
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="mb-0">
+                    <i class="fa fa-clipboard-check me-2 text-primary"/>
+                    Auditorías No Anunciadas — <t t-esc="state.anio"/>
+                </h2>
+                
+            </div>
+
+            <!-- ── Barra de progreso de meta ───────────────────────────── -->
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <strong>Progreso hacia la meta anual</strong>
+                        <span class="fw-bold fs-5" t-attf-style="color: {{ colorMeta }}">
+                            <t t-esc="state.realizadas"/> / 80
+                            (<t t-esc="porcentajeMeta"/>%)
+                        </span>
+                    </div>
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar"
+                             role="progressbar"
+                             t-attf-style="width: {{ porcentajeMeta }}%; background-color: {{ colorMeta }};"
+                             t-attf-aria-valuenow="{{ porcentajeMeta }}"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                            <t t-esc="porcentajeMeta"/>%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Tarjetas de contador ────────────────────────────────── -->
+            <div class="row g-2 mb-3">
+
+                <div class="col-md-3 col-6">
+                    <div class="card text-center shadow-sm h-100 cursor-pointer"
+                         style="border-top: 4px solid #1e8449;">
+                        <div class="card-body py-2">
+                            <div class="fs-1 fw-bold text-success"><t t-esc="state.realizadas"/></div>
+                            <div class="small text-muted">Realizadas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="card text-center shadow-sm h-100 cursor-pointer"
+                         style="border-top: 4px solid #1a5276;">
+                        <div class="card-body py-2">
+                            <div class="fs-1 fw-bold text-primary"><t t-esc="state.programadas"/></div>
+                            <div class="small text-muted">Programadas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="card text-center shadow-sm h-100 cursor-pointer"
+                         style="border-top: 4px solid #cb4335;">
+                        <div class="card-body py-2">
+                            <div class="fs-1 fw-bold" style="color:#cb4335;"><t t-esc="state.no_realizadas"/></div>
+                            <div class="small text-muted">No realizadas</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3 col-6">
+                    <div class="card text-center shadow-sm h-100 cursor-pointer"
+                         style="border-top: 4px solid #5d6d7e;">
+                        <div class="card-body py-2">
+                            <div class="fs-1 fw-bold text-secondary"><t t-esc="state.en_proceso"/></div>
+                            <div class="small text-muted">En proceso</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="card text-center shadow-sm h-100 cursor-pointer"
+                         style="border-top: 4px solid #7d6608;">
+                        <div class="card-body py-2">
+                            <div class="fs-1 fw-bold text-warning"><t t-esc="state.candidatos"/></div>
+                            <div class="small text-muted">Candidatos</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card text-center shadow-sm h-100 cursor-pointer"
+                         style="border-top: 4px solid #e67e22;">
+                        <div class="card-body py-2">
+                            <div class="fs-1 fw-bold" style="color:#e67e22;"><t t-esc="state.proximas"/></div>
+                            <div class="small text-muted">Próx. a vencer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <div class="card text-center shadow-sm h-100 cursor-pointer"
+                         style="border-top: 4px solid #f3cc00;">
+                        <div class="card-body py-2">
+                            <div class="fs-1 fw-bold" style="color:#f3cc00;"><t t-esc="state.vencidas"/></div>
+                            <div class="small text-muted">Ventana vencida</div>
+                        </div>
+                    </div>
+                </div>
+
+               
+
+                
+            </div>
+
+            <!-- ── Fila inferior: Gráfica + Semáforo coordinadoras ───── -->
+            <div class="row g-3">
+
+                <!-- Gráfica de avance mensual -->
+                <div class="col-md-7">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header fw-bold">
+                            <i class="fa fa-bar-chart me-1"/>
+                            Auditorîas no anunciadas realizadas por mes
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-end gap-1"
+                                 style="height: 140px;">
+                                <t t-foreach="state.por_mes" t-as="val" t-key="val_index">
+                                    <div class="d-flex flex-column align-items-center flex-grow-1">
+                                        <small class="text-muted" style="font-size:10px;">
+                                            <t t-esc="val"/>
+                                        </small>
+                                        <div t-attf-style="
+                                                height: {{ Math.round((val / maxBarMes) * 110) }}px;
+                                                min-height: 4px;
+                                                background: #1a5276;
+                                                border-radius: 3px 3px 0 0;
+                                                width: 100%;
+                                                transition: height 0.3s;"/>
+                                        <small class="text-muted mt-1" style="font-size:10px;">
+                                            <t t-esc="['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][val_index]"/>
+                                        </small>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Semáforo por coordinadora -->
+                <div class="col-md-5">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header fw-bold">
+                            <i class="fa fa-users me-1"/>
+                            Avance por coordinadora
+                        </div>
+                        <div class="card-body p-2">
+                            <t t-if="state.por_coordinadora.length === 0">
+                                <p class="text-muted text-center mt-3">
+                                    No hay coordinadoras asignadas aún.
+                                </p>
+                            </t>
+                            <t t-foreach="state.por_coordinadora" t-as="coord" t-key="coord.id">
+                                <div class="d-flex align-items-center gap-2 py-1 border-bottom cursor-pointer">
+                                    <!-- Iniciales -->
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-white"
+                                         style="width:34px; height:34px; font-size:12px; background:#1a5276; flex-shrink:0;">
+                                        <t t-esc="coord.name.split(' ').map(p => p[0]).slice(0,2).join('')"/>
+                                    </div>
+                                    <!-- Nombre y barra -->
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <div class="small fw-bold text-truncate"><t t-esc="coord.name"/></div>
+                                        <div class="progress mt-1" style="height:8px;">
+                                            <div class="progress-bar bg-success"
+                                                 t-attf-style="width: {{ Math.round((coord.realizadas / (coord.total || 1)) * 100) }}%;"/>
+                                            <div class="progress-bar bg-primary"
+                                                 t-attf-style="width: {{ Math.round((coord.en_proceso / (coord.total || 1)) * 100) }}%;"/>
+                                        </div>
+                                    </div>
+                                    <!-- Conteo -->
+                                    <div class="text-end" style="min-width:70px; font-size:12px;">
+                                        <span class="text-success fw-bold"><t t-esc="coord.realizadas"/></span>
+                                        <span class="text-muted"> / <t t-esc="coord.total"/></span>
+                                    </div>
+                                </div>
+                            </t>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </t>
+    </div>
+</t>
+
+</templates>
