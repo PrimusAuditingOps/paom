@@ -150,6 +150,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="text-end" style="margin:0; padding:0; line-height: 1.2;">
+                                            <span>
+                                                <t t-if="doc.currency_id.name == 'MXN'">
+                                                    All estimates are calculated in Mexican pesos (MXN)
+                                                </t>
+                                                <t t-elif="doc.currency_id.name == 'USD'">
+                                                    All estimates are calculated in U.S. dollars
+                                                </t>
+                                                <t t-else="">
+                                                    All estimates are calculated in <span t-field="doc.currency_id.name"/>
+                                                </t>
+                                            </span>
+                                        </div>
                                     </td>
 
                                 </tr>
