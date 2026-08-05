@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="apply_exchange_rate_purchase_order_lines_wizard_form" model="ir.ui.view">
+        <field name="name">apply.exchange.rate.purchase.order.lines.wizard.form</field>
+        <field name="model">apply.exchange.rate.purchase.order.lines.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="order_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="exchange_rate_lines_value" invisible="context.get('undo_action') == True"/>
+                        <field name="currency_id" options="{'no_quick_create': True, 'no_create_edit' : True}" invisible="context.get('undo_action') == True"/>
+                    </group>
+                </group>
+                <div invisible="context.get('undo_action') == False">
+                    This action will remove the exchange rate conversion from the purchase order lines.
+                    Do you want to continue?
+                </div>
+                <footer>
+                    <button string="Apply" name="apply_exchange_rate_lines_action" invisible="context.get('undo_action') == True" type="object" class="btn-primary"/>
+                    <button string="Undo" name="undo_exchange_rate_lines_action" invisible="context.get('undo_action') == False" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
