@@ -1,10 +1,9 @@
 /** @odoo-module **/
 
 import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
 import { listView } from "@web/views/list/list_view";
 import { ListController } from "@web/views/list/list_controller";
-import { onWillStart, onWillDestroy } from "@odoo/owl";
+import { onWillStart } from "@odoo/owl";
 
 const BUS_CHANNEL = "pao_sales_budget_line";
 const BUS_NOTIFICATION_TYPE = "pao_sales_budget_line/changed";
@@ -17,29 +16,21 @@ const BUS_NOTIFICATION_TYPE = "pao_sales_budget_line/changed";
  * Si el usuario local está en ese momento editando una fila (typing), se
  * omite el refresco automático para no perder lo que está escribiendo; se
  * refrescará en el siguiente evento una vez que termine de editar.
+ *
+ * NOTA: bus_service se toma directo de env.services (no vía useService),
+ * porque bus_service declara `async: true` (no una lista de métodos) y el
+ * wrapper genérico de useService() revienta con ese caso ("methods is not
+ * iterable"). Así es como lo consume el propio código core de Odoo, ej.
+ * account_online_synchronization/.../refresh_spin_journal_widget.js.
  */
 export class PaoSalesBudgetLineListController extends ListController {
     setup() {
         super.setup();
-        this.busService = useService("bus_service");
-        this._onBusNotification = this._onBusNotification.bind(this);
+        this.busService = this.env.services.bus_service;
 
-        onWillStart(() => {
-            this.busService.addChannel(BUS_CHANNEL);
-            this.busService.addEventListener("notification", this._onBusNotification);
-        });
-        onWillDestroy(() => {
-            this.busService.removeEventListener("notification", this._onBusNotification);
-        });
-    }
+        onWillStart(() => this.busService.addChannel(BUS_CHANNEL));
 
-    _onBusNotification({ detail: notifications }) {
-        for (const { type, payload } of notifications) {
-            if (type !== BUS_NOTIFICATION_TYPE) {
-                continue;
-            }
-            this._maybeRefresh(payload);
-        }
+        this.busService.subscribe(BUS_NOTIFICATION_TYPE, (payload) => this._maybeRefresh(payload));
     }
 
     async _maybeRefresh(payload) {
