@@ -23,7 +23,7 @@
     <field name="name">pao.sales.budget.line.view.tree</field>
     <field name="model">pao.sales.budget.line</field>
     <field name="arch" type="xml">
-      <tree string="Sales Budget Line" editable="top">
+      <tree string="Sales Budget Line" editable="top" js_class="pao_sales_budget_line_list">
         <field name="region_id"/>
         <field name="customer_category"/>
         <field name="customer_name"/>
