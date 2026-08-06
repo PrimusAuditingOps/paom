@@ -1,0 +1,15 @@
+<odoo>
+    <template id="pao_add_filter_date_statistics_header" inherit_id="survey.survey_page_statistics_header">
+      
+      <xpath expr="//div[contains(@class, 'o_survey_statistics_header')]" position="after">
+        <div class="input-group my-1 w-25 d-print-none">
+          <script src='/pao_survey_date/static/src/js/pao_survey_result.js'></script>
+          <input type="date" id="pao_start_date"  t-att-value="start_date"/>
+          <button class="btn btn-primary pao-search-date" id="pao_search_date" type="button">Search</button>
+        </div>
+      </xpath>
+    </template>
+  
+   
+  </odoo>
+  
