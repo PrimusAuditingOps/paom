@@ -48,7 +48,7 @@ class SurveySurveyExtended(models.Model):
         _logger.warning(email)
         _logger.warning(partner_name)
 
-        survey_url = user_input.get_start_url()+'?idx=%s' % idx
+        survey_url = user_input.get_start_url(idx=idx)
 
         try:
             template = self.env.ref('survey.mail_template_user_input_invite', raise_if_not_found=False)
