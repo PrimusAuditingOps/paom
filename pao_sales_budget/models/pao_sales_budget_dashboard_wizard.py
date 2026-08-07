@@ -6,31 +6,42 @@ from odoo import models, fields, api, _
 
 class PAOSalesBudgetDashboardWizard(models.TransientModel):
     _name = 'pao.sales.budget.dashboard.wizard'
-    _description = 'PAO Sales Budget - Dashboard (Equipo de Ventas / Esquema, Objetivo vs Real)'
+    _description = 'PAO Sales Budget - Dashboard (Región / Esquema, Objetivo vs Real, por mes)'
+
+    MONTH_SELECTION = [
+        ('09', 'Sep'), ('10', 'Oct'), ('11', 'Nov'), ('12', 'Dic'),
+        ('01', 'Ene'), ('02', 'Feb'), ('03', 'Mar'), ('04', 'Abr'),
+        ('05', 'May'), ('06', 'Jun'), ('07', 'Jul'), ('08', 'Ago'),
+    ]
+    MONTHS_ORDER = [m[0] for m in MONTH_SELECTION]
 
     budget_id = fields.Many2one('pao.sales.budget', string='Presupuesto', required=True)
     report_html = fields.Html(string='Reporte', readonly=True, sanitize=False)
 
     # ------------------------------------------------------------------
     # Agregación: Objetivo (pao.sales.budget.line) vs Real (pao.sales.budget.actual.line),
-    # total del periodo completo del presupuesto (sin corte por mes).
+    # desglosado por mes.
     # ------------------------------------------------------------------
 
-    def _budget_vs_actual_totals(self, groupby_field):
+    def _budget_vs_actual_monthly(self, groupby_field):
         """Regresa una lista de dicts, uno por valor de groupby_field (equipo o
-        esquema), con los totales de cantidad y monto tanto de lo presupuestado
-        como de lo realmente facturado. Usa union de llaves (equipos/esquemas)
+        esquema), con cantidad y monto de cada mes tanto de lo presupuestado
+        como de lo realmente facturado. Usa unión de llaves (equipos/esquemas)
         presentes en cualquiera de los dos lados, para no perder registros que
         solo tengan real sin presupuesto o viceversa.
         """
         self.ensure_one()
         Line = self.env['pao.sales.budget.line'].sudo()
         Actual = self.env['pao.sales.budget.actual.line'].sudo()
+        month_fields = ['m%s' % m for m in self.MONTHS_ORDER]
+        amount_fields = ['m%s_amount' % m for m in self.MONTHS_ORDER]
+        all_fields = month_fields + amount_fields
+        zero_months = {m: 0.0 for m in self.MONTHS_ORDER}
 
         def grouped(Model):
             groups = Model.read_group(
                 [('budget_id', '=', self.budget_id.id)],
-                fields=['total_quantity:sum', 'total_amount:sum'],
+                fields=[f + ':sum' for f in all_fields],
                 groupby=[groupby_field],
             )
             result = {}
@@ -40,8 +51,8 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
                 name = val[1] if val else _('Sin asignar')
                 result[key] = {
                     'name': name,
-                    'qty': g['total_quantity'] or 0.0,
-                    'amount': g['total_amount'] or 0.0,
+                    'qty': {m: g['m%s' % m] or 0.0 for m in self.MONTHS_ORDER},
+                    'amount': {m: g['m%s_amount' % m] or 0.0 for m in self.MONTHS_ORDER},
                 }
             return result
 
@@ -54,10 +65,10 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
             a = actual.get(key)
             rows.append({
                 'name': (b or a)['name'],
-                'qty_budget': (b or {}).get('qty', 0.0),
-                'qty_actual': (a or {}).get('qty', 0.0),
-                'amount_budget': (b or {}).get('amount', 0.0),
-                'amount_actual': (a or {}).get('amount', 0.0),
+                'qty_budget': (b or {}).get('qty', zero_months),
+                'qty_actual': (a or {}).get('qty', zero_months),
+                'amount_budget': (b or {}).get('amount', zero_months),
+                'amount_actual': (a or {}).get('amount', zero_months),
             })
         rows.sort(key=lambda r: r['name'])
         return rows
@@ -69,29 +80,53 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
             return (real - obj), (9.999 if real > 0 else 0.0), (real > 0)
         return (real - obj), ((real - obj) / obj), False
 
-    def _metric_rows(self, base_rows, metric):
-        """base_rows viene de _budget_vs_actual_totals. metric es 'qty' o 'amount'.
-        Regresa filas listas para render con Objetivo/Real/Var #/Var %, más una
-        fila de Total / General al final."""
+    def _metric_monthly_rows(self, base_rows, metric):
+        """base_rows viene de _budget_vs_actual_monthly. metric es 'qty' o 'amount'.
+        Regresa filas listas para render: por cada equipo/esquema, Objetivo/Real/Var%
+        de cada mes más un bloque de Total de temporada; y al final una fila de
+        Total / General sumando todos los equipos/esquemas.
+        """
         rows = []
         for r in base_rows:
-            o = r['%s_budget' % metric]
-            real = r['%s_actual' % metric]
-            delta, pct, unbudgeted = self._variance(o, real)
-            rows.append({'name': r['name'], 'obj': o, 'real': real, 'delta': delta, 'pct': pct, 'unbudgeted': unbudgeted})
+            obj_by_month = r['%s_budget' % metric]
+            real_by_month = r['%s_actual' % metric]
+            months = {}
+            for m in self.MONTHS_ORDER:
+                o = obj_by_month[m]
+                real = real_by_month[m]
+                _delta, pct, unbudgeted = self._variance(o, real)
+                months[m] = {'obj': o, 'real': real, 'pct': pct, 'unbudgeted': unbudgeted}
+            total_o = sum(obj_by_month.values())
+            total_r = sum(real_by_month.values())
+            _delta, pct_t, unbud_t = self._variance(total_o, total_r)
+            rows.append({
+                'name': r['name'],
+                'months': months,
+                'total': {'obj': total_o, 'real': total_r, 'pct': pct_t, 'unbudgeted': unbud_t},
+            })
 
-        total_o = sum(r['obj'] for r in rows)
-        total_r = sum(r['real'] for r in rows)
-        delta, pct, unbudgeted = self._variance(total_o, total_r)
-        rows.append({'name': _('Total / General'), 'obj': total_o, 'real': total_r,
-                      'delta': delta, 'pct': pct, 'unbudgeted': unbudgeted, 'is_total': True})
+        total_months = {}
+        for m in self.MONTHS_ORDER:
+            to = sum(r['months'][m]['obj'] for r in rows)
+            tr = sum(r['months'][m]['real'] for r in rows)
+            _delta, pct, unbudgeted = self._variance(to, tr)
+            total_months[m] = {'obj': to, 'real': tr, 'pct': pct, 'unbudgeted': unbudgeted}
+        grand_o = sum(r['total']['obj'] for r in rows)
+        grand_r = sum(r['total']['real'] for r in rows)
+        _delta, pct, unbudgeted = self._variance(grand_o, grand_r)
+        rows.append({
+            'name': _('Total / General'),
+            'months': total_months,
+            'total': {'obj': grand_o, 'real': grand_r, 'pct': pct, 'unbudgeted': unbudgeted},
+            'is_total': True,
+        })
         return rows
 
     def _get_team_data(self):
-        return self._budget_vs_actual_totals('region_id')
+        return self._budget_vs_actual_monthly('region_id')
 
     def _get_scheme_data(self):
-        return self._budget_vs_actual_totals('pao_sales_budget_scheme_id')
+        return self._budget_vs_actual_monthly('pao_sales_budget_scheme_id')
 
     # ------------------------------------------------------------------
     # HTML (vista en pantalla)
@@ -110,14 +145,28 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         def fmt(v):
             return '{:,.2f}'.format(v)
 
+        def pct_span(cell):
+            cls = self._pct_class(cell['pct'], cell['unbudgeted'])
+            return '<span class="ns-pct %s">%.0f%%</span>' % (cls, cell['pct'] * 100)
+
+        month_headers = ''.join(
+            '<th colspan="3">%s</th>' % label for _mm, label in self.MONTH_SELECTION
+        )
+        month_subheaders = ''.join(
+            '<th>Objetivo</th><th>Real</th><th>Var %</th>' for _mm in self.MONTHS_ORDER
+        )
+
         body_rows = ''
         for row in rows:
             tr_class = ' class="ns-total-row"' if row.get('is_total') else ''
-            pct_cls = self._pct_class(row['pct'], row['unbudgeted'])
-            body_rows += (
-                '<tr%s><td>%s</td><td>%s</td><td>%s</td><td>%s</td>'
-                '<td><span class="ns-pct %s">%.0f%%</span></td></tr>'
-            ) % (tr_class, row['name'], fmt(row['obj']), fmt(row['real']), fmt(row['delta']), pct_cls, row['pct'] * 100)
+            cells = ''
+            for m in self.MONTHS_ORDER:
+                cell = row['months'][m]
+                cells += '<td>%s</td><td>%s</td><td>%s</td>' % (fmt(cell['obj']), fmt(cell['real']), pct_span(cell))
+            total = row['total']
+            body_rows += '<tr%s><td>%s</td>%s<td>%s</td><td>%s</td><td>%s</td></tr>' % (
+                tr_class, row['name'], cells, fmt(total['obj']), fmt(total['real']), pct_span(total)
+            )
 
         return '''
         <div class="ns-report-block">
@@ -125,11 +174,13 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
           <table class="ns-report-table">
             <thead>
               <tr>
-                <th>%s</th>
-                <th>Objetivo</th>
-                <th>Real</th>
-                <th>Var #</th>
-                <th>Var %%</th>
+                <th rowspan="2">%s</th>
+                %s
+                <th colspan="3">Total</th>
+              </tr>
+              <tr>
+                %s
+                <th>Objetivo</th><th>Real</th><th>Var %%</th>
               </tr>
             </thead>
             <tbody>
@@ -137,24 +188,24 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
             </tbody>
           </table>
         </div>
-        ''' % (header_class, title, first_col_label, body_rows)
+        ''' % (header_class, title, first_col_label, month_headers, month_subheaders, body_rows)
 
     def action_generate_report(self):
         self.ensure_one()
         team_rows = self._get_team_data()
         scheme_rows = self._get_scheme_data()
 
-        team_qty = self._metric_rows(team_rows, 'qty')
-        team_amount = self._metric_rows(team_rows, 'amount')
-        scheme_qty = self._metric_rows(scheme_rows, 'qty')
-        scheme_amount = self._metric_rows(scheme_rows, 'amount')
+        team_qty = self._metric_monthly_rows(team_rows, 'qty')
+        team_amount = self._metric_monthly_rows(team_rows, 'amount')
+        scheme_qty = self._metric_monthly_rows(scheme_rows, 'qty')
+        scheme_amount = self._metric_monthly_rows(scheme_rows, 'amount')
 
         style = '''<style>
             .ns-report-block{margin-bottom:24px;overflow-x:auto;}
             .ns-report-title{padding:6px 10px;color:white;font-weight:bold;font-size:13px;}
             .ns-title-team{background:#C0006E;}
             .ns-title-scheme{background:#2E7D32;}
-            .ns-report-table{border-collapse:collapse;width:100%;font-size:12px;max-width:640px;}
+            .ns-report-table{border-collapse:collapse;width:100%;font-size:12px;}
             .ns-report-table th, .ns-report-table td{border:1px solid #ddd;padding:4px 8px;text-align:right;white-space:nowrap;}
             .ns-report-table th{background:#f5f5f5;text-align:center;}
             .ns-report-table td:first-child, .ns-report-table th:first-child{text-align:left;}
@@ -167,8 +218,8 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         </style>'''
 
         html = style
-        html += self._render_table(_('Presupuesto por Equipo de Ventas — Cantidad'), _('Equipo de Ventas'), team_qty, 'ns-title-team')
-        html += self._render_table(_('Presupuesto por Equipo de Ventas — Monto'), _('Equipo de Ventas'), team_amount, 'ns-title-team')
+        html += self._render_table(_('Presupuesto por Región — Cantidad'), _('Región'), team_qty, 'ns-title-team')
+        html += self._render_table(_('Presupuesto por Región — Monto'), _('Región'), team_amount, 'ns-title-team')
         html += self._render_table(_('Presupuesto por Esquema — Cantidad'), _('Esquema'), scheme_qty, 'ns-title-scheme')
         html += self._render_table(_('Presupuesto por Esquema — Monto'), _('Esquema'), scheme_amount, 'ns-title-scheme')
 
@@ -187,15 +238,16 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         scheme_rows = self._get_scheme_data()
 
         sheets = [
-            ('Equipo - Cantidad', _('Equipo de Ventas'), self._metric_rows(team_rows, 'qty'), '#C0006E'),
-            ('Equipo - Monto', _('Equipo de Ventas'), self._metric_rows(team_rows, 'amount'), '#C0006E'),
-            ('Esquema - Cantidad', _('Esquema'), self._metric_rows(scheme_rows, 'qty'), '#2E7D32'),
-            ('Esquema - Monto', _('Esquema'), self._metric_rows(scheme_rows, 'amount'), '#2E7D32'),
+            ('Región - Cantidad', _('Región'), self._metric_monthly_rows(team_rows, 'qty'), '#C0006E'),
+            ('Región - Monto', _('Región'), self._metric_monthly_rows(team_rows, 'amount'), '#C0006E'),
+            ('Esquema - Cantidad', _('Esquema'), self._metric_monthly_rows(scheme_rows, 'qty'), '#2E7D32'),
+            ('Esquema - Monto', _('Esquema'), self._metric_monthly_rows(scheme_rows, 'amount'), '#2E7D32'),
         ]
 
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
 
+        sub_header_fmt = workbook.add_format({'bold': True, 'bg_color': '#F2F2F2', 'border': 1, 'align': 'center'})
         label_fmt = workbook.add_format({'border': 1})
         label_total_fmt = workbook.add_format({'border': 1, 'bold': True})
         num_fmt = workbook.add_format({'border': 1, 'num_format': '#,##0.00'})
@@ -210,26 +262,42 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         for sheet_name, first_col_label, rows, color in sheets:
             header_fmt = workbook.add_format({'bold': True, 'bg_color': color, 'font_color': 'white', 'border': 1, 'align': 'center', 'valign': 'vcenter'})
             ws = workbook.add_worksheet(sheet_name)
-            ws.write(0, 0, first_col_label, header_fmt)
-            ws.write(0, 1, 'Objetivo', header_fmt)
-            ws.write(0, 2, 'Real', header_fmt)
-            ws.write(0, 3, 'Var #', header_fmt)
-            ws.write(0, 4, 'Var %', header_fmt)
-            ws.set_column(0, 0, 26)
-            ws.set_column(1, 4, 13)
-            ws.freeze_panes(1, 1)
 
-            row_idx = 1
+            ws.merge_range(0, 0, 1, 0, first_col_label, header_fmt)
+            col = 1
+            for _mm, label in self.MONTH_SELECTION:
+                ws.merge_range(0, col, 0, col + 2, label, header_fmt)
+                ws.write(1, col, 'Objetivo', sub_header_fmt)
+                ws.write(1, col + 1, 'Real', sub_header_fmt)
+                ws.write(1, col + 2, 'Var %', sub_header_fmt)
+                col += 3
+            ws.merge_range(0, col, 0, col + 2, 'Total', header_fmt)
+            ws.write(1, col, 'Objetivo', sub_header_fmt)
+            ws.write(1, col + 1, 'Real', sub_header_fmt)
+            ws.write(1, col + 2, 'Var %', sub_header_fmt)
+            total_col = col
+
+            ws.set_column(0, 0, 26)
+            ws.set_column(1, total_col + 2, 10)
+            ws.freeze_panes(2, 1)
+
+            row_idx = 2
             for row in rows:
                 is_total = row.get('is_total')
                 lfmt = label_total_fmt if is_total else label_fmt
                 nfmt = num_total_fmt if is_total else num_fmt
-                pfmt = pct_fmts[self._pct_class(row['pct'], row['unbudgeted'])]
                 ws.write(row_idx, 0, row['name'], lfmt)
-                ws.write(row_idx, 1, row['obj'], nfmt)
-                ws.write(row_idx, 2, row['real'], nfmt)
-                ws.write(row_idx, 3, row['delta'], nfmt)
-                ws.write(row_idx, 4, row['pct'], pfmt)
+                col = 1
+                for m in self.MONTHS_ORDER:
+                    cell = row['months'][m]
+                    ws.write(row_idx, col, cell['obj'], nfmt)
+                    ws.write(row_idx, col + 1, cell['real'], nfmt)
+                    ws.write(row_idx, col + 2, cell['pct'], pct_fmts[self._pct_class(cell['pct'], cell['unbudgeted'])])
+                    col += 3
+                total = row['total']
+                ws.write(row_idx, total_col, total['obj'], nfmt)
+                ws.write(row_idx, total_col + 1, total['real'], nfmt)
+                ws.write(row_idx, total_col + 2, total['pct'], pct_fmts[self._pct_class(total['pct'], total['unbudgeted'])])
                 row_idx += 1
 
         workbook.close()
