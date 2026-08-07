@@ -372,8 +372,8 @@ class SurveyImportWizard(models.TransientModel):
 
     def _send_emails(self, survey, user_input, record):
         """
-        Envía el mismo link de encuesta a todos los contactos del registro.
-        Un token único → misma URL → una sola respuesta posible por organización.
+        Sends the same survey link to all contacts.
+        Each email gets a personalized link with a parameter to track who responds.
         """
         emails = record['emails']
         names = record['names']
@@ -381,10 +381,18 @@ class SurveyImportWizard(models.TransientModel):
         for idx, email in enumerate(emails):
             partner_name = names[idx] if idx < len(names) else email
             try:
-                survey._send_survey_mail_to_contact(email, partner_name, user_input)
-                # Guarda el correo que fue contactado
-                if not user_input.respondent_email:
-                    user_input._mark_respondent(email, partner_name)
+                # Crea una URL personalizada con el email de este contacto
+                survey_url = user_input.get_start_url()
+                # Agrega parámetro para rastrear quién respondió
+                personalized_url = f"{survey_url}&respondent_email={email}"
+                
+                # Envía con la URL personalizada
+                survey._send_survey_mail_to_contact(
+                    email, 
+                    partner_name, 
+                    user_input,
+                    survey_url=personalized_url
+                )
             except Exception as exc:
                 _logger.warning(
                     'Failed to send survey to %s (input %s): %s',

@@ -92,10 +92,19 @@ class SurveyUserInputExtended(models.Model):
     
     @api.model
     def create(self, vals):
+        from odoo.http import request
+        
         res = super().create(vals)
-        # Si el user_input no tiene respondent_email aún, intenta obtenerlo
-        if res.email and not res.respondent_email:
-            res._mark_respondent(res.email, res.nickname or res.email)
+        
+        # Obtén respondent_email de los parámetros GET de la URL
+        try:
+            if hasattr(request, 'params'):
+                respondent_email = request.params.get('respondent_email')
+                if respondent_email and not res.respondent_email:
+                    res._mark_respondent(respondent_email, respondent_email)
+        except:
+            pass  # Si no hay request (ej: creación backend), ignora
+        
         return res
     
     def _mark_respondent(self, email, name=None):
