@@ -16,6 +16,6 @@ class SurveyAuditController(Survey):
             user_input = access_data['answer_sudo']
             
             if responder_idx is not None and user_input.state in ['new', 'in_progress']:
-                user_input.set_responder(responder_idx)
+                user_input.set_responder(int(responder_idx))
         
         return super().survey_start(survey_token, answer_token=answer_token, email=email, **post)

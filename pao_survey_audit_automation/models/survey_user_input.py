@@ -81,13 +81,12 @@ class SurveyUserInputExtended(models.Model):
         store=True,
     )
     
-    responder_email = fields.Char(string="Responder Email", copy=False, default=None, readonly=True)
-    responder_name = fields.Char(string="Responder Name", copy=False, default=None, readonly=True)
+    responder_email = fields.Char(string="Respondent Email", copy=False, default=None, readonly=True)
+    responder_name = fields.Char(string="Respondent Name", copy=False, default=None, readonly=True)
     
     def set_responder(self, idx):
         self.ensure_one()
         
-        idx = int(idx)
         input_emails = self.contact_email or self.email
         
         if not input_emails:

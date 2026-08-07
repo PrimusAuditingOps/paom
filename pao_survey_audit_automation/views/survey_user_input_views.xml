@@ -5,6 +5,10 @@
         <field name="model">survey.user_input</field>
         <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="responder_email" string="Respondent Email" invisible="not responder_email" readonly="1"/>
+                <field name="responder_name" string="Respondent Name" invisible="not responder_name" readonly="1"/>
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <field name="imported_from_file" invisible="1"/>
                 <page string="Audit Details" name="audit_details" invisible="not imported_from_file and state != 'done'">
@@ -50,6 +54,8 @@
                 <field name="has_complaint_answer" string="Responses with Complaints" optional="hide"/>
                 <field name="organization_name" optional="hide" string="Organization"/>
                 <field name="registration_number" optional="hide" string="Registration #"/>
+                <field name="responder_email" optional="hide" string="Respondent Email"/>
+                <field name="responder_name" optional="hide" string="Respondent Name"/>
                 <field name="certified_date" optional="hide" string="Certified Date"/>
                 <field name="coordinator_name" optional="hide" string="Coordinator"/>
                 <field name="auditor_name" optional="hide" string="Auditor"/>
