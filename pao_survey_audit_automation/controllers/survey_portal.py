@@ -24,8 +24,8 @@ class SurveyAuditController(Survey):
             # Actualiza el respondent_idx si viene en la URL
             if responder_idx is not None:
                 user_input.write({
-                    'respondent_idx': int(responder_idx),
+                    'responder_idx': int(responder_idx),
                 })
-                _logger.info("Updated user_input %s with respondent_idx: %s", user_input.id, responder_idx)
+                _logger.info("Updated user_input %s with responder_idx: %s", user_input.id, responder_idx)
         
         return super().survey_start(survey_token, answer_token=answer_token, email=email, **post)
