@@ -375,7 +375,6 @@ class SurveyImportWizard(models.TransientModel):
         Envía el mismo link de encuesta a todos los contactos del registro.
         Un token único → misma URL → una sola respuesta posible por organización.
         """
-        survey_url = user_input.get_start_url()
         emails = record['emails']
         names = record['names']
 
