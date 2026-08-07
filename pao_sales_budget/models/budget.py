@@ -756,6 +756,49 @@ class PAOSalesBudgetLine(models.Model):
     total_amount = fields.Monetary(string='Total Amount', compute='_compute_total', currency_field='currency_id', store=True)
     total_quantity = fields.Float(string='Total Quantity', compute='_compute_total', store=True)
 
+    # ------------------------------------------------------------------
+    # Notificaciones en vivo (bus) para que otros usuarios con la lista
+    # abierta vean los cambios de sus compañeros sin tener que refrescar.
+    # Escucha el JS registrado como js_class="pao_sales_budget_line_list"
+    # en pao_sales_budget_line_view_tree.
+    # ------------------------------------------------------------------
+    _PAO_BUS_CHANNEL = 'pao_sales_budget_line'
+
+    def _pao_bus_notify(self, notif_type):
+        budget_ids = set(self.mapped('budget_id').ids)
+        for budget_id in budget_ids:
+            self.env['bus.bus']._sendone(
+                self._PAO_BUS_CHANNEL,
+                'pao_sales_budget_line/changed',
+                {
+                    'type': notif_type,
+                    'budget_id': budget_id,
+                    'ids': self.filtered(lambda l: l.budget_id.id == budget_id).ids,
+                },
+            )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._pao_bus_notify('create')
+        return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        self._pao_bus_notify('update')
+        return res
+
+    def unlink(self):
+        budget_ids = self.mapped('budget_id').ids
+        ids = self.ids
+        res = super().unlink()
+        for budget_id in budget_ids:
+            self.env['bus.bus']._sendone(
+                self._PAO_BUS_CHANNEL,
+                'pao_sales_budget_line/changed',
+                {'type': 'unlink', 'budget_id': budget_id, 'ids': ids},
+            )
+        return res
 
     @api.depends('m01','price_unit')
     def _compute_total_jan(self):

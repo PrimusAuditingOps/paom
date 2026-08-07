@@ -11,7 +11,7 @@
     
     """,
     'category': '',
-    'depends': ['base','product','sale','comisionpromotores','customergroups','crm','pao_sales_invoicing_report','pao_customer_segmentation'],
+    'depends': ['base','bus','product','sale','comisionpromotores','customergroups','crm','pao_sales_invoicing_report','pao_customer_segmentation'],
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
@@ -28,5 +28,10 @@
         'views/pao_sales_budget_scheme_report_wizard.xml',
 
     ],
+    'assets': {
+        'web.assets_backend': [
+            'pao_sales_budget/static/src/js/pao_sales_budget_line_list.js',
+        ],
+    },
     'license': 'LGPL-3',
 }
