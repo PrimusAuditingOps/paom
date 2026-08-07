@@ -46,6 +46,7 @@ class SurveySurveyExtended(models.Model):
             return
         
         _logger.warning(email)
+        _logger.warning(partner_name)
 
         survey_url = user_input.get_start_url()
 
