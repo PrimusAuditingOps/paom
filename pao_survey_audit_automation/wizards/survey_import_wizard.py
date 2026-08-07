@@ -379,9 +379,9 @@ class SurveyImportWizard(models.TransientModel):
         emails = record['emails']
         names = record['names']
         
-        emails_individual = [e.strip() for e in emails.split(',') if e.strip()]
+        # emails = [e.strip() for e in email.split(',') if e.strip()]
 
-        for idx, email in enumerate(emails_individual):
+        for idx, email in enumerate(emails):
             _logger.warning('Sending to email: %s', email)
             partner_name = names[idx] if idx < len(names) else email
             _logger.warning('Sending to partner_name: %s', partner_name)
