@@ -37,14 +37,17 @@ class SurveySurveyExtended(models.Model):
     # Envío de email a un contacto con el link único de la organización
     def _send_survey_mail_to_contact(self, email, partner_name, user_input, survey_url=None):
         """
-        Sends survey email with optional personalized URL.
+        Sends survey email with personalized respondent_email parameter.
         """
         self.ensure_one()
         if not email:
             return
 
         if not survey_url:
+            # Obtén el URL base de la encuesta
             survey_url = user_input.get_start_url()
+            # Agrega el parámetro respondent_email personalizado para cada correo
+            survey_url = f"{survey_url}&respondent_email={email}"
 
         try:
             template = self.env.ref('survey.mail_template_user_input_invite', raise_if_not_found=False)
@@ -62,7 +65,7 @@ class SurveySurveyExtended(models.Model):
                     },
                 )
             else:
-                # Fallback
+                # Fallback sin plantilla
                 mail_vals = {
                     'subject': _('Survey: %s') % self.title,
                     'body_html': _(
