@@ -81,13 +81,7 @@ class SurveyUserInputExtended(models.Model):
         store=True,
     )
     
-    def get_start_url(self, idx=None):
-        self.ensure_one()
-        url = '%s?answer_token=%s' % (self.survey_id.get_start_url(), self.access_token)
-        if idx is not None:
-            url += '&idx=%s' % idx
-        _logger.warning('get_start_url: idx=%s, url=%s', idx, url)
-        return url
+    responder_idx= fields.Integer()
 
     @api.depends('user_input_line_ids.dashboard_feedback_type')
     def _compute_dashboard_feedback_flags(self):
