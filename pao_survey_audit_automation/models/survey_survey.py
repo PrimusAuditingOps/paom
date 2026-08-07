@@ -50,7 +50,7 @@ class SurveySurveyExtended(models.Model):
 
         survey_url = user_input.get_start_url()
         
-        if idx:
+        if idx is not None:
             survey_url = survey_url+'&idx=%s' % idx
 
         try:
