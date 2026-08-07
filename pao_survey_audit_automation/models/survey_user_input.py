@@ -81,7 +81,46 @@ class SurveyUserInputExtended(models.Model):
         store=True,
     )
     
-    responder_idx= fields.Integer()
+    responder_email = fields.Char(string="Responder Email", copy=False, default=None, readonly=True)
+    responder_name = fields.Char(string="Responder Name", copy=False, default=None, readonly=True)
+    
+    def set_responder_by_index(self, idx):
+        self.ensure_one()
+        
+        input_emails = self.contact_email or self.email
+        
+        if not input_emails:
+            return
+        
+        # Separa los emails por punto y coma
+        emails = [e.strip() for e in input_emails.split(';') if e.strip()]
+        
+        if len(emails) <= 1:
+            return
+        
+        # Valida que el índice sea válido
+        if idx < 0 or idx >= len(emails):
+            _logger.warning(
+                'Invalid respondent index %s for user_input %s (available: %s)',
+                idx, self.id, len(emails)
+            )
+            return
+        
+        # Obtén el email en ese índice
+        responder_email = emails[idx]
+        
+        # Obtén el nombre correspondiente si existe
+        responder_name = None
+        if self.contact_name:
+            names = [n.strip() for n in self.contact_name.split(';') if n.strip()]
+            if idx < len(names):
+                responder_name = names[idx]
+        
+        # Actualiza el user_input
+        self.write({
+            'responder_email': responder_email,
+            'responder_name': responder_name,
+        })
 
     @api.depends('user_input_line_ids.dashboard_feedback_type')
     def _compute_dashboard_feedback_flags(self):

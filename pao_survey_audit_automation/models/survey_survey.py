@@ -35,7 +35,7 @@ class SurveySurveyExtended(models.Model):
         }
 
     # Envío de email a un contacto con el link único de la organización
-    def _send_survey_mail_to_contact(self, email, partner_name, user_input, idx):
+    def _send_survey_mail_to_contact(self, email, partner_name, user_input, idx=None):
         """
         Envía un correo con el link de la encuesta al contacto indicado.
         Todos los contactos de una misma organización reciben el mismo token
@@ -48,7 +48,10 @@ class SurveySurveyExtended(models.Model):
         _logger.warning(email)
         _logger.warning(partner_name)
 
-        survey_url = user_input.get_start_url()+'&idx=%s' % idx
+        survey_url = user_input.get_start_url()
+        
+        if idx:
+            survey_url = survey_url+'&idx=%s' % idx
 
         try:
             template = self.env.ref('survey.mail_template_user_input_invite', raise_if_not_found=False)
