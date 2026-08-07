@@ -378,15 +378,13 @@ class SurveyImportWizard(models.TransientModel):
         survey_url = user_input.get_start_url()
         emails = record['emails']
         names = record['names']
-        
-        # emails = [e.strip() for e in email.split(',') if e.strip()]
 
         for idx, email in enumerate(emails):
             _logger.warning('Sending to email: %s', email)
             partner_name = names[idx] if idx < len(names) else email
             _logger.warning('Sending to partner_name: %s', partner_name)
             try:
-                survey._send_survey_mail_to_contact(email, partner_name, user_input)
+                survey._send_survey_mail_to_contact(email, partner_name, user_input, idx)
             except Exception as exc:
                 _logger.warning(
                     'Failed to send survey to a %s (input %s): %s',
