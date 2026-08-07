@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+import logging
+_logger = logging.getLogger(__name__)
 
 class SurveyUserInputExtended(models.Model):
     _inherit = 'survey.user_input'
@@ -84,6 +86,7 @@ class SurveyUserInputExtended(models.Model):
         url = '%s?answer_token=%s' % (self.survey_id.get_start_url(), self.access_token)
         if idx is not None:
             url += '&idx=%s' % idx
+        _logger.warning('get_start_url: idx=%s, url=%s', idx, url)
         return url
 
     @api.depends('user_input_line_ids.dashboard_feedback_type')
