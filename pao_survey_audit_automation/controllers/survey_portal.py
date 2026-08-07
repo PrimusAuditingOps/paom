@@ -1,18 +1,19 @@
-from odoo.addons.survey.controllers.main import SurveyController
+# -*- coding: utf-8 -*-
+from odoo.addons.survey.controllers.main import Survey
 from odoo.http import request
 import logging
 
 _logger = logging.getLogger(__name__)
 
-class SurveyAuditController(SurveyController):
+class SurveyAudit(Survey):
     
-    def _prepare_survey_user_input_context(self, survey, **kwargs):
-        """Captura respondent_email antes de crear el user_input"""
-        # Captura el email si viene en los parámetros de la URL
-        respondent_email = request.params.get('respondent_email')
+    def survey_start(self, survey_id, **post):
+        """Captura respondent_email antes de iniciar la encuesta"""
+        # Captura el email si viene en los parámetros
+        respondent_email = post.get('respondent_email')
         if respondent_email:
             request.session['survey_respondent_email'] = respondent_email
             _logger.info("Survey respondent email captured: %s", respondent_email)
         
         # Llama al método original
-        return super()._prepare_survey_user_input_context(survey, **kwargs)
+        return super().survey_start(survey_id, **post)

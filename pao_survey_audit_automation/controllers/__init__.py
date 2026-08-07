@@ -1,1 +1,1 @@
-# from . import survey_portal
+from . import survey_portal
