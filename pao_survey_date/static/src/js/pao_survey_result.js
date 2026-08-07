@@ -22,11 +22,12 @@ function ready() {
 
     function search_date() {
         date = document.getElementById("pao_start_date").value;
-        if (date != '') {
+        end_date = document.getElementById("pao_end_date").value;
+        if (date != '' || end_date != '') {
 
             let params = new URLSearchParams(window.location.search);
             params.set('pao_date', date);
-            params.set('pao_end_date', date);
+            params.set('pao_end_date', end_date);
             window.location.href = window.location.pathname + '?' + params.toString();
         }
         else{
