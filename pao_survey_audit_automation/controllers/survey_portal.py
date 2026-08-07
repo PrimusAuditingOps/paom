@@ -10,6 +10,8 @@ class SurveyAuditController(Survey):
         """Captura el idx y actualiza el user_input existente"""
         responder_idx = post.get('idx') or request.params.get('idx')
         
+        _logger.warning("survey_start called with survey_token: %s, answer_token: %s, email: %s, idx: %s", survey_token, answer_token, email, responder_idx)
+        
         # Obtén el user_input antes de proceder
         access_data = self._get_access_data(survey_token, answer_token, ensure_token=False)
         
