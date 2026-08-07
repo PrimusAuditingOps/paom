@@ -1,0 +1,45 @@
+<odoo>
+
+  <record id="pao_sales_budget_dashboard_wizard_view_form" model="ir.ui.view">
+    <field name="name">pao.sales.budget.dashboard.wizard.view.form</field>
+    <field name="model">pao.sales.budget.dashboard.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Dashboard de Presupuesto">
+        <sheet>
+          <div class="oe_title">
+            <h1>Dashboard de Presupuesto</h1>
+          </div>
+          <group>
+            <field name="budget_id"/>
+          </group>
+          <div class="oe_button_box" style="margin-bottom: 16px;">
+            <button string="Generar" type="object" name="action_generate_report" class="btn-primary" invisible="not budget_id"/>
+            <button string="Descargar Excel" type="object" name="action_export_excel" class="btn-secondary" invisible="not budget_id"/>
+          </div>
+          <field name="report_html" widget="html" options="{'sanitize': false}" invisible="not report_html"/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_pao_sales_budget_dashboard_wizard" model="ir.actions.act_window">
+    <field name="name">Dashboard de Presupuesto</field>
+    <field name="res_model">pao.sales.budget.dashboard.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">current</field>
+  </record>
+
+  <menuitem id="pao_sales_budget_dashboard_item"
+            name="Dashboard de Presupuesto"
+            parent="sale.menu_sales_config"
+            action="action_pao_sales_budget_dashboard_wizard"
+            sequence="6"/>
+
+  <menuitem id="pao_sales_budget_dashboard_vendor"
+            name="Dashboard de Presupuesto"
+            parent="sale.sale_order_menu"
+            action="action_pao_sales_budget_dashboard_wizard"
+            groups="pao_sales_budget.group_pao_sales_budget_vendor"
+            sequence="111"/>
+
+</odoo>
