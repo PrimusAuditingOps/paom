@@ -21,7 +21,7 @@ class DomainResultSurveyController(SurveyController):
             start_date = datetime.strptime(date, '%Y-%m-%d')
             end_date = datetime.strptime(to_date, '%Y-%m-%d')
             next_day = end_date + timedelta(days=1)
-            domain = expression.AND([[('create_date', '>=', selected_date),('create_date', '<', next_day)], domain])
+            domain = expression.AND([[('create_date', '>=', start_date),('create_date', '<', next_day)], domain])
 
         return domain
     
