@@ -87,6 +87,7 @@ class SurveyUserInputExtended(models.Model):
     def set_responder(self, idx):
         self.ensure_one()
         
+        idx = int(idx)
         input_emails = self.contact_email or self.email
         
         if not input_emails:
