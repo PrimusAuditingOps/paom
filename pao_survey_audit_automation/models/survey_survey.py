@@ -44,6 +44,8 @@ class SurveySurveyExtended(models.Model):
         self.ensure_one()
         if not email:
             return
+        
+        _logger.warning(email)
 
         survey_url = user_input.get_start_url()
 
