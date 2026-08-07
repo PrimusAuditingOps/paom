@@ -95,7 +95,7 @@ class SurveyUserInputExtended(models.Model):
         res = super().create(vals)
         # Si el user_input no tiene respondent_email aún, intenta obtenerlo
         if res.email and not res.respondent_email:
-            res._mark_respondent(res.email, res.partner_name or res.nickname)
+            res._mark_respondent(res.email, res.nickname or res.email)
         return res
     
     def _mark_respondent(self, email, name=None):
