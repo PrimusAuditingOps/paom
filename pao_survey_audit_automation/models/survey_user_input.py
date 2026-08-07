@@ -78,6 +78,32 @@ class SurveyUserInputExtended(models.Model):
         compute='_compute_dashboard_feedback_flags',
         store=True,
     )
+    
+    respondent_email = fields.Char(
+        string='Respondent Email',
+        help='Email del contacto que respondió la encuesta',
+        readonly=True,
+    )
+    respondent_name = fields.Char(
+        string='Respondent Name',
+        help='Nombre del contacto que respondió la encuesta',
+        readonly=True,
+    )
+    
+    @api.model
+    def create(self, vals):
+        res = super().create(vals)
+        # Si el user_input no tiene respondent_email aún, intenta obtenerlo
+        if res.email and not res.respondent_email:
+            res._mark_respondent(res.email, res.partner_name or res.nickname)
+        return res
+    
+    def _mark_respondent(self, email, name=None):
+        """Marca quién respondió específicamente la encuesta"""
+        self.write({
+            'respondent_email': email,
+            'respondent_name': name or email,
+        })
 
     @api.depends('user_input_line_ids.dashboard_feedback_type')
     def _compute_dashboard_feedback_flags(self):
