@@ -15,7 +15,10 @@ class SurveyAuditController(Survey):
         # Obtén el user_input antes de proceder
         access_data = self._get_access_data(survey_token, answer_token, ensure_token=False)
         
+        _logger.warning("Access data retrieved: %s", access_data)
+        
         if access_data.get('user_input_id'):
+            _logger.warning("Found user_input_id: %s", access_data['user_input_id'])
             user_input = request.env['survey.user_input'].browse(access_data['user_input_id'])
             
             # Actualiza el respondent_idx si viene en la URL
