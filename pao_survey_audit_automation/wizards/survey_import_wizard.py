@@ -383,6 +383,7 @@ class SurveyImportWizard(models.TransientModel):
         _logger.warning('Partner names: %s', names)
 
         for idx, email in enumerate(emails):
+            _logger.warning('Sending to email: %s', email)
             partner_name = names[idx] if idx < len(names) else email
             try:
                 survey._send_survey_mail_to_contact(email, partner_name, user_input)
