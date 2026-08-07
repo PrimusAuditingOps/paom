@@ -19,7 +19,7 @@ class SurveyAuditController(Survey):
         
         if access_data.get('answer_sudo'):
             user_input = access_data['answer_sudo']
-            _logger.warning("Found user_input_id: %s", access_data['user_input_id'])
+            _logger.warning("Found user_input_id: %s", access_data['answer_sudo'])
             
             # Actualiza el respondent_idx si viene en la URL
             if responder_idx is not None:
