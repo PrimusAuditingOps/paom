@@ -5,6 +5,8 @@
         <div class="input-group my-1 w-25 d-print-none">
           <script src='/pao_survey_date/static/src/js/pao_survey_result.js'></script>
           <input type="date" id="pao_start_date"  t-att-value="start_date"/>
+          <span>To</span>
+          <input type="date" id="pao_end_date"  t-att-value="end_date"/>
           <button class="btn btn-primary pao-search-date" id="pao_search_date" type="button">Search</button>
         </div>
       </xpath>
