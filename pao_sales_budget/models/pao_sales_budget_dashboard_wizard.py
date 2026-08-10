@@ -23,12 +23,13 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
     # desglosado por mes.
     # ------------------------------------------------------------------
 
-    def _budget_vs_actual_monthly(self, groupby_field):
-        """Regresa una lista de dicts, uno por valor de groupby_field (equipo o
-        esquema), con cantidad y monto de cada mes tanto de lo presupuestado
-        como de lo realmente facturado. Usa unión de llaves (equipos/esquemas)
-        presentes en cualquiera de los dos lados, para no perder registros que
-        solo tengan real sin presupuesto o viceversa.
+    def _budget_vs_actual_monthly(self, groupby_fields):
+        """Regresa una lista de dicts, uno por combinación de valores de
+        groupby_fields (p.ej. solo región, solo esquema, o región+categoría de
+        cliente), con cantidad y monto de cada mes tanto de lo presupuestado
+        como de lo realmente facturado. Usa unión de llaves presentes en
+        cualquiera de los dos lados, para no perder registros que solo tengan
+        real sin presupuesto o viceversa.
         """
         self.ensure_one()
         Line = self.env['pao.sales.budget.line'].sudo()
@@ -38,17 +39,31 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         all_fields = month_fields + amount_fields
         zero_months = {m: 0.0 for m in self.MONTHS_ORDER}
 
+        def key_and_name(g):
+            key_parts, name_parts = [], []
+            for f in groupby_fields:
+                val = g[f]
+                if isinstance(val, (list, tuple)):
+                    key_parts.append(val[0])
+                    name_parts.append(val[1])
+                elif val:
+                    key_parts.append(val)
+                    name_parts.append(val)
+                else:
+                    key_parts.append(False)
+                    name_parts.append(_('Sin asignar'))
+            return tuple(key_parts), ' / '.join(name_parts)
+
         def grouped(Model):
             groups = Model.read_group(
                 [('budget_id', '=', self.budget_id.id)],
                 fields=[f + ':sum' for f in all_fields],
-                groupby=[groupby_field],
+                groupby=groupby_fields,
+                lazy=False,
             )
             result = {}
             for g in groups:
-                val = g[groupby_field]
-                key = val[0] if val else False
-                name = val[1] if val else _('Sin asignar')
+                key, name = key_and_name(g)
                 result[key] = {
                     'name': name,
                     'qty': {m: g['m%s' % m] or 0.0 for m in self.MONTHS_ORDER},
@@ -123,10 +138,13 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         return rows
 
     def _get_team_data(self):
-        return self._budget_vs_actual_monthly('region_id')
+        return self._budget_vs_actual_monthly(['region_id'])
 
     def _get_scheme_data(self):
-        return self._budget_vs_actual_monthly('pao_sales_budget_scheme_id')
+        return self._budget_vs_actual_monthly(['pao_sales_budget_scheme_id'])
+
+    def _get_region_category_data(self):
+        return self._budget_vs_actual_monthly(['customer_category', 'region_id'])
 
     # ------------------------------------------------------------------
     # HTML (vista en pantalla)
@@ -194,17 +212,21 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         self.ensure_one()
         team_rows = self._get_team_data()
         scheme_rows = self._get_scheme_data()
+        region_category_rows = self._get_region_category_data()
 
         team_qty = self._metric_monthly_rows(team_rows, 'qty')
         team_amount = self._metric_monthly_rows(team_rows, 'amount')
         scheme_qty = self._metric_monthly_rows(scheme_rows, 'qty')
         scheme_amount = self._metric_monthly_rows(scheme_rows, 'amount')
+        region_category_qty = self._metric_monthly_rows(region_category_rows, 'qty')
+        region_category_amount = self._metric_monthly_rows(region_category_rows, 'amount')
 
         style = '''<style>
             .ns-report-block{margin-bottom:24px;overflow-x:auto;}
             .ns-report-title{padding:6px 10px;color:white;font-weight:bold;font-size:13px;}
             .ns-title-team{background:#C0006E;}
             .ns-title-scheme{background:#2E7D32;}
+            .ns-title-region-category{background:#1565C0;}
             .ns-report-table{border-collapse:collapse;width:100%;font-size:12px;}
             .ns-report-table th, .ns-report-table td{border:1px solid #ddd;padding:4px 8px;text-align:right;white-space:nowrap;}
             .ns-report-table th{background:#f5f5f5;text-align:center;}
@@ -222,6 +244,8 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         html += self._render_table(_('Presupuesto por Región — Monto'), _('Región'), team_amount, 'ns-title-team')
         html += self._render_table(_('Presupuesto por Esquema — Cantidad'), _('Esquema'), scheme_qty, 'ns-title-scheme')
         html += self._render_table(_('Presupuesto por Esquema — Monto'), _('Esquema'), scheme_amount, 'ns-title-scheme')
+        html += self._render_table(_('Presupuesto por Categoría de Cliente y Región — Cantidad'), _('Categoría / Región'), region_category_qty, 'ns-title-region-category')
+        html += self._render_table(_('Presupuesto por Categoría de Cliente y Región — Monto'), _('Categoría / Región'), region_category_amount, 'ns-title-region-category')
 
         self.report_html = html
         return True
@@ -236,12 +260,15 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
 
         team_rows = self._get_team_data()
         scheme_rows = self._get_scheme_data()
+        region_category_rows = self._get_region_category_data()
 
         sheets = [
             ('Región - Cantidad', _('Región'), self._metric_monthly_rows(team_rows, 'qty'), '#C0006E'),
             ('Región - Monto', _('Región'), self._metric_monthly_rows(team_rows, 'amount'), '#C0006E'),
             ('Esquema - Cantidad', _('Esquema'), self._metric_monthly_rows(scheme_rows, 'qty'), '#2E7D32'),
             ('Esquema - Monto', _('Esquema'), self._metric_monthly_rows(scheme_rows, 'amount'), '#2E7D32'),
+            ('Categoría-Región - Cantidad', _('Categoría / Región'), self._metric_monthly_rows(region_category_rows, 'qty'), '#1565C0'),
+            ('Categoría-Región - Monto', _('Categoría / Región'), self._metric_monthly_rows(region_category_rows, 'amount'), '#1565C0'),
         ]
 
         output = io.BytesIO()
