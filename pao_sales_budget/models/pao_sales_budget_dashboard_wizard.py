@@ -144,7 +144,7 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         return self._budget_vs_actual_monthly(['pao_sales_budget_scheme_id'])
 
     def _get_region_category_data(self):
-        return self._budget_vs_actual_monthly(['region_id', 'customer_category'])
+        return self._budget_vs_actual_monthly(['customer_category', 'region_id'])
 
     # ------------------------------------------------------------------
     # HTML (vista en pantalla)
@@ -244,8 +244,8 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         html += self._render_table(_('Presupuesto por Región — Monto'), _('Región'), team_amount, 'ns-title-team')
         html += self._render_table(_('Presupuesto por Esquema — Cantidad'), _('Esquema'), scheme_qty, 'ns-title-scheme')
         html += self._render_table(_('Presupuesto por Esquema — Monto'), _('Esquema'), scheme_amount, 'ns-title-scheme')
-        html += self._render_table(_('Presupuesto por Región y Categoría de Cliente — Cantidad'), _('Región / Categoría'), region_category_qty, 'ns-title-region-category')
-        html += self._render_table(_('Presupuesto por Región y Categoría de Cliente — Monto'), _('Región / Categoría'), region_category_amount, 'ns-title-region-category')
+        html += self._render_table(_('Presupuesto por Categoría de Cliente y Región — Cantidad'), _('Categoría / Región'), region_category_qty, 'ns-title-region-category')
+        html += self._render_table(_('Presupuesto por Categoría de Cliente y Región — Monto'), _('Categoría / Región'), region_category_amount, 'ns-title-region-category')
 
         self.report_html = html
         return True
@@ -267,8 +267,8 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
             ('Región - Monto', _('Región'), self._metric_monthly_rows(team_rows, 'amount'), '#C0006E'),
             ('Esquema - Cantidad', _('Esquema'), self._metric_monthly_rows(scheme_rows, 'qty'), '#2E7D32'),
             ('Esquema - Monto', _('Esquema'), self._metric_monthly_rows(scheme_rows, 'amount'), '#2E7D32'),
-            ('Región-Categoría - Cantidad', _('Región / Categoría'), self._metric_monthly_rows(region_category_rows, 'qty'), '#1565C0'),
-            ('Región-Categoría - Monto', _('Región / Categoría'), self._metric_monthly_rows(region_category_rows, 'amount'), '#1565C0'),
+            ('Categoría-Región - Cantidad', _('Categoría / Región'), self._metric_monthly_rows(region_category_rows, 'qty'), '#1565C0'),
+            ('Categoría-Región - Monto', _('Categoría / Región'), self._metric_monthly_rows(region_category_rows, 'amount'), '#1565C0'),
         ]
 
         output = io.BytesIO()
