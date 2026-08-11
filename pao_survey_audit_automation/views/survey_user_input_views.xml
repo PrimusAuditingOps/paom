@@ -5,8 +5,11 @@
         <field name="model">survey.user_input</field>
         <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_resend']" position="after">
+                <button name="review_survey_action" invisible="state != 'done'" string="Reviewed" type="object" class="oe_highlight"/>
+            </xpath>
             <xpath expr="//field[@name='email']" position="after">
-                <field name="responder_email" string="Respondent Email" invisible="not responder_email" readonly="1"/>
+                <field name="responder_email" string="Respondent Email" widget="email" invisible="not responder_email" readonly="1"/>
                 <field name="responder_name" string="Respondent Name" invisible="not responder_name" readonly="1"/>
             </xpath>
             <xpath expr="//notebook" position="inside">

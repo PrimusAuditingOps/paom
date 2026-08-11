@@ -84,6 +84,18 @@ class SurveyUserInputExtended(models.Model):
     responder_email = fields.Char(string="Respondent Email", copy=False, default=None, readonly=True)
     responder_name = fields.Char(string="Respondent Name", copy=False, default=None, readonly=True)
     
+    state = fields.Selection(
+        selection_add=[
+            ('reviewed', 'Reviewed'),
+        ],
+    )
+    
+    def review_survey_action(self):
+        self.ensure_one()
+        
+        if self.state in ['done']:
+            self.state = 'reviewed'
+    
     def set_responder(self, idx):
         self.ensure_one()
         
