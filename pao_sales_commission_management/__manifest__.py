@@ -19,6 +19,7 @@
         'comisionpromotores',
         'pao_quotation_consultant',
         'servicereferralagreement',
+        'pao_customer_segmentation',
     ],
     'data': [
         'security/pao_sales_commission_security.xml',

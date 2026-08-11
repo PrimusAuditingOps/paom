@@ -28,6 +28,10 @@ class PaoSalesCommission(models.Model):
         comodel_name='res.partner', string='Customer',
         related='sale_order_id.partner_id', store=True, readonly=True,
     )
+    sales_customer_type = fields.Selection(
+        related='partner_id.sales_customer_type', string='Customer Type',
+        store=True, readonly=True,
+    )
     company_id = fields.Many2one(
         comodel_name='res.company', string='Company',
         related='sale_order_id.company_id', store=True, readonly=True,
