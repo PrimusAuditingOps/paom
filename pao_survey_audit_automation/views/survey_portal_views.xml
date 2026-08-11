@@ -2,17 +2,35 @@
 <odoo>
     <record id="view_pao_survey_main_page_inherited" model="ir.ui.view">
         <field name="name">view.pao.survey.main.page.inherited</field>
-        <!-- <field name="model">survey.user_input</field> -->
         <field name="inherit_id" ref="survey.survey_page_fill"/>
         <field name="arch" type="xml">
             <xpath expr="//div[contains(@class, 'o_survey_form')]" position="attributes">
                 <attribute name="style">
-                    font-family: 'Montserrat' !important; color:red;
+                    font-family: 'Montserrat' !important;
                 </attribute>
             </xpath>
-            <xpath expr="//div[contains(@class, 'o_survey_form')]" position="inside">
-                <div class="o_survey_form_header" style="text-align: center; margin-bottom: 20px;">
-                    <img src="/pao_survey_audit_automation/static/src/img/pao_logo.png" alt="PAO Logo" style="max-width: 200px; height: auto;"/>
+        </field>
+    </record>
+
+    <record id="view_pao_survey_main_page_header_inherited" model="ir.ui.view">
+        <field name="name">view.pao.survey.main.page.header.inherited</field>
+        <field name="inherit_id" ref="survey.survey_fill_header"/>
+        <field name="arch" type="xml">
+            <xpath expr="//h1[contains(@class, 'o_survey_main_title')]" position="attributes">
+                <attribute name="style">
+                    font-family: 'Montserrat' !important;
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pao_survey_form_inherited" model="ir.ui.view">
+        <field name="name">view.pao.survey.form.inherited</field>
+        <field name="inherit_id" ref="survey.survey_fill_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-set='background_image_url']" position="after">
+                <div class="d-flex justify-content-center">
+                    <img src="https://pao-cr.odoo.com/web/image/website/3/logo?unique=250a6f4" alt="PAO Logo" style="width:400px;height:auto;margin-top:80px"/>
                 </div>
             </xpath>
         </field>
