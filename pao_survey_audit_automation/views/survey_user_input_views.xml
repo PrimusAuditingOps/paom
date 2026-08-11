@@ -5,8 +5,17 @@
         <field name="model">survey.user_input</field>
         <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_resend']" position="attributes">
+                <attribute name="invisible">
+                    state == 'done' or state == 'reviewed' or not partner_id and not email
+                </attribute>
+            </xpath>
             <xpath expr="//button[@name='action_resend']" position="after">
                 <button name="review_survey_action" invisible="state != 'done'" string="Reviewed" type="object" class="oe_highlight"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="new,in_progress,done" invisible="state == 'reviewed'"/>
+                <field name="state" widget="statusbar" statusbar_visible="new,in_progress,done,reviewed" invisible="state != 'reviewed'"/>
             </xpath>
             <xpath expr="//field[@name='email']" position="after">
                 <field name="responder_email" string="Respondent Email" widget="email" invisible="not responder_email" readonly="1"/>
@@ -68,6 +77,10 @@
                 <field name="audit_country" optional="hide" string="Country"/>
                 <field name="compliment_theme_ids" widget="many2many_tags" optional="hide" string="Compliment Tags"/>
                 <field name="complaint_theme_ids" widget="many2many_tags" optional="hide" string="Complaint Tags"/>
+            </xpath>
+
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="decoration-primary">state == 'reviewed'</attribute>
             </xpath>
 
         </field>
