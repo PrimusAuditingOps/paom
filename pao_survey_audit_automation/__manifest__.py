@@ -16,6 +16,7 @@
         'views/survey_dashboard_views.xml',
         'views/menu_views.xml',
         'views/survey_question_views.xml',
+        'views/survey_portal_views.xml',
     ],
     'assets': {
         'web.assets_backend': [

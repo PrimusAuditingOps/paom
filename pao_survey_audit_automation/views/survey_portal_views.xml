@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pao_survey_main_page_inherited" model="ir.ui.view">
+        <field name="name">view.pao.survey.main.page.inherited</field>
+        <!-- <field name="model">survey.user_input</field> -->
+        <field name="inherit_id" ref="survey.survey_page_fill"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='o_survey_form']" position="attributes">
+                <attribute name="style">
+                    font-family: 'Montserrat' !important; color:red;
+                </attribute>
+            </xpath>
+            <xpath expr="//div[@class='o_survey_form']" position="inside">
+                <div class="o_survey_form_header" style="text-align: center; margin-bottom: 20px;">
+                    <img src="/pao_survey_audit_automation/static/src/img/pao_logo.png" alt="PAO Logo" style="max-width: 200px; height: auto;"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
