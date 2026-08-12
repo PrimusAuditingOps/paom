@@ -13,17 +13,25 @@
               parent="menu_pao_sales_commission_commissions"
               action="action_pao_sales_commission" sequence="10"/>
 
-    <menuitem id="menu_pao_sales_commission_outstanding" name="Outstanding / Payable"
+    <menuitem id="menu_pao_sales_commission_submit_for_approval" name="Submit for Approval"
               parent="menu_pao_sales_commission_commissions"
-              action="action_pao_sales_commission_outstanding" sequence="20"/>
+              action="action_pao_sales_commission_submit_for_approval" sequence="20"/>
+
+    <menuitem id="menu_pao_sales_commission_pending_approval" name="Pending Approval"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_pending_approval" sequence="30"/>
+
+    <menuitem id="menu_pao_sales_commission_approved" name="Approved"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_approved" sequence="40"/>
+
+    <menuitem id="menu_pao_sales_commission_not_approved" name="Not Approved"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_not_approved" sequence="50"/>
 
     <menuitem id="menu_pao_sales_commission_under_review" name="Under Review"
               parent="menu_pao_sales_commission_commissions"
-              action="action_pao_sales_commission_under_review" sequence="30"/>
-
-    <menuitem id="menu_pao_sales_commission_paid" name="Payment History"
-              parent="menu_pao_sales_commission_commissions"
-              action="action_pao_sales_commission_paid" sequence="40"/>
+              action="action_pao_sales_commission_under_review" sequence="60"/>
 
     <menuitem id="menu_pao_sales_commission_configuration" name="Configuration"
               parent="menu_pao_sales_commission_root" sequence="80"/>

@@ -117,13 +117,15 @@ class PaoSalesCommission(models.Model):
         string='Service End Date', readonly=True,
     )
 
-    # -- Estado / ciclo de pago ---------------------------------------------
+    # -- Estado / ciclo de aprobación ----------------------------------------
     state = fields.Selection(
         selection=[
             ('pending_invoicing', 'Pending Invoicing'),
             ('pending_service', 'Pending Service (Coordinator)'),
-            ('outstanding_payable', 'Outstanding / Payable'),
-            ('paid', 'Paid'),
+            ('submit_for_approval', 'Submit for Approval'),
+            ('pending_approval', 'Pending Approval'),
+            ('approved', 'Approved'),
+            ('not_approved', 'Not Approved'),
             ('under_review', 'Under Review'),
         ],
         string='State', default='pending_invoicing', tracking=True,
@@ -133,19 +135,15 @@ class PaoSalesCommission(models.Model):
         string='Generation Date', readonly=True,
         default=fields.Datetime.now,
     )
-    payment_date = fields.Date(string='Payment Date', readonly=True, copy=False)
-    paid_by = fields.Many2one(
-        comodel_name='res.users', string='Paid by', readonly=True,
-        copy=False,
-    )
-    finance_payment_reference = fields.Char(
-        string='Finance Payment Reference', readonly=True, copy=False,
-    )
-    finance_notes = fields.Text(string='Finance Notes', copy=False)
     alert_reason = fields.Text(
         string='Alert Reason', readonly=True, copy=False,
     )
     active = fields.Boolean(default=True)
+
+    # States where a human is actively handling the commission (mid-review,
+    # already decided, or flagged) — the cron must not silently change
+    # amounts or state under them anymore.
+    _FROZEN_STATES = ('pending_approval', 'approved', 'not_approved', 'under_review')
 
     _sql_constraints = [
         ('sale_order_uniq', 'unique(sale_order_id)',
@@ -185,6 +183,82 @@ class PaoSalesCommission(models.Model):
         return True
 
     # ------------------------------------------------------------------
+    # Ciclo de aprobación: Gerente envía a Finanzas, Finanzas aprueba/rechaza.
+    # ------------------------------------------------------------------
+    def _check_user_in_group(self, group_xmlid, action_label):
+        if not self.env.user.has_group(
+            'pao_sales_commission_management.%s' % group_xmlid
+        ):
+            raise UserError(
+                'You do not have permission to %s.' % action_label
+            )
+
+    def action_submit_for_approval(self):
+        """Botón del Gerente de Comisiones: envía la comisión a Finanzas y le
+        crea una actividad pendiente a cada usuario de ese grupo."""
+        self._check_user_in_group(
+            'group_pao_sales_commission_manager', 'submit commissions for approval'
+        )
+        finance_users = self.env.ref(
+            'pao_sales_commission_management.group_pao_sales_finance_commission'
+        ).users
+        for rec in self:
+            if rec.state not in ('submit_for_approval', 'not_approved'):
+                raise UserError(
+                    'Only commissions in "Submit for Approval" or "Not '
+                    'Approved" status can be sent for approval.'
+                )
+            rec.state = 'pending_approval'
+            for user in finance_users:
+                rec.activity_schedule(
+                    'mail.mail_activity_data_todo',
+                    summary='Commission pending approval: %s' % rec.name,
+                    user_id=user.id,
+                )
+        return True
+
+    def action_approve(self):
+        """Botón de Finanzas: aprueba la comisión y cierra la actividad."""
+        self._check_user_in_group(
+            'group_pao_sales_finance_commission', 'approve commissions'
+        )
+        for rec in self:
+            if rec.state != 'pending_approval':
+                raise UserError(
+                    'Only commissions "Pending Approval" can be approved.'
+                )
+            rec.state = 'approved'
+            rec._close_approval_activities('Commission approved.')
+        return True
+
+    def action_reject(self):
+        """Botón de Finanzas: rechaza la comisión y cierra la actividad."""
+        self._check_user_in_group(
+            'group_pao_sales_finance_commission', 'reject commissions'
+        )
+        for rec in self:
+            if rec.state != 'pending_approval':
+                raise UserError(
+                    'Only commissions "Pending Approval" can be rejected.'
+                )
+            rec.state = 'not_approved'
+            rec._close_approval_activities('Commission not approved.')
+        return True
+
+    def _close_approval_activities(self, feedback):
+        self.ensure_one()
+        todo_type = self.env.ref(
+            'mail.mail_activity_data_todo', raise_if_not_found=False
+        )
+        activities = self.activity_ids
+        if todo_type:
+            activities = activities.filtered(
+                lambda a: a.activity_type_id == todo_type
+            )
+        if activities:
+            activities.action_feedback(feedback=feedback)
+
+    # ------------------------------------------------------------------
     # Cron: punto de entrada principal
     # ------------------------------------------------------------------
     @api.model
@@ -213,7 +287,7 @@ class PaoSalesCommission(models.Model):
                 )
 
         rec_commissions = self.search(
-            [('state', 'not in', ('under_review', 'paid'))]
+            [('state', 'not in', self._FROZEN_STATES)]
         )
         for r in rec_commissions:
             try:
@@ -225,9 +299,12 @@ class PaoSalesCommission(models.Model):
                 )
 
         # Revisión de alertas sobre registros existentes (incluye los ya
-        # pagados, para detectar reversos posteriores al pago).
+        # enviados/aprobados, para detectar reversos posteriores).
         records = self.search([
-            ('state', 'in', ('outstanding_payable', 'paid', 'pending_service')),
+            ('state', 'in', (
+                'pending_service', 'submit_for_approval',
+                'pending_approval', 'approved',
+            )),
         ])
         for rec in records:
             try:
@@ -249,9 +326,10 @@ class PaoSalesCommission(models.Model):
             # No hay nada comisionable en esta venta, no se genera registro.
             return
 
-        if self.state in ('paid', 'under_review'):
-            # No se recalcula automáticamente algo ya pagado o en revisión;
-            # eso requiere intervención manual de finanzas.
+        if self.state in self._FROZEN_STATES:
+            # No se recalcula automáticamente algo que ya está siendo
+            # gestionado por una persona (enviado a aprobación, aprobado,
+            # rechazado o en revisión); eso requiere intervención manual.
             return
 
         self.commissionable_base = commissionable_base
@@ -274,14 +352,14 @@ class PaoSalesCommission(models.Model):
         self.commission_amount_mxn = self.commission_amount * exchange_rate
 
         if self.promotor_type != 'coordination':
-            self.state = 'outstanding_payable'
+            self.state = 'submit_for_approval'
             return
 
         # Coordinador: validar que el servicio ya se haya realizado.
         done, end_date = self._check_service_performed(self.sale_order_id)
         self.service_performed = done
         self.service_performed_date = end_date or False
-        self.state = 'outstanding_payable' if done else 'pending_service'
+        self.state = 'submit_for_approval' if done else 'pending_service'
 
     @api.model
     def _generate_for_sale_order(self, sale_order):
@@ -321,10 +399,12 @@ class PaoSalesCommission(models.Model):
     def _update_from_sale_order(self, sale_order):
         """Wrapper de instancia usado por el botón 'Recalcular'."""
         self.ensure_one()
-        if self.state in ('paid', 'under_review'):
+        if self.state in self._FROZEN_STATES:
             raise UserError(
-                'A commission that has already been paid or is under review cannot be recalculated. '
-                'Contact Finance if an adjustment is required.'
+                'A commission that has already been sent for approval, '
+                'approved, not approved, or is under review cannot be '
+                'recalculated. Contact the Commissions Manager or Finance '
+                'if an adjustment is required.'
             )
         self._update_for_sale_order()
 
@@ -435,7 +515,7 @@ class PaoSalesCommission(models.Model):
             problem, reason = True, 'The quote/sale was cancelled.'
 
         if not problem and self.promotor_type == 'coordination' and \
-                self.state == 'outstanding_payable':
+                self.state in ('submit_for_approval', 'pending_approval', 'approved'):
             # Si ya se había marcado servicio realizado, pero la orden de
             # compra que lo sustentaba fue cancelada después, se re-valida.
             done, _fecha = self._check_service_performed(sale)

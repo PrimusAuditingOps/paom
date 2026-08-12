@@ -5,10 +5,10 @@
         <field name="name">pao.sales.commission.tree</field>
         <field name="model">pao.sales.commission</field>
         <field name="arch" type="xml">
-            <tree string="Commissions" decoration-info="state == 'pending_invoicing'"
-                  decoration-warning="state in ('pending_service', 'outstanding_payable')"
-                  decoration-success="state == 'paid'"
-                  decoration-danger="state == 'under_review'">
+            <tree string="Commissions" decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
+                  decoration-warning="state in ('pending_service', 'pending_approval')"
+                  decoration-success="state == 'approved'"
+                  decoration-danger="state in ('under_review', 'not_approved')">
                 <field name="name"/>
                 <field name="sale_order_id"/>
                 <field name="partner_id"/>
@@ -19,13 +19,12 @@
                 <field name="commission_percentage"/>
                 <field name="commission_amount" sum="Commission USD"/>
                 <field name="applied_exchange_rate"/>
-                <field name="commission_amount_mxn" sum="Commission MXN"/> 
-                <field name="payment_date"/>
+                <field name="commission_amount_mxn" sum="Commission MXN"/>
                 <field name="state" widget="badge"
-                       decoration-info="state == 'pending_invoicing'"
-                       decoration-warning="state in ('pending_service', 'outstanding_payable')"
-                       decoration-success="state == 'paid'"
-                       decoration-danger="state == 'under_review'"/>
+                       decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
+                       decoration-warning="state in ('pending_service', 'pending_approval')"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state in ('under_review', 'not_approved')"/>
             </tree>
         </field>
     </record>
@@ -38,14 +37,21 @@
                 <header>
                     <button name="action_recalculate" type="object"
                             string="Recalculate" class="btn-secondary"
-                            invisible="state in ('paid', 'under_review')"/>
-                    <button name="%(action_pao_sales_commission_pay_wizard)d"
-                            type="action" string="Mark as Paid"
-                            class="btn-primary"
-                            invisible="state != 'outstanding_payable'"
-                            context="{'default_comision_ids': [(6, 0, [active_id])]}"/>
+                            invisible="state in ('pending_approval', 'approved', 'not_approved', 'under_review')"/>
+                    <button name="action_submit_for_approval" type="object"
+                            string="Submit for Approval" class="btn-primary"
+                            invisible="state not in ('submit_for_approval', 'not_approved')"
+                            groups="pao_sales_commission_management.group_pao_sales_commission_manager"/>
+                    <button name="action_approve" type="object"
+                            string="Approve" class="btn-primary"
+                            invisible="state != 'pending_approval'"
+                            groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
+                    <button name="action_reject" type="object"
+                            string="Reject" class="btn-secondary"
+                            invisible="state != 'pending_approval'"
+                            groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
                     <field name="state" widget="statusbar"
-                           statusbar_visible="pending_invoicing,pending_service,outstanding_payable,paid"/>
+                           statusbar_visible="pending_invoicing,pending_service,submit_for_approval,pending_approval,approved"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -60,6 +66,12 @@
                     <widget name="web_ribbon" title="Under Review"
                             bg_color="bg-danger"
                             invisible="state != 'under_review'"/>
+                    <widget name="web_ribbon" title="Not Approved"
+                            bg_color="bg-danger"
+                            invisible="state != 'not_approved'"/>
+                    <widget name="web_ribbon" title="Approved"
+                            bg_color="bg-success"
+                            invisible="state != 'approved'"/>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1"/></h1>
                     </div>
@@ -92,7 +104,7 @@
                             <field name="product_id" readonly="1"/>
                             <field name="original_product_uom_qty" readonly="1" string="Qty Sold"/>
                             <field name="product_uom_qty" string="Commissionable Qty"
-                                   readonly="parent.state in ('paid', 'under_review')"/>
+                                   readonly="parent.state in ('pending_approval', 'approved', 'not_approved', 'under_review')"/>
                             <field name="price_unit" readonly="1"/>
                             <field name="subtotal" readonly="1" sum="Subtotal"/>
                             <field name="organization_id" readonly="1"/>
@@ -109,12 +121,6 @@
                     </group>
                     <group string="Alert" invisible="state != 'under_review'">
                         <field name="alert_reason" readonly="1"/>
-                    </group>
-                    <group string="Payment" invisible="state != 'paid'">
-                        <field name="payment_date" readonly="1"/>
-                        <field name="paid_by" readonly="1"/>
-                        <field name="finance_payment_reference" readonly="1"/>
-                        <field name="finance_notes"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
@@ -142,10 +148,14 @@
                 <filter string="Pending Service"
                         name="filter_pending_service"
                         domain="[('state', '=', 'pending_service')]"/>
-                <filter string="Outstanding Payable" name="filter_outstanding_payable"
-                        domain="[('state', '=', 'outstanding_payable')]"/>
-                <filter string="Paid" name="filter_paid"
-                        domain="[('state', '=', 'paid')]"/>
+                <filter string="Submit for Approval" name="filter_submit_for_approval"
+                        domain="[('state', '=', 'submit_for_approval')]"/>
+                <filter string="Pending Approval" name="filter_pending_approval"
+                        domain="[('state', '=', 'pending_approval')]"/>
+                <filter string="Approved" name="filter_approved"
+                        domain="[('state', '=', 'approved')]"/>
+                <filter string="Not Approved" name="filter_not_approved"
+                        domain="[('state', '=', 'not_approved')]"/>
                 <filter string="Under Review" name="filter_under_review"
                         domain="[('state', '=', 'under_review')]"/>
                 <separator/>
@@ -162,8 +172,6 @@
                             context="{'group_by': 'promotor_id'}"/>
                     <filter string="Promoter Type" name="group_tipo"
                             context="{'group_by': 'promotor_type'}"/>
-                    <filter string="Payment Month" name="group_payment_date"
-                            context="{'group_by': 'payment_date'}"/>
                 </group>
             </search>
         </field>
@@ -182,18 +190,32 @@
         </field>
     </record>
 
-    <record id="action_pao_sales_commission_outstanding" model="ir.actions.act_window">
-        <field name="name">Outstanding / Payable</field>
+    <record id="action_pao_sales_commission_submit_for_approval" model="ir.actions.act_window">
+        <field name="name">Submit for Approval</field>
         <field name="res_model">pao.sales.commission</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('state', '=', 'outstanding_payable')]</field>
+        <field name="domain">[('state', '=', 'submit_for_approval')]</field>
     </record>
 
-    <record id="action_pao_sales_commission_paid" model="ir.actions.act_window">
-        <field name="name">Payment history</field>
+    <record id="action_pao_sales_commission_pending_approval" model="ir.actions.act_window">
+        <field name="name">Pending Approval</field>
         <field name="res_model">pao.sales.commission</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('state', '=', 'paid')]</field>
+        <field name="domain">[('state', '=', 'pending_approval')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_approved" model="ir.actions.act_window">
+        <field name="name">Approved</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'approved')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_not_approved" model="ir.actions.act_window">
+        <field name="name">Not Approved</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'not_approved')]</field>
     </record>
 
     <record id="action_pao_sales_commission_under_review" model="ir.actions.act_window">

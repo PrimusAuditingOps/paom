@@ -1,6 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_pao_sales_commission_consulta,pao.sales.commission.consulta,model_pao_sales_commission,base.group_user,1,0,0,0
 access_pao_sales_commission_finanzas,pao.sales.commission.finanzas,model_pao_sales_commission,group_pao_sales_finance_commission,1,1,1,1
-access_pao_sales_commission_pay_wizard_finanzas,pao.sales.commission.pay.wizard.finanzas,model_pao_sales_commission_pay_wizard,group_pao_sales_finance_commission,1,1,1,1
 access_pao_sales_commission_line_consulta,pao.sales.commission.line.consulta,model_pao_sales_commission_line,base.group_user,1,0,0,0
 access_pao_sales_commission_line_finanzas,pao.sales.commission.line.finanzas,model_pao_sales_commission_line,group_pao_sales_finance_commission,1,1,1,1
+access_pao_sales_commission_gerente,pao.sales.commission.gerente,model_pao_sales_commission,group_pao_sales_commission_manager,1,1,0,0
+access_pao_sales_commission_line_gerente,pao.sales.commission.line.gerente,model_pao_sales_commission_line,group_pao_sales_commission_manager,1,0,0,0

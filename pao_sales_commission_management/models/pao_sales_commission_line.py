@@ -75,11 +75,13 @@ class PaoSalesCommissionLine(models.Model):
 
     def write(self, vals):
         for line in self:
-            if line.commission_id.state in ('paid', 'under_review'):
+            commission = line.commission_id
+            if commission.state in commission._FROZEN_STATES:
                 raise UserError(
                     'You cannot edit a commission line whose commission is '
-                    'already Paid or Under Review. Contact Finance if an '
-                    'adjustment is required.'
+                    'already sent for approval, approved, not approved, or '
+                    'under review. Contact the Commissions Manager or '
+                    'Finance if an adjustment is required.'
                 )
         res = super().write(vals)
         if 'product_uom_qty' in vals:
