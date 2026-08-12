@@ -14,6 +14,9 @@
                 <field name="promotor_type"/>
                 <field name="user_id"
                        invisible="promotor_type == 'external'"/>
+                <field name="partner_id"
+                       invisible="promotor_type != 'external'"
+                       options="{'no_create': True}"/>
             </xpath>
         </field>
     </record>
@@ -27,6 +30,7 @@
                 <field name="commission_rate"/>
                 <field name="promotor_type"/>
                 <field name="user_id" optional="hide"/>
+                <field name="partner_id" optional="hide"/>
             </xpath>
         </field>
     </record>

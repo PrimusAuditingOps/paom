@@ -93,6 +93,13 @@ class PaoSalesCommission(models.Model):
         help='Customer payment used to determine the exchange rate '
              '(it was the one with the highest amount in MXN equivalent).',
     )
+    purchase_order_id = fields.Many2one(
+        comodel_name='purchase.order', string='Related Purchase Order',
+        readonly=True, copy=False,
+        help='Purchase order generated to pay this commission to an '
+             'external commission agent, grouped together with other '
+             'approved commissions from the same agent.',
+    )
     commission_line_ids = fields.One2many(
         comodel_name='pao.sales.commission.line', inverse_name='commission_id',
         string='Commissionable Product Lines',
@@ -257,6 +264,75 @@ class PaoSalesCommission(models.Model):
             )
         if activities:
             activities.action_feedback(feedback=feedback)
+
+    # ------------------------------------------------------------------
+    # Acción masiva del Gerente: generar una orden de compra que agrupe
+    # varias comisiones aprobadas de un mismo comisionista externo.
+    # ------------------------------------------------------------------
+    def action_generate_purchase_order(self):
+        self._check_user_in_group(
+            'group_pao_sales_commission_manager',
+            'generate purchase orders for commissions',
+        )
+        if not self:
+            raise UserError('Select at least one commission.')
+        if any(rec.state != 'approved' for rec in self):
+            raise UserError(
+                'Only commissions in "Approved" status can be used to '
+                'generate a purchase order.'
+            )
+        if any(rec.promotor_type != 'external' for rec in self):
+            raise UserError(
+                'A purchase order can only be generated for commissions '
+                'of an External commission agent.'
+            )
+        if any(rec.purchase_order_id for rec in self):
+            raise UserError(
+                'One or more selected commissions already have a related '
+                'purchase order.'
+            )
+        promotores = self.mapped('promotor_id')
+        if len(promotores) > 1:
+            raise UserError(
+                'All selected commissions must belong to the same '
+                'commission agent.'
+            )
+        promotor = promotores
+        if not promotor.partner_id:
+            raise UserError(
+                'The commission agent "%s" has no vendor configured. Set '
+                'it in Commissions > Configuration > Commission Agent '
+                'before generating a purchase order.' % promotor.name
+            )
+        product = self.env['product.product'].search(
+            [('name', '=', 'Comisiones Promotores')], limit=1
+        )
+        if not product:
+            raise UserError(
+                'No product named "Comisiones Promotores" was found in '
+                'the product catalog. Create it first.'
+            )
+
+        total_mxn = sum(self.mapped('commission_amount_mxn'))
+        purchase_order = self.env['purchase.order'].sudo().create({
+            'partner_id': promotor.partner_id.id,
+            'currency_id': self[0].currency_mxn_id.id,
+            'order_line': [(0, 0, {
+                'product_id': product.id,
+                'name': 'Comisiones Promotores: %s' % ', '.join(self.mapped('name')),
+                'product_qty': 1,
+                'product_uom': product.uom_po_id.id,
+                'price_unit': total_mxn,
+                'date_planned': fields.Datetime.now(),
+            })],
+        })
+        self.write({'purchase_order_id': purchase_order.id})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'purchase.order',
+            'view_mode': 'form',
+            'res_id': purchase_order.id,
+        }
 
     # ------------------------------------------------------------------
     # Cron: punto de entrada principal

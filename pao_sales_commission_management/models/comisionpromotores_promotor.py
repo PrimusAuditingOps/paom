@@ -44,6 +44,15 @@ class ComisionpromotoresPromotor(models.Model):
              'independently afterwards.',
     )
 
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Vendor (Purchase Orders)',
+        help='Vendor used as the supplier when generating a purchase '
+             "order to pay this agent's approved commissions. Required "
+             'for External commission agents before a purchase order can '
+             'be generated for them.',
+    )
+
     @api.onchange('promotor_type')
     def _onchange_promotor_type_porcentaje(self):
         for rec in self:
