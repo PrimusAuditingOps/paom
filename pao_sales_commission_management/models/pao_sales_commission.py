@@ -93,12 +93,15 @@ class PaoSalesCommission(models.Model):
         help='Customer payment used to determine the exchange rate '
              '(it was the one with the highest amount in MXN equivalent).',
     )
-    commission_line_ids = fields.Many2many(
-        comodel_name='sale.order.line', string='Commissionable Product Lines',
-        compute='_compute_commission_line_ids',
-        help='Sale order lines this commission is actually being paid on: '
-             'commissionable product, with a commission agent assigned at '
-             'line level. Reflects the current state of the quotation.',
+    commission_line_ids = fields.One2many(
+        comodel_name='pao.sales.commission.line', inverse_name='commission_id',
+        string='Commissionable Product Lines',
+        help='Product lines this commission is actually being paid on, '
+             'copied once from the quotation when this commission was '
+             'generated. Finance can lower the commissionable quantity per '
+             'line without affecting the quotation itself; the base, '
+             'commission amount and MXN amount are recalculated '
+             'automatically when they do.',
     )
 
     # -- Validación de servicio (sólo coordinadores) ------------------------
@@ -152,12 +155,6 @@ class PaoSalesCommission(models.Model):
     # ------------------------------------------------------------------
     # Computes
     # ------------------------------------------------------------------
-    @api.depends('sale_order_id.order_line.pao_promotor_id',
-                 'sale_order_id.order_line.product_id')
-    def _compute_commission_line_ids(self):
-        for rec in self:
-            rec.commission_line_ids = rec.sale_order_id._pao_commissionable_lines()
-
     @api.depends('promotor_type')
     def _compute_requires_service_validation(self):
         for rec in self:
@@ -247,8 +244,7 @@ class PaoSalesCommission(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _update_for_sale_order(self):
-        lineas_comisionables = self.sale_order_id._pao_commissionable_lines()
-        commissionable_base = sum(lineas_comisionables.mapped('price_subtotal'))
+        commissionable_base = sum(self.commission_line_ids.mapped('subtotal'))
         if commissionable_base <= 0:
             # No hay nada comisionable en esta venta, no se genera registro.
             return
@@ -307,6 +303,17 @@ class PaoSalesCommission(models.Model):
                 'promotor_type': promotor.promotor_type,
                 'related_user_id': promotor.user_id.id,
                 'commission_percentage': promotor.commission_rate,
+                'commission_line_ids': [(0, 0, {
+                    'sale_order_line_id': line.id,
+                    'product_id': line.product_id.id,
+                    'original_product_uom_qty': line.product_uom_qty,
+                    'product_uom_qty': line.product_uom_qty,
+                    'price_unit': line.price_unit,
+                    'organization_id': line.organization_id.id,
+                    'registrynumber_id': line.registrynumber_id.id,
+                    'service_start_date': line.service_start_date,
+                    'service_end_date': line.service_end_date,
+                }) for line in lineas_comisionables],
             })
             record._update_for_sale_order()
 
@@ -394,7 +401,7 @@ class PaoSalesCommission(models.Model):
         purchase_orders = sale_order.purchase_order_id.filtered(
             lambda po: po.state != 'cancel'
         )
-        commissionable_sales_lines = sale_order._pao_commissionable_lines()
+        commissionable_sales_lines = self.commission_line_ids.mapped('sale_order_line_id')
         if not purchase_orders or not commissionable_sales_lines:
             # No hay evidencia de servicio contratado: se deja pendiente
             # para revisión manual de finanzas en vez de aprobarlo solo.
