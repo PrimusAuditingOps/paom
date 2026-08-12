@@ -3,7 +3,7 @@
 
     <record id="mail_template_ena_notificacion" model="mail.template">
         <field name="name">No Anunciada - Notificación al productor</field>
-        <field name="model_id" ref="globalgap_ena.model_ena_solicitud"/>
+        <field name="model_id" ref="pao_globalgap_ena.model_ena_solicitud"/>
         <field name="subject">NO ANUNCIADA GLOBALGAP V6-GFS PLMx-{{object.organization_id.plmx or '' }} {{object.organization_id.name or '' }}</field>
         <field name="body_html"><![CDATA[
 <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; max-width: 680px; margin: 0 auto;">

@@ -41,7 +41,7 @@
     <!-- ── Regla de registro: coordinadora solo ve sus ENAs asignadas ───── -->
     <record id="rule_ena_coordinadora_own" model="ir.rule">
         <field name="name">ENA: Coordinadora ve solo sus registros asignados</field>
-        <field name="model_id" ref="globalgap_ena.model_ena_solicitud"/>
+        <field name="model_id" ref="pao_globalgap_ena.model_ena_solicitud"/>
         <field name="domain_force"></field>
         <field name="groups" eval="[(4, ref('group_ena_coordinadora'))]"/>
         <field name="perm_read" eval="True"/>

@@ -17,23 +17,23 @@
                         type="object"
                         class="btn-primary"
                         invisible="stage not in ('asignada')"
-                        groups="globalgap_ena.group_ena_coordinadora"/>
+                        groups="pao_globalgap_ena.group_ena_coordinadora"/>
 
-                
 
-                <button name="%(globalgap_ena.action_ena_lost_reason_wizard)d"
+
+                <button name="%(pao_globalgap_ena.action_ena_lost_reason_wizard)d"
                         string="No se Realizará"
                         type="action"
                         class="btn-danger"
                         invisible="stage in ('realizada','no_realizada','candidato')"
-                        groups="globalgap_ena.group_ena_coordinadora" 
+                        groups="pao_globalgap_ena.group_ena_coordinadora"
                         context="{'default_ena_id': id}"/>
 
 
 
-                <button name="action_restore" string="Restaurar" 
-                type="object" class="btn-primary" invisible="stage not in ('no_realizada')" 
-                groups="globalgap_ena.group_ena_admin"/>
+                <button name="action_restore" string="Restaurar"
+                type="object" class="btn-primary" invisible="stage not in ('no_realizada')"
+                groups="pao_globalgap_ena.group_ena_admin"/>
 
                 <field name="stage" widget="statusbar"
                        statusbar_visible="candidato,asignada,notificada,programada,realizada"/>
@@ -55,7 +55,7 @@
                 <group>
                     <group string="Productor">
                             <field name="organization_id" options="{'no_create': True}" readonly="stage != 'candidato'"/>
-                            <field name="justificacion" readonly="stage != 'candidato'" groups="globalgap_ena.group_ena_calidad"/>
+                            <field name="justificacion" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_calidad"/>
                     </group>
                     <group string="Fechas clave">
                         <field name="alerta_ventana" widget="badge" decoration-danger="alerta_ventana == 'vencido'" decoration-warning="alerta_ventana == 'proximo'" decoration-success="alerta_ventana == 'ok'"/>
@@ -69,9 +69,9 @@
                    
                 </group>
                  <group invisible="1" string="Identificación">
-                        <field name="anio" options="{'format': False}" readonly="stage != 'candidato'" groups="globalgap_ena.group_ena_admin"/>
+                        <field name="anio" options="{'format': False}" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_admin"/>
                         <field name="consecutivo" readonly="1"/>
-                        <field name="coordinadora_id" readonly="stage not in ('candidato','por_contactar')" groups="globalgap_ena.group_ena_calidad"/>
+                        <field name="coordinadora_id" readonly="stage not in ('candidato','por_contactar')" groups="pao_globalgap_ena.group_ena_calidad"/>
                     </group>
 
                 <notebook>
@@ -81,17 +81,17 @@
                         <group>
                             <group string="Información del cultivo">
                                 <field name="opcion" readonly="1"/>
-                                <field name="shipper" readonly="stage != 'candidato'" groups="globalgap_ena.group_ena_calidad"/>
+                                <field name="shipper" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_calidad"/>
                                
                                 <field name="num_sitios" readonly="1"/>
                                 <field name="num_phu" readonly="1"/>
                             </group>
                             <group string="Resultados de auditoría de certificación">
-                                <field name="obligaciones_mayores" readonly="stage != 'candidato'" groups="globalgap_ena.group_ena_calidad"/>
-                                <field name="obligaciones_menores" readonly="stage != 'candidato'" groups="globalgap_ena.group_ena_calidad"/>
-                                <field name="sanciones_quejas" readonly="stage != 'candidato'" groups="globalgap_ena.group_ena_calidad"/>
-                                <field name="auditor_finca" readonly="stage != 'candidato'" groups="globalgap_ena.group_ena_calidad"/>
-                                <field name="sanciones_falta_atencion" readonly="stage not in ('candidato','por_contactar')" groups="globalgap_ena.group_ena_calidad"/>
+                                <field name="obligaciones_mayores" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_calidad"/>
+                                <field name="obligaciones_menores" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_calidad"/>
+                                <field name="sanciones_quejas" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_calidad"/>
+                                <field name="auditor_finca" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_calidad"/>
+                                <field name="sanciones_falta_atencion" readonly="stage not in ('candidato','por_contactar')" groups="pao_globalgap_ena.group_ena_calidad"/>
                             </group>
                         </group>
                        

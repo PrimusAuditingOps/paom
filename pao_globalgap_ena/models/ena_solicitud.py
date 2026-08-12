@@ -385,7 +385,7 @@ class EnaSolicitud(models.Model):
 
     
         template = self.env.ref(
-            'globalgap_ena.mail_template_ena_notificacion',
+            'pao_globalgap_ena.mail_template_ena_notificacion',
             raise_if_not_found=False
         )
         

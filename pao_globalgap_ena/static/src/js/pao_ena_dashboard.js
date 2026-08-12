@@ -6,7 +6,7 @@ import { Component, useState, onMounted } from "@odoo/owl";
 const META_ANUAL = 80;
 
 class EnaDashboard extends Component {
-    static template = "globalgap_ena.EnaDashboard";
+    static template = "pao_globalgap_ena.EnaDashboard";
 
     setup() {
         this.orm = useService("orm");
