@@ -98,18 +98,26 @@ class SaleOrder(models.Model):
         return all(f.payment_state in ('paid', 'in_payment') for f in facturas)
 
     def _commission_has_billing_issue(self):
-        """Detecta si alguna factura relacionada fue cancelada/revertida o
-        algún pago fue deshecho después de haber estado pagada. Se usa para
-        marcar en_revision en comisiones ya generadas o pagadas."""
+        """Detecta si la cotización DEJÓ de estar totalmente facturada y
+        pagada después de haberlo estado (una factura se canceló sin
+        reemplazo, o un pago se deshizo/desconcilió). Se usa para marcar
+        en_revision en comisiones ya generadas o pagadas.
+
+        Reutiliza _commission_is_invoiced_and_paid(), que ya ignora facturas
+        canceladas: si una factura se canceló pero fue reemplazada por una
+        nueva factura válida y pagada, la cotización sigue "facturada y
+        pagada" y esto NO debe marcarse como problema (es una corrección de
+        facturación normal, no un reverso)."""
         self.ensure_one()
-        invoices = self._commission_get_invoices()
-        if any(f.state == 'cancel' for f in invoices):
-            return True, 'A related invoice was cancelled.'
-        registered_invoices = invoices.filtered(lambda m: m.state == 'posted')
-        if registered_invoices and any(
-            f.payment_state not in ('paid', 'in_payment')
-            for f in registered_invoices
-        ):
-            return True, ('A related invoice is no longer marked as paid '
-                           '(possible payment reversal/unreconciliation).')
-        return False, False
+        if self._commission_is_invoiced_and_paid():
+            return False, False
+        posted_invoices = self._commission_get_invoices().filtered(
+            lambda m: m.state == 'posted'
+        )
+        if not posted_invoices:
+            return True, ('The quotation no longer has a valid posted '
+                           'invoice covering the sale (it may have been '
+                           'cancelled without a replacement).')
+        return True, ('A related invoice is no longer marked as paid '
+                       '(possible payment reversal/unreconciliation), or '
+                       'the quotation is no longer fully invoiced.')
