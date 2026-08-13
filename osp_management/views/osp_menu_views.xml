@@ -6,7 +6,7 @@
     
     <record id="view_osp_request_tree" model="ir.ui.view">
         <field name="name">osp.request.tree</field>
-        <field name="res_model">osp.request</field>
+        <field name="model">osp.request</field>
         <field name="arch" type="xml">
             <tree string="Planes de manejo orgánico" limit="80" sample="1">
                 <field name="service_id" optional="show"/>
@@ -31,7 +31,7 @@
 
     <record id="view_osp_request_search" model="ir.ui.view">
         <field name="name">osp.request.search</field>
-        <field name="res_model">osp.request</field>
+        <field name="model">osp.request</field>
         <field name="arch" type="xml">
             <search string="Buscar OSP">
                 <field name="organization_name"/>
@@ -57,7 +57,7 @@
 
     <record id="view_osp_request_form" model="ir.ui.view">
         <field name="name">osp.request.form</field>
-        <field name="res_model">osp.request</field>
+        <field name="model">osp.request</field>
         <field name="arch" type="xml">
             <form string="Plan de manejo orgánico">
                 <header>
@@ -140,7 +140,7 @@
 
     <record id="view_osp_service_tree" model="ir.ui.view">
         <field name="name">osp.service.tree</field>
-        <field name="res_model">osp.service</field>
+        <field name="model">osp.service</field>
         <field name="arch" type="xml">
             <tree string="Catálogo de Servicios" editable="bottom">
                 <field name="name" string="Nombre del Servicio (Ej. NOP/USDA)"/>
@@ -150,7 +150,7 @@
 
     <record id="view_osp_form_template_tree" model="ir.ui.view">
         <field name="name">osp.form.template.tree</field>
-        <field name="res_model">osp.form.template</field>
+        <field name="model">osp.form.template</field>
         <field name="arch" type="xml">
             <tree string="Catálogo de Formularios" editable="bottom">
                 <field name="service_id"/>
@@ -163,7 +163,7 @@
 
     <record id="view_osp_form_template_form" model="ir.ui.view">
         <field name="name">osp.form.template.form</field>
-        <field name="res_model">osp.form.template</field>
+        <field name="model">osp.form.template</field>
         <field name="arch" type="xml">
             <form string="Formulario OSP">
                 <sheet>
