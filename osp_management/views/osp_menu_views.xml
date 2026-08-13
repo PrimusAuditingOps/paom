@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================== -->
+    <!-- 1. VISTAS DEL MODELO PRINCIPAL (OSP)       -->
+    <!-- ========================================== -->
+    
+    <record id="view_osp_request_tree" model="ir.ui.view">
+        <field name="name">osp.request.tree</field>
+        <field name="res_model">osp.request</field>
+        <field name="arch" type="xml">
+            <tree string="Planes de manejo orgánico" limit="80" sample="1">
+                <field name="service_id" optional="show"/>
+                <field name="form_template_id" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="organization_name" optional="show"/>
+                <field name="dba_name" optional="show"/>
+                <field name="city" optional="show"/>
+                <field name="state_id" optional="show"/>
+                <field name="zip_code" optional="show"/>
+                <field name="country_id" optional="show"/>
+                <field name="create_date" string="Creación" optional="show" widget="date"/>
+                <field name="write_date" string="Última actualización" optional="show" widget="date"/>
+                <field name="review_status" optional="show" widget="badge" 
+                       decoration-info="review_status == 'pending'" 
+                       decoration-success="review_status == 'done'"/>
+                <field name="app_azas" optional="show"/>
+                <field name="audit_azas" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_osp_request_search" model="ir.ui.view">
+        <field name="name">osp.request.search</field>
+        <field name="res_model">osp.request</field>
+        <field name="arch" type="xml">
+            <search string="Buscar OSP">
+                <field name="organization_name"/>
+                <field name="dba_name"/>
+                <field name="partner_id"/>
+                <field name="app_azas"/>
+                <field name="audit_azas"/>
+                
+                <filter string="Pendientes de Revisión" name="filter_pending" domain="[('review_status', '=', 'pending')]"/>
+                <filter string="Revisados (Hecho)" name="filter_done" domain="[('review_status', '=', 'done')]"/>
+                <separator/>
+                <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
+                
+                <group expand="0" string="Agrupar por">
+                    <filter string="Cliente" name="group_partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Tipo de Formulario" name="group_type" context="{'group_by':'form_template_id'}"/>
+                    <filter string="Estatus de revisión" name="group_review" context="{'group_by':'review_status'}"/>
+                    <filter string="País" name="group_country" context="{'group_by':'country_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_osp_request_form" model="ir.ui.view">
+        <field name="name">osp.request.form</field>
+        <field name="res_model">osp.request</field>
+        <field name="arch" type="xml">
+            <form string="Plan de manejo orgánico">
+                <header>
+                    <button name="action_set_done" string="Marcar como Completo" type="object" class="oe_highlight" 
+                            invisible="review_status == 'done'"/>
+                    <button name="action_set_pending" string="Devolver a Pendiente" type="object" 
+                            invisible="review_status == 'pending'"/>
+                    <field name="review_status" widget="statusbar" statusbar_visible="pending,done"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_portal_form" type="object" class="oe_stat_button" icon="fa-globe">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Ver Formulario Web</span>
+                            </div>
+                        </button>
+                        <button name="action_view_attachments" type="object" class="oe_stat_button" icon="fa-paperclip">
+                            <field name="attachment_count" widget="statinfo" string="Archivos Adjuntos"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Información del Cliente y Formulario">
+                            <field name="partner_id" placeholder="Seleccionar o crear cliente..."/>
+                            <field name="service_id"/>
+                            <field name="form_template_id"/>
+                            <field name="form_version"/>
+                        </group>
+                        
+                        <group string="Referencias Internas">
+                            <field name="app_azas"/>
+                            <field name="audit_azas"/>
+                            <field name="create_date" string="Fecha de creación externa" readonly="1"/>
+                            <field name="write_date" string="Última actualización" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Datos de la Organización">
+                            <field name="organization_name"/>
+                            <field name="dba_name"/>
+                        </group>
+                        <group string="Dirección">
+                            <label for="city" string="Dirección"/>
+                            <div class="o_address_format">
+                                <field name="city" placeholder="Ciudad" class="o_address_city"/>
+                                <field name="state_id" placeholder="Estado" class="o_address_state"/>
+                                <field name="zip_code" placeholder="C.P." class="o_address_zip"/>
+                                <field name="country_id" placeholder="País" class="o_address_country"/>
+                            </div>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Notas para el Administrador">
+                            <field name="notes" placeholder="Escriba aquí notas internas o comentarios sobre este registro..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ========================================== -->
+    <!-- 2. VISTAS DE CATÁLOGOS                     -->
+    <!-- ========================================== -->
+
+    <record id="view_osp_service_tree" model="ir.ui.view">
+        <field name="name">osp.service.tree</field>
+        <field name="res_model">osp.service</field>
+        <field name="arch" type="xml">
+            <tree string="Catálogo de Servicios" editable="bottom">
+                <field name="name" string="Nombre del Servicio (Ej. NOP/USDA)"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_osp_form_template_tree" model="ir.ui.view">
+        <field name="name">osp.form.template.tree</field>
+        <field name="res_model">osp.form.template</field>
+        <field name="arch" type="xml">
+            <tree string="Catálogo de Formularios" editable="bottom">
+                <field name="service_id"/>
+                <field name="name"/>
+                <field name="version"/>
+                <field name="technical_code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_osp_form_template_form" model="ir.ui.view">
+        <field name="name">osp.form.template.form</field>
+        <field name="res_model">osp.form.template</field>
+        <field name="arch" type="xml">
+            <form string="Formulario OSP">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="service_id"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="version"/>
+                            <field name="technical_code"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ========================================== -->
+    <!-- 3. ACCIONES DE VENTANA                     -->
+    <!-- ========================================== -->
+
+    <record id="action_osp_request" model="ir.actions.act_window">
+        <field name="name">Planes de manejo orgánico</field>
+        <field name="res_model">osp.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'submitted')]</field>
+        <field name="search_view_id" ref="view_osp_request_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay planes de manejo orgánico enviados.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_osp_service" model="ir.actions.act_window">
+        <field name="name">Catálogo de Servicios</field>
+        <field name="res_model">osp.service</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_osp_form_template" model="ir.actions.act_window">
+        <field name="name">Catálogo de Formularios (OSP)</field>
+        <field name="res_model">osp.form.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- ========================================== -->
+    <!-- 4. MENÚS                                   -->
+    <!-- ========================================== -->
+
+    <menuitem id="menu_osp_root"
+              name="Administración de OSP"
+              web_icon="osp_management,static/description/icon.png"
+              groups="osp_management.group_osp_administrator"
+              sequence="15"/>
+
+    <menuitem id="menu_osp_requests"
+              name="Planes de manejo orgánico"
+              parent="menu_osp_root"
+              action="action_osp_request"
+              sequence="10"/>
+
+    <menuitem id="menu_osp_configuration"
+              name="Configuración"
+              parent="menu_osp_root"
+              sequence="100"/>
+
+    <menuitem id="menu_osp_service"
+              name="Catálogo de Servicios"
+              parent="menu_osp_configuration"
+              action="action_osp_service"
+              sequence="10"/>
+
+    <menuitem id="menu_osp_form_template"
+              name="Catálogo de Formularios (OSP)"
+              parent="menu_osp_configuration"
+              action="action_osp_form_template"
+              sequence="20"/>
+</odoo>
