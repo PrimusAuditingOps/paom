@@ -79,11 +79,29 @@ class OSPPortal(CustomerPortal):
                 record.unlink()
         return request.redirect('/my/osp')
 
-    # 5. RUTA PANTALLA TEMPORAL DEL FORMULARIO (Esperando PDFs)
+    # 5. RUTA PANTALLA DEL FORMULARIO
     @http.route(['/my/osp/form/<int:osp_id>'], type='http', auth="user", website=True)
     def portal_osp_form(self, osp_id, **kw):
         record = request.env['osp.request'].browse(osp_id)
         if not record.exists() or record.partner_id.id != request.env.user.partner_id.id:
             return request.redirect('/my/osp')
             
+        # Si el código técnico es 'form_crop', abrimos la plantilla oficial
+        if record.form_template_id.technical_code == 'form_crop':
+            return request.render("osp_management.portal_osp_form_crop", {'osp': record})
+            
+        # Para otros formularios aún no construidos:
         return request.render("osp_management.portal_osp_form_placeholder", {'osp': record})
+
+    # 6. RUTA AJAX PARA GUARDAR EL JSON EN SEGUNDO PLANO
+    @http.route(['/my/osp/save/<int:osp_id>'], type='json', auth="user", methods=['POST'], website=True)
+    def portal_save_osp(self, osp_id, form_data, is_submit=False, **kw):
+        record = request.env['osp.request'].browse(osp_id)
+        if record.exists() and record.partner_id.id == request.env.user.partner_id.id:
+            record.write({'form_data': form_data})
+            
+            if is_submit:
+                record.write({'state': 'submitted'})
+                
+            return {'success': True}
+        return {'success': False}

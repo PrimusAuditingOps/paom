@@ -9,6 +9,8 @@ class OSPService(models.Model):
     
     name = fields.Char(string='Servicio', required=True)
     active = fields.Boolean(default=True)
+    # El super-campo que guardará todo el cuestionario:
+    form_data = fields.Json(string="Respuestas del Formulario", default={})
 
 class OSPFormTemplate(models.Model):
     _name = 'osp.form.template'

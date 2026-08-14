@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_osp_form_crop" name="OSP Crop Form">
+        <t t-call="portal.portal_layout">
+            <!-- Variable para leer los datos guardados -->
+            <t t-set="data" t-value="osp.form_data or {}"/>
+            
+            <div class="container-fluid py-4">
+                
+                <!-- ENCABEZADO -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <a href="/my/osp" class="text-decoration-none text-muted mb-2 d-inline-block"><i class="fa fa-arrow-left"></i> Back to list</a>
+                        <h3 class="fw-bold mb-0 text-success"><i class="fa fa-leaf"></i> Crop</h3>
+                        <p class="text-muted small mb-0">ORGANIC SYSTEM PLAN | Org-007 Rev.9</p>
+                    </div>
+                    <div>
+                        <span id="save_status" class="text-muted me-3" style="display: none;">Saving...</span>
+                        <button class="btn btn-outline-success me-2" onclick="saveForm(false)">
+                            <i class="fa fa-save"></i> Save progress
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- BARRA LATERAL (NAVEGACIÓN) -->
+                    <div class="col-md-3 mb-4">
+                        <div class="list-group shadow-sm sticky-top" id="form-sections" style="top: 20px; z-index: 1;">
+                            <a href="#sec1" class="list-group-item list-group-item-action active fw-bold" data-bs-toggle="list">1: General Information</a>
+                            <a href="#sec4" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">4: Crops &amp; Fields</a>
+                            <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Affirmation (Firma)</a>
+                        </div>
+                    </div>
+
+                    <!-- CONTENIDO DEL FORMULARIO -->
+                    <div class="col-md-9">
+                        <div class="tab-content bg-white p-4 rounded-3 shadow-sm" id="form-content">
+                            
+                            <!-- ========================================== -->
+                            <!-- SECCIÓN 1: GENERAL INFORMATION             -->
+                            <!-- ========================================== -->
+                            <div class="tab-pane fade show active" id="sec1">
+                                <h4 class="fw-bold mb-4">SECTION 1: General Information</h4>
+                                
+                                <div class="mb-4">
+                                    <label class="fw-bold">Choose one:</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input osp-input" type="radio" name="1_applicant_type" id="1_new" value="First time" t-att-checked="data.get('1_applicant_type') == 'First time'"/>
+                                        <label class="form-check-label" for="1_new">First time applicant.</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input osp-input" type="radio" name="1_applicant_type" id="1_update" value="Update" t-att-checked="data.get('1_applicant_type') == 'Update'"/>
+                                        <label class="form-check-label" for="1_update">This is an update of an Organic System Plan already submitted.</label>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">1a. Organization Name:</label>
+                                        <input type="text" class="form-control osp-input" name="1a_org_name" t-att-value="data.get('1a_org_name')"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">1b. dba Name (if applicable):</label>
+                                        <input type="text" class="form-control osp-input" name="1b_dba_name" t-att-value="data.get('1b_dba_name')"/>
+                                    </div>
+                                </div>
+                                
+                                <!-- Aquí puedes seguir agregando 1c, 1d, 1e copiando esta estructura -->
+                                
+                            </div>
+
+                            <!-- ========================================== -->
+                            <!-- SECCIÓN 4: CROPS & FIELDS (TABLA DINÁMICA) -->
+                            <!-- ========================================== -->
+                            <div class="tab-pane fade" id="sec4">
+                                <h4 class="fw-bold mb-4">SECTION 4: Crops &amp; Fields</h4>
+                                <p>4g. Complete the following table with the information for each location (sites) managed by the Organization:</p>
+                                
+                                <div class="table-responsive border rounded mb-3">
+                                    <table class="table table-borderless table-hover mb-0" id="sites_table">
+                                        <thead class="bg-light text-muted small">
+                                            <tr>
+                                                <th>SITE ID/NAME</th>
+                                                <th>SITE ADDRESS</th>
+                                                <th>CITY, STATE</th>
+                                                <th>ZIP</th>
+                                                <th>ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="sites_tbody">
+                                            <!-- JavaScript llenará esta tabla -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="addSiteRow()">
+                                    <i class="fa fa-plus"></i> Add Site
+                                </button>
+                                
+                                <!-- Campo oculto que guardará el JSON de la tabla para enviarlo al backend -->
+                                <input type="hidden" class="osp-input" name="4g_sites_json" id="4g_sites_json" t-att-value="data.get('4g_sites_json', '[]')"/>
+                            </div>
+
+                            <!-- ========================================== -->
+                            <!-- SECCIÓN 18: AFFIRMATION (FIRMA)            -->
+                            <!-- ========================================== -->
+                            <div class="tab-pane fade" id="sec18">
+                                <h4 class="fw-bold mb-4">SECTION 18: Affirmation</h4>
+                                <div class="alert alert-light border border-success rounded-3 mb-4">
+                                    <h5 class="text-success fw-bold">*electronic signature is accepted*</h5>
+                                    
+                                    <div class="mb-3 mt-3">
+                                        <label class="form-label fw-bold">Name of Person completing this OSP: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control osp-input" name="18_name" id="req_name" t-att-value="data.get('18_name')"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Signature of Authorized Person: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control osp-input" name="18_signature" id="req_sign" placeholder="Type your full name to sign electronically" t-att-value="data.get('18_signature')"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Date: <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control osp-input" name="18_date" id="req_date" t-att-value="data.get('18_date')"/>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-success btn-lg w-100 fw-bold" onclick="submitForm()">
+                                    Submit Organic System Plan
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JAVASCRIPT: EL CEREBRO DEL FORMULARIO -->
+            <script type="text/javascript">
+                const ospId = <t t-esc="osp.id"/>;
+                
+                // === LÓGICA DE LA TABLA DINÁMICA (SECCIÓN 4) ===
+                const sitesTbody = document.getElementById('sites_tbody');
+                const sitesJsonInput = document.getElementById('4g_sites_json');
+                let sitesData = [];
+                
+                try {
+                    sitesData = JSON.parse(sitesJsonInput.value || '[]');
+                } catch(e) { sitesData = []; }
+
+                function renderSitesTable() {
+                    sitesTbody.innerHTML = '';
+                    if(sitesData.length === 0) addSiteRow(); // Mostrar al menos uno vacío
+                    
+                    sitesData.forEach((site, index) => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td><input type="text" class="form-control border-0 bg-transparent" value="${site.id || ''}" onchange="updateSite(${index}, 'id', this.value)" placeholder="ID..."/></td>
+                            <td><input type="text" class="form-control border-0 bg-transparent" value="${site.address || ''}" onchange="updateSite(${index}, 'address', this.value)" placeholder="Address..."/></td>
+                            <td><input type="text" class="form-control border-0 bg-transparent" value="${site.city || ''}" onchange="updateSite(${index}, 'city', this.value)" placeholder="City..."/></td>
+                            <td><input type="text" class="form-control border-0 bg-transparent" value="${site.zip || ''}" onchange="updateSite(${index}, 'zip', this.value)" placeholder="Zip..."/></td>
+                            <td><button class="btn btn-sm text-danger" onclick="deleteSite(${index})"><i class="fa fa-trash"></i></button></td>
+                        `;
+                        sitesTbody.appendChild(tr);
+                    });
+                    // Guardar en el input oculto
+                    sitesJsonInput.value = JSON.stringify(sitesData);
+                }
+
+                function addSiteRow() {
+                    sitesData.push({id: '', address: '', city: '', zip: ''});
+                    renderSitesTable();
+                }
+
+                function updateSite(index, field, value) {
+                    sitesData[index][field] = value;
+                    sitesJsonInput.value = JSON.stringify(sitesData);
+                }
+
+                function deleteSite(index) {
+                    sitesData.splice(index, 1);
+                    renderSitesTable();
+                }
+
+                // === LÓGICA DE GUARDADO GLOBAL ===
+                function gatherFormData() {
+                    let data = {};
+                    // Recolectar todos los inputs que tengan la clase 'osp-input'
+                    document.querySelectorAll('.osp-input').forEach(el => {
+                        if(el.type === 'radio' || el.type === 'checkbox') {
+                            if(el.checked) data[el.name] = el.value;
+                        } else {
+                            data[el.name] = el.value;
+                        }
+                    });
+                    return data;
+                }
+
+                function saveForm(isSubmit) {
+                    const statusText = document.getElementById('save_status');
+                    statusText.style.display = 'inline';
+                    statusText.innerText = 'Saving...';
+                    
+                    const finalData = gatherFormData();
+
+                    // Llamada AJAX a Odoo (JSON-RPC 2.0)
+                    fetch(`/my/osp/save/${ospId}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            jsonrpc: "2.0",
+                            method: "call",
+                            params: {
+                                form_data: finalData,
+                                is_submit: isSubmit
+                            }
+                        })
+                    }).then(response => response.json())
+                      .then(data => {
+                          if(data.result.success) {
+                              statusText.innerText = 'Saved!';
+                              setTimeout(() => statusText.style.display = 'none', 2000);
+                              if(isSubmit) {
+                                  window.location.href = '/my/osp';
+                              }
+                          }
+                      });
+                }
+
+                function submitForm() {
+                    // Validación de Firma
+                    if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
+                        alert("Please complete the electronic signature fields before submitting.");
+                        return;
+                    }
+                    if(confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
+                        saveForm(true);
+                    }
+                }
+
+                // Renderizar tabla al cargar
+                renderSitesTable();
+            </script>
+        </t>
+    </template>
+</odoo>
