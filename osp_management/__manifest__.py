@@ -10,12 +10,12 @@
     'author': 'Hector Cortes',
     'depends': ['base', 'mail', 'portal'],
     'data': [
-        'security/osp_security.xml',
-        'security/ir.model.access.csv',
-        'views/osp_menu_views.xml',
-        'views/osp_portal_templates.xml',  # <--- Esta es la línea nueva
-        'views/osp_form_crop.xml', # <--- Esta es la línea nueva NOP/USDA/crop
-    ],
+    'security/osp_security.xml',
+    'security/ir.model.access.csv',
+    'views/osp_menu_views.xml',
+    'views/osp_portal_templates.xml',
+    'views/osp_form_crop.xml', # <--- ¡Asegúrate de que esta línea esté aquí!
+],
     'installable': True,
     'application': True,
     'license': 'LGPL-3',

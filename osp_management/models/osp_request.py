@@ -1,33 +1,7 @@
 from odoo import models, fields, api
 
 # ==========================================
-# CATÁLOGOS
-# ==========================================
-class OSPService(models.Model):
-    _name = 'osp.service'
-    _description = 'Catálogo de Servicios Orgánicos'
-    
-    name = fields.Char(string='Servicio', required=True)
-    active = fields.Boolean(default=True)
-    # El super-campo que guardará todo el cuestionario:
-    form_data = fields.Json(string="Respuestas del Formulario", default={})
-
-class OSPFormTemplate(models.Model):
-    _name = 'osp.form.template'
-    _description = 'Catálogo de Formularios'
-    
-    service_id = fields.Many2one('osp.service', string='Servicio', required=True)
-    name = fields.Char(string='Nombre del Formulario OSP', required=True)
-    version = fields.Char(string='Versión', required=True, default='1.0')
-    technical_code = fields.Char(
-        string='Código Técnico (Plantilla Web)', 
-        required=True,
-        help="Código único (ej. form_crop, form_handler) que le dice al portal qué página web cargar."
-    )
-    active = fields.Boolean(default=True)
-
-# ==========================================
-# MODELO PRINCIPAL (FORMULARIO)
+# MODELO PRINCIPAL (FORMULARIO OSP)
 # ==========================================
 class OSPRequest(models.Model):
     _name = 'osp.request'
@@ -69,6 +43,12 @@ class OSPRequest(models.Model):
     app_azas = fields.Integer(string='App AZAS', tracking=True)
     audit_azas = fields.Integer(string='Audit AZAS', tracking=True)
 
+    # ========================================================
+    # --- DATOS DINÁMICOS DEL FORMULARIO (JSON) ---
+    # Aquí se guardan las respuestas de la plantilla web
+    # ========================================================
+    form_data = fields.Json(string="Respuestas del Formulario", default={})
+
     # --- NOTAS DEL ADMINISTRADOR ---
     notes = fields.Html(string='Notas Internas')
 
@@ -107,4 +87,4 @@ class OSPRequest(models.Model):
     def action_open_portal_form(self):
         self.ensure_one()
         # En el futuro, esto retornará la URL del formulario web.
-        pass 
+        pass
