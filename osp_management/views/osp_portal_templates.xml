@@ -2,13 +2,21 @@
 <odoo>
     
     <!-- 1. Añadir botón en "My Account" (/my/home) -->
-    <template id="portal_my_home_osp_final" name="Show OSP in Portal" inherit_id="portal.portal_my_home" priority="10">
+    <!-- 1. Añadir botón en "My Account" (/my/home) -->
+    <template id="portal_my_home_osp_direct" name="Show OSP in Portal" inherit_id="portal.portal_my_home" priority="10">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
                 <t t-set="title">Organic System Plan (OSP)</t>
                 <t t-set="url" t-value="'/my/osp'"/>
-                <t t-set="placeholder_count" t-value="'osp_count'"/>
+                
+                <!-- Truco: Usar 'count' en lugar de 'placeholder_count' salta el JS de Odoo -->
+                <t t-set="count" t-value="osp_count or 0"/>
+                
                 <t t-set="text">Manage your applications and plans</t>
+                
+                <!-- Agregamos el icono de hoja y un fondo sutil -->
+                <t t-set="icon" t-value="'fa-leaf'"/>
+                <t t-set="bg_color" t-value="'bg-success'"/>
             </t>
         </xpath>
     </template>
