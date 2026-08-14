@@ -6,10 +6,11 @@ class OSPPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
-        # Forzamos la cuenta siempre, sin importar el optimizador de Odoo
-        values['osp_count'] = request.env['osp.request'].search_count([
-            ('partner_id', '=', request.env.user.partner_id.id)
-        ])
+        # Respetamos la validación de Odoo
+        if 'osp_count' in counters:
+            values['osp_count'] = request.env['osp.request'].search_count([
+                ('partner_id', '=', request.env.user.partner_id.id)
+            ])
         return values
 
     # 1. RUTA PRINCIPAL: LISTA DE FORMULARIOS
