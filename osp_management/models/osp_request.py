@@ -68,7 +68,7 @@ class OSPRequest(models.Model):
     audit_azas = fields.Integer(string='Audit AZAS', tracking=True)
 
     # --- NOTAS DEL ADMINISTRADOR ---
-    notes = fields.Html(string='Notas Internas', tracking=True)
+    notes = fields.Html(string='Notas Internas')
 
     # --- CONTEO DE ADJUNTOS (Para el botón inteligente) ---
     attachment_count = fields.Integer(compute='_compute_attachment_count', string="Archivos Adjuntos")
