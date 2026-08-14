@@ -13,6 +13,7 @@
         'security/osp_security.xml',
         'security/ir.model.access.csv',
         'views/osp_menu_views.xml',
+        'views/osp_portal_templates.xml',  # <--- Esta es la línea nueva
     ],
     'installable': True,
     'application': True,
