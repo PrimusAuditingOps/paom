@@ -2,7 +2,6 @@
 <odoo>
     <template id="portal_osp_form_crop" name="OSP Crop Form">
         <t t-call="portal.portal_layout">
-            <!-- Variable para leer los datos guardados -->
             <t t-set="data" t-value="osp.form_data or {}"/>
             
             <div class="container-fluid py-4">
@@ -16,30 +15,28 @@
                     </div>
                     <div>
                         <span id="save_status" class="text-muted me-3" style="display: none;">Saving...</span>
-                        <!-- CORRECCIÓN: window.saveForm() -->
-                        <button class="btn btn-outline-success me-2" onclick="window.saveForm(false)">
+                        <!-- Quitamos el onclick y ponemos un ID -->
+                        <button type="button" class="btn btn-outline-success me-2" id="btn_save_progress">
                             <i class="fa fa-save"></i> Save progress
                         </button>
                     </div>
                 </div>
 
                 <div class="row">
-                    <!-- BARRA LATERAL (NAVEGACIÓN) -->
+                    <!-- BARRA LATERAL -->
                     <div class="col-md-3 mb-4">
-                        <div class="list-group shadow-sm sticky-top" id="form-sections" style="top: 20px; z-index: 1;">
+                        <div class="list-group shadow-sm sticky-top" style="top: 20px; z-index: 1;">
                             <a href="#sec1" class="list-group-item list-group-item-action active fw-bold" data-bs-toggle="list">1: General Information</a>
                             <a href="#sec4" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">4: Crops &amp; Fields</a>
                             <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Affirmation (Firma)</a>
                         </div>
                     </div>
 
-                    <!-- CONTENIDO DEL FORMULARIO -->
+                    <!-- CONTENIDO -->
                     <div class="col-md-9">
-                        <div class="tab-content bg-white p-4 rounded-3 shadow-sm" id="form-content">
+                        <div class="tab-content bg-white p-4 rounded-3 shadow-sm">
                             
-                            <!-- ========================================== -->
-                            <!-- SECCIÓN 1: GENERAL INFORMATION             -->
-                            <!-- ========================================== -->
+                            <!-- SECCIÓN 1 -->
                             <div class="tab-pane fade show active" id="sec1">
                                 <h4 class="fw-bold mb-4">SECTION 1: General Information</h4>
                                 
@@ -67,15 +64,13 @@
                                 </div>
                             </div>
 
-                            <!-- ========================================== -->
-                            <!-- SECCIÓN 4: CROPS & FIELDS (TABLA DINÁMICA) -->
-                            <!-- ========================================== -->
+                            <!-- SECCIÓN 4 (TABLA DINÁMICA) -->
                             <div class="tab-pane fade" id="sec4">
                                 <h4 class="fw-bold mb-4">SECTION 4: Crops &amp; Fields</h4>
-                                <p>4g. Complete the following table with the information for each location (sites) managed by the Organization:</p>
+                                <p>4g. Complete the following table with the information for each location (sites):</p>
                                 
                                 <div class="table-responsive border rounded mb-3">
-                                    <table class="table table-borderless table-hover mb-0" id="sites_table">
+                                    <table class="table table-borderless table-hover mb-0">
                                         <thead class="bg-light text-muted small">
                                             <tr>
                                                 <th>SITE ID/NAME</th>
@@ -86,33 +81,31 @@
                                             </tr>
                                         </thead>
                                         <tbody id="sites_tbody">
-                                            <!-- JavaScript llenará esta tabla -->
+                                            <!-- JS llenará esto -->
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- CORRECCIÓN: window.addSiteRow() -->
-                                <button type="button" class="btn btn-sm btn-outline-success" onclick="window.addSiteRow()">
+                                <!-- Quitamos el onclick y ponemos un ID -->
+                                <button type="button" class="btn btn-sm btn-outline-success" id="btn_add_site">
                                     <i class="fa fa-plus"></i> Add Site
                                 </button>
                                 
                                 <input type="hidden" class="osp-input" name="4g_sites_json" id="4g_sites_json" t-att-value="data.get('4g_sites_json', '[]')"/>
                             </div>
 
-                            <!-- ========================================== -->
-                            <!-- SECCIÓN 18: AFFIRMATION (FIRMA)            -->
-                            <!-- ========================================== -->
+                            <!-- SECCIÓN 18 (FIRMA) -->
                             <div class="tab-pane fade" id="sec18">
                                 <h4 class="fw-bold mb-4">SECTION 18: Affirmation</h4>
                                 <div class="alert alert-light border border-success rounded-3 mb-4">
                                     <h5 class="text-success fw-bold">*electronic signature is accepted*</h5>
                                     
                                     <div class="mb-3 mt-3">
-                                        <label class="form-label fw-bold">Name of Person completing this OSP: <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-bold">Name: <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control osp-input" name="18_name" id="req_name" t-att-value="data.get('18_name')"/>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-bold">Signature of Authorized Person: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control osp-input" name="18_signature" id="req_sign" placeholder="Type your full name to sign electronically" t-att-value="data.get('18_signature')"/>
+                                        <label class="form-label fw-bold">Signature: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control osp-input" name="18_signature" id="req_sign" t-att-value="data.get('18_signature')"/>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Date: <span class="text-danger">*</span></label>
@@ -120,8 +113,8 @@
                                     </div>
                                 </div>
 
-                                <!-- CORRECCIÓN: window.submitForm() -->
-                                <button class="btn btn-success btn-lg w-100 fw-bold" onclick="window.submitForm()">
+                                <!-- Quitamos el onclick y ponemos un ID -->
+                                <button type="button" class="btn btn-success btn-lg w-100 fw-bold" id="btn_submit_osp">
                                     Submit Organic System Plan
                                 </button>
                             </div>
@@ -131,11 +124,12 @@
                 </div>
             </div>
 
-            <!-- JAVASCRIPT: EL CEREBRO DEL FORMULARIO -->
+            <!-- JAVASCRIPT NATIVO CERRADO -->
             <script type="text/javascript">
                 document.addEventListener("DOMContentLoaded", function() {
                     const ospId = <t t-esc="osp.id"/>;
                     
+                    // --- TABLA DINÁMICA ---
                     const sitesTbody = document.getElementById('sites_tbody');
                     const sitesJsonInput = document.getElementById('4g_sites_json');
                     let sitesData = [];
@@ -144,7 +138,7 @@
                         sitesData = JSON.parse(sitesJsonInput.value || '[]');
                     } catch(e) { sitesData = []; }
 
-                    window.renderSitesTable = function() {
+                    function renderSitesTable() {
                         sitesTbody.innerHTML = '';
                         if(sitesData.length === 0) {
                             sitesData.push({id: '', address: '', city: '', zip: ''});
@@ -153,33 +147,45 @@
                         sitesData.forEach((site, index) => {
                             const tr = document.createElement('tr');
                             tr.innerHTML = `
-                                <td><input type="text" class="form-control border-0 bg-transparent" value="${site.id || ''}" onchange="window.updateSite(${index}, 'id', this.value)" placeholder="ID..."/></td>
-                                <td><input type="text" class="form-control border-0 bg-transparent" value="${site.address || ''}" onchange="window.updateSite(${index}, 'address', this.value)" placeholder="Address..."/></td>
-                                <td><input type="text" class="form-control border-0 bg-transparent" value="${site.city || ''}" onchange="window.updateSite(${index}, 'city', this.value)" placeholder="City..."/></td>
-                                <td><input type="text" class="form-control border-0 bg-transparent" value="${site.zip || ''}" onchange="window.updateSite(${index}, 'zip', this.value)" placeholder="Zip..."/></td>
-                                <td><button type="button" class="btn btn-sm text-danger" onclick="window.deleteSite(${index})"><i class="fa fa-trash"></i></button></td>
+                                <td><input type="text" class="form-control border-0 bg-transparent site-input" data-index="${index}" data-field="id" value="${site.id || ''}" placeholder="ID..."/></td>
+                                <td><input type="text" class="form-control border-0 bg-transparent site-input" data-index="${index}" data-field="address" value="${site.address || ''}" placeholder="Address..."/></td>
+                                <td><input type="text" class="form-control border-0 bg-transparent site-input" data-index="${index}" data-field="city" value="${site.city || ''}" placeholder="City..."/></td>
+                                <td><input type="text" class="form-control border-0 bg-transparent site-input" data-index="${index}" data-field="zip" value="${site.zip || ''}" placeholder="Zip..."/></td>
+                                <td><button type="button" class="btn btn-sm text-danger btn-delete-site" data-index="${index}"><i class="fa fa-trash"></i></button></td>
                             `;
                             sitesTbody.appendChild(tr);
                         });
                         sitesJsonInput.value = JSON.stringify(sitesData);
-                    };
+                        bindTableEvents(); // Asignar eventos cada vez que se redibuja
+                    }
 
-                    window.addSiteRow = function() {
+                    // Enlazamos eventos a los inputs y botones de la tabla dibujada
+                    function bindTableEvents() {
+                        document.querySelectorAll('.site-input').forEach(input => {
+                            input.addEventListener('change', function() {
+                                const idx = this.getAttribute('data-index');
+                                const fld = this.getAttribute('data-field');
+                                sitesData[idx][fld] = this.value;
+                                sitesJsonInput.value = JSON.stringify(sitesData);
+                            });
+                        });
+                        document.querySelectorAll('.btn-delete-site').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                const idx = this.getAttribute('data-index');
+                                sitesData.splice(idx, 1);
+                                renderSitesTable();
+                            });
+                        });
+                    }
+
+                    // Botón Add Site
+                    document.getElementById('btn_add_site').addEventListener('click', function() {
                         sitesData.push({id: '', address: '', city: '', zip: ''});
-                        window.renderSitesTable();
-                    };
+                        renderSitesTable();
+                    });
 
-                    window.updateSite = function(index, field, value) {
-                        sitesData[index][field] = value;
-                        sitesJsonInput.value = JSON.stringify(sitesData);
-                    };
-
-                    window.deleteSite = function(index) {
-                        sitesData.splice(index, 1);
-                        window.renderSitesTable();
-                    };
-
-                    window.gatherFormData = function() {
+                    // --- GUARDADO GENERAL ---
+                    function gatherFormData() {
                         let data = {};
                         document.querySelectorAll('.osp-input').forEach(el => {
                             if(el.type === 'radio' || el.type === 'checkbox') {
@@ -189,14 +195,14 @@
                             }
                         });
                         return data;
-                    };
+                    }
 
-                    window.saveForm = function(isSubmit) {
+                    function saveForm(isSubmit) {
                         const statusText = document.getElementById('save_status');
                         statusText.style.display = 'inline';
                         statusText.innerText = 'Saving...';
                         
-                        const finalData = window.gatherFormData();
+                        const finalData = gatherFormData();
 
                         fetch(`/my/osp/save/${ospId}`, {
                             method: 'POST',
@@ -209,35 +215,37 @@
                                     is_submit: isSubmit
                                 }
                             })
-                        }).then(response => response.json())
+                        }).then(res => res.json())
                           .then(data => {
                               if(data.result &amp;&amp; data.result.success) {
                                   statusText.innerText = 'Saved!';
                                   setTimeout(() => statusText.style.display = 'none', 2000);
-                                  if(isSubmit) {
-                                      window.location.href = '/my/osp';
-                                  }
+                                  if(isSubmit) window.location.href = '/my/osp';
                               } else {
                                   statusText.innerText = 'Error al guardar';
                                   statusText.classList.replace('text-muted', 'text-danger');
                               }
-                          }).catch(err => {
-                              statusText.innerText = 'Error de red';
-                              statusText.classList.replace('text-muted', 'text-danger');
                           });
-                    };
+                    }
 
-                    window.submitForm = function() {
+                    // Botón Guardar Borrador
+                    document.getElementById('btn_save_progress').addEventListener('click', function() {
+                        saveForm(false);
+                    });
+
+                    // Botón Enviar (Submit)
+                    document.getElementById('btn_submit_osp').addEventListener('click', function() {
                         if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
                             alert("Please complete the electronic signature fields before submitting.");
                             return;
                         }
                         if(confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
-                            window.saveForm(true);
+                            saveForm(true);
                         }
-                    };
+                    });
 
-                    window.renderSitesTable();
+                    // Arrancar la vista
+                    renderSitesTable();
                 });
             </script>
         </t>
