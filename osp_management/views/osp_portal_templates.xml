@@ -2,7 +2,9 @@
 <odoo>
     
     <!-- 1. Añadir botón en "My Account" (/my/home) -->
-    <template id="portal_my_home_osp" name="Show OSP in Portal" inherit_id="portal.portal_my_home" customize_show="True" priority="30">
+    <!-- 1. Añadir botón en "My Account" (/my/home) -->
+    <!-- (Le quitamos el customize_show="True" para que sea obligatorio) -->
+    <template id="portal_my_home_osp" name="Show OSP in Portal" inherit_id="portal.portal_my_home" priority="30">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
                 <t t-set="title">Organic System Plan (OSP)</t>
