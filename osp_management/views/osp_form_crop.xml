@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Registrar el archivo JS en los assets del portal -->
-    <template id="assets_frontend_osp" inherit_id="portal.assets_frontend" name="OSP Frontend Assets">
-        <xpath expr="." position="inside">
-            <script type="text/javascript" src="/osp_management/static/src/js/osp_form.js"></script>
-        </xpath>
-    </template>
+    
 
     <template id="portal_osp_form_crop" name="OSP Crop Form">
         <t t-call="portal.portal_layout">

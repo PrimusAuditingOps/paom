@@ -10,12 +10,18 @@
     'author': 'Hector Cortes',
     'depends': ['base', 'mail', 'portal'],
     'data': [
-    'security/osp_security.xml',
-    'security/ir.model.access.csv',
-    'views/osp_menu_views.xml',
-    'views/osp_portal_templates.xml',
-    'views/osp_form_crop.xml', # <--- ¡Asegúrate de que esta línea esté aquí!
-],
+        'security/osp_security.xml',
+        'security/ir.model.access.csv',
+        'views/osp_menu_views.xml',
+        'views/osp_portal_templates.xml',
+        'views/osp_form_crop.xml',
+    ],
+    # --- ASÍ SE REGISTRA EL JAVASCRIPT EN ODOO 17 ---
+    'assets': {
+        'web.assets_frontend': [
+            'osp_management/static/src/js/osp_form.js',
+        ],
+    },
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
