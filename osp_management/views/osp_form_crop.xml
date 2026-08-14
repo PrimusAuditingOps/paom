@@ -15,7 +15,6 @@
                     </div>
                     <div>
                         <span id="save_status" class="text-muted me-3" style="display: none;">Saving...</span>
-                        <!-- Quitamos el onclick y ponemos un ID -->
                         <button type="button" class="btn btn-outline-success me-2" id="btn_save_progress">
                             <i class="fa fa-save"></i> Save progress
                         </button>
@@ -85,7 +84,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- Quitamos el onclick y ponemos un ID -->
                                 <button type="button" class="btn btn-sm btn-outline-success" id="btn_add_site">
                                     <i class="fa fa-plus"></i> Add Site
                                 </button>
@@ -113,7 +111,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Quitamos el onclick y ponemos un ID -->
                                 <button type="button" class="btn btn-success btn-lg w-100 fw-bold" id="btn_submit_osp">
                                     Submit Organic System Plan
                                 </button>
@@ -124,23 +121,29 @@
                 </div>
             </div>
 
-            <!-- JAVASCRIPT: EJECUCIÓN INMEDIATA -->
+            <!-- JAVASCRIPT ROBUSTO CON POLLING -->
             <script type="text/javascript">
-                // Usamos una función anónima autoejecutable en lugar de DOMContentLoaded
-                (function() {
-                    const ospId = <t t-esc="osp.id"/>;
-                    
+                function initOSPForm() {
+                    // 1. EL SABUESO: Buscar la tabla. Si no está, esperar 100ms y volver a intentar.
                     const sitesTbody = document.getElementById('sites_tbody');
+                    if (!sitesTbody) {
+                        setTimeout(initOSPForm, 100);
+                        return;
+                    }
+                    
+                    // Si llegamos aquí, la tabla YA EXISTE en la pantalla al 100%
+                    const ospId = parseInt("<t t-esc="osp.id"/>");
                     const sitesJsonInput = document.getElementById('4g_sites_json');
                     let sitesData = [];
                     
                     try {
                         sitesData = JSON.parse(sitesJsonInput.value || '[]');
-                    } catch(e) { sitesData = []; }
+                    } catch(e) { 
+                        sitesData = []; 
+                    }
 
+                    // --- FUNCIONES DE LA TABLA ---
                     function renderSitesTable() {
-                        if (!sitesTbody) return;
-                        
                         sitesTbody.innerHTML = '';
                         if(sitesData.length === 0) {
                             sitesData.push({id: '', address: '', city: '', zip: ''});
@@ -179,14 +182,11 @@
                         });
                     }
 
-                    // Evento Botón Add Site
-                    const btnAddSite = document.getElementById('btn_add_site');
-                    if (btnAddSite) {
-                        btnAddSite.addEventListener('click', function() {
-                            sitesData.push({id: '', address: '', city: '', zip: ''});
-                            renderSitesTable();
-                        });
-                    }
+                    // --- EVENTOS DE BOTONES ---
+                    document.getElementById('btn_add_site').addEventListener('click', function() {
+                        sitesData.push({id: '', address: '', city: '', zip: ''});
+                        renderSitesTable();
+                    });
 
                     // --- GUARDADO GENERAL ---
                     function gatherFormData() {
@@ -203,10 +203,8 @@
 
                     function saveForm(isSubmit) {
                         const statusText = document.getElementById('save_status');
-                        if(statusText) {
-                            statusText.style.display = 'inline';
-                            statusText.innerText = 'Saving...';
-                        }
+                        statusText.style.display = 'inline';
+                        statusText.innerText = 'Saving...';
                         
                         const finalData = gatherFormData();
 
@@ -223,48 +221,40 @@
                             })
                         }).then(res => res.json())
                           .then(data => {
-                              if(data.result) {
-                                  if(data.result.success) {
-                                      if(statusText) {
-                                          statusText.innerText = 'Saved!';
-                                          setTimeout(() => statusText.style.display = 'none', 2000);
-                                      }
-                                      if(isSubmit) window.location.href = '/my/osp';
-                                  } else {
-                                      if(statusText) {
-                                          statusText.innerText = 'Error al guardar';
-                                          statusText.classList.replace('text-muted', 'text-danger');
-                                      }
-                                  }
+                              if(data.result &amp;&amp; data.result.success) {
+                                  statusText.innerText = 'Saved!';
+                                  setTimeout(() => statusText.style.display = 'none', 2000);
+                                  if(isSubmit) window.location.href = '/my/osp';
+                              } else {
+                                  statusText.innerText = 'Error al guardar';
+                                  statusText.classList.replace('text-muted', 'text-danger');
                               }
+                          }).catch(err => {
+                              statusText.innerText = 'Error de conexión';
+                              statusText.classList.replace('text-muted', 'text-danger');
                           });
                     }
 
-                    // Evento Botón Guardar
-                    const btnSave = document.getElementById('btn_save_progress');
-                    if (btnSave) {
-                        btnSave.addEventListener('click', function() {
-                            saveForm(false);
-                        });
-                    }
+                    document.getElementById('btn_save_progress').addEventListener('click', function() {
+                        saveForm(false);
+                    });
 
-                    // Evento Botón Submit
-                    const btnSubmit = document.getElementById('btn_submit_osp');
-                    if (btnSubmit) {
-                        btnSubmit.addEventListener('click', function() {
-                            if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
-                                alert("Please complete the electronic signature fields before submitting.");
-                                return;
-                            }
-                            if(confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
-                                saveForm(true);
-                            }
-                        });
-                    }
+                    document.getElementById('btn_submit_osp').addEventListener('click', function() {
+                        if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
+                            alert("Please complete the electronic signature fields before submitting.");
+                            return;
+                        }
+                        if(confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
+                            saveForm(true);
+                        }
+                    });
 
-                    // Arrancar la vista
+                    // Dibujar la tabla por primera vez
                     renderSitesTable();
-                })();
+                }
+
+                // Arrancar el sabueso
+                initOSPForm();
             </script>
         </t>
     </template>
