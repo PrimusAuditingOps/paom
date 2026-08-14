@@ -124,12 +124,12 @@
                 </div>
             </div>
 
-            <!-- JAVASCRIPT NATIVO CERRADO -->
+            <!-- JAVASCRIPT: EJECUCIÓN INMEDIATA -->
             <script type="text/javascript">
-                document.addEventListener("DOMContentLoaded", function() {
+                // Usamos una función anónima autoejecutable en lugar de DOMContentLoaded
+                (function() {
                     const ospId = <t t-esc="osp.id"/>;
                     
-                    // --- TABLA DINÁMICA ---
                     const sitesTbody = document.getElementById('sites_tbody');
                     const sitesJsonInput = document.getElementById('4g_sites_json');
                     let sitesData = [];
@@ -139,6 +139,8 @@
                     } catch(e) { sitesData = []; }
 
                     function renderSitesTable() {
+                        if (!sitesTbody) return;
+                        
                         sitesTbody.innerHTML = '';
                         if(sitesData.length === 0) {
                             sitesData.push({id: '', address: '', city: '', zip: ''});
@@ -156,10 +158,9 @@
                             sitesTbody.appendChild(tr);
                         });
                         sitesJsonInput.value = JSON.stringify(sitesData);
-                        bindTableEvents(); // Asignar eventos cada vez que se redibuja
+                        bindTableEvents();
                     }
 
-                    // Enlazamos eventos a los inputs y botones de la tabla dibujada
                     function bindTableEvents() {
                         document.querySelectorAll('.site-input').forEach(input => {
                             input.addEventListener('change', function() {
@@ -178,11 +179,14 @@
                         });
                     }
 
-                    // Botón Add Site
-                    document.getElementById('btn_add_site').addEventListener('click', function() {
-                        sitesData.push({id: '', address: '', city: '', zip: ''});
-                        renderSitesTable();
-                    });
+                    // Evento Botón Add Site
+                    const btnAddSite = document.getElementById('btn_add_site');
+                    if (btnAddSite) {
+                        btnAddSite.addEventListener('click', function() {
+                            sitesData.push({id: '', address: '', city: '', zip: ''});
+                            renderSitesTable();
+                        });
+                    }
 
                     // --- GUARDADO GENERAL ---
                     function gatherFormData() {
@@ -199,8 +203,10 @@
 
                     function saveForm(isSubmit) {
                         const statusText = document.getElementById('save_status');
-                        statusText.style.display = 'inline';
-                        statusText.innerText = 'Saving...';
+                        if(statusText) {
+                            statusText.style.display = 'inline';
+                            statusText.innerText = 'Saving...';
+                        }
                         
                         const finalData = gatherFormData();
 
@@ -217,36 +223,48 @@
                             })
                         }).then(res => res.json())
                           .then(data => {
-                              if(data.result &amp;&amp; data.result.success) {
-                                  statusText.innerText = 'Saved!';
-                                  setTimeout(() => statusText.style.display = 'none', 2000);
-                                  if(isSubmit) window.location.href = '/my/osp';
-                              } else {
-                                  statusText.innerText = 'Error al guardar';
-                                  statusText.classList.replace('text-muted', 'text-danger');
+                              if(data.result) {
+                                  if(data.result.success) {
+                                      if(statusText) {
+                                          statusText.innerText = 'Saved!';
+                                          setTimeout(() => statusText.style.display = 'none', 2000);
+                                      }
+                                      if(isSubmit) window.location.href = '/my/osp';
+                                  } else {
+                                      if(statusText) {
+                                          statusText.innerText = 'Error al guardar';
+                                          statusText.classList.replace('text-muted', 'text-danger');
+                                      }
+                                  }
                               }
                           });
                     }
 
-                    // Botón Guardar Borrador
-                    document.getElementById('btn_save_progress').addEventListener('click', function() {
-                        saveForm(false);
-                    });
+                    // Evento Botón Guardar
+                    const btnSave = document.getElementById('btn_save_progress');
+                    if (btnSave) {
+                        btnSave.addEventListener('click', function() {
+                            saveForm(false);
+                        });
+                    }
 
-                    // Botón Enviar (Submit)
-                    document.getElementById('btn_submit_osp').addEventListener('click', function() {
-                        if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
-                            alert("Please complete the electronic signature fields before submitting.");
-                            return;
-                        }
-                        if(confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
-                            saveForm(true);
-                        }
-                    });
+                    // Evento Botón Submit
+                    const btnSubmit = document.getElementById('btn_submit_osp');
+                    if (btnSubmit) {
+                        btnSubmit.addEventListener('click', function() {
+                            if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
+                                alert("Please complete the electronic signature fields before submitting.");
+                                return;
+                            }
+                            if(confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
+                                saveForm(true);
+                            }
+                        });
+                    }
 
                     // Arrancar la vista
                     renderSitesTable();
-                });
+                })();
             </script>
         </t>
     </template>
