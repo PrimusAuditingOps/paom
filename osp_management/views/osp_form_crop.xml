@@ -134,109 +134,118 @@
 
             <!-- JAVASCRIPT: EL CEREBRO DEL FORMULARIO -->
             <script type="text/javascript">
-                const ospId = <t t-esc="osp.id"/>;
-                
-                // === LÓGICA DE LA TABLA DINÁMICA (SECCIÓN 4) ===
-                const sitesTbody = document.getElementById('sites_tbody');
-                const sitesJsonInput = document.getElementById('4g_sites_json');
-                let sitesData = [];
-                
-                try {
-                    sitesData = JSON.parse(sitesJsonInput.value || '[]');
-                } catch(e) { sitesData = []; }
-
-                function renderSitesTable() {
-                    sitesTbody.innerHTML = '';
-                    if(sitesData.length === 0) addSiteRow(); // Mostrar al menos uno vacío
+                document.addEventListener("DOMContentLoaded", function() {
+                    const ospId = <t t-esc="osp.id"/>;
                     
-                    sitesData.forEach((site, index) => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td><input type="text" class="form-control border-0 bg-transparent" value="${site.id || ''}" onchange="updateSite(${index}, 'id', this.value)" placeholder="ID..."/></td>
-                            <td><input type="text" class="form-control border-0 bg-transparent" value="${site.address || ''}" onchange="updateSite(${index}, 'address', this.value)" placeholder="Address..."/></td>
-                            <td><input type="text" class="form-control border-0 bg-transparent" value="${site.city || ''}" onchange="updateSite(${index}, 'city', this.value)" placeholder="City..."/></td>
-                            <td><input type="text" class="form-control border-0 bg-transparent" value="${site.zip || ''}" onchange="updateSite(${index}, 'zip', this.value)" placeholder="Zip..."/></td>
-                            <td><button class="btn btn-sm text-danger" onclick="deleteSite(${index})"><i class="fa fa-trash"></i></button></td>
-                        `;
-                        sitesTbody.appendChild(tr);
-                    });
-                    // Guardar en el input oculto
-                    sitesJsonInput.value = JSON.stringify(sitesData);
-                }
+                    // === LÓGICA DE LA TABLA DINÁMICA (SECCIÓN 4) ===
+                    const sitesTbody = document.getElementById('sites_tbody');
+                    const sitesJsonInput = document.getElementById('4g_sites_json');
+                    let sitesData = [];
+                    
+                    try {
+                        sitesData = JSON.parse(sitesJsonInput.value || '[]');
+                    } catch(e) { sitesData = []; }
 
-                function addSiteRow() {
-                    sitesData.push({id: '', address: '', city: '', zip: ''});
-                    renderSitesTable();
-                }
-
-                function updateSite(index, field, value) {
-                    sitesData[index][field] = value;
-                    sitesJsonInput.value = JSON.stringify(sitesData);
-                }
-
-                function deleteSite(index) {
-                    sitesData.splice(index, 1);
-                    renderSitesTable();
-                }
-
-                // === LÓGICA DE GUARDADO GLOBAL ===
-                function gatherFormData() {
-                    let data = {};
-                    // Recolectar todos los inputs que tengan la clase 'osp-input'
-                    document.querySelectorAll('.osp-input').forEach(el => {
-                        if(el.type === 'radio' || el.type === 'checkbox') {
-                            if(el.checked) data[el.name] = el.value;
-                        } else {
-                            data[el.name] = el.value;
+                    window.renderSitesTable = function() {
+                        sitesTbody.innerHTML = '';
+                        if(sitesData.length === 0) {
+                            sitesData.push({id: '', address: '', city: '', zip: ''});
                         }
-                    });
-                    return data;
-                }
+                        
+                        sitesData.forEach((site, index) => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td><input type="text" class="form-control border-0 bg-transparent" value="${site.id || ''}" onchange="window.updateSite(${index}, 'id', this.value)" placeholder="ID..."/></td>
+                                <td><input type="text" class="form-control border-0 bg-transparent" value="${site.address || ''}" onchange="window.updateSite(${index}, 'address', this.value)" placeholder="Address..."/></td>
+                                <td><input type="text" class="form-control border-0 bg-transparent" value="${site.city || ''}" onchange="window.updateSite(${index}, 'city', this.value)" placeholder="City..."/></td>
+                                <td><input type="text" class="form-control border-0 bg-transparent" value="${site.zip || ''}" onchange="window.updateSite(${index}, 'zip', this.value)" placeholder="Zip..."/></td>
+                                <td><button type="button" class="btn btn-sm text-danger" onclick="window.deleteSite(${index})"><i class="fa fa-trash"></i></button></td>
+                            `;
+                            sitesTbody.appendChild(tr);
+                        });
+                        // Guardar en el input oculto
+                        sitesJsonInput.value = JSON.stringify(sitesData);
+                    };
 
-                function saveForm(isSubmit) {
-                    const statusText = document.getElementById('save_status');
-                    statusText.style.display = 'inline';
-                    statusText.innerText = 'Saving...';
-                    
-                    const finalData = gatherFormData();
+                    window.addSiteRow = function() {
+                        sitesData.push({id: '', address: '', city: '', zip: ''});
+                        window.renderSitesTable();
+                    };
 
-                    // Llamada AJAX a Odoo (JSON-RPC 2.0)
-                    fetch(`/my/osp/save/${ospId}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            jsonrpc: "2.0",
-                            method: "call",
-                            params: {
-                                form_data: finalData,
-                                is_submit: isSubmit
+                    window.updateSite = function(index, field, value) {
+                        sitesData[index][field] = value;
+                        sitesJsonInput.value = JSON.stringify(sitesData);
+                    };
+
+                    window.deleteSite = function(index) {
+                        sitesData.splice(index, 1);
+                        window.renderSitesTable();
+                    };
+
+                    // === LÓGICA DE GUARDADO GLOBAL ===
+                    window.gatherFormData = function() {
+                        let data = {};
+                        document.querySelectorAll('.osp-input').forEach(el => {
+                            if(el.type === 'radio' || el.type === 'checkbox') {
+                                if(el.checked) data[el.name] = el.value;
+                            } else {
+                                data[el.name] = el.value;
                             }
-                        })
-                    }).then(response => response.json())
-                      .then(data => {
-                          if(data.result.success) {
-                              statusText.innerText = 'Saved!';
-                              setTimeout(() => statusText.style.display = 'none', 2000);
-                              if(isSubmit) {
-                                  window.location.href = '/my/osp';
+                        });
+                        return data;
+                    };
+
+                    window.saveForm = function(isSubmit) {
+                        const statusText = document.getElementById('save_status');
+                        statusText.style.display = 'inline';
+                        statusText.innerText = 'Saving...';
+                        
+                        const finalData = window.gatherFormData();
+
+                        // Llamada AJAX a Odoo (JSON-RPC 2.0)
+                        fetch(`/my/osp/save/${ospId}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                jsonrpc: "2.0",
+                                method: "call",
+                                params: {
+                                    form_data: finalData,
+                                    is_submit: isSubmit
+                                }
+                            })
+                        }).then(response => response.json())
+                          .then(data => {
+                              if(data.result &amp;&amp; data.result.success) {
+                                  statusText.innerText = 'Saved!';
+                                  setTimeout(() => statusText.style.display = 'none', 2000);
+                                  if(isSubmit) {
+                                      window.location.href = '/my/osp';
+                                  }
+                              } else {
+                                  statusText.innerText = 'Error al guardar';
+                                  statusText.classList.replace('text-muted', 'text-danger');
                               }
-                          }
-                      });
-                }
+                          }).catch(err => {
+                              statusText.innerText = 'Error de red';
+                              statusText.classList.replace('text-muted', 'text-danger');
+                          });
+                    };
 
-                function submitForm() {
-                    // Validación de Firma
-                    if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
-                        alert("Please complete the electronic signature fields before submitting.");
-                        return;
-                    }
-                    if(confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
-                        saveForm(true);
-                    }
-                }
+                    window.submitForm = function() {
+                        // Validación de Firma
+                        if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
+                            alert("Please complete the electronic signature fields before submitting.");
+                            return;
+                        }
+                        if(confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
+                            window.saveForm(true);
+                        }
+                    };
 
-                // Renderizar tabla al cargar
-                renderSitesTable();
+                    // Arrancar la tabla al inicio
+                    window.renderSitesTable();
+                });
             </script>
         </t>
     </template>
