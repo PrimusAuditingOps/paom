@@ -16,7 +16,8 @@
                     </div>
                     <div>
                         <span id="save_status" class="text-muted me-3" style="display: none;">Saving...</span>
-                        <button class="btn btn-outline-success me-2" onclick="saveForm(false)">
+                        <!-- CORRECCIÓN: window.saveForm() -->
+                        <button class="btn btn-outline-success me-2" onclick="window.saveForm(false)">
                             <i class="fa fa-save"></i> Save progress
                         </button>
                     </div>
@@ -64,9 +65,6 @@
                                         <input type="text" class="form-control osp-input" name="1b_dba_name" t-att-value="data.get('1b_dba_name')"/>
                                     </div>
                                 </div>
-                                
-                                <!-- Aquí puedes seguir agregando 1c, 1d, 1e copiando esta estructura -->
-                                
                             </div>
 
                             <!-- ========================================== -->
@@ -92,11 +90,11 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <button type="button" class="btn btn-sm btn-outline-success" onclick="addSiteRow()">
+                                <!-- CORRECCIÓN: window.addSiteRow() -->
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="window.addSiteRow()">
                                     <i class="fa fa-plus"></i> Add Site
                                 </button>
                                 
-                                <!-- Campo oculto que guardará el JSON de la tabla para enviarlo al backend -->
                                 <input type="hidden" class="osp-input" name="4g_sites_json" id="4g_sites_json" t-att-value="data.get('4g_sites_json', '[]')"/>
                             </div>
 
@@ -122,7 +120,8 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-success btn-lg w-100 fw-bold" onclick="submitForm()">
+                                <!-- CORRECCIÓN: window.submitForm() -->
+                                <button class="btn btn-success btn-lg w-100 fw-bold" onclick="window.submitForm()">
                                     Submit Organic System Plan
                                 </button>
                             </div>
@@ -137,7 +136,6 @@
                 document.addEventListener("DOMContentLoaded", function() {
                     const ospId = <t t-esc="osp.id"/>;
                     
-                    // === LÓGICA DE LA TABLA DINÁMICA (SECCIÓN 4) ===
                     const sitesTbody = document.getElementById('sites_tbody');
                     const sitesJsonInput = document.getElementById('4g_sites_json');
                     let sitesData = [];
@@ -163,7 +161,6 @@
                             `;
                             sitesTbody.appendChild(tr);
                         });
-                        // Guardar en el input oculto
                         sitesJsonInput.value = JSON.stringify(sitesData);
                     };
 
@@ -182,7 +179,6 @@
                         window.renderSitesTable();
                     };
 
-                    // === LÓGICA DE GUARDADO GLOBAL ===
                     window.gatherFormData = function() {
                         let data = {};
                         document.querySelectorAll('.osp-input').forEach(el => {
@@ -202,7 +198,6 @@
                         
                         const finalData = window.gatherFormData();
 
-                        // Llamada AJAX a Odoo (JSON-RPC 2.0)
                         fetch(`/my/osp/save/${ospId}`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -233,7 +228,6 @@
                     };
 
                     window.submitForm = function() {
-                        // Validación de Firma
                         if(!document.getElementById('req_name').value || !document.getElementById('req_sign').value || !document.getElementById('req_date').value) {
                             alert("Please complete the electronic signature fields before submitting.");
                             return;
@@ -243,7 +237,6 @@
                         }
                     };
 
-                    // Arrancar la tabla al inicio
                     window.renderSitesTable();
                 });
             </script>
