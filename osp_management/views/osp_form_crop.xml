@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    
-
+<odoo>    
     <template id="portal_osp_form_crop" name="OSP Crop Form">
         <t t-call="portal.portal_layout">
             <t t-set="data" t-value="osp.form_data or {}"/>
