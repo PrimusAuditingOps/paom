@@ -2,7 +2,7 @@
 // y nos confirmará que Odoo ya enlazó el archivo.
 console.log("🟢 [OSP] Archivo Javascript cargado exitosamente por Odoo 17.");
 
-document.addEventListener("DOMContentLoaded", function() {
+function initOspForm() {
     // Solo ejecutamos el código si estamos en la página del formulario
     const formContent = document.getElementById('form-content');
     if (!formContent) return; 
@@ -159,4 +159,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Arrancar la tabla
     renderSitesTable();
-});
+}
+
+// Disparador defensivo: si el DOM ya está listo cuando este script se ejecuta
+// (común con bundles de assets que cargan de forma diferida/"lazy" en Odoo),
+// corremos de inmediato. Si no, esperamos el evento normalmente.
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOspForm);
+} else {
+    initOspForm();
+}
