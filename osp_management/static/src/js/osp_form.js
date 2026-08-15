@@ -23,20 +23,44 @@ document.addEventListener("DOMContentLoaded", function() {
         sitesData = []; 
     }
 
+    // Definición única de las columnas de la tabla Sites (4g).
+    // Si el header del HTML cambia, solo hay que actualizar esta lista.
+    const SITE_FIELDS = [
+        { key: 'site_id', placeholder: 'Site ID / Name...' },
+        { key: 'site_address', placeholder: 'Site Address...' },
+        { key: 'city_state', placeholder: 'City, State...' },
+        { key: 'zip', placeholder: 'Zip...' },
+        { key: 'contact', placeholder: 'Contact Name and Phone Number...' },
+        { key: 'description', placeholder: 'Description of Site activities and responsibilities...' },
+    ];
+
+    function emptySiteRow() {
+        const row = {};
+        SITE_FIELDS.forEach(f => { row[f.key] = ''; });
+        return row;
+    }
+
     function renderSitesTable() {
         sitesTbody.innerHTML = '';
-        if(sitesData.length === 0) {
-            sitesData.push({id: '', address: '', city: '', zip: ''});
+        if (sitesData.length === 0) {
+            sitesData.push(emptySiteRow());
         }
-        
+
         sitesData.forEach((site, index) => {
             const tr = document.createElement('tr');
+            const cells = SITE_FIELDS.map(f => `
+                <td><input type="text" class="form-control border-0 bg-transparent site-input"
+                    data-index="${index}" data-field="${f.key}"
+                    value="${(site[f.key] || '').replace(/"/g, '&quot;')}"
+                    placeholder="${f.placeholder}"/></td>
+            `).join('');
             tr.innerHTML = `
-                <td><input type="text" class="form-control border-0 bg-transparent site-input" data-index="${index}" data-field="id" value="${site.id || ''}" placeholder="ID..."/></td>
-                <td><input type="text" class="form-control border-0 bg-transparent site-input" data-index="${index}" data-field="address" value="${site.address || ''}" placeholder="Address..."/></td>
-                <td><input type="text" class="form-control border-0 bg-transparent site-input" data-index="${index}" data-field="city" value="${site.city || ''}" placeholder="City..."/></td>
-                <td><input type="text" class="form-control border-0 bg-transparent site-input" data-index="${index}" data-field="zip" value="${site.zip || ''}" placeholder="Zip..."/></td>
-                <td><button type="button" class="btn btn-sm text-danger btn-delete-site" data-index="${index}"><i class="fa fa-trash"></i></button></td>
+                ${cells}
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm text-danger btn-delete-site" data-index="${index}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
             `;
             sitesTbody.appendChild(tr);
         });
@@ -65,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Botón Add Site
     document.getElementById('btn_add_site').addEventListener('click', function() {
         console.log("🟢 [OSP] Agregando nueva fila...");
-        sitesData.push({id: '', address: '', city: '', zip: ''});
+        sitesData.push(emptySiteRow());
         renderSitesTable();
     });
 
