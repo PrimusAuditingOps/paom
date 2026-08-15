@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     
-    <!-- 1. Añadir botón en "My Account" (/my/home) -->
+    <!-- 1. Añadir botón en "My Account" (/my/home) de forma segura en Odoo 17 -->
     <template id="portal_my_home_osp_raw" name="Show OSP in Portal" inherit_id="portal.portal_my_home" priority="99">
+        <!-- En Odoo 17, el contenedor principal de los documentos se llama o_portal_docs, 
+             PERO para evitar errores, inyectamos en portal_docs o directamente al final -->
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             
-            <!-- Inyectamos HTML puro idéntico al estilo de tus otras tarjetas -->
-            <div class="col-12 col-md-6 mb-3">
-                <a href="/my/osp" class="list-group-item list-group-item-action d-flex align-items-center border-0 rounded p-3 h-100" style="background-color: #f3f4f6; text-decoration: none;">
-                    <div class="me-3" style="color: #28a745;">
-                        <i class="fa fa-leaf fa-2x"></i>
-                    </div>
-                    <div>
-                        <h5 class="mb-1 fw-bold text-dark">Organic System Plans</h5>
-                        <p class="mb-0 text-muted" style="font-size: 0.9em;">Manage your applications and plans</p>
-                    </div>
-                </a>
+            <div class="o_portal_category row mb-3">
+                <div class="col-12 col-md-6 mb-3">
+                    <a href="/my/osp" class="list-group-item list-group-item-action d-flex align-items-center border-0 rounded p-3 h-100" style="background-color: #f3f4f6; text-decoration: none;">
+                        <div class="me-3" style="color: #28a745;">
+                            <i class="fa fa-leaf fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 fw-bold text-dark">Organic System Plans</h5>
+                            <p class="mb-0 text-muted" style="font-size: 0.9em;">Manage your applications and plans</p>
+                        </div>
+                    </a>
+                </div>
             </div>
             
         </xpath>
@@ -156,40 +159,41 @@
                     const inputServiceId = document.getElementById('input_service_id');
                     const templateOptions = document.querySelectorAll('.template-option');
                     
-                    // Al seleccionar servicio...
-                    document.querySelectorAll('.btn-select-service').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const serviceId = this.getAttribute('data-id');
-                            inputServiceId.value = serviceId;
-                            
-                            // Ocultar formularios que no sean de este servicio
-                            templateOptions.forEach(opt => {
-                                if(opt.getAttribute('data-service') === serviceId) {
-                                    opt.style.display = 'flex';
-                                } else {
-                                    opt.style.display = 'none';
-                                }
+                    if(step1) {
+                        document.querySelectorAll('.btn-select-service').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                const serviceId = this.getAttribute('data-id');
+                                inputServiceId.value = serviceId;
+                                
+                                templateOptions.forEach(opt => {
+                                    if(opt.getAttribute('data-service') === serviceId) {
+                                        opt.style.display = 'flex';
+                                    } else {
+                                        opt.style.display = 'none';
+                                    }
+                                });
+
+                                step1.style.display = 'none';
+                                step2.style.display = 'block';
+                                modalTitle.style.display = 'none';
                             });
-
-                            // Cambiar de vista
-                            step1.style.display = 'none';
-                            step2.style.display = 'block';
-                            modalTitle.style.display = 'none'; // Ocultamos el título principal
                         });
-                    });
+                    }
 
-                    // Botón atrás
-                    document.getElementById('btn_back_service').addEventListener('click', function() {
-                        step2.style.display = 'none';
-                        step1.style.display = 'block';
-                        modalTitle.style.display = 'block';
-                    });
+                    const backBtn = document.getElementById('btn_back_service');
+                    if(backBtn) {
+                        backBtn.addEventListener('click', function() {
+                            step2.style.display = 'none';
+                            step1.style.display = 'block';
+                            modalTitle.style.display = 'block';
+                        });
+                    }
                 });
             </script>
         </t>
     </template>
 
-    <!-- 3. PANTALLA TEMPORAL DEL FORMULARIO (En lo que hacemos los PDFs) -->
+    <!-- 3. PANTALLA TEMPORAL DEL FORMULARIO -->
     <template id="portal_osp_form_placeholder" name="Formulario OSP">
         <t t-call="portal.portal_layout">
             <div class="container mt-5 text-center">
