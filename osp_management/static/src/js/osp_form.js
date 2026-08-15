@@ -29,10 +29,11 @@ odoo.define('pao_osp.form_crop', function (require) {
             return this._super.apply(this, arguments);
         },
 
+        
         _renderSitesTable: function () {
             this.sitesTbody.empty();
             if(this.sitesData.length === 0) {
-                this.sitesData.push({id: '', address: '', city: '', zip: ''});
+                this.sitesData.push({id: '', address: '', city: '', zip: ''}); 
             }
             
             var self = this;
