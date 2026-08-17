@@ -91,12 +91,14 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 
 `1e_state` y `1g_country` son **selects reales conectados a `res.country.state` / `res.country`** (no texto libre), con filtro en cascada en JS: al elegir un país, el select de estado solo muestra los de ese país.
 
-## 6. Modo Administrador de OSP / solo-lectura (IMPLEMENTADO — 17/ago)
+## 6. Modo Administrador de OSP / edición del cliente (IMPLEMENTADO — 17/ago, corregido 17/ago)
 
-- Ruta `/my/osp/form/<id>` y `/my/osp/save/<id>` en `portal.py` ahora aceptan **dos tipos de usuario**: el cliente dueño del registro (`partner_id` coincide), o cualquier usuario del grupo `osp_management.group_osp_administrator`.
-- **Cliente**: puede editar/guardar mientras `state == 'draft'`. Una vez que hace Submit (`state == 'submitted'`), el formulario queda **de solo lectura** — el backend rechaza más guardados suyos y el frontend deshabilita todos los inputs (`window.OSP_READONLY`, aplicado en `osp_form.js`).
-- **Administrador de OSP**: puede entrar y editar el formulario **aunque ya esté `submitted`**, vía el botón "Ver Formulario Web" (`action_open_portal_form` en `osp_request.py`). Solo tiene botón de guardar (relabeled "Save changes"), **nunca Submit**. Cada guardado del admin se registra en el chatter del registro.
-- **Limitación conocida**: el modo solo-lectura se aplica vía JS (deshabilita inputs en el cliente), no hay un `readonly`/`disabled` a nivel de renderizado QWeb por cada campo individual (habría sido ~300 atributos extra). Si se necesita una garantía más fuerte a futuro (por si JS falla), habría que reforzarlo server-side.
+- Ruta `/my/osp/form/<id>` y `/my/osp/save/<id>` en `portal.py` aceptan **dos tipos de usuario**: el cliente dueño del registro (`partner_id` coincide), o cualquier usuario del grupo `osp_management.group_osp_administrator`.
+- **Cliente**: puede editar/guardar **siempre**, sin importar el `state` (`draft` o `submitted`). `readonly` en `portal_osp_form` es constante `False` — ya no existe el bloqueo "solo lectura tras submit" que había antes (se quitó porque el admin no tenía manera de regresar el registro a `draft`, y eso dejaba al cliente sin poder corregir nada tras un primer submit).
+  - **"Save progress"** (`is_submit=False`) sobre un formulario ya `submitted`: se guarda `form_data` normalmente, pero **no** toca `state`, **no** sincroniza los campos resumen y **no** notifica al admin — queda como avance privado del cliente.
+  - **"Submit"** (`is_submit=True`), sea la primera vez o una actualización: sincroniza los campos resumen (Sección 1 → `organization_name`/`dba_name`/etc., vía `_sync_osp_summary_fields`), (re)marca `state = 'submitted'`, y dispara la notificación al admin (punto 8).
+- **Administrador de OSP**: entra vía el botón "Ver Formulario Web" (`action_open_portal_form`, ver punto 7 — se abre incrustado en el backend). Solo tiene botón de guardar ("Save changes"), **nunca Submit**. Cada guardado del admin también corre `_sync_osp_summary_fields` (bug corregido 17/ago: antes solo se sincronizaba en el submit del cliente, así que si el admin corregía la Sección 1 —p. ej. `1a_org_name`/`1b_dba_name`— la lista del admin quedaba desactualizada) y deja rastro en el chatter.
+- `_sync_osp_summary_fields` vive en `controllers/portal.py` como método compartido de `OSPPortal`, usado tanto por el submit del cliente como por el guardado del admin — una sola fuente de verdad para evitar que se repita el bug anterior.
 
 ## 7. Formulario del admin incrustado en el backend (IMPLEMENTADO — 17/ago, puntos 2+3)
 
@@ -106,6 +108,8 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 - Componente Owl `OspAdminFormView` (`static/src/js/osp_admin_form_view.js` + template `static/src/xml/osp_admin_form_view.xml`), registrado en `web.assets_backend` vía el manifest. Simplemente renderiza un `<iframe>` hacia `/my/osp/form/<osp_id>` — la misma URL que usa el cliente.
 - **Resultado**: el botón "Ver Formulario Web" abre el formulario **dentro del top menu / breadcrumbs de Odoo** (no en pestaña nueva), mostrando **exactamente** las mismas capturas que ve el cliente, y todo guardado del admin usa el **mismo endpoint** `/my/osp/save/<id>` que ya existía — sincronización garantizada por diseño, sin lógica duplicada.
 - **Limitación conocida / mejora futura**: dentro del `<iframe>` todavía se ve el "cascarón" `portal.portal_layout` completo (navbar/footer del sitio web), duplicado visualmente con el top menu de Odoo por encima. Si se quiere un embed más limpio, se podría agregar un modo `?embed=1` que la ruta `/my/osp/form/<id>` detecte para omitir navbar/footer del portal y dejar solo el contenido del formulario.
+- **Corregido 17/ago**: el link "Back to list" del encabezado del formulario (`osp_form_crop.xml`) ahora solo se muestra `t-if="not is_admin"` — para el admin no tenía sentido (lo mandaba a `/my/osp`, el listado del *cliente*, que el admin no usa).
+- **Corregido 17/ago**: el título "Nuevo" que aparecía en la ficha del admin (campo `name`, default de Odoo) se reemplaza automáticamente al crear el registro por `"<Servicio> - <Tipo de Formulario>"` (override de `create()` en `osp_request.py`). Los registros que ya existían con `name = 'Nuevo'` **sí se migran retroactivamente**: ver `migrations/17.0.1.0.4/post-migrate.py` (bump de versión a `17.0.1.0.4` en `__manifest__.py` — corre solo, una vez, en el próximo `-u osp_management`).
 
 ## 8. Notificaciones al Administrador de OSP (IMPLEMENTADO — 17/ago, punto 4)
 
@@ -114,13 +118,13 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 - Si por algún motivo el grupo no tiene usuarios, se hace `message_post` normal como respaldo (para no perder el rastro en el chatter).
 - Nota: esto cubre las acciones del **cliente**. Los guardados del **admin** sobre un registro ya `submitted` siguen dejando su propio mensaje de chatter (ver punto 6) pero no generan campanita — no fue parte de lo solicitado.
 
-## 9. Subida de archivos adjuntos del cliente (IMPLEMENTADO — 17/ago, punto 6)
+## 9. Subida de archivos adjuntos del cliente (IMPLEMENTADO — 17/ago, punto 6; corregido 17/ago)
 
 - Nueva sección **"Attachments"** al final del formulario Crop (`osp_form_crop.xml`, `id="sec21"`), con link propio en la barra lateral.
-- Nueva ruta `POST /my/osp/upload/<osp_id>` (`portal.py`): solo actúa si quien llama es el **dueño** del registro y `state == 'draft'` (fuera de esas condiciones, el formulario ni siquiera muestra el botón de subir — variable de contexto `can_upload`). Cada archivo se crea como `ir.attachment` normal (`res_model='osp.request'`, `res_id=<id>`), con `description` indicando que fue "Subido por el cliente vía portal" — la "fuente" del archivo queda registrada de forma nativa en `create_uid`/`create_date` de ese `ir.attachment`, sin necesidad de un campo nuevo.
-- Nueva ruta `GET /my/osp/attachment/delete/<attachment_id>`: mismo candado (dueño + `draft`), permite al cliente borrar un adjunto que subió por error mientras sigue en borrador.
+- Nueva ruta `POST /my/osp/upload/<osp_id>` (`portal.py`): actúa si quien llama es el **dueño** del registro — **sin importar el estado** (`draft` o `submitted`; se quitó esa restricción para ser consistente con que "el cliente siempre puede editar", ver punto 6). Fuera de esa condición, el formulario ni siquiera muestra el botón de subir (variable de contexto `can_upload`). Cada archivo se crea como `ir.attachment` normal (`res_model='osp.request'`, `res_id=<id>`), con `description` indicando que fue "Subido por el cliente vía portal" — la "fuente" del archivo queda registrada de forma nativa en `create_uid`/`create_date` de ese `ir.attachment`, sin necesidad de un campo nuevo.
+- Nueva ruta `GET /my/osp/attachment/delete/<attachment_id>`: mismo candado (solo dueño, cualquier estado), permite al cliente borrar un adjunto que subió por error.
 - **El admin no necesita nada nuevo para verlos**: el botón inteligente "Archivos Adjuntos" (icono de clip, `action_view_attachments` + campo `attachment_count`) que ya existía en la vista de formulario del backend (`osp_menu_views.xml`) lista automáticamente todos los `ir.attachment` ligados al registro. Como cada subida crea un `ir.attachment` nuevo y distinto, "solo agregar si hay archivos nuevos" es el comportamiento natural de Odoo — no hace falta lógica de deduplicación.
-- La misma sección "Attachments" también lista los archivos (con link de descarga) cuando el formulario lo abre el admin o cuando ya está `submitted` — solo se ocultan los controles de subir/borrar según `can_upload`.
+- La misma sección "Attachments" también lista los archivos (con link de descarga) cuando el formulario lo abre el admin — solo se ocultan los controles de subir/borrar según `can_upload` (el admin nunca sube/borra desde aquí; usa el widget del backend).
 
 ## 10. Lecciones aprendidas / bugs ya corregidos (para no repetirlos)
 

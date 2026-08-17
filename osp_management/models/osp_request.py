@@ -63,6 +63,22 @@ class OSPRequest(models.Model):
                 ('res_id', '=', record.id)
             ])
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        # El título "Nuevo" (default del campo name) no dice nada útil en la
+        # lista/ficha del admin. Como los registros solo nacen desde el
+        # portal (portal_create_osp), ya siempre traen service_id y
+        # form_template_id al crearse: se arma el nombre a partir de esos
+        # dos catálogos, ej. "NOP/USDA - Crop".
+        for vals in vals_list:
+            if not vals.get('name') or vals.get('name') == 'Nuevo':
+                service = self.env['osp.service'].browse(vals['service_id']) if vals.get('service_id') else None
+                template = self.env['osp.form.template'].browse(vals['form_template_id']) if vals.get('form_template_id') else None
+                parts = [p for p in [service and service.name, template and template.name] if p]
+                if parts:
+                    vals['name'] = ' - '.join(parts)
+        return super().create(vals_list)
+
     # --- ACCIONES PARA LA BARRA DE ESTADO ---
     def action_set_done(self):
         for record in self:

@@ -6,6 +6,36 @@ from odoo.http import request
 
 class OSPPortal(CustomerPortal):
 
+    # Campos "resumen" del registro que se sincronizan desde la Sección 1
+    # del formulario, para que se vean directo en la lista/ficha del admin
+    # sin abrir el JSON completo. Se usa desde CUALQUIER guardado que toque
+    # esos datos (submit del cliente, o guardado del Administrador de OSP),
+    # no solo desde el submit — de lo contrario, si el admin corrige un dato
+    # de la Sección 1, la lista del admin queda desactualizada.
+    def _sync_osp_summary_fields(self, record, form_data):
+        vals = {}
+        if form_data.get('1a_org_name'):
+            vals['organization_name'] = form_data.get('1a_org_name')
+        if form_data.get('1b_dba_name'):
+            vals['dba_name'] = form_data.get('1b_dba_name')
+        if form_data.get('1c_address'):
+            vals['street'] = form_data.get('1c_address')
+        if form_data.get('1d_city'):
+            vals['city'] = form_data.get('1d_city')
+        if form_data.get('1f_zip'):
+            vals['zip_code'] = form_data.get('1f_zip')
+
+        state_id = form_data.get('1e_state')
+        if state_id:
+            vals['state_id'] = int(state_id)
+
+        country_id = form_data.get('1g_country')
+        if country_id:
+            vals['country_id'] = int(country_id)
+
+        if vals:
+            record.write(vals)
+
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
         if 'osp_count' in counters:
@@ -95,10 +125,13 @@ class OSPPortal(CustomerPortal):
         if not is_owner and not is_admin:
             return request.redirect('/my/osp')
 
-        # El formulario queda de solo lectura para el cliente una vez enviado.
-        # El administrador SIEMPRE puede seguir editando, incluso ya submitted.
         admin_editing = is_admin and not is_owner
-        readonly = (not admin_editing) and record.state == 'submitted'
+        # El cliente SIEMPRE puede seguir editando/guardando su formulario,
+        # incluso después de haber hecho Submit (y el admin, por supuesto,
+        # también). "submitted" ya no implica solo-lectura: solo indica que
+        # el registro es visible para el Administrador de OSP. Ver
+        # CONTEXT.md punto 6 para el detalle de esta decisión.
+        readonly = False
 
         # Si el código técnico es 'form_crop', abrimos la plantilla oficial
         if record.form_template_id.technical_code == 'form_crop':
@@ -118,7 +151,10 @@ class OSPPortal(CustomerPortal):
                 'is_admin': admin_editing,
                 'readonly': readonly,
                 'attachments': attachments,
-                'can_upload': is_owner and not admin_editing and record.state == 'draft',
+                # El cliente dueño siempre puede subir/borrar adjuntos, sin
+                # importar el estado (mismo criterio que la edición del
+                # formulario en general — ver CONTEXT.md punto 6).
+                'can_upload': is_owner and not admin_editing,
             })
 
         # Para otros formularios aún no construidos:
@@ -138,17 +174,20 @@ class OSPPortal(CustomerPortal):
         if not is_owner and not admin_editing:
             return {'success': False}
 
-        # El cliente ya no puede guardar/editar una vez que el formulario fue enviado.
-        # (El administrador sí puede, siempre, vía admin_editing.)
-        if is_owner and not admin_editing and record.state == 'submitted':
-            return {'success': False}
-
+        # El cliente SIEMPRE puede guardar/editar, sin importar el estado
+        # del registro (draft o submitted) — ver CONTEXT.md punto 6.
+        # "Save progress" sobre un formulario ya submitted queda guardado
+        # únicamente en form_data (privado, no toca los campos resumen ni
+        # notifica al admin) hasta que el cliente vuelva a hacer Submit.
         record.write({'form_data': form_data})
 
         if admin_editing:
-            # El administrador nunca hace "submit": solo guarda cambios,
-            # y queda registrado en el chatter para diferenciarlo de lo
-            # que originalmente envió el cliente.
+            # El administrador nunca hace "submit": solo guarda cambios. Se
+            # sincronizan igual los campos resumen (si tocó la Sección 1),
+            # para que la lista del admin no quede desactualizada, y queda
+            # registrado en el chatter para diferenciarlo de lo que
+            # originalmente envió el cliente.
+            self._sync_osp_summary_fields(record, form_data)
             record.message_post(
                 body=_("El Administrador de OSP (%s) modificó el formulario web.") % request.env.user.name
             )
@@ -157,32 +196,12 @@ class OSPPortal(CustomerPortal):
         # A partir de aquí: flujo normal del cliente (dueño del registro)
         if is_submit:
             was_submitted = record.state == 'submitted'
-            vals = {'state': 'submitted'}
 
-            # Sincronizamos los campos "resumen" del registro con las
-            # respuestas de la Sección 1, para que el administrador de OSP
-            # los vea directo en su lista/ficha sin abrir el JSON completo.
-            # Cada submit sobreescribe estos valores con lo más reciente.
-            if form_data.get('1a_org_name'):
-                vals['organization_name'] = form_data.get('1a_org_name')
-            if form_data.get('1b_dba_name'):
-                vals['dba_name'] = form_data.get('1b_dba_name')
-            if form_data.get('1c_address'):
-                vals['street'] = form_data.get('1c_address')
-            if form_data.get('1d_city'):
-                vals['city'] = form_data.get('1d_city')
-            if form_data.get('1f_zip'):
-                vals['zip_code'] = form_data.get('1f_zip')
-
-            state_id = form_data.get('1e_state')
-            if state_id:
-                vals['state_id'] = int(state_id)
-
-            country_id = form_data.get('1g_country')
-            if country_id:
-                vals['country_id'] = int(country_id)
-
-            record.write(vals)
+            # Cada submit sincroniza los campos "resumen" con lo más
+            # reciente de la Sección 1, y (re)marca el registro como
+            # submitted para que sea visible en la lista del admin.
+            self._sync_osp_summary_fields(record, form_data)
+            record.write({'state': 'submitted'})
 
             # --- Notificación al Administrador de OSP (punto 4) ---
             # Se registra en el chatter del registro y, además, se manda
@@ -213,7 +232,8 @@ class OSPPortal(CustomerPortal):
         return {'success': True}
 
     # 7. RUTA: SUBIR ARCHIVOS ADJUNTOS (punto 6)
-    # Solo el cliente dueño del registro, y solo mientras state == 'draft'.
+    # Solo el cliente dueño del registro (sin importar el estado: draft o
+    # submitted — mismo criterio que la edición del formulario en general).
     # Cada archivo se guarda como ir.attachment normal ligado al registro;
     # el widget de "Archivos Adjuntos" (icono de clip) del admin en el
     # backend ya los muestra automáticamente sin ningún código adicional.
@@ -224,7 +244,7 @@ class OSPPortal(CustomerPortal):
             return request.redirect('/my/osp')
 
         is_owner = record.partner_id.id == request.env.user.partner_id.id
-        if is_owner and record.state == 'draft':
+        if is_owner:
             files = request.httprequest.files.getlist('osp_files')
             for uploaded_file in files:
                 if not uploaded_file or not uploaded_file.filename:
@@ -239,14 +259,14 @@ class OSPPortal(CustomerPortal):
 
         return request.redirect('/my/osp/form/%s#sec21' % osp_id)
 
-    # 8. RUTA: BORRAR UN ARCHIVO ADJUNTO YA SUBIDO (solo mientras draft)
+    # 8. RUTA: BORRAR UN ARCHIVO ADJUNTO YA SUBIDO (dueño, cualquier estado)
     @http.route(['/my/osp/attachment/delete/<int:attachment_id>'], type='http', auth="user", website=True)
     def portal_delete_osp_attachment(self, attachment_id, **kw):
         attachment = request.env['ir.attachment'].sudo().browse(attachment_id)
         if attachment.exists() and attachment.res_model == 'osp.request':
             record = request.env['osp.request'].browse(attachment.res_id)
             is_owner = record.exists() and record.partner_id.id == request.env.user.partner_id.id
-            if is_owner and record.state == 'draft':
+            if is_owner:
                 osp_id = record.id
                 attachment.unlink()
                 return request.redirect('/my/osp/form/%s#sec21' % osp_id)
