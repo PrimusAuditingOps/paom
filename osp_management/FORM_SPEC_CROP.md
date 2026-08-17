@@ -1,6 +1,8 @@
 # Especificación técnica — Formulario "Crop" (Organic System Plan)
 
 > ✅ **ESTADO: FORMULARIO COMPLETO CONSTRUIDO** (17/ago). Las 20 secciones y las 12 tablas dinámicas (1j, 4g, 4h, 4j, 5d, 8a, 8g, 10, 12a, 14a, 19, 20) están implementadas en `osp_form_crop.xml` + `osp_form.js`. Todos los `⏳ Pendiente` de este documento quedaron construidos; se conserva como referencia de las decisiones de diseño (JSON keys, opciones de selects, condicionales) por si se necesita auditar o replicar el patrón en el próximo formulario (ej. "Handler"). Ver `CONTEXT.md` para el detalle de arquitectura (motor de tablas genérico, motor de condicionales, modo admin/solo-lectura).
+>
+> ➕ **Sección 21 "Attachments" agregada (17/ago, no es parte del PDF original)**: sección de subida general de archivos (no ligada a un `_attachment_needed` puntual), visible solo con controles de subir/borrar mientras `state == 'draft'` y el usuario es el cliente dueño. Ver `CONTEXT.md`, punto 9.
 
 Fuente: `Crop.pdf` (PrimusAuditingOps, Org-007 Rev.9, 1/9/2024, 21 páginas, 20 secciones).
 Este documento traduce cada pregunta del PDF a una especificación de campo lista para implementar en `osp_form_crop.xml` + `osp_form.js`, siguiendo las convenciones ya usadas en las Secciones 1 (parcial) y 4 (parcial).

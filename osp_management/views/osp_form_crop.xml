@@ -51,6 +51,7 @@
                             <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Affirmation (Firma)</a>
                             <a href="#sec19" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">19: Field History Affidavit</a>
                             <a href="#sec20" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">20: Search Record</a>
+                            <a href="#sec21" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list"><i class="fa fa-paperclip"></i> Attachments</a>
                         </div>
                     </div>
 
@@ -2076,6 +2077,44 @@
 <input type="hidden" class="osp-input" name="20_search_record_json" id="20_search_record_json" t-att-value="data.get('20_search_record_json', '[]')"/>
 
 </div>
+
+                            <div class="tab-pane fade" id="sec21">
+                                <h4 class="fw-bold mb-4"><i class="fa fa-paperclip"></i> Attachments</h4>
+                                <p class="text-muted small">
+                                    Upload here any supporting documents referenced throughout this form (certificates, maps, lab results, etc.).
+                                    <t t-if="not is_admin">Files can only be added or removed while this OSP is still a draft (before Submit).</t>
+                                </p>
+
+                                <div t-if="can_upload" class="mb-4">
+                                    <form t-attf-action="/my/osp/upload/#{osp.id}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <input type="file" name="osp_files" multiple="multiple" class="form-control" style="max-width: 400px;"/>
+                                        <button type="submit" class="btn btn-outline-success">
+                                            <i class="fa fa-upload"></i> Upload
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <div t-if="not attachments" class="alert alert-light border text-muted mb-0">
+                                    No files uploaded yet.
+                                </div>
+
+                                <div t-if="attachments" class="list-group">
+                                    <div t-foreach="attachments" t-as="att" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <a t-attf-href="/web/content/#{att.id}?download=true" target="_blank" class="text-decoration-none fw-bold">
+                                                <i class="fa fa-file-o me-1"></i><t t-esc="att.name"/>
+                                            </a>
+                                            <div class="text-muted small">
+                                                Uploaded by <t t-esc="att.create_uid.name"/> on <span t-field="att.create_date" t-options='{"widget": "date"}'/>
+                                            </div>
+                                        </div>
+                                        <a t-if="can_upload" t-attf-href="/my/osp/attachment/delete/#{att.id}" class="text-danger text-decoration-none" title="Delete" onclick="return confirm('Remove this file?');">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     </div>

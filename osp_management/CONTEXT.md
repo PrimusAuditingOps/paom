@@ -95,10 +95,34 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 
 - Ruta `/my/osp/form/<id>` y `/my/osp/save/<id>` en `portal.py` ahora aceptan **dos tipos de usuario**: el cliente dueño del registro (`partner_id` coincide), o cualquier usuario del grupo `osp_management.group_osp_administrator`.
 - **Cliente**: puede editar/guardar mientras `state == 'draft'`. Una vez que hace Submit (`state == 'submitted'`), el formulario queda **de solo lectura** — el backend rechaza más guardados suyos y el frontend deshabilita todos los inputs (`window.OSP_READONLY`, aplicado en `osp_form.js`).
-- **Administrador de OSP**: puede entrar y editar el formulario **aunque ya esté `submitted`**, vía el botón "Ver Formulario Web" (`action_open_portal_form` en `osp_request.py`, ya implementado — redirige a `/my/osp/form/<id>`). Solo tiene botón de guardar (relabeled "Save changes"), **nunca Submit**. Cada guardado del admin se registra en el chatter del registro (`record.message_post(...)`).
+- **Administrador de OSP**: puede entrar y editar el formulario **aunque ya esté `submitted`**, vía el botón "Ver Formulario Web" (`action_open_portal_form` en `osp_request.py`). Solo tiene botón de guardar (relabeled "Save changes"), **nunca Submit**. Cada guardado del admin se registra en el chatter del registro.
 - **Limitación conocida**: el modo solo-lectura se aplica vía JS (deshabilita inputs en el cliente), no hay un `readonly`/`disabled` a nivel de renderizado QWeb por cada campo individual (habría sido ~300 atributos extra). Si se necesita una garantía más fuerte a futuro (por si JS falla), habría que reforzarlo server-side.
 
-## 6. Lecciones aprendidas / bugs ya corregidos (para no repetirlos)
+## 7. Formulario del admin incrustado en el backend (IMPLEMENTADO — 17/ago, puntos 2+3)
+
+**Decisión de arquitectura** (en vez de reconstruir ~300 campos + 12 tablas como widgets nativos de Odoo, lo cual duplicaría `osp_form_crop.xml`/`osp_form.js` y arriesgaría que la vista admin y la vista cliente diverjan con el tiempo): se **reutiliza el mismo formulario del portal**, incrustado dentro del backend de Odoo vía un client action con `<iframe>`.
+
+- `action_open_portal_form` (`osp_request.py`) ahora detecta si quien llama es del grupo `osp_management.group_osp_administrator`: en ese caso devuelve `{'type': 'ir.actions.client', 'tag': 'osp_admin_form_view', 'params': {'osp_id': self.id}, 'target': 'current'}` en vez de un `act_url` a pestaña nueva. Cualquier otro caso conserva el `act_url` de respaldo.
+- Componente Owl `OspAdminFormView` (`static/src/js/osp_admin_form_view.js` + template `static/src/xml/osp_admin_form_view.xml`), registrado en `web.assets_backend` vía el manifest. Simplemente renderiza un `<iframe>` hacia `/my/osp/form/<osp_id>` — la misma URL que usa el cliente.
+- **Resultado**: el botón "Ver Formulario Web" abre el formulario **dentro del top menu / breadcrumbs de Odoo** (no en pestaña nueva), mostrando **exactamente** las mismas capturas que ve el cliente, y todo guardado del admin usa el **mismo endpoint** `/my/osp/save/<id>` que ya existía — sincronización garantizada por diseño, sin lógica duplicada.
+- **Limitación conocida / mejora futura**: dentro del `<iframe>` todavía se ve el "cascarón" `portal.portal_layout` completo (navbar/footer del sitio web), duplicado visualmente con el top menu de Odoo por encima. Si se quiere un embed más limpio, se podría agregar un modo `?embed=1` que la ruta `/my/osp/form/<id>` detecte para omitir navbar/footer del portal y dejar solo el contenido del formulario.
+
+## 8. Notificaciones al Administrador de OSP (IMPLEMENTADO — 17/ago, punto 4)
+
+- En `controllers/portal.py`, dentro de `portal_save_osp`, cuando el **cliente** (no el admin) hace `is_submit=True`, se distingue si es el primer submit o una actualización (`was_submitted = record.state == 'submitted'` antes del `write`).
+- Se llama `record.message_notify(partner_ids=<partners del grupo Administrador de OSP>, subject=..., body=...)`. Esto hace dos cosas a la vez, de forma nativa (sin código extra): deja el mensaje en el **chatter** del registro, y genera una notificación **needaction** que aparece en la **campanita** (icono de notificaciones) del perfil de cada Administrador de OSP en Odoo — sin necesidad de que ya sigan el registro.
+- Si por algún motivo el grupo no tiene usuarios, se hace `message_post` normal como respaldo (para no perder el rastro en el chatter).
+- Nota: esto cubre las acciones del **cliente**. Los guardados del **admin** sobre un registro ya `submitted` siguen dejando su propio mensaje de chatter (ver punto 6) pero no generan campanita — no fue parte de lo solicitado.
+
+## 9. Subida de archivos adjuntos del cliente (IMPLEMENTADO — 17/ago, punto 6)
+
+- Nueva sección **"Attachments"** al final del formulario Crop (`osp_form_crop.xml`, `id="sec21"`), con link propio en la barra lateral.
+- Nueva ruta `POST /my/osp/upload/<osp_id>` (`portal.py`): solo actúa si quien llama es el **dueño** del registro y `state == 'draft'` (fuera de esas condiciones, el formulario ni siquiera muestra el botón de subir — variable de contexto `can_upload`). Cada archivo se crea como `ir.attachment` normal (`res_model='osp.request'`, `res_id=<id>`), con `description` indicando que fue "Subido por el cliente vía portal" — la "fuente" del archivo queda registrada de forma nativa en `create_uid`/`create_date` de ese `ir.attachment`, sin necesidad de un campo nuevo.
+- Nueva ruta `GET /my/osp/attachment/delete/<attachment_id>`: mismo candado (dueño + `draft`), permite al cliente borrar un adjunto que subió por error mientras sigue en borrador.
+- **El admin no necesita nada nuevo para verlos**: el botón inteligente "Archivos Adjuntos" (icono de clip, `action_view_attachments` + campo `attachment_count`) que ya existía en la vista de formulario del backend (`osp_menu_views.xml`) lista automáticamente todos los `ir.attachment` ligados al registro. Como cada subida crea un `ir.attachment` nuevo y distinto, "solo agregar si hay archivos nuevos" es el comportamiento natural de Odoo — no hace falta lógica de deduplicación.
+- La misma sección "Attachments" también lista los archivos (con link de descarga) cuando el formulario lo abre el admin o cuando ya está `submitted` — solo se ocultan los controles de subir/borrar según `can_upload`.
+
+## 10. Lecciones aprendidas / bugs ya corregidos (para no repetirlos)
 
 1. **Desajuste header/fila en tablas dinámicas**: si el `<thead>` tiene N columnas y el JS solo genera M `<td>` por fila (M≠N), la tabla se ve rota/desalineada visualmente sin lanzar ningún error. Siempre generar ambos desde la misma fuente de verdad.
 2. **`DOMContentLoaded` no dispara en bundles "lazy"**: el bundle de assets del portal (`web.assets_frontend_lazy.min.js`) a veces se inyecta en la página **después** de que el DOM ya está listo. Si el script hace `document.addEventListener("DOMContentLoaded", fn)` en ese momento, el evento ya pasó y `fn` nunca se ejecuta — sin ningún error visible en consola. Patrón defensivo correcto ya aplicado en `osp_form.js`:
@@ -111,16 +135,14 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
    ```
 3. Al debuggear builds fallidos en Odoo.sh: el archivo relevante es **`update.log`** (proceso de instalación/upgrade con `-u modulo`), no `odoo.log` (que es el log del servidor ya corriendo — puede mostrar todo verde aunque el build haya fallado antes). Si el "Test: Failed" no aparece reflejado en logs recientes, probablemente el log se sobreescribió con un rebuild posterior — hacer un Rebuild fresco y revisar el log inmediatamente después. Muchos fallos de build en Odoo.sh son transitorios (condiciones de carrera al clonar la BD de producción) y un simple Rebuild los resuelve.
 
-## 7. Pendientes conocidos (no urgentes, mencionados pero no iniciados)
+## 11. Pendientes conocidos
 
-- ~~Quitar el botón "Nuevo" de la vista de lista del admin~~ → ✅ resuelto (17/ago): `action_osp_request` en `osp_menu_views.xml` ahora tiene `context="{'create': False}"`, que oculta "Nuevo" tanto en la vista lista como en el form (los registros solo deben aparecer vía submit desde el portal, nunca creados manualmente ahí).
-- Construir el **widget de detalle** para que el admin vea de forma legible (no como JSON crudo) todo lo que el cliente respondió — sigue pausado. Ahora es más urgente que antes, dado que el formulario completo ya tiene ~300 campos + 12 tablas guardados en `form_data`.
-- Decidir el layout visual del formulario cuando lo abre el admin (hoy reutiliza `portal.portal_layout`, el mismo "cascarón" que ve el cliente externo — funciona pero no es la decisión de diseño definitiva).
-- Notificación al administrador cuando el cliente hace submit (correo, actividad, chatter) — no se ha discutido a fondo.
-- Solo existe la plantilla "Crop"; otros `technical_code` caen al placeholder genérico sin construir.
-- Los ~18 marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`) son solo checkboxes informativos — el manejo real de subida de archivos sigue fuera de alcance.
+- Plantilla **"Handler"**: el usuario la subirá después — por ahora solo existe "Crop"; otros `technical_code` caen al placeholder genérico sin construir.
+- Los ~18 marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9 de arriba) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
+- Embed del iframe admin (punto 7): limpiar el cascarón duplicado del portal dentro del iframe (modo `?embed=1`) — mejora visual, no bloqueante.
+- Notificación al admin (punto 8): solo cubre submits del cliente; no se pidió notificar sobre guardados del propio admin.
 
-## 8. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 12. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
-- Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 6.2).
+- Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).

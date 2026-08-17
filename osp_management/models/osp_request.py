@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 # ==========================================
 # MODELO PRINCIPAL (FORMULARIO OSP)
@@ -87,6 +87,24 @@ class OSPRequest(models.Model):
     # Acción para abrir el formulario web (cliente o administrador, según quién lo llame)
     def action_open_portal_form(self):
         self.ensure_one()
+
+        # Administrador de OSP: se abre INCRUSTADO dentro del backend de Odoo
+        # (mismo top menu / breadcrumbs) vía un client action con iframe hacia
+        # el mismo formulario web que llena el cliente. No es una copia
+        # reconstruida del formulario: es el mismo, por lo que el admin ve
+        # exactamente las mismas capturas y el guardado usa el mismo endpoint
+        # (sincronización garantizada, cero riesgo de que ambas vistas diverjan).
+        if self.env.user.has_group('osp_management.group_osp_administrator'):
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'osp_admin_form_view',
+                'name': _('Formulario web: %s') % (self.name or ''),
+                'target': 'current',
+                'params': {'osp_id': self.id},
+            }
+
+        # Cualquier otro caso (no debería ocurrir desde este botón, pero se
+        # deja como respaldo): abre la URL del portal en una pestaña nueva.
         return {
             'type': 'ir.actions.act_url',
             'url': '/my/osp/form/%s' % self.id,

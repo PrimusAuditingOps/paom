@@ -21,6 +21,10 @@
         'web.assets_frontend': [
             'osp_management/static/src/js/osp_form.js',
         ],
+        'web.assets_backend': [
+            'osp_management/static/src/xml/osp_admin_form_view.xml',
+            'osp_management/static/src/js/osp_admin_form_view.js',
+        ],
     },
     'installable': True,
     'application': True,

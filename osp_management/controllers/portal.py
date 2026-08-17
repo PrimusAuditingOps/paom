@@ -1,3 +1,5 @@
+import base64
+
 from odoo import http, _
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 from odoo.http import request
@@ -102,12 +104,21 @@ class OSPPortal(CustomerPortal):
         if record.form_template_id.technical_code == 'form_crop':
             countries = request.env['res.country'].search([], order='name asc')
             states = request.env['res.country.state'].search([], order='name asc')
+            # Adjuntos ya subidos (punto 6): se listan para el cliente (dueño)
+            # y para el Administrador de OSP; se leen con sudo() porque el
+            # acceso real ya se validó arriba (is_owner / is_admin).
+            attachments = request.env['ir.attachment'].sudo().search([
+                ('res_model', '=', 'osp.request'),
+                ('res_id', '=', record.id),
+            ], order='create_date desc')
             return request.render("osp_management.portal_osp_form_crop", {
                 'osp': record,
                 'countries': countries,
                 'states': states,
                 'is_admin': admin_editing,
                 'readonly': readonly,
+                'attachments': attachments,
+                'can_upload': is_owner and not admin_editing and record.state == 'draft',
             })
 
         # Para otros formularios aún no construidos:
@@ -145,6 +156,7 @@ class OSPPortal(CustomerPortal):
 
         # A partir de aquí: flujo normal del cliente (dueño del registro)
         if is_submit:
+            was_submitted = record.state == 'submitted'
             vals = {'state': 'submitted'}
 
             # Sincronizamos los campos "resumen" del registro con las
@@ -172,4 +184,70 @@ class OSPPortal(CustomerPortal):
 
             record.write(vals)
 
+            # --- Notificación al Administrador de OSP (punto 4) ---
+            # Se registra en el chatter del registro y, además, se manda
+            # como notificación (needaction) a todos los usuarios del grupo
+            # "Administrador de OSP", lo cual hace aparecer el aviso en la
+            # campanita (icono de notificaciones) de su perfil de Odoo,
+            # sin necesidad de que ya sigan el registro.
+            verb = _("actualizó y volvió a enviar (submit)") if was_submitted else _("envió por primera vez (submit)")
+            log_body = _("El cliente de portal %(partner)s %(verb)s el formulario '%(template)s'.") % {
+                'partner': record.partner_id.name or request.env.user.name,
+                'verb': verb,
+                'template': record.form_template_id.name or record.form_template_id.technical_code or '',
+            }
+
+            admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
+            admin_partners = admin_group.users.partner_id if admin_group else request.env['res.partner']
+
+            if admin_partners:
+                record.message_notify(
+                    partner_ids=admin_partners.ids,
+                    subject=_("OSP %s") % (record.name or ''),
+                    body=log_body,
+                )
+            else:
+                # Sin destinatarios de campanita disponibles: al menos deja rastro en el chatter.
+                record.message_post(body=log_body)
+
         return {'success': True}
+
+    # 7. RUTA: SUBIR ARCHIVOS ADJUNTOS (punto 6)
+    # Solo el cliente dueño del registro, y solo mientras state == 'draft'.
+    # Cada archivo se guarda como ir.attachment normal ligado al registro;
+    # el widget de "Archivos Adjuntos" (icono de clip) del admin en el
+    # backend ya los muestra automáticamente sin ningún código adicional.
+    @http.route(['/my/osp/upload/<int:osp_id>'], type='http', auth="user", methods=['POST'], website=True)
+    def portal_upload_osp_attachment(self, osp_id, **kw):
+        record = request.env['osp.request'].browse(osp_id)
+        if not record.exists():
+            return request.redirect('/my/osp')
+
+        is_owner = record.partner_id.id == request.env.user.partner_id.id
+        if is_owner and record.state == 'draft':
+            files = request.httprequest.files.getlist('osp_files')
+            for uploaded_file in files:
+                if not uploaded_file or not uploaded_file.filename:
+                    continue
+                request.env['ir.attachment'].sudo().create({
+                    'name': uploaded_file.filename,
+                    'datas': base64.b64encode(uploaded_file.read()),
+                    'res_model': 'osp.request',
+                    'res_id': record.id,
+                    'description': _("Subido por el cliente vía portal (%s)") % request.env.user.name,
+                })
+
+        return request.redirect('/my/osp/form/%s#sec21' % osp_id)
+
+    # 8. RUTA: BORRAR UN ARCHIVO ADJUNTO YA SUBIDO (solo mientras draft)
+    @http.route(['/my/osp/attachment/delete/<int:attachment_id>'], type='http', auth="user", website=True)
+    def portal_delete_osp_attachment(self, attachment_id, **kw):
+        attachment = request.env['ir.attachment'].sudo().browse(attachment_id)
+        if attachment.exists() and attachment.res_model == 'osp.request':
+            record = request.env['osp.request'].browse(attachment.res_id)
+            is_owner = record.exists() and record.partner_id.id == request.env.user.partner_id.id
+            if is_owner and record.state == 'draft':
+                osp_id = record.id
+                attachment.unlink()
+                return request.redirect('/my/osp/form/%s#sec21' % osp_id)
+        return request.redirect('/my/osp')
