@@ -1,6 +1,6 @@
 {
     'name': 'PAO Administración de OSP',
-    'version': '17.0.1.0.4',
+    'version': '17.0.1.0.5',
     'category': 'Operations/OSP',
     'summary': 'Gestión de formularios OSP para Crop y Handler',
     'description': """
@@ -12,6 +12,8 @@
     'data': [
         'security/osp_security.xml',
         'security/ir.model.access.csv',
+        'data/osp_service_data.xml',
+        'data/osp_form_template_data.xml',
         'views/osp_menu_views.xml',
         'views/osp_portal_templates.xml',
         'views/osp_form_crop.xml',

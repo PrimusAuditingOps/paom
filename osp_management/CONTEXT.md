@@ -21,6 +21,9 @@ osp_management/
 ├── __manifest__.py
 ├── controllers/
 │   └── portal.py          # Rutas del portal de cliente (/my/osp/...)
+├── data/
+│   ├── osp_service_data.xml        # Seed de Catálogo de Servicios (noupdate="1")
+│   └── osp_form_template_data.xml  # Seed de Catálogo de Formularios (noupdate="1")
 ├── models/
 │   ├── osp_request.py     # Modelo principal: el "expediente" de cada solicitud
 │   └── osp_form_template.py
@@ -139,14 +142,36 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
    ```
 3. Al debuggear builds fallidos en Odoo.sh: el archivo relevante es **`update.log`** (proceso de instalación/upgrade con `-u modulo`), no `odoo.log` (que es el log del servidor ya corriendo — puede mostrar todo verde aunque el build haya fallado antes). Si el "Test: Failed" no aparece reflejado en logs recientes, probablemente el log se sobreescribió con un rebuild posterior — hacer un Rebuild fresco y revisar el log inmediatamente después. Muchos fallos de build en Odoo.sh son transitorios (condiciones de carrera al clonar la BD de producción) y un simple Rebuild los resuelve.
 
-## 11. Pendientes conocidos
+## 11. Seed data de catálogos: Servicios y Formularios (IMPLEMENTADO — 17/ago)
+
+- `data/osp_service_data.xml` (3 registros: NOP/USDA, LPO, RN 29782) y `data/osp_form_template_data.xml` (6 registros: Crop, Handler, Handler (Trader), Cultivo, Manejo o Proceso, Comercializador — todos bajo el servicio NOP/USDA) se agregaron a `'data'` en `__manifest__.py`, ambos con `noupdate="1"`.
+- **Comportamiento de `noupdate="1"`**: los registros se crean la primera vez que Odoo carga ese XML ID — ya sea en una **instalación nueva** del módulo, o la primera vez que un `-u osp_management` "ve" un XML ID que nunca había cargado antes (p. ej. porque el archivo se agregó en una versión posterior). Una vez creado ese registro, **futuras actualizaciones del módulo ya no lo tocan** (no lo re-crea, no lo pisa si el usuario lo editó a mano). Es decir: "solo aplica al instalar" es cierto de aquí en adelante, pero **no retroactivo**.
+- ⚠️ **Base de staging actual**: los 3 servicios y 6 formularios ya existían ahí, creados **a mano** desde la UI (sin XML ID) — decisión tomada con el usuario (17/ago): en vez de dejar que se dupliquen y luego limpiar, **se borran manualmente antes** del próximo `-u osp_management`, así el update los crea limpios desde cero con los XML IDs de arriba, sin duplicados. Antes de borrar, revisar que ningún `osp.request` ya esté usando esos `service_id`/`form_template_id` (no son `required`, así que un borrado no bloquea — solo deja esos campos vacíos en el expediente que los usaba).
+- Versión del manifest: `17.0.1.0.5`.
+
+### Códigos `technical_code` reservados para los próximos formularios (mapa de continuidad)
+
+`osp.form.template.technical_code` es el campo que liga cada renglón del catálogo con la plantilla QWeb real que arma `controllers/portal.py` (`if record.form_template_id.technical_code == 'form_crop': ...`). Ya están sembrados en `data/osp_form_template_data.xml` estos 6 códigos — cuando se construya cada formulario nuevo, usar exactamente este código (no inventar uno distinto a mitad de esa sesión):
+
+| Formulario | `technical_code` | Estado |
+|---|---|---|
+| Crop | `form_crop` | ✅ Construido (ver `FORM_SPEC_CROP.md`) |
+| Handler | `form_handler` | ⏳ Pendiente (el usuario subirá el PDF/spec después) |
+| Handler (Trader) | `form_handler_trader` | ⏳ Pendiente |
+| Cultivo | `form_cultivo` | ⏳ Pendiente |
+| Manejo o Proceso | `form_manejo_proceso` | ⏳ Pendiente |
+| Comercializador | `form_comercializador` | ⏳ Pendiente |
+
+Para cada uno nuevo: agregar su rama en `portal_osp_form` (`controllers/portal.py`) junto a la de `form_crop`, su template QWeb propio (`views/osp_form_<nombre>.xml`, siguiendo el patrón de `osp_form_crop.xml`), y su archivo `FORM_SPEC_<NOMBRE>.md` de referencia — todos sin tocar los ya construidos.
+
+## 12. Pendientes conocidos
 
 - Plantilla **"Handler"**: el usuario la subirá después — por ahora solo existe "Crop"; otros `technical_code` caen al placeholder genérico sin construir.
 - Los ~18 marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9 de arriba) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
 - Embed del iframe admin (punto 7): limpiar el cascarón duplicado del portal dentro del iframe (modo `?embed=1`) — mejora visual, no bloqueante.
 - Notificación al admin (punto 8): solo cubre submits del cliente; no se pidió notificar sobre guardados del propio admin.
 
-## 12. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 13. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
 - Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).
