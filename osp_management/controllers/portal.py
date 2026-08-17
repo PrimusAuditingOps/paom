@@ -88,7 +88,13 @@ class OSPPortal(CustomerPortal):
             
         # Si el código técnico es 'form_crop', abrimos la plantilla oficial
         if record.form_template_id.technical_code == 'form_crop':
-            return request.render("osp_management.portal_osp_form_crop", {'osp': record})
+            countries = request.env['res.country'].search([], order='name asc')
+            states = request.env['res.country.state'].search([], order='name asc')
+            return request.render("osp_management.portal_osp_form_crop", {
+                'osp': record,
+                'countries': countries,
+                'states': states,
+            })
             
         # Para otros formularios aún no construidos:
         return request.render("osp_management.portal_osp_form_placeholder", {'osp': record})
@@ -99,9 +105,32 @@ class OSPPortal(CustomerPortal):
         record = request.env['osp.request'].browse(osp_id)
         if record.exists() and record.partner_id.id == request.env.user.partner_id.id:
             record.write({'form_data': form_data})
-            
+
             if is_submit:
-                record.write({'state': 'submitted'})
-                
+                vals = {'state': 'submitted'}
+
+                # Sincronizamos los campos "resumen" del registro con las
+                # respuestas de la Sección 1, para que el administrador de OSP
+                # los vea directo en su lista/ficha sin abrir el JSON completo.
+                # Cada submit sobreescribe estos valores con lo más reciente.
+                if form_data.get('1a_org_name'):
+                    vals['organization_name'] = form_data.get('1a_org_name')
+                if form_data.get('1b_dba_name'):
+                    vals['dba_name'] = form_data.get('1b_dba_name')
+                if form_data.get('1d_city'):
+                    vals['city'] = form_data.get('1d_city')
+                if form_data.get('1f_zip'):
+                    vals['zip_code'] = form_data.get('1f_zip')
+
+                state_id = form_data.get('1e_state')
+                if state_id:
+                    vals['state_id'] = int(state_id)
+
+                country_id = form_data.get('1g_country')
+                if country_id:
+                    vals['country_id'] = int(country_id)
+
+                record.write(vals)
+
             return {'success': True}
         return {'success': False}

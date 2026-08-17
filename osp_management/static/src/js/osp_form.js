@@ -157,6 +157,33 @@ function initOspForm() {
         }
     });
 
+    // --- Filtro en cascada País -> Estado (1g -> 1e) ---
+    const countrySelect = document.getElementById('1g_country');
+    const stateSelect = document.getElementById('1e_state');
+
+    function filterStatesByCountry() {
+        if (!countrySelect || !stateSelect) return;
+        const selectedCountry = countrySelect.value;
+        let currentStateStillValid = false;
+
+        Array.from(stateSelect.options).forEach(opt => {
+            if (!opt.value) return; // deja siempre visible la opción "-- Select --"
+            const belongsToCountry = opt.getAttribute('data-country') === selectedCountry;
+            opt.hidden = selectedCountry !== '' && !belongsToCountry;
+            if (opt.selected && belongsToCountry) currentStateStillValid = true;
+        });
+
+        // Si el estado que estaba elegido ya no corresponde al país nuevo, lo limpiamos
+        if (selectedCountry !== '' && !currentStateStillValid) {
+            stateSelect.value = '';
+        }
+    }
+
+    if (countrySelect) {
+        countrySelect.addEventListener('change', filterStatesByCountry);
+        filterStatesByCountry(); // aplica el filtro al cargar la página (por si ya había datos guardados)
+    }
+
     // Arrancar la tabla
     renderSitesTable();
 }

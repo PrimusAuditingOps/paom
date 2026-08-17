@@ -64,6 +64,49 @@
                                         <input type="text" class="form-control osp-input" name="1b_dba_name" t-att-value="data.get('1b_dba_name')"/>
                                     </div>
                                 </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-bold">1c. Address:</label>
+                                        <input type="text" class="form-control osp-input" name="1c_address" t-att-value="data.get('1c_address')"/>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold">1d. City:</label>
+                                        <input type="text" class="form-control osp-input" name="1d_city" t-att-value="data.get('1d_city')"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold">1e. State:</label>
+                                        <select class="form-select osp-input" name="1e_state" id="1e_state">
+                                            <option value="">-- Select --</option>
+                                            <t t-foreach="states" t-as="st">
+                                                <option t-att-value="st.id"
+                                                        t-att-data-country="st.country_id.id"
+                                                        t-att-selected="'selected' if str(data.get('1e_state')) == str(st.id) else None">
+                                                    <t t-esc="st.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold">1f. Zip code:</label>
+                                        <input type="text" class="form-control osp-input" name="1f_zip" t-att-value="data.get('1f_zip')"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold">1g. Country:</label>
+                                        <select class="form-select osp-input" name="1g_country" id="1g_country">
+                                            <option value="">-- Select --</option>
+                                            <t t-foreach="countries" t-as="c">
+                                                <option t-att-value="c.id"
+                                                        t-att-selected="'selected' if str(data.get('1g_country')) == str(c.id) else None">
+                                                    <t t-esc="c.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- SECCIÓN 4 -->
