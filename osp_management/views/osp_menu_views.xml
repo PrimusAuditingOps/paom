@@ -108,8 +108,9 @@
                             <field name="dba_name"/>
                         </group>
                         <group string="Dirección">
-                            <label for="city" string="Dirección"/>
+                            <label for="street" string="Dirección"/>
                             <div class="o_address_format">
+                                <field name="street" placeholder="Calle y número" class="o_address_street"/>
                                 <field name="city" placeholder="Ciudad" class="o_address_city"/>
                                 <field name="state_id" placeholder="Estado" class="o_address_state"/>
                                 <field name="zip_code" placeholder="C.P." class="o_address_zip"/>

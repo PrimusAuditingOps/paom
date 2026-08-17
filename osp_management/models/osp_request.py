@@ -23,6 +23,7 @@ class OSPRequest(models.Model):
     dba_name = fields.Char(string='Sitio', tracking=True)
 
     # --- DIRECCIÓN ---
+    street = fields.Char(string='Dirección')
     city = fields.Char(string='Ciudad')
     state_id = fields.Many2one('res.country.state', string='Estado')
     zip_code = fields.Char(string='Código Postal')
@@ -83,8 +84,11 @@ class OSPRequest(models.Model):
             'context': {'default_res_model': self._name, 'default_res_id': self.id},
         }
         
-    # Acción para simular el acceso al portal externo
+    # Acción para abrir el formulario web (cliente o administrador, según quién lo llame)
     def action_open_portal_form(self):
         self.ensure_one()
-        # En el futuro, esto retornará la URL del formulario web.
-        pass
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/my/osp/form/%s' % self.id,
+            'target': 'new',
+        }

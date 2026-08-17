@@ -29,7 +29,7 @@ class OSPPortal(CustomerPortal):
         )
 
         osps = OSPRequest.search(domain, limit=10, offset=pager['offset'], order='create_date desc')
-        
+
         # Traer catálogos para el Modal "New Form"
         services = request.env['osp.service'].search([('active', '=', True)])
         templates = request.env['osp.form.template'].search([('active', '=', True)])
@@ -79,13 +79,25 @@ class OSPPortal(CustomerPortal):
                 record.unlink()
         return request.redirect('/my/osp')
 
-    # 5. RUTA PANTALLA DEL FORMULARIO
+    # 5. RUTA PANTALLA DEL FORMULARIO (cliente dueño, o Administrador de OSP)
     @http.route(['/my/osp/form/<int:osp_id>'], type='http', auth="user", website=True)
     def portal_osp_form(self, osp_id, **kw):
         record = request.env['osp.request'].browse(osp_id)
-        if not record.exists() or record.partner_id.id != request.env.user.partner_id.id:
+        if not record.exists():
             return request.redirect('/my/osp')
-            
+
+        is_owner = record.partner_id.id == request.env.user.partner_id.id
+        is_admin = request.env.user.has_group('osp_management.group_osp_administrator')
+
+        # Solo el dueño (cliente de portal) o un Administrador de OSP pueden entrar
+        if not is_owner and not is_admin:
+            return request.redirect('/my/osp')
+
+        # El formulario queda de solo lectura para el cliente una vez enviado.
+        # El administrador SIEMPRE puede seguir editando, incluso ya submitted.
+        admin_editing = is_admin and not is_owner
+        readonly = (not admin_editing) and record.state == 'submitted'
+
         # Si el código técnico es 'form_crop', abrimos la plantilla oficial
         if record.form_template_id.technical_code == 'form_crop':
             countries = request.env['res.country'].search([], order='name asc')
@@ -94,8 +106,10 @@ class OSPPortal(CustomerPortal):
                 'osp': record,
                 'countries': countries,
                 'states': states,
+                'is_admin': admin_editing,
+                'readonly': readonly,
             })
-            
+
         # Para otros formularios aún no construidos:
         return request.render("osp_management.portal_osp_form_placeholder", {'osp': record})
 
@@ -103,34 +117,59 @@ class OSPPortal(CustomerPortal):
     @http.route(['/my/osp/save/<int:osp_id>'], type='json', auth="user", methods=['POST'], website=True)
     def portal_save_osp(self, osp_id, form_data, is_submit=False, **kw):
         record = request.env['osp.request'].browse(osp_id)
-        if record.exists() and record.partner_id.id == request.env.user.partner_id.id:
-            record.write({'form_data': form_data})
+        if not record.exists():
+            return {'success': False}
 
-            if is_submit:
-                vals = {'state': 'submitted'}
+        is_owner = record.partner_id.id == request.env.user.partner_id.id
+        is_admin = request.env.user.has_group('osp_management.group_osp_administrator')
+        admin_editing = is_admin and not is_owner
 
-                # Sincronizamos los campos "resumen" del registro con las
-                # respuestas de la Sección 1, para que el administrador de OSP
-                # los vea directo en su lista/ficha sin abrir el JSON completo.
-                # Cada submit sobreescribe estos valores con lo más reciente.
-                if form_data.get('1a_org_name'):
-                    vals['organization_name'] = form_data.get('1a_org_name')
-                if form_data.get('1b_dba_name'):
-                    vals['dba_name'] = form_data.get('1b_dba_name')
-                if form_data.get('1d_city'):
-                    vals['city'] = form_data.get('1d_city')
-                if form_data.get('1f_zip'):
-                    vals['zip_code'] = form_data.get('1f_zip')
+        if not is_owner and not admin_editing:
+            return {'success': False}
 
-                state_id = form_data.get('1e_state')
-                if state_id:
-                    vals['state_id'] = int(state_id)
+        # El cliente ya no puede guardar/editar una vez que el formulario fue enviado.
+        # (El administrador sí puede, siempre, vía admin_editing.)
+        if is_owner and not admin_editing and record.state == 'submitted':
+            return {'success': False}
 
-                country_id = form_data.get('1g_country')
-                if country_id:
-                    vals['country_id'] = int(country_id)
+        record.write({'form_data': form_data})
 
-                record.write(vals)
-
+        if admin_editing:
+            # El administrador nunca hace "submit": solo guarda cambios,
+            # y queda registrado en el chatter para diferenciarlo de lo
+            # que originalmente envió el cliente.
+            record.message_post(
+                body=_("El Administrador de OSP (%s) modificó el formulario web.") % request.env.user.name
+            )
             return {'success': True}
-        return {'success': False}
+
+        # A partir de aquí: flujo normal del cliente (dueño del registro)
+        if is_submit:
+            vals = {'state': 'submitted'}
+
+            # Sincronizamos los campos "resumen" del registro con las
+            # respuestas de la Sección 1, para que el administrador de OSP
+            # los vea directo en su lista/ficha sin abrir el JSON completo.
+            # Cada submit sobreescribe estos valores con lo más reciente.
+            if form_data.get('1a_org_name'):
+                vals['organization_name'] = form_data.get('1a_org_name')
+            if form_data.get('1b_dba_name'):
+                vals['dba_name'] = form_data.get('1b_dba_name')
+            if form_data.get('1c_address'):
+                vals['street'] = form_data.get('1c_address')
+            if form_data.get('1d_city'):
+                vals['city'] = form_data.get('1d_city')
+            if form_data.get('1f_zip'):
+                vals['zip_code'] = form_data.get('1f_zip')
+
+            state_id = form_data.get('1e_state')
+            if state_id:
+                vals['state_id'] = int(state_id)
+
+            country_id = form_data.get('1g_country')
+            if country_id:
+                vals['country_id'] = int(country_id)
+
+            record.write(vals)
+
+        return {'success': True}
