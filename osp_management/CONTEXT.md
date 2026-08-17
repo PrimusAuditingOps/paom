@@ -113,7 +113,7 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 
 ## 7. Pendientes conocidos (no urgentes, mencionados pero no iniciados)
 
-- Quitar el botón "Nuevo" de la vista de lista del admin (los registros solo deben aparecer vía submit desde el portal, nunca creados manualmente ahí).
+- ~~Quitar el botón "Nuevo" de la vista de lista del admin~~ → ✅ resuelto (17/ago): `action_osp_request` en `osp_menu_views.xml` ahora tiene `context="{'create': False}"`, que oculta "Nuevo" tanto en la vista lista como en el form (los registros solo deben aparecer vía submit desde el portal, nunca creados manualmente ahí).
 - Construir el **widget de detalle** para que el admin vea de forma legible (no como JSON crudo) todo lo que el cliente respondió — sigue pausado. Ahora es más urgente que antes, dado que el formulario completo ya tiene ~300 campos + 12 tablas guardados en `form_data`.
 - Decidir el layout visual del formulario cuando lo abre el admin (hoy reutiliza `portal.portal_layout`, el mismo "cascarón" que ve el cliente externo — funciona pero no es la decisión de diseño definitiva).
 - Notificación al administrador cuando el cliente hace submit (correo, actividad, chatter) — no se ha discutido a fondo.

@@ -192,6 +192,7 @@
         <field name="res_model">osp.request</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'submitted')]</field>
+        <field name="context">{'create': False}</field>
         <field name="search_view_id" ref="view_osp_request_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
