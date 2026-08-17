@@ -16,8 +16,9 @@
                         string="Enviar Notificación"
                         type="object"
                         class="btn-primary"
-                        invisible="stage not in ('asignada')"
+                        invisible="stage not in ('asignada') or not puede_enviar_notificacion or stage in ('no_realizada')"
                         groups="pao_globalgap_ena.group_ena_coordinadora"/>
+                <field name="puede_enviar_notificacion" invisible="1"/>
 
 
 
@@ -48,6 +49,10 @@
                 <div class="alert alert-warning" role="alert" invisible="alerta_ventana != 'proximo'">
                     <strong>⚠ Ventana próxima a vencer:</strong>
                     Quedan menos de 30 días para que venza el certificado. Por favor contacte al productor.
+                </div>
+                <div class="alert alert-info" role="alert" invisible="stage != 'asignada' or puede_enviar_notificacion">
+                    <strong>Ventana aún no abre:</strong>
+                    Podrá enviar la notificación al productor a partir del <field name="inicio_ventana" readonly="1"/>.
                 </div>
 
                 
@@ -81,7 +86,7 @@
                         <group>
                             <group string="Información del cultivo">
                                 <field name="opcion" readonly="1"/>
-                                <field name="shipper" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_calidad"/>
+                                <field name="shipper" groups="pao_globalgap_ena.group_ena_calidad"/>
                                
                                 <field name="num_sitios" readonly="1"/>
                                 <field name="num_phu" readonly="1"/>

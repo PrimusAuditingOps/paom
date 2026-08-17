@@ -122,10 +122,14 @@ class EnaSolicitud(models.Model):
         compute='_compute_dias_para_vencer',
         store=False,
     )
+    puede_enviar_notificacion = fields.Boolean(
+        string='Puede enviar notificación',
+        compute='_compute_puede_enviar_notificacion',
+    )
 
     coordinadora_id = fields.Many2one(
         comodel_name='res.users',
-        string='Coordinadora',
+        string='Coordinador',
         tracking=True,
         domain=[('share', '=', False)],
     )
@@ -225,6 +229,7 @@ class EnaSolicitud(models.Model):
     alerta_ventana = fields.Selection(
         selection=[
             ('ok', 'En tiempo'),
+            ('atrasada', 'Atrasada'),
             ('proximo', 'Próximo a vencer'),
             ('vencido', 'Ventana vencida'),
         ],
@@ -296,6 +301,12 @@ class EnaSolicitud(models.Model):
             else:
                 rec.dias_para_vencer = 0
 
+    @api.depends('inicio_ventana')
+    def _compute_puede_enviar_notificacion(self):
+        hoy = date.today()
+        for rec in self:
+            rec.puede_enviar_notificacion = bool(rec.inicio_ventana) and rec.inicio_ventana <= hoy
+
     @api.depends('stage', 'inicio_ventana', 'fecha_vencimiento')
     def _compute_alerta_ventana(self):
         hoy = date.today()
@@ -311,6 +322,8 @@ class EnaSolicitud(models.Model):
                 rec.alerta_ventana = 'vencido'
             elif dias <= 30:
                 rec.alerta_ventana = 'proximo'
+            elif dias >= 30 and dias <= 60:
+                rec.alerta_ventana = 'atrasada'
             else:
                 rec.alerta_ventana = 'ok'
 
@@ -329,8 +342,10 @@ class EnaSolicitud(models.Model):
                 rec.color = 1
             elif rec.alerta_ventana == 'proximo':
                 rec.color = 6
+            elif rec.alerta_ventana == 'atrasada':
+                rec.color = 3
             else:
-                rec.color = 0
+                rec.color = 10
 
     # ─── Group expand para Kanban ─────────────────────────────────────────────
     @api.model
@@ -355,11 +370,16 @@ class EnaSolicitud(models.Model):
     def action_asignar_coordinadora(self):
         self.ensure_one()
         if not self.coordinadora_id:
-            raise ValidationError(_('Debe asignar una coordinadora antes de continuar.'))
+            raise ValidationError(_('Debe asignar un coordinador antes de continuar.'))
         self.stage = ''
 
     def action_enviar_notificacion(self):
         self.ensure_one()
+        if not self.puede_enviar_notificacion:
+            raise ValidationError(_(
+                'No se puede enviar la notificación hasta que abra la ventana de auditoría, '
+                'a partir del %s.'
+            ) % (self.inicio_ventana,))
         template = None
         if not self.request_fan_id:
             existing_organization = self.env["pao.globalgap.fans.request"].search(
@@ -430,13 +450,27 @@ class EnaSolicitud(models.Model):
 
     def write(self, vals):
         user_changed = 'coordinadora_id' in vals
+        old_coordinadoras = {record.id: record.coordinadora_id for record in self} if user_changed else {}
         res = super().write(vals)
         activity_type = self.env.ref('mail.mail_activity_data_todo')
         if user_changed:
-            
 
             for record in self:
                 act_date = date.today() if record.inicio_ventana < date.today() else record.inicio_ventana
+                old_coordinadora = old_coordinadoras.get(record.id)
+
+                if old_coordinadora and old_coordinadora != record.coordinadora_id:
+                    old_activities = self.env["mail.activity"].search([
+                        ("res_model", "=", "ena.solicitud"),
+                        ("res_id", "=", record.id),
+                        ("summary", "=", "Programar auditoria no anunciada"),
+                        ("activity_type_id", "=", activity_type.id),
+                        ("user_id", "=", old_coordinadora.id),
+                    ])
+                    for old_activity in old_activities:
+                        old_activity.action_feedback(
+                            feedback=_("Reasignado a otra coordinadora.")
+                        )
 
                 if record.coordinadora_id:
                     if record.stage == "candidato":
@@ -446,6 +480,8 @@ class EnaSolicitud(models.Model):
                     ("res_model", "=", "ena.solicitud"),
                     ("res_id", "=", record.id),
                     ("summary", "=", "Programar auditoria no anunciada"),
+                    ("activity_type_id", "=", activity_type.id),
+                    ("user_id", "=", record.coordinadora_id.id),
                     ], limit=1)
                     if not existing_activity:
                         record.activity_schedule(
@@ -458,7 +494,7 @@ class EnaSolicitud(models.Model):
                             user_id=record.coordinadora_id.id,
                         )
         if 'stage' in vals:
-            if vals.get('stage') and vals.get('stage') == "realizada":
+            if vals.get('stage') and vals.get('stage') in ["programada","no_realizada","realizada"]:
                 for record in self:
                     rec_activity = self.env['mail.activity'].search([
                         ("res_model", "=", "ena.solicitud"),
