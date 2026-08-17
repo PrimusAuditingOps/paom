@@ -368,10 +368,25 @@ function initOspForm() {
                   }
                   if (isSubmit) window.location.href = '/my/osp';
               } else {
+                  // Antes esto se quedaba en silencio: si Odoo devuelve un
+                  // error JSON-RPC (excepción del servidor) en vez de
+                  // {success:false}, no había forma de verlo en consola.
+                  // Ahora se imprime completo (incluye el traceback en
+                  // data.error.data.debug cuando el server está en modo dev).
+                  console.error('🔴 [OSP] Error al guardar el formulario:', data.error || data);
                   if (statusText) {
                       statusText.innerText = 'Error al guardar';
                       statusText.classList.replace('text-muted', 'text-danger');
                   }
+              }
+          })
+          .catch(err => {
+              // Fallo de red (fetch nunca llegó a completarse) — esto sí
+              // antes tampoco se mostraba en consola de forma clara.
+              console.error('🔴 [OSP] Fallo de red al guardar:', err);
+              if (statusText) {
+                  statusText.innerText = 'Error al guardar';
+                  statusText.classList.replace('text-muted', 'text-danger');
               }
           });
     }

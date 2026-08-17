@@ -216,18 +216,25 @@ class OSPPortal(CustomerPortal):
                 'template': record.form_template_id.name or record.form_template_id.technical_code or '',
             }
 
+            # sudo(): quien llama esta ruta es el CLIENTE de portal, que no
+            # tiene permiso de lectura sobre res.users (ni falta que le
+            # hace) — resolver a qué administradores notificar es plomería
+            # interna. Sin este sudo(), el submit entero fallaba con un
+            # AccessError silencioso para el cliente (bug detectado 17/ago:
+            # "Save progress" funcionaba porque no pasa por aquí, pero
+            # "Submit" sí, y reventaba en este punto).
             admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
-            admin_partners = admin_group.users.partner_id if admin_group else request.env['res.partner']
+            admin_partners = admin_group.sudo().users.partner_id if admin_group else request.env['res.partner']
 
             if admin_partners:
-                record.message_notify(
+                record.sudo().message_notify(
                     partner_ids=admin_partners.ids,
                     subject=_("OSP %s") % (record.name or ''),
                     body=log_body,
                 )
             else:
                 # Sin destinatarios de campanita disponibles: al menos deja rastro en el chatter.
-                record.message_post(body=log_body)
+                record.sudo().message_post(body=log_body)
 
         return {'success': True}
 
