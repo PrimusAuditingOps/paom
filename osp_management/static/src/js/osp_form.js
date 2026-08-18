@@ -478,9 +478,12 @@ function initOspForm() {
                 alert("Please complete the electronic signature fields before submitting.");
                 return;
             }
-            if (confirm("Are you sure you want to submit your Organic System Plan? You will not be able to edit it after submission.")) {
-                saveForm(true);
-            }
+            // Antes había un confirm() aquí advirtiendo "no podrás editar
+            // después de enviar" — esa regla ya no aplica (el cliente
+            // siempre puede seguir editando, incluso después de Submit; ver
+            // CONTEXT.md punto 6), así que el aviso quedaba engañoso. Se
+            // quitó: Submit ya no pide confirmación, va directo a la lista.
+            saveForm(true);
         });
     }
 }
