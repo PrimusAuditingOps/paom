@@ -5,9 +5,9 @@ from odoo import models, fields
 # ==========================================
 class OSPService(models.Model):
     _name = 'osp.service'
-    _description = 'Catálogo de Servicios Orgánicos'
-    
-    name = fields.Char(string='Servicio', required=True)
+    _description = 'Organic Services Catalog'
+
+    name = fields.Char(string='Service', required=True)
     active = fields.Boolean(default=True)
 
 # ==========================================
@@ -15,14 +15,14 @@ class OSPService(models.Model):
 # ==========================================
 class OSPFormTemplate(models.Model):
     _name = 'osp.form.template'
-    _description = 'Catálogo de Formularios'
-    
-    service_id = fields.Many2one('osp.service', string='Servicio', required=True)
-    name = fields.Char(string='Nombre del Formulario OSP', required=True)
-    version = fields.Char(string='Versión', required=True, default='1.0')
+    _description = 'Form Templates Catalog'
+
+    service_id = fields.Many2one('osp.service', string='Service', required=True)
+    name = fields.Char(string='OSP Form Name', required=True)
+    version = fields.Char(string='Version', required=True, default='1.0')
     technical_code = fields.Char(
-        string='Código Técnico (Plantilla Web)', 
+        string='Technical Code (Web Template)',
         required=True,
-        help="Código único (ej. form_crop, form_handler) que le dice al portal qué página web cargar."
+        help="Unique code (e.g. form_crop, form_handler) that tells the portal which web page to load."
     )
     active = fields.Boolean(default=True)

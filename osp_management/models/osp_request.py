@@ -5,40 +5,40 @@ from odoo import models, fields, api, _
 # ==========================================
 class OSPRequest(models.Model):
     _name = 'osp.request'
-    _description = 'Planes de manejo orgánico'
+    _description = 'Organic System Plans'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    active = fields.Boolean(string='Activo', default=True, tracking=True)
-    name = fields.Char(string='Referencia', required=True, copy=False, readonly=True, default='Nuevo')
+    active = fields.Boolean(string='Active', default=True, tracking=True)
+    name = fields.Char(string='Reference', required=True, copy=False, readonly=True, default='New')
 
     # --- CATÁLOGOS ---
-    service_id = fields.Many2one('osp.service', string='Servicio requerido', tracking=True)
-    form_template_id = fields.Many2one('osp.form.template', string='Tipo (Formulario)', tracking=True)
-    form_version = fields.Char(related='form_template_id.version', string='Versión', readonly=True)
+    service_id = fields.Many2one('osp.service', string='Required Service', tracking=True)
+    form_template_id = fields.Many2one('osp.form.template', string='Type (Form)', tracking=True)
+    form_version = fields.Char(related='form_template_id.version', string='Version', readonly=True)
 
     # --- CLIENTE Y ORGANIZACIÓN ---
-    partner_id = fields.Many2one('res.partner', string='Cliente', tracking=True, 
-                                 help="Si está vacío, el administrador puede asignar el cliente aquí.")
-    organization_name = fields.Char(string='Organización', tracking=True)
-    dba_name = fields.Char(string='Sitio', tracking=True)
+    partner_id = fields.Many2one('res.partner', string='Customer', tracking=True,
+                                 help="If empty, the administrator can assign the customer here.")
+    organization_name = fields.Char(string='Organization', tracking=True)
+    dba_name = fields.Char(string='DBA name', tracking=True)
 
     # --- DIRECCIÓN ---
-    street = fields.Char(string='Dirección')
-    city = fields.Char(string='Ciudad')
-    state_id = fields.Many2one('res.country.state', string='Estado')
-    zip_code = fields.Char(string='Código Postal')
-    country_id = fields.Many2one('res.country', string='País')
+    street = fields.Char(string='Address')
+    city = fields.Char(string='City')
+    state_id = fields.Many2one('res.country.state', string='State')
+    zip_code = fields.Char(string='Zip Code')
+    country_id = fields.Many2one('res.country', string='Country')
 
     # --- ESTATUS ---
     review_status = fields.Selection([
-        ('pending', 'Pendiente'),
-        ('done', 'Completo (Hecho)')
-    ], string='Estatus de revisión', default='pending', tracking=True)
+        ('pending', 'Pending'),
+        ('done', 'Complete (Done)')
+    ], string='Review Status', default='pending', tracking=True)
 
     state = fields.Selection([
-        ('draft', 'Borrador (En Portal)'),
-        ('submitted', 'Enviado')
-    ], string='Estado en Portal', default='draft')
+        ('draft', 'Draft (In Portal)'),
+        ('submitted', 'Submitted')
+    ], string='Portal Status', default='draft')
 
     # --- REFERENCIAS NUMÉRICAS ---
     app_azas = fields.Integer(string='App AZAS', tracking=True)
@@ -48,13 +48,13 @@ class OSPRequest(models.Model):
     # --- DATOS DINÁMICOS DEL FORMULARIO (JSON) ---
     # Aquí se guardan las respuestas de la plantilla web
     # ========================================================
-    form_data = fields.Json(string="Respuestas del Formulario", default={})
+    form_data = fields.Json(string="Form Responses", default={})
 
     # --- NOTAS DEL ADMINISTRADOR ---
-    notes = fields.Html(string='Notas Internas')
+    notes = fields.Html(string='Internal Notes')
 
     # --- CONTEO DE ADJUNTOS (Para el botón inteligente) ---
-    attachment_count = fields.Integer(compute='_compute_attachment_count', string="Archivos Adjuntos")
+    attachment_count = fields.Integer(compute='_compute_attachment_count', string="Attachments")
 
     def _compute_attachment_count(self):
         for record in self:
@@ -65,13 +65,13 @@ class OSPRequest(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        # El título "Nuevo" (default del campo name) no dice nada útil en la
+        # El título "New" (default del campo name) no dice nada útil en la
         # lista/ficha del admin. Como los registros solo nacen desde el
         # portal (portal_create_osp), ya siempre traen service_id y
         # form_template_id al crearse: se arma el nombre a partir de esos
         # dos catálogos, ej. "NOP/USDA - Crop".
         for vals in vals_list:
-            if not vals.get('name') or vals.get('name') == 'Nuevo':
+            if not vals.get('name') or vals.get('name') == 'New':
                 service = self.env['osp.service'].browse(vals['service_id']) if vals.get('service_id') else None
                 template = self.env['osp.form.template'].browse(vals['form_template_id']) if vals.get('form_template_id') else None
                 parts = [p for p in [service and service.name, template and template.name] if p]
@@ -87,19 +87,19 @@ class OSPRequest(models.Model):
     def action_set_pending(self):
         for record in self:
             record.write({'review_status': 'pending'})
-            
+
     # Acción para abrir los adjuntos
     def action_view_attachments(self):
         self.ensure_one()
         return {
-            'name': _('Archivos Adjuntos'),
+            'name': _('Attachments'),
             'type': 'ir.actions.act_window',
             'res_model': 'ir.attachment',
             'view_mode': 'kanban,tree,form',
             'domain': [('res_model', '=', self._name), ('res_id', '=', self.id)],
             'context': {'default_res_model': self._name, 'default_res_id': self.id},
         }
-        
+
     # Acción para abrir el formulario web (cliente o administrador, según quién lo llame)
     def action_open_portal_form(self):
         self.ensure_one()
@@ -114,7 +114,7 @@ class OSPRequest(models.Model):
             return {
                 'type': 'ir.actions.client',
                 'tag': 'osp_admin_form_view',
-                'name': _('Formulario web: %s') % (self.name or ''),
+                'name': _('Web Form: %s') % (self.name or ''),
                 'target': 'current',
                 'params': {'osp_id': self.id},
             }

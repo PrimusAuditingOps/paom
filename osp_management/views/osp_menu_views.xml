@@ -3,12 +3,12 @@
     <!-- ========================================== -->
     <!-- 1. VISTAS DEL MODELO PRINCIPAL (OSP)       -->
     <!-- ========================================== -->
-    
+
     <record id="view_osp_request_tree" model="ir.ui.view">
         <field name="name">osp.request.tree</field>
         <field name="model">osp.request</field>
         <field name="arch" type="xml">
-            <tree string="Planes de manejo orgánico" limit="80" sample="1">
+            <tree string="Organic System Plans" limit="80" sample="1">
                 <field name="service_id" optional="show"/>
                 <field name="form_template_id" optional="show"/>
                 <field name="partner_id" optional="show"/>
@@ -18,10 +18,10 @@
                 <field name="state_id" optional="show"/>
                 <field name="zip_code" optional="show"/>
                 <field name="country_id" optional="show"/>
-                <field name="create_date" string="Creación" optional="show" widget="date"/>
-                <field name="write_date" string="Última actualización" optional="show" widget="date"/>
-                <field name="review_status" optional="show" widget="badge" 
-                       decoration-info="review_status == 'pending'" 
+                <field name="create_date" string="Created" optional="show" widget="date"/>
+                <field name="write_date" string="Last Updated" optional="show" widget="date"/>
+                <field name="review_status" optional="show" widget="badge"
+                       decoration-info="review_status == 'pending'"
                        decoration-success="review_status == 'done'"/>
                 <field name="app_azas" optional="show"/>
                 <field name="audit_azas" optional="show"/>
@@ -33,23 +33,23 @@
         <field name="name">osp.request.search</field>
         <field name="model">osp.request</field>
         <field name="arch" type="xml">
-            <search string="Buscar OSP">
+            <search string="Search OSP">
                 <field name="organization_name"/>
                 <field name="dba_name"/>
                 <field name="partner_id"/>
                 <field name="app_azas"/>
                 <field name="audit_azas"/>
-                
-                <filter string="Pendientes de Revisión" name="filter_pending" domain="[('review_status', '=', 'pending')]"/>
-                <filter string="Revisados (Hecho)" name="filter_done" domain="[('review_status', '=', 'done')]"/>
+
+                <filter string="Pending Review" name="filter_pending" domain="[('review_status', '=', 'pending')]"/>
+                <filter string="Reviewed (Done)" name="filter_done" domain="[('review_status', '=', 'done')]"/>
                 <separator/>
-                <filter string="Archivados" name="inactive" domain="[('active', '=', False)]"/>
-                
-                <group expand="0" string="Agrupar por">
-                    <filter string="Cliente" name="group_partner" context="{'group_by':'partner_id'}"/>
-                    <filter string="Tipo de Formulario" name="group_type" context="{'group_by':'form_template_id'}"/>
-                    <filter string="Estatus de revisión" name="group_review" context="{'group_by':'review_status'}"/>
-                    <filter string="País" name="group_country" context="{'group_by':'country_id'}"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Customer" name="group_partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Form Type" name="group_type" context="{'group_by':'form_template_id'}"/>
+                    <filter string="Review Status" name="group_review" context="{'group_by':'review_status'}"/>
+                    <filter string="Country" name="group_country" context="{'group_by':'country_id'}"/>
                 </group>
             </search>
         </field>
@@ -59,15 +59,15 @@
         <field name="name">osp.request.form</field>
         <field name="model">osp.request</field>
         <field name="arch" type="xml">
-            <form string="Plan de manejo orgánico">
+            <form string="Organic System Plan">
                 <header>
-                    <button name="action_set_done" string="Marcar como Completo" type="object" class="oe_highlight"
+                    <button name="action_set_done" string="Mark as Complete" type="object" class="oe_highlight"
                             invisible="review_status == 'done'"/>
-                    <button name="action_set_pending" string="Devolver a Pendiente" type="object"
+                    <button name="action_set_pending" string="Return to Pending" type="object"
                             invisible="review_status == 'pending'"/>
                     <!-- Solo tiene sentido descargar el PDF una vez que el formulario fue
                          enviado por el cliente (antes no hay nada que imprimir todavía). -->
-                    <button name="%(osp_management.action_report_osp_crop)d" string="Descargar OSP" type="action"
+                    <button name="%(osp_management.action_report_osp_crop)d" string="Download OSP" type="action"
                             invisible="state != 'submitted'"/>
                     <!-- Necesario para que el "invisible" del botón de arriba pueda
                          evaluar "state" — Odoo exige que cualquier campo usado en un
@@ -75,16 +75,16 @@
                     <field name="state" invisible="1"/>
                     <field name="review_status" widget="statusbar" statusbar_visible="pending,done"/>
                 </header>
-                
+
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_open_portal_form" type="object" class="oe_stat_button" icon="fa-globe">
                             <div class="o_stat_info">
-                                <span class="o_stat_text">Ver Formulario Web</span>
+                                <span class="o_stat_text">View Web Form</span>
                             </div>
                         </button>
                         <button name="action_view_attachments" type="object" class="oe_stat_button" icon="fa-paperclip">
-                            <field name="attachment_count" widget="statinfo" string="Archivos Adjuntos"/>
+                            <field name="attachment_count" widget="statinfo" string="Attachments"/>
                         </button>
                     </div>
 
@@ -97,51 +97,51 @@
                     <!-- Este registro llegó de un navegante público (sin login, sin cuenta
                          de cliente) — ver CONTEXT.md, sección del formulario público. No
                          tiene Cliente asignado todavía: hay que vincularlo a un contacto
-                         existente en el campo "Cliente" de abajo y guardar. En cuanto se
+                         existente en el campo "Customer" de abajo y guardar. En cuanto se
                          guarda, este aviso desaparece solo (ya no aplica la condición). -->
                     <div class="alert alert-warning" role="alert" invisible="partner_id">
                         <i class="fa fa-exclamation-triangle"/>
-                        Este formulario fue enviado por un visitante del sitio web, sin iniciar sesión — no tiene un Cliente asignado.
-                        Selecciónalo en el campo "Cliente" de abajo y guarda para vincularlo. A partir de ese momento, los usuarios de
-                        portal de ese cliente podrán ver este registro en su propio portal.
+                        This form was submitted by a website visitor without logging in — it has no Customer assigned.
+                        Select one in the "Customer" field below and save to link it. From that point on, that
+                        customer's portal users will be able to see this record in their own portal.
                     </div>
 
                     <group>
-                        <group string="Información del Cliente y Formulario">
-                            <field name="partner_id" placeholder="Seleccionar o crear cliente..."/>
+                        <group string="Customer &amp; Form Information">
+                            <field name="partner_id" placeholder="Select or create a customer..."/>
                             <field name="service_id"/>
                             <field name="form_template_id"/>
                             <field name="form_version"/>
                         </group>
-                        
-                        <group string="Referencias Internas">
+
+                        <group string="Internal References">
                             <field name="app_azas"/>
                             <field name="audit_azas"/>
-                            <field name="create_date" string="Fecha de creación externa" readonly="1"/>
-                            <field name="write_date" string="Última actualización" readonly="1"/>
+                            <field name="create_date" string="External Creation Date" readonly="1"/>
+                            <field name="write_date" string="Last Updated" readonly="1"/>
                         </group>
                     </group>
 
                     <group>
-                        <group string="Datos de la Organización">
+                        <group string="Organization Details">
                             <field name="organization_name"/>
                             <field name="dba_name"/>
                         </group>
-                        <group string="Dirección">
-                            <label for="street" string="Dirección"/>
+                        <group string="Address">
+                            <label for="street" string="Address"/>
                             <div class="o_address_format">
-                                <field name="street" placeholder="Calle y número" class="o_address_street"/>
-                                <field name="city" placeholder="Ciudad" class="o_address_city"/>
-                                <field name="state_id" placeholder="Estado" class="o_address_state"/>
-                                <field name="zip_code" placeholder="C.P." class="o_address_zip"/>
-                                <field name="country_id" placeholder="País" class="o_address_country"/>
+                                <field name="street" placeholder="Street and number" class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="state_id" placeholder="State" class="o_address_state"/>
+                                <field name="zip_code" placeholder="Zip" class="o_address_zip"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country"/>
                             </div>
                         </group>
                     </group>
 
                     <notebook>
-                        <page string="Notas para el Administrador">
-                            <field name="notes" placeholder="Escriba aquí notas internas o comentarios sobre este registro..."/>
+                        <page string="Notes for the Administrator">
+                            <field name="notes" placeholder="Write internal notes or comments about this record here..."/>
                         </page>
                     </notebook>
                 </sheet>
@@ -163,8 +163,8 @@
         <field name="name">osp.service.tree</field>
         <field name="model">osp.service</field>
         <field name="arch" type="xml">
-            <tree string="Catálogo de Servicios" editable="bottom">
-                <field name="name" string="Nombre del Servicio (Ej. NOP/USDA)"/>
+            <tree string="Services Catalog" editable="bottom">
+                <field name="name" string="Service Name (e.g. NOP/USDA)"/>
             </tree>
         </field>
     </record>
@@ -173,7 +173,7 @@
         <field name="name">osp.form.template.tree</field>
         <field name="model">osp.form.template</field>
         <field name="arch" type="xml">
-            <tree string="Catálogo de Formularios" editable="bottom">
+            <tree string="Form Templates Catalog" editable="bottom">
                 <field name="service_id"/>
                 <field name="name"/>
                 <field name="version"/>
@@ -186,7 +186,7 @@
         <field name="name">osp.form.template.form</field>
         <field name="model">osp.form.template</field>
         <field name="arch" type="xml">
-            <form string="Formulario OSP">
+            <form string="OSP Form">
                 <sheet>
                     <group>
                         <group>
@@ -208,7 +208,7 @@
     <!-- ========================================== -->
 
     <record id="action_osp_request" model="ir.actions.act_window">
-        <field name="name">Planes de manejo orgánico</field>
+        <field name="name">Organic System Plans</field>
         <field name="res_model">osp.request</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'submitted')]</field>
@@ -216,19 +216,19 @@
         <field name="search_view_id" ref="view_osp_request_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                No hay planes de manejo orgánico enviados.
+                No submitted Organic System Plans yet.
             </p>
         </field>
     </record>
 
     <record id="action_osp_service" model="ir.actions.act_window">
-        <field name="name">Catálogo de Servicios</field>
+        <field name="name">Services Catalog</field>
         <field name="res_model">osp.service</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <record id="action_osp_form_template" model="ir.actions.act_window">
-        <field name="name">Catálogo de Formularios (OSP)</field>
+        <field name="name">OSP Form Templates Catalog</field>
         <field name="res_model">osp.form.template</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -238,31 +238,31 @@
     <!-- ========================================== -->
 
     <menuitem id="menu_osp_root"
-              name="Administración de OSP"
+              name="OSP Management"
               web_icon="osp_management,static/description/icon.png"
               groups="osp_management.group_osp_administrator"
               sequence="15"/>
 
     <menuitem id="menu_osp_requests"
-              name="Planes de manejo orgánico"
+              name="Organic System Plans"
               parent="menu_osp_root"
               action="action_osp_request"
               sequence="10"/>
 
     <menuitem id="menu_osp_configuration"
-              name="Configuración"
+              name="Configuration"
               parent="menu_osp_root"
               sequence="100"/>
 
     <menuitem id="menu_osp_service"
-              name="Catálogo de Servicios"
+              name="Services Catalog"
               parent="menu_osp_configuration"
               action="action_osp_service"
               sequence="10"/>
 
     <menuitem id="menu_osp_form_template"
-              name="Catálogo de Formularios (OSP)"
+              name="OSP Form Templates Catalog"
               parent="menu_osp_configuration"
               action="action_osp_form_template"
               sequence="20"/>
-</odoo> 
+</odoo>

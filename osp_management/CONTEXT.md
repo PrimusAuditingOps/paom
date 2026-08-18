@@ -260,7 +260,17 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 2. Los `checkbox_group` (ej. "Select all that applies") solo listan las opciones **seleccionadas** con `☑` — no reproducen la lista completa de opciones no marcadas con `☐` (a diferencia de los Sí/No, que sí muestran ambas opciones). Habría que enumerar la lista completa de opciones por cada `checkbox_group` en `osp_crop_report_data.py` si se quiere el mismo nivel de fidelidad ahí también.
 3. Los `label` de las preguntas de las Secciones 5–20 se tomaron del texto real de `osp_form_crop.xml` verificado línea por línea durante esta tarea — se prestó atención a que coincidan exactamente, pero si algo se ve distinto al comparar contra el formulario web, es fácil de corregir (un solo archivo, `osp_crop_report_data.py`).
 
-## 16. Pendientes conocidos
+## 16. Backend en inglés fijo (IMPLEMENTADO — 18/ago)
+
+**Decisión del usuario**: el **backend** (perfil Administrador de OSP) queda **siempre en inglés**, sin importar el idioma que tenga seleccionado el usuario — ya no es bilingüe en_US/es_MX como se había construido antes. El **portal del cliente** (`/my/osp`, `osp_portal_templates.xml`) **sigue bilingüe** (inglés por defecto, español vía `i18n/es_MX.po`) — eso no se tocó. El formulario Crop en sí (`osp_form_crop.xml`) tampoco se tocó, como siempre.
+
+- Se reescribió directo en el código (ya no vía `.po`) todo el texto que estaba en español: `_description`/`string=`/`help=` de los 3 modelos (`models/osp_request.py`, `models/osp_form_template.py`), toda la vista backend (`views/osp_menu_views.xml`), nombre/descripción del grupo y categoría de seguridad (`security/osp_security.xml`), nombre/summary/description del módulo (`__manifest__.py`), y los mensajes de chatter/notificación que solo lee el admin (`controllers/portal.py` — los `_()` de `_do_client_submit`, `_do_public_submit`, el guardado del admin, y las descripciones de adjuntos).
+- **`i18n/en_US.po` se eliminó** (ya no tiene sentido — la fuente ya es inglés, no hay nada que traducir *a* inglés).
+- **Migración `migrations/17.0.1.1.3/post-migrate.py`**: como ya habíamos forzado por ORM (`migrations/17.0.1.0.8`) que ciertos campos `model:X,Y` (nombre de módulo, categoría, grupo, menús, acciones, etiquetas de campo, opciones de Selection) mostraran **español** para usuarios con ese idioma, esas traducciones por idioma quedaban "pegadas" y no se limpian solas al cambiar el texto fuente. Este script sobreescribe **todos los idiomas instalados** con el mismo texto en inglés, para que quede uniforme sin importar el idioma del usuario — mismo patrón ya probado (`with_context(lang=...).write(...)`), esta vez convergiendo todo a un solo valor.
+- 🐛 **Casi-incidente durante esta tarea**: al ejecutar `rm` sobre `i18n/en_US.po`, se descubrió que la carpeta **`i18n/` completa ya no existía en disco** (incluyendo `es_MX.po`, que **no** se pidió tocar) — border ajeno a esta sesión, no causado por este cambio. Se restauró `es_MX.po` completo desde el último commit que lo tenía (`git show a270145:osp_management/i18n/es_MX.po`), verificando que incluyera las entradas más recientes ("Last Updated", "Download PDF") antes de continuar. **Lección**: si algo similar vuelve a pasar, `git status`/`git log -- <archivo>` es la forma rápida de confirmar si un archivo "desaparecido" es recuperable desde el historial antes de asumir que hay que rehacerlo.
+- Versión del manifest: `17.0.1.1.3`.
+
+## 17. Pendientes conocidos
 
 - Plantilla **"Handler"**: el usuario la subirá después — por ahora solo existe "Crop"; otros `technical_code` caen al placeholder genérico sin construir.
 - Los ~18 marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9 de arriba) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
@@ -269,7 +279,7 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 - Formulario público (punto 14): sin protección anti-bot, sin captcha, sin alta automática de portal al vincular cliente — todo por decisión explícita del usuario, no por descuido. Si en el futuro hay abuso real (envíos basura) o se quiere agilizar el alta de portal, ya está identificado qué tocar.
 - Reporte PDF (punto 15): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
 
-## 17. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 18. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
 - Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).

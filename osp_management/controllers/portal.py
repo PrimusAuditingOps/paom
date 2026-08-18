@@ -47,8 +47,8 @@ class OSPPortal(CustomerPortal):
         self._sync_osp_summary_fields(record, form_data)
         record.write({'state': 'submitted'})
 
-        verb = _("actualizó y volvió a enviar (submit)") if was_submitted else _("envió por primera vez (submit)")
-        log_body = _("El cliente de portal %(partner)s %(verb)s el formulario '%(template)s'.") % {
+        verb = _("updated and re-submitted") if was_submitted else _("submitted for the first time")
+        log_body = _("Portal customer %(partner)s %(verb)s the '%(template)s' form.") % {
             'partner': record.partner_id.name or request.env.user.name,
             'verb': verb,
             'template': record.form_template_id.name or record.form_template_id.technical_code or '',
@@ -129,7 +129,7 @@ class OSPPortal(CustomerPortal):
                 'review_status': 'pending',
                 'app_azas': False,
                 'audit_azas': False,
-                'name': 'Copia de ' + original.name
+                'name': 'Copy of ' + original.name
             })
             return request.redirect('/my/osp')
         return request.redirect('/my/osp')
@@ -261,7 +261,7 @@ class OSPPortal(CustomerPortal):
             # originalmente envió el cliente.
             self._sync_osp_summary_fields(record, form_data)
             record.message_post(
-                body=_("El Administrador de OSP (%s) modificó el formulario web.") % request.env.user.name
+                body=_("The OSP Administrator (%s) modified the web form.") % request.env.user.name
             )
             return {'success': True}
 
@@ -320,7 +320,7 @@ class OSPPortal(CustomerPortal):
                     'datas': base64.b64encode(uploaded_file.read()),
                     'res_model': 'osp.request',
                     'res_id': record.id,
-                    'description': _("Subido por el cliente vía portal (%s)") % request.env.user.name,
+                    'description': _("Uploaded by the customer via the portal (%s)") % request.env.user.name,
                 })
 
         return request.redirect('/my/osp/form/%s#sec21' % osp_id)
@@ -444,9 +444,9 @@ class OSPPublicController(OSPPortal):
         record.write({'state': 'submitted'})
 
         log_body = _(
-            "Un visitante del sitio web (sin cuenta de cliente) envió el formulario '%s'. "
-            "No tiene un cliente asignado — vincúlalo a un contacto existente desde el campo "
-            "\"Cliente\" de esta ficha."
+            "A website visitor (no customer account) submitted the '%s' form. "
+            "It has no customer assigned — link it to an existing contact from the "
+            "\"Customer\" field on this record."
         ) % (record.form_template_id.name or record.form_template_id.technical_code or '')
 
         admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
@@ -455,7 +455,7 @@ class OSPPublicController(OSPPortal):
         if admin_partners:
             record.sudo().message_notify(
                 partner_ids=admin_partners.ids,
-                subject=_("OSP %s (sin cliente asignado)") % (record.name or ''),
+                subject=_("OSP %s (no customer assigned)") % (record.name or ''),
                 body=log_body,
             )
         else:
@@ -498,7 +498,7 @@ class OSPPublicController(OSPPortal):
                     'datas': base64.b64encode(uploaded_file.read()),
                     'res_model': 'osp.request',
                     'res_id': record.id,
-                    'description': _("Subido por un visitante del sitio web (sin cuenta)"),
+                    'description': _("Uploaded by a website visitor (no account)"),
                 })
 
         return request.redirect('/osp/public/thankyou/%s' % osp_id)

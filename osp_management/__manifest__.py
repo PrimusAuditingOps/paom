@@ -1,11 +1,11 @@
 {
-    'name': 'PAO Administración de OSP',
-    'version': '17.0.1.1.1',
+    'name': 'OSP Management',
+    'version': '17.0.1.1.3',
     'category': 'Operations/OSP',
-    'summary': 'Gestión de formularios OSP para Crop y Handler',
+    'summary': 'OSP form management for Crop and Handler',
     'description': """
-        Módulo para la administración de solicitudes OSP.
-        Permite a los clientes externos llenar formularios desde el portal y a los administradores gestionarlos.
+        Module for managing OSP requests.
+        Lets external customers fill out forms from the portal, and administrators manage them.
     """,
     'author': 'Hector Cortes',
     # 'website': el formulario público (sin login) usa website.layout como
