@@ -33,9 +33,15 @@ osp_management/
 ├── views/
 │   ├── osp_menu_views.xml       # Vistas backend (lista/form) para el admin
 │   ├── osp_portal_templates.xml # Lista de formularios del cliente (/my/osp)
-│   └── osp_form_crop.xml        # EL FORMULARIO "CROP" COMPLETO (QWeb, portal)
-└── static/src/js/
-    └── osp_form.js         # Lógica JS del formulario Crop (tablas dinámicas, guardado AJAX)
+│   ├── osp_form_crop.xml        # EL FORMULARIO "CROP" COMPLETO (QWeb) — body compartido + wrappers portal/público
+│   └── osp_public_templates.xml # Pantalla de "Gracias" del formulario público
+├── report/
+│   ├── osp_crop_report_data.py  # Única fuente de verdad de las ~300 preguntas del PDF (sección, key, label, tipo)
+│   ├── osp_crop_report.py       # osp.request.get_crop_report_sections() — resuelve form_data contra ese manifest
+│   └── osp_report_templates.xml # Template QWeb genérico del PDF + ir.actions.report
+└── static/src/
+    ├── js/osp_form.js       # Lógica JS del formulario Crop (tablas dinámicas, guardado AJAX/localStorage)
+    └── img/primus_logo.png  # Logo de marca (formulario web + encabezado del PDF)
 ```
 
 ## 3. Modelo de datos clave
@@ -163,7 +169,16 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 | Manejo o Proceso | `form_manejo_proceso` | ⏳ Pendiente |
 | Comercializador | `form_comercializador` | ⏳ Pendiente |
 
-Para cada uno nuevo: agregar su rama en `portal_osp_form` (`controllers/portal.py`) junto a la de `form_crop`, su template QWeb propio (`views/osp_form_<nombre>.xml`, siguiendo el patrón de `osp_form_crop.xml`), y su archivo `FORM_SPEC_<NOMBRE>.md` de referencia — todos sin tocar los ya construidos.
+**Checklist completo para construir cada formulario nuevo** (sin tocar los ya construidos):
+
+1. **`FORM_SPEC_<NOMBRE>.md`** — spec de referencia (JSON keys, opciones de selects, condicionales, qué tablas son dinámicas), mismo formato que `FORM_SPEC_CROP.md`. Se arma junto con el usuario a partir del `.docx`/`.md` que comparta (ver punto sobre archivos `.md` más abajo) — **es el documento del que salen tanto el formulario web como los datos del reporte PDF**, para no tener que inventar/adivinar dos veces.
+2. **Formulario web**: template QWeb propio (`views/osp_form_<nombre>.xml`, patrón de `osp_form_crop.xml` — body reutilizable + wrappers portal/público) + su rama en `portal_osp_form`/`portal_osp_form_new` (`controllers/portal.py`) junto a la de `form_crop`.
+3. **Formulario público**: agregar su renglón en `OSPPublicController.PUBLIC_FORM_SLUGS` (slug → technical_code) + su rama en `_render_public_form()` — ver punto 14.
+4. **Reporte PDF** (punto 15, **la funcionalidad de impresión aplica a todos los formularios, no solo Crop**): por cada formulario nuevo hace falta su propio trío, replicando el patrón de Crop —
+   - `report/osp_<nombre>_report_data.py` (su propia lista de secciones/preguntas, sacada del `FORM_SPEC_<NOMBRE>.md`),
+   - un método `get_<nombre>_report_sections()` en `report/osp_<nombre>_report.py` (o agregar una rama condicional dentro de un único método genérico si los tipos de campo coinciden — evaluar en su momento),
+   - su propia `ir.actions.report` + template QWeb (puede reutilizarse el mismo renderizador genérico de `report/osp_report_templates.xml` si se generaliza para recibir "qué método de sección usar" según `technical_code`, en vez de tener un archivo QWeb distinto por formulario — decisión a tomar cuando llegue ese momento).
+   - actualizar el botón "Descargar OSP" (`osp_menu_views.xml`) y el link "PDF" del portal (`osp_portal_templates.xml`) para que apunten al reporte correcto según `technical_code` (hoy están *hardcodeados* a `action_report_osp_crop`/`report_osp_crop_document` — **esto es lo primero que hay que generalizar** cuando se construya el segundo formulario, análogo a como ya se generalizó `PUBLIC_FORM_SLUGS`).
 
 ## 12. Idioma / traducción (IMPLEMENTADO — 17/ago)
 
@@ -225,15 +240,35 @@ Para cada uno nuevo: agregar su rama en `portal_osp_form` (`controllers/portal.p
 - **Logo de marca**: `<img>` al inicio de `osp_form_crop_body` (visible para las tres audiencias) apuntando a `static/src/img/primus_logo.png` — **listo**, el archivo ya se copió ahí (18/ago).
 - **Ligas públicas por formulario (18/ago)**: la ruta pública ya no está fija a Crop — es `/osp/public/<slug>` genérica, resuelta vía el diccionario `OSPPublicController.PUBLIC_FORM_SLUGS` (`slug -> technical_code`). Hoy solo tiene `'crop': 'form_crop'`. Para publicar un formulario nuevo (Handler, Cultivo, etc.) cuando ya esté construido: (1) agregar su renglón en `PUBLIC_FORM_SLUGS`, (2) agregar su rama en `_render_public_form()` (qué template QWeb renderizar). `/osp/public/submit` y el JS (`window.OSP_TECHNICAL_CODE`, seteado desde el `technical_code` que ahora pasan las 3 rutas que renderizan `osp_form_crop_body`) ya viajan con el código técnico correcto de punta a punta — incluida la llave de `localStorage` (`osp_public_draft_<technical_code>`), para que llenar dos formularios públicos distintos en el mismo navegador no se pise el avance guardado del uno con el del otro.
 
-## 15. Pendientes conocidos
+## 15. Reporte PDF del formulario Crop — IMPLEMENTADO 18/ago
+
+**Decisiones acordadas con el usuario** (importantes, no cambiarlas sin confirmar): se imprimen **todas** las preguntas siempre, aunque estén vacías (nunca se omiten secciones); Sí/No y checkboxes se ven como glifos reales `☐`/`☑`; el PDF **no** lista los nombres de los adjuntos (esos se manejan aparte, vía el widget de "Archivos Adjuntos" que ya existe); el nombre del archivo descargado usa el campo `name` del registro (`Referencia.pdf`).
+
+**Decisión de arquitectura clave**: en vez de escribir a mano ~2000 líneas de QWeb repitiendo cada una de las ~300 preguntas (como se tuvo que hacer para el formulario web), se centralizó **una sola fuente de verdad** en Python:
+
+- **`report/osp_crop_report_data.py`** — `CROP_REPORT_SECTIONS`: lista de las 20 secciones, cada una con sus preguntas (`key` exacto tal como vive en `form_data`, `label`, y `type`: `text`/`textarea`/`date`/`yn`/`yn_na`/`checkbox`/`checkbox_group`/`m2o_state`/`m2o_country`/`table`/`static`). Los `key` se verificaron **uno por uno contra el `osp_form_crop.xml` real** (no se confió solo en `FORM_SPEC_CROP.md`, que se escribió antes de la implementación final) — se leyó el archivo completo para esta tarea.
+- **`report/osp_crop_report.py`** — método `osp.request.get_crop_report_sections()`: recorre ese manifest y lo resuelve contra `self.form_data`, devolviendo una estructura ya lista para imprimir (resuelve nombres de `res.country`/`res.country.state` a partir del id guardado, decodifica el JSON de las 12 tablas dinámicas y descarta filas completamente vacías, arma la lista de seleccionados de cada `checkbox_group`).
+- **`report/osp_report_templates.xml`** — el template QWeb es **genérico**: no conoce ninguna pregunta por su nombre, solo sabe pintar cada `kind` (`text`, `textarea`, `options`, `checkbox`, `checkbox_group`, `table`, `static`). Si se agrega una pregunta nueva al formulario web, **alcanza con agregarla en `osp_crop_report_data.py`** — el template no se toca.
+- **Encabezado/pie de página**: estructura estándar de reportes Odoo (`web.html_container` → `div.page` con `div.header`/`div.article`/`div.footer`). El header repite el logo en cada página; el footer usa los spans nativos de wkhtmltopdf `<span class="page"/>`/`<span class="topage"/>` (paginado automático) + el campo `form_template_id.version` del registro (ej. "Org-007 R7 1/9/2024", ya sembrado en `data/osp_form_template_data.xml`).
+- **Acceso**: botón **"Descargar OSP"** en el header de la ficha admin (`osp_menu_views.xml`, junto a "Marcar como Completo", `type="action"` referenciando `%(osp_management.action_report_osp_crop)d` — solo visible si `state == 'submitted'`) y link **"PDF"** en la columna Action de `/my/osp` (`osp_portal_templates.xml`, solo visible si `osp.state == 'submitted'`), apuntando directo a `/report/pdf/osp_management.report_osp_crop_document/<id>`.
+- **Orden de carga en el manifest**: `report/osp_report_templates.xml` se cargó **antes** que `views/osp_menu_views.xml` a propósito — el botón `type="action"` con `%(xmlid)d` necesita que ese xmlid ya exista al parsearse esa vista.
+- **Dependencias nuevas**: `web` (se usa `web.html_container` directamente).
+
+**Limitaciones conocidas / posibles ajustes tras la primera prueba visual** (no se pudo renderizar/previsualizar el PDF en este entorno, así que es esperable 1-2 rondas de ajuste):
+1. Márgenes/paginación de wkhtmltopdf no se probaron contra una instancia real — si el header/footer se ven muy pegados al contenido o se cortan, hay que ajustar el `paperformat` del reporte (hoy usa el default de Odoo).
+2. Los `checkbox_group` (ej. "Select all that applies") solo listan las opciones **seleccionadas** con `☑` — no reproducen la lista completa de opciones no marcadas con `☐` (a diferencia de los Sí/No, que sí muestran ambas opciones). Habría que enumerar la lista completa de opciones por cada `checkbox_group` en `osp_crop_report_data.py` si se quiere el mismo nivel de fidelidad ahí también.
+3. Los `label` de las preguntas de las Secciones 5–20 se tomaron del texto real de `osp_form_crop.xml` verificado línea por línea durante esta tarea — se prestó atención a que coincidan exactamente, pero si algo se ve distinto al comparar contra el formulario web, es fácil de corregir (un solo archivo, `osp_crop_report_data.py`).
+
+## 16. Pendientes conocidos
 
 - Plantilla **"Handler"**: el usuario la subirá después — por ahora solo existe "Crop"; otros `technical_code` caen al placeholder genérico sin construir.
 - Los ~18 marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9 de arriba) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
 - Embed del iframe admin (punto 7): limpiar el cascarón duplicado del portal dentro del iframe (modo `?embed=1`) — mejora visual, no bloqueante.
 - Notificación al admin (punto 8): solo cubre submits del cliente; no se pidió notificar sobre guardados del propio admin.
 - Formulario público (punto 14): sin protección anti-bot, sin captcha, sin alta automática de portal al vincular cliente — todo por decisión explícita del usuario, no por descuido. Si en el futuro hay abuso real (envíos basura) o se quiere agilizar el alta de portal, ya está identificado qué tocar.
+- Reporte PDF (punto 15): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
 
-## 16. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 17. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
 - Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).

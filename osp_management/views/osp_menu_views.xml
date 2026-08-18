@@ -61,10 +61,14 @@
         <field name="arch" type="xml">
             <form string="Plan de manejo orgánico">
                 <header>
-                    <button name="action_set_done" string="Marcar como Completo" type="object" class="oe_highlight" 
+                    <button name="action_set_done" string="Marcar como Completo" type="object" class="oe_highlight"
                             invisible="review_status == 'done'"/>
-                    <button name="action_set_pending" string="Devolver a Pendiente" type="object" 
+                    <button name="action_set_pending" string="Devolver a Pendiente" type="object"
                             invisible="review_status == 'pending'"/>
+                    <!-- Solo tiene sentido descargar el PDF una vez que el formulario fue
+                         enviado por el cliente (antes no hay nada que imprimir todavía). -->
+                    <button name="%(osp_management.action_report_osp_crop)d" string="Descargar OSP" type="action"
+                            invisible="state != 'submitted'"/>
                     <field name="review_status" widget="statusbar" statusbar_visible="pending,done"/>
                 </header>
                 

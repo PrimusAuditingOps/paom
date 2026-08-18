@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Reporte PDF del formulario Crop. NO repite las ~300 preguntas a
+        mano en HTML — recorre la estructura que arma
+        osp.request.get_crop_report_sections() (ver report/osp_crop_report.py),
+        que a su vez sale de report/osp_crop_report_data.py (única fuente
+        de verdad de las preguntas). Si se agrega una pregunta al
+        formulario web, agregarla en osp_crop_report_data.py para que
+        aparezca aquí también.
+    -->
+    <template id="report_osp_crop_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+
+                    <!-- ENCABEZADO (se repite en cada página) -->
+                    <div class="header text-center" style="border-bottom: 1px solid #ccc; padding-bottom: 6px;">
+                        <img src="/osp_management/static/src/img/primus_logo.png" alt="Primus Auditing Ops" style="max-height: 40px;"/>
+                    </div>
+
+                    <!-- PIE DE PÁGINA (se repite en cada página): paginado + versión -->
+                    <div class="footer" style="font-size: 10px; color: #666; border-top: 1px solid #ccc; padding-top: 4px;">
+                        <div class="row">
+                            <div class="col-6 text-start">
+                                Organic System Plan — Crop | Version: <span t-esc="o.form_template_id.version or ''"/>
+                            </div>
+                            <div class="col-6 text-end">
+                                Page <span class="page"/> of <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CONTENIDO -->
+                    <div class="article" style="font-size: 12px;">
+
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold text-success mb-0">Crop</h2>
+                            <div class="text-muted">ORGANIC SYSTEM PLAN</div>
+                            <div class="text-muted" style="font-size: 11px;">Version: <span t-esc="o.form_template_id.version or ''"/></div>
+                            <h4 class="mt-2" t-esc="o.organization_name or o.name"/>
+                        </div>
+
+                        <t t-foreach="o.get_crop_report_sections()" t-as="section">
+                            <div style="page-break-inside: avoid;" class="mt-4 mb-2">
+                                <h4 class="fw-bold border-bottom pb-1" t-esc="section['title']"/>
+                            </div>
+
+                            <t t-foreach="section['fields']" t-as="field">
+
+                                <p t-if="field['kind'] == 'static'" class="text-muted" t-esc="field['text']"/>
+
+                                <div t-if="field['kind'] == 'text'" class="mb-2">
+                                    <span class="fw-bold" t-esc="field['label']"/>: <span t-esc="field['value'] or '—'"/>
+                                </div>
+
+                                <div t-if="field['kind'] == 'textarea'" class="mb-2">
+                                    <div class="fw-bold" t-esc="field['label']"/>
+                                    <div t-esc="field['value'] or '—'" style="white-space: pre-wrap;"/>
+                                </div>
+
+                                <div t-if="field['kind'] == 'options'" class="mb-2">
+                                    <span class="fw-bold" t-esc="field['label']"/>:
+                                    <t t-foreach="field['options']" t-as="opt">
+                                        <span style="margin-right: 12px; white-space: nowrap;">
+                                            <t t-esc="'☑' if field['value'] == opt else '☐'"/> <t t-esc="opt"/>
+                                        </span>
+                                    </t>
+                                </div>
+
+                                <div t-if="field['kind'] == 'checkbox'" class="mb-2">
+                                    <t t-esc="'☑' if field['checked'] else '☐'"/> <t t-esc="field['label']"/>
+                                </div>
+
+                                <div t-if="field['kind'] == 'checkbox_group'" class="mb-2">
+                                    <div class="fw-bold" t-esc="field['label']"/>
+                                    <div t-if="not field['selected']">—</div>
+                                    <div t-foreach="field['selected']" t-as="sel_value">☑ <t t-esc="sel_value"/></div>
+                                </div>
+
+                                <div t-if="field['kind'] == 'table'" class="mb-3">
+                                    <div class="fw-bold mb-1" t-esc="field['label']"/>
+                                    <div t-if="not field['rows']" class="text-muted">— No entries —</div>
+                                    <table t-if="field['rows']" class="table table-sm table-bordered" style="font-size: 10px;">
+                                        <thead>
+                                            <tr>
+                                                <th t-foreach="field['columns']" t-as="col" t-esc="col[1]"/>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="field['rows']" t-as="row">
+                                                <td t-foreach="field['columns']" t-as="col" t-esc="row.get(col[0], '')"/>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </t>
+                        </t>
+
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_osp_crop" model="ir.actions.report">
+        <field name="name">Descargar OSP</field>
+        <field name="model">osp.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">osp_management.report_osp_crop_document</field>
+        <field name="report_file">osp_management.report_osp_crop_document</field>
+        <!-- El "/" en "NOP/USDA" rompería el nombre de archivo si no se sanitiza. -->
+        <field name="print_report_name">(object.name or 'OSP').replace('/', '-')</field>
+        <field name="binding_model_id" ref="model_osp_request"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
