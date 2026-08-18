@@ -58,12 +58,17 @@
                     <!-- CONTENIDO (Selector Principal) -->
                     <div class="col-md-9" id="form-content">
                         <!-- CAMPOS OCULTOS VITALES PARA EL JS -->
-                        <input type="hidden" name="osp_id" id="osp_id_input" t-att-value="osp.id"/>
+                        <!-- OJO: t-attf-value (interpolación de texto), NO t-att-value — con
+                             t-att-value, Odoo omite el atributo por completo cuando el valor es
+                             0 (lo trata como "falsy" igual que None/False), dejando el input sin
+                             "value" y rompiendo parseInt() en el JS (bug real, 17/ago: el primer
+                             Save progress de un formulario nuevo pegaba a /my/osp/save/NaN). -->
+                        <input type="hidden" name="osp_id" id="osp_id_input" t-attf-value="#{osp.id}"/>
                         <!-- Solo tienen valor (!=0) cuando osp_id todavía es 0 (formulario
                              nuevo, sin registro creado) — el JS los usa para crear el
                              registro en el primer guardado. Ver /my/osp/form/new. -->
-                        <input type="hidden" name="new_service_id" id="new_service_id_input" t-att-value="new_service_id or 0"/>
-                        <input type="hidden" name="new_template_id" id="new_template_id_input" t-att-value="new_template_id or 0"/>
+                        <input type="hidden" name="new_service_id" id="new_service_id_input" t-attf-value="#{new_service_id or 0}"/>
+                        <input type="hidden" name="new_template_id" id="new_template_id_input" t-attf-value="#{new_template_id or 0}"/>
                         <script>
                             window.OSP_READONLY = <t t-esc="'true' if readonly else 'false'"/>;
                             window.OSP_IS_ADMIN = <t t-esc="'true' if is_admin else 'false'"/>;
