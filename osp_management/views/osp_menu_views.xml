@@ -69,6 +69,10 @@
                          enviado por el cliente (antes no hay nada que imprimir todavía). -->
                     <button name="%(osp_management.action_report_osp_crop)d" string="Descargar OSP" type="action"
                             invisible="state != 'submitted'"/>
+                    <!-- Necesario para que el "invisible" del botón de arriba pueda
+                         evaluar "state" — Odoo exige que cualquier campo usado en un
+                         modifier esté presente en el arch, aunque sea oculto. -->
+                    <field name="state" invisible="1"/>
                     <field name="review_status" widget="statusbar" statusbar_visible="pending,done"/>
                 </header>
                 

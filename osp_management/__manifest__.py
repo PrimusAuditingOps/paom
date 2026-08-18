@@ -1,6 +1,6 @@
 {
     'name': 'PAO Administración de OSP',
-    'version': '17.0.1.1.0',
+    'version': '17.0.1.1.1',
     'category': 'Operations/OSP',
     'summary': 'Gestión de formularios OSP para Crop y Handler',
     'description': """
