@@ -14,7 +14,17 @@ function initOspForm() {
 
     const ospIdInput = document.querySelector('input[name="osp_id"]');
     if (!ospIdInput) return;
-    const ospId = parseInt(ospIdInput.value);
+    // "let" (no "const"): cuando el formulario es nuevo, ospId arranca en 0
+    // y se actualiza con el id real que devuelve el servidor en cuanto el
+    // primer guardado crea el registro (ver saveForm()/isNewRecord más abajo).
+    let ospId = parseInt(ospIdInput.value);
+
+    // Solo tienen valor cuando ospId === 0 (formulario nuevo, sin registro
+    // creado todavía) — ver /my/osp/form/new en portal.py.
+    const newServiceIdInput = document.querySelector('input[name="new_service_id"]');
+    const newTemplateIdInput = document.querySelector('input[name="new_template_id"]');
+    const newServiceId = newServiceIdInput ? parseInt(newServiceIdInput.value) : 0;
+    const newTemplateId = newTemplateIdInput ? parseInt(newTemplateIdInput.value) : 0;
 
     // ============================================================
     // MOTOR GENÉRICO DE TABLAS DINÁMICAS
@@ -339,6 +349,46 @@ function initOspForm() {
         return data;
     }
 
+    // ============================================================
+    // Habilita la subida de adjuntos justo después del primer guardado
+    // de un formulario nuevo (antes no existía osp_id real, así que no
+    // se podía subir nada — se mostraba un aviso explicándolo en vez de
+    // solo ocultar el botón sin decir por qué). No hace falta recargar
+    // la página: si el formulario de subida ya existía en el DOM (caso
+    // normal, formulario ya guardado antes), solo se actualiza su URL;
+    // si no existía (caso nuevo), se construye aquí.
+    // ============================================================
+    function enableAttachmentsUpload(realOspId) {
+        const notice = document.getElementById('attachments_save_first_notice');
+        if (notice) notice.style.display = 'none';
+
+        const existingForm = document.getElementById('attachments_upload_form');
+        if (existingForm) {
+            existingForm.action = `/my/osp/upload/${realOspId}`;
+            return;
+        }
+
+        const section = document.getElementById('sec21');
+        if (!section) return;
+
+        const wrap = document.createElement('div');
+        wrap.id = 'attachments_upload_wrap';
+        wrap.className = 'mb-4';
+        wrap.innerHTML = `
+            <form id="attachments_upload_form" action="/my/osp/upload/${realOspId}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap">
+                <input type="hidden" name="csrf_token" value="${window.OSP_CSRF_TOKEN || ''}"/>
+                <input type="file" name="osp_files" multiple="multiple" class="form-control" style="max-width: 400px;"/>
+                <button type="submit" class="btn btn-outline-success"><i class="fa fa-upload"></i> Upload</button>
+            </form>
+        `;
+
+        if (notice && notice.parentNode) {
+            notice.insertAdjacentElement('afterend', wrap);
+        } else {
+            section.appendChild(wrap);
+        }
+    }
+
     function saveForm(isSubmit) {
         const statusText = document.getElementById('save_status');
         if (statusText) {
@@ -348,20 +398,40 @@ function initOspForm() {
 
         const finalData = gatherFormData();
 
-        fetch(`/my/osp/save/${ospId}`, {
+        // Mientras ospId siga en 0 (formulario nuevo, sin registro creado
+        // todavía), el primer guardado pega a /my/osp/save_new, que SÍ crea
+        // el registro. De ahí en adelante (ospId ya real) se usa la ruta
+        // normal — así nunca se genera un draft "basura" con solo entrar a
+        // ver el formulario sin guardar nada.
+        const isNewRecord = ospId === 0;
+        const url = isNewRecord ? '/my/osp/save_new' : `/my/osp/save/${ospId}`;
+        const params = isNewRecord
+            ? { service_id: newServiceId, template_id: newTemplateId, form_data: finalData, is_submit: isSubmit }
+            : { form_data: finalData, is_submit: isSubmit };
+
+        fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 jsonrpc: "2.0",
                 method: "call",
-                params: {
-                    form_data: finalData,
-                    is_submit: isSubmit
-                }
+                params: params
             })
         }).then(res => res.json())
           .then(data => {
               if (data.result && data.result.success) {
+                  if (isNewRecord && data.result.osp_id) {
+                      // El registro ya existe: de aquí en adelante los
+                      // guardados van por la ruta normal con este id real,
+                      // y se actualiza la URL sin recargar la página para
+                      // que un refresh no intente crear un segundo registro.
+                      ospId = data.result.osp_id;
+                      ospIdInput.value = ospId;
+                      if (window.history && window.history.replaceState) {
+                          window.history.replaceState(null, '', `/my/osp/form/${ospId}`);
+                      }
+                      enableAttachmentsUpload(ospId);
+                  }
                   if (statusText) {
                       statusText.innerText = 'Saved!';
                       setTimeout(() => statusText.style.display = 'none', 2000);

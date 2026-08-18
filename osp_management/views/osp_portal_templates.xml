@@ -62,6 +62,7 @@
                                 <th>Country</th>
                                 <th>Status</th>
                                 <th>Created Date</th>
+                                <th>Last Updated</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -80,7 +81,8 @@
                                         <span t-if="osp.state == 'submitted'" class="badge rounded-pill bg-success">Submitted</span>
                                     </td>
                                     <td><span t-field="osp.create_date" t-options='{"widget": "date"}'/></td>
-                                    
+                                    <td><span t-field="osp.write_date" t-options='{"widget": "date"}'/></td>
+
                                     <!-- Botones de Acción -->
                                     <td>
                                         <div class="d-flex justify-content-center gap-2">

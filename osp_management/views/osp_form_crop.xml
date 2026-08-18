@@ -58,10 +58,16 @@
                     <!-- CONTENIDO (Selector Principal) -->
                     <div class="col-md-9" id="form-content">
                         <!-- CAMPOS OCULTOS VITALES PARA EL JS -->
-                        <input type="hidden" name="osp_id" t-att-value="osp.id"/>
+                        <input type="hidden" name="osp_id" id="osp_id_input" t-att-value="osp.id"/>
+                        <!-- Solo tienen valor (!=0) cuando osp_id todavía es 0 (formulario
+                             nuevo, sin registro creado) — el JS los usa para crear el
+                             registro en el primer guardado. Ver /my/osp/form/new. -->
+                        <input type="hidden" name="new_service_id" id="new_service_id_input" t-att-value="new_service_id or 0"/>
+                        <input type="hidden" name="new_template_id" id="new_template_id_input" t-att-value="new_template_id or 0"/>
                         <script>
                             window.OSP_READONLY = <t t-esc="'true' if readonly else 'false'"/>;
                             window.OSP_IS_ADMIN = <t t-esc="'true' if is_admin else 'false'"/>;
+                            window.OSP_CSRF_TOKEN = "<t t-esc="request.csrf_token()"/>";
                         </script>
 
                         <div class="tab-content bg-white p-4 rounded-3 shadow-sm">
@@ -2084,8 +2090,18 @@
                                     Upload here any supporting documents referenced throughout this form (certificates, maps, lab results, etc.).
                                 </p>
 
-                                <div t-if="can_upload" class="mb-4">
-                                    <form t-attf-action="/my/osp/upload/#{osp.id}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap">
+                                <!-- Formulario nuevo (osp.id == 0, todavía sin guardar): se explica
+                                     por qué no puede subir archivos todavía, en vez de solo ocultar
+                                     el botón sin decir nada. En cuanto haga el primer "Save progress"
+                                     (AJAX), osp_form.js reemplaza este aviso por el formulario de
+                                     subida real, sin recargar la página. -->
+                                <div t-if="osp.id == 0" id="attachments_save_first_notice" class="alert alert-warning">
+                                    <i class="fa fa-info-circle"></i>
+                                    You need to save your progress before you can upload attachments. Click "Save progress" above, then come back to this section.
+                                </div>
+
+                                <div t-if="can_upload" id="attachments_upload_wrap" class="mb-4">
+                                    <form id="attachments_upload_form" t-attf-action="/my/osp/upload/#{osp.id}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap">
                                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         <input type="file" name="osp_files" multiple="multiple" class="form-control" style="max-width: 400px;"/>
                                         <button type="submit" class="btn btn-outline-success">

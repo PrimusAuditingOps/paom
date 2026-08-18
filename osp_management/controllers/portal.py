@@ -1,4 +1,5 @@
 import base64
+from types import SimpleNamespace
 
 from odoo import http, _
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
@@ -35,6 +36,39 @@ class OSPPortal(CustomerPortal):
 
         if vals:
             record.write(vals)
+
+    # Lógica compartida de "Submit" del cliente: sincroniza los campos
+    # resumen, marca el registro como submitted, y notifica al admin.
+    # La usan tanto portal_save_osp (registro ya existente) como
+    # portal_save_osp_new (primer guardado de un formulario recién creado).
+    def _do_client_submit(self, record, form_data):
+        was_submitted = record.state == 'submitted'
+
+        self._sync_osp_summary_fields(record, form_data)
+        record.write({'state': 'submitted'})
+
+        verb = _("actualizó y volvió a enviar (submit)") if was_submitted else _("envió por primera vez (submit)")
+        log_body = _("El cliente de portal %(partner)s %(verb)s el formulario '%(template)s'.") % {
+            'partner': record.partner_id.name or request.env.user.name,
+            'verb': verb,
+            'template': record.form_template_id.name or record.form_template_id.technical_code or '',
+        }
+
+        # sudo(): quien llama esto es el CLIENTE de portal, que no tiene
+        # permiso de lectura sobre res.users (ni falta que le hace) —
+        # resolver a qué administradores notificar es plomería interna.
+        admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
+        admin_partners = admin_group.sudo().users.partner_id if admin_group else request.env['res.partner']
+
+        if admin_partners:
+            record.sudo().message_notify(
+                partner_ids=admin_partners.ids,
+                subject=_("OSP %s") % (record.name or ''),
+                body=log_body,
+            )
+        else:
+            # Sin destinatarios de campanita disponibles: al menos deja rastro en el chatter.
+            record.sudo().message_post(body=log_body)
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
@@ -76,16 +110,14 @@ class OSPPortal(CustomerPortal):
         }
         return request.render("osp_management.portal_my_osps", values)
 
-    # 2. RUTA: CREAR NUEVO BORRADOR (Desde el Modal)
+    # 2. RUTA: IR AL FORMULARIO NUEVO (Desde el Modal)
+    # Ya NO crea el registro aquí — antes, con solo entrar a ver el
+    # formulario (sin llenar nada) ya quedaba un draft "basura" en la
+    # lista. El registro se crea hasta el primer guardado real (Save
+    # progress o Submit), vía /my/osp/save_new.
     @http.route(['/my/osp/create'], type='http', auth="user", methods=['POST'], website=True)
     def portal_create_osp(self, service_id, template_id, **kw):
-        new_osp = request.env['osp.request'].create({
-            'partner_id': request.env.user.partner_id.id,
-            'service_id': int(service_id),
-            'form_template_id': int(template_id),
-            'state': 'draft',
-        })
-        return request.redirect('/my/osp/form/%s' % new_osp.id)
+        return request.redirect('/my/osp/form/new?service_id=%s&template_id=%s' % (service_id, template_id))
 
     # 3. RUTA: DUPLICAR REGISTRO
     @http.route(['/my/osp/duplicate/<int:osp_id>'], type='http', auth="user", website=True)
@@ -110,6 +142,40 @@ class OSPPortal(CustomerPortal):
             if record.state == 'draft':
                 record.unlink()
         return request.redirect('/my/osp')
+
+    # 4b. RUTA: PANTALLA DE FORMULARIO NUEVO (sin registro creado todavía)
+    # Renderiza la misma plantilla del formulario, pero con un "osp" de
+    # relleno (id=0, form_data={}) en vez de un registro real — el primer
+    # guardado (JS, /my/osp/save_new) es quien de verdad crea el registro.
+    @http.route(['/my/osp/form/new'], type='http', auth="user", website=True)
+    def portal_osp_form_new(self, service_id=None, template_id=None, **kw):
+        template = request.env['osp.form.template'].browse(int(template_id)) if template_id else request.env['osp.form.template']
+        if not template.exists():
+            return request.redirect('/my/osp')
+
+        if template.technical_code == 'form_crop':
+            countries = request.env['res.country'].search([], order='name asc')
+            states = request.env['res.country.state'].search([], order='name asc')
+            return request.render("osp_management.portal_osp_form_crop", {
+                'osp': SimpleNamespace(id=0, form_data={}),
+                'countries': countries,
+                'states': states,
+                'is_admin': False,
+                'readonly': False,
+                'attachments': [],
+                # No hay registro real todavía: no se puede subir adjuntos
+                # hasta el primer guardado (necesita un osp_id real).
+                'can_upload': False,
+                'new_service_id': int(service_id) if service_id else 0,
+                'new_template_id': int(template_id),
+            })
+
+        # Otros formularios aún no construidos: se muestra el mismo
+        # placeholder de "en construcción" de siempre, sin crear ningún
+        # registro (el placeholder solo necesita el nombre de la plantilla).
+        return request.render("osp_management.portal_osp_form_placeholder", {
+            'osp': SimpleNamespace(id=0, form_data={}, form_template_id=template),
+        })
 
     # 5. RUTA PANTALLA DEL FORMULARIO (cliente dueño, o Administrador de OSP)
     @http.route(['/my/osp/form/<int:osp_id>'], type='http', auth="user", website=True)
@@ -155,6 +221,8 @@ class OSPPortal(CustomerPortal):
                 # importar el estado (mismo criterio que la edición del
                 # formulario en general — ver CONTEXT.md punto 6).
                 'can_upload': is_owner and not admin_editing,
+                'new_service_id': 0,
+                'new_template_id': 0,
             })
 
         # Para otros formularios aún no construidos:
@@ -195,48 +263,35 @@ class OSPPortal(CustomerPortal):
 
         # A partir de aquí: flujo normal del cliente (dueño del registro)
         if is_submit:
-            was_submitted = record.state == 'submitted'
-
-            # Cada submit sincroniza los campos "resumen" con lo más
-            # reciente de la Sección 1, y (re)marca el registro como
-            # submitted para que sea visible en la lista del admin.
-            self._sync_osp_summary_fields(record, form_data)
-            record.write({'state': 'submitted'})
-
-            # --- Notificación al Administrador de OSP (punto 4) ---
-            # Se registra en el chatter del registro y, además, se manda
-            # como notificación (needaction) a todos los usuarios del grupo
-            # "Administrador de OSP", lo cual hace aparecer el aviso en la
-            # campanita (icono de notificaciones) de su perfil de Odoo,
-            # sin necesidad de que ya sigan el registro.
-            verb = _("actualizó y volvió a enviar (submit)") if was_submitted else _("envió por primera vez (submit)")
-            log_body = _("El cliente de portal %(partner)s %(verb)s el formulario '%(template)s'.") % {
-                'partner': record.partner_id.name or request.env.user.name,
-                'verb': verb,
-                'template': record.form_template_id.name or record.form_template_id.technical_code or '',
-            }
-
-            # sudo(): quien llama esta ruta es el CLIENTE de portal, que no
-            # tiene permiso de lectura sobre res.users (ni falta que le
-            # hace) — resolver a qué administradores notificar es plomería
-            # interna. Sin este sudo(), el submit entero fallaba con un
-            # AccessError silencioso para el cliente (bug detectado 17/ago:
-            # "Save progress" funcionaba porque no pasa por aquí, pero
-            # "Submit" sí, y reventaba en este punto).
-            admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
-            admin_partners = admin_group.sudo().users.partner_id if admin_group else request.env['res.partner']
-
-            if admin_partners:
-                record.sudo().message_notify(
-                    partner_ids=admin_partners.ids,
-                    subject=_("OSP %s") % (record.name or ''),
-                    body=log_body,
-                )
-            else:
-                # Sin destinatarios de campanita disponibles: al menos deja rastro en el chatter.
-                record.sudo().message_post(body=log_body)
+            self._do_client_submit(record, form_data)
 
         return {'success': True}
+
+    # 6b. RUTA AJAX: PRIMER GUARDADO DE UN FORMULARIO NUEVO
+    # Aquí sí se crea el registro (a diferencia de portal_create_osp) —
+    # justo en el momento en que el cliente hace Save progress o Submit
+    # por primera vez, nunca antes solo por haber entrado a ver el
+    # formulario. Guardados posteriores usan la ruta normal
+    # /my/osp/save/<id> una vez que el JS tiene el id real (ver
+    # osp_form.js, saveForm()).
+    @http.route(['/my/osp/save_new'], type='json', auth="user", methods=['POST'], website=True)
+    def portal_save_osp_new(self, service_id, template_id, form_data, is_submit=False, **kw):
+        template = request.env['osp.form.template'].browse(int(template_id))
+        if not template.exists():
+            return {'success': False}
+
+        record = request.env['osp.request'].create({
+            'partner_id': request.env.user.partner_id.id,
+            'service_id': int(service_id),
+            'form_template_id': int(template_id),
+            'state': 'draft',
+            'form_data': form_data,
+        })
+
+        if is_submit:
+            self._do_client_submit(record, form_data)
+
+        return {'success': True, 'osp_id': record.id}
 
     # 7. RUTA: SUBIR ARCHIVOS ADJUNTOS (punto 6)
     # Solo el cliente dueño del registro (sin importar el estado: draft o
