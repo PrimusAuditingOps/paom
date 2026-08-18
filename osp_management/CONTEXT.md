@@ -165,14 +165,29 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 
 Para cada uno nuevo: agregar su rama en `portal_osp_form` (`controllers/portal.py`) junto a la de `form_crop`, su template QWeb propio (`views/osp_form_<nombre>.xml`, siguiendo el patrón de `osp_form_crop.xml`), y su archivo `FORM_SPEC_<NOMBRE>.md` de referencia — todos sin tocar los ya construidos.
 
-## 12. Pendientes conocidos
+## 12. Idioma / traducción (IMPLEMENTADO — 17/ago)
+
+**Regla acordada con el usuario, muy importante para no romperla a futuro**: el **formulario web en sí NUNCA se traduce** — `osp_form_crop.xml` completo (sus 20 secciones, preguntas, opciones de respuesta, botones de guardar/submit) se queda tal cual está, sea cual sea el idioma del usuario. Solo se traducen los **"elementos de pantalla"** alrededor de él: título de módulo, menús, columnas de listas, labels de la ficha, nombres de catálogos/opciones, y el log de actividades (chatter). Cualquier trabajo de i18n futuro sobre este módulo debe respetar este límite salvo que el usuario diga explícitamente lo contrario.
+
+- **Mecanismo**: archivos `.po` estándar de Odoo en `i18n/`, auto-detectados por Odoo (no requieren entrada en `__manifest__.py`). Se recargan solos en cada `-u osp_management` para cualquier idioma ya instalado en la base (en este caso English (US) y Spanish (MX), ambos ya activos).
+- **`i18n/en_US.po`** — traduce el **backend** (perfil Administrador de OSP, escrito originalmente en español) → inglés. Cubre: nombre del módulo/app (→ **"OSP Management"**), categoría y grupo de seguridad, menús, acciones, las 3 vistas de "Planes de manejo orgánico" (→ **"Organic System Plans"**), catálogos de Servicios/Formularios, buscador y filtros, todos los labels/grupos/botones/placeholders de la ficha, **todas** las etiquetas de campo de los 3 modelos (`osp.request`, `osp.service`, `osp.form.template`), las opciones de los 2 campos `Selection` (`review_status`, `state`), y los mensajes de chatter que genera `controllers/portal.py`/`models/osp_request.py` (ya usaban `_()`). **`Sitio` → `"DBA name"`** (regla explícita del usuario).
+- **`i18n/es_MX.po`** — traduce solo la pantalla `/my/osp` del **portal** (`views/osp_portal_templates.xml`: título, columnas de la tabla, badges Draft/Submitted, botones Duplicate/Open/Delete, modal "New Form") — escrita originalmente en inglés → español. **`DBA Name` → `"Sitio"`** (misma regla, en la dirección opuesta). El propio formulario (`osp_form_crop.xml`) queda fuera, tal como se acordó.
+- De paso, `en_US.po` también traduce 2 frases que ya estaban en español por una inconsistencia previa dentro de `osp_portal_templates.xml` (el mensaje de "no hay planes creados" y el placeholder de formularios aún no construidos) — para que el default de esa pantalla sea coherente en ambos idiomas.
+- Se envolvió con `_()` el `'name': 'Archivos Adjuntos'` de `action_view_attachments` en `osp_request.py` (antes era un string suelto, no traducible).
+- **Limitaciones conocidas / no cubiertas en esta pasada**:
+  1. El texto del `confirm()` de JavaScript al borrar un borrador ("¿Estás seguro de eliminar este borrador?", en `osp_portal_templates.xml`) no se tradujo — vive dentro de un atributo `onclick`, que no está garantizado en la lista de atributos traducibles de Odoo (`title`/`placeholder`/`aria-label` sí lo están; `onclick` es dudoso), y como es una cadena JS embebida, un error de escape ahí rompería el diálogo. Se dejó fuera para no arriesgar. Queda en español como está hoy.
+  2. Las 4 traducciones de opciones de `Selection` (`Pendiente`/`Completo (Hecho)`/`Borrador (En Portal)`/`Enviado`) usan el xmlid auto-generado `selection__<modelo>__<campo>__<valor>` — es el patrón estándar de Odoo 17, pero no se pudo verificar contra una instancia corriendo. Si al probar no aparecen traducidas, es el primer lugar a revisar.
+  3. Los datos de catálogo (`data/osp_service_data.xml`, `data/osp_form_template_data.xml` — nombres como "NOP/USDA", "Crop", "Handler") son datos de negocio, no elementos de pantalla — no se tradujeron a propósito (además, algunos nombres de catálogo coinciden con nombres de plantillas de formulario futuras, traducirlos generaría confusión).
+- **Cómo probar**: cambiar el idioma del usuario en su perfil (Mi Perfil → Preferencias → Idioma) entre "English (US)" y "Spanish (MX) / Español (MX)", y recargar. Si algo no se tradujo, lo más probable es un desajuste entre el `msgid` del `.po` y el texto real renderizado (típicamente espacios/comillas) — hay que revisar el string exacto en el archivo fuente correspondiente.
+
+## 13. Pendientes conocidos
 
 - Plantilla **"Handler"**: el usuario la subirá después — por ahora solo existe "Crop"; otros `technical_code` caen al placeholder genérico sin construir.
 - Los ~18 marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9 de arriba) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
 - Embed del iframe admin (punto 7): limpiar el cascarón duplicado del portal dentro del iframe (modo `?embed=1`) — mejora visual, no bloqueante.
 - Notificación al admin (punto 8): solo cubre submits del cliente; no se pidió notificar sobre guardados del propio admin.
 
-## 13. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 14. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
 - Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).

@@ -92,7 +92,7 @@ class OSPRequest(models.Model):
     def action_view_attachments(self):
         self.ensure_one()
         return {
-            'name': 'Archivos Adjuntos',
+            'name': _('Archivos Adjuntos'),
             'type': 'ir.actions.act_window',
             'res_model': 'ir.attachment',
             'view_mode': 'kanban,tree,form',
