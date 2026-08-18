@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Pantalla de confirmación tras el submit de un navegante público
+        (sin login). No hay /my/osp a donde mandarlo (no tiene portal),
+        así que se queda aquí. Mientras el registro NO tenga partner_id
+        asignado (el Administrador de OSP todavía no lo vinculó a un
+        cliente), esta misma pantalla permite subir archivos adjuntos —
+        en cuanto se vincula a un cliente, esta ruta deja de aceptar
+        subidas para ese id (ver controllers/portal.py, OSPPublicController).
+    -->
+    <template id="public_osp_thankyou" name="OSP Public Thank You">
+        <t t-call="website.layout">
+            <div class="container py-5" style="max-width: 700px;">
+                <div class="text-center mb-4">
+                    <img src="/osp_management/static/src/img/primus_logo.png" alt="Primus Auditing Ops" style="max-height: 60px;"/>
+                </div>
+
+                <div class="text-center mb-4">
+                    <i class="fa fa-check-circle fa-4x text-success mb-3"></i>
+                    <h2 class="fw-bold">Thank you!</h2>
+                    <p class="text-muted">
+                        Your Organic System Plan has been submitted successfully. Our team will review it shortly.
+                    </p>
+                </div>
+
+                <div t-if="can_upload" class="border rounded-3 p-4 mt-4">
+                    <h5 class="fw-bold"><i class="fa fa-paperclip"></i> Attachments</h5>
+                    <p class="text-muted small">
+                        You can still attach any supporting documents referenced in your submission (certificates, maps, lab results, etc.).
+                    </p>
+
+                    <form t-attf-action="/osp/public/upload/#{osp.id}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap mb-3">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="file" name="osp_files" multiple="multiple" class="form-control" style="max-width: 400px;"/>
+                        <button type="submit" class="btn btn-outline-success">
+                            <i class="fa fa-upload"></i> Upload
+                        </button>
+                    </form>
+
+                    <div t-if="not attachments" class="text-muted small mb-0">
+                        No files uploaded yet.
+                    </div>
+
+                    <div t-if="attachments" class="list-group">
+                        <div t-foreach="attachments" t-as="att" class="list-group-item">
+                            <i class="fa fa-file-o me-1"></i><t t-esc="att.name"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

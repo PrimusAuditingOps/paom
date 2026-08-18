@@ -1,6 +1,6 @@
 {
     'name': 'PAO Administración de OSP',
-    'version': '17.0.1.0.8',
+    'version': '17.0.1.0.9',
     'category': 'Operations/OSP',
     'summary': 'Gestión de formularios OSP para Crop y Handler',
     'description': """
@@ -8,7 +8,10 @@
         Permite a los clientes externos llenar formularios desde el portal y a los administradores gestionarlos.
     """,
     'author': 'Hector Cortes',
-    'depends': ['base', 'mail', 'portal'],
+    # 'website': el formulario público (sin login) usa website.layout como
+    # cascarón visual — ver views/osp_form_crop.xml (public_osp_form_crop)
+    # y views/osp_public_templates.xml.
+    'depends': ['base', 'mail', 'portal', 'website'],
     'data': [
         'security/osp_security.xml',
         'security/ir.model.access.csv',
@@ -17,6 +20,7 @@
         'views/osp_menu_views.xml',
         'views/osp_portal_templates.xml',
         'views/osp_form_crop.xml',
+        'views/osp_public_templates.xml',
     ],
     # --- ASÍ SE REGISTRA EL JAVASCRIPT EN ODOO 17 ---
     'assets': {

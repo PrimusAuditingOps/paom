@@ -86,6 +86,18 @@
                         </h1>
                     </div>
 
+                    <!-- Este registro llegó de un navegante público (sin login, sin cuenta
+                         de cliente) — ver CONTEXT.md, sección del formulario público. No
+                         tiene Cliente asignado todavía: hay que vincularlo a un contacto
+                         existente en el campo "Cliente" de abajo y guardar. En cuanto se
+                         guarda, este aviso desaparece solo (ya no aplica la condición). -->
+                    <div class="alert alert-warning" role="alert" invisible="partner_id">
+                        <i class="fa fa-exclamation-triangle"/>
+                        Este formulario fue enviado por un visitante del sitio web, sin iniciar sesión — no tiene un Cliente asignado.
+                        Selecciónalo en el campo "Cliente" de abajo y guarda para vincularlo. A partir de ese momento, los usuarios de
+                        portal de ese cliente podrán ver este registro en su propio portal.
+                    </div>
+
                     <group>
                         <group string="Información del Cliente y Formulario">
                             <field name="partner_id" placeholder="Seleccionar o crear cliente..."/>

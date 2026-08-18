@@ -11,6 +11,18 @@ function initOspForm() {
 
     const READONLY = !!window.OSP_READONLY;
     const IS_ADMIN = !!window.OSP_IS_ADMIN;
+    // Navegante sin login (no es cliente de portal): "Save progress" no
+    // toca el servidor en absoluto — se guarda en localStorage del propio
+    // navegador, y solo el Submit final crea el registro en Odoo (ver
+    // CONTEXT.md, sección del formulario público, y OSPPublicController
+    // en controllers/portal.py).
+    const PUBLIC_MODE = !!window.OSP_PUBLIC_MODE;
+    const TECHNICAL_CODE = window.OSP_TECHNICAL_CODE || 'form_crop';
+    // Con el código técnico en la llave, cada tipo de formulario público
+    // (Crop, y a futuro Handler, Cultivo, etc.) guarda su propio avance
+    // en localStorage sin pisar el de otro si el navegante llena más de
+    // uno en el mismo navegador.
+    const PUBLIC_STORAGE_KEY = 'osp_public_draft_' + TECHNICAL_CODE;
 
     const ospIdInput = document.querySelector('input[name="osp_id"]');
     if (!ospIdInput) return;
@@ -25,6 +37,43 @@ function initOspForm() {
     const newTemplateIdInput = document.querySelector('input[name="new_template_id"]');
     const newServiceId = newServiceIdInput ? parseInt(newServiceIdInput.value) : 0;
     const newTemplateId = newTemplateIdInput ? parseInt(newTemplateIdInput.value) : 0;
+
+    // ============================================================
+    // HIDRATACIÓN DESDE localStorage (solo modo público)
+    // El resto de la página (todas las secciones, incluidas las 12 tablas
+    // dinámicas) se rellena normalmente vía "data.get(...)" server-side
+    // en el HTML — pero el navegante público nunca tiene un "data" real
+    // del servidor (no hay registro todavía), así que si ya había un
+    // avance guardado en este mismo navegador, se restaura aquí ANTES de
+    // que el motor de tablas dinámicas (más abajo) lea los inputs ocultos
+    // *_json — por eso corre primero: si un input oculto de tabla se
+    // hidrata con el JSON guardado, initDynTable() ya lo toma en cuenta
+    // al inicializarse.
+    // ============================================================
+    function hydrateFormFromData(data) {
+        if (!data) return;
+        document.querySelectorAll('.osp-input').forEach(el => {
+            if (el.type === 'checkbox' && el.dataset.group) {
+                const groupValues = data[el.dataset.group] || [];
+                el.checked = groupValues.indexOf(el.value) !== -1;
+            } else if (el.type === 'radio') {
+                el.checked = (data[el.name] === el.value);
+            } else if (el.type === 'checkbox') {
+                el.checked = !!data[el.name];
+            } else if (data[el.name] !== undefined) {
+                el.value = data[el.name];
+            }
+        });
+    }
+
+    if (PUBLIC_MODE && ospId === 0) {
+        try {
+            const saved = localStorage.getItem(PUBLIC_STORAGE_KEY);
+            if (saved) hydrateFormFromData(JSON.parse(saved));
+        } catch (e) {
+            console.error('🔴 [OSP] No se pudo leer el avance guardado localmente:', e);
+        }
+    }
 
     // ============================================================
     // MOTOR GENÉRICO DE TABLAS DINÁMICAS
@@ -389,7 +438,79 @@ function initOspForm() {
         }
     }
 
+    // ============================================================
+    // GUARDADO DEL NAVEGANTE PÚBLICO: "Save progress" nunca pega al
+    // servidor — se guarda solo en localStorage. El único momento en que
+    // se habla con Odoo es en el Submit final (POST a /osp/public/submit,
+    // que crea el registro directo en submitted). Al tener éxito, se
+    // limpia el localStorage (ya no hace falta) y se manda al navegante a
+    // la pantalla de agradecimiento, donde todavía puede adjuntar
+    // archivos mientras el registro no tenga cliente asignado.
+    // ============================================================
+    function savePublicForm(isSubmit) {
+        const statusText = document.getElementById('save_status');
+        const finalData = gatherFormData();
+
+        if (!isSubmit) {
+            try {
+                localStorage.setItem(PUBLIC_STORAGE_KEY, JSON.stringify(finalData));
+                if (statusText) {
+                    statusText.style.display = 'inline';
+                    statusText.innerText = 'Saved!';
+                    setTimeout(() => statusText.style.display = 'none', 2000);
+                }
+            } catch (e) {
+                console.error('🔴 [OSP] No se pudo guardar el avance localmente:', e);
+                if (statusText) {
+                    statusText.style.display = 'inline';
+                    statusText.innerText = 'Error al guardar';
+                    statusText.classList.replace('text-muted', 'text-danger');
+                }
+            }
+            return;
+        }
+
+        if (statusText) {
+            statusText.style.display = 'inline';
+            statusText.innerText = 'Saving...';
+        }
+
+        fetch('/osp/public/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                jsonrpc: "2.0",
+                method: "call",
+                params: { form_data: finalData, technical_code: TECHNICAL_CODE }
+            })
+        }).then(res => res.json())
+          .then(data => {
+              if (data.result && data.result.success) {
+                  try { localStorage.removeItem(PUBLIC_STORAGE_KEY); } catch (e) { /* no-op */ }
+                  window.location.href = `/osp/public/thankyou/${data.result.osp_id}`;
+              } else {
+                  console.error('🔴 [OSP] Error al enviar el formulario:', data.error || data);
+                  if (statusText) {
+                      statusText.innerText = 'Error al guardar';
+                      statusText.classList.replace('text-muted', 'text-danger');
+                  }
+              }
+          })
+          .catch(err => {
+              console.error('🔴 [OSP] Fallo de red al enviar:', err);
+              if (statusText) {
+                  statusText.innerText = 'Error al guardar';
+                  statusText.classList.replace('text-muted', 'text-danger');
+              }
+          });
+    }
+
     function saveForm(isSubmit) {
+        if (PUBLIC_MODE) {
+            savePublicForm(isSubmit);
+            return;
+        }
+
         const statusText = document.getElementById('save_status');
         if (statusText) {
             statusText.style.display = 'inline';

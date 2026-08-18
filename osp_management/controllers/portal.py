@@ -161,6 +161,7 @@ class OSPPortal(CustomerPortal):
                 'countries': countries,
                 'states': states,
                 'is_admin': False,
+                'is_public': False,
                 'readonly': False,
                 'attachments': [],
                 # No hay registro real todavía: no se puede subir adjuntos
@@ -168,6 +169,7 @@ class OSPPortal(CustomerPortal):
                 'can_upload': False,
                 'new_service_id': int(service_id) if service_id else 0,
                 'new_template_id': int(template_id),
+                'technical_code': template.technical_code,
             })
 
         # Otros formularios aún no construidos: se muestra el mismo
@@ -215,6 +217,7 @@ class OSPPortal(CustomerPortal):
                 'countries': countries,
                 'states': states,
                 'is_admin': admin_editing,
+                'is_public': False,
                 'readonly': readonly,
                 'attachments': attachments,
                 # El cliente dueño siempre puede subir/borrar adjuntos, sin
@@ -223,6 +226,7 @@ class OSPPortal(CustomerPortal):
                 'can_upload': is_owner and not admin_editing,
                 'new_service_id': 0,
                 'new_template_id': 0,
+                'technical_code': record.form_template_id.technical_code,
             })
 
         # Para otros formularios aún no construidos:
@@ -333,3 +337,168 @@ class OSPPortal(CustomerPortal):
                 attachment.unlink()
                 return request.redirect('/my/osp/form/%s#sec21' % osp_id)
         return request.redirect('/my/osp')
+
+
+# ============================================================
+# NAVEGANTE PÚBLICO (sin login, no es cliente de portal)
+# ============================================================
+# Hereda de OSPPortal solo para reutilizar sus métodos privados
+# (_sync_osp_summary_fields) — no re-registra ninguna de sus rutas
+# @http.route existentes, cada una sigue con su propio auth="user".
+# Todas las rutas de aquí usan auth="public" (Odoo permite el acceso sin
+# sesión) y sudo() en las operaciones de escritura, porque el visitante
+# no tiene NINGÚN permiso propio sobre osp.request/ir.attachment — la
+# validación de qué puede hacer vive en el código de estas rutas, no en
+# reglas de acceso nuevas (mismo criterio que ya se usa para adjuntos).
+class OSPPublicController(OSPPortal):
+
+    # Liga cada URL pública (slug) con el technical_code correspondiente
+    # de osp.form.template. Para agregar un formulario público nuevo
+    # (Handler, Cultivo, etc.) cuando ya esté construido:
+    #   1. agregar su renglón aquí (slug -> technical_code),
+    #   2. agregar su rama en _render_public_form() más abajo (qué
+    #      template QWeb renderizar).
+    # Así cada formulario público queda con su propia liga fija y
+    # permanente: /osp/public/crop, /osp/public/handler, etc. — nunca un
+    # solo link genérico compartido entre todos.
+    PUBLIC_FORM_SLUGS = {
+        'crop': 'form_crop',
+        # 'handler': 'form_handler',                     # pendiente de construir
+        # 'handler-trader': 'form_handler_trader',        # pendiente de construir
+        # 'cultivo': 'form_cultivo',                      # pendiente de construir
+        # 'manejo-proceso': 'form_manejo_proceso',        # pendiente de construir
+        # 'comercializador': 'form_comercializador',      # pendiente de construir
+    }
+
+    def _get_public_template(self, technical_code):
+        return request.env['osp.form.template'].sudo().search(
+            [('technical_code', '=', technical_code), ('active', '=', True)], limit=1
+        )
+
+    def _render_public_form(self, technical_code, template):
+        countries = request.env['res.country'].sudo().search([], order='name asc')
+        states = request.env['res.country.state'].sudo().search([], order='name asc')
+        ctx = {
+            'osp': SimpleNamespace(id=0, form_data={}),
+            'countries': countries,
+            'states': states,
+            'is_admin': False,
+            'is_public': True,
+            'readonly': False,
+            'attachments': [],
+            'can_upload': False,
+            'new_service_id': 0,
+            'new_template_id': 0,
+            'technical_code': technical_code,
+        }
+
+        if technical_code == 'form_crop':
+            return request.render("osp_management.public_osp_form_crop", ctx)
+
+        # Ningún otro formulario público construido todavía (ver
+        # PUBLIC_FORM_SLUGS más arriba).
+        return request.redirect('/')
+
+    # A. PANTALLA DEL FORMULARIO PÚBLICO (sin registro creado todavía,
+    # igual que /my/osp/form/new pero sin requerir login). Una sola ruta
+    # dinámica para todos los formularios públicos — /osp/public/crop,
+    # y a futuro /osp/public/handler, /osp/public/cultivo, etc.
+    @http.route(['/osp/public/<string:form_slug>'], type='http', auth="public", website=True, sitemap=False)
+    def public_osp_form(self, form_slug, **kw):
+        technical_code = self.PUBLIC_FORM_SLUGS.get(form_slug)
+        if not technical_code:
+            return request.redirect('/')
+
+        template = self._get_public_template(technical_code)
+        if not template:
+            return request.redirect('/')
+
+        return self._render_public_form(technical_code, template)
+
+    # B. SUBMIT DEL FORMULARIO PÚBLICO — aquí es donde de verdad se crea
+    # el registro (nunca antes; el "Save progress" del navegante vive
+    # solo en su navegador, vía localStorage — ver osp_form.js). Recibe
+    # el technical_code (osp_form.js lo manda en cada submit, tomado de
+    # window.OSP_TECHNICAL_CODE) para saber a qué plantilla pertenece;
+    # por compatibilidad, si no llega, asume Crop.
+    @http.route(['/osp/public/submit'], type='json', auth="public", methods=['POST'], website=True)
+    def public_osp_submit(self, form_data, technical_code='form_crop', **kw):
+        template = self._get_public_template(technical_code)
+        if not template:
+            return {'success': False}
+
+        record = request.env['osp.request'].sudo().create({
+            'service_id': template.service_id.id,
+            'form_template_id': template.id,
+            'state': 'draft',
+            'form_data': form_data,
+        })
+        self._do_public_submit(record, form_data)
+
+        return {'success': True, 'osp_id': record.id}
+
+    # Equivalente a _do_client_submit, pero para un registro SIN
+    # partner_id (no hay "cliente de portal" que nombrar en el aviso).
+    def _do_public_submit(self, record, form_data):
+        self._sync_osp_summary_fields(record, form_data)
+        record.write({'state': 'submitted'})
+
+        log_body = _(
+            "Un visitante del sitio web (sin cuenta de cliente) envió el formulario '%s'. "
+            "No tiene un cliente asignado — vincúlalo a un contacto existente desde el campo "
+            "\"Cliente\" de esta ficha."
+        ) % (record.form_template_id.name or record.form_template_id.technical_code or '')
+
+        admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
+        admin_partners = admin_group.sudo().users.partner_id if admin_group else request.env['res.partner']
+
+        if admin_partners:
+            record.sudo().message_notify(
+                partner_ids=admin_partners.ids,
+                subject=_("OSP %s (sin cliente asignado)") % (record.name or ''),
+                body=log_body,
+            )
+        else:
+            record.sudo().message_post(body=log_body)
+
+    # C. PANTALLA DE "GRACIAS" — también permite adjuntar archivos
+    # mientras el registro siga SIN cliente asignado (en cuanto el
+    # Administrador de OSP lo vincula a un contacto, esta ruta deja de
+    # aceptar más subidas para ese id).
+    @http.route(['/osp/public/thankyou/<int:osp_id>'], type='http', auth="public", website=True, sitemap=False)
+    def public_osp_thankyou(self, osp_id, **kw):
+        record = request.env['osp.request'].sudo().browse(osp_id)
+        can_upload = bool(record.exists() and not record.partner_id)
+
+        attachments = []
+        if can_upload:
+            attachments = request.env['ir.attachment'].sudo().search([
+                ('res_model', '=', 'osp.request'),
+                ('res_id', '=', record.id),
+            ], order='create_date desc')
+
+        return request.render("osp_management.public_osp_thankyou", {
+            'osp': SimpleNamespace(id=osp_id),
+            'attachments': attachments,
+            'can_upload': can_upload,
+        })
+
+    # D. SUBIR ADJUNTOS (navegante público, solo mientras el registro no
+    # tenga cliente asignado)
+    @http.route(['/osp/public/upload/<int:osp_id>'], type='http', auth="public", methods=['POST'], website=True)
+    def public_osp_upload(self, osp_id, **kw):
+        record = request.env['osp.request'].sudo().browse(osp_id)
+        if record.exists() and not record.partner_id:
+            files = request.httprequest.files.getlist('osp_files')
+            for uploaded_file in files:
+                if not uploaded_file or not uploaded_file.filename:
+                    continue
+                request.env['ir.attachment'].sudo().create({
+                    'name': uploaded_file.filename,
+                    'datas': base64.b64encode(uploaded_file.read()),
+                    'res_model': 'osp.request',
+                    'res_id': record.id,
+                    'description': _("Subido por un visitante del sitio web (sin cuenta)"),
+                })
+
+        return request.redirect('/osp/public/thankyou/%s' % osp_id)

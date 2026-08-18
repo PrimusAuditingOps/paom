@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="portal_osp_form_crop" name="OSP Crop Form">
-        <t t-call="portal.portal_layout">
-            <t t-set="data" t-value="osp.form_data or {}"/>
+    <!-- ============================================================
+         BODY REUTILIZABLE: todo el contenido real del formulario Crop
+         (encabezado, 20 secciones, 12 tablas dinámicas, adjuntos). Se
+         llama vía t-call desde DOS templates "wrapper" distintos, cada
+         uno con su propio cascarón visual:
+           - portal_osp_form_crop: cliente de portal / admin (portal.portal_layout)
+           - public_osp_form_crop: navegante anónimo, sin login (website.layout)
+         Nunca se duplica este contenido — un solo lugar para editarlo.
+         ============================================================ -->
+    <template id="osp_form_crop_body" name="OSP Crop Form Body">
+        <t t-set="data" t-value="osp.form_data or {}"/>
 
-            <div class="container-fluid py-4">
+        <div class="container-fluid py-4">
 
-                <!-- ENCABEZADO -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <a t-if="not is_admin" href="/my/osp" class="text-decoration-none text-muted mb-2 d-inline-block"><i class="fa fa-arrow-left"></i> Back to list</a>
-                        <h3 class="fw-bold mb-0 text-success"><i class="fa fa-leaf"></i> Crop</h3>
-                        <p class="text-muted small mb-0">ORGANIC SYSTEM PLAN | Org-007 Rev.9</p>
-                        <span t-if="is_admin" class="badge bg-secondary">Editando como Administrador de OSP</span>
-                    </div>
+            <!-- LOGO DE LA MARCA (visible para cualquier audiencia: cliente, admin o navegante público) -->
+            <div class="text-center mb-3">
+                <img src="/osp_management/static/src/img/primus_logo.png" alt="Primus Auditing Ops" style="max-height: 60px;"/>
+            </div>
+
+            <!-- ENCABEZADO -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <a t-if="not is_admin and not is_public" href="/my/osp" class="text-decoration-none text-muted mb-2 d-inline-block"><i class="fa fa-arrow-left"></i> Back to list</a>
+                    <h3 class="fw-bold mb-0 text-success"><i class="fa fa-leaf"></i> Crop</h3>
+                    <p class="text-muted small mb-0">ORGANIC SYSTEM PLAN | Org-007 Rev.9</p>
+                    <span t-if="is_admin" class="badge bg-secondary">Editando como Administrador de OSP</span>
+                </div>
                     <div>
                         <div t-if="not readonly">
                             <span id="save_status" class="text-muted me-3" style="display: none;">Saving...</span>
@@ -72,7 +85,9 @@
                         <script>
                             window.OSP_READONLY = <t t-esc="'true' if readonly else 'false'"/>;
                             window.OSP_IS_ADMIN = <t t-esc="'true' if is_admin else 'false'"/>;
+                            window.OSP_PUBLIC_MODE = <t t-esc="'true' if is_public else 'false'"/>;
                             window.OSP_CSRF_TOKEN = "<t t-esc="request.csrf_token()"/>";
+                            window.OSP_TECHNICAL_CODE = "<t t-esc="technical_code"/>";
                         </script>
 
                         <div class="tab-content bg-white p-4 rounded-3 shadow-sm">
@@ -2100,9 +2115,13 @@
                                      el botón sin decir nada. En cuanto haga el primer "Save progress"
                                      (AJAX), osp_form.js reemplaza este aviso por el formulario de
                                      subida real, sin recargar la página. -->
-                                <div t-if="osp.id == 0" id="attachments_save_first_notice" class="alert alert-warning">
+                                <div t-if="osp.id == 0 and not is_public" id="attachments_save_first_notice" class="alert alert-warning">
                                     <i class="fa fa-info-circle"></i>
                                     You need to save your progress before you can upload attachments. Click "Save progress" above, then come back to this section.
+                                </div>
+                                <div t-if="osp.id == 0 and is_public" id="attachments_save_first_notice" class="alert alert-warning">
+                                    <i class="fa fa-info-circle"></i>
+                                    You'll be able to attach supporting documents right after you submit the form.
                                 </div>
 
                                 <div t-if="can_upload" id="attachments_upload_wrap" class="mb-4">
@@ -2140,6 +2159,19 @@
                     </div>
                 </div>
             </div>
+    </template>
+
+    <!-- WRAPPER 1: cliente de portal / Administrador de OSP (logueados) -->
+    <template id="portal_osp_form_crop" name="OSP Crop Form">
+        <t t-call="portal.portal_layout">
+            <t t-call="osp_management.osp_form_crop_body"/>
+        </t>
+    </template>
+
+    <!-- WRAPPER 2: navegante público, sin login (ver controllers/portal.py, OSPPublicController) -->
+    <template id="public_osp_form_crop" name="OSP Crop Form (Public)">
+        <t t-call="website.layout">
+            <t t-call="osp_management.osp_form_crop_body"/>
         </t>
     </template>
 </odoo>
