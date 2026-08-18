@@ -270,7 +270,20 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 - 🐛 **Casi-incidente durante esta tarea**: al ejecutar `rm` sobre `i18n/en_US.po`, se descubrió que la carpeta **`i18n/` completa ya no existía en disco** (incluyendo `es_MX.po`, que **no** se pidió tocar) — border ajeno a esta sesión, no causado por este cambio. Se restauró `es_MX.po` completo desde el último commit que lo tenía (`git show a270145:osp_management/i18n/es_MX.po`), verificando que incluyera las entradas más recientes ("Last Updated", "Download PDF") antes de continuar. **Lección**: si algo similar vuelve a pasar, `git status`/`git log -- <archivo>` es la forma rápida de confirmar si un archivo "desaparecido" es recuperable desde el historial antes de asumir que hay que rehacerlo.
 - Versión del manifest: `17.0.1.1.3`.
 
-## 17. Pendientes conocidos
+## 17. Backend vuelve a ser bilingüe vía es_MX.po exportado (IMPLEMENTADO — 18/ago)
+
+**Contra-orden parcial del punto 16**: el usuario exportó su propio `i18n/es_MX.po` completo desde Odoo (Ajustes → Traducciones → Exportar) — 606 términos, junto con `i18n/osp_management.pot` (el molde, **nunca se toca**). Pidió traducir ese archivo a español, **excepto las preguntas del formulario Crop**. Es decir: el backend deja de ser "solo inglés siempre" y vuelve a ser bilingüe — pero ahora vía este `.po` que el propio usuario generó y mantiene, no uno que yo escribí desde cero.
+
+- **456 de las 606 entradas son del formulario Crop** (`model_terms:ir.ui.view,arch_db:osp_management.osp_form_crop_body`) — se dejaron con `msgstr ""` (vacío = sin traducir), tal como se pidió.
+- **~40 entradas son campos genéricos heredados de `mail.thread`/`mail.activity.mixin`** (Followers, Activities, Created by, Message Delivery error, etc.) — se dejaron vacías a propósito: Odoo ya trae su propia traducción al español para estos campos estándar (vienen del módulo `mail`, no de `osp_management`), traducirlos aquí sería trabajo redundante sin ningún efecto adicional.
+- **~95 entradas restantes SÍ se tradujeron**: vistas backend, campos propios, menús, acciones, chatter, portal (`portal_my_osps`, `portal_my_home_osp_raw`, `public_osp_thankyou`), y el texto fijo del reporte PDF (`report_osp_crop_document` — "Page X of Y", no las preguntas).
+- Se dejaron sin traducir a propósito 3 casos especiales: **"Primus Auditing Ops"** (nombre de marca), y **2 textos que ya eran fuente en español** desde antes (`Cargando Formulario:`, `La versión web...`, `Volver a mi lista`, `No hay planes de manejo orgánico creados todavía...` — la placeholder de formularios no construidos; traducir español→español no aplica).
+- 🐛 **Detalle encontrado de paso**: el nombre interno del reporte (`ir.actions.report.name` en `report/osp_report_templates.xml`) se había quedado como "Descargar OSP" cuando pasamos el backend a inglés (punto 16) — se corrigió a "Download OSP", y ya tiene su traducción a "Descargar OSP" en el `.po`.
+- ⚠️ **Consecuencia técnica importante, ya explicada al usuario antes de traducir**: de las ~95 entradas traducidas, las de tipo `model_terms:ir.ui.view` (botones, títulos de grupo, placeholders — recargan solas en cada `-u`) **sí van a mostrarse en español** para un admin con ese idioma seleccionado. Las de tipo `model:X,Y` (menús, acciones, `field_description`, opciones de `Selection`, nombre de módulo/grupo/categoría) **probablemente NO cambien** de inglés a español, porque `migrations/17.0.1.1.3` ya forzó por ORM que esos campos específicos mostraran inglés en TODOS los idiomas — esa escritura previa tiene prioridad sobre lo que traiga el `.po`. Si el usuario quiere que esos también vuelvan a español, hace falta una migración nueva que revierta/complemente la de `17.0.1.1.3` (mismo patrón, escribiendo el texto en español en vez de en inglés) — no se hizo todavía porque no se pidió explícitamente.
+- ⚠️ **Casi-incidente ya documentado en el punto 16** (recordatorio): al trabajar en `i18n/` hay que tener cuidado — la carpeta completa desapareció una vez de forma ajena a esta sesión.
+- Versión del manifest: `17.0.1.1.4`.
+
+## 18. Pendientes conocidos
 
 - Plantilla **"Handler"**: el usuario la subirá después — por ahora solo existe "Crop"; otros `technical_code` caen al placeholder genérico sin construir.
 - Los ~18 marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9 de arriba) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
@@ -278,8 +291,9 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 - Notificación al admin (punto 8): solo cubre submits del cliente; no se pidió notificar sobre guardados del propio admin.
 - Formulario público (punto 14): sin protección anti-bot, sin captcha, sin alta automática de portal al vincular cliente — todo por decisión explícita del usuario, no por descuido. Si en el futuro hay abuso real (envíos basura) o se quiere agilizar el alta de portal, ya está identificado qué tocar.
 - Reporte PDF (punto 15): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
+- Backend bilingüe (punto 17): las traducciones tipo `model:X,Y` (menús, acciones, `field_description`, opciones de Selection, nombre de módulo/grupo) probablemente sigan en inglés pase lo que pase, porque `migrations/17.0.1.1.3` las forzó por ORM en todos los idiomas — si el usuario confirma que también las quiere en español, hace falta una migración nueva que las revierta (mismo patrón, con los valores en español).
 
-## 18. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 19. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
 - Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).
