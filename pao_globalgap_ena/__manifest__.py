@@ -8,7 +8,7 @@
     """,
     'category': 'Quality',
     'author': 'Samuel Castro',
-    'depends': ['base', 'mail', 'web','auditordaysoff','pao_globalgap_fans'],
+    'depends': ['base', 'mail', 'web','auditordaysoff','pao_globalgap_fans','auditconfirmation'],
     'data': [
         'security/pao_ena_security.xml',
         'security/ir.model.access.csv',

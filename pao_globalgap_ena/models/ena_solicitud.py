@@ -155,6 +155,11 @@ class EnaSolicitud(models.Model):
         string='Orden de Compra',      
         ondelete='set null'
     )
+    ac_audit_status = fields.Many2one(
+        related='purchase_order_id.ac_audit_status',
+        string='Estatus de auditoría en compra',
+        readonly=True,
+    )
     audit_start_date = fields.Date(
         string="Fecha Inicio de Auditoria",
         compute='_compute_audit_date',

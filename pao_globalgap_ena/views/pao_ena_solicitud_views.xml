@@ -121,6 +121,8 @@
                             <group string="Auditoría no anunciada">
                                 <field name="coordinadora_id" required="stage not in ('candidato')"/>
                                 <field name="purchase_order_id"/>
+                                <field name="ac_audit_status"/>
+                                
                                 <field name="auditor_id"/>
                                 <field name="audit_start_date"/>
                                 <field name="audit_end_date"/>
