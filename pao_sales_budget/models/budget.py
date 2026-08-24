@@ -775,8 +775,13 @@ class PAOSalesBudgetLine(models.Model):
     total_quantity = fields.Float(string='Total Quantity', compute='_compute_total', store=True)
 
     # Rentabilidad presupuestada (solo costo de proveedor, sin costo operativo)
+    # provider_cost_rate y net_profit_pct son porcentajes: sumarlos entre
+    # varias líneas agrupadas no tiene sentido (a diferencia de los montos en
+    # dólares, que sí son aditivos), así que se desactiva la agregación por
+    # defecto de Odoo (group_operator='sum') para que una fila agrupada los
+    # muestre en blanco en vez de una suma sin sentido.
     provider_cost_rate = fields.Float(
-        string='Provider Cost Rate', copy=False, default=0.0,
+        string='Provider Cost Rate', copy=False, default=0.0, group_operator=None,
         help="Tasa ponderada de costo de proveedor para este servicio, calculada de las "
              "compras de la temporada base (service_start_date) ligadas a una venta. Se "
              "recalcula al generar el presupuesto o al cambiar el producto de la línea.")
@@ -786,7 +791,8 @@ class PAOSalesBudgetLine(models.Model):
     net_profit_amount = fields.Monetary(
         string='Net Profit Amount', compute='_compute_net_profit',
         currency_field='currency_id', store=True)
-    net_profit_pct = fields.Float(string='Net Profit %', compute='_compute_net_profit', store=True)
+    net_profit_pct = fields.Float(
+        string='Net Profit %', compute='_compute_net_profit', store=True, group_operator=None)
 
     # ------------------------------------------------------------------
     # Notificaciones en vivo (bus) para que otros usuarios con la lista
