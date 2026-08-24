@@ -904,16 +904,29 @@ class PAOSalesBudgetLine(models.Model):
 
         Ponderación por volumen: se toman todas las líneas de compra confirmadas
         (state distinto de cancel) de ese producto, con service_start_date dentro
-        del rango, y que estén ligadas a una línea de venta (sra_sale_line_ids) -
-        solo ahí se puede saber el % realmente pagado al proveedor
-        (price_unit / sra_sale_line_price_unit). Cada línea pesa según su
-        product_qty, así un proveedor con más volumen histórico pesa más en la
-        tasa resultante que uno con pocos servicios, sin necesidad de agrupar
-        por proveedor explícitamente.
+        del rango, cuya orden tenga audit_fee_id (tipo de honorario de auditoría)
+        asignado. Cada línea pesa según su product_qty, así un proveedor con más
+        volumen histórico pesa más en la tasa resultante que uno con pocos
+        servicios, sin necesidad de agrupar por proveedor explícitamente.
 
         Se usa service_start_date (no la fecha de la orden ni la de factura de
         venta) porque el servicio casi nunca se presta en el mismo mes en que se
         factura al cliente.
+
+        El % pagado se lee directamente de
+        partner_id.audit_fee_percentages_ids (filtrado por el audit_fee_id de
+        la orden), NO se deduce de price_unit/sra_sale_line_price_unit. Esto es
+        deliberado: la compra puede estar en una moneda distinta a la venta
+        (MXN vs USD), y el tipo de cambio con el que se convirtió price_unit en
+        su momento no queda historizado en ningún lado (solo existe un valor
+        vigente por moneda en servicereferralagreement.auditorexchangerate, sin
+        fecha) - reconstruir el % desde esos montos habría mezclado el % real
+        con un tipo de cambio adivinado. Leer el % del catálogo evita el
+        problema por completo, porque un porcentaje no tiene moneda.
+
+        Nota: esto solo cubre líneas cuya orden tiene audit_fee_id (el esquema
+        de pago por % que usan MX/CR/CL); compras en otros esquemas (ej. precio
+        fijo para US) no se toman en cuenta en la tasa por ahora.
         """
         if not template_ids:
             return {}
@@ -923,16 +936,19 @@ class PAOSalesBudgetLine(models.Model):
             ('service_start_date', '>=', date_from),
             ('service_start_date', '<=', date_to),
             ('order_id.state', '!=', 'cancel'),
-            ('sra_sale_line_ids', '!=', False),
+            ('order_id.audit_fee_id', '!=', False),
         ]
         weighted = defaultdict(lambda: {'num': 0.0, 'den': 0.0})
         for line in self.env['purchase.order.line'].sudo().search(domain):
-            sale_price = line.sra_sale_line_price_unit
+            order = line.order_id
+            fee = order.partner_id.audit_fee_percentages_ids.filtered(
+                lambda f: f.audit_fees_id == order.audit_fee_id)[:1]
             qty = line.product_qty or 0.0
-            if not sale_price or not qty:
+            if not fee or not qty:
                 continue
+
             tmpl_id = line.product_id.product_tmpl_id.id
-            weighted[tmpl_id]['num'] += (line.price_unit / sale_price) * qty
+            weighted[tmpl_id]['num'] += (fee.audit_percentage / 100.0) * qty
             weighted[tmpl_id]['den'] += qty
 
         return {
