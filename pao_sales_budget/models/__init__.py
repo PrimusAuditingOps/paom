@@ -1,3 +1,4 @@
+from . import account_analytic_account
 from . import budget
 from . import comisionpromotores_promotor
 from . import crm_team

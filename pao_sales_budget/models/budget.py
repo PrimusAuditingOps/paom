@@ -19,6 +19,18 @@ class PAOSalesBudget(models.Model):
     year = fields.Integer(string='Year', required=True, copy=False, default=lambda self: fields.Date.context_today(self).year)
     line_ids = fields.One2many('pao.sales.budget.line', 'budget_id', string='Lines', copy=False)
 
+    crossovered_budget_ids = fields.Many2many(
+        'crossovered.budget', string='Presupuestos de Egresos (Odoo)',
+        help="Presupuestos nativos de egresos por cuenta analítica de esta misma "
+             "temporada (uno por departamento, ej. IT, Finanzas), usados en conjunto "
+             "para calcular el costo operativo presupuestado por servicio.")
+    budgeted_exchange_rate = fields.Float(
+        string='Tipo de Cambio Presupuestal (MXN por USD)', digits=(12, 4),
+        help="Cuántos pesos equivalen a 1 dólar, para convertir los montos del "
+             "presupuesto de egresos (en pesos) a dólares al calcular el costo "
+             "operativo. Se captura una sola vez por temporada; no se actualiza "
+             "solo con el tipo de cambio vigente de Odoo.")
+
 
     def action_view_actual_line(self):
         self.ensure_one()
@@ -181,20 +193,76 @@ class PAOSalesBudget(models.Model):
         # cubrir de un solo golpe tanto lo creado por _populate_budget_lines
         # como las líneas de "Clientes Nuevos" generadas arriba.
         self.line_ids._compute_and_set_provider_cost_rate()
+        self.line_ids._compute_and_set_operational_cost_rate()
 
         return {'message': _('Se han creado las líneas de presupuesto')}
 
+    def _get_operational_cost_rates(self):
+        """Devuelve (rate_staff, {scheme_id: rate_esquema}) para este
+        presupuesto, cruzando los presupuestos nativos de egresos
+        (crossovered_budget_ids - uno por departamento) contra el presupuesto
+        de ingresos (line_ids) de esta misma temporada.
+
+        rate_staff: tasa única, aplica a cualquier línea sin importar esquema
+        (cuentas analíticas sin pao_sales_budget_scheme_ids = staff/overhead).
+
+        rate_esquema: una tasa por esquema, solo aplica a líneas de ese
+        esquema (cuentas analíticas cuyo pao_sales_budget_scheme_ids incluya
+        ese esquema). Si un esquema no tiene ninguna cuenta analítica
+        asignada, no aparece en el diccionario (equivale a tasa 0 - ese
+        servicio no necesita área especializada, solo le pega staff).
+
+        Los montos de crossovered.budget.lines están en la moneda de la
+        compañía (pesos); se convierten a dólares con budgeted_exchange_rate
+        (pesos por dólar) antes de cruzarlos contra total_amount (ya en
+        dólares) - no se usa el tipo de cambio vigente de Odoo porque un
+        presupuesto no debe moverse solo porque cambió el spot del día.
+        """
+        self.ensure_one()
+        if not self.crossovered_budget_ids or not self.budgeted_exchange_rate:
+            return 0.0, {}
+
+        staff_expense = 0.0
+        scheme_expense = defaultdict(float)
+        for bline in self.crossovered_budget_ids.crossovered_budget_line:
+            if not bline.analytic_account_id:
+                continue
+            amount_usd = abs(bline.planned_amount) / self.budgeted_exchange_rate
+            schemes = bline.analytic_account_id.pao_sales_budget_scheme_ids
+            if not schemes:
+                staff_expense += amount_usd
+            else:
+                for scheme in schemes:
+                    scheme_expense[scheme.id] += amount_usd
+
+        total_revenue = sum(self.line_ids.mapped('total_amount'))
+        rate_staff = (staff_expense / total_revenue) if total_revenue else 0.0
+
+        scheme_revenue = defaultdict(float)
+        for line in self.line_ids:
+            if line.pao_sales_budget_scheme_id:
+                scheme_revenue[line.pao_sales_budget_scheme_id.id] += line.total_amount
+
+        rate_scheme = {
+            scheme_id: expense / scheme_revenue[scheme_id]
+            for scheme_id, expense in scheme_expense.items()
+            if scheme_revenue.get(scheme_id)
+        }
+        return rate_staff, rate_scheme
+
     def action_calculate_provider_cost_rate(self):
-        """Recalcula provider_cost_rate (y con ella provider_cost_amount /
-        net_profit_amount / net_profit_pct) sobre las líneas ya existentes de
-        este presupuesto. Necesario para presupuestos generados antes de que
-        existiera este cálculo, o si se quiere refrescar la tasa contra
-        compras históricas más recientes sin regenerar el presupuesto completo
-        (lo cual ni siquiera es posible desde la UI una vez que ya tiene
-        líneas, porque el botón "Generate Budget" se oculta en ese caso).
+        """Recalcula provider_cost_rate y operational_cost_rate (y con ellas
+        provider_cost_amount / operational_cost_amount / net_profit_amount /
+        net_profit_pct) sobre las líneas ya existentes de este presupuesto.
+        Necesario para presupuestos generados antes de que existiera este
+        cálculo, o si se quiere refrescar contra compras/presupuesto de
+        egresos más recientes sin regenerar el presupuesto completo (lo cual
+        ni siquiera es posible desde la UI una vez que ya tiene líneas, porque
+        el botón "Generate Budget" se oculta en ese caso).
         """
         self.ensure_one()
         self.line_ids._compute_and_set_provider_cost_rate()
+        self.line_ids._compute_and_set_operational_cost_rate()
         return {'message': _('Se recalculó la rentabilidad presupuestada')}
 
     def action_refresh_actual(self):
@@ -788,6 +856,15 @@ class PAOSalesBudgetLine(models.Model):
     provider_cost_amount = fields.Monetary(
         string='Provider Cost Amount', compute='_compute_net_profit',
         currency_field='currency_id', store=True)
+    operational_cost_rate = fields.Float(
+        string='Operational Cost Rate', copy=False, default=0.0, group_operator=None,
+        help="Tasa de costo operativo presupuestado (staff + área especializada del "
+             "esquema de este servicio), calculada del presupuesto de egresos nativo "
+             "de Odoo ligado al presupuesto. Se recalcula al generar el presupuesto, "
+             "al cambiar el producto de la línea, o con el botón Calcular Rentabilidad.")
+    operational_cost_amount = fields.Monetary(
+        string='Operational Cost Amount', compute='_compute_net_profit',
+        currency_field='currency_id', store=True)
     net_profit_amount = fields.Monetary(
         string='Net Profit Amount', compute='_compute_net_profit',
         currency_field='currency_id', store=True)
@@ -896,11 +973,12 @@ class PAOSalesBudgetLine(models.Model):
             rec.total_amount = qty_sum * (rec.price_unit or 0.0)
             rec.total_quantity = qty_sum
 
-    @api.depends('total_amount', 'provider_cost_rate')
+    @api.depends('total_amount', 'provider_cost_rate', 'operational_cost_rate')
     def _compute_net_profit(self):
         for rec in self:
             rec.provider_cost_amount = rec.total_amount * rec.provider_cost_rate
-            rec.net_profit_amount = rec.total_amount - rec.provider_cost_amount
+            rec.operational_cost_amount = rec.total_amount * rec.operational_cost_rate
+            rec.net_profit_amount = rec.total_amount - rec.provider_cost_amount - rec.operational_cost_amount
             rec.net_profit_pct = (rec.net_profit_amount / rec.total_amount) if rec.total_amount else 0.0
 
     @api.model
@@ -992,6 +1070,31 @@ class PAOSalesBudgetLine(models.Model):
                 rec.provider_cost_rate = rates.get(rec.product_id.id, 0.0)
             else:
                 rec.provider_cost_rate = 0.0
+
+    def _compute_and_set_operational_cost_rate(self):
+        """Calcula y guarda operational_cost_rate para self, agrupando por
+        presupuesto (para obtener rate_staff y rate_esquema una sola vez por
+        presupuesto en vez de por línea) y escribiendo en lote por valor de
+        tasa distinto, igual que _compute_and_set_provider_cost_rate.
+        """
+        for budget in self.mapped('budget_id'):
+            lines = self.filtered(lambda l: l.budget_id == budget)
+            rate_staff, rate_scheme = budget._get_operational_cost_rates()
+            by_rate = defaultdict(lambda: self.browse())
+            for line in lines:
+                rate = rate_staff + rate_scheme.get(line.pao_sales_budget_scheme_id.id, 0.0)
+                by_rate[rate] |= line
+            for rate, rate_lines in by_rate.items():
+                rate_lines.write({'operational_cost_rate': rate})
+
+    @api.onchange('product_id')
+    def _onchange_product_id_operational_cost_rate(self):
+        for rec in self:
+            if rec.product_id and rec.budget_id:
+                rate_staff, rate_scheme = rec.budget_id._get_operational_cost_rates()
+                rec.operational_cost_rate = rate_staff + rate_scheme.get(rec.pao_sales_budget_scheme_id.id, 0.0)
+            else:
+                rec.operational_cost_rate = 0.0
 
 
 class PAOSalesBudgetActualLine(models.Model):

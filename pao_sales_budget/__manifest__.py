@@ -11,12 +11,13 @@
     
     """,
     'category': '',
-    'depends': ['base','bus','product','sale','purchase','servicereferralagreement','comisionpromotores','customergroups','crm','pao_sales_invoicing_report','pao_customer_segmentation'],
+    'depends': ['base','bus','product','sale','purchase','servicereferralagreement','analytic','account_budget','comisionpromotores','customergroups','crm','pao_sales_invoicing_report','pao_customer_segmentation'],
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
         'security/rules.xml',
         'views/pao_sales_budget.xml',
+        'views/account_analytic_account.xml',
         'views/crm_team.xml',
         'views/customergroups_group.xml',
         'views/comisionpromotores.xml',

@@ -49,6 +49,8 @@
             <field name="currency_id"/>
             <field name="year" widget="char"/>
             <field name="company_id" readonly="1"/>
+            <field name="crossovered_budget_ids" widget="many2many_tags"/>
+            <field name="budgeted_exchange_rate"/>
             <field name="line_ids" invisible="1"/>
           </group>
         </sheet>
