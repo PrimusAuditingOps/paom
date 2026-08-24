@@ -21,7 +21,7 @@
         <header>
           <button string="Generate Budget" invisible="line_ids" type="object" class="btn-primary" name="generate_budget_action"/>
           <button string="Actualizar Real" invisible="not line_ids" type="object" class="btn-secondary" name="action_refresh_actual"/>
-          <button string="Calcular Rentabilidad" invisible="not line_ids" type="object" class="btn-secondary" name="action_calculate_provider_cost_rate"/>
+          <button string="Calcular Rentabilidad" invisible="not line_ids" type="object" class="btn-secondary" name="action_calculate_provider_cost_rate" groups="base.group_system"/>
           <button string="Exportar Excel" invisible="not line_ids" type="object" class="btn-secondary" name="action_export_variance_excel"/>
           <button string="Reporte por Esquema" invisible="not line_ids" type="object" class="btn-secondary" name="action_open_scheme_report_wizard"/>
           <div class="o_not_full oe_button_box">
@@ -49,9 +49,9 @@
             <field name="currency_id"/>
             <field name="year" widget="char"/>
             <field name="company_id" readonly="1"/>
-            <field name="crossovered_budget_ids" widget="many2many_tags"/>
-            <field name="budgeted_exchange_rate"/>
-            <field name="savings_rate" widget="percentage"/>
+            <field name="crossovered_budget_ids" widget="many2many_tags" groups="base.group_system"/>
+            <field name="budgeted_exchange_rate" groups="base.group_system"/>
+            <field name="savings_rate" widget="percentage" groups="base.group_system"/>
             <field name="line_ids" invisible="1"/>
           </group>
         </sheet>

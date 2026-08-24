@@ -6,7 +6,7 @@
     <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
     <field name="arch" type="xml">
       <field name="plan_id" position="after">
-        <field name="pao_sales_budget_scheme_ids" widget="many2many_tags"/>
+        <field name="pao_sales_budget_scheme_ids" widget="many2many_tags" groups="base.group_system"/>
       </field>
     </field>
   </record>
