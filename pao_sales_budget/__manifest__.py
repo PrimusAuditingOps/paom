@@ -11,7 +11,7 @@
     
     """,
     'category': '',
-    'depends': ['base','bus','product','sale','comisionpromotores','customergroups','crm','pao_sales_invoicing_report','pao_customer_segmentation'],
+    'depends': ['base','bus','product','sale','purchase','servicereferralagreement','comisionpromotores','customergroups','crm','pao_sales_invoicing_report','pao_customer_segmentation'],
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',

@@ -21,6 +21,7 @@
         <header>
           <button string="Generate Budget" invisible="line_ids" type="object" class="btn-primary" name="generate_budget_action"/>
           <button string="Actualizar Real" invisible="not line_ids" type="object" class="btn-secondary" name="action_refresh_actual"/>
+          <button string="Calcular Rentabilidad" invisible="not line_ids" type="object" class="btn-secondary" name="action_calculate_provider_cost_rate"/>
           <button string="Exportar Excel" invisible="not line_ids" type="object" class="btn-secondary" name="action_export_variance_excel"/>
           <button string="Reporte por Esquema" invisible="not line_ids" type="object" class="btn-secondary" name="action_open_scheme_report_wizard"/>
           <div class="o_not_full oe_button_box">

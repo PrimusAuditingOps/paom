@@ -56,7 +56,11 @@
         <field name="m08_amount" optional="hide" sum="Total"/>
         <field name="total_quantity" sum="Total"/>
         <field name="total_amount" sum="Total"/>
-        
+        <field name="provider_cost_rate" optional="hide"/>
+        <field name="provider_cost_amount" sum="Total"/>
+        <field name="net_profit_amount" sum="Total"/>
+        <field name="net_profit_pct" widget="percentage"/>
+
       </tree>
     </field>
   </record>
@@ -79,6 +83,9 @@
                 <field name="m06" type="measure"/>
                 <field name="m07" type="measure"/>
                 <field name="m08" type="measure"/>
+                <field name="total_amount" type="measure"/>
+                <field name="provider_cost_amount" type="measure"/>
+                <field name="net_profit_amount" type="measure"/>
             </pivot>
         </field>
   </record>

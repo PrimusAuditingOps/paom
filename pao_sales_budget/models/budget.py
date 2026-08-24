@@ -177,7 +177,25 @@ class PAOSalesBudget(models.Model):
                 created_chunk = budget_line.sudo().create(chunk)
                 created += created_chunk
 
+        # Se recalcula al final, sobre todas las líneas del presupuesto, para
+        # cubrir de un solo golpe tanto lo creado por _populate_budget_lines
+        # como las líneas de "Clientes Nuevos" generadas arriba.
+        self.line_ids._compute_and_set_provider_cost_rate()
+
         return {'message': _('Se han creado las líneas de presupuesto')}
+
+    def action_calculate_provider_cost_rate(self):
+        """Recalcula provider_cost_rate (y con ella provider_cost_amount /
+        net_profit_amount / net_profit_pct) sobre las líneas ya existentes de
+        este presupuesto. Necesario para presupuestos generados antes de que
+        existiera este cálculo, o si se quiere refrescar la tasa contra
+        compras históricas más recientes sin regenerar el presupuesto completo
+        (lo cual ni siquiera es posible desde la UI una vez que ya tiene
+        líneas, porque el botón "Generate Budget" se oculta en ese caso).
+        """
+        self.ensure_one()
+        self.line_ids._compute_and_set_provider_cost_rate()
+        return {'message': _('Se recalculó la rentabilidad presupuestada')}
 
     def action_refresh_actual(self):
         """Recalcula lo realmente facturado (pao.sales.budget.actual.line) de la
@@ -756,6 +774,20 @@ class PAOSalesBudgetLine(models.Model):
     total_amount = fields.Monetary(string='Total Amount', compute='_compute_total', currency_field='currency_id', store=True)
     total_quantity = fields.Float(string='Total Quantity', compute='_compute_total', store=True)
 
+    # Rentabilidad presupuestada (solo costo de proveedor, sin costo operativo)
+    provider_cost_rate = fields.Float(
+        string='Provider Cost Rate', copy=False, default=0.0,
+        help="Tasa ponderada de costo de proveedor para este servicio, calculada de las "
+             "compras de la temporada base (service_start_date) ligadas a una venta. Se "
+             "recalcula al generar el presupuesto o al cambiar el producto de la línea.")
+    provider_cost_amount = fields.Monetary(
+        string='Provider Cost Amount', compute='_compute_net_profit',
+        currency_field='currency_id', store=True)
+    net_profit_amount = fields.Monetary(
+        string='Net Profit Amount', compute='_compute_net_profit',
+        currency_field='currency_id', store=True)
+    net_profit_pct = fields.Float(string='Net Profit %', compute='_compute_net_profit', store=True)
+
     # ------------------------------------------------------------------
     # Notificaciones en vivo (bus) para que otros usuarios con la lista
     # abierta vean los cambios de sus compañeros sin tener que refrescar.
@@ -857,6 +889,87 @@ class PAOSalesBudgetLine(models.Model):
             qty_sum = sum((rec.m01,rec.m02,rec.m03,rec.m04,rec.m05,rec.m06,rec.m07,rec.m08,rec.m09,rec.m10,rec.m11,rec.m12))
             rec.total_amount = qty_sum * (rec.price_unit or 0.0)
             rec.total_quantity = qty_sum
+
+    @api.depends('total_amount', 'provider_cost_rate')
+    def _compute_net_profit(self):
+        for rec in self:
+            rec.provider_cost_amount = rec.total_amount * rec.provider_cost_rate
+            rec.net_profit_amount = rec.total_amount - rec.provider_cost_amount
+            rec.net_profit_pct = (rec.net_profit_amount / rec.total_amount) if rec.total_amount else 0.0
+
+    @api.model
+    def _get_provider_cost_rates(self, template_ids, date_from, date_to):
+        """Tasa ponderada de costo de proveedor por producto (product.template),
+        para el rango de fechas dado.
+
+        Ponderación por volumen: se toman todas las líneas de compra confirmadas
+        (state distinto de cancel) de ese producto, con service_start_date dentro
+        del rango, y que estén ligadas a una línea de venta (sra_sale_line_ids) -
+        solo ahí se puede saber el % realmente pagado al proveedor
+        (price_unit / sra_sale_line_price_unit). Cada línea pesa según su
+        product_qty, así un proveedor con más volumen histórico pesa más en la
+        tasa resultante que uno con pocos servicios, sin necesidad de agrupar
+        por proveedor explícitamente.
+
+        Se usa service_start_date (no la fecha de la orden ni la de factura de
+        venta) porque el servicio casi nunca se presta en el mismo mes en que se
+        factura al cliente.
+        """
+        if not template_ids:
+            return {}
+
+        domain = [
+            ('product_id.product_tmpl_id', 'in', template_ids),
+            ('service_start_date', '>=', date_from),
+            ('service_start_date', '<=', date_to),
+            ('order_id.state', '!=', 'cancel'),
+            ('sra_sale_line_ids', '!=', False),
+        ]
+        weighted = defaultdict(lambda: {'num': 0.0, 'den': 0.0})
+        for line in self.env['purchase.order.line'].sudo().search(domain):
+            sale_price = line.sra_sale_line_price_unit
+            qty = line.product_qty or 0.0
+            if not sale_price or not qty:
+                continue
+            tmpl_id = line.product_id.product_tmpl_id.id
+            weighted[tmpl_id]['num'] += (line.price_unit / sale_price) * qty
+            weighted[tmpl_id]['den'] += qty
+
+        return {
+            tmpl_id: vals['num'] / vals['den']
+            for tmpl_id, vals in weighted.items() if vals['den']
+        }
+
+    def _compute_and_set_provider_cost_rate(self):
+        """Calcula y guarda provider_cost_rate para self, agrupando por
+        presupuesto (para obtener el rango de temporada base una sola vez) y
+        consultando el histórico de compras una sola vez por producto.
+
+        Escribe en lote por cada valor de tasa distinto (en vez de línea por
+        línea) para no disparar un write()/notificación de bus por cada
+        registro cuando se generan cientos de líneas de golpe.
+        """
+        for budget in self.mapped('budget_id'):
+            lines = self.filtered(lambda l: l.budget_id == budget)
+            date_from = '{0}-09-01'.format(budget.year - 1)
+            date_to = '{0}-08-31'.format(budget.year)
+            rates = self._get_provider_cost_rates(lines.mapped('product_id').ids, date_from, date_to)
+            by_rate = defaultdict(lambda: self.browse())
+            for line in lines:
+                by_rate[rates.get(line.product_id.id, 0.0)] |= line
+            for rate, rate_lines in by_rate.items():
+                rate_lines.write({'provider_cost_rate': rate})
+
+    @api.onchange('product_id')
+    def _onchange_product_id_provider_cost_rate(self):
+        for rec in self:
+            if rec.product_id and rec.budget_id:
+                date_from = '{0}-09-01'.format(rec.budget_id.year - 1)
+                date_to = '{0}-08-31'.format(rec.budget_id.year)
+                rates = rec._get_provider_cost_rates([rec.product_id.id], date_from, date_to)
+                rec.provider_cost_rate = rates.get(rec.product_id.id, 0.0)
+            else:
+                rec.provider_cost_rate = 0.0
 
 
 class PAOSalesBudgetActualLine(models.Model):
