@@ -51,6 +51,7 @@
             <field name="company_id" readonly="1"/>
             <field name="crossovered_budget_ids" widget="many2many_tags"/>
             <field name="budgeted_exchange_rate"/>
+            <field name="savings_rate" widget="percentage"/>
             <field name="line_ids" invisible="1"/>
           </group>
         </sheet>

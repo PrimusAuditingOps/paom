@@ -60,6 +60,7 @@
         <field name="provider_cost_amount" sum="Total"/>
         <field name="operational_cost_rate" optional="hide"/>
         <field name="operational_cost_amount" sum="Total"/>
+        <field name="savings_amount" sum="Total"/>
         <field name="net_profit_amount" sum="Total"/>
         <field name="net_profit_pct" widget="percentage"/>
 
@@ -88,6 +89,7 @@
                 <field name="total_amount" type="measure"/>
                 <field name="provider_cost_amount" type="measure"/>
                 <field name="operational_cost_amount" type="measure"/>
+                <field name="savings_amount" type="measure"/>
                 <field name="net_profit_amount" type="measure"/>
             </pivot>
         </field>

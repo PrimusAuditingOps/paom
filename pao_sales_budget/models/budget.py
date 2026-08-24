@@ -30,6 +30,12 @@ class PAOSalesBudget(models.Model):
              "presupuesto de egresos (en pesos) a dólares al calcular el costo "
              "operativo. Se captura una sola vez por temporada; no se actualiza "
              "solo con el tipo de cambio vigente de Odoo.")
+    savings_rate = fields.Float(
+        string='Pago Fijo (%)', group_operator=None,
+        help="Porcentaje fijo y general de los ingresos que se manda a un "
+             "pago fijo, independiente del proveedor y del costo operativo. Se aplica "
+             "igual a todas las líneas de este presupuesto, sin importar servicio o "
+             "esquema.")
 
 
     def action_view_actual_line(self):
@@ -865,6 +871,9 @@ class PAOSalesBudgetLine(models.Model):
     operational_cost_amount = fields.Monetary(
         string='Operational Cost Amount', compute='_compute_net_profit',
         currency_field='currency_id', store=True)
+    savings_amount = fields.Monetary(
+        string='Savings Amount', compute='_compute_net_profit',
+        currency_field='currency_id', store=True)
     net_profit_amount = fields.Monetary(
         string='Net Profit Amount', compute='_compute_net_profit',
         currency_field='currency_id', store=True)
@@ -973,12 +982,15 @@ class PAOSalesBudgetLine(models.Model):
             rec.total_amount = qty_sum * (rec.price_unit or 0.0)
             rec.total_quantity = qty_sum
 
-    @api.depends('total_amount', 'provider_cost_rate', 'operational_cost_rate')
+    @api.depends('total_amount', 'provider_cost_rate', 'operational_cost_rate', 'budget_id.savings_rate')
     def _compute_net_profit(self):
         for rec in self:
             rec.provider_cost_amount = rec.total_amount * rec.provider_cost_rate
             rec.operational_cost_amount = rec.total_amount * rec.operational_cost_rate
-            rec.net_profit_amount = rec.total_amount - rec.provider_cost_amount - rec.operational_cost_amount
+            rec.savings_amount = rec.total_amount * rec.budget_id.savings_rate
+            rec.net_profit_amount = (
+                rec.total_amount - rec.provider_cost_amount
+                - rec.operational_cost_amount - rec.savings_amount)
             rec.net_profit_pct = (rec.net_profit_amount / rec.total_amount) if rec.total_amount else 0.0
 
     @api.model
