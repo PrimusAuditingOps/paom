@@ -1,0 +1,34 @@
+<odoo>
+
+  <record id="pao_sales_budget_profitability_report_wizard_view_form" model="ir.ui.view">
+    <field name="name">pao.sales.budget.profitability.report.wizard.view.form</field>
+    <field name="model">pao.sales.budget.profitability.report.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Reporte de Rentabilidad">
+        <group>
+          <field name="budget_id"/>
+        </group>
+        <footer>
+          <button string="Generar" type="object" name="action_generate_report" class="btn-primary" invisible="not budget_id"/>
+          <button string="Cerrar" special="cancel" class="btn-secondary"/>
+        </footer>
+        <field name="report_html" widget="html" options="{'sanitize': false}" invisible="not report_html"/>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_pao_sales_budget_profitability_report_wizard" model="ir.actions.act_window">
+    <field name="name">Reporte de Rentabilidad</field>
+    <field name="res_model">pao.sales.budget.profitability.report.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <menuitem id="pao_sales_budget_profitability_report_item"
+            name="Reporte de Rentabilidad"
+            parent="sale.menu_sale_report"
+            action="action_pao_sales_budget_profitability_report_wizard"
+            groups="base.group_system"
+            sequence="20"/>
+
+</odoo>

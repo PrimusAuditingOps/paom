@@ -28,6 +28,7 @@
         'views/pao_sales_budget_scheme.xml',
         'views/pao_sales_budget_scheme_report_wizard.xml',
         'views/pao_sales_budget_dashboard_wizard.xml',
+        'views/pao_sales_budget_profitability_report_wizard.xml',
 
     ],
     'assets': {
