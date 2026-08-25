@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pao_purchase_order_custom_exchange_rate_view" model="ir.ui.view">
+        <field name="name">pao.purchase.order.custom.exchange.rate.view</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_confirm']" position="after">
+                    <field name="country_code" invisible="1"/>
+                    <field name="can_apply_exchange_rate" invisible="1"/>
+                    <field name="can_undo_exchange_rate" invisible="1"/>
+                    <field name="exchange_rate_applied_to_po" invisible="1"/>
+                    <button invisible="state != 'draft' or country_code != 'US' or not can_apply_exchange_rate" string="Apply Exchange Rate" type="object" class="oe_highlight btn btn-secondary" name="exchange_rate_lines_wizard_action" context="{'action':'apply'}"/>
+                    <button invisible="state != 'draft' or country_code != 'US' or not can_undo_exchange_rate" string="Undo Exchange Rate" type="object" class="oe_highlight btn btn-secondary" name="exchange_rate_lines_wizard_action" context="{'action':'undo'}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="after">
+                <field name="exchange_rate_applied" invisible="1" column_invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
+                <attribute name="readonly">exchange_rate_applied</attribute>
+            </xpath>
+            
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="readonly">exchange_rate_applied_to_po</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
