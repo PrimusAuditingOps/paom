@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
 
@@ -51,6 +51,22 @@ class PaoSitePlotService(models.Model):
         ondelete='set null',
         copy=False,
     )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('calidad_qty') and 'final_qty' not in vals:
+                vals['final_qty'] = vals['calidad_qty']
+        return super().create(vals_list)
+
+    def write(self, vals):
+        # Calidad's estimate is normally what ends up on the order line, so
+        # default final_qty to it to save a duplicate capture; a manual
+        # adjustment to final_qty afterward (without touching calidad_qty
+        # again) is left untouched.
+        if 'calidad_qty' in vals and 'final_qty' not in vals:
+            vals = dict(vals, final_qty=vals['calidad_qty'])
+        return super().write(vals)
 
     def action_push_to_order_line(self):
         for rec in self:

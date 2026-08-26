@@ -14,7 +14,7 @@
                 </button>
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="Sitios" name="pao_site_plots">
+                <page string="Sitios" name="pao_site_plots" groups="pao_site_plot_survey.group_salesperson_sites,pao_site_plot_survey.group_calidad">
                     <group>
                         <field name="qa_user_ids" widget="many2many_tags"
                                domain="[('groups_id', 'in', %(pao_site_plot_survey.group_calidad)d)]"
@@ -44,15 +44,13 @@
                         </tree>
                     </field>
                 </page>
-                <page string="Servicios estimados" name="pao_site_plot_services">
+                <page string="Servicios estimados" groups="pao_site_plot_survey.group_salesperson_sites,pao_site_plot_survey.group_calidad" name="pao_site_plot_services">
                     <field name="service_ids">
                         <tree editable="bottom">
                             <field name="sale_order_id" column_invisible="1"/>
                             <field name="product_id"/>
                             <field name="site_ids" widget="many2many_tags"/>
-                            <field name="calidad_qty" groups="pao_site_plot_survey.group_calidad"/>
-                            <field name="external_partner_id"/>
-                            <field name="external_qty"/>
+                            <field name="calidad_qty"/>
                             <field name="final_qty"/>
                             <field name="estimate_source" widget="badge"/>
                             <field name="sale_order_line_id" column_invisible="1"/>
