@@ -147,7 +147,7 @@ export class PaoSitePlotOverviewMap extends Component {
         });
 
         const bounds = new google.maps.LatLngBounds();
-        const chainPoints = [];
+        const chainEntries = [];
 
         this.state.sites.forEach((site, index) => {
             if (!site.geojson_polygon) {
@@ -183,12 +183,20 @@ export class PaoSitePlotOverviewMap extends Component {
             });
 
             const centroid = this._centroid(path);
-            chainPoints.push(centroid);
+            chainEntries.push({ site, point: centroid });
+        });
+
+        const orderedEntries = this._optimizeChainOrder(chainEntries);
+        // Numbered per the final chain order (not the sites list order), so
+        // the number on the map matches the stop sequence used both by the
+        // black line and by "Calcular ruta en carro" - a quick visual way to
+        // confirm both follow the exact same order.
+        orderedEntries.forEach((entry, i) => {
             new google.maps.Marker({
-                position: centroid,
+                position: entry.point,
                 map: this.map,
                 clickable: false,
-                label: { text: site.name, color: "#ffffff", fontWeight: "bold", fontSize: "12px" },
+                label: { text: `${i + 1}. ${entry.site.name}`, color: "#ffffff", fontWeight: "bold", fontSize: "12px" },
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 0,
@@ -197,7 +205,7 @@ export class PaoSitePlotOverviewMap extends Component {
             });
         });
 
-        this.chainOrderedPoints = this._optimizeChainOrder(chainPoints);
+        this.chainOrderedPoints = orderedEntries.map((entry) => entry.point);
         this._drawSiteChain(this.chainOrderedPoints);
 
         if (!bounds.isEmpty()) {
@@ -207,20 +215,22 @@ export class PaoSitePlotOverviewMap extends Component {
         }
     }
 
-    /** Reorders the sites' centroids into a short (not necessarily perfectly
-     * optimal - exact TSP is impractical to compute live) open path: nearest-
-     * neighbor construction tried from every possible starting point, kept
-     * as the shortest, then refined with 2-opt swaps. The order the user
-     * happened to create/import the sites in is not a good proxy for which
-     * ones are actually close to each other. */
-    _optimizeChainOrder(points) {
-        if (points.length < 3) {
-            return points;
+    /** Reorders the sites (kept as {site, point} entries, so the site each
+     * stop belongs to travels along with its coordinates) into a short (not
+     * necessarily perfectly optimal - exact TSP is impractical to compute
+     * live) open path: nearest-neighbor construction tried from every
+     * possible starting point, kept as the shortest, then refined with
+     * 2-opt swaps. The order the user happened to create/import the sites
+     * in is not a good proxy for which ones are actually close to each
+     * other. */
+    _optimizeChainOrder(entries) {
+        if (entries.length < 3) {
+            return entries;
         }
         let best = null;
         let bestLen = Infinity;
-        for (let start = 0; start < points.length; start++) {
-            const path = this._nearestNeighborPathFrom(points, start);
+        for (let start = 0; start < entries.length; start++) {
+            const path = this._nearestNeighborPathFrom(entries, start);
             const len = this._pathLength(path);
             if (len < bestLen) {
                 bestLen = len;
@@ -230,15 +240,15 @@ export class PaoSitePlotOverviewMap extends Component {
         return this._twoOptImprove(best);
     }
 
-    _nearestNeighborPathFrom(points, startIndex) {
-        const remaining = points.map((_, i) => i).filter((i) => i !== startIndex);
+    _nearestNeighborPathFrom(entries, startIndex) {
+        const remaining = entries.map((_, i) => i).filter((i) => i !== startIndex);
         const order = [startIndex];
         while (remaining.length) {
-            const last = points[order[order.length - 1]];
+            const last = entries[order[order.length - 1]].point;
             let bestPos = 0;
             let bestDist = Infinity;
             remaining.forEach((idx, pos) => {
-                const d = google.maps.geometry.spherical.computeDistanceBetween(last, points[idx]);
+                const d = google.maps.geometry.spherical.computeDistanceBetween(last, entries[idx].point);
                 if (d < bestDist) {
                     bestDist = d;
                     bestPos = pos;
@@ -246,13 +256,13 @@ export class PaoSitePlotOverviewMap extends Component {
             });
             order.push(remaining.splice(bestPos, 1)[0]);
         }
-        return order.map((i) => points[i]);
+        return order.map((i) => entries[i]);
     }
 
-    _pathLength(path) {
+    _pathLength(entries) {
         let total = 0;
-        for (let i = 1; i < path.length; i++) {
-            total += google.maps.geometry.spherical.computeDistanceBetween(path[i - 1], path[i]);
+        for (let i = 1; i < entries.length; i++) {
+            total += google.maps.geometry.spherical.computeDistanceBetween(entries[i - 1].point, entries[i].point);
         }
         return total;
     }
@@ -260,9 +270,9 @@ export class PaoSitePlotOverviewMap extends Component {
     /** Standard 2-opt local search for an open path: repeatedly reverses a
      * segment whenever doing so shortens the two edges at its boundaries,
      * until no more improving swap is found (capped for safety). */
-    _twoOptImprove(points) {
-        let best = points.slice();
-        const distance = (a, b) => google.maps.geometry.spherical.computeDistanceBetween(a, b);
+    _twoOptImprove(entries) {
+        let best = entries.slice();
+        const distance = (a, b) => google.maps.geometry.spherical.computeDistanceBetween(a.point, b.point);
         let improved = true;
         let iterations = 0;
         const maxIterations = 200;
