@@ -218,6 +218,13 @@ class PAOSalesBudget(models.Model):
         asignada, no aparece en el diccionario (equivale a tasa 0 - ese
         servicio no necesita área especializada, solo le pega staff).
 
+        Si una cuenta analítica atiende varios esquemas, su costo NO se
+        duplica completo en cada uno - se reparte proporcional al ingreso de
+        cada esquema dentro del conjunto de esquemas que ESA cuenta atiende
+        (no del ingreso total de la empresa). Una cuenta con un solo esquema
+        le manda el 100% de su costo a ese esquema, sin necesitar caso
+        especial - es el mismo cálculo con un solo elemento.
+
         Los montos de crossovered.budget.lines están en la moneda de la
         compañía (pesos); se convierten a dólares con budgeted_exchange_rate
         (pesos por dólar) antes de cruzarlos contra total_amount (ya en
@@ -228,6 +235,12 @@ class PAOSalesBudget(models.Model):
         if not self.crossovered_budget_ids or not self.budgeted_exchange_rate:
             return 0.0, {}
 
+        scheme_revenue = defaultdict(float)
+        for line in self.line_ids:
+            if line.pao_sales_budget_scheme_id:
+                scheme_revenue[line.pao_sales_budget_scheme_id.id] += line.total_amount
+        total_revenue = sum(self.line_ids.mapped('total_amount'))
+
         staff_expense = 0.0
         scheme_expense = defaultdict(float)
         for bline in self.crossovered_budget_ids.crossovered_budget_line:
@@ -237,17 +250,27 @@ class PAOSalesBudget(models.Model):
             schemes = bline.analytic_account_id.pao_sales_budget_scheme_ids
             if not schemes:
                 staff_expense += amount_usd
-            else:
+                continue
+
+            # Reparto proporcional al ingreso de los esquemas que ESTA cuenta
+            # atiende (no el ingreso total de la empresa) - si la cuenta solo
+            # tiene un esquema, le toca el 100% de su costo a ese esquema; si
+            # tiene varios, cada uno se lleva su proporción, sin duplicar el
+            # costo completo en cada uno.
+            scope_revenue = sum(scheme_revenue.get(s.id, 0.0) for s in schemes)
+            if scope_revenue:
                 for scheme in schemes:
-                    scheme_expense[scheme.id] += amount_usd
+                    share = scheme_revenue.get(scheme.id, 0.0) / scope_revenue
+                    scheme_expense[scheme.id] += amount_usd * share
+            else:
+                # Ninguno de sus esquemas tiene ingreso todavía en este
+                # presupuesto - se reparte parejo entre ellos para no perder
+                # el costo por completo.
+                share = amount_usd / len(schemes)
+                for scheme in schemes:
+                    scheme_expense[scheme.id] += share
 
-        total_revenue = sum(self.line_ids.mapped('total_amount'))
         rate_staff = (staff_expense / total_revenue) if total_revenue else 0.0
-
-        scheme_revenue = defaultdict(float)
-        for line in self.line_ids:
-            if line.pao_sales_budget_scheme_id:
-                scheme_revenue[line.pao_sales_budget_scheme_id.id] += line.total_amount
 
         rate_scheme = {
             scheme_id: expense / scheme_revenue[scheme_id]
