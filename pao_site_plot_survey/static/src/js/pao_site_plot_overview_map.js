@@ -184,7 +184,7 @@ export class PaoSitePlotOverviewMap extends Component {
             });
         });
 
-        this._drawSiteChain(chainPoints);
+        this._drawSiteChain(this._optimizeChainOrder(chainPoints));
 
         if (!bounds.isEmpty()) {
             this.map.fitBounds(bounds);
@@ -193,10 +193,90 @@ export class PaoSitePlotOverviewMap extends Component {
         }
     }
 
-    /** Connects every drawn site's centroid, in list order, with a single
-     * open polyline (no closing segment back to the start - "en forma de
-     * culebra") and shows the sum of each leg's distance, so Calidad gets an
-     * at-a-glance read of how spread out the sites are without having to
+    /** Reorders the sites' centroids into a short (not necessarily perfectly
+     * optimal - exact TSP is impractical to compute live) open path: nearest-
+     * neighbor construction tried from every possible starting point, kept
+     * as the shortest, then refined with 2-opt swaps. The order the user
+     * happened to create/import the sites in is not a good proxy for which
+     * ones are actually close to each other. */
+    _optimizeChainOrder(points) {
+        if (points.length < 3) {
+            return points;
+        }
+        let best = null;
+        let bestLen = Infinity;
+        for (let start = 0; start < points.length; start++) {
+            const path = this._nearestNeighborPathFrom(points, start);
+            const len = this._pathLength(path);
+            if (len < bestLen) {
+                bestLen = len;
+                best = path;
+            }
+        }
+        return this._twoOptImprove(best);
+    }
+
+    _nearestNeighborPathFrom(points, startIndex) {
+        const remaining = points.map((_, i) => i).filter((i) => i !== startIndex);
+        const order = [startIndex];
+        while (remaining.length) {
+            const last = points[order[order.length - 1]];
+            let bestPos = 0;
+            let bestDist = Infinity;
+            remaining.forEach((idx, pos) => {
+                const d = google.maps.geometry.spherical.computeDistanceBetween(last, points[idx]);
+                if (d < bestDist) {
+                    bestDist = d;
+                    bestPos = pos;
+                }
+            });
+            order.push(remaining.splice(bestPos, 1)[0]);
+        }
+        return order.map((i) => points[i]);
+    }
+
+    _pathLength(path) {
+        let total = 0;
+        for (let i = 1; i < path.length; i++) {
+            total += google.maps.geometry.spherical.computeDistanceBetween(path[i - 1], path[i]);
+        }
+        return total;
+    }
+
+    /** Standard 2-opt local search for an open path: repeatedly reverses a
+     * segment whenever doing so shortens the two edges at its boundaries,
+     * until no more improving swap is found (capped for safety). */
+    _twoOptImprove(points) {
+        let best = points.slice();
+        const distance = (a, b) => google.maps.geometry.spherical.computeDistanceBetween(a, b);
+        let improved = true;
+        let iterations = 0;
+        const maxIterations = 200;
+        while (improved && iterations < maxIterations) {
+            improved = false;
+            iterations++;
+            for (let i = 0; i < best.length - 2; i++) {
+                for (let j = i + 2; j < best.length; j++) {
+                    const hasTailEdge = j + 1 < best.length;
+                    const currentLength =
+                        distance(best[i], best[i + 1]) + (hasTailEdge ? distance(best[j], best[j + 1]) : 0);
+                    const swappedLength =
+                        distance(best[i], best[j]) + (hasTailEdge ? distance(best[i + 1], best[j + 1]) : 0);
+                    if (swappedLength < currentLength - 1e-6) {
+                        const reversed = best.slice(i + 1, j + 1).reverse();
+                        best = best.slice(0, i + 1).concat(reversed, best.slice(j + 1));
+                        improved = true;
+                    }
+                }
+            }
+        }
+        return best;
+    }
+
+    /** Connects every drawn site's centroid, in the order given, with a
+     * single open polyline (no closing segment back to the start - "en forma
+     * de culebra") and shows the sum of each leg's distance, so Calidad gets
+     * an at-a-glance read of how spread out the sites are without having to
      * measure manually. */
     _drawSiteChain(points) {
         if (this.siteChainPolyline) {
@@ -211,7 +291,7 @@ export class PaoSitePlotOverviewMap extends Component {
             path: points,
             map: this.map,
             clickable: false,
-            strokeColor: "#ffd60a",
+            strokeColor: "#000000",
             strokeOpacity: 0.9,
             strokeWeight: 3,
         });
