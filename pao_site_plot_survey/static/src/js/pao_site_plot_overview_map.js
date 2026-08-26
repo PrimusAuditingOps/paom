@@ -41,6 +41,7 @@ export class PaoSitePlotOverviewMap extends Component {
             siteTagPicker: { open: false, text: "", style: "" },
             measuring: false,
             distanceText: "",
+            siteChainDistanceText: "",
         });
         this.measurePoints = [];
         this.measurePolyline = null;
@@ -48,6 +49,7 @@ export class PaoSitePlotOverviewMap extends Component {
         this.measureClickListener = null;
         this.productSearchTimeout = null;
         this.dropdownScrollCloseHandler = null;
+        this.siteChainPolyline = null;
 
         this.saleOrderId =
             this.props.action.context.active_id || this.props.action.context.default_sale_order_id;
@@ -132,6 +134,7 @@ export class PaoSitePlotOverviewMap extends Component {
         });
 
         const bounds = new google.maps.LatLngBounds();
+        const chainPoints = [];
 
         this.state.sites.forEach((site, index) => {
             if (!site.geojson_polygon) {
@@ -167,6 +170,7 @@ export class PaoSitePlotOverviewMap extends Component {
             });
 
             const centroid = this._centroid(path);
+            chainPoints.push(centroid);
             new google.maps.Marker({
                 position: centroid,
                 map: this.map,
@@ -180,11 +184,42 @@ export class PaoSitePlotOverviewMap extends Component {
             });
         });
 
+        this._drawSiteChain(chainPoints);
+
         if (!bounds.isEmpty()) {
             this.map.fitBounds(bounds);
         } else {
             this.map.setZoom(5);
         }
+    }
+
+    /** Connects every drawn site's centroid, in list order, with a single
+     * open polyline (no closing segment back to the start - "en forma de
+     * culebra") and shows the sum of each leg's distance, so Calidad gets an
+     * at-a-glance read of how spread out the sites are without having to
+     * measure manually. */
+    _drawSiteChain(points) {
+        if (this.siteChainPolyline) {
+            this.siteChainPolyline.setMap(null);
+            this.siteChainPolyline = null;
+        }
+        if (points.length < 2) {
+            this.state.siteChainDistanceText = "";
+            return;
+        }
+        this.siteChainPolyline = new google.maps.Polyline({
+            path: points,
+            map: this.map,
+            clickable: false,
+            strokeColor: "#ffd60a",
+            strokeOpacity: 0.9,
+            strokeWeight: 3,
+        });
+        let totalM = 0;
+        for (let i = 1; i < points.length; i++) {
+            totalM += google.maps.geometry.spherical.computeDistanceBetween(points[i - 1], points[i]);
+        }
+        this.state.siteChainDistanceText = this._formatDistance(totalM);
     }
 
     toggleMeasure() {
@@ -236,7 +271,11 @@ export class PaoSitePlotOverviewMap extends Component {
                 this.measurePoints[i]
             );
         }
-        this.state.distanceText = totalM >= 1000 ? (totalM / 1000).toFixed(2) + " km" : totalM.toFixed(0) + " m";
+        this.state.distanceText = this._formatDistance(totalM);
+    }
+
+    _formatDistance(totalM) {
+        return totalM >= 1000 ? (totalM / 1000).toFixed(2) + " km" : totalM.toFixed(0) + " m";
     }
 
     _stopMeasuring() {

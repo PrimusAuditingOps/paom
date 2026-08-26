@@ -16,8 +16,11 @@
                     <button type="button" class="btn btn-secondary btn-sm me-2" t-on-click="clearMeasure">
                         Limpiar medición
                     </button>
-                    <span t-if="state.distanceText" class="fw-bold">
+                    <span t-if="state.distanceText" class="fw-bold me-3">
                         Distancia total: <t t-esc="state.distanceText"/>
+                    </span>
+                    <span t-if="state.siteChainDistanceText" class="fw-bold" style="color:#ffd60a;">
+                        Ruta entre sitios (línea amarilla): <t t-esc="state.siteChainDistanceText"/>
                     </span>
                     <span t-if="state.measuring" class="text-muted small ms-2">
                         Haz clic en el mapa (o sobre un sitio) para agregar cada punto de medición.
