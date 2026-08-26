@@ -49,6 +49,14 @@ export class PaoPolygonMapField extends Component {
                 if (this.state.error) {
                     return;
                 }
+                if (typeof google === "undefined" || !google.maps) {
+                    // Should not happen (onWillStart awaits the script load
+                    // before this ever runs), but guards against a stale
+                    // cached JS bundle or the script being blocked crashing
+                    // the whole form instead of showing a clear message.
+                    this.state.error = "No se pudo inicializar Google Maps. Recarga la página e inténtalo de nuevo.";
+                    return;
+                }
                 this.cancelDrawing();
                 if (!this.map) {
                     this._ensureMap();

@@ -140,6 +140,14 @@ export class PaoSitePlotOverviewMap extends Component {
     }
 
     _initMap() {
+        if (typeof google === "undefined" || !google.maps) {
+            // Should not happen (onWillStart awaits the script load before
+            // this ever runs), but guards against a stale cached JS bundle
+            // or the script being blocked (ad blocker, CSP, network issue)
+            // crashing the whole screen instead of showing a clear message.
+            this.state.error = "No se pudo inicializar Google Maps. Recarga la página e inténtalo de nuevo.";
+            return;
+        }
         this.map = new google.maps.Map(this.mapContainerRef.el, {
             mapTypeId: "satellite",
             zoom: 14,
