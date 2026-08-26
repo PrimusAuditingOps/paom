@@ -26,6 +26,21 @@
                         Haz clic en el mapa (o sobre un sitio) para agregar cada punto de medición.
                     </span>
                 </div>
+                <div class="p-2 border-bottom d-flex align-items-center flex-wrap">
+                    <button type="button" class="btn btn-secondary btn-sm me-2"
+                            t-att-disabled="state.drivingRoute.loading"
+                            t-on-click="calculateDrivingRoute">
+                        <t t-if="state.drivingRoute.loading">Calculando ruta…</t>
+                        <t t-else="">Calcular ruta en carro</t>
+                    </button>
+                    <span t-if="state.drivingRoute.distanceText" class="fw-bold" style="color:#1a73e8;">
+                        Ruta en carro (línea azul): <t t-esc="state.drivingRoute.distanceText"/>
+                        — <t t-esc="state.drivingRoute.durationText"/>
+                    </span>
+                    <span t-if="state.drivingRoute.error" class="text-danger small">
+                        <t t-esc="state.drivingRoute.error"/>
+                    </span>
+                </div>
                 <div class="d-flex flex-grow-1" style="min-height: 500px;">
                     <div t-ref="mapContainer" class="flex-grow-1"/>
                     <div class="pao_site_plot_legend p-2 border-start" style="width: 260px; overflow-y: auto;">

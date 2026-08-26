@@ -23,6 +23,10 @@ const SERVICE_FIELDS = [
 
 const PRODUCT_SEARCH_DEBOUNCE_MS = 250;
 
+// Google's Directions API caps a single request at 25 locations
+// (origin + destination + up to 23 intermediate waypoints).
+const MAX_DIRECTIONS_WAYPOINTS = 25;
+
 export class PaoSitePlotOverviewMap extends Component {
     static template = "pao_site_plot_survey.SitePlotOverviewMap";
 
@@ -42,6 +46,7 @@ export class PaoSitePlotOverviewMap extends Component {
             measuring: false,
             distanceText: "",
             siteChainDistanceText: "",
+            drivingRoute: { loading: false, distanceText: "", durationText: "", error: "" },
         });
         this.measurePoints = [];
         this.measurePolyline = null;
@@ -50,6 +55,9 @@ export class PaoSitePlotOverviewMap extends Component {
         this.productSearchTimeout = null;
         this.dropdownScrollCloseHandler = null;
         this.siteChainPolyline = null;
+        this.chainOrderedPoints = [];
+        this.directionsService = null;
+        this.directionsRenderer = null;
 
         this.saleOrderId =
             this.props.action.context.active_id || this.props.action.context.default_sale_order_id;
@@ -82,7 +90,12 @@ export class PaoSitePlotOverviewMap extends Component {
                 this._initMap();
             }
         });
-        onWillUnmount(() => this._clearDropdownScrollClose());
+        onWillUnmount(() => {
+            this._clearDropdownScrollClose();
+            if (this.directionsRenderer) {
+                this.directionsRenderer.setMap(null);
+            }
+        });
     }
 
     /** Anchors a dropdown to `el` using position:fixed (viewport-relative),
@@ -184,7 +197,8 @@ export class PaoSitePlotOverviewMap extends Component {
             });
         });
 
-        this._drawSiteChain(this._optimizeChainOrder(chainPoints));
+        this.chainOrderedPoints = this._optimizeChainOrder(chainPoints);
+        this._drawSiteChain(this.chainOrderedPoints);
 
         if (!bounds.isEmpty()) {
             this.map.fitBounds(bounds);
@@ -300,6 +314,85 @@ export class PaoSitePlotOverviewMap extends Component {
             totalM += google.maps.geometry.spherical.computeDistanceBetween(points[i - 1], points[i]);
         }
         this.state.siteChainDistanceText = this._formatDistance(totalM);
+    }
+
+    /** Asks Google's Directions API for an actual driving route following
+     * the same site order as the black "culebra" line (not re-optimized by
+     * Google, so both lines describe the same sequence of stops - one as
+     * the crow flies, one as a car would actually drive it), then shows the
+     * total real driving distance and time. Requires the Directions API to
+     * be enabled for the configured Google Maps API key. */
+    async calculateDrivingRoute() {
+        const points = this.chainOrderedPoints;
+        if (points.length < 2) {
+            this.notification.add("Se necesitan al menos 2 sitios con polígono para calcular una ruta.", { type: "warning" });
+            return;
+        }
+
+        let routePoints = points;
+        if (routePoints.length > MAX_DIRECTIONS_WAYPOINTS) {
+            routePoints = routePoints.slice(0, MAX_DIRECTIONS_WAYPOINTS);
+            this.notification.add(
+                `Google limita las rutas a ${MAX_DIRECTIONS_WAYPOINTS} paradas; se calculará solo con las primeras ${MAX_DIRECTIONS_WAYPOINTS} de la lista.`,
+                { type: "warning" }
+            );
+        }
+
+        this.state.drivingRoute = { loading: true, distanceText: "", durationText: "", error: "" };
+
+        if (!this.directionsService) {
+            this.directionsService = new google.maps.DirectionsService();
+        }
+        if (!this.directionsRenderer) {
+            this.directionsRenderer = new google.maps.DirectionsRenderer({
+                map: this.map,
+                suppressMarkers: true,
+                preserveViewport: true,
+                polylineOptions: { strokeColor: "#1a73e8", strokeWeight: 4, strokeOpacity: 0.8 },
+            });
+        }
+
+        const waypoints = routePoints.slice(1, -1).map((location) => ({ location, stopover: true }));
+        try {
+            const result = await this.directionsService.route({
+                origin: routePoints[0],
+                destination: routePoints[routePoints.length - 1],
+                waypoints,
+                optimizeWaypoints: false,
+                travelMode: google.maps.TravelMode.DRIVING,
+            });
+            this.directionsRenderer.setDirections(result);
+
+            let totalMeters = 0;
+            let totalSeconds = 0;
+            for (const leg of result.routes[0].legs) {
+                totalMeters += leg.distance.value;
+                totalSeconds += leg.duration.value;
+            }
+            this.state.drivingRoute = {
+                loading: false,
+                distanceText: this._formatDistance(totalMeters),
+                durationText: this._formatDuration(totalSeconds),
+                error: "",
+            };
+        } catch {
+            this.state.drivingRoute = {
+                loading: false,
+                distanceText: "",
+                durationText: "",
+                error: "No se pudo calcular la ruta en carro (puede que algún sitio no tenga acceso por carretera, "
+                     + "o que la Directions API no esté habilitada para esta clave de Google Maps).",
+            };
+        }
+    }
+
+    _formatDuration(totalSeconds) {
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.round((totalSeconds % 3600) / 60);
+        if (hours > 0) {
+            return `${hours} h ${minutes} min`;
+        }
+        return `${minutes} min`;
     }
 
     toggleMeasure() {
