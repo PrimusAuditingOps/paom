@@ -3,7 +3,7 @@
 import { registry } from "@web/core/registry";
 import { listView } from "@web/views/list/list_view";
 import { ListController } from "@web/views/list/list_controller";
-import { onWillStart } from "@odoo/owl";
+import { onWillStart, onWillDestroy } from "@odoo/owl";
 
 const BUS_CHANNEL = "pao_sales_budget_line";
 const BUS_NOTIFICATION_TYPE = "pao_sales_budget_line/changed";
@@ -27,13 +27,28 @@ export class PaoSalesBudgetLineListController extends ListController {
     setup() {
         super.setup();
         this.busService = this.env.services.bus_service;
+        this._isDestroyed = false;
 
         onWillStart(() => this.busService.addChannel(BUS_CHANNEL));
 
+        // bus_service (en esta versión de Odoo) no expone un método para
+        // des-suscribir un callback puntual, así que la suscripción se
+        // queda viva mientras la pestaña siga abierta aunque este
+        // controller ya se haya destruido (navegaste a otra vista). Por
+        // eso _maybeRefresh siempre revisa _isDestroyed antes de tocar
+        // el modelo, en vez de depender de cortar la suscripción.
         this.busService.subscribe(BUS_NOTIFICATION_TYPE, (payload) => this._maybeRefresh(payload));
+
+        onWillDestroy(() => {
+            this._isDestroyed = true;
+            this.busService.deleteChannel(BUS_CHANNEL);
+        });
     }
 
     async _maybeRefresh(payload) {
+        if (this._isDestroyed) {
+            return;
+        }
         const root = this.model.root;
         // No interrumpir a un usuario que está escribiendo en una fila de
         // esta misma lista ahora mismo; se refrescará más tarde.
@@ -47,7 +62,16 @@ export class PaoSalesBudgetLineListController extends ListController {
         if (currentBudgetId && payload.budget_id && currentBudgetId !== payload.budget_id) {
             return;
         }
-        await this.model.load();
+        try {
+            await this.model.load();
+        } catch (e) {
+            // Respaldo por si el componente se destruyó justo durante el
+            // load (entre el chequeo de arriba y el await).
+            if (this._isDestroyed || (e && e.message === "Component is destroyed")) {
+                return;
+            }
+            throw e;
+        }
     }
 }
 
