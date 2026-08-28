@@ -782,15 +782,24 @@ class ExpensesPortal(http.Controller):
         ]).unlink()
 
         for receipt in receipts:
+            if not receipt or not receipt.filename:
+                continue
+
+            data = receipt.read()
+
+            if not data:
+                continue
+
             attachment_data = {
                 'name': receipt.filename,
                 'type': 'binary',
-                'datas': base64.b64encode(receipt.read()),
+                'datas': base64.b64encode(data),
                 'res_model': 'hr.expense',
                 'res_id': expense.id,
                 'res_name': expense.name,
                 'mimetype': receipt.content_type,
             }
+
             request.env['ir.attachment'].sudo().create(attachment_data)
 
         return request.redirect(
