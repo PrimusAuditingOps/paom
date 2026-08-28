@@ -140,6 +140,8 @@ class ExpenseInherit(models.Model):
         compute='_compute_state_sequence',
         store=True
     )
+    
+    end_date  = fields.Date(string='End Date', required=False)
 
     @api.depends('state')
     def _compute_state_sequence(self):

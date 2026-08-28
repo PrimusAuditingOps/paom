@@ -385,6 +385,13 @@
                                         </div>
                                     </div>
 
+                                    <div class="mb-3 row edit_full_info end-date-div d-none">
+                                        <label for="end_date" class="fw-bold col-sm-3 col-form-label">Expense End Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control" name="end_date" id="end_date" t-att-max="today"/>
+                                        </div>
+                                    </div>
+
                                     <div class="mb-3 row">
 
                                         <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
@@ -543,6 +550,13 @@
                                     <label for="expense_date" class="fw-bold col-sm-3 col-form-label">Expense Date</label>
                                     <div class="col-sm-9">
                                         <input type="date" class="form-control" name="expense_date" t-att-max="today" required="1"/>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row end-date-div d-none">
+                                    <label for="end_date" class="fw-bold col-sm-3 col-form-label">Expense End Date</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" name="end_date" id="end_date" t-att-max="today"/>
                                     </div>
                                 </div>
 
@@ -881,6 +895,13 @@
                                         </div>
                                     </div>
 
+                                    <div class="mb-3 row edit_full_info end-date-div d-none">
+                                        <label for="end_date" class="fw-bold col-sm-3 col-form-label">Expense End Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control" name="end_date" id="end_date" t-att-max="today"/>
+                                        </div>
+                                    </div>
+
                                     <div class="mb-3 row">
 
                                         <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
@@ -1003,6 +1024,13 @@
                                     <label for="expense_date" class="fw-bold col-sm-3 col-form-label">Expense Date</label>
                                     <div class="col-sm-9">
                                         <input type="date" class="form-control" name="expense_date" t-att-max="today" required="1"/>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row end-date-div d-none">
+                                    <label for="end_date" class="fw-bold col-sm-3 col-form-label">Expense End Date</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" name="end_date" id="end_date" t-att-max="today"/>
                                     </div>
                                 </div>
 
