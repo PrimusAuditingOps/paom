@@ -345,6 +345,7 @@ function initEditExpense() {
                     }
 
                     document.getElementById('expense_date').value = this.dataset.expenseDate || '';
+                    document.getElementById('end_date').value = this.dataset.endDate || '';
                     document.getElementById('total').value = this.dataset.total || ''
                     document.getElementById('currency_id').value = this.dataset.currencyId || ''
                 } else {

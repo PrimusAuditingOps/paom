@@ -307,6 +307,7 @@
                             <button class="btn btn-primary edit-expense-btn" type="button" data-bs-toggle="modal" data-bs-target="#add_receipt_modal" t-att-data-expense-id="expense.id" t-att-data-category-id="expense.product_id.id" t-att-data-description="expense.description or ''"  t-att-data-uploaded-by-statement="expense.uploaded_by_statement"  t-att-data-name="expense.name or ''"
                                 t-att-data-payment-mode="expense.payment_mode or ''"
                                 t-att-data-expense-date="expense.date or ''"
+                                t-att-data-end-date="expense.end_date or ''"
                                 t-att-data-total="expense.total_amount_currency or 0"
                                 t-att-data-currency-id="expense.currency_id.id or ''"
                                 t-att-data-tax-ids="','.join(map(str, expense.tax_ids.ids))">
@@ -794,6 +795,7 @@
                             <button class="btn btn-primary edit-expense-btn" t-if="expense.is_complete and expense.state in ('draft', 'reported')" type="button" data-bs-toggle="modal" data-bs-target="#add_receipt_modal" t-att-data-expense-id="expense.id" t-att-data-category-id="expense.product_id.id" t-att-data-description="expense.description or ''"  t-att-data-uploaded-by-statement="expense.uploaded_by_statement"  t-att-data-name="expense.name or ''"
                                 t-att-data-payment-mode="expense.payment_mode or ''"
                                 t-att-data-expense-date="expense.date or ''"
+                                t-att-data-end-date="expense.end_date or ''"
                                 t-att-data-total="expense.total_amount_currency or 0"
                                 t-att-data-currency-id="expense.currency_id.id or ''"
                                 t-att-data-tax-ids="','.join(map(str, expense.tax_ids.ids))">

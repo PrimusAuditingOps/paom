@@ -347,6 +347,7 @@ class ExpensesPortal(http.Controller):
                 
         description = kw.get("description")
         expense_date = kw.get("expense_date")
+        end_date = kw.get("end_date")
         payment_mode = kw.get("payment_mode")
         receipts = request.httprequest.files.getlist("receipt")
         total = kw.get("total")
@@ -373,10 +374,11 @@ class ExpensesPortal(http.Controller):
             'description': description,
             'product_id': int(expense_category),
             'date': expense_date,
+            'end_date': end_date,
             'total_amount_currency': float(total),
             'payment_mode': payment_mode if payment_mode else 'company_account',
             'currency_id': int(currency_id),
-            'tax_ids': tax_ids
+            'tax_ids': tax_ids,
             }
         
         if request.env.company.country_code == 'MX' or is_external_auditor:
@@ -720,6 +722,7 @@ class ExpensesPortal(http.Controller):
             
         payment_mode = kw.get("payment_mode")
         expense_date = kw.get("expense_date")
+        end_date = kw.get("end_date")
         total = kw.get("total")
         currency_id = kw.get("currency_id")
 
@@ -748,6 +751,9 @@ class ExpensesPortal(http.Controller):
 
         if expense_date:
             vals['date'] = expense_date
+
+        if end_date:
+            vals['end_date'] = end_date
 
         if total:
             vals['total_amount_currency'] = float(total)
