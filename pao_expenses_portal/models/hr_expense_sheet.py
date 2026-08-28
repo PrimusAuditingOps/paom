@@ -143,22 +143,41 @@ class ExpenseInherit(models.Model):
     
     end_date  = fields.Date(string='End Date', required=False)
     
+    def _calculate_quantity_days(self, date, end_date):
+        if date and end_date:
+            date = fields.Date.to_date(date)
+            end_date = fields.Date.to_date(end_date)
+
+            delta = end_date - date
+            return max(1.0, float(delta.days + 1))
+
+        return 1.0
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             date = vals.get('date')
             end_date = vals.get('end_date')
 
-            if date and end_date:
-                date = fields.Date.to_date(date)
-                end_date = fields.Date.to_date(end_date)
-
-                delta = end_date - date
-                vals['quantity'] = max(1.0, float(delta.days + 1))
-            else:
-                vals['quantity'] = 1.0
+            if date or end_date:
+                vals['quantity'] = self._calculate_quantity_days(
+                    date,
+                    end_date,
+                )
 
         return super().create(vals_list)
+
+    def write(self, vals):
+        result = super().write(vals)
+
+        if 'date' in vals or 'end_date' in vals:
+            for expense in self:
+                expense.quantity = self._calculate_quantity_days(
+                    expense.date,
+                    expense.end_date,
+                )
+
+        return result
 
     @api.depends('state')
     def _compute_state_sequence(self):
