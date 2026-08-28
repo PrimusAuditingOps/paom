@@ -172,10 +172,14 @@ class ExpenseInherit(models.Model):
 
         if 'date' in vals or 'end_date' in vals:
             for expense in self:
-                expense.quantity = self._calculate_quantity_days(
+                quantity = self._calculate_quantity_days(
                     expense.date,
                     expense.end_date,
                 )
+
+                super(ExpenseInherit, expense).write({
+                    'quantity': quantity,
+                })
 
         return result
 
