@@ -19,6 +19,17 @@ class ApplyExchangeRateOrderLinesWizard(models.TransientModel):
         res['undo_action'] = self.env.context.get('undo_action', False)
         return res
     
+    @api.onchange('currency_id')
+    def _onchange_currency_id(self):
+        if self.currency_id:
+            exchange_rate = self.env['servicereferralagreement.auditorexchangerate'].sudo().search([
+                ('currency_id', '=', self.currency_id.id),
+            ], limit=1)
+
+            self.exchange_rate_lines_value = (
+                exchange_rate.exchange_rate if exchange_rate else None
+            )
+
     def apply_exchange_rate_lines_action(self):
         self.ensure_one()
 
