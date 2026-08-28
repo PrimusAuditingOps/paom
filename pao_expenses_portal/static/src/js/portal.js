@@ -82,6 +82,7 @@ function initExpenseModalListeners() {
             const start_date = modal.querySelector('input[name="expense_date"]');
             const end_date = modal.querySelector('input[name="end_date"]');
             const endDateDiv = modal.querySelector('.end-date-div');
+            const quantity = modal.querySelector('input[name="quantity"]');
 
             let countryCode_value = countryCode ? countryCode.value : "";
             let isExternalAuditor_value = "";
@@ -112,6 +113,7 @@ function initExpenseModalListeners() {
                 // Función para actualizar el total basado en días
                 function updateTotalByDays() {
                     const days = calculateDays();
+                    quantity.value = days;
                     const dailyRate = 60;
                     totalInput.value = days * dailyRate;
                 }

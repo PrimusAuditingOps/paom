@@ -143,57 +143,57 @@ class ExpenseInherit(models.Model):
     
     end_date  = fields.Date(string='End Date', required=False)
     
-    def _calculate_quantity_days(self, date, end_date):
-        if date and end_date:
-            date = fields.Date.to_date(date)
-            end_date = fields.Date.to_date(end_date)
+    # def _calculate_quantity_days(self, date, end_date):
+    #     if date and end_date:
+    #         date = fields.Date.to_date(date)
+    #         end_date = fields.Date.to_date(end_date)
 
-            delta = end_date - date
-            return max(1.0, float(delta.days + 1))
+    #         delta = end_date - date
+    #         return max(1.0, float(delta.days + 1))
 
-        return 1.0
+    #     return 1.0
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            date = vals.get('date')
-            end_date = vals.get('end_date')
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     for vals in vals_list:
+    #         date = vals.get('date')
+    #         end_date = vals.get('end_date')
 
-            if date or end_date:
-                vals['quantity'] = self._calculate_quantity_days(
-                    date,
-                    end_date,
-                )
+    #         if date or end_date:
+    #             vals['quantity'] = self._calculate_quantity_days(
+    #                 date,
+    #                 end_date,
+    #             )
 
-        return super().create(vals_list)
+    #     return super().create(vals_list)
 
-    @api.model
-    def write(self, vals):
-        _logger.warning(">>> MI WRITE HR.EXPENSE: %s", vals)
+    # @api.model
+    # def write(self, vals):
+    #     _logger.warning(">>> MI WRITE HR.EXPENSE: %s", vals)
 
-        if 'date' in vals or 'end_date' in vals:
-            for expense in self:
-                quantity = self._calculate_quantity_days(
-                    vals.get('date', expense.date),
-                    vals.get('end_date', expense.end_date),
-                )
+    #     if 'date' in vals or 'end_date' in vals:
+    #         for expense in self:
+    #             quantity = self._calculate_quantity_days(
+    #                 vals.get('date', expense.date),
+    #                 vals.get('end_date', expense.end_date),
+    #             )
 
-                _logger.warning(
-                    ">>> EXPENSE %s - quantity calculada: %s",
-                    expense.id,
-                    quantity,
-                )
+    #             _logger.warning(
+    #                 ">>> EXPENSE %s - quantity calculada: %s",
+    #                 expense.id,
+    #                 quantity,
+    #             )
 
-                vals['quantity'] = quantity
+    #             vals['quantity'] = quantity
 
-        result = super().write(vals)
+    #     result = super().write(vals)
 
-        _logger.warning(
-            ">>> DESPUES DEL WRITE - quantity: %s",
-            self.mapped('quantity'),
-        )
+    #     _logger.warning(
+    #         ">>> DESPUES DEL WRITE - quantity: %s",
+    #         self.mapped('quantity'),
+    #     )
 
-        return result
+    #     return result
 
     @api.depends('state')
     def _compute_state_sequence(self):
