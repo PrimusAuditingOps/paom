@@ -754,6 +754,8 @@ class ExpensesPortal(http.Controller):
 
         if end_date:
             vals['end_date'] = end_date
+        else:
+            vals['end_date'] = None
 
         if total:
             vals['total_amount_currency'] = float(total)

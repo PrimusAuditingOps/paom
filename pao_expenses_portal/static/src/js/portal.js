@@ -129,7 +129,6 @@ function initExpenseModalListeners() {
                             internalNotes.required = false;
                         }
 
-                        // REQUIREMENTS FOR PER DIEM MEALS IMPLEMENTADO
                         if (endDateDiv) {
                             endDateDiv.classList.remove('d-none');
                         }
