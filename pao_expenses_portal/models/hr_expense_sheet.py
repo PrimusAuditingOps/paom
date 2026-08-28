@@ -167,6 +167,7 @@ class ExpenseInherit(models.Model):
 
         return super().create(vals_list)
 
+    @api.model
     def write(self, vals):
         _logger.warning(">>> MI WRITE HR.EXPENSE: %s", vals)
 
