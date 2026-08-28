@@ -168,18 +168,29 @@ class ExpenseInherit(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
-        result = super().write(vals)
+        _logger.warning(">>> MI WRITE HR.EXPENSE: %s", vals)
 
         if 'date' in vals or 'end_date' in vals:
             for expense in self:
                 quantity = self._calculate_quantity_days(
-                    expense.date,
-                    expense.end_date,
+                    vals.get('date', expense.date),
+                    vals.get('end_date', expense.end_date),
                 )
 
-                super(ExpenseInherit, expense).write({
-                    'quantity': quantity,
-                })
+                _logger.warning(
+                    ">>> EXPENSE %s - quantity calculada: %s",
+                    expense.id,
+                    quantity,
+                )
+
+                vals['quantity'] = quantity
+
+        result = super().write(vals)
+
+        _logger.warning(
+            ">>> DESPUES DEL WRITE - quantity: %s",
+            self.mapped('quantity'),
+        )
 
         return result
 
