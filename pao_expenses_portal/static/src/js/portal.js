@@ -129,12 +129,18 @@ function initExpenseModalListeners() {
                             internalNotes.required = false;
                         }
 
+                        // REQUIREMENTS FOR PER DIEM MEALS IMPLEMENTADO
                         if (endDateDiv) {
                             endDateDiv.classList.remove('d-none');
                         }
                         
                         if (end_date) {
                             end_date.required = true;
+                            
+                            // Restringir end_date para que no sea menor que start_date
+                            if (start_date && start_date.value) {
+                                end_date.min = start_date.value;
+                            }
                         }
                         
                         // Calcular total inicial
@@ -151,10 +157,19 @@ function initExpenseModalListeners() {
                         }
                         
                         if (start_date && !start_date._perDiemListenerAdded) {
-                            start_date.addEventListener('change', updateTotalByDays);
+                            start_date.addEventListener('change', () => {
+                                // Actualizar el atributo min de end_date cuando start_date cambia
+                                if (end_date) {
+                                    end_date.min = start_date.value;
+                                    // Si end_date es menor que start_date, igualarlo
+                                    if (end_date.value && new Date(end_date.value) < new Date(start_date.value)) {
+                                        end_date.value = start_date.value;
+                                    }
+                                }
+                                updateTotalByDays();
+                            });
                             start_date._perDiemListenerAdded = true;
                         }
-
                     } else {
                         receiptInput.required = true;
                         if (internalNotes && countryCode_value.trim() == "US") {

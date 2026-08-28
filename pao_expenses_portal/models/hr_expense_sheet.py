@@ -142,6 +142,22 @@ class ExpenseInherit(models.Model):
     )
     
     end_date  = fields.Date(string='End Date', required=False)
+    
+    quantity = fields.Float(
+        compute='_compute_quantity_days',
+        store=True,
+    )
+    
+    @api.depends('date', 'end_date')
+    def _compute_quantity_days(self):
+        """Calcula quantity en base a los días entre date y end_date"""
+        for record in self:
+            if record.date and record.end_date:
+                delta = record.end_date - record.date
+                days = delta.days + 1
+                record.quantity = max(1.0, float(days))
+            else:
+                record.quantity = 1.0
 
     @api.depends('state')
     def _compute_state_sequence(self):
