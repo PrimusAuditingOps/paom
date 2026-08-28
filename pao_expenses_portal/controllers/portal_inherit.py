@@ -374,12 +374,14 @@ class ExpensesPortal(http.Controller):
             'description': description,
             'product_id': int(expense_category),
             'date': expense_date,
-            'end_date': end_date,
             'total_amount_currency': float(total),
             'payment_mode': payment_mode if payment_mode else 'company_account',
             'currency_id': int(currency_id),
             'tax_ids': tax_ids,
             }
+        
+        if end_date:
+            values.update({'end_date': end_date})
         
         if request.env.company.country_code == 'MX' or is_external_auditor:
             values.update({'partner_id': partner.id, 'from_external_auditor': bool(is_external_auditor)})
