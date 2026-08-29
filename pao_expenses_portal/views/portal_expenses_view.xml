@@ -307,6 +307,7 @@
                             <button class="btn btn-primary edit-expense-btn" type="button" data-bs-toggle="modal" data-bs-target="#add_receipt_modal" t-att-data-expense-id="expense.id" t-att-data-category-id="expense.product_id.id" t-att-data-description="expense.description or ''"  t-att-data-uploaded-by-statement="expense.uploaded_by_statement"  t-att-data-name="expense.name or ''"
                                 t-att-data-payment-mode="expense.payment_mode or ''"
                                 t-att-data-expense-date="expense.date or ''"
+                                t-att-data-end-date="expense.end_date or ''"
                                 t-att-data-total="expense.total_amount_currency or 0"
                                 t-att-data-currency-id="expense.currency_id.id or ''"
                                 t-att-data-tax-ids="','.join(map(str, expense.tax_ids.ids))">
@@ -344,7 +345,7 @@
                                         Note: Saving changes will replace all existing receipts for this expense. If you want to keep any current receipts, please upload them again. If you uploaded an incorrect receipt, simply upload the correct one and save.
                                     </div>
 
-                                    <div class="mb-3 row edit_full_info">
+                                    <div t-if="not is_external_auditor or report.company_id.country_code != 'US'" class="mb-3 row edit_full_info">
                                         <label for="name" class="fw-bold col-sm-3 col-form-label">Description</label>
                                         <div class="col-sm-9">
                                             <input name="name" id="name" class="form-control"/>
@@ -385,6 +386,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="mb-3 row edit_full_info end-date-div d-none">
+                                        <label for="end_date" class="fw-bold col-sm-3 col-form-label">Expense End Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control" name="end_date" id="end_date" t-att-max="today"/>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="quantity"/>
+
                                     <div class="mb-3 row">
 
                                         <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
@@ -394,7 +404,7 @@
 
                                         <label for="description" class="fw-bold col-sm-3 col-form-label">Internal Notes</label>
                                         <div class="col-sm-9">
-                                            <input name="description" id="description" type="text" class="form-control" required="1"/>
+                                            <input name="description" id="description" type="text" class="form-control" t-att-required="report.company_id.country_code == 'US'"/>
                                         </div>
 
                                     </div>
@@ -435,10 +445,11 @@
                                             <input name="total" id="total" type="number" step="0.01" class="form-control"/>
                                         </div>
                                         <div class="col-sm-3">
+                                            <t t-set="company_currency_name" t-value="currency"/>
                                             <select name="currency_id" id="currency_id" class="form-select">
                                                 <option class="d-none" selected="1"></option>
                                                 <t t-foreach="currencies" t-as="currency">
-                                                    <option t-att-value="currency.id">
+                                                    <option t-att-value="currency.id" t-att-selected="company_currency_name == currency.name">
                                                         <t t-esc="currency.name"/>
                                                     </option>
                                                 </t>
@@ -505,7 +516,7 @@
                             </div>
                             <div class="modal-body">
 
-                                <div class="mb-3 row">
+                                <div t-if="not is_external_auditor or report.company_id.country_code != 'US'" class="mb-3 row">
                                     <label for="name" class="fw-bold col-sm-3 col-form-label">Description</label>
                                     <div class="col-sm-9">
                                         <input name="name" class="form-control" required="1"/>
@@ -545,6 +556,15 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-3 row end-date-div d-none">
+                                    <label for="end_date" class="fw-bold col-sm-3 col-form-label">Expense End Date</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" name="end_date" id="end_date" t-att-max="today"/>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="quantity"/>
+
                                 <div class="mb-3 row">
                                     <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                     <div class="col-sm-9">
@@ -555,7 +575,7 @@
                                 <div class="mb-3 row">
                                     <label for="description" class="fw-bold col-sm-3 col-form-label">Internal Notes</label>
                                     <div class="col-sm-9">
-                                        <input name="description" class="form-control" required="1"/>
+                                        <input name="description" class="form-control" t-att-required="report.company_id.country_code == 'US'"/>
                                     </div>
                                 </div>
 
@@ -595,10 +615,11 @@
                                         <input name="total" type="number" step="0.01" class="form-control" required="1"/>
                                     </div>
                                     <div class="col-sm-3">
+                                        <t t-set="company_currency_name" t-value="currency"/>
                                         <select name="currency_id" class="form-select" required="1">
                                             <option class="d-none" selected="1"></option>
                                             <t t-foreach="currencies" t-as="currency">
-                                                <option t-att-value="currency.id">
+                                                <option t-att-value="currency.id" t-att-selected="company_currency_name == currency.name">
                                                     <t t-esc="currency.name"/>
                                                 </option>
                                             </t>
@@ -778,6 +799,7 @@
                             <button class="btn btn-primary edit-expense-btn" t-if="expense.is_complete and expense.state in ('draft', 'reported')" type="button" data-bs-toggle="modal" data-bs-target="#add_receipt_modal" t-att-data-expense-id="expense.id" t-att-data-category-id="expense.product_id.id" t-att-data-description="expense.description or ''"  t-att-data-uploaded-by-statement="expense.uploaded_by_statement"  t-att-data-name="expense.name or ''"
                                 t-att-data-payment-mode="expense.payment_mode or ''"
                                 t-att-data-expense-date="expense.date or ''"
+                                t-att-data-end-date="expense.end_date or ''"
                                 t-att-data-total="expense.total_amount_currency or 0"
                                 t-att-data-currency-id="expense.currency_id.id or ''"
                                 t-att-data-tax-ids="','.join(map(str, expense.tax_ids.ids))">
@@ -838,7 +860,7 @@
                                         Note: Saving changes will replace all existing receipts for this expense. If you want to keep any current receipts, please upload them again. If you uploaded an incorrect receipt, simply upload the correct one and save.
                                     </div>
 
-                                    <div class="mb-3 row edit_full_info">
+                                    <div t-if="not is_external_auditor or expenses.company_id.country_code != 'US'" class="mb-3 row edit_full_info">
                                         <label for="name" class="fw-bold col-sm-3 col-form-label">Description</label>
                                         <div class="col-sm-9">
                                             <input name="name" id="name" class="form-control"/>
@@ -879,6 +901,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="mb-3 row edit_full_info end-date-div d-none">
+                                        <label for="end_date" class="fw-bold col-sm-3 col-form-label">Expense End Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control" name="end_date" id="end_date" t-att-max="today"/>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="quantity"/>
+
                                     <div class="mb-3 row">
 
                                         <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
@@ -888,7 +919,7 @@
 
                                         <label for="description" class="fw-bold col-sm-3 col-form-label">Internal Notes</label>
                                         <div class="col-sm-9">
-                                            <input name="description" id="description" type="text" class="form-control" required="1"/>
+                                            <input name="description" id="description" type="text" class="form-control" t-att-required="expenses.company_id.country_code == 'US'"/>
                                         </div>
  
                                     </div>
@@ -928,10 +959,11 @@
                                             <input name="total" id="total" type="number" step="0.01" class="form-control"/>
                                         </div>
                                         <div class="col-sm-3">
+                                            <t t-set="company_currency_name" t-value="currency"/>
                                             <select name="currency_id" id="currency_id" class="form-select">
                                                 <option class="d-none" selected="1"></option>
                                                 <t t-foreach="currencies" t-as="currency">
-                                                    <option t-att-value="currency.id">
+                                                    <option t-att-value="currency.id" t-att-selected="company_currency_name == currency.name">
                                                         <t t-esc="currency.name"/>
                                                     </option>
                                                 </t>
@@ -963,7 +995,7 @@
                             </div>
                             <div class="modal-body">
 
-                                <div class="mb-3 row">
+                                <div t-if="not is_external_auditor or expenses.company_id.country_code != 'US'" class="mb-3 row">
                                     <label for="name" class="fw-bold col-sm-3 col-form-label">Description</label>
                                     <div class="col-sm-9">
                                         <input name="name" class="form-control" required="1"/>
@@ -1003,6 +1035,15 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-3 row end-date-div d-none">
+                                    <label for="end_date" class="fw-bold col-sm-3 col-form-label">Expense End Date</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" name="end_date" id="end_date" t-att-max="today"/>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="quantity"/>
+
                                 <div class="mb-3 row">
                                     <label for="receipt" class="fw-bold col-sm-3 col-form-label">Receipt</label>
                                     <div class="col-sm-9">
@@ -1013,7 +1054,7 @@
                                 <div class="mb-3 row">
                                     <label for="description" class="fw-bold col-sm-3 col-form-label">Internal Notes</label>
                                         <div class="col-sm-9">
-                                            <input name="description" id="description" type="text" class="form-control" required="1"/>
+                                            <input name="description" id="description" type="text" class="form-control" t-att-required="expenses.company_id.country_code == 'US'"/>
                                         </div>
                                 </div>
 
@@ -1053,10 +1094,11 @@
                                         <input name="total" type="number" step="0.01" class="form-control" required="1"/>
                                     </div>
                                     <div class="col-sm-3">
+                                        <t t-set="company_currency_name" t-value="currency"/>
                                         <select name="currency_id" class="form-select" required="1">
                                             <option class="d-none" selected="1"/>
                                             <t t-foreach="currencies" t-as="currency">
-                                                <option t-att-value="currency.id">
+                                                <option t-att-value="currency.id" t-att-selected="company_currency_name == currency.name">
                                                     <t t-esc="currency.name"/>
                                                 </option>
                                             </t>

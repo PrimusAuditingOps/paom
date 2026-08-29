@@ -34,6 +34,9 @@
             <xpath expr="//button[@name='action_sheet_move_create']" position="attributes">
                 <attribute name="invisible">state != 'approve' or from_external_auditor</attribute>
             </xpath>
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="end_date" optional="hide"/>
+            </xpath>
         </field>
     </record>
 

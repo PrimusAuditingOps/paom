@@ -68,13 +68,28 @@ function initExpenseModalListeners() {
                         submitButton.disabled = true;
                     }
                 });
-                form._listenerAdded = true; // Avoid adding multiple listeners if modal is opened multiple times
+                form._listenerAdded = true;
             }
 
             const categorySelect = modal.querySelector('select[name="expense_category"]');
             const receiptInput = modal.querySelector('input[name="receipt"]');
             const totalInput = modal.querySelector('input[name="total"]');
             const currencySelect = modal.querySelector('select[name="currency_id"]');
+            const internalNotes = modal.querySelector('input[name="description"]');
+            const countryCode = modal.querySelector('input[name="country_code"]');
+            const isExternalAuditor = modal.querySelector('input[name="is_external_auditor"]');
+
+            const start_date = modal.querySelector('input[name="expense_date"]');
+            const end_date = modal.querySelector('input[name="end_date"]');
+            const endDateDiv = modal.querySelector('.end-date-div');
+            const quantity = modal.querySelector('input[name="quantity"]');
+
+            let countryCode_value = countryCode ? countryCode.value : "";
+            let isExternalAuditor_value = "";
+            
+            if (isExternalAuditor) {
+                isExternalAuditor_value = isExternalAuditor.value;
+            }
 
             if (!categorySelect || !receiptInput || !totalInput || !currencySelect) {
                 return;
@@ -82,6 +97,26 @@ function initExpenseModalListeners() {
 
             if (categorySelect && receiptInput) {
                 const requireReceipt = receiptInput.dataset.requireAttachment === 'true';
+
+                // Función para calcular días entre dos fechas
+                function calculateDays() {
+                    if (start_date && start_date.value && end_date && end_date.value) {
+                        const startDateObj = new Date(start_date.value);
+                        const endDateObj = new Date(end_date.value);
+                        const timeDifference = endDateObj - startDateObj;
+                        const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1; // +1 incluye el día inicial
+                        return daysDifference > 0 ? daysDifference : 1;
+                    }
+                    return 1;
+                }
+
+                // Función para actualizar el total basado en días
+                function updateTotalByDays() {
+                    const days = calculateDays();
+                    quantity.value = days;
+                    const dailyRate = 60;
+                    totalInput.value = days * dailyRate;
+                }
 
                 function updateReceiptRequired() {
                     const selectedOption = categorySelect.options[categorySelect.selectedIndex];
@@ -92,26 +127,89 @@ function initExpenseModalListeners() {
 
                     if (requireReceipt && isPerDiemMeals) {
                         receiptInput.required = false;
-                        totalInput.value = 60;
+                        if (internalNotes && isExternalAuditor_value.trim() == "True") {
+                            internalNotes.required = false;
+                        }
+
+                        if (endDateDiv) {
+                            endDateDiv.classList.remove('d-none');
+                        }
+                        
+                        if (end_date) {
+                            end_date.required = true;
+                            
+                            // Restringir end_date para que no sea menor que start_date
+                            if (start_date && start_date.value) {
+                                end_date.min = start_date.value;
+                            }
+                        }
+                        
+                        // Calcular total inicial
+                        updateTotalByDays();
                         totalInput.readOnly = true;
+                        
                         currencySelect.style.pointerEvents = 'none';
                         currencySelect.value = '2';
+
+                        // Agregar evento listener para cambios en end_date
+                        if (end_date && !end_date._perDiemListenerAdded) {
+                            end_date.addEventListener('change', updateTotalByDays);
+                            end_date._perDiemListenerAdded = true;
+                        }
+                        
+                        if (start_date && !start_date._perDiemListenerAdded) {
+                            start_date.addEventListener('change', () => {
+                                // Actualizar el atributo min de end_date cuando start_date cambia
+                                if (end_date) {
+                                    end_date.min = start_date.value;
+                                    // Si end_date es menor que start_date, igualarlo
+                                    if (end_date.value && new Date(end_date.value) < new Date(start_date.value)) {
+                                        end_date.value = start_date.value;
+                                    }
+                                }
+                                updateTotalByDays();
+                            });
+                            start_date._perDiemListenerAdded = true;
+                        }
                     } else {
                         receiptInput.required = true;
-                        totalInput.value = "";
+                        if (internalNotes && countryCode_value.trim() == "US") {
+                            internalNotes.required = true;
+                        }
+
+                        // Deshacer cambios de Per Diem Meals
+                        if (endDateDiv) {
+                            endDateDiv.classList.add('d-none');
+                        }
+                        
+                        if (end_date) {
+                            end_date.required = false;
+                            end_date.value = '';
+                        }
+
                         totalInput.readOnly = false;
+                        // totalInput.value = "";
                         currencySelect.style.pointerEvents = '';
-                        currencySelect.value = '';
+
+                        // Remover event listeners de per diem
+                        if (end_date && end_date._perDiemListenerAdded) {
+                            end_date.removeEventListener('change', updateTotalByDays);
+                            end_date._perDiemListenerAdded = false;
+                        }
+                        
+                        if (start_date && start_date._perDiemListenerAdded) {
+                            start_date.removeEventListener('change', updateTotalByDays);
+                            start_date._perDiemListenerAdded = false;
+                        }
                     }
 
-                    // Override required if either exempt category is selected
+                    // Override required si cualquiera de las categorías exentas está seleccionada
                     if (requireReceipt && (isPerDiemMeals || isAuditorMeal)) {
                         receiptInput.required = false;
                     }
                 }
 
                 updateReceiptRequired();
-
                 categorySelect.addEventListener('change', updateReceiptRequired);
             }
         });
@@ -263,8 +361,9 @@ function initEditExpense() {
                     }
 
                     document.getElementById('expense_date').value = this.dataset.expenseDate || '';
-                    document.getElementById('total').value = this.dataset.total || '' 
-                    document.getElementById('currency_id').value = this.dataset.currencyId || '' 
+                    document.getElementById('end_date').value = this.dataset.endDate || '';
+                    document.getElementById('total').value = this.dataset.total || ''
+                    document.getElementById('currency_id').value = this.dataset.currencyId || ''
                 } else {
 
                     container.classList.add('d-none');

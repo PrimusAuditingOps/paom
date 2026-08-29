@@ -339,10 +339,16 @@ class ExpensesPortal(http.Controller):
         is_external_auditor = self.is_external_auditor()
         
         report_id = kw.get("report_id")
-        name = kw.get("name")
-        description = kw.get("description")
         expense_category = kw.get("expense_category")
+        
+        expense_category = request.env['product.product'].sudo().browse(int(expense_category))
+
+        name = kw.get("name") or expense_category.name
+                
+        description = kw.get("description")
         expense_date = kw.get("expense_date")
+        end_date = kw.get("end_date")
+        quantity = kw.get("quantity")
         payment_mode = kw.get("payment_mode")
         receipts = request.httprequest.files.getlist("receipt")
         total = kw.get("total")
@@ -372,8 +378,14 @@ class ExpensesPortal(http.Controller):
             'total_amount_currency': float(total),
             'payment_mode': payment_mode if payment_mode else 'company_account',
             'currency_id': int(currency_id),
-            'tax_ids': tax_ids
+            'tax_ids': tax_ids,
             }
+        
+        if end_date:
+            values.update({'end_date': end_date})
+            
+        if quantity:
+            values.update({'quantity': float(quantity)})
         
         if request.env.company.country_code == 'MX' or is_external_auditor:
             values.update({'partner_id': partner.id, 'from_external_auditor': bool(is_external_auditor)})
@@ -709,10 +721,15 @@ class ExpensesPortal(http.Controller):
         receipts = request.httprequest.files.getlist("receipt")
         expense_id = kw.get("expense_id")
         description = kw.get("description")
+        
+        expense_category = request.env['product.product'].sudo().browse(int(expense_category))
 
-        name = kw.get("name")
+        name = kw.get("name") or expense_category.name
+            
         payment_mode = kw.get("payment_mode")
         expense_date = kw.get("expense_date")
+        end_date = kw.get("end_date")
+        quantity = kw.get("quantity")
         total = kw.get("total")
         currency_id = kw.get("currency_id")
 
@@ -742,6 +759,14 @@ class ExpensesPortal(http.Controller):
         if expense_date:
             vals['date'] = expense_date
 
+        if end_date:
+            vals['end_date'] = end_date
+        else:
+            vals['end_date'] = None
+
+        if quantity:
+            vals['quantity'] = float(quantity)
+
         if total:
             vals['total_amount_currency'] = float(total)
 
@@ -757,15 +782,24 @@ class ExpensesPortal(http.Controller):
         ]).unlink()
 
         for receipt in receipts:
+            if not receipt or not receipt.filename:
+                continue
+
+            data = receipt.read()
+
+            if not data:
+                continue
+
             attachment_data = {
                 'name': receipt.filename,
                 'type': 'binary',
-                'datas': base64.b64encode(receipt.read()),
+                'datas': base64.b64encode(data),
                 'res_model': 'hr.expense',
                 'res_id': expense.id,
                 'res_name': expense.name,
                 'mimetype': receipt.content_type,
             }
+
             request.env['ir.attachment'].sudo().create(attachment_data)
 
         return request.redirect(
