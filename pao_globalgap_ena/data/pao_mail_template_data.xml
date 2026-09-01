@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mail_template_ena_notificacion" model="mail.template">
+        <field name="name">No Anunciada - Notificación al productor</field>
+        <field name="model_id" ref="pao_globalgap_ena.model_ena_solicitud"/>
+        <field name="subject">NO ANUNCIADA GLOBALGAP V6-GFS PLMx-{{object.organization_id.plmx or '' }} {{object.organization_id.name or '' }}</field>
+        <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; max-width: 680px; margin: 0 auto;">
+
+    <div style="background: #f9f9f9; padding: 24px 30px; border: 1px solid #ddd; border-top: none;">
+
+        <p style="margin:0px 0 16px 0;box-sizing:border-box;">
+            Apreciable&nbsp;<t t-out="object.organization_id.name"></t>
+       
+        </p><p style="margin:0px 0 16px 0;box-sizing:border-box;">
+            Le envió un saludo esperando se encuentren bien y a su vez aprovecho para agradecer el haber elegido a Primus Auditing Ops para realizar sus auditorías de tercera parte.
+        </p>
+        <p style="margin:0px 0 16px 0;box-sizing:border-box;">
+
+            El motivo de mi correo es para comentarle que el número de registro <t t-out="object.organization_id.plmx"></t> es candidato potencial para una auditoría de re-certificación no anunciada en cualquier fecha del <t t-out="object.inicio_ventana"></t> al <t t-out="object.fecha_vencimiento"></t> de acuerdo con las Reglamento General GLOBALG.A.P. Subparte 8.2.
+
+        
+        </p>
+        <p style="margin:0px 0 16px 0;box-sizing:border-box;">Para confirmar la auditoría, es&nbsp;necesario que&nbsp;proporcione la siguiente información durante los próximos&nbsp;5&nbsp;días hábiles:</p><ul style="padding:0 0 0 32px;margin:0px 0 16px 0;box-sizing:border-box;list-style-type:disc;"><li><font style="background-color: #fdfd27;">15 días hábiles en los cuales&nbsp;no&nbsp;estará en posibilidad de recibir la auditoría (adicionales a los días festivos y fines de semana).</font></li><li><font style="background-color: #fdfd27;">Fechas tentativas de cosecha y manipulación.</font></li><li>Acceda al siguiente URL&nbsp;en donde la información se encuentra precargada, señale&nbsp;por favor&nbsp;cambios en<b style="box-sizing:border-box;font-weight:bolder;">&nbsp;la ubicación, superficie o productos en la siguiente solicitud (FR):</b>&nbsp;<br><a style="text-decoration:none;box-sizing:border-box;color:#008f8c;" t-attf-href="{{object.request_fan_id.request_url}}" class="o_translate_inline">Registro</a>
+
+        </li></ul><p style="margin:0px 0 16px 0;box-sizing:border-box;">
+            En caso de&nbsp;no&nbsp;recibir la auditoría de re-certificación como&nbsp;no&nbsp;anunciada&nbsp;su certificado quedaría suspendido de acuerdo con el&nbsp;Acuerdo de&nbsp;Servicios Cláusula 10&nbsp;y Cláusula 13&nbsp;y las&nbsp;Regulaciones Generales.</p><p style="margin:0px 0 16px 0;box-sizing:border-box;"><b style="box-sizing:border-box;font-weight:bolder;">Adjunto&nbsp;Infografía, formato de solicitud de información para&nbsp;No&nbsp;Anunciadas&nbsp;y Manual para el llenado de su solicitud de auditoría (link).&nbsp;</b></p><p style="margin:0px 0 16px 0;box-sizing:border-box;">Quedamos atentos&nbsp;a cualquier duda y agradezco de antemano el apoyo.&nbsp;<br></p>
+    </div>
+</div>
+        ]]></field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+</odoo>

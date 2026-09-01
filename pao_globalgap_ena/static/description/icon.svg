@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4CAF6E"/>
+      <stop offset="100%" stop-color="#1E6B3A"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EAF6EE"/>
+    </linearGradient>
+  </defs>
+
+  <!-- App tile background -->
+  <rect x="0" y="0" width="256" height="256" rx="52" fill="url(#bg)"/>
+
+  <!-- Leaf body -->
+  <path d="M128,40
+           C170,62 198,100 190,142
+           C183,178 158,204 128,214
+           C98,204 73,178 66,142
+           C58,100 86,62 128,40 Z"
+        fill="url(#leaf)" stroke="#155C31" stroke-width="4"/>
+
+  <!-- Stem -->
+  <path d="M128,214 C124,222 124,230 128,236" fill="none" stroke="#155C31" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Center vein -->
+  <path d="M128,58 C128,100 128,160 128,206" fill="none" stroke="#BFE0CB" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Checklist items on the right lobe of the leaf -->
+  <g stroke="#155C31" stroke-width="5" stroke-linecap="round">
+    <line x1="148" y1="98" x2="172" y2="98"/>
+    <line x1="148" y1="128" x2="172" y2="128"/>
+    <line x1="148" y1="158" x2="164" y2="158"/>
+  </g>
+  <g fill="#155C31">
+    <circle cx="140" cy="98" r="10"/>
+    <circle cx="140" cy="128" r="10"/>
+    <circle cx="140" cy="158" r="10"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M135.5,98 L138.5,101 L145,94"/>
+    <path d="M135.5,128 L138.5,131 L145,124"/>
+    <path d="M135.5,158 L138.5,161 L145,154"/>
+  </g>
+
+  <!-- "No aviso" badge: bell with a slash, meaning unannounced / no advance notice -->
+  <circle cx="190" cy="194" r="38" fill="#D64545" stroke="#FFFFFF" stroke-width="5"/>
+  <g transform="translate(190,194)">
+    <path d="M0,-17 C8,-17 13,-11 13,-4 L13,6 L18,11 L-18,11 L-13,6 L-13,-4 C-13,-11 -8,-17 0,-17 Z"
+          fill="#FFFFFF"/>
+    <rect x="-20" y="11" width="40" height="5" rx="2.5" fill="#FFFFFF"/>
+    <circle cx="0" cy="19" r="3.5" fill="#FFFFFF"/>
+    <line x1="-17" y1="-20" x2="17" y2="20" stroke="#D64545" stroke-width="9" stroke-linecap="round"/>
+    <line x1="-17" y1="-20" x2="17" y2="20" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+  </g>
+</svg>

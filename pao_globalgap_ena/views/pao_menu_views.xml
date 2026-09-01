@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú raíz -->
+    <menuitem id="menu_ena_root"
+              name="Auditorías no anunciadas GLOBALG.A.P."
+              sequence="80"
+              web_icon="pao_globalgap_ena,static/description/icon.png"
+              groups="pao_globalgap_ena.group_ena_calidad,pao_globalgap_ena.group_ena_coordinadora"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_ena_dashboard"
+              name="Dashboard"
+              parent="menu_ena_root"
+              action="action_ena_dashboard"
+              sequence="1"
+              groups="pao_globalgap_ena.group_ena_calidad,pao_globalgap_ena.group_ena_coordinadora"/>
+
+    <!-- Evaluaciones -->
+    <menuitem id="menu_ena_solicitudes"
+              name="Auditorías No Anunciadas"
+              parent="menu_ena_root"
+              action="action_ena_solicitud"
+              sequence="2"
+              groups="pao_globalgap_ena.group_ena_calidad,pao_globalgap_ena.group_ena_coordinadora"/>
+
+
+    <menuitem id="menu_ena_configuration"
+              name="Configuración"
+              parent="menu_ena_root"
+              sequence="3"
+              groups="pao_globalgap_ena.group_ena_admin"/>
+    <menuitem id="menu_ena_lost_reason"
+              name="Motivos de no realización"
+              parent="menu_ena_configuration"
+              action="action_ena_lost_reason"
+              sequence="1"
+              groups="pao_globalgap_ena.group_ena_admin"/>
+
+</odoo>

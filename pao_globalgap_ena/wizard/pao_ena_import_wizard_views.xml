@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="view_ena_import_wizard_form" model="ir.ui.view">
+    <field name="name">ena.import.wizard.form</field>
+    <field name="model">ena.import.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Importar Productores ENA desde Excel">
+            <sheet>
+                <field name="state" invisible="1"/>
+                <div class="alert alert-info" role="alert"
+                     invisible="state != 'draft'">
+                    <strong>Instrucciones:</strong>
+                    <ol style="margin-bottom:0; padding-left: 20px;">
+                        <li>Seleccione el archivo Excel FAA-07 (<code>.xlsx</code>).</li>
+                        <li>Indique el nombre exacto de la pestaña (ej. <code>2025</code>).</li>
+                        <li>Haga clic en <strong>Vista previa</strong> para verificar los datos.</li>
+                        <li>Si todo es correcto, haga clic en <strong>Importar</strong>.</li>
+                    </ol>
+                </div>
+
+                <!-- Paso 1: Configuración -->
+                <group string="Configuración de importación" invisible="state == 'done'">
+                    <group>
+                        <field name="archivo_excel" filename="nombre_archivo"
+                               widget="binary" required="1"/>
+                        <field name="nombre_archivo" invisible="1"/>
+                        <field name="anio"/>
+                        <field name="hoja"/>
+                    </group>
+                    <group>
+                        <field name="fila_inicio"/>
+                        <field name="omitir_duplicados"/>
+                    </group>
+                </group>
+
+                <!-- Paso 2: Resultados del preview -->
+                <group string="Resumen" invisible="state == 'draft'">
+                    <group>
+                        <field name="total_filas" readonly="1"/>
+                        <field name="filas_validas" readonly="1"/>
+                        <field name="filas_error" readonly="1"/>
+                    </group>
+                </group>
+
+                <field name="preview_html" readonly="1" nolabel="1"
+                       invisible="state == 'draft'"/>
+
+                <div class="alert alert-success" role="alert"
+                     invisible="state != 'done'">
+                    <strong>✓ Importación completada.</strong>
+                    Puede cerrar esta ventana y revisar los registros en la lista de Auditorías no anunciadas.
+                </div>
+            </sheet>
+
+            <footer>
+                <button name="action_preview"
+                        string="Vista previa"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="state != 'draft'"/>
+                <button name="action_importar"
+                        string="Importar"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'preview'"/>
+                <button string="Cerrar"
+                        class="btn-secondary"
+                        special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<!-- Acción para abrir el wizard -->
+<record id="action_ena_import_wizard" model="ir.actions.act_window">
+    <field name="name">Importar desde Excel</field>
+    <field name="res_model">ena.import.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="groups_id" eval="[(4, ref('pao_globalgap_ena.group_ena_calidad'))]"/>
+</record>
+
+</odoo>

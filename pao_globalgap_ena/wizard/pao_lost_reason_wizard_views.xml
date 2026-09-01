@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="view_ena_lost_reason_wizard_form" model="ir.ui.view">
+    <field name="name">ena.lost.reason.wizard.form</field>
+    <field name="model">ena.lost.reason.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Motivo de no realización">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="comments"/>
+                    <field name="ena_id" invisible="1"/>
+                </group>
+            </sheet>
+
+            <footer>
+                <button name="action_lost_reason"
+                        string="Aceptar"
+                        type="object"
+                        class="btn-primary"/>
+                <button string="Cerrar"
+                        class="btn-secondary"
+                        special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+<!-- Acción para abrir el wizard -->
+<record id="action_ena_lost_reason_wizard" model="ir.actions.act_window">
+    <field name="name">Marcar como no realizado</field>
+    <field name="res_model">ena.lost.reason.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+</odoo>
