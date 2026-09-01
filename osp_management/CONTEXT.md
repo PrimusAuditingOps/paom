@@ -35,14 +35,17 @@ osp_management/
 │   ├── osp_portal_templates.xml # Lista de formularios del cliente (/my/osp)
 │   ├── osp_form_crop.xml        # FORMULARIO "CROP" (QWeb) — body compartido + wrappers portal/público
 │   ├── osp_form_handler.xml     # FORMULARIO "HANDLER" (QWeb) — mismo patrón que Crop
+│   ├── osp_form_handler_trader.xml # FORMULARIO "HANDLER (TRADER)" (QWeb) — mismo patrón
 │   └── osp_public_templates.xml # Pantalla de "Gracias" del formulario público
 ├── report/
-│   ├── osp_report_common.py       # MOTOR GENÉRICO: _resolve_report_sections() + get_report_sections() (despacha por technical_code)
-│   ├── osp_crop_report_data.py    # Manifest de las ~300 preguntas del PDF de Crop (sección, key, label, tipo)
-│   ├── osp_crop_report.py         # get_crop_report_sections() — una línea, llama al motor común
-│   ├── osp_handler_report_data.py # Manifest de las preguntas del PDF de Handler
-│   ├── osp_handler_report.py      # get_handler_report_sections() — una línea, llama al motor común
-│   └── osp_report_templates.xml   # Template QWeb GENÉRICO del PDF + ir.actions.report (sirve a cualquier formulario)
+│   ├── osp_report_common.py            # MOTOR GENÉRICO: _resolve_report_sections() + get_report_sections() (despacha por technical_code)
+│   ├── osp_crop_report_data.py         # Manifest de las ~300 preguntas del PDF de Crop (sección, key, label, tipo)
+│   ├── osp_crop_report.py              # get_crop_report_sections() — una línea, llama al motor común
+│   ├── osp_handler_report_data.py      # Manifest de las preguntas del PDF de Handler
+│   ├── osp_handler_report.py           # get_handler_report_sections() — una línea, llama al motor común
+│   ├── osp_handler_trader_report_data.py # Manifest de las preguntas del PDF de Handler (Trader)
+│   ├── osp_handler_trader_report.py    # get_handler_trader_report_sections() — una línea, llama al motor común
+│   └── osp_report_templates.xml        # Template QWeb GENÉRICO del PDF + ir.actions.report (sirve a cualquier formulario)
 └── static/src/
     ├── js/osp_form.js       # Lógica JS del formulario Crop (tablas dinámicas, guardado AJAX/localStorage)
     └── img/primus_logo.png  # Logo de marca (formulario web + encabezado del PDF)
@@ -169,7 +172,7 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 |---|---|---|
 | Crop | `form_crop` | ✅ Construido (ver `FORM_SPEC_CROP.md`) |
 | Handler | `form_handler` | ✅ Construido (ver `FORM_SPEC_HANDLER.md`, punto 18) |
-| Handler (Trader) | `form_handler_trader` | ⏳ Pendiente |
+| Handler (Trader) | `form_handler_trader` | ✅ Construido (ver `FORM_SPEC_HANDLER_TRADER.md`, punto 21) |
 | Cultivo | `form_cultivo` | ⏳ Pendiente |
 | Manejo o Proceso | `form_manejo_proceso` | ⏳ Pendiente |
 | Comercializador | `form_comercializador` | ⏳ Pendiente |
@@ -301,18 +304,30 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 - Versión del manifest: `17.0.1.2.0`.
 - **Lección para el próximo formulario** (Cultivo/Manejo o Proceso/Comercializador): el checklist de continuidad del punto 11 sigue vigente, pero ya no hace falta "generalizar el botón Descargar OSP" como se advertía ahí — eso ya se hizo aquí. El trabajo real de cada formulario nuevo se reduce a: su `FORM_SPEC_<NOMBRE>.md`, su `views/osp_form_<nombre>.xml`, sus entradas en `TABLE_CONFIGS` si tiene tablas dinámicas, sus 2 renglones en los diccionarios de `controllers/portal.py`, su renglón en `PUBLIC_FORM_SLUGS`/`PUBLIC_BODY_TEMPLATES`, y su `osp_<nombre>_report_data.py` + `get_<nombre>_report_sections()` de una línea.
 
-## 19. Pendientes conocidos
+## 19. Formulario "Handler (Trader)" implementado — tercer formulario, primera prueba real de la generalización (IMPLEMENTADO — 18/ago)
 
-- Plantillas **"Handler (Trader)"**, **"Cultivo"**, **"Manejo o Proceso"**, **"Comercializador"**: el usuario las subirá después — por ahora existen "Crop" y "Handler"; otros `technical_code` caen al placeholder genérico sin construir.
-- Los marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`/`FORM_SPEC_HANDLER.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
+**Tercer formulario construido**, y el primero en probarse en vivo por el usuario antes de pedir el siguiente ("lo probé y funciona" — sobre Handler, confirmado antes de compartir este `.docx`). Spec completa en `FORM_SPEC_HANDLER_TRADER.md`. Es el formulario más corto (10 secciones) porque es **para operaciones sin instalación física** — el propio Word lo dice en una nota introductoria, mostrada como texto fijo al inicio del formulario web.
+
+- **Punto real de ambigüedad encontrado y resuelto con el usuario**: la Sección 6 del Word original reutiliza las letras `6c`-`6f` **dos veces** para preguntas completamente distintas (Waste Management/Energy Conservation, y luego otra vez para Water Use) — un error de numeración real del documento fuente, no algo resoluble por inferencia. Se le preguntó al usuario cómo distinguir el segundo grupo; **decisión: continuar la numeración natural** (`6g`-`6j` para todo el bloque de Water Use) en vez de inventar un prefijo artificial (`6w`). Precedente útil: cuando un Word fuente tiene un error de numeración real (letras repetidas, huecos), se pregunta en vez de asumir — ya pasó una vez con los controles Sí/No faltantes de Handler (11c/13d).
+- Otras diferencias de contenido reales vs. Handler (no ambigüedades, solo el formulario siendo más corto por no tener instalación física): sin Sección de Equipment/Sanitation ni de Inputs ni de Transportation ni de Pest Management por separado — todo lo de integridad orgánica se combina en una sola Sección 7 ("Maintenance of Organic Integrity" con subsecciones Storage & Shipping / Quality Testing / Packaging). La tabla de sitios (4a) tiene una columna combinada "Address: City, State, Zip" en vez de las 3 columnas separadas de Handler. La tabla de productos (5d) no tiene la columna "¿Empacará con este ID Mark?". La Sección 10 (Affirmation) sí trae Name/Signature/**Date** completos en el Word — a diferencia de Handler, no hizo falta agregar el campo Date manualmente.
+- **`views/osp_form_handler_trader.xml`** (nuevo) — mismo patrón body+wrappers. 10 secciones, 2 tablas dinámicas (`4a_sites_json`, `5d_products_json`).
+- **`static/src/js/osp_form.js`** — 2 entradas nuevas en `TABLE_CONFIGS` (`trader_sites`, `trader_products`). Nota: `trader_products` comparte el mismo `jsonInputId` (`5d_products_json`) que `handler_products` de Handler (mismo concepto/key, columnas distintas) — es seguro porque `renderDynTable()` corta temprano si el `tbody` de esa config no existe en la página actual, así que solo el config cuyo `tbody` sí está presente llega a escribir en el input compartido; nunca se pisan entre sí.
+- **`controllers/portal.py`** — `form_handler_trader` agregado a los 2 diccionarios `FORM_BODY_TEMPLATES` (portal) y a `PUBLIC_FORM_SLUGS`/`PUBLIC_BODY_TEMPLATES` (público) — liga pública activa: `/osp/public/handler-trader`.
+- **Reporte PDF** — mismo patrón de una línea: `report/osp_handler_trader_report_data.py` (manifest) + `report/osp_handler_trader_report.py` (`get_handler_trader_report_sections()`). Cero cambios al motor común ni al template — el despacho por convención de nombre (`get_report_sections()`) ya lo resuelve solo.
+- Versión del manifest: `17.0.1.3.0`.
+
+## 20. Pendientes conocidos
+
+- Plantillas **"Cultivo"**, **"Manejo o Proceso"**, **"Comercializador"**: el usuario las subirá después — por ahora existen "Crop", "Handler" y "Handler (Trader)"; otros `technical_code` caen al placeholder genérico sin construir.
+- Los marcadores `_attachment_needed` (ver `FORM_SPEC_*.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
 - Embed del iframe admin (punto 7): limpiar el cascarón duplicado del portal dentro del iframe (modo `?embed=1`) — mejora visual, no bloqueante.
 - Notificación al admin (punto 8): solo cubre submits del cliente; no se pidió notificar sobre guardados del propio admin.
 - Formulario público (punto 14): sin protección anti-bot, sin captcha, sin alta automática de portal al vincular cliente — todo por decisión explícita del usuario, no por descuido. Si en el futuro hay abuso real (envíos basura) o se quiere agilizar el alta de portal, ya está identificado qué tocar.
-- Reporte PDF (puntos 15 y 18): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
+- Reporte PDF (puntos 15, 18, 19): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
 - Backend bilingüe (punto 17): las traducciones tipo `model:X,Y` (menús, acciones, `field_description`, opciones de Selection, nombre de módulo/grupo) probablemente sigan en inglés pase lo que pase, porque `migrations/17.0.1.1.3` las forzó por ORM en todos los idiomas — el usuario confirmó (18/ago) que así está bien, no se pidió una migración reversora.
-- Handler no se probó visualmente contra una instancia real (igual que pasó con Crop la primera vez) — es esperable alguna ronda de ajuste de maquetado/labels tras la primera prueba.
+- Handler (Trader) no se probó visualmente contra una instancia real todavía — es esperable alguna ronda de ajuste de maquetado/labels tras la primera prueba (como pasó con Crop y con Handler).
 
-## 20. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 21. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
 - Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).

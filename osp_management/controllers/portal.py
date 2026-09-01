@@ -160,6 +160,7 @@ class OSPPortal(CustomerPortal):
         FORM_BODY_TEMPLATES = {
             'form_crop': 'osp_management.portal_osp_form_crop',
             'form_handler': 'osp_management.portal_osp_form_handler',
+            'form_handler_trader': 'osp_management.portal_osp_form_handler_trader',
         }
         if template.technical_code in FORM_BODY_TEMPLATES:
             countries = request.env['res.country'].search([], order='name asc')
@@ -215,6 +216,7 @@ class OSPPortal(CustomerPortal):
         FORM_BODY_TEMPLATES = {
             'form_crop': 'osp_management.portal_osp_form_crop',
             'form_handler': 'osp_management.portal_osp_form_handler',
+            'form_handler_trader': 'osp_management.portal_osp_form_handler_trader',
         }
         if record.form_template_id.technical_code in FORM_BODY_TEMPLATES:
             countries = request.env['res.country'].search([], order='name asc')
@@ -379,7 +381,7 @@ class OSPPublicController(OSPPortal):
     PUBLIC_FORM_SLUGS = {
         'crop': 'form_crop',
         'handler': 'form_handler',
-        # 'handler-trader': 'form_handler_trader',        # pendiente de construir
+        'handler-trader': 'form_handler_trader',
         # 'cultivo': 'form_cultivo',                      # pendiente de construir
         # 'manejo-proceso': 'form_manejo_proceso',        # pendiente de construir
         # 'comercializador': 'form_comercializador',      # pendiente de construir
@@ -390,6 +392,7 @@ class OSPPublicController(OSPPortal):
     PUBLIC_BODY_TEMPLATES = {
         'form_crop': 'osp_management.public_osp_form_crop',
         'form_handler': 'osp_management.public_osp_form_handler',
+        'form_handler_trader': 'osp_management.public_osp_form_handler_trader',
     }
 
     def _get_public_template(self, technical_code):

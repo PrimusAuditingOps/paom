@@ -1,0 +1,1041 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================
+         BODY REUTILIZABLE: formulario "Handler (Trader)" — 10 secciones,
+         2 tablas dinámicas, adjuntos. Mismo patrón que
+         osp_form_crop_body / osp_form_handler_body. Ver
+         FORM_SPEC_HANDLER_TRADER.md para el detalle de cada campo.
+         ============================================================ -->
+    <template id="osp_form_handler_trader_body" name="OSP Handler (Trader) Form Body">
+        <t t-set="data" t-value="osp.form_data or {}"/>
+
+        <div class="container-fluid py-4">
+
+            <div class="text-center mb-3">
+                <img src="/osp_management/static/src/img/primus_logo.png" alt="Primus Auditing Ops" style="max-height: 60px;"/>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <a t-if="not is_admin and not is_public" href="/my/osp" class="text-decoration-none text-muted mb-2 d-inline-block"><i class="fa fa-arrow-left"></i> Back to list</a>
+                    <h3 class="fw-bold mb-0 text-success"><i class="fa fa-exchange"></i> Handler (Trader)</h3>
+                    <p class="text-muted small mb-0">ORGANIC SYSTEM PLAN</p>
+                    <p class="text-muted small mb-0 fst-italic">This OSP is to be completed for operations requesting organic certification without a physical facility.</p>
+                    <span t-if="is_admin" class="badge bg-secondary">Editando como Administrador de OSP</span>
+                </div>
+                <div>
+                    <div t-if="not readonly">
+                        <span id="save_status" class="text-muted me-3" style="display: none;">Saving...</span>
+                        <button type="button" class="btn btn-outline-success me-2" id="btn_save_progress">
+                            <i class="fa fa-save"></i> <t t-esc="'Save changes' if is_admin else 'Save progress'"/>
+                        </button>
+                    </div>
+                    <div t-if="readonly" class="alert alert-info mb-0 py-2 px-3">
+                        <i class="fa fa-lock"></i> Read-only
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="list-group shadow-sm sticky-top" style="top: 20px; z-index: 1; max-height: 85vh; overflow-y: auto;">
+                        <a href="#sec1" class="list-group-item list-group-item-action active fw-bold" data-bs-toggle="list">1: General Information</a>
+                        <a href="#sec2" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">2: Prior Certification</a>
+                        <a href="#sec3" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">3: International Markets</a>
+                        <a href="#sec4" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">4: Operation Information</a>
+                        <a href="#sec5" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">5: Products</a>
+                        <a href="#sec6" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">6: Biodiversity</a>
+                        <a href="#sec7" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">7: Organic Integrity</a>
+                        <a href="#sec8" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">8: Record-Keeping</a>
+                        <a href="#sec9" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">9: Traceback &amp; Mass Balance</a>
+                        <a href="#sec10" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">10: Affirmation (Firma)</a>
+                        <a href="#sec11" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list"><i class="fa fa-paperclip"></i> Attachments</a>
+                    </div>
+                </div>
+
+                <div class="col-md-9" id="form-content">
+                    <input type="hidden" name="osp_id" id="osp_id_input" t-attf-value="#{osp.id}"/>
+                    <input type="hidden" name="new_service_id" id="new_service_id_input" t-attf-value="#{new_service_id or 0}"/>
+                    <input type="hidden" name="new_template_id" id="new_template_id_input" t-attf-value="#{new_template_id or 0}"/>
+                    <script>
+                        window.OSP_READONLY = <t t-esc="'true' if readonly else 'false'"/>;
+                        window.OSP_IS_ADMIN = <t t-esc="'true' if is_admin else 'false'"/>;
+                        window.OSP_PUBLIC_MODE = <t t-esc="'true' if is_public else 'false'"/>;
+                        window.OSP_CSRF_TOKEN = "<t t-esc="request.csrf_token()"/>";
+                        window.OSP_TECHNICAL_CODE = "<t t-esc="technical_code"/>";
+                    </script>
+
+                    <div class="tab-content bg-white p-4 rounded-3 shadow-sm">
+
+                        <div class="tab-pane fade show active" id="sec1">
+    <h4 class="fw-bold mb-4">SECTION 1: General Information</h4>
+
+    <div class="mb-4">
+        <label class="fw-bold">Choose one:</label>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="radio" name="1_applicant_type" id="t1_new" value="First time" t-att-checked="'checked' if data.get('1_applicant_type') == 'First time' else None"/>
+            <label class="form-check-label" for="t1_new">First time applicant.</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="radio" name="1_applicant_type" id="t1_update" value="Update" t-att-checked="'checked' if data.get('1_applicant_type') == 'Update' else None"/>
+            <label class="form-check-label" for="t1_update">This is an update of an Organic System Plan already submitted to Primus Auditing Ops.</label>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label fw-bold">1a. Organization Name:</label>
+            <input type="text" class="form-control osp-input" name="1a_org_name" t-att-value="data.get('1a_org_name')"/>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-bold">1b. dba Name (if applicable):</label>
+            <input type="text" class="form-control osp-input" name="1b_dba_name" t-att-value="data.get('1b_dba_name')"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <label class="form-label fw-bold">1c. Address:</label>
+            <input type="text" class="form-control osp-input" name="1c_address" t-att-value="data.get('1c_address')"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label class="form-label fw-bold">1d. City:</label>
+            <input type="text" class="form-control osp-input" name="1d_city" t-att-value="data.get('1d_city')"/>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold">1e. State:</label>
+            <select class="form-select osp-input" name="1e_state" id="1e_state">
+                <option value="">-- Select --</option>
+                <t t-foreach="states" t-as="st">
+                    <option t-att-value="st.id" t-att-data-country="st.country_id.id"
+                            t-att-selected="'selected' if str(data.get('1e_state')) == str(st.id) else None">
+                        <t t-esc="st.name"/>
+                    </option>
+                </t>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold">1f. Zip code:</label>
+            <input type="text" class="form-control osp-input" name="1f_zip" t-att-value="data.get('1f_zip')"/>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold">1g. Country:</label>
+            <select class="form-select osp-input" name="1g_country" id="1g_country">
+                <option value="">-- Select --</option>
+                <t t-foreach="countries" t-as="c">
+                    <option t-att-value="c.id" t-att-selected="'selected' if str(data.get('1g_country')) == str(c.id) else None">
+                        <t t-esc="c.name"/>
+                    </option>
+                </t>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-check mb-2">
+        <input class="form-check-input osp-input" type="checkbox" name="1h_same_as_billing" id="1h_same_as_billing" value="yes" t-att-checked="'checked' if data.get('1h_same_as_billing') else None"/>
+        <label class="form-check-label" for="1h_same_as_billing">1h. Billing information: Same as Physical address</label>
+    </div>
+    <div class="row mb-3" id="billing_fields_wrap">
+        <div class="col-md-4 mb-3">
+            <label class="form-label fw-bold">Billing Address:</label>
+            <input type="text" class="form-control osp-input" name="1h_billing_address" t-att-value="data.get('1h_billing_address')"/>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label class="form-label fw-bold">Billing City:</label>
+            <input type="text" class="form-control osp-input" name="1h_billing_city" t-att-value="data.get('1h_billing_city')"/>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label class="form-label fw-bold">Billing State:</label>
+            <input type="text" class="form-control osp-input" name="1h_billing_state" t-att-value="data.get('1h_billing_state')"/>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label class="form-label fw-bold">Billing Zip:</label>
+            <input type="text" class="form-control osp-input" name="1h_billing_zip" t-att-value="data.get('1h_billing_zip')"/>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label class="form-label fw-bold">Billing Country:</label>
+            <input type="text" class="form-control osp-input" name="1h_billing_country" t-att-value="data.get('1h_billing_country')"/>
+        </div>
+    </div>
+
+    <h6 class="fw-bold mt-4">1i. Legal Representative:</h6>
+    <div class="row"><div class="col-md-4 mb-3">
+        <label class="form-label fw-bold">Name:</label>
+        <input type="text" class="form-control osp-input" name="1i_legal_rep_name" t-att-value="data.get('1i_legal_rep_name')"/>
+    </div><div class="col-md-4 mb-3">
+        <label class="form-label fw-bold">Email:</label>
+        <input type="text" class="form-control osp-input" name="1i_legal_rep_email" t-att-value="data.get('1i_legal_rep_email')"/>
+    </div><div class="col-md-4 mb-3">
+        <label class="form-label fw-bold">Phone:</label>
+        <input type="text" class="form-control osp-input" name="1i_legal_rep_phone" t-att-value="data.get('1i_legal_rep_phone')"/>
+    </div></div>
+
+    <h6 class="fw-bold mt-4">1j. Authorized Contacts:</h6>
+    <div class="table-responsive border rounded mb-3">
+        <table class="table table-borderless table-hover mb-0">
+            <thead class="bg-light text-muted small">
+                <tr><th>NAME</th><th>EMAIL</th><th>PHONE</th><th class="text-center">ACTION</th></tr>
+            </thead>
+            <tbody id="contacts_tbody"></tbody>
+        </table>
+    </div>
+    <button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_contact"><i class="fa fa-plus"></i> Add Contact</button>
+    <input type="hidden" class="osp-input" name="1j_contacts_json" id="1j_contacts_json" t-att-value="data.get('1j_contacts_json', '[]')"/>
+
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">1k. Organization Legal status:</label>
+        <select class="form-select osp-input" name="1k_legal_status">
+            <option value="">-- Select --</option>
+            <option value="Sole Proprietorship" t-att-selected="'selected' if data.get('1k_legal_status') == 'Sole Proprietorship' else None">Sole Proprietorship</option>
+            <option value="Trust or Non-Profit" t-att-selected="'selected' if data.get('1k_legal_status') == 'Trust or Non-Profit' else None">Trust or Non-Profit</option>
+            <option value="Corporation" t-att-selected="'selected' if data.get('1k_legal_status') == 'Corporation' else None">Corporation</option>
+            <option value="Cooperative" t-att-selected="'selected' if data.get('1k_legal_status') == 'Cooperative' else None">Cooperative</option>
+            <option value="Legal Partnership (federal form 1065)" t-att-selected="'selected' if data.get('1k_legal_status') == 'Legal Partnership (federal form 1065)' else None">Legal Partnership (federal form 1065)</option>
+            <option value="Other" t-att-selected="'selected' if data.get('1k_legal_status') == 'Other' else None">Other</option>
+        </select>
+    </div>
+    <div class="osp-conditional" data-conditional-field="1k_legal_status" data-conditional-value="Other">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">If other, specify:</label>
+            <input type="text" class="form-control osp-input" name="1k_legal_status_other" t-att-value="data.get('1k_legal_status_other')"/>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">1l. Do you obtain a State registration?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1l_state_registration" id="1l_state_registration_yes" value="Yes" t-att-checked="'checked' if data.get('1l_state_registration') == 'Yes' else None"/>
+            <label class="form-check-label" for="1l_state_registration_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1l_state_registration" id="1l_state_registration_no" value="No" t-att-checked="'checked' if data.get('1l_state_registration') == 'No' else None"/>
+            <label class="form-check-label" for="1l_state_registration_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="1l_state_registration" data-conditional-value="Yes">
+        <div class="row"><div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">List state registration # (if applicable):</label>
+            <input type="text" class="form-control osp-input" name="1l_state_reg_number" t-att-value="data.get('1l_state_reg_number')"/>
+        </div></div>
+        <div class="form-check mb-2 small text-muted">
+            <input class="form-check-input osp-input" type="checkbox" name="1l_certificate_attachment_needed" id="1l_certificate_attachment_needed" value="yes" t-att-checked="'checked' if data.get('1l_certificate_attachment_needed') else None"/>
+            <label class="form-check-label" for="1l_certificate_attachment_needed"><i class="fa fa-paperclip"></i> Attach a copy of your current State certificate.</label>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">1m. Do you have a copy of current NOP organic standards?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1m_nop_standards_copy" id="1m_nop_standards_copy_yes" value="Yes" t-att-checked="'checked' if data.get('1m_nop_standards_copy') == 'Yes' else None"/>
+            <label class="form-check-label" for="1m_nop_standards_copy_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1m_nop_standards_copy" id="1m_nop_standards_copy_no" value="No" t-att-checked="'checked' if data.get('1m_nop_standards_copy') == 'No' else None"/>
+            <label class="form-check-label" for="1m_nop_standards_copy_no">No</label>
+        </div>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">1n. Write a description of your operation's activities:</label>
+        <textarea class="form-control osp-input" name="1n_description" rows="3"><t t-esc="data.get('1n_description')"/></textarea>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">1o. Months of Production:</label>
+        <input type="text" class="form-control osp-input" name="1o_months_production" t-att-value="data.get('1o_months_production')"/>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">1p. Business hours:</label>
+        <input type="text" class="form-control osp-input" name="1p_business_hours" t-att-value="data.get('1p_business_hours')"/>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">1q. Inspection language preference:</label>
+        <input type="text" class="form-control osp-input" name="1q_inspection_language" t-att-value="data.get('1q_inspection_language')"/>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">1r. What language is your documentation?</label>
+        <input type="text" class="form-control osp-input" name="1r_documentation_language" t-att-value="data.get('1r_documentation_language')"/>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">1t. What does your operation produce or handle:</label>
+        <select class="form-select osp-input" name="1t_produce_or_handle">
+            <option value="">-- Select --</option>
+            <option value="Organic &amp; Non-Organic Product" t-att-selected="'selected' if data.get('1t_produce_or_handle') == 'Organic &amp; Non-Organic Product' else None">Organic &amp; Non-Organic Product</option>
+            <option value="Organic Only" t-att-selected="'selected' if data.get('1t_produce_or_handle') == 'Organic Only' else None">Organic Only</option>
+        </select>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">1u. Give clear driving directions to the operation for the inspector, or confirm the GPS will get you to the operation location:</label>
+        <textarea class="form-control osp-input" name="1u_directions" rows="3"><t t-esc="data.get('1u_directions')"/></textarea>
+    </div>
+    <div class="row"><div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">When are you available to contact?</label>
+        <select class="form-select osp-input" name="1u_available_contact">
+            <option value="">-- Select --</option>
+            <option value="Morning" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning' else None">Morning</option>
+            <option value="Evening" t-att-selected="'selected' if data.get('1u_available_contact') == 'Evening' else None">Evening</option>
+            <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Afternoon' else None">Afternoon</option>
+        </select>
+    </div><div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">When are you available for inspection?</label>
+        <select class="form-select osp-input" name="1u_available_inspection">
+            <option value="">-- Select --</option>
+            <option value="Morning" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning' else None">Morning</option>
+            <option value="Evening" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Evening' else None">Evening</option>
+            <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Afternoon' else None">Afternoon</option>
+        </select>
+    </div></div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">1v. Does your operation's projected gross agricultural income from organic sales total $5,000 or less annually?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1v_income_5000_or_less" id="1v_income_5000_or_less_yes" value="Yes" t-att-checked="'checked' if data.get('1v_income_5000_or_less') == 'Yes' else None"/>
+            <label class="form-check-label" for="1v_income_5000_or_less_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1v_income_5000_or_less" id="1v_income_5000_or_less_no" value="No" t-att-checked="'checked' if data.get('1v_income_5000_or_less') == 'No' else None"/>
+            <label class="form-check-label" for="1v_income_5000_or_less_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="1v_income_5000_or_less" data-conditional-value="Yes">
+        <div class="mb-3">
+            <label class="form-label fw-bold d-block">If yes, do you intend to sell your products to anyone that will resell them as "organic" or use as an ingredient in an "organic" product?</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input osp-input" type="radio" name="1v_resell_as_organic" id="1v_resell_as_organic_yes" value="Yes" t-att-checked="'checked' if data.get('1v_resell_as_organic') == 'Yes' else None"/>
+                <label class="form-check-label" for="1v_resell_as_organic_yes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input osp-input" type="radio" name="1v_resell_as_organic" id="1v_resell_as_organic_no" value="No" t-att-checked="'checked' if data.get('1v_resell_as_organic') == 'No' else None"/>
+                <label class="form-check-label" for="1v_resell_as_organic_no">No</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">1w. Is this a renewal? If so, has anything changed within your Operation System Plan since your last certification?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1w_is_renewal" id="1w_is_renewal_yes" value="Yes" t-att-checked="'checked' if data.get('1w_is_renewal') == 'Yes' else None"/>
+            <label class="form-check-label" for="1w_is_renewal_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1w_is_renewal" id="1w_is_renewal_no" value="No" t-att-checked="'checked' if data.get('1w_is_renewal') == 'No' else None"/>
+            <label class="form-check-label" for="1w_is_renewal_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="1w_is_renewal" data-conditional-value="Yes">
+        <div class="col-md-12 mb-3">
+            <label class="form-label fw-bold">If yes, summarize the changes:</label>
+            <textarea class="form-control osp-input" name="1w_changes_summary" rows="3"><t t-esc="data.get('1w_changes_summary')"/></textarea>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">1x. Have you conducted an organic self-audit?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1x_self_audit" id="1x_self_audit_yes" value="Yes" t-att-checked="'checked' if data.get('1x_self_audit') == 'Yes' else None"/>
+            <label class="form-check-label" for="1x_self_audit_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="1x_self_audit" id="1x_self_audit_no" value="No" t-att-checked="'checked' if data.get('1x_self_audit') == 'No' else None"/>
+            <label class="form-check-label" for="1x_self_audit_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="1x_self_audit" data-conditional-value="Yes">
+        <div class="col-md-4 mb-3">
+            <label class="form-label fw-bold">If yes, indicate the date:</label>
+            <input type="date" class="form-control osp-input" name="1x_self_audit_date" t-att-value="data.get('1x_self_audit_date')"/>
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade" id="sec2">
+    <h4 class="fw-bold mb-4">SECTION 2: Prior Organic Certification and/or Noncompliance</h4>
+    <p class="text-muted small">(For first time applicants only. Renewing applicants may skip this section)</p>
+    <div class="form-check mb-2">
+        <input class="form-check-input osp-input" type="checkbox" name="2_na" id="t2_na" value="yes" t-att-checked="'checked' if data.get('2_na') else None"/>
+        <label class="form-check-label" for="t2_na">This section is not applicable to my operation</label>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">2a. Has this organization ever been denied certification, suspended or revoked?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="2a_denied_certification" id="t2a_yes" value="Yes" t-att-checked="'checked' if data.get('2a_denied_certification') == 'Yes' else None"/>
+            <label class="form-check-label" for="t2a_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="2a_denied_certification" id="t2a_no" value="No" t-att-checked="'checked' if data.get('2a_denied_certification') == 'No' else None"/>
+            <label class="form-check-label" for="t2a_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="2a_denied_certification" data-conditional-value="Yes">
+        <div class="col-md-12 mb-3">
+            <label class="form-label fw-bold">If yes, list the certifier name and provide all documentation:</label>
+            <textarea class="form-control osp-input" name="2a_certifier_and_docs" rows="2"><t t-esc="data.get('2a_certifier_and_docs')"/></textarea>
+        </div>
+        <div class="form-check mb-2 small text-muted">
+            <input class="form-check-input osp-input" type="checkbox" name="2a_documentation_attachment_needed" id="2a_documentation_attachment_needed" value="yes" t-att-checked="'checked' if data.get('2a_documentation_attachment_needed') else None"/>
+            <label class="form-check-label" for="2a_documentation_attachment_needed"><i class="fa fa-paperclip"></i> Provide all documentation.</label>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">2b. Is this organization currently certified organic with another agency?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="2b_certified_elsewhere" id="t2b_yes" value="Yes" t-att-checked="'checked' if data.get('2b_certified_elsewhere') == 'Yes' else None"/>
+            <label class="form-check-label" for="t2b_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="2b_certified_elsewhere" id="t2b_no" value="No" t-att-checked="'checked' if data.get('2b_certified_elsewhere') == 'No' else None"/>
+            <label class="form-check-label" for="t2b_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="2b_certified_elsewhere" data-conditional-value="Yes">
+        <div class="form-check mb-2 small text-muted">
+            <input class="form-check-input osp-input" type="checkbox" name="2b_certificate_attachment_needed" id="2b_certificate_attachment_needed" value="yes" t-att-checked="'checked' if data.get('2b_certificate_attachment_needed') else None"/>
+            <label class="form-check-label" for="2b_certificate_attachment_needed"><i class="fa fa-paperclip"></i> Attach a copy of your current organic certificate.</label>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">2c. For first time auditees, has this organization ever been certified organic?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="2c_previously_certified" id="t2c_yes" value="Yes" t-att-checked="'checked' if data.get('2c_previously_certified') == 'Yes' else None"/>
+            <label class="form-check-label" for="t2c_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="2c_previously_certified" id="t2c_no" value="No" t-att-checked="'checked' if data.get('2c_previously_certified') == 'No' else None"/>
+            <label class="form-check-label" for="t2c_no">No</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="2c_previously_certified" id="t2c_na" value="N/A" t-att-checked="'checked' if data.get('2c_previously_certified') == 'N/A' else None"/>
+            <label class="form-check-label" for="t2c_na">N/A</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="2c_previously_certified" data-conditional-value="Yes">
+        <div class="form-check mb-2 small text-muted">
+            <input class="form-check-input osp-input" type="checkbox" name="2c_certificate_attachment_needed" id="2c_certificate_attachment_needed" value="yes" t-att-checked="'checked' if data.get('2c_certificate_attachment_needed') else None"/>
+            <label class="form-check-label" for="2c_certificate_attachment_needed"><i class="fa fa-paperclip"></i> Attach a copy of your previous organic certificate.</label>
+        </div>
+    </div>
+
+    <h6 class="fw-bold mt-4">2d. List all non-compliances from your last certification and state how the non-compliances have been addressed.</h6>
+    <div class="form-check mb-2">
+        <input class="form-check-input osp-input" type="checkbox" name="2d_noncompliances_na" id="2d_noncompliances_na" value="yes" t-att-checked="'checked' if data.get('2d_noncompliances_na') else None"/>
+        <label class="form-check-label" for="2d_noncompliances_na">N/A</label>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">Non-Compliances:</label>
+        <textarea class="form-control osp-input" name="2d_noncompliances_details" rows="3"><t t-esc="data.get('2d_noncompliances_details')"/></textarea>
+    </div>
+    <div class="form-check mb-2 small text-muted">
+        <input class="form-check-input osp-input" type="checkbox" name="2d_documentation_attachment_needed" id="2d_documentation_attachment_needed" value="yes" t-att-checked="'checked' if data.get('2d_documentation_attachment_needed') else None"/>
+        <label class="form-check-label" for="2d_documentation_attachment_needed"><i class="fa fa-paperclip"></i> Attach documentation that verified non-compliances have been addressed.</label>
+    </div>
+</div>
+
+<div class="tab-pane fade" id="sec3">
+    <h4 class="fw-bold mb-4">SECTION 3: International Markets</h4>
+    <div class="form-check mb-2">
+        <input class="form-check-input osp-input" type="checkbox" name="3_na" id="t3_na" value="yes" t-att-checked="'checked' if data.get('3_na') else None"/>
+        <label class="form-check-label" for="t3_na">This section is not applicable to my operation</label>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold d-block">3a. Select all that applies:</label>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="3a_market_types" value="Import Directly" id="t3a_0" t-att-checked="'checked' if 'Import Directly' in (data.get('3a_market_types') or []) else None"/>
+            <label class="form-check-label" for="t3a_0">Import Directly</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="3a_market_types" value="Import Indirectly" id="t3a_1" t-att-checked="'checked' if 'Import Indirectly' in (data.get('3a_market_types') or []) else None"/>
+            <label class="form-check-label" for="t3a_1">Import Indirectly</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="3a_market_types" value="Export Directly" id="t3a_2" t-att-checked="'checked' if 'Export Directly' in (data.get('3a_market_types') or []) else None"/>
+            <label class="form-check-label" for="t3a_2">Export Directly</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="3a_market_types" value="Export Indirectly" id="t3a_3" t-att-checked="'checked' if 'Export Indirectly' in (data.get('3a_market_types') or []) else None"/>
+            <label class="form-check-label" for="t3a_3">Export Indirectly</label>
+        </div>
+    </div>
+    <p class="text-danger small">If any of these options are applicable, you must request and complete the International Markets OSP Addendum.</p>
+</div>
+
+<div class="tab-pane fade" id="sec4">
+    <h4 class="fw-bold mb-4">SECTION 4: Operation Information</h4>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">4a. Do you manage other office sites other than the address in Section 1?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="4a_other_sites" id="t4a_yes" value="Yes" t-att-checked="'checked' if data.get('4a_other_sites') == 'Yes' else None"/>
+            <label class="form-check-label" for="t4a_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="4a_other_sites" id="t4a_no" value="No" t-att-checked="'checked' if data.get('4a_other_sites') == 'No' else None"/>
+            <label class="form-check-label" for="t4a_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="4a_other_sites" data-conditional-value="Yes">
+        <p class="text-muted small">Complete the following for ALL locations managed by the Organization (non-organic &amp; organic sites):</p>
+        <div class="table-responsive border rounded mb-3">
+            <table class="table table-borderless table-hover mb-0">
+                <thead class="bg-light text-muted small">
+                    <tr><th>SITE/ID NAME</th><th>SITE ADDRESS: CITY, STATE, ZIP</th><th>CONTACT NAME AND PHONE NUMBER</th><th>DESCRIPTION OF SITE ACTIVITIES</th><th class="text-center">ACTION</th></tr>
+                </thead>
+                <tbody id="trader_sites_tbody"></tbody>
+            </table>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_trader_site"><i class="fa fa-plus"></i> Add Site</button>
+        <input type="hidden" class="osp-input" name="4a_sites_json" id="4a_sites_json" t-att-value="data.get('4a_sites_json', '[]')"/>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">4b. Operation Flow Diagram Attached:</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="4b_flow_diagram_attached" id="t4b_yes" value="Yes" t-att-checked="'checked' if data.get('4b_flow_diagram_attached') == 'Yes' else None"/>
+            <label class="form-check-label" for="t4b_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="4b_flow_diagram_attached" id="t4b_no" value="No" t-att-checked="'checked' if data.get('4b_flow_diagram_attached') == 'No' else None"/>
+            <label class="form-check-label" for="t4b_no">No</label>
+        </div>
+        <p class="text-muted small mt-1">Provide a schematic or written description of the process flow from receiving records through to product shipping records.</p>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label fw-bold">4c. Projected % of total production &#8211; Non-organic:</label>
+            <input type="text" class="form-control osp-input" name="4c_pct_nonorganic" t-att-value="data.get('4c_pct_nonorganic')"/>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-bold">Organic:</label>
+            <input type="text" class="form-control osp-input" name="4c_pct_organic" t-att-value="data.get('4c_pct_organic')"/>
+        </div>
+    </div>
+    <div class="form-check mb-3 small text-muted">
+        <input class="form-check-input osp-input" type="checkbox" name="4c_nonorganic_list_attachment_needed" id="4c_nonorganic_list_attachment_needed" value="yes" t-att-checked="'checked' if data.get('4c_nonorganic_list_attachment_needed') else None"/>
+        <label class="form-check-label" for="4c_nonorganic_list_attachment_needed"><i class="fa fa-paperclip"></i> If non-organic product is handled, submit a list of the non-organic product handled at this operation.</label>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">4d. Does your operation have any certifications besides Organic?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="4d_other_certifications" id="t4d_yes" value="Yes" t-att-checked="'checked' if data.get('4d_other_certifications') == 'Yes' else None"/>
+            <label class="form-check-label" for="t4d_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="4d_other_certifications" id="t4d_no" value="No" t-att-checked="'checked' if data.get('4d_other_certifications') == 'No' else None"/>
+            <label class="form-check-label" for="t4d_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="4d_other_certifications" data-conditional-value="Yes">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">If yes, list auditing company and scheme(s):</label>
+            <input type="text" class="form-control osp-input" name="4d_other_certifications_details" t-att-value="data.get('4d_other_certifications_details')"/>
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade" id="sec5">
+    <h4 class="fw-bold mb-4">SECTION 5: Products &#8211; To Be Listed on Certificate by ID Mark &amp; Market</h4>
+    <h6 class="fw-bold">Type of Marketing:</h6>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold d-block">5a. Select all that apply:</label>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="5a_marketing_types" value="Farmers market" id="t5a_0" t-att-checked="'checked' if 'Farmers market' in (data.get('5a_marketing_types') or []) else None"/>
+            <label class="form-check-label" for="t5a_0">Farmers market</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="5a_marketing_types" value="direct to retail" id="t5a_1" t-att-checked="'checked' if 'direct to retail' in (data.get('5a_marketing_types') or []) else None"/>
+            <label class="form-check-label" for="t5a_1">direct to retail</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="5a_marketing_types" value="CSA/subscription service" id="t5a_2" t-att-checked="'checked' if 'CSA/subscription service' in (data.get('5a_marketing_types') or []) else None"/>
+            <label class="form-check-label" for="t5a_2">CSA/subscription service</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="5a_marketing_types" value="wholesale" id="t5a_3" t-att-checked="'checked' if 'wholesale' in (data.get('5a_marketing_types') or []) else None"/>
+            <label class="form-check-label" for="t5a_3">wholesale</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="5a_marketing_types" value="on-farm retail" id="t5a_4" t-att-checked="'checked' if 'on-farm retail' in (data.get('5a_marketing_types') or []) else None"/>
+            <label class="form-check-label" for="t5a_4">on-farm retail</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="5a_marketing_types" value="Bulk commodities to processor" id="t5a_5" t-att-checked="'checked' if 'Bulk commodities to processor' in (data.get('5a_marketing_types') or []) else None"/>
+            <label class="form-check-label" for="t5a_5">Bulk commodities to processor</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="5a_marketing_types" value="contract to buyer" id="t5a_6" t-att-checked="'checked' if 'contract to buyer' in (data.get('5a_marketing_types') or []) else None"/>
+            <label class="form-check-label" for="t5a_6">contract to buyer</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="5a_marketing_types" value="other" id="t5a_7" t-att-checked="'checked' if 'other' in (data.get('5a_marketing_types') or []) else None"/>
+            <label class="form-check-label" for="t5a_7">other</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="5a_marketing_types" data-conditional-value="other">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">If other, specify:</label>
+            <input type="text" class="form-control osp-input" name="5a_marketing_other" t-att-value="data.get('5a_marketing_other')"/>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">5b. Complete a Master Supply Chain and Product List to include all products/ingredients and suppliers. Is this document attached?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="5b_supply_chain_attached" id="t5b_yes" value="Yes" t-att-checked="'checked' if data.get('5b_supply_chain_attached') == 'Yes' else None"/>
+            <label class="form-check-label" for="t5b_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="5b_supply_chain_attached" id="t5b_no" value="No" t-att-checked="'checked' if data.get('5b_supply_chain_attached') == 'No' else None"/>
+            <label class="form-check-label" for="t5b_no">No</label>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">5c. Do you require your organic certificate to list all ID Marks?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="5c_list_all_id_marks" id="t5c_yes" value="Yes" t-att-checked="'checked' if data.get('5c_list_all_id_marks') == 'Yes' else None"/>
+            <label class="form-check-label" for="t5c_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="5c_list_all_id_marks" id="t5c_no" value="No" t-att-checked="'checked' if data.get('5c_list_all_id_marks') == 'No' else None"/>
+            <label class="form-check-label" for="t5c_no">No</label>
+        </div>
+        <p class="text-muted small mt-1">If yes, ensure they are all listed in the second column below. If product is received packaged and no re-packing or re-purposing is conducted, the phrase "as previously packed by certified supplier" may be used in the ID Mark column.</p>
+    </div>
+
+    <p class="mt-3">5d. Complete the table below with all products requested for certification.</p>
+    <div class="table-responsive border rounded mb-3">
+        <table class="table table-borderless table-hover mb-0">
+            <thead class="bg-light text-muted small">
+                <tr><th>PRODUCT REQUESTED</th><th>ID MARK (LABELS)</th><th>LABEL TYPE</th><th>ORGANIC OR 100% ORGANIC?</th><th>INTERNATIONAL MARKET</th><th class="text-center">ACTION</th></tr>
+            </thead>
+            <tbody id="trader_products_tbody"></tbody>
+        </table>
+    </div>
+    <button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_trader_product"><i class="fa fa-plus"></i> Add Product</button>
+    <input type="hidden" class="osp-input" name="5d_products_json" id="5d_products_json" t-att-value="data.get('5d_products_json', '[]')"/>
+
+    <p class="text-muted small">Complete a Master Supply Chain and Product List to include all products/ingredients and suppliers. Complete a Private Label Agreement for each ID Mark that you do not own. Complete an International Market Addendum for any additional market request. Complete a Formulation Sheet for any multi-ingredient products.</p>
+</div>
+
+<div class="tab-pane fade" id="sec6">
+    <h4 class="fw-bold mb-4">SECTION 6: Biodiversity &amp; Natural Resources</h4>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">6a. Describe your biodiversity program:</label>
+        <textarea class="form-control osp-input" name="6a_biodiversity_program" rows="2"><t t-esc="data.get('6a_biodiversity_program')"/></textarea>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">6b. Describe the natural resources within and/or surrounding your operation:</label>
+        <textarea class="form-control osp-input" name="6b_natural_resources" rows="2"><t t-esc="data.get('6b_natural_resources')"/></textarea>
+    </div>
+
+    <h6 class="fw-bold mt-4">Waste Management</h6>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">6c. Describe any practices in place used for waste management:</label>
+        <textarea class="form-control osp-input" name="6c_waste_management" rows="2"><t t-esc="data.get('6c_waste_management')"/></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">6d. Do you recycle waste materials?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="6d_recycle_waste" id="t6d_yes" value="Yes" t-att-checked="'checked' if data.get('6d_recycle_waste') == 'Yes' else None"/>
+            <label class="form-check-label" for="t6d_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="6d_recycle_waste" id="t6d_no" value="No" t-att-checked="'checked' if data.get('6d_recycle_waste') == 'No' else None"/>
+            <label class="form-check-label" for="t6d_no">No</label>
+        </div>
+        <div class="mt-2"><label class="form-label fw-bold">Describe:</label>
+        <textarea class="form-control osp-input" name="6d_recycle_describe" rows="2"><t t-esc="data.get('6d_recycle_describe')"/></textarea></div>
+    </div>
+
+    <h6 class="fw-bold mt-4">Energy Conservation &amp; Air Quality</h6>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">6e. Describe any practices in place used for energy conservation (i.e. solar, wind):</label>
+        <textarea class="form-control osp-input" name="6e_energy_conservation" rows="2"><t t-esc="data.get('6e_energy_conservation')"/></textarea>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">6f. Describe any practices in place used for air quality management:</label>
+        <textarea class="form-control osp-input" name="6f_air_quality" rows="2"><t t-esc="data.get('6f_air_quality')"/></textarea>
+    </div>
+
+    <h6 class="fw-bold mt-4">Water Use</h6>
+    <div class="form-check mb-2">
+        <input class="form-check-input osp-input" type="checkbox" name="6_water_use_na" id="6_water_use_na" value="yes" t-att-checked="'checked' if data.get('6_water_use_na') else None"/>
+        <label class="form-check-label" for="6_water_use_na">This section is not applicable to my operation</label>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">6g. What is your water source?</label>
+        <input type="text" class="form-control osp-input" name="6g_water_source" t-att-value="data.get('6g_water_source')"/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">6h. Attach a copy of the water analysis verifying potability if water is from a non-municipal source. Is the document attached?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="6h_water_analysis_attached" id="t6h_yes" value="Yes" t-att-checked="'checked' if data.get('6h_water_analysis_attached') == 'Yes' else None"/>
+            <label class="form-check-label" for="t6h_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="6h_water_analysis_attached" id="t6h_no" value="No" t-att-checked="'checked' if data.get('6h_water_analysis_attached') == 'No' else None"/>
+            <label class="form-check-label" for="t6h_no">No</label>
+        </div>
+        <div class="mt-2"><label class="form-label fw-bold">Name of document:</label>
+        <input type="text" class="form-control osp-input" name="6h_water_analysis_doc_name" t-att-value="data.get('6h_water_analysis_doc_name')"/></div>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">6i. Describe any practices in place used to conserve water:</label>
+        <textarea class="form-control osp-input" name="6i_water_conservation" rows="2"><t t-esc="data.get('6i_water_conservation')"/></textarea>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">6j. In what capacity is water used?</label>
+        <input type="text" class="form-control osp-input" name="6j_water_use_capacity" t-att-value="data.get('6j_water_use_capacity')"/>
+    </div>
+</div>
+
+<div class="tab-pane fade" id="sec7">
+    <h4 class="fw-bold mb-4">SECTION 7: Maintenance of Organic Integrity</h4>
+
+    <h6 class="fw-bold">Storage &amp; Shipping</h6>
+    <div class="form-check mb-2">
+        <input class="form-check-input osp-input" type="checkbox" name="7_storage_na" id="7_storage_na" value="yes" t-att-checked="'checked' if data.get('7_storage_na') else None"/>
+        <label class="form-check-label" for="7_storage_na">This section is not applicable to my operation</label>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">7a. Describe the operations being utilized for storage:</label>
+        <textarea class="form-control osp-input" name="7a_storage_operations" rows="2"><t t-esc="data.get('7a_storage_operations')"/></textarea>
+        <p class="text-muted small">*Must complete the Master Supply Chain and Product list document.</p>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">7b. Is your organization responsible for the transportation of the organic product?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7b_responsible_for_transport" id="t7b_yes" value="Yes" t-att-checked="'checked' if data.get('7b_responsible_for_transport') == 'Yes' else None"/>
+            <label class="form-check-label" for="t7b_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7b_responsible_for_transport" id="t7b_no" value="No" t-att-checked="'checked' if data.get('7b_responsible_for_transport') == 'No' else None"/>
+            <label class="form-check-label" for="t7b_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="7b_responsible_for_transport" data-conditional-value="Yes">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">If yes, please list the company:</label>
+            <input type="text" class="form-control osp-input" name="7b_transport_company" t-att-value="data.get('7b_transport_company')"/>
+            <p class="text-muted small">*Be aware some transportation companies are required to be certified organic.</p>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">7c. In what form are organic products received?</label>
+        <input type="text" class="form-control osp-input" name="7c_receiving_form" t-att-value="data.get('7c_receiving_form')"/>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">7d. In what form are finished products shipped?</label>
+        <input type="text" class="form-control osp-input" name="7d_shipping_form" t-att-value="data.get('7d_shipping_form')"/>
+    </div>
+
+    <h6 class="fw-bold mt-4">Quality Testing</h6>
+    <div class="form-check mb-2">
+        <input class="form-check-input osp-input" type="checkbox" name="7_quality_na" id="7_quality_na" value="yes" t-att-checked="'checked' if data.get('7_quality_na') else None"/>
+        <label class="form-check-label" for="7_quality_na">This section is not applicable to my operation</label>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">7e. Are products/ingredients sampled for quality or testing?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7e_products_sampled" id="t7e_yes" value="Yes" t-att-checked="'checked' if data.get('7e_products_sampled') == 'Yes' else None"/>
+            <label class="form-check-label" for="t7e_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7e_products_sampled" id="t7e_no" value="No" t-att-checked="'checked' if data.get('7e_products_sampled') == 'No' else None"/>
+            <label class="form-check-label" for="t7e_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="7e_products_sampled" data-conditional-value="Yes">
+        <div class="mb-3">
+            <label class="form-label fw-bold d-block">Are sampling tools dedicated for organic use only?</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input osp-input" type="radio" name="7e_tools_dedicated" id="t7e2_yes" value="Yes" t-att-checked="'checked' if data.get('7e_tools_dedicated') == 'Yes' else None"/>
+                <label class="form-check-label" for="t7e2_yes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input osp-input" type="radio" name="7e_tools_dedicated" id="t7e2_no" value="No" t-att-checked="'checked' if data.get('7e_tools_dedicated') == 'No' else None"/>
+                <label class="form-check-label" for="t7e2_no">No</label>
+            </div>
+        </div>
+        <div class="osp-conditional" data-conditional-field="7e_tools_dedicated" data-conditional-value="No">
+            <div class="col-md-12 mb-3">
+                <label class="form-label fw-bold">If no, describe how sampling equipment is cleaned prior to organic sampling and/or attach your procedure:</label>
+                <textarea class="form-control osp-input" name="7e_cleaning_description" rows="2"><t t-esc="data.get('7e_cleaning_description')"/></textarea>
+            </div>
+        </div>
+    </div>
+
+    <h6 class="fw-bold mt-4">Packaging</h6>
+    <div class="form-check mb-2">
+        <input class="form-check-input osp-input" type="checkbox" name="7_packaging_na" id="7_packaging_na" value="yes" t-att-checked="'checked' if data.get('7_packaging_na') else None"/>
+        <label class="form-check-label" for="7_packaging_na">This section is not applicable to my operation</label>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">7f. What type of packaging material is used?</label>
+        <input type="text" class="form-control osp-input" name="7f_packaging_material_type" t-att-value="data.get('7f_packaging_material_type')"/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">7g. Is packaging documented to be free of any packaging materials, storage containers, or bins that contain a synthetic fungicide, preservative, or fumigant?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7g_free_of_synthetics" id="t7g_yes" value="Yes" t-att-checked="'checked' if data.get('7g_free_of_synthetics') == 'Yes' else None"/>
+            <label class="form-check-label" for="t7g_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7g_free_of_synthetics" id="t7g_no" value="No" t-att-checked="'checked' if data.get('7g_free_of_synthetics') == 'No' else None"/>
+            <label class="form-check-label" for="t7g_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="7g_free_of_synthetics" data-conditional-value="No">
+        <div class="col-md-12 mb-3">
+            <label class="form-label fw-bold">If no, explain:</label>
+            <textarea class="form-control osp-input" name="7g_explain" rows="2"><t t-esc="data.get('7g_explain')"/></textarea>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="7g_free_of_synthetics" data-conditional-value="Yes">
+        <div class="form-check mb-2 small text-muted">
+            <input class="form-check-input osp-input" type="checkbox" name="7g_evidence_attachment_needed" id="7g_evidence_attachment_needed" value="yes" t-att-checked="'checked' if data.get('7g_evidence_attachment_needed') else None"/>
+            <label class="form-check-label" for="7g_evidence_attachment_needed"><i class="fa fa-paperclip"></i> Attach documented evidence.</label>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label class="form-label fw-bold">7h. What type of packaging is used? (i.e., aseptic, cardboard, glass, metal, synthetic fiber, paper, plastic, etc.)</label>
+        <input type="text" class="form-control osp-input" name="7h_packaging_type" t-att-value="data.get('7h_packaging_type')"/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">7i. Is all packaging food grade?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7i_food_grade" id="t7i_yes" value="Yes" t-att-checked="'checked' if data.get('7i_food_grade') == 'Yes' else None"/>
+            <label class="form-check-label" for="t7i_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7i_food_grade" id="t7i_no" value="No" t-att-checked="'checked' if data.get('7i_food_grade') == 'No' else None"/>
+            <label class="form-check-label" for="t7i_no">No</label>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">7j. Are packaging materials and/or containers ever re-used? (i.e. totes, bins, cardboard cartons)</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7j_reused" id="t7j_yes" value="Yes" t-att-checked="'checked' if data.get('7j_reused') == 'Yes' else None"/>
+            <label class="form-check-label" for="t7j_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7j_reused" id="t7j_no" value="No" t-att-checked="'checked' if data.get('7j_reused') == 'No' else None"/>
+            <label class="form-check-label" for="t7j_no">No</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="7j_reused" id="t7j_na" value="N/A" t-att-checked="'checked' if data.get('7j_reused') == 'N/A' else None"/>
+            <label class="form-check-label" for="t7j_na">N/A</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="7j_reused" data-conditional-value="Yes">
+        <div class="col-md-12 mb-3">
+            <label class="form-label fw-bold">If yes, indicate what the previous use was:</label>
+            <textarea class="form-control osp-input" name="7j_previous_use" rows="2"><t t-esc="data.get('7j_previous_use')"/></textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <label class="form-label fw-bold">Describe the cleaning procedure performed prior to reuse:</label>
+            <textarea class="form-control osp-input" name="7j_cleaning_procedure" rows="2"><t t-esc="data.get('7j_cleaning_procedure')"/></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="tab-pane fade" id="sec8">
+    <h4 class="fw-bold mb-4">SECTION 8: Record-Keeping System</h4>
+    <h6 class="fw-bold">Traceback/Supply Chain</h6>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">8a. Describe how records track products back to the receiving or acquiring date through the sale or transport, and allow traceability back to the last certified operation:</label>
+        <textarea class="form-control osp-input" name="8a_traceback_description" rows="2"><t t-esc="data.get('8a_traceback_description')"/></textarea>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">8b. How do you ensure the production lot number, shipping identification, or other unique information that links the container/product to the audit trail documentation is included in the records you maintain?</label>
+        <textarea class="form-control osp-input" name="8b_lot_tracking" rows="2"><t t-esc="data.get('8b_lot_tracking')"/></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">8c. Do traceability records identify the organic product with its applicable claim (i.e. 100% organic, organic, made with organic, etc.)?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="8c_claim_identification" id="t8c_yes" value="Yes" t-att-checked="'checked' if data.get('8c_claim_identification') == 'Yes' else None"/>
+            <label class="form-check-label" for="t8c_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="8c_claim_identification" id="t8c_no" value="No" t-att-checked="'checked' if data.get('8c_claim_identification') == 'No' else None"/>
+            <label class="form-check-label" for="t8c_no">No</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="8c_claim_identification" data-conditional-value="No">
+        <div class="col-md-12 mb-3">
+            <label class="form-label fw-bold">If no, explain how you identify the organic with non-organic product:</label>
+            <textarea class="form-control osp-input" name="8c_identification_explain" rows="2"><t t-esc="data.get('8c_identification_explain')"/></textarea>
+        </div>
+    </div>
+    <h6 class="fw-bold mt-4">Records</h6>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">8d. Which records do you keep for organic production?</label>
+        <textarea class="form-control osp-input" name="8d_organic_records" rows="2"><t t-esc="data.get('8d_organic_records')"/></textarea>
+        <p class="text-muted small">(You may submit a supporting document with a list, specify name of that document here)</p>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold d-block">8e. Are all records that verify organic compliance maintained for a minimum of 5 years beyond creation?</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="8e_records_5years" id="t8e_yes" value="Yes" t-att-checked="'checked' if data.get('8e_records_5years') == 'Yes' else None"/>
+            <label class="form-check-label" for="t8e_yes">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input osp-input" type="radio" name="8e_records_5years" id="t8e_no" value="No" t-att-checked="'checked' if data.get('8e_records_5years') == 'No' else None"/>
+            <label class="form-check-label" for="t8e_no">No</label>
+        </div>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold d-block">8f. Which records do you keep for non-organic production?</label>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="8f_nonorganic_records" value="Not applicable, organic only" id="t8f_0" t-att-checked="'checked' if 'Not applicable, organic only' in (data.get('8f_nonorganic_records') or []) else None"/>
+            <label class="form-check-label" for="t8f_0">Not applicable, organic only</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="8f_nonorganic_records" value="Same as the records listed in 8d" id="t8f_1" t-att-checked="'checked' if 'Same as the records listed in 8d' in (data.get('8f_nonorganic_records') or []) else None"/>
+            <label class="form-check-label" for="t8f_1">Same as the records listed in 8d</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input osp-input" type="checkbox" data-group="8f_nonorganic_records" value="Other" id="t8f_2" t-att-checked="'checked' if 'Other' in (data.get('8f_nonorganic_records') or []) else None"/>
+            <label class="form-check-label" for="t8f_2">Other</label>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="8f_nonorganic_records" data-conditional-value="Other">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">If other, specify:</label>
+            <input type="text" class="form-control osp-input" name="8f_nonorganic_records_other" t-att-value="data.get('8f_nonorganic_records_other')"/>
+        </div>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">8g. Describe the monitoring practices and procedures to be performed by your organization:</label>
+        <textarea class="form-control osp-input" name="8g_monitoring_practices" rows="2"><t t-esc="data.get('8g_monitoring_practices')"/></textarea>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">8h. How are these monitoring practices and procedures effectively implemented and how frequently are they performed?</label>
+        <textarea class="form-control osp-input" name="8h_monitoring_frequency" rows="2"><t t-esc="data.get('8h_monitoring_frequency')"/></textarea>
+    </div>
+    <h6 class="fw-bold mt-4">Organic Fraud Prevention</h6>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">8i. Describe your organic fraud prevention program:</label>
+        <textarea class="form-control osp-input" name="8i_fraud_prevention_program" rows="2"><t t-esc="data.get('8i_fraud_prevention_program')"/></textarea>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">8j. List the documents you maintain for your organic fraud prevention program and submit them:</label>
+        <textarea class="form-control osp-input" name="8j_fraud_prevention_docs" rows="2"><t t-esc="data.get('8j_fraud_prevention_docs')"/></textarea>
+    </div>
+    <div class="col-md-12 mb-3">
+        <label class="form-label fw-bold">8k. How do you monitor the effectiveness of the organic fraud prevention program?</label>
+        <textarea class="form-control osp-input" name="8k_fraud_prevention_monitoring" rows="2"><t t-esc="data.get('8k_fraud_prevention_monitoring')"/></textarea>
+    </div>
+</div>
+
+<div class="tab-pane fade" id="sec9">
+    <h4 class="fw-bold mb-4">SECTION 9: Trace back and Mass Balance</h4>
+    <p class="text-muted">During the on-site inspection, inspectors are expected to conduct thorough trace-back audits and mass balance audits to verify traceability and record-keeping requirements. Please make sure to have the documentation available needed to complete a mass balance and trace back during the onsite audit. Please note that the inspector will pick a product to conduct a traceback and choose the time frame to conduct a mass balance (may range from 1 month to 1 year).</p>
+    <p class="fw-bold mt-3">What is a trace back?</p>
+    <p class="text-muted">A trace back is a trail of documentation that can be used to trace the origin of product and material inputs. The system should also show that it can trace forward and indicate which customer(s) received the product. This is usually accomplished by lot coding materials throughout a process and recording these lot codes at different points in the process.</p>
+    <p class="fw-bold mt-3">What is a mass balance?</p>
+    <p class="text-muted">A mass balance is defined as a reconciliation of the volume of incoming raw material against the amount used in the resulting finished products, taking into account process waste and rework. The purpose is to verify that the organic inputs purchased and used by the operation are sufficient in quantity to produce the organic products that were sold.</p>
+    <p class="text-muted">Each operation's record-keeping system is distinctive; examples of documents that can be used to complete a mass balance are: ingredients receiving records and purchase invoices, inventory records for raw and finished goods, harvest logs, and sales and shipping records for finished goods.</p>
+    <p class="text-muted small">References: NOP Guidance 2602 Instruction Recordkeeping.</p>
+</div>
+
+<div class="tab-pane fade" id="sec10">
+    <h4 class="fw-bold mb-4">SECTION 10: Affirmation</h4>
+    <div class="alert alert-light border border-success rounded-3 mb-4">
+        <p>I affirm that all statements made in this application are true and correct. No prohibited products have been applied to any of my organically managed fields during the three-year period prior to projected harvest. I understand that the operation may be subject to unannounced inspection and/or sampling for residues at any time as deemed appropriate to ensure compliance with the Organic Foods Production Act of 1990 and National Organic Program Rules and Regulations. I understand that acceptance of this questionnaire in no way implies granting of certification by the certifying agent. I agree to provide further information as required by the certifying agent.</p>
+        <p>In submitting this signed application, the above named organization is declaring its commitment to compliance with the principle requirements of the USDA National Organic Program. This declaration also includes the commitment to pay all fees imposed by the NOP Program and the fees and expenses incurred by Primus Auditing Operations as the Certifying Agent in the performance of the inspection and certification activities. This includes paying the non-refundable registration fee, as disclosed in the Fee Schedule.</p>
+        <p>I affirm that I am aware of unannounced inspection, in which I am aware that there may be additional inspections based on random selection, high risk(s), complaints, and/or investigations.</p>
+        <p>I affirm that I am aware that supply chain audits may be conducted due to the organic certifiers' established risk-based criteria.</p>
+        <p>I affirm to taking full responsibility of compliance that all operators involved in my supply chain, including exempt operations, and I have completed the Master Supply Chain and Product List.</p>
+        <h5 class="text-success fw-bold">*electronic signature is accepted*</h5>
+        <div class="mb-3 mt-3">
+            <label class="form-label fw-bold">Name of Person completing this OSP: <span class="text-danger">*</span></label>
+            <input type="text" class="form-control osp-input" name="10_name" id="req_name" t-att-value="data.get('10_name')"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">Signature of Authorized Person: <span class="text-danger">*</span></label>
+            <input type="text" class="form-control osp-input" name="10_signature" id="req_sign" t-att-value="data.get('10_signature')"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">Date: <span class="text-danger">*</span></label>
+            <input type="date" class="form-control osp-input" name="10_date" id="req_date" t-att-value="data.get('10_date')"/>
+        </div>
+    </div>
+
+    <button t-if="not is_admin and not readonly" type="button" class="btn btn-success btn-lg w-100 fw-bold" id="btn_submit_osp">
+        Submit Organic System Plan
+    </button>
+    <div t-if="is_admin" class="alert alert-secondary mb-0">
+        <i class="fa fa-info-circle"></i> As OSP Administrator, your changes are saved with the "Save changes" button above. This form was already submitted by the customer, so there is no resubmission button here.
+    </div>
+    <div t-if="readonly" class="alert alert-info mb-0">
+        <i class="fa fa-lock"></i> This form has already been submitted and is under review (read-only).
+    </div>
+</div>
+
+<div class="tab-pane fade" id="sec11">
+    <h4 class="fw-bold mb-4"><i class="fa fa-paperclip"></i> Attachments</h4>
+    <p class="text-muted small">
+        Upload here any supporting documents referenced throughout this form (certificates, diagrams, lab results, etc.).
+    </p>
+
+    <div t-if="osp.id == 0 and not is_public" id="attachments_save_first_notice" class="alert alert-warning">
+        <i class="fa fa-info-circle"></i>
+        You need to save your progress before you can upload attachments. Click "Save progress" above, then come back to this section.
+    </div>
+    <div t-if="osp.id == 0 and is_public" id="attachments_save_first_notice" class="alert alert-warning">
+        <i class="fa fa-info-circle"></i>
+        You'll be able to attach supporting documents right after you submit the form.
+    </div>
+
+    <div t-if="can_upload" id="attachments_upload_wrap" class="mb-4">
+        <form id="attachments_upload_form" t-attf-action="/my/osp/upload/#{osp.id}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <input type="file" name="osp_files" multiple="multiple" class="form-control" style="max-width: 400px;"/>
+            <button type="submit" class="btn btn-outline-success">
+                <i class="fa fa-upload"></i> Upload
+            </button>
+        </form>
+    </div>
+
+    <div t-if="not attachments" class="alert alert-light border text-muted mb-0">
+        No files uploaded yet.
+    </div>
+
+    <div t-if="attachments" class="list-group">
+        <div t-foreach="attachments" t-as="att" class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <a t-attf-href="/web/content/#{att.id}?download=true" target="_blank" class="text-decoration-none fw-bold">
+                    <i class="fa fa-file-o me-1"></i><t t-esc="att.name"/>
+                </a>
+                <div class="text-muted small">
+                    Uploaded by <t t-esc="att.create_uid.name"/> on <span t-field="att.create_date" t-options='{"widget": "date"}'/>
+                </div>
+            </div>
+            <a t-if="can_upload" t-attf-href="/my/osp/attachment/delete/#{att.id}" class="text-danger text-decoration-none" title="Delete" onclick="return confirm('Remove this file?');">
+                <i class="fa fa-trash-o"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- WRAPPER 1: cliente de portal / Administrador de OSP (logueados) -->
+    <template id="portal_osp_form_handler_trader" name="OSP Handler (Trader) Form">
+        <t t-call="portal.portal_layout">
+            <t t-call="osp_management.osp_form_handler_trader_body"/>
+        </t>
+    </template>
+
+    <!-- WRAPPER 2: navegante público, sin login -->
+    <template id="public_osp_form_handler_trader" name="OSP Handler (Trader) Form (Public)">
+        <t t-call="website.layout">
+            <t t-call="osp_management.osp_form_handler_trader_body"/>
+        </t>
+    </template>
+</odoo>

@@ -240,6 +240,26 @@ function initOspForm() {
                 { key: 'restrictions_description', type: 'text', placeholder: 'If product has restrictions...' },
             ],
         },
+        // ---- Formulario Handler (Trader) (ver views/osp_form_handler_trader.xml) ----
+        trader_sites: { // 4a
+            jsonInputId: '4a_sites_json', tbodyId: 'trader_sites_tbody', addBtnId: 'btn_add_trader_site',
+            columns: [
+                { key: 'site_id', type: 'text', placeholder: 'Site/ID Name...' },
+                { key: 'site_address', type: 'text', placeholder: 'Site Address: City, State, Zip...' },
+                { key: 'contact', type: 'text', placeholder: 'Contact Name and Phone Number...' },
+                { key: 'description', type: 'text', placeholder: 'Description of Site activities...' },
+            ],
+        },
+        trader_products: { // 5d
+            jsonInputId: '5d_products_json', tbodyId: 'trader_products_tbody', addBtnId: 'btn_add_trader_product',
+            columns: [
+                { key: 'product', type: 'text', placeholder: 'Product requested for certification...' },
+                { key: 'id_mark', type: 'text', placeholder: 'ID Mark (Labels)...' },
+                { key: 'label_type', type: 'text', placeholder: 'Retail / Non-Retail / Private Label...' },
+                { key: 'organic_or_100', type: 'text', placeholder: 'Organic or 100% Organic?...' },
+                { key: 'international_market', type: 'text', placeholder: 'International market...' },
+            ],
+        },
     };
 
     function emptyRowFor(config) {
