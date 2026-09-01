@@ -233,7 +233,7 @@
                 <field name="notificacion_enviada"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div t-attf-class="oe_kanban_card oe_kanban_global_click                         #{ record.alerta_ventana.raw_value == 'vencido' ? 'border-danger' : '' }                         #{ record.alerta_ventana.raw_value == 'proximo' ? 'border-warning' : '' }                         #{ record.stage.raw_value == 'realizada' ? 'border-success' : '' }                         #{ record.stage.raw_value == 'no_realizada' ? 'border-secondary' : '' }">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click                         #{ record.alerta_ventana.raw_value == 'vencido' ? 'border-danger' : '' }                         #{ record.alerta_ventana.raw_value == 'proximo' ? 'border-danger' : '' }                         #{ record.alerta_ventana.raw_value == 'atrasada' ? 'border-warning' : '' }                         #{ record.stage.raw_value == 'realizada' ? 'border-success' : '' }                         #{ record.stage.raw_value == 'no_realizada' ? 'border-secondary' : '' }">
     
                             <!-- Encabezado -->
                             <div class="oe_kanban_content">
@@ -266,7 +266,10 @@
                                 <div class="o_kanban_record_bottom mt-2">
                                     <div class="oe_kanban_bottom_left small">
                                         <span t-if="record.alerta_ventana.raw_value == 'vencido'" class="badge bg-danger">Vencida</span>
-                                        <span t-elif="record.alerta_ventana.raw_value == 'proximo'" class="badge bg-warning text-dark">
+                                        <span t-elif="record.alerta_ventana.raw_value == 'proximo'" class="badge bg-danger">
+                                            ⚠ <t t-esc="record.dias_para_vencer.raw_value"/> días
+                                        </span>
+                                        <span t-elif="record.alerta_ventana.raw_value == 'atrasada'" class="badge bg-warning text-dark">
                                             ⚠ <t t-esc="record.dias_para_vencer.raw_value"/> días
                                         </span>
                                         <span t-else="" class="text-muted">
