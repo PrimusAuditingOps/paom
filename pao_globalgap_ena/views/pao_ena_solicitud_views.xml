@@ -63,7 +63,7 @@
                             <field name="justificacion" readonly="stage != 'candidato'" groups="pao_globalgap_ena.group_ena_calidad"/>
                     </group>
                     <group string="Fechas clave">
-                        <field name="alerta_ventana" widget="badge" decoration-danger="alerta_ventana == 'vencido'" decoration-warning="alerta_ventana == 'proximo'" decoration-success="alerta_ventana == 'ok'"/>
+                        <field name="alerta_ventana" widget="badge" decoration-danger="alerta_ventana in ('vencido', 'proximo')" decoration-warning="alerta_ventana == 'atrasada'" decoration-success="alerta_ventana == 'ok'"/>
                         <field name="fecha_vencimiento" readonly="stage != 'candidato'"/>
                         <field name="inicio_ventana" readonly="1"/>
                         <field name="dias_para_vencer" readonly="1"/>
@@ -189,8 +189,8 @@
                    decoration-info="stage in ('notificada')"
                    decoration-muted="stage == 'candidato'"/>
             <field name="alerta_ventana" widget="badge"
-                   decoration-danger="alerta_ventana == 'vencido'"
-                   decoration-warning="alerta_ventana == 'proximo'"
+                   decoration-danger="alerta_ventana in ('vencido', 'proximo')"
+                   decoration-warning="alerta_ventana == 'atrasada'"
                    decoration-success="alerta_ventana == 'ok'"
                    optional="show"/>
             <field name="fecha_real_ena" optional="show"/>
@@ -247,7 +247,7 @@
                                         </small>
                                     </div>
                                     <div class="o_kanban_record_top_right">
-                                        <field name="alerta_ventana" widget="badge" decoration-danger="alerta_ventana == 'vencido'" decoration-warning="alerta_ventana == 'proximo'" decoration-success="alerta_ventana == 'ok'"/>
+                                        <field name="alerta_ventana" widget="badge" decoration-danger="alerta_ventana in ('vencido', 'proximo')" decoration-warning="alerta_ventana == 'atrasada'" decoration-success="alerta_ventana == 'ok'"/>
                                     </div>
                                 </div>
     
