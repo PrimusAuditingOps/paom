@@ -2,15 +2,19 @@
 <odoo>
 
     <!--
-        Reporte PDF del formulario Crop. NO repite las ~300 preguntas a
-        mano en HTML — recorre la estructura que arma
-        osp.request.get_crop_report_sections() (ver report/osp_crop_report.py),
-        que a su vez sale de report/osp_crop_report_data.py (única fuente
-        de verdad de las preguntas). Si se agrega una pregunta al
-        formulario web, agregarla en osp_crop_report_data.py para que
-        aparezca aquí también.
+        Reporte PDF GENÉRICO — sirve para cualquier tipo de formulario
+        (Crop, Handler, y los que se construyan a futuro). NO repite las
+        preguntas a mano en HTML — recorre la estructura que arma
+        osp.request.get_report_sections() (ver report/osp_report_common.py),
+        que despacha por convención de nombre a get_<technical_code>_report_sections()
+        (ej. get_crop_report_sections(), get_handler_report_sections()), cada
+        uno resuelto contra su propio manifest (osp_<nombre>_report_data.py
+        — única fuente de verdad de las preguntas de ese formulario). Si se
+        agrega una pregunta al formulario web, agregarla en el manifest de
+        ESE formulario para que aparezca aquí también — este template no
+        se toca.
     -->
-    <template id="report_osp_crop_document">
+    <template id="report_osp_document">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <div class="page">
@@ -24,7 +28,7 @@
                     <div class="footer" style="font-size: 10px; color: #666; border-top: 1px solid #ccc; padding-top: 4px;">
                         <div class="row">
                             <div class="col-6 text-start">
-                                Organic System Plan — Crop | Version: <span t-esc="o.form_template_id.version or ''"/>
+                                Organic System Plan — <span t-esc="o.form_template_id.name or ''"/> | Version: <span t-esc="o.form_template_id.version or ''"/>
                             </div>
                             <div class="col-6 text-end">
                                 Page <span class="page"/> of <span class="topage"/>
@@ -36,13 +40,13 @@
                     <div class="article" style="font-size: 12px;">
 
                         <div class="text-center mb-4">
-                            <h2 class="fw-bold text-success mb-0">Crop</h2>
+                            <h2 class="fw-bold text-success mb-0" t-esc="o.form_template_id.name or ''"/>
                             <div class="text-muted">ORGANIC SYSTEM PLAN</div>
                             <div class="text-muted" style="font-size: 11px;">Version: <span t-esc="o.form_template_id.version or ''"/></div>
                             <h4 class="mt-2" t-esc="o.organization_name or o.name"/>
                         </div>
 
-                        <t t-foreach="o.get_crop_report_sections()" t-as="section">
+                        <t t-foreach="o.get_report_sections()" t-as="section">
                             <div style="page-break-inside: avoid;" class="mt-4 mb-2">
                                 <h4 class="fw-bold border-bottom pb-1" t-esc="section['title']"/>
                             </div>
@@ -105,12 +109,12 @@
         </t>
     </template>
 
-    <record id="action_report_osp_crop" model="ir.actions.report">
+    <record id="action_report_osp" model="ir.actions.report">
         <field name="name">Download OSP</field>
         <field name="model">osp.request</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">osp_management.report_osp_crop_document</field>
-        <field name="report_file">osp_management.report_osp_crop_document</field>
+        <field name="report_name">osp_management.report_osp_document</field>
+        <field name="report_file">osp_management.report_osp_document</field>
         <!-- El "/" en "NOP/USDA" rompería el nombre de archivo si no se sanitiza. -->
         <field name="print_report_name">(object.name or 'OSP').replace('/', '-')</field>
         <field name="binding_model_id" ref="model_osp_request"/>

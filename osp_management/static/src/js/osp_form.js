@@ -201,6 +201,45 @@ function initOspForm() {
                 { key: 'method_of_contact', type: 'text', placeholder: 'Method of contact...' },
             ],
         },
+        // ---- Formulario Handler (ver views/osp_form_handler.xml) ----
+        // Claves distintas a las de Crop aunque el concepto se parezca
+        // (ej. "sites"), porque las columnas/JSON keys no son idénticas —
+        // ambos configs conviven en el mismo objeto sin pisarse: initDynTable
+        // hace no-op en la página que no tenga su jsonInput en el DOM.
+        handler_sites: { // 4b
+            jsonInputId: '4b_sites_json', tbodyId: 'handler_sites_tbody', addBtnId: 'btn_add_handler_site',
+            columns: [
+                { key: 'site_id', type: 'text', placeholder: 'Site ID / Name...' },
+                { key: 'site_address', type: 'text', placeholder: 'Site Address...' },
+                { key: 'city_state', type: 'text', placeholder: 'City, State...' },
+                { key: 'zip_code', type: 'text', placeholder: 'Zip...' },
+                { key: 'contact', type: 'text', placeholder: 'Contact Name and Phone Number...' },
+                { key: 'description', type: 'text', placeholder: 'Description of Site activities...' },
+            ],
+        },
+        handler_products: { // 5d
+            jsonInputId: '5d_products_json', tbodyId: 'handler_products_tbody', addBtnId: 'btn_add_handler_product',
+            columns: [
+                { key: 'product', type: 'text', placeholder: 'Product requested for certification...' },
+                { key: 'id_mark', type: 'text', placeholder: 'ID Mark (Labels)...' },
+                { key: 'label_type', type: 'text', placeholder: 'Retail / Non-Retail / Private Label...' },
+                { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
+                { key: 'organic_or_100', type: 'text', placeholder: 'Organic or 100% Organic?...' },
+                { key: 'international_market', type: 'text', placeholder: 'International market...' },
+            ],
+        },
+        handler_inputs: { // 9a
+            jsonInputId: '9a_inputs_json', tbodyId: 'handler_inputs_tbody', addBtnId: 'btn_add_handler_input',
+            columns: [
+                { key: 'input_used_for', type: 'select', options: ['Pest', 'Disease', 'Post-Harvest', 'Sanitizer', 'Other'] },
+                { key: 'brand_name', type: 'text', placeholder: 'Brand Name...' },
+                { key: 'ingredients', type: 'text', placeholder: 'Ingredients...' },
+                { key: 'food_contact', type: 'select', options: ['Y', 'N'] },
+                { key: 'compliance_approval_by', type: 'text', placeholder: 'Compliance approval by...' },
+                { key: 'label_docs_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'restrictions_description', type: 'text', placeholder: 'If product has restrictions...' },
+            ],
+        },
     };
 
     function emptyRowFor(config) {

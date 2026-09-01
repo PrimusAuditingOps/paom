@@ -33,12 +33,16 @@ osp_management/
 ├── views/
 │   ├── osp_menu_views.xml       # Vistas backend (lista/form) para el admin
 │   ├── osp_portal_templates.xml # Lista de formularios del cliente (/my/osp)
-│   ├── osp_form_crop.xml        # EL FORMULARIO "CROP" COMPLETO (QWeb) — body compartido + wrappers portal/público
+│   ├── osp_form_crop.xml        # FORMULARIO "CROP" (QWeb) — body compartido + wrappers portal/público
+│   ├── osp_form_handler.xml     # FORMULARIO "HANDLER" (QWeb) — mismo patrón que Crop
 │   └── osp_public_templates.xml # Pantalla de "Gracias" del formulario público
 ├── report/
-│   ├── osp_crop_report_data.py  # Única fuente de verdad de las ~300 preguntas del PDF (sección, key, label, tipo)
-│   ├── osp_crop_report.py       # osp.request.get_crop_report_sections() — resuelve form_data contra ese manifest
-│   └── osp_report_templates.xml # Template QWeb genérico del PDF + ir.actions.report
+│   ├── osp_report_common.py       # MOTOR GENÉRICO: _resolve_report_sections() + get_report_sections() (despacha por technical_code)
+│   ├── osp_crop_report_data.py    # Manifest de las ~300 preguntas del PDF de Crop (sección, key, label, tipo)
+│   ├── osp_crop_report.py         # get_crop_report_sections() — una línea, llama al motor común
+│   ├── osp_handler_report_data.py # Manifest de las preguntas del PDF de Handler
+│   ├── osp_handler_report.py      # get_handler_report_sections() — una línea, llama al motor común
+│   └── osp_report_templates.xml   # Template QWeb GENÉRICO del PDF + ir.actions.report (sirve a cualquier formulario)
 └── static/src/
     ├── js/osp_form.js       # Lógica JS del formulario Crop (tablas dinámicas, guardado AJAX/localStorage)
     └── img/primus_logo.png  # Logo de marca (formulario web + encabezado del PDF)
@@ -164,7 +168,7 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 | Formulario | `technical_code` | Estado |
 |---|---|---|
 | Crop | `form_crop` | ✅ Construido (ver `FORM_SPEC_CROP.md`) |
-| Handler | `form_handler` | ⏳ Pendiente (el usuario subirá el PDF/spec después) |
+| Handler | `form_handler` | ✅ Construido (ver `FORM_SPEC_HANDLER.md`, punto 18) |
 | Handler (Trader) | `form_handler_trader` | ⏳ Pendiente |
 | Cultivo | `form_cultivo` | ⏳ Pendiente |
 | Manejo o Proceso | `form_manejo_proceso` | ⏳ Pendiente |
@@ -173,13 +177,12 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 **Checklist completo para construir cada formulario nuevo** (sin tocar los ya construidos):
 
 1. **`FORM_SPEC_<NOMBRE>.md`** — spec de referencia (JSON keys, opciones de selects, condicionales, qué tablas son dinámicas), mismo formato que `FORM_SPEC_CROP.md`. Se arma junto con el usuario a partir del `.docx`/`.md` que comparta (ver punto sobre archivos `.md` más abajo) — **es el documento del que salen tanto el formulario web como los datos del reporte PDF**, para no tener que inventar/adivinar dos veces.
-2. **Formulario web**: template QWeb propio (`views/osp_form_<nombre>.xml`, patrón de `osp_form_crop.xml` — body reutilizable + wrappers portal/público) + su rama en `portal_osp_form`/`portal_osp_form_new` (`controllers/portal.py`) junto a la de `form_crop`.
-3. **Formulario público**: agregar su renglón en `OSPPublicController.PUBLIC_FORM_SLUGS` (slug → technical_code) + su rama en `_render_public_form()` — ver punto 14.
-4. **Reporte PDF** (punto 15, **la funcionalidad de impresión aplica a todos los formularios, no solo Crop**): por cada formulario nuevo hace falta su propio trío, replicando el patrón de Crop —
-   - `report/osp_<nombre>_report_data.py` (su propia lista de secciones/preguntas, sacada del `FORM_SPEC_<NOMBRE>.md`),
-   - un método `get_<nombre>_report_sections()` en `report/osp_<nombre>_report.py` (o agregar una rama condicional dentro de un único método genérico si los tipos de campo coinciden — evaluar en su momento),
-   - su propia `ir.actions.report` + template QWeb (puede reutilizarse el mismo renderizador genérico de `report/osp_report_templates.xml` si se generaliza para recibir "qué método de sección usar" según `technical_code`, en vez de tener un archivo QWeb distinto por formulario — decisión a tomar cuando llegue ese momento).
-   - actualizar el botón "Descargar OSP" (`osp_menu_views.xml`) y el link "PDF" del portal (`osp_portal_templates.xml`) para que apunten al reporte correcto según `technical_code` (hoy están *hardcodeados* a `action_report_osp_crop`/`report_osp_crop_document` — **esto es lo primero que hay que generalizar** cuando se construya el segundo formulario, análogo a como ya se generalizó `PUBLIC_FORM_SLUGS`).
+2. **Formulario web**: template QWeb propio (`views/osp_form_<nombre>.xml`, patrón de `osp_form_crop.xml`/`osp_form_handler.xml` — body reutilizable + wrappers portal/público) + agregar su renglón a los diccionarios `FORM_BODY_TEMPLATES` en `portal_osp_form_new` y `portal_osp_form` (`controllers/portal.py`). Si trae tablas dinámicas, agregar sus configs a `TABLE_CONFIGS` en `osp_form.js` (con claves/ids propios, no reutilizar los de otro formulario aunque el concepto se parezca — ver punto 18).
+3. **Formulario público**: agregar su renglón en `OSPPublicController.PUBLIC_FORM_SLUGS` (slug → technical_code) y en `PUBLIC_BODY_TEMPLATES` (technical_code → xmlid del wrapper público) — ver puntos 14 y 18.
+4. **Reporte PDF** (punto 15/18, **la funcionalidad de impresión aplica a todos los formularios, no solo Crop**, y el motor QWeb ya es 100% genérico — no hace falta tocarlo): por cada formulario nuevo solo hace falta —
+   - `report/osp_<nombre>_report_data.py` (su propio manifest de secciones/preguntas, mismo formato que `CROP_REPORT_SECTIONS`/`HANDLER_REPORT_SECTIONS`, sacado del `FORM_SPEC_<NOMBRE>.md`),
+   - un método de una línea `get_<nombre>_report_sections()` en `report/osp_<nombre>_report.py`, que llame a `self._resolve_report_sections(<NOMBRE>_REPORT_SECTIONS)` (motor común en `report/osp_report_common.py`) — `get_report_sections()` lo descubre solo por convención de nombre a partir del `technical_code`, sin tocar ningún dispatcher.
+   - **Ya NO hace falta** tocar el botón "Descargar OSP" ni el link "PDF" del portal — ambos usan la `ir.actions.report`/template únicos y genéricos (`action_report_osp`/`report_osp_document`), que sirven a cualquier `osp.request` sin importar su `technical_code`.
 
 ## 12. Idioma / traducción (IMPLEMENTADO — 17/ago)
 
@@ -283,17 +286,33 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 - ⚠️ **Casi-incidente ya documentado en el punto 16** (recordatorio): al trabajar en `i18n/` hay que tener cuidado — la carpeta completa desapareció una vez de forma ajena a esta sesión.
 - Versión del manifest: `17.0.1.1.4`.
 
-## 18. Pendientes conocidos
+## 18. Formulario "Handler" implementado + generalización del reporte PDF a multi-formulario (IMPLEMENTADO — 18/ago)
 
-- Plantilla **"Handler"**: el usuario la subirá después — por ahora solo existe "Crop"; otros `technical_code` caen al placeholder genérico sin construir.
-- Los ~18 marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9 de arriba) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
+**Segundo formulario construido** (después de Crop), y primero en probar que la arquitectura generalizaba bien a un formulario nuevo sin tocar el motor genérico. Spec completa en `FORM_SPEC_HANDLER.md` (extraída directo de `Handler.docx`, 15 secciones — más corto que Crop). Decisiones cerradas con el usuario antes de programar (ver el propio FORM_SPEC_HANDLER.md, "Decisiones confirmadas"): State/Country como selects reales (igual que Crop), Sección 7b (Storage) como 4 grupos de campos fijos en vez de tabla, 11c/13d con control Sí/No agregado (el Word no lo traía) + textbox de explicación condicional, campo Date agregado en la Afirmación (Sección 15) aunque el Word no lo pide.
+
+- **`views/osp_form_handler.xml`** (nuevo) — mismo patrón que Crop: `osp_form_handler_body` (contenido real) + dos wrappers delgados (`portal_osp_form_handler` con `portal.portal_layout`, `public_osp_form_handler` con `website.layout`). 15 secciones, 3 tablas dinámicas (`4b_sites_json`, `5d_products_json`, `9a_inputs_json`) y la Sección 7b con 4 grupos de campos fijos armados vía `t-foreach` sobre una lista Python de tuplas `(row_key, row_label, editable_label)` — sin inventar un componente nuevo, cada campo de cada fila fija es un `osp-input` normal con `name="7b_<row_key>_<columna>"`.
+- **`static/src/js/osp_form.js`** — se agregaron 3 entradas a `TABLE_CONFIGS` (`handler_sites`, `handler_products`, `handler_inputs`) con sus propios `jsonInputId`/`tbodyId`/`addBtnId`, distintos de los de Crop aunque el concepto se parezca (ej. "sites") — conviven en el mismo objeto compartido sin pisarse, porque `initDynTable()` hace no-op en cualquier página que no tenga ese `jsonInput` en el DOM. **No hizo falta tocar nada más del motor** (condicionales, cascada país/estado, guardado público/portal, hidratación desde localStorage) — todo ya era genérico por diseño.
+- **`controllers/portal.py`** — los 3 puntos que antes tenían un `if template.technical_code == 'form_crop':` ahora usan un diccionario `FORM_BODY_TEMPLATES`/`PUBLIC_BODY_TEMPLATES` (`technical_code -> xmlid del template QWeb`) en `portal_osp_form_new`, `portal_osp_form` y `OSPPublicController._render_public_form` — agregar un formulario nuevo a futuro es agregar un renglón al diccionario correspondiente, no una rama `if/elif` nueva. `OSPPublicController.PUBLIC_FORM_SLUGS` ya tiene `'handler': 'form_handler'` activo (antes comentado) — liga pública propia: `/osp/public/handler`.
+- **Generalización del reporte PDF** (antes solo existía para Crop, con todo el switch de tipos de campo embebido en `osp_crop_report.py`): se extrajo esa lógica a **`report/osp_report_common.py`** (nuevo) — método `_resolve_report_sections(sections_manifest)`, que recibe cualquier manifest con el mismo formato que `CROP_REPORT_SECTIONS` y lo resuelve contra `self.form_data`. `osp_crop_report.py` quedó reducido a `get_crop_report_sections()` (una línea, llama al motor común con `CROP_REPORT_SECTIONS`), y el nuevo `report/osp_handler_report.py` es análogo con `get_handler_report_sections()` y `HANDLER_REPORT_SECTIONS` (`report/osp_handler_report_data.py`, nuevo).
+  - **Nuevo tipo de campo en el manifest**: `fixed_rows` — para secciones como la 7b de Handler (filas fijas armadas desde varias claves sueltas de `form_data`, no desde un solo blob JSON). Lo resuelve `_report_fixed_rows()` en el motor común, sintetizando una columna extra `__label` con el nombre de cada categoría — el template QWeb del reporte no necesitó ningún cambio porque ya sabía pintar `kind: 'table'` de forma genérica (recorre `field['columns']`/`row.get(col[0], '')`, sin saber qué campo es cuál).
+  - **Despacho automático por convención de nombre**: `get_report_sections()` (en `osp_report_common.py`, es el método que llama el template QWeb) ya no tiene ningún `if technical_code == ...` — toma `form_template_id.technical_code`, le quita el prefijo `form_`, y llama `get_<resto>_report_sections()` vía `getattr`. Agregar un formulario nuevo a futuro (ej. Cultivo, `technical_code='form_cultivo'`) solo requiere que exista un método `get_cultivo_report_sections()` en algún archivo — cero cambios en `osp_report_common.py` ni en el template.
+  - **`report/osp_report_templates.xml`**: el template QWeb y la `ir.actions.report` se renombraron de específicos-de-Crop a genéricos — `report_osp_crop_document` → **`report_osp_document`**, `action_report_osp_crop` → **`action_report_osp`** (el `name` visible ya decía "Download OSP", genérico desde antes). El título/encabezado del PDF ahora usa `o.form_template_id.name` en vez del texto fijo "Crop", y el pie de página arma "Organic System Plan — `<nombre del formulario>` | Version: ...". Se actualizaron las 2 referencias a los xmlids viejos: el botón "Download OSP" en `osp_menu_views.xml` y el link "PDF" del portal en `osp_portal_templates.xml`.
+- **`data/osp_form_template_data.xml`**: no requirió cambios — el registro de catálogo para Handler (`technical_code='form_handler'`) ya estaba sembrado desde antes (ver punto 11).
+- Versión del manifest: `17.0.1.2.0`.
+- **Lección para el próximo formulario** (Cultivo/Manejo o Proceso/Comercializador): el checklist de continuidad del punto 11 sigue vigente, pero ya no hace falta "generalizar el botón Descargar OSP" como se advertía ahí — eso ya se hizo aquí. El trabajo real de cada formulario nuevo se reduce a: su `FORM_SPEC_<NOMBRE>.md`, su `views/osp_form_<nombre>.xml`, sus entradas en `TABLE_CONFIGS` si tiene tablas dinámicas, sus 2 renglones en los diccionarios de `controllers/portal.py`, su renglón en `PUBLIC_FORM_SLUGS`/`PUBLIC_BODY_TEMPLATES`, y su `osp_<nombre>_report_data.py` + `get_<nombre>_report_sections()` de una línea.
+
+## 19. Pendientes conocidos
+
+- Plantillas **"Handler (Trader)"**, **"Cultivo"**, **"Manejo o Proceso"**, **"Comercializador"**: el usuario las subirá después — por ahora existen "Crop" y "Handler"; otros `technical_code` caen al placeholder genérico sin construir.
+- Los marcadores `_attachment_needed` (ver `FORM_SPEC_CROP.md`/`FORM_SPEC_HANDLER.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
 - Embed del iframe admin (punto 7): limpiar el cascarón duplicado del portal dentro del iframe (modo `?embed=1`) — mejora visual, no bloqueante.
 - Notificación al admin (punto 8): solo cubre submits del cliente; no se pidió notificar sobre guardados del propio admin.
 - Formulario público (punto 14): sin protección anti-bot, sin captcha, sin alta automática de portal al vincular cliente — todo por decisión explícita del usuario, no por descuido. Si en el futuro hay abuso real (envíos basura) o se quiere agilizar el alta de portal, ya está identificado qué tocar.
-- Reporte PDF (punto 15): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
-- Backend bilingüe (punto 17): las traducciones tipo `model:X,Y` (menús, acciones, `field_description`, opciones de Selection, nombre de módulo/grupo) probablemente sigan en inglés pase lo que pase, porque `migrations/17.0.1.1.3` las forzó por ORM en todos los idiomas — si el usuario confirma que también las quiere en español, hace falta una migración nueva que las revierta (mismo patrón, con los valores en español).
+- Reporte PDF (puntos 15 y 18): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
+- Backend bilingüe (punto 17): las traducciones tipo `model:X,Y` (menús, acciones, `field_description`, opciones de Selection, nombre de módulo/grupo) probablemente sigan en inglés pase lo que pase, porque `migrations/17.0.1.1.3` las forzó por ORM en todos los idiomas — el usuario confirmó (18/ago) que así está bien, no se pidió una migración reversora.
+- Handler no se probó visualmente contra una instancia real (igual que pasó con Crop la primera vez) — es esperable alguna ronda de ajuste de maquetado/labels tras la primera prueba.
 
-## 19. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 20. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
 - Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).

@@ -67,7 +67,7 @@
                             invisible="review_status == 'pending'"/>
                     <!-- Solo tiene sentido descargar el PDF una vez que el formulario fue
                          enviado por el cliente (antes no hay nada que imprimir todavía). -->
-                    <button name="%(osp_management.action_report_osp_crop)d" string="Download OSP" type="action"
+                    <button name="%(osp_management.action_report_osp)d" string="Download OSP" type="action"
                             invisible="state != 'submitted'"/>
                     <!-- Necesario para que el "invisible" del botón de arriba pueda
                          evaluar "state" — Odoo exige que cualquier campo usado en un

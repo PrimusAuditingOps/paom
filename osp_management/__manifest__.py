@@ -1,6 +1,6 @@
 {
     'name': 'OSP Management',
-    'version': '17.0.1.1.4',
+    'version': '17.0.1.2.0',
     'category': 'Operations/OSP',
     'summary': 'OSP form management for Crop and Handler',
     'description': """
@@ -20,12 +20,13 @@
         'data/osp_service_data.xml',
         'data/osp_form_template_data.xml',
         # report/ ANTES que osp_menu_views.xml: la ficha admin tiene un
-        # botón `type="action"` que referencia `%(osp_management.action_report_osp_crop)d`
+        # botón `type="action"` que referencia `%(osp_management.action_report_osp)d`
         # — ese xmlid debe existir ya al parsear ese botón.
         'report/osp_report_templates.xml',
         'views/osp_menu_views.xml',
         'views/osp_portal_templates.xml',
         'views/osp_form_crop.xml',
+        'views/osp_form_handler.xml',
         'views/osp_public_templates.xml',
     ],
     # --- ASÍ SE REGISTRA EL JAVASCRIPT EN ODOO 17 ---

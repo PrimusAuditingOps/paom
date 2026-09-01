@@ -96,7 +96,7 @@
                                                 <i class="fa fa-trash-o"></i>
                                             </a>
                                             <!-- Solo tiene sentido descargar el PDF una vez enviado -->
-                                            <a t-if="osp.state == 'submitted'" t-attf-href="/report/pdf/osp_management.report_osp_crop_document/#{osp.id}" target="_blank" class="text-decoration-none" style="color: #b02a37;" title="Download PDF">
+                                            <a t-if="osp.state == 'submitted'" t-attf-href="/report/pdf/osp_management.report_osp_document/#{osp.id}" target="_blank" class="text-decoration-none" style="color: #b02a37;" title="Download PDF">
                                                 <i class="fa fa-file-pdf-o"></i> PDF
                                             </a>
                                         </div>

@@ -153,10 +153,18 @@ class OSPPortal(CustomerPortal):
         if not template.exists():
             return request.redirect('/my/osp')
 
-        if template.technical_code == 'form_crop':
+        # Mapa técnico_code -> template QWeb del formulario nuevo (sin
+        # registro creado todavía). Cada formulario nuevo que se construya
+        # (Cultivo, Manejo o Proceso, Comercializador...) solo necesita
+        # agregar su renglón aquí.
+        FORM_BODY_TEMPLATES = {
+            'form_crop': 'osp_management.portal_osp_form_crop',
+            'form_handler': 'osp_management.portal_osp_form_handler',
+        }
+        if template.technical_code in FORM_BODY_TEMPLATES:
             countries = request.env['res.country'].search([], order='name asc')
             states = request.env['res.country.state'].search([], order='name asc')
-            return request.render("osp_management.portal_osp_form_crop", {
+            return request.render(FORM_BODY_TEMPLATES[template.technical_code], {
                 'osp': SimpleNamespace(id=0, form_data={}),
                 'countries': countries,
                 'states': states,
@@ -201,8 +209,14 @@ class OSPPortal(CustomerPortal):
         # CONTEXT.md punto 6 para el detalle de esta decisión.
         readonly = False
 
-        # Si el código técnico es 'form_crop', abrimos la plantilla oficial
-        if record.form_template_id.technical_code == 'form_crop':
+        # Mapa técnico_code -> template QWeb del formulario ya guardado.
+        # Igual que en portal_osp_form_new: agregar aquí cualquier
+        # formulario nuevo que se construya a futuro.
+        FORM_BODY_TEMPLATES = {
+            'form_crop': 'osp_management.portal_osp_form_crop',
+            'form_handler': 'osp_management.portal_osp_form_handler',
+        }
+        if record.form_template_id.technical_code in FORM_BODY_TEMPLATES:
             countries = request.env['res.country'].search([], order='name asc')
             states = request.env['res.country.state'].search([], order='name asc')
             # Adjuntos ya subidos (punto 6): se listan para el cliente (dueño)
@@ -212,7 +226,7 @@ class OSPPortal(CustomerPortal):
                 ('res_model', '=', 'osp.request'),
                 ('res_id', '=', record.id),
             ], order='create_date desc')
-            return request.render("osp_management.portal_osp_form_crop", {
+            return request.render(FORM_BODY_TEMPLATES[record.form_template_id.technical_code], {
                 'osp': record,
                 'countries': countries,
                 'states': states,
@@ -354,20 +368,28 @@ class OSPPublicController(OSPPortal):
 
     # Liga cada URL pública (slug) con el technical_code correspondiente
     # de osp.form.template. Para agregar un formulario público nuevo
-    # (Handler, Cultivo, etc.) cuando ya esté construido:
+    # (Cultivo, Manejo o Proceso, Comercializador, etc.) cuando ya esté
+    # construido:
     #   1. agregar su renglón aquí (slug -> technical_code),
-    #   2. agregar su rama en _render_public_form() más abajo (qué
+    #   2. agregar su renglón en PUBLIC_BODY_TEMPLATES más abajo (qué
     #      template QWeb renderizar).
     # Así cada formulario público queda con su propia liga fija y
     # permanente: /osp/public/crop, /osp/public/handler, etc. — nunca un
     # solo link genérico compartido entre todos.
     PUBLIC_FORM_SLUGS = {
         'crop': 'form_crop',
-        # 'handler': 'form_handler',                     # pendiente de construir
+        'handler': 'form_handler',
         # 'handler-trader': 'form_handler_trader',        # pendiente de construir
         # 'cultivo': 'form_cultivo',                      # pendiente de construir
         # 'manejo-proceso': 'form_manejo_proceso',        # pendiente de construir
         # 'comercializador': 'form_comercializador',      # pendiente de construir
+    }
+
+    # Mapa técnico_code -> template QWeb público. Compartido por
+    # _render_public_form() de abajo.
+    PUBLIC_BODY_TEMPLATES = {
+        'form_crop': 'osp_management.public_osp_form_crop',
+        'form_handler': 'osp_management.public_osp_form_handler',
     }
 
     def _get_public_template(self, technical_code):
@@ -392,8 +414,8 @@ class OSPPublicController(OSPPortal):
             'technical_code': technical_code,
         }
 
-        if technical_code == 'form_crop':
-            return request.render("osp_management.public_osp_form_crop", ctx)
+        if technical_code in self.PUBLIC_BODY_TEMPLATES:
+            return request.render(self.PUBLIC_BODY_TEMPLATES[technical_code], ctx)
 
         # Ningún otro formulario público construido todavía (ver
         # PUBLIC_FORM_SLUGS más arriba).
