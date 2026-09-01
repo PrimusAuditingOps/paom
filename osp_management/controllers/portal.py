@@ -161,6 +161,9 @@ class OSPPortal(CustomerPortal):
             'form_crop': 'osp_management.portal_osp_form_crop',
             'form_handler': 'osp_management.portal_osp_form_handler',
             'form_handler_trader': 'osp_management.portal_osp_form_handler_trader',
+            'form_manejo_proceso': 'osp_management.portal_osp_form_manejo_proceso',
+            'form_comercializador': 'osp_management.portal_osp_form_comercializador',
+            'form_cultivo': 'osp_management.portal_osp_form_cultivo',
         }
         if template.technical_code in FORM_BODY_TEMPLATES:
             countries = request.env['res.country'].search([], order='name asc')
@@ -217,6 +220,9 @@ class OSPPortal(CustomerPortal):
             'form_crop': 'osp_management.portal_osp_form_crop',
             'form_handler': 'osp_management.portal_osp_form_handler',
             'form_handler_trader': 'osp_management.portal_osp_form_handler_trader',
+            'form_manejo_proceso': 'osp_management.portal_osp_form_manejo_proceso',
+            'form_comercializador': 'osp_management.portal_osp_form_comercializador',
+            'form_cultivo': 'osp_management.portal_osp_form_cultivo',
         }
         if record.form_template_id.technical_code in FORM_BODY_TEMPLATES:
             countries = request.env['res.country'].search([], order='name asc')
@@ -382,9 +388,9 @@ class OSPPublicController(OSPPortal):
         'crop': 'form_crop',
         'handler': 'form_handler',
         'handler-trader': 'form_handler_trader',
-        # 'cultivo': 'form_cultivo',                      # pendiente de construir
-        # 'manejo-proceso': 'form_manejo_proceso',        # pendiente de construir
-        # 'comercializador': 'form_comercializador',      # pendiente de construir
+        'manejo-proceso': 'form_manejo_proceso',
+        'comercializador': 'form_comercializador',
+        'cultivo': 'form_cultivo',
     }
 
     # Mapa técnico_code -> template QWeb público. Compartido por
@@ -393,6 +399,9 @@ class OSPPublicController(OSPPortal):
         'form_crop': 'osp_management.public_osp_form_crop',
         'form_handler': 'osp_management.public_osp_form_handler',
         'form_handler_trader': 'osp_management.public_osp_form_handler_trader',
+        'form_manejo_proceso': 'osp_management.public_osp_form_manejo_proceso',
+        'form_comercializador': 'osp_management.public_osp_form_comercializador',
+        'form_cultivo': 'osp_management.public_osp_form_cultivo',
     }
 
     def _get_public_template(self, technical_code):

@@ -260,6 +260,63 @@ function initOspForm() {
                 { key: 'international_market', type: 'text', placeholder: 'International market...' },
             ],
         },
+        // ---- Formulario Manejo o Proceso (ver views/osp_form_manejo_proceso.xml) ----
+        // Formulario nativo en español — los placeholders quedan en
+        // español, pero eso no afecta nada (solo texto de ayuda visual).
+        manejo_sites: { // 4b
+            jsonInputId: '4b_sites_json', tbodyId: 'manejo_sites_tbody', addBtnId: 'btn_add_manejo_site',
+            columns: [
+                { key: 'site_id', type: 'text', placeholder: 'ID/Nombre del sitio...' },
+                { key: 'site_address', type: 'text', placeholder: 'Dirección del sitio...' },
+                { key: 'city_state', type: 'text', placeholder: 'Ciudad, Estado...' },
+                { key: 'zip_code', type: 'text', placeholder: 'Código Postal...' },
+                { key: 'contact', type: 'text', placeholder: 'Nombre y teléfono de contacto...' },
+                { key: 'description', type: 'text', placeholder: 'Descripción de actividades...' },
+            ],
+        },
+        manejo_products: { // 5d
+            jsonInputId: '5d_products_json', tbodyId: 'manejo_products_tbody', addBtnId: 'btn_add_manejo_product',
+            columns: [
+                { key: 'product', type: 'text', placeholder: 'Producto solicitado para certificación...' },
+                { key: 'id_mark', type: 'text', placeholder: 'Marca de Identificación...' },
+                { key: 'label_type', type: 'text', placeholder: 'Minorista / Mayoreo / Etiqueta Privada...' },
+                { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
+                { key: 'organic_or_100', type: 'text', placeholder: 'Orgánico o 100% Orgánico?...' },
+                { key: 'international_market', type: 'text', placeholder: 'Mercados internacionales...' },
+            ],
+        },
+        manejo_inputs: { // 9a
+            jsonInputId: '9a_inputs_json', tbodyId: 'manejo_inputs_tbody', addBtnId: 'btn_add_manejo_input',
+            columns: [
+                { key: 'input_used_for', type: 'select', options: ['Fertilidad', 'Control de Plagas', 'Enfermedades', 'Poscosecha', 'Tratamiento Semilla', 'Tratamiento Perenne'] },
+                { key: 'brand_name', type: 'text', placeholder: 'Marca comercial...' },
+                { key: 'ingredients', type: 'text', placeholder: 'Ingredientes...' },
+                { key: 'food_contact', type: 'select', options: ['Y', 'N'] },
+                { key: 'compliance_approval_by', type: 'text', placeholder: 'Aprobación de conformidad por...' },
+                { key: 'label_docs_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'restrictions_description', type: 'text', placeholder: 'Si tiene restricciones...' },
+            ],
+        },
+        // ---- Formulario Comercializador (ver views/osp_form_comercializador.xml) ----
+        comercializador_sites: { // 4a
+            jsonInputId: '4a_sites_json', tbodyId: 'comercializador_sites_tbody', addBtnId: 'btn_add_comercializador_site',
+            columns: [
+                { key: 'site_id', type: 'text', placeholder: 'ID/Nombre del sitio...' },
+                { key: 'site_address', type: 'text', placeholder: 'Dirección (ciudad, estado, CP)...' },
+                { key: 'contact', type: 'text', placeholder: 'Nombre y teléfono de contacto...' },
+                { key: 'description', type: 'text', placeholder: 'Descripción de actividades...' },
+            ],
+        },
+        comercializador_products: { // 5d
+            jsonInputId: '5d_products_json', tbodyId: 'comercializador_products_tbody', addBtnId: 'btn_add_comercializador_product',
+            columns: [
+                { key: 'product', type: 'text', placeholder: 'Producto solicitado para certificación...' },
+                { key: 'id_mark', type: 'text', placeholder: 'Marca de Identificación...' },
+                { key: 'label_type', type: 'text', placeholder: 'Minorista / Mayoreo / Etiqueta Privada...' },
+                { key: 'organic_or_100', type: 'text', placeholder: 'Orgánico o 100% Orgánico?...' },
+                { key: 'international_market', type: 'text', placeholder: 'Mercados internacionales...' },
+            ],
+        },
     };
 
     function emptyRowFor(config) {

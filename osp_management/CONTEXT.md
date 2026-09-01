@@ -36,16 +36,25 @@ osp_management/
 │   ├── osp_form_crop.xml        # FORMULARIO "CROP" (QWeb) — body compartido + wrappers portal/público
 │   ├── osp_form_handler.xml     # FORMULARIO "HANDLER" (QWeb) — mismo patrón que Crop
 │   ├── osp_form_handler_trader.xml # FORMULARIO "HANDLER (TRADER)" (QWeb) — mismo patrón
+│   ├── osp_form_manejo_proceso.xml # FORMULARIO "MANEJO O PROCESO" (QWeb) — mismo patrón, nativo en español
+│   ├── osp_form_comercializador.xml # FORMULARIO "COMERCIALIZADOR" (QWeb) — mismo patrón, nativo en español
+│   ├── osp_form_cultivo.xml     # FORMULARIO "CULTIVO" (QWeb) — equivalente en español de Crop, reutiliza sus ids de tabla
 │   └── osp_public_templates.xml # Pantalla de "Gracias" del formulario público
 ├── report/
-│   ├── osp_report_common.py            # MOTOR GENÉRICO: _resolve_report_sections() + get_report_sections() (despacha por technical_code)
-│   ├── osp_crop_report_data.py         # Manifest de las ~300 preguntas del PDF de Crop (sección, key, label, tipo)
-│   ├── osp_crop_report.py              # get_crop_report_sections() — una línea, llama al motor común
-│   ├── osp_handler_report_data.py      # Manifest de las preguntas del PDF de Handler
-│   ├── osp_handler_report.py           # get_handler_report_sections() — una línea, llama al motor común
-│   ├── osp_handler_trader_report_data.py # Manifest de las preguntas del PDF de Handler (Trader)
-│   ├── osp_handler_trader_report.py    # get_handler_trader_report_sections() — una línea, llama al motor común
-│   └── osp_report_templates.xml        # Template QWeb GENÉRICO del PDF + ir.actions.report (sirve a cualquier formulario)
+│   ├── osp_report_common.py                # MOTOR GENÉRICO: _resolve_report_sections() + get_report_sections() (despacha por technical_code)
+│   ├── osp_crop_report_data.py             # Manifest de las ~300 preguntas del PDF de Crop (sección, key, label, tipo)
+│   ├── osp_crop_report.py                  # get_crop_report_sections() — una línea, llama al motor común
+│   ├── osp_handler_report_data.py          # Manifest de las preguntas del PDF de Handler
+│   ├── osp_handler_report.py               # get_handler_report_sections() — una línea, llama al motor común
+│   ├── osp_handler_trader_report_data.py   # Manifest de las preguntas del PDF de Handler (Trader)
+│   ├── osp_handler_trader_report.py        # get_handler_trader_report_sections() — una línea, llama al motor común
+│   ├── osp_manejo_proceso_report_data.py   # Manifest de las preguntas del PDF de Manejo o Proceso (labels en español)
+│   ├── osp_manejo_proceso_report.py        # get_manejo_proceso_report_sections() — una línea, llama al motor común
+│   ├── osp_comercializador_report_data.py  # Manifest de las preguntas del PDF de Comercializador (labels en español)
+│   ├── osp_comercializador_report.py       # get_comercializador_report_sections() — una línea, llama al motor común
+│   ├── osp_cultivo_report_data.py          # Manifest de las ~300 preguntas del PDF de Cultivo (labels en español, equivalente de Crop)
+│   ├── osp_cultivo_report.py               # get_cultivo_report_sections() — una línea, llama al motor común
+│   └── osp_report_templates.xml            # Template QWeb GENÉRICO del PDF + ir.actions.report (sirve a cualquier formulario)
 └── static/src/
     ├── js/osp_form.js       # Lógica JS del formulario Crop (tablas dinámicas, guardado AJAX/localStorage)
     └── img/primus_logo.png  # Logo de marca (formulario web + encabezado del PDF)
@@ -172,10 +181,10 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 |---|---|---|
 | Crop | `form_crop` | ✅ Construido (ver `FORM_SPEC_CROP.md`) |
 | Handler | `form_handler` | ✅ Construido (ver `FORM_SPEC_HANDLER.md`, punto 18) |
-| Handler (Trader) | `form_handler_trader` | ✅ Construido (ver `FORM_SPEC_HANDLER_TRADER.md`, punto 21) |
-| Cultivo | `form_cultivo` | ⏳ Pendiente |
-| Manejo o Proceso | `form_manejo_proceso` | ⏳ Pendiente |
-| Comercializador | `form_comercializador` | ⏳ Pendiente |
+| Handler (Trader) | `form_handler_trader` | ✅ Construido (ver `FORM_SPEC_HANDLER_TRADER.md`, punto 19) |
+| Manejo o Proceso | `form_manejo_proceso` | ✅ Construido (ver `FORM_SPEC_MANEJO_PROCESO.md`, punto 22) — **primer formulario nativo en español** |
+| Comercializador | `form_comercializador` | ✅ Construido (ver `FORM_SPEC_COMERCIALIZADOR.md`, punto 23) — equivalente en español de Handler (Trader) |
+| Cultivo | `form_cultivo` | ✅ Construido (ver `FORM_SPEC_CULTIVO.md`, punto 24) — equivalente en español de Crop — **catálogo completo, 6/6** |
 
 **Checklist completo para construir cada formulario nuevo** (sin tocar los ya construidos):
 
@@ -318,16 +327,48 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 
 ## 20. Pendientes conocidos
 
-- Plantillas **"Cultivo"**, **"Manejo o Proceso"**, **"Comercializador"**: el usuario las subirá después — por ahora existen "Crop", "Handler" y "Handler (Trader)"; otros `technical_code` caen al placeholder genérico sin construir.
+- **Catálogo de formularios completo (6/6)**: Crop, Handler, Handler (Trader), Manejo o Proceso, Comercializador y Cultivo. Cualquier `technical_code` futuro fuera de estos 6 cae al placeholder genérico sin construir.
 - Los marcadores `_attachment_needed` (ver `FORM_SPEC_*.md`) siguen siendo solo checkboxes informativos por pregunta — la subida real de archivos (punto 9) es general (una sola sección "Attachments"), no está ligada campo por campo a esos marcadores. Si se necesita adjuntar un archivo específico a una pregunta puntual, habría que extender esto.
 - Embed del iframe admin (punto 7): limpiar el cascarón duplicado del portal dentro del iframe (modo `?embed=1`) — mejora visual, no bloqueante.
 - Notificación al admin (punto 8): solo cubre submits del cliente; no se pidió notificar sobre guardados del propio admin.
 - Formulario público (punto 14): sin protección anti-bot, sin captcha, sin alta automática de portal al vincular cliente — todo por decisión explícita del usuario, no por descuido. Si en el futuro hay abuso real (envíos basura) o se quiere agilizar el alta de portal, ya está identificado qué tocar.
-- Reporte PDF (puntos 15, 18, 19): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
+- Reporte PDF (puntos 15, 18, 19, 22, 23, 24): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
 - Backend bilingüe (punto 17): las traducciones tipo `model:X,Y` (menús, acciones, `field_description`, opciones de Selection, nombre de módulo/grupo) probablemente sigan en inglés pase lo que pase, porque `migrations/17.0.1.1.3` las forzó por ORM en todos los idiomas — el usuario confirmó (18/ago) que así está bien, no se pidió una migración reversora.
-- Handler (Trader) no se probó visualmente contra una instancia real todavía — es esperable alguna ronda de ajuste de maquetado/labels tras la primera prueba (como pasó con Crop y con Handler).
+- Manejo o Proceso, Comercializador y Cultivo no se probaron visualmente contra una instancia real todavía — es esperable alguna ronda de ajuste de maquetado/labels tras la primera prueba (como pasó con los formularios anteriores).
 
-## 21. Cómo pedir ayuda de forma efectiva sobre este proyecto
+## 22. Formulario "Manejo o Proceso" implementado — primer formulario nativo en español (IMPLEMENTADO — 18/ago)
+
+**Cuarto formulario construido**, y el primero cuyo idioma fijo es **español** en vez de inglés — coherente con la regla ya establecida ("el cuerpo de un formulario nunca se traduce"): aquí el idioma fijo del documento simplemente es español, tal como viene del Word original (`Manejo o proceso.docx`, 15 secciones, estructura de negocio casi idéntica a Handler). Spec completa en `FORM_SPEC_MANEJO_PROCESO.md`.
+
+- **Regla técnica nueva, importante para cualquier formulario nativo en español a futuro**: los campos Sí/No (`radio_yn`/`radio_yn_na`) usan **valores internos en inglés** (`value="Yes"`/`"No"`/`"N/A"`) aunque la etiqueta visible en pantalla esté en español ("Sí"/"No"). Esto es obligatorio porque el motor de reporte PDF compartido (`report/osp_report_common.py`, constantes `YN_OPTIONS`/`YNNA_OPTIONS`) compara el valor guardado contra esa lista fija en inglés para decidir qué glifo (☐/☑) dibujar junto a cada opción — si se guardara "Sí"/"No" como valor real, el PDF nunca marcaría nada como seleccionado. Los demás tipos de campo (`select`/`checkbox_group` con texto libre, no comparados contra ninguna lista fija) sí guardan el texto en español tal cual, sin este problema — ahí se dejó el valor real en español (ej. `12a_pest_control_responsible` usa `"Interno"`/`"Contratado"` como valores reales, no `"In-house"`/`"Contracted"`).
+- **Ambigüedad real encontrada y resuelta con el usuario**: la pregunta 1s (*"¿Su operación produce o maneja?"*, textualmente idéntica a la de Handler) traía por error el dropdown de opciones de **Crop** (Zona de Cultivo Interior/Exterior/Ambas) en vez de las de Handler (Orgánico y No-Orgánico/Solo Orgánico) — un error de copiado real en el Word fuente. Se le preguntó al usuario cómo proceder; **decisión: usar las opciones de Handler**, asumiendo que el dropdown quedó mal copiado.
+- Otras diferencias de contenido reales vs. Handler (no ambigüedades): la tabla de Insumos (Sección 9) usa el dropdown de 6 opciones de **Crop** (Fertilidad/Control de Plagas/Enfermedades/Poscosecha/Tratamiento Semilla/Tratamiento Perenne), no el de Handler; Control de Plagas (Sección 12) trae una opción extra ("Monitoreo"); la tabla de Productos (Sección 5) sí conserva la columna "¿Empacará con esta etiqueta?" (a diferencia de Trader, que no la tiene); Sección 3 trae una nota extra sobre exportar a Canadá.
+- Se aplicaron sin volver a preguntar las convenciones ya confirmadas en Handler: Sección 7b (Almacén) como 4 grupos de campos fijos, Sí/No agregado en 11c/13d con textbox condicional (el Word no los traía), campo Fecha agregado en la Afirmación (el Word tampoco lo traía), y la corrección silenciosa de un typo de numeración en la Sección 12 (el Word decía solo "12." entre 12b y 12d — se normalizó a "12c").
+- **`views/osp_form_manejo_proceso.xml`** (nuevo), **`static/src/js/osp_form.js`** (+3 entradas en `TABLE_CONFIGS`: `manejo_sites`, `manejo_products`, `manejo_inputs`), **`controllers/portal.py`** (`form_manejo_proceso` agregado a los diccionarios de portal y público — liga pública activa: `/osp/public/manejo-proceso`), **`report/osp_manejo_proceso_report_data.py`** + **`report/osp_manejo_proceso_report.py`** (`get_manejo_proceso_report_sections()`) — mismo patrón exacto que los 3 formularios anteriores, cero cambios al motor genérico ni al template del reporte.
+- Versión del manifest: `17.0.1.4.0`.
+
+## 23. Formulario "Comercializador" implementado — equivalente en español de Handler (Trader) (IMPLEMENTADO — 18/ago)
+
+**Quinto formulario construido**, dejando pendiente solo "Cultivo" del catálogo original de 6. Es el equivalente en español de Handler (Trader) — misma nota introductoria ("sin instalación física"), mismas 10 secciones, misma estructura de negocio. Spec completa en `FORM_SPEC_COMERCIALIZADOR.md`.
+
+- **Ambos patrones de ambigüedad ya vistos en Handler (Trader) reaparecieron aquí sin sorpresas**: la letra `1s` tampoco existe en este Word (salta de `1r` a `1t`, igual que Trader) — se respetó tal cual, sin preguntar de nuevo. La Sección 6 repite las letras `6c`-`6f` dos veces (Gestión de Residuos/Energía, y otra vez para Uso de Agua) — se aplicó la misma decisión ya confirmada en Trader: el segundo grupo usa `6g`-`6j` en vez de repetir letras, sin volver a preguntar.
+- **Único punto realmente nuevo, resuelto con el usuario**: la extracción automática de la tabla de Productos (Sección 5d) no permitía confirmar con certeza si "Orgánico o 100%" y "Mercados Internacionales" eran 2 columnas de texto separadas o una sola combinada (limitación de la herramienta de extracción sobre celdas de tabla, no una ambigüedad real del documento). Se le preguntó al usuario; **decisión: 2 campos de texto separados**, igual que Handler (Trader).
+- **`views/osp_form_comercializador.xml`** (nuevo), **`static/src/js/osp_form.js`** (+2 entradas en `TABLE_CONFIGS`: `comercializador_sites`, `comercializador_products`), **`controllers/portal.py`** (`form_comercializador` agregado a los diccionarios de portal y público — liga pública activa: `/osp/public/comercializador`), **`report/osp_comercializador_report_data.py`** + **`report/osp_comercializador_report.py`** (`get_comercializador_report_sections()`) — mismo patrón exacto que los 4 formularios anteriores, cero cambios al motor genérico ni al template del reporte.
+- Versión del manifest: `17.0.1.5.0`.
+- **Estado del catálogo**: 5 de 6 formularios construidos (Crop, Handler, Handler (Trader), Manejo o Proceso, Comercializador). Solo falta **Cultivo** — cuando se construya, la arquitectura ya está 100% probada y generalizada; el trabajo se reduce exactamente al checklist del punto 11.
+
+## 24. Formulario "Cultivo" implementado — sexto y último formulario, catálogo completo (IMPLEMENTADO — 18/ago)
+
+**Sexto y último formulario del catálogo original**, completando el conjunto de 6 (`Crop`, `Handler`, `Handler (Trader)`, `Manejo o Proceso`, `Comercializador`, `Cultivo`). Es el equivalente en español de **Crop**, sección por sección y campo por campo — 20 secciones, 12 tablas dinámicas, el formulario más extenso junto con Crop. Spec completa en `FORM_SPEC_CULTIVO.md`.
+
+- **Reutilización total del motor de tablas de Crop, sin tocar `osp_form.js`**: como las 12 tablas dinámicas de Cultivo tienen exactamente las mismas columnas que las de Crop, `views/osp_form_cultivo.xml` reutiliza literalmente los mismos `id` de tbody/botón/input oculto que `osp_form_crop.xml` (`sites_tbody`, `fields_tbody`, `crops_tbody`, `products_tbody`, `seeds_tbody`, `planting_stock_tbody`, `rotation_tbody`, `inputs_tbody`, `equipment_tbody`, `history_tbody`, `search_record_tbody`, `contacts_tbody`) — las entradas ya existentes en `TABLE_CONFIGS` (creadas para Crop) sirven sin ninguna modificación. Es la primera vez que un formulario nuevo no necesitó ni una sola línea nueva en `osp_form.js`.
+- **Único punto real de ambigüedad, resuelto con el usuario**: en el Word, las casillas de unidades (Acre/Hectárea) de las tablas 4h (Campos) y 4j (Cultivos) aparecen una sola vez a nivel de encabezado de tabla, sugiriendo una sola unidad para toda la tabla — a diferencia de Crop, donde cada fila tiene su propio select de unidades. Se le preguntó al usuario; **decisión: igual que Crop**, cada fila mantiene su propio select (`area_units`, `yield_units`), sin inventar un patrón nuevo.
+- **A diferencia de Manejo o Proceso, aquí SÍ existen `1s` (Tipo de operación) y `1t` (¿Produce o maneja?) como preguntas separadas**, igual que en Crop — no hay el error de copiado de dropdown que sí tenía Manejo o Proceso. Se corrigió en silencio un residuo de texto sin traducir encontrado en el Word (pregunta 16k, que venía en inglés).
+- **`views/osp_form_cultivo.xml`** (nuevo, ~2100 líneas, construido sección por sección traduciendo el texto real de `Cultivo.docx` y reutilizando cada JSON key de Crop), **`controllers/portal.py`** (`form_cultivo` agregado a los diccionarios de portal y público — liga pública activa: `/osp/public/cultivo`), **`report/osp_cultivo_report_data.py`** + **`report/osp_cultivo_report.py`** (`get_cultivo_report_sections()`, mismas keys/tipos/columnas que `CROP_REPORT_SECTIONS`, solo con labels en español) — mismo patrón que los 5 formularios anteriores, cero cambios al motor genérico del reporte ni al template QWeb.
+- Versión del manifest: `17.0.1.6.0`.
+- **Catálogo completo: 6/6 formularios construidos.** La arquitectura general (motor de tablas dinámicas, reporte PDF genérico dirigido por datos, canal público por diccionario, portal/admin compartido, i18n de la plataforma vs. formularios en idioma fijo) quedó validada en los 6 tipos de documento distintos que existían en el catálogo original de Primus Auditing Ops.
+
+## 25. Cómo pedir ayuda de forma efectiva sobre este proyecto
 
 - Este es un módulo de Odoo 17, desplegado vía **Odoo.sh** (rama de staging llamada `test`).
 - Al reportar un bug del formulario, lo más útil es: captura de pantalla + **contenido de la consola del navegador** (F12 → Console), ya que varios bugs reales no lanzan errores rojos, solo dejan de ejecutar código silenciosamente (ver punto 10.2).

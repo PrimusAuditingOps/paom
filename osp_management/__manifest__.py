@@ -1,6 +1,6 @@
 {
     'name': 'OSP Management',
-    'version': '17.0.1.3.0',
+    'version': '17.0.1.6.0',
     'category': 'Operations/OSP',
     'summary': 'OSP form management for Crop and Handler',
     'description': """
@@ -28,6 +28,9 @@
         'views/osp_form_crop.xml',
         'views/osp_form_handler.xml',
         'views/osp_form_handler_trader.xml',
+        'views/osp_form_manejo_proceso.xml',
+        'views/osp_form_comercializador.xml',
+        'views/osp_form_cultivo.xml',
         'views/osp_public_templates.xml',
     ],
     # --- ASÍ SE REGISTRA EL JAVASCRIPT EN ODOO 17 ---
