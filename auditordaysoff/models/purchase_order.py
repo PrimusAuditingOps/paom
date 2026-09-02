@@ -238,7 +238,7 @@ class PurchaseOrder(models.Model):
                 current_user = self.env.user
                 all_same_user = all(order.user_id == rec.user_id for order in conflicting_orders)
 
-                if current_user.id != 20 and not all_same_user:
+                if current_user.id not in (20, 149) and not all_same_user:
                     raise ValidationError(_(
                         "The selected vendor has service conflicts with other purchase orders, please select a different one:\n%s"
                     ) % "\n".join(conflicting_msgs))

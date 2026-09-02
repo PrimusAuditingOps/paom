@@ -19,6 +19,17 @@ class ApplyExchangeRateOrderLinesWizard(models.TransientModel):
         res['undo_action'] = self.env.context.get('undo_action', False)
         return res
     
+    can_edit_exchange_rate = fields.Boolean(
+        compute='_compute_can_edit_exchange_rate'
+    )
+
+    @api.depends_context('uid')
+    def _compute_can_edit_exchange_rate(self):
+        for wizard in self:
+            wizard.can_edit_exchange_rate = self.env.user.has_group(
+                'account.group_account_manager'
+            )
+    
     @api.onchange('currency_id')
     def _onchange_currency_id(self):
         if self.currency_id:
