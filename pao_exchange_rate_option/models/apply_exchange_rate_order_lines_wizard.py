@@ -7,7 +7,7 @@ class ApplyExchangeRateOrderLinesWizard(models.TransientModel):
     
     order_id = fields.Many2one('purchase.order', string="Purchase Order", required=True)
     
-    exchange_rate_lines_value = fields.Float(string="Exchange Rate", copy=False)
+    exchange_rate_lines_value = fields.Float(string="Exchange Rate", default=None, required=True, copy=False)
     
     currency_id = fields.Many2one('res.currency')
     
@@ -18,17 +18,6 @@ class ApplyExchangeRateOrderLinesWizard(models.TransientModel):
         res = super().default_get(fields_list)
         res['undo_action'] = self.env.context.get('undo_action', False)
         return res
-    
-    can_edit_exchange_rate = fields.Boolean(
-        compute='_compute_can_edit_exchange_rate'
-    )
-
-    @api.depends_context('uid')
-    def _compute_can_edit_exchange_rate(self):
-        for wizard in self:
-            wizard.can_edit_exchange_rate = self.env.user.has_group(
-                'account.group_account_manager'
-            )
     
     @api.onchange('currency_id')
     def _onchange_currency_id(self):

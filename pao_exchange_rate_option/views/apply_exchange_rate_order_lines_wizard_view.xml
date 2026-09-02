@@ -9,8 +9,8 @@
                 <group>
                     <group>
                         <field name="currency_id" required="1" options="{'no_quick_create': True, 'no_create_edit' : True}" invisible="context.get('undo_action') == True"/>
-                        <field name="exchange_rate_lines_value" required="1" invisible="context.get('undo_action') == True" readonly="not can_edit_exchange_rate"/>
-                        <field name="can_edit_exchange_rate" invisible="1"/>
+                        <field name="exchange_rate_lines_value" required="not context.get('undo_action')" invisible="context.get('undo_action')" groups="account.group_account_manager" force_save="1"/>
+                        <field name="exchange_rate_lines_value" required="not context.get('undo_action')" invisible="context.get('undo_action')" groups="!account.group_account_manager" readonly="1" force_save="1"/>
                     </group>
                 </group>
                 <div invisible="context.get('undo_action') == False">
