@@ -7,7 +7,7 @@ class ApplyExchangeRateOrderLinesWizard(models.TransientModel):
     
     order_id = fields.Many2one('purchase.order', string="Purchase Order", required=True)
     
-    exchange_rate_lines_value = fields.Float(string="Exchange Rate", default=None, required=True, copy=False)
+    exchange_rate_lines_value = fields.Float(string="Exchange Rate", copy=False)
     
     currency_id = fields.Many2one('res.currency')
     
