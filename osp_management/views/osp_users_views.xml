@@ -10,7 +10,10 @@
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='login']" position="after">
-                <field name="osp_portal_only" invisible="not share"/>
+                <div class="o_row" invisible="not share">
+                    <field name="osp_portal_only"/>
+                    <label for="osp_portal_only" string="Limited to Organic System Plans"/>
+                </div>
             </xpath>
         </field>
     </record>
