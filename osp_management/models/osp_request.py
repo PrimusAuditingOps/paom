@@ -22,6 +22,21 @@ class OSPRequest(models.Model):
     organization_name = fields.Char(string='Organization', tracking=True)
     dba_name = fields.Char(string='DBA name', tracking=True)
 
+    # --- COMPAÑÍA (multi-compañía) ---
+    # Se asigna automáticamente al crearse el registro, tomada del sitio web
+    # (Website > Company) por el que el cliente entró a llenar el formulario
+    # — ver controllers/portal.py (portal_save_osp_new y public_osp_submit).
+    # No depende de qué compañía tenga seleccionada el administrador. Los
+    # registros creados antes de que este campo existiera quedan con
+    # company_id vacío: por convención de Odoo, un company_id vacío es
+    # visible para cualquier compañía (ver osp_request_company_rule en
+    # security/osp_security.xml), así que no hace falta backfill manual.
+    company_id = fields.Many2one('res.company', string='Company', tracking=True,
+                                 default=lambda self: self.env.company,
+                                 help="Automatically set from the website the customer submitted the "
+                                      "form through. Used to scope which OSP Administrators (when "
+                                      "restricted to specific companies) can see this record.")
+
     # --- DIRECCIÓN ---
     street = fields.Char(string='Address')
     city = fields.Char(string='City')

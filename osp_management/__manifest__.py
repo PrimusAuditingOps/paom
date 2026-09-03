@@ -1,6 +1,6 @@
 {
     'name': 'OSP Management',
-    'version': '17.0.1.6.0',
+    'version': '17.0.1.7.0',
     'category': 'Operations/OSP',
     'summary': 'OSP form management for Crop and Handler',
     'description': """
@@ -24,6 +24,7 @@
         # — ese xmlid debe existir ya al parsear ese botón.
         'report/osp_report_templates.xml',
         'views/osp_menu_views.xml',
+        'views/osp_users_views.xml',
         'views/osp_portal_templates.xml',
         'views/osp_form_crop.xml',
         'views/osp_form_handler.xml',

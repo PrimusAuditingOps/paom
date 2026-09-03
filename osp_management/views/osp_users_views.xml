@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Expone osp_portal_only en la ficha de Usuario (Ajustes > Usuarios y
+         Compañías > Usuarios). Solo tiene sentido para usuarios de portal
+         (share = True) — en un usuario interno queda oculto, porque no
+         aplica: el ocultamiento de /my es exclusivamente para portal. -->
+    <record id="view_users_form_osp_portal_only" model="ir.ui.view">
+        <field name="name">res.users.form.osp.portal.only</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='login']" position="after">
+                <field name="osp_portal_only" invisible="not share"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

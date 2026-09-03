@@ -312,6 +312,9 @@ class OSPPortal(CustomerPortal):
             'form_template_id': int(template_id),
             'state': 'draft',
             'form_data': form_data,
+            # Compañía tomada del sitio web por el que entró (multi-compañía
+            # — ver CONTEXT.md y el campo company_id en osp_request.py).
+            'company_id': request.website.company_id.id if request.website else False,
         })
 
         if is_submit:
@@ -466,6 +469,9 @@ class OSPPublicController(OSPPortal):
             'form_template_id': template.id,
             'state': 'draft',
             'form_data': form_data,
+            # Compañía tomada del sitio web por el que entró (multi-compañía
+            # — ver CONTEXT.md y el campo company_id en osp_request.py).
+            'company_id': request.website.company_id.id if request.website else False,
         })
         self._do_public_submit(record, form_data)
 

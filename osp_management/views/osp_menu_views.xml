@@ -12,6 +12,7 @@
                 <field name="service_id" optional="show"/>
                 <field name="form_template_id" optional="show"/>
                 <field name="partner_id" optional="show"/>
+                <field name="company_id" optional="show" groups="base.group_multi_company"/>
                 <field name="organization_name" optional="show"/>
                 <field name="dba_name" optional="show"/>
                 <field name="city" optional="show"/>
@@ -39,6 +40,7 @@
                 <field name="partner_id"/>
                 <field name="app_azas"/>
                 <field name="audit_azas"/>
+                <field name="company_id" groups="base.group_multi_company"/>
 
                 <filter string="Pending Review" name="filter_pending" domain="[('review_status', '=', 'pending')]"/>
                 <filter string="Reviewed (Done)" name="filter_done" domain="[('review_status', '=', 'done')]"/>
@@ -50,6 +52,7 @@
                     <filter string="Form Type" name="group_type" context="{'group_by':'form_template_id'}"/>
                     <filter string="Review Status" name="group_review" context="{'group_by':'review_status'}"/>
                     <filter string="Country" name="group_country" context="{'group_by':'country_id'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
                 </group>
             </search>
         </field>
@@ -117,6 +120,7 @@
                         <group string="Internal References">
                             <field name="app_azas"/>
                             <field name="audit_azas"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
                             <field name="create_date" string="External Creation Date" readonly="1"/>
                             <field name="write_date" string="Last Updated" readonly="1"/>
                         </group>

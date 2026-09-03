@@ -6,8 +6,8 @@
         <!-- En Odoo 17, el contenedor principal de los documentos se llama o_portal_docs, 
              PERO para evitar errores, inyectamos en portal_docs o directamente al final -->
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
-            
-            <div class="o_portal_category row mb-3">
+
+            <div id="portal_osp_category" class="o_portal_category row mb-3">
                 <div class="col-12 col-md-6 mb-3">
                     <a href="/my/osp" class="list-group-item list-group-item-action d-flex align-items-center border-0 rounded p-3 h-100" style="background-color: #f3f4f6; text-decoration: none;">
                         <div class="me-3" style="color: #28a745;">
@@ -20,7 +20,24 @@
                     </a>
                 </div>
             </div>
-            
+
+            <!-- Usuario de portal marcado como "solo OSP"
+                 (res.users.osp_portal_only): se ocultan TODAS las demás
+                 tarjetas que ya se hayan inyectado en este mismo
+                 contenedor o_portal_docs (nativas de Odoo — Ventas,
+                 Facturación, etc. — o de cualquier módulo personalizado),
+                 dejando visible únicamente la de arriba. Un solo punto de
+                 intervención a nivel del contenedor compartido: no
+                 requiere conocer ni tocar el código de cada app individual
+                 (ver CONTEXT.md). Esto es solo ocultamiento de navegación,
+                 no una restricción de acceso real — decisión confirmada
+                 con el usuario. -->
+            <t t-if="request.env.user.osp_portal_only">
+                <style>
+                    .o_portal_docs > *:not(#portal_osp_category) { display: none !important; }
+                </style>
+            </t>
+
         </xpath>
     </template>
 
