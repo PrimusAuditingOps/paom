@@ -41,7 +41,7 @@
                         <t t-esc="state.drivingRoute.error"/>
                     </span>
                 </div>
-                <div class="d-flex flex-grow-1" style="min-height: 500px;">
+                <div class="d-flex" style="height: 48vh;">
                     <div t-ref="mapContainer" class="flex-grow-1"/>
                     <div class="pao_site_plot_legend p-2 border-start" style="width: 260px; overflow-y: auto;">
                         <h6>Sitios</h6>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="p-2 border-top">
+                <div class="p-2 border-top" style="height: 34vh; overflow-y: auto;">
                     <h6>Servicios estimados</h6>
                     <div class="table-responsive">
                         <table class="table table-sm table-bordered align-middle" style="font-size:12px;">
