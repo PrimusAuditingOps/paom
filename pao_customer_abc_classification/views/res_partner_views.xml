@@ -6,9 +6,7 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <field name="category_id" position="after">
-                <field name="categoria_abc_id" invisible="not is_company"/>
-                <field name="abc_sales_amount" invisible="not is_company or not categoria_abc_id" readonly="1"/>
-                <field name="abc_season" invisible="not is_company or not categoria_abc_id" readonly="1"/>
+                <field name="categoria_abc_id" invisible="not is_company or company_id != 1"/>
             </field>
         </field>
     </record>
@@ -19,7 +17,8 @@
         <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
             <field name="country_id" position="after">
-                <field name="categoria_abc_id" optional="show" invisible="not is_company"/>
+                <field name="company_id" column_invisible="1"/>
+                <field name="categoria_abc_id" optional="show" invisible="not is_company or company_id != 1"/>
             </field>
         </field>
     </record>

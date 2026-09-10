@@ -6,9 +6,8 @@
         <field name="inherit_id" ref="comisionpromotores.comisionpromotores_view_form"/>
         <field name="arch" type="xml">
             <field name="scheme_ids" position="after">
-                <field name="categoria_abc_id"/>
-                <field name="abc_sales_amount" readonly="1"/>
-                <field name="abc_season" readonly="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="categoria_abc_id" invisible="company_id != 1"/>
             </field>
         </field>
     </record>
@@ -19,7 +18,8 @@
         <field name="inherit_id" ref="comisionpromotores.comisionpromotores_promotores_view_tree"/>
         <field name="arch" type="xml">
             <field name="porcentaje" position="after">
-                <field name="categoria_abc_id" optional="show"/>
+                <field name="company_id" column_invisible="1"/>
+                <field name="categoria_abc_id" optional="show" invisible="company_id != 1"/>
             </field>
         </field>
     </record>
