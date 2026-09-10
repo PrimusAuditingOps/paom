@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_abc_classification" model="ir.ui.view">
+        <field name="name">res.partner.form.abc.classification</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="categoria_abc_id" invisible="not is_company"/>
+                <field name="abc_sales_amount" invisible="not is_company or not categoria_abc_id" readonly="1"/>
+                <field name="abc_season" invisible="not is_company or not categoria_abc_id" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_abc_classification" model="ir.ui.view">
+        <field name="name">res.partner.tree.abc.classification</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="country_id" position="after">
+                <field name="categoria_abc_id" optional="show" invisible="not is_company"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_res_partner_filter_abc_classification" model="ir.ui.view">
+        <field name="name">res.partner.search.abc.classification</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <group name="group_by" position="inside">
+                <filter string="Categoría ABC" name="groupby_categoria_abc" context="{'group_by': 'categoria_abc_id'}"/>
+            </group>
+        </field>
+    </record>
+</odoo>

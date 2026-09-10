@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="pao_abc_category_c" model="pao.abc.category">
+        <field name="name">C</field>
+        <field name="amount_from">0.01</field>
+        <field name="amount_to">3500</field>
+        <field name="color">1</field>
+    </record>
+    <record id="pao_abc_category_b" model="pao.abc.category">
+        <field name="name">B</field>
+        <field name="amount_from">3500</field>
+        <field name="amount_to">10000</field>
+        <field name="color">3</field>
+    </record>
+    <record id="pao_abc_category_a" model="pao.abc.category">
+        <field name="name">A</field>
+        <field name="amount_from">10000</field>
+        <field name="amount_to">25000</field>
+        <field name="color">4</field>
+    </record>
+    <record id="pao_abc_category_aa" model="pao.abc.category">
+        <field name="name">AA</field>
+        <field name="amount_from">25000</field>
+        <field name="amount_to">50000</field>
+        <field name="color">5</field>
+    </record>
+    <record id="pao_abc_category_aaa" model="pao.abc.category">
+        <field name="name">AAA</field>
+        <field name="amount_from">50000</field>
+        <field name="amount_to">0</field>
+        <field name="color">10</field>
+    </record>
+</odoo>
