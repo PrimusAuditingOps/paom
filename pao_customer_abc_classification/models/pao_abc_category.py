@@ -9,6 +9,10 @@ from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
+# La categorización ABC solo aplica a los contactos/grupos/promotores de
+# esta compañía.
+TARGET_COMPANY_ID = 1
+
 
 class PaoAbcCategory(models.Model):
     _name = 'pao.abc.category'
@@ -66,6 +70,7 @@ class PaoAbcCategory(models.Model):
             ('product_tmpl_id.can_be_commissionable', '=', True),
             ('invoice_date', '>=', season_start),
             ('invoice_date', '<=', season_end),
+            ('company_id', '=', TARGET_COMPANY_ID),
         ]
         groups = self.env['sales.invoicing.report'].read_group(
             domain, ['usd_untaxed_total:sum'], [groupby_field]
@@ -103,8 +108,15 @@ class PaoAbcCategory(models.Model):
         prev_end = season_start - timedelta(days=1)
         season_label = '%s-%s' % (prev_start.year, season_start.year)
 
+        def _own_company(customers):
+            return customers.filtered(
+                lambda p: p.is_company and p.company_id.id == TARGET_COMPANY_ID
+            )
+
         # 1) Grupos
-        groups = self.env['customergroups.group'].search([])
+        groups = self.env['customergroups.group'].search([
+            ('company_id', '=', TARGET_COMPANY_ID),
+        ])
         group_sales = self._sum_usd_by(
             'group_id', groups.ids, prev_start, prev_end
         )
@@ -118,11 +130,13 @@ class PaoAbcCategory(models.Model):
             }
             group.write(values)
             self._write_customers_one_by_one(
-                group.customer_ids.filtered('is_company'), values
+                _own_company(group.customer_ids), values
             )
 
         # 2) Promotores
-        promotores = self.env['comisionpromotores.promotor'].search([])
+        promotores = self.env['comisionpromotores.promotor'].search([
+            ('company_id', '=', TARGET_COMPANY_ID),
+        ])
         promotor_sales = self._sum_usd_by(
             'promotor_id', promotores.ids, prev_start, prev_end
         )
@@ -136,7 +150,7 @@ class PaoAbcCategory(models.Model):
             }
             promotor.write(values)
             self._write_customers_one_by_one(
-                promotor.cliente_id.filtered('is_company'), values
+                _own_company(promotor.cliente_id), values
             )
 
         # 3) Clientes sin grupo ni promotor: categorización individual
@@ -144,6 +158,7 @@ class PaoAbcCategory(models.Model):
             ('is_company', '=', True),
             ('cgg_group_id', '=', False),
             ('promotor_id', '=', False),
+            ('company_id', '=', TARGET_COMPANY_ID),
         ])
         individual_sales = self._sum_usd_by(
             'partner_id', individuals.ids, prev_start, prev_end
