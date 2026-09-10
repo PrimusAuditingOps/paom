@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pao_abc_category_view_tree" model="ir.ui.view">
+        <field name="name">pao.abc.category.view.tree</field>
+        <field name="model">pao.abc.category</field>
+        <field name="arch" type="xml">
+            <tree string="Categorías ABC" editable="bottom">
+                <field name="name"/>
+                <field name="amount_from"/>
+                <field name="amount_to"/>
+                <field name="color" widget="color_picker" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pao_abc_category_view_form" model="ir.ui.view">
+        <field name="name">pao.abc.category.view.form</field>
+        <field name="model">pao.abc.category</field>
+        <field name="arch" type="xml">
+            <form string="Categoría ABC">
+                <sheet>
+                    <group col="2">
+                        <field name="name"/>
+                        <field name="amount_from"/>
+                        <field name="amount_to"/>
+                        <field name="color" widget="color_picker"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pao_abc_category_action" model="ir.actions.act_window">
+        <field name="name">Categorías ABC</field>
+        <field name="res_model">pao.abc.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crea el primer rango de Categoría ABC</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_pao_abc_category"
+            name="Categorías ABC"
+            parent="sale.sale_order_menu"
+            action="pao_abc_category_action"
+            sequence="102"/>
+</odoo>

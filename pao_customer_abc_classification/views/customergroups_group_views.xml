@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="customergroups_view_form_abc" model="ir.ui.view">
+        <field name="name">customergroups.group.view.form.abc</field>
+        <field name="model">customergroups.group</field>
+        <field name="inherit_id" ref="customergroups.customergroups_view_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="company_id" invisible="1"/>
+                <field name="categoria_abc_id" invisible="company_id != 1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="customergroups_group_view_tree_abc" model="ir.ui.view">
+        <field name="name">customergroups.group.view.tree.abc</field>
+        <field name="model">customergroups.group</field>
+        <field name="inherit_id" ref="customergroups.customergroups_group_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="company_id" column_invisible="1"/>
+                <field name="categoria_abc_id" optional="show" invisible="company_id != 1"/>
+            </field>
+        </field>
+    </record>
+</odoo>
