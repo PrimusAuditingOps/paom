@@ -75,6 +75,20 @@ class PaoAbcCategory(models.Model):
             for g in groups if g[groupby_field]
         }
 
+    def _write_customers_one_by_one(self, customers, values):
+        """Escribe registro por registro (no en lote): varios módulos de
+        terceros/enterprise instalados (p.ej. referenciasbancarias) tienen
+        constraints en res.partner que asumen un solo registro (ensure_one)
+        y truenan si se les hace write() sobre un recordset múltiple."""
+        for customer in customers:
+            try:
+                customer.write(values)
+            except Exception:  # noqa: BLE001
+                _logger.exception(
+                    'Error al escribir la Categoría ABC en el cliente %s (id %s)',
+                    customer.display_name, customer.id,
+                )
+
     @api.model
     def cron_recompute_abc_categories(self):
         """1) Categoriza cada Grupo y sus clientes por las ventas del grupo.
@@ -103,7 +117,9 @@ class PaoAbcCategory(models.Model):
                 'abc_season': season_label,
             }
             group.write(values)
-            group.customer_ids.filtered('is_company').write(values)
+            self._write_customers_one_by_one(
+                group.customer_ids.filtered('is_company'), values
+            )
 
         # 2) Promotores
         promotores = self.env['comisionpromotores.promotor'].search([])
@@ -119,7 +135,9 @@ class PaoAbcCategory(models.Model):
                 'abc_season': season_label,
             }
             promotor.write(values)
-            promotor.cliente_id.filtered('is_company').write(values)
+            self._write_customers_one_by_one(
+                promotor.cliente_id.filtered('is_company'), values
+            )
 
         # 3) Clientes sin grupo ni promotor: categorización individual
         individuals = partner_model.search([
@@ -133,7 +151,7 @@ class PaoAbcCategory(models.Model):
         for partner in individuals:
             amount = individual_sales.get(partner.id, 0.0)
             category = self._get_category_for_amount(amount)
-            partner.write({
+            self._write_customers_one_by_one(partner, {
                 'categoria_abc_id': category.id,
                 'abc_sales_amount': amount,
                 'abc_season': season_label,
