@@ -25,4 +25,4 @@ class OSPFormTemplate(models.Model):
         required=True,
         help="Unique code (e.g. form_crop, form_handler) that tells the portal which web page to load."
     )
-    active = fields.Boolean(default=True)
+    active = fields.Boolean(default=True) 
