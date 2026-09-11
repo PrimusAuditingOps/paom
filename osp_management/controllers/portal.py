@@ -1,9 +1,16 @@
 import base64
+import logging
 from types import SimpleNamespace
+
+import requests
 
 from odoo import http, _
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 from odoo.http import request
+
+_logger = logging.getLogger(__name__)
+
+TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 
 class OSPPortal(CustomerPortal):
 
@@ -182,6 +189,11 @@ class OSPPortal(CustomerPortal):
                 'new_service_id': int(service_id) if service_id else 0,
                 'new_template_id': int(template_id),
                 'technical_code': template.technical_code,
+                # No aplica en portal autenticado (el widget de Turnstile
+                # solo se inyecta en modo público, ver osp_form.js) — se
+                # pasa vacío únicamente para que la plantilla nunca
+                # referencie una variable no definida.
+                'turnstile_site_key': '',
             })
 
         # Otros formularios aún no construidos: se muestra el mismo
@@ -249,6 +261,9 @@ class OSPPortal(CustomerPortal):
                 'new_service_id': 0,
                 'new_template_id': 0,
                 'technical_code': record.form_template_id.technical_code,
+                # No aplica en portal autenticado (ver nota equivalente en
+                # portal_osp_form_new).
+                'turnstile_site_key': '',
             })
 
         # Para otros formularios aún no construidos:
@@ -427,6 +442,12 @@ class OSPPublicController(OSPPortal):
             'new_service_id': 0,
             'new_template_id': 0,
             'technical_code': technical_code,
+            # Llave pública de Cloudflare Turnstile (Ajustes > OSP Management
+            # > Public Form Protection). Vacía si el administrador todavía no
+            # la configuró — en ese caso osp_form.js simplemente no inyecta
+            # el widget, sin romper nada.
+            'turnstile_site_key': request.env['ir.config_parameter'].sudo().get_param(
+                'osp_management.turnstile_site_key', ''),
         }
 
         if technical_code in self.PUBLIC_BODY_TEMPLATES:
@@ -435,6 +456,32 @@ class OSPPublicController(OSPPortal):
         # Ningún otro formulario público construido todavía (ver
         # PUBLIC_FORM_SLUGS más arriba).
         return request.redirect('/')
+
+    # Verifica el token de Cloudflare Turnstile contra su endpoint,
+    # server-side, ANTES de crear cualquier registro. Si el administrador
+    # todavía no configuró la Secret Key (Ajustes > OSP Management), la
+    # verificación se omite por completo — el formulario público sigue
+    # funcionando normal mientras se termina de configurar Turnstile, en vez
+    # de romperse en silencio. Si Cloudflare no responde (timeout, caído),
+    # también se deja pasar: no queremos bloquear a un cliente real por una
+    # falla de un tercero.
+    def _verify_turnstile(self, token):
+        secret = request.env['ir.config_parameter'].sudo().get_param(
+            'osp_management.turnstile_secret_key')
+        if not secret:
+            return True
+        if not token:
+            return False
+        try:
+            resp = requests.post(TURNSTILE_VERIFY_URL, data={
+                'secret': secret,
+                'response': token,
+                'remoteip': request.httprequest.remote_addr,
+            }, timeout=5)
+            return bool(resp.json().get('success'))
+        except Exception:
+            _logger.warning("OSP: Turnstile verification request failed, letting the submission through.", exc_info=True)
+            return True
 
     # A. PANTALLA DEL FORMULARIO PÚBLICO (sin registro creado todavía,
     # igual que /my/osp/form/new pero sin requerir login). Una sola ruta
@@ -459,10 +506,13 @@ class OSPPublicController(OSPPortal):
     # window.OSP_TECHNICAL_CODE) para saber a qué plantilla pertenece;
     # por compatibilidad, si no llega, asume Crop.
     @http.route(['/osp/public/submit'], type='json', auth="public", methods=['POST'], website=True)
-    def public_osp_submit(self, form_data, technical_code='form_crop', **kw):
+    def public_osp_submit(self, form_data, technical_code='form_crop', turnstile_token=None, **kw):
         template = self._get_public_template(technical_code)
         if not template:
             return {'success': False}
+
+        if not self._verify_turnstile(turnstile_token):
+            return {'success': False, 'error': 'human_verification_failed'}
 
         record = request.env['osp.request'].sudo().create({
             'service_id': template.service_id.id,

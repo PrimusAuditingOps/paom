@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Nuevo bloque de app dentro de Ajustes Generales (mismo patrón que
+         cualquier módulo que agrega su propia pestaña de configuración).
+         div.settings es el contenedor estable de base_setup donde todas
+         las apps inyectan su propio app_settings_block. -->
+    <record id="res_config_settings_view_form_osp" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.osp</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="OSP Management" string="OSP Management"
+                     data-key="osp_management" groups="osp_management.group_osp_administrator">
+                    <h2>Public Form Protection</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="osp_turnstile_site_key" string="Cloudflare Turnstile — Site Key"/>
+                                <div class="text-muted">
+                                    Public key. Shown in the browser of anyone filling out a public OSP form
+                                    (no login). Safe to expose.
+                                </div>
+                                <field name="osp_turnstile_site_key" class="o_light_label" placeholder="0x4AAAAAAA..."/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="osp_turnstile_secret_key" string="Cloudflare Turnstile — Secret Key"/>
+                                <div class="text-muted">
+                                    Private key. Used server-side to verify each submission is human. Never
+                                    exposed in the page HTML. Leave empty to disable the anti-bot check.
+                                </div>
+                                <field name="osp_turnstile_secret_key" password="True" class="o_light_label" placeholder="0x4AAAAAAA..."/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -88,6 +88,7 @@
                             window.OSP_PUBLIC_MODE = <t t-esc="'true' if is_public else 'false'"/>;
                             window.OSP_CSRF_TOKEN = "<t t-esc="request.csrf_token()"/>";
                             window.OSP_TECHNICAL_CODE = "<t t-esc="technical_code"/>";
+                            window.OSP_TURNSTILE_SITE_KEY = "<t t-esc="turnstile_site_key or ''"/>";
                         </script>
 
                         <div class="tab-content bg-white p-4 rounded-3 shadow-sm">

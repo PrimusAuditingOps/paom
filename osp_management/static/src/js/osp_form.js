@@ -18,11 +18,26 @@ function initOspForm() {
     // en controllers/portal.py).
     const PUBLIC_MODE = !!window.OSP_PUBLIC_MODE;
     const TECHNICAL_CODE = window.OSP_TECHNICAL_CODE || 'form_crop';
+    // Verificación anti-bot (Cloudflare Turnstile) — solo aplica al
+    // navegante público (PUBLIC_MODE), nunca a un cliente de portal ya
+    // logueado. Vacío si el administrador todavía no configuró la Site Key
+    // en Ajustes > OSP Management: en ese caso simplemente no se inyecta
+    // ningún widget, el formulario sigue funcionando igual que antes.
+    const TURNSTILE_SITE_KEY = window.OSP_TURNSTILE_SITE_KEY || '';
     // Con el código técnico en la llave, cada tipo de formulario público
     // (Crop, y a futuro Handler, Cultivo, etc.) guarda su propio avance
     // en localStorage sin pisar el de otro si el navegante llena más de
     // uno en el mismo navegador.
     const PUBLIC_STORAGE_KEY = 'osp_public_draft_' + TECHNICAL_CODE;
+
+    // Widget de Cloudflare Turnstile: se inyecta ya, al cargar la página
+    // (no hasta que el visitante haga clic en Submit), para que Turnstile
+    // tenga tiempo de correr su verificación en segundo plano (modo
+    // "Managed") ANTES de que el token se necesite. Ver savePublicForm()
+    // más abajo, donde se lee el resultado con turnstile.getResponse().
+    if (PUBLIC_MODE && TURNSTILE_SITE_KEY) {
+        initTurnstileWidget(TURNSTILE_SITE_KEY);
+    }
 
     const ospIdInput = document.querySelector('input[name="osp_id"]');
     if (!ospIdInput) return;
@@ -555,6 +570,35 @@ function initOspForm() {
     }
 
     // ============================================================
+    // CLOUDFLARE TURNSTILE — verificación de que quien envía el formulario
+    // público es humano. Carga el script oficial de Cloudflare una sola
+    // vez, e inserta el contenedor del widget justo antes del botón de
+    // Submit (#btn_submit_osp) — Cloudflare detecta ese <div class="cf-
+    // turnstile"> automáticamente y lo renderiza solo, sin más código
+    // nuestro. La verificación real (contra el token que esto genera)
+    // ocurre server-side en controllers/portal.py (_verify_turnstile).
+    // ============================================================
+    function initTurnstileWidget(siteKey) {
+        if (!document.getElementById('cf-turnstile-script')) {
+            const script = document.createElement('script');
+            script.id = 'cf-turnstile-script';
+            script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+
+        const submitBtn = document.getElementById('btn_submit_osp');
+        if (submitBtn && !document.getElementById('osp_turnstile_widget')) {
+            const wrap = document.createElement('div');
+            wrap.id = 'osp_turnstile_widget';
+            wrap.className = 'cf-turnstile mb-3';
+            wrap.setAttribute('data-sitekey', siteKey);
+            submitBtn.parentNode.insertBefore(wrap, submitBtn);
+        }
+    }
+
+    // ============================================================
     // GUARDADO DEL NAVEGANTE PÚBLICO: "Save progress" nunca pega al
     // servidor — se guarda solo en localStorage. El único momento en que
     // se habla con Odoo es en el Submit final (POST a /osp/public/submit,
@@ -566,6 +610,24 @@ function initOspForm() {
     function savePublicForm(isSubmit) {
         const statusText = document.getElementById('save_status');
         const finalData = gatherFormData();
+
+        // El widget de Turnstile solo importa en el Submit final — el
+        // "Save progress" nunca toca el servidor (ver comentario arriba),
+        // así que no tiene sentido bloquearlo por esto.
+        if (isSubmit && TURNSTILE_SITE_KEY) {
+            const token = window.turnstile ? window.turnstile.getResponse() : '';
+            if (!token) {
+                const msg = 'Please wait a moment for the security check to finish, then try again.';
+                if (statusText) {
+                    statusText.style.display = 'inline';
+                    statusText.innerText = msg;
+                    statusText.classList.replace('text-muted', 'text-danger');
+                } else {
+                    alert(msg);
+                }
+                return;
+            }
+        }
 
         if (!isSubmit) {
             try {
@@ -597,7 +659,11 @@ function initOspForm() {
             body: JSON.stringify({
                 jsonrpc: "2.0",
                 method: "call",
-                params: { form_data: finalData, technical_code: TECHNICAL_CODE }
+                params: {
+                    form_data: finalData,
+                    technical_code: TECHNICAL_CODE,
+                    turnstile_token: (TURNSTILE_SITE_KEY && window.turnstile) ? window.turnstile.getResponse() : ''
+                }
             })
         }).then(res => res.json())
           .then(data => {
