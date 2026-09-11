@@ -133,6 +133,7 @@ class PaoSalesCommission(models.Model):
             ('pending_approval', 'Pending Approval'),
             ('approved', 'Approved'),
             ('not_approved', 'Not Approved'),
+            ('processed', 'Processed'),
             ('under_review', 'Under Review'),
         ],
         string='State', default='pending_invoicing', tracking=True,
@@ -150,7 +151,7 @@ class PaoSalesCommission(models.Model):
     # States where a human is actively handling the commission (mid-review,
     # already decided, or flagged) — the cron must not silently change
     # amounts or state under them anymore.
-    _FROZEN_STATES = ('pending_approval', 'approved', 'not_approved', 'under_review')
+    _FROZEN_STATES = ('pending_approval', 'approved', 'not_approved', 'processed', 'under_review')
 
     _sql_constraints = [
         ('sale_order_uniq', 'unique(sale_order_id)',
@@ -252,6 +253,27 @@ class PaoSalesCommission(models.Model):
             rec._close_approval_activities('Commission not approved.')
         return True
 
+    def action_mark_processed(self):
+        """Botón de Finanzas: marca como procesada una comisión Aprobada de
+        un vendedor/coordinador (no externo — esos pasan a "Procesado"
+        automáticamente al generarles la orden de compra)."""
+        self._check_user_in_group(
+            'group_pao_sales_finance_commission', 'mark commissions as processed'
+        )
+        for rec in self:
+            if rec.state != 'approved':
+                raise UserError(
+                    'Only commissions "Approved" can be marked as processed.'
+                )
+            if rec.promotor_type == 'external':
+                raise UserError(
+                    'Commissions from an External commission agent are '
+                    'marked as processed automatically when their '
+                    'purchase order is generated, not with this button.'
+                )
+            rec.state = 'processed'
+        return True
+
     def _close_approval_activities(self, feedback):
         self.ensure_one()
         todo_type = self.env.ref(
@@ -326,7 +348,10 @@ class PaoSalesCommission(models.Model):
                 'date_planned': fields.Datetime.now(),
             })],
         })
-        self.write({'purchase_order_id': purchase_order.id})
+        self.write({
+            'purchase_order_id': purchase_order.id,
+            'state': 'processed',
+        })
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'purchase.order',
@@ -379,7 +404,7 @@ class PaoSalesCommission(models.Model):
         records = self.search([
             ('state', 'in', (
                 'pending_service', 'submit_for_approval',
-                'pending_approval', 'approved',
+                'pending_approval', 'approved', 'processed',
             )),
         ])
         for rec in records:
@@ -591,7 +616,7 @@ class PaoSalesCommission(models.Model):
             problem, reason = True, 'The quote/sale was cancelled.'
 
         if not problem and self.promotor_type == 'coordination' and \
-                self.state in ('submit_for_approval', 'pending_approval', 'approved'):
+                self.state in ('submit_for_approval', 'pending_approval', 'approved', 'processed'):
             # Si ya se había marcado servicio realizado, pero la orden de
             # compra que lo sustentaba fue cancelada después, se re-valida.
             done, _fecha = self._check_service_performed(sale)

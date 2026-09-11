@@ -29,6 +29,10 @@
               parent="menu_pao_sales_commission_commissions"
               action="action_pao_sales_commission_not_approved" sequence="50"/>
 
+    <menuitem id="menu_pao_sales_commission_processed" name="Processed"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_processed" sequence="55"/>
+
     <menuitem id="menu_pao_sales_commission_under_review" name="Under Review"
               parent="menu_pao_sales_commission_commissions"
               action="action_pao_sales_commission_under_review" sequence="60"/>

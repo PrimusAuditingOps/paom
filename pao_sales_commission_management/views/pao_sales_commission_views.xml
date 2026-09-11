@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree string="Commissions" decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
                   decoration-warning="state in ('pending_service', 'pending_approval')"
-                  decoration-success="state == 'approved'"
+                  decoration-success="state in ('approved', 'processed')"
                   decoration-danger="state in ('under_review', 'not_approved')">
                 <field name="name"/>
                 <field name="sale_order_id"/>
@@ -23,7 +23,7 @@
                 <field name="state" widget="badge"
                        decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
                        decoration-warning="state in ('pending_service', 'pending_approval')"
-                       decoration-success="state == 'approved'"
+                       decoration-success="state in ('approved', 'processed')"
                        decoration-danger="state in ('under_review', 'not_approved')"/>
             </tree>
         </field>
@@ -37,7 +37,7 @@
                 <header>
                     <button name="action_recalculate" type="object"
                             string="Recalculate" class="btn-secondary"
-                            invisible="state in ('pending_approval', 'approved', 'not_approved', 'under_review')"/>
+                            invisible="state in ('pending_approval', 'approved', 'not_approved', 'processed', 'under_review')"/>
                     <button name="action_submit_for_approval" type="object"
                             string="Submit for Approval" class="btn-primary"
                             invisible="state not in ('submit_for_approval', 'not_approved')"
@@ -50,8 +50,12 @@
                             string="Reject" class="btn-secondary"
                             invisible="state != 'pending_approval'"
                             groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
+                    <button name="action_mark_processed" type="object"
+                            string="Mark as Processed" class="btn-primary"
+                            invisible="state != 'approved' or promotor_type == 'external'"
+                            groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
                     <field name="state" widget="statusbar"
-                           statusbar_visible="pending_invoicing,pending_service,submit_for_approval,pending_approval,approved"/>
+                           statusbar_visible="pending_invoicing,pending_service,submit_for_approval,pending_approval,approved,processed"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -72,6 +76,9 @@
                     <widget name="web_ribbon" title="Approved"
                             bg_color="bg-success"
                             invisible="state != 'approved'"/>
+                    <widget name="web_ribbon" title="Processed"
+                            bg_color="bg-success"
+                            invisible="state != 'processed'"/>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1"/></h1>
                     </div>
@@ -104,7 +111,7 @@
                             <field name="product_id" readonly="1"/>
                             <field name="original_product_uom_qty" readonly="1" string="Qty Sold"/>
                             <field name="product_uom_qty" string="Commissionable Qty"
-                                   readonly="parent.state in ('pending_approval', 'approved', 'not_approved', 'under_review')"/>
+                                   readonly="parent.state in ('pending_approval', 'approved', 'not_approved', 'processed', 'under_review')"/>
                             <field name="price_unit" readonly="1"/>
                             <field name="subtotal" readonly="1" sum="Subtotal"/>
                             <field name="organization_id" readonly="1"/>
@@ -156,6 +163,8 @@
                         domain="[('state', '=', 'approved')]"/>
                 <filter string="Not Approved" name="filter_not_approved"
                         domain="[('state', '=', 'not_approved')]"/>
+                <filter string="Processed" name="filter_processed"
+                        domain="[('state', '=', 'processed')]"/>
                 <filter string="Under Review" name="filter_under_review"
                         domain="[('state', '=', 'under_review')]"/>
                 <separator/>
@@ -216,6 +225,13 @@
         <field name="res_model">pao.sales.commission</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('state', '=', 'not_approved')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_processed" model="ir.actions.act_window">
+        <field name="name">Processed</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'processed')]</field>
     </record>
 
     <record id="action_pao_sales_commission_under_review" model="ir.actions.act_window">
