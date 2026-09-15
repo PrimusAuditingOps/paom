@@ -335,10 +335,21 @@ class PaoSalesCommission(models.Model):
                 'the product catalog. Create it first.'
             )
 
+        mxn = self.env['res.currency'].search([('name', '=', 'MXN')], limit=1)
+        if not mxn:
+            mxn = self.env['res.currency'].with_context(
+                active_test=False
+            ).search([('name', '=', 'MXN')], limit=1)
+        if not mxn:
+            raise UserError(
+                'The MXN currency was not found (or is not active) in '
+                'this database.'
+            )
+
         total_mxn = sum(self.mapped('commission_amount_mxn'))
         purchase_order = self.env['purchase.order'].sudo().create({
             'partner_id': promotor.partner_id.id,
-            'currency_id': self[0].currency_mxn_id.id,
+            'currency_id': mxn.id,
             'order_line': [(0, 0, {
                 'product_id': product.id,
                 'name': 'Comisiones Promotores: %s' % ', '.join(self.mapped('name')),
