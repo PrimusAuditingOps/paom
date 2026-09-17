@@ -244,7 +244,7 @@
     <menuitem id="menu_osp_root"
               name="OSP Management"
               web_icon="osp_management,static/description/icon.png"
-              groups="osp_management.group_osp_administrator"
+              groups="osp_management.group_osp_administrator,osp_management.group_osp_user"
               sequence="15"/>
 
     <menuitem id="menu_osp_requests"
@@ -257,7 +257,7 @@
               name="Configuration"
               parent="menu_osp_root"
               sequence="100"
-              groups="group_osp_administrator"/>
+              groups="osp_management.group_osp_administrator"/>
 
     <menuitem id="menu_osp_service"
               name="Services Catalog"
