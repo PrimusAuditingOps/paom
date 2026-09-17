@@ -1,6 +1,6 @@
 {
     'name': 'OSP Management',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.2.0',
     'category': 'Operations/OSP',
     'summary': 'OSP form management for Crop and Handler',
     'description': """
