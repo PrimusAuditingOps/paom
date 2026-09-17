@@ -85,12 +85,18 @@ class PaoSitePlot(models.Model):
     )
     center_lat = fields.Float(string='Latitud', digits=(10, 7))
     center_lng = fields.Float(string='Longitud', digits=(10, 7))
+    travel_time_phu_minutes = fields.Float(
+        string='Distancia PHU (min ida y vuelta)',
+        help='Tiempo de traslado ida y vuelta al PHU, en minutos '
+             '(del formato "Estimación de duración de auditorías GLOBALG.A.P.").',
+    )
     geojson_polygon = fields.Text(string='Polígono (GeoJSON)', copy=False)
     source = fields.Selection(
         selection=[
             ('manual', 'Dibujado manualmente'),
             ('kml_import', 'Importado de KML'),
             ('excel_import', 'Importado de Excel'),
+            ('globalgap_import', 'Importado de formato GLOBALG.A.P.'),
         ],
         string='Origen',
         default='manual',
@@ -160,6 +166,8 @@ class PaoSitePlot(models.Model):
             lines.append(_('Frutos: %s') % self.variety)
         if self.location:
             lines.append(_('Ubicación: %s') % self.location)
+        if self.travel_time_phu_minutes:
+            lines.append(_('Distancia PHU (ida y vuelta): %.0f min') % self.travel_time_phu_minutes)
         lines.append(_('Superficie declarada: %.4f ha') % self.declared_surface_ha)
         lines.append(_('Superficie calculada: %.4f ha') % self.computed_surface_ha)
         lines.append(_('Estado: %s') % state_labels.get(self.state, self.state))

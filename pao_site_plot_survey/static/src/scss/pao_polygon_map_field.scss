@@ -1,6 +1,13 @@
 .pao_polygon_map_wrapper {
     .pao_polygon_map_canvas {
         width: 100%;
-        height: 420px;
+        height: 600px;
     }
+}
+
+// The site form's only real content is this map, so let its sheet use the
+// full window width instead of Odoo's default centered/capped form width -
+// a satellite map needs the extra room to place vertices precisely.
+.o_form_sheet:has(.pao_polygon_map_wrapper) {
+    max-width: 100% !important;
 }
