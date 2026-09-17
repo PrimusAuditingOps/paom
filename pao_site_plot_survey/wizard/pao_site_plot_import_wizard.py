@@ -177,7 +177,15 @@ class PaoSitePlotImportWizard(models.TransientModel):
                 ring = []
                 for pair in coords_el.text.strip().split():
                     parts = pair.split(',')
-                    lng, lat = float(parts[0]), float(parts[1])
+                    # Same tolerant parser as the Excel branch: KML is
+                    # supposed to always use plain decimal degrees, but some
+                    # clients' export tools write degrees/minutes/seconds
+                    # into the coordinates text instead, which a raw float()
+                    # can't handle.
+                    lng = self._parse_coordinate(parts[0])
+                    lat = self._parse_coordinate(parts[1])
+                    if lng is None or lat is None:
+                        raise ValueError(pair)
                     ring.append([lng, lat])
                 rows.append({
                     'name': name,

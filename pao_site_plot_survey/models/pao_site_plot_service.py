@@ -75,10 +75,23 @@ class PaoSitePlotService(models.Model):
             if rec.sale_order_line_id:
                 rec.sale_order_line_id.product_uom_qty = rec.final_qty
             else:
+                # Insert above every existing line - products, section
+                # headers and notes included - by going below their lowest
+                # sequence, instead of the default append-at-the-end.
+                existing_sequences = rec.sale_order_id.order_line.mapped('sequence')
+                sequence = (min(existing_sequences) - 1) if existing_sequences else 10
+
+                site_names = ', '.join(rec.site_ids.mapped('name'))
+                description = rec.product_id.name
+                if site_names:
+                    description = '%s\n%s' % (description, _('Sitios: %s') % site_names)
+
                 line = self.env['sale.order.line'].create({
                     'order_id': rec.sale_order_id.id,
                     'product_id': rec.product_id.id,
                     'product_uom_qty': rec.final_qty,
+                    'sequence': sequence,
+                    'name': description,
                 })
                 rec.sale_order_line_id = line.id
             rec.estimate_source = 'final'

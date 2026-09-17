@@ -56,7 +56,7 @@
                             <field name="sale_order_line_id" column_invisible="1"/>
                             <button name="action_push_to_order_line" type="object"
                                     string="Aplicar a la cotización" icon="fa-arrow-right"
-                                    invisible="not final_qty"/>
+                                    invisible="not final_qty or sale_order_line_id"/>
                         </tree>
                     </field>
                 </page>

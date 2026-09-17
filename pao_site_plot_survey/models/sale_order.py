@@ -76,12 +76,6 @@ class SaleOrder(models.Model):
             raise UserError(_('This quotation has no sites yet.'))
         if not self.qa_user_ids:
             raise UserError(_('Select at least one Usuario QA before sending the sites for review.'))
-        pending = self._pao_pending_site_plots()
-        if pending:
-            raise UserError(
-                _('These sites still have no polygon drawn: %s')
-                % ', '.join(pending.mapped('name'))
-            )
         self.site_plot_ids.write({'state': 'sent_to_calidad'})
 
         self.message_post(
