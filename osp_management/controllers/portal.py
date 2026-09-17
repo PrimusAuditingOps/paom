@@ -607,8 +607,13 @@ class OSPPublicController(OSPPortal):
         if not record.exists() or record.partner_id:
             return request.redirect('/')
 
-        report = request.env.ref('osp_management.action_report_osp').sudo()
-        pdf_content, _report_type = report._render_qweb_pdf(record.ids)
+        # _render_qweb_pdf() se llama sobre el MODELO ir.actions.report,
+        # pasándole el xmlid del reporte como primer argumento — no sobre
+        # el recordset del reporte en sí (ese era el bug: la primera
+        # llamada pasaba record.ids como si fuera la referencia del
+        # reporte, causando un 500 en cada intento de descarga).
+        pdf_content, _report_type = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
+            'osp_management.action_report_osp', record.ids)
         filename = '%s.pdf' % (record.name or 'OSP').replace('"', "'")
         return request.make_response(pdf_content, headers=[
             ('Content-Type', 'application/pdf'),
