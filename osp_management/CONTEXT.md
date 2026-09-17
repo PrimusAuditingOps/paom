@@ -335,6 +335,7 @@ Las respuestas de la Sección 1 (`1a_org_name`, `1b_dba_name`, `1c_address`, `1d
 - Reporte PDF (puntos 15, 18, 19, 22, 23, 24): márgenes/paginación sin probar visualmente; `checkbox_group` no muestra opciones no marcadas; nombres de adjuntos no se listan en el PDF (a propósito).
 - Backend bilingüe (punto 17): las traducciones tipo `model:X,Y` (menús, acciones, `field_description`, opciones de Selection, nombre de módulo/grupo) probablemente sigan en inglés pase lo que pase, porque `migrations/17.0.1.1.3` las forzó por ORM en todos los idiomas — el usuario confirmó (18/ago) que así está bien, no se pidió una migración reversora.
 - Manejo o Proceso, Comercializador y Cultivo no se probaron visualmente contra una instancia real todavía — es esperable alguna ronda de ajuste de maquetado/labels tras la primera prueba (como pasó con los formularios anteriores).
+- **Cerrado (17/sep), no es un bug**: un usuario piloto reportó que la Sección 19 de Crop (sustancia prohibida + tabla "Complete one row per year...") parecía omitida por completo. Se verificó que **sí existe** en el código (Crop y Cultivo por igual) — está condicionada a "Is this field currently certified?" = **No** (si se contesta "Yes" solo se ve una casilla pequeña de adjuntar certificación, y el resto queda oculto). El usuario confirmó con el cliente final que, así como funciona hoy, es correcto — no requiere ningún cambio.
 
 ## 22. Formulario "Manejo o Proceso" implementado — primer formulario nativo en español (IMPLEMENTADO — 18/ago)
 
