@@ -19,6 +19,7 @@ desactualizada.
 Cada entrada: (field_key, texto tal como aparece junto al ícono de clip).
 """
 
+
 ATTACHMENT_MARKERS = {
     'form_crop': [
         ('1l_certificate_attachment_needed', 'Attach a copy of your current State certificate.'),
