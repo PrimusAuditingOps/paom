@@ -23,6 +23,8 @@
                     <div class="oe_button_box mb-2">
                         <button name="%(pao_site_plot_survey.action_pao_site_plot_import_wizard)d"
                                 type="action" string="Importar KML/Excel" class="btn btn-secondary"/>
+                        <button name="%(pao_site_plot_survey.action_pao_site_plot_globalgap_import_wizard)d"
+                                type="action" string="Importar GLOBALG.A.P." class="btn btn-secondary"/>
                         <button name="action_send_sites_to_calidad" type="object"
                                 string="Enviar a Calidad" class="btn btn-primary"
                                 invisible="not site_plot_ids"/>

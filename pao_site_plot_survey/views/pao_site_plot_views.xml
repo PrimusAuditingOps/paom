@@ -26,6 +26,8 @@
                             <field name="surface_variance_pct"/>
                             <field name="center_lat" readonly="1"/>
                             <field name="center_lng" readonly="1"/>
+                            <field name="travel_time_phu_minutes"
+                                   invisible="not travel_time_phu_minutes"/>
                         </group>
                     </group>
                     <notebook>

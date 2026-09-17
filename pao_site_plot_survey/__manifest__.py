@@ -19,6 +19,7 @@
         'security/pao_site_plot_survey_security.xml',
         'security/ir.model.access.csv',
         'wizard/pao_site_plot_import_wizard_views.xml',
+        'wizard/pao_site_plot_globalgap_import_wizard_views.xml',
         'views/pao_site_plot_views.xml',
         'views/pao_site_plot_overview_map_views.xml',
         'views/sale_order_views.xml',
