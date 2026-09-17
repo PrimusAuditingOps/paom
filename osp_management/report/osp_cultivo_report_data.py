@@ -10,7 +10,7 @@ que Crop sin tocar TABLE_CONFIGS en osp_form.js).
 
 CULTIVO_REPORT_SECTIONS = [
     {
-        'title': 'Sección 1: Información General',
+        'title': 'Sección 1: Información General (Regla NOP 205.201 y 205.401)',
         'fields': [
             {'key': '1_applicant_type', 'label': 'Seleccione una opción', 'type': 'text'},
             {'key': '1a_org_name', 'label': '1a. Nombre de la Organización', 'type': 'text'},
@@ -56,7 +56,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 2: Certificación Orgánica Previa y/o No Conformidades',
+        'title': 'Sección 2: Certificación Orgánica Previa y/o No Conformidades (§205.405 (e))',
         'fields': [
             {'key': '2_na', 'label': 'No aplica esta sección a mi operación', 'type': 'checkbox'},
             {'key': '2a_denied_certification', 'label': '2a. ¿Alguna vez se le ha negado, suspendido o revocado la certificación?', 'type': 'yn'},
@@ -79,7 +79,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 4: Cultivos y Campos',
+        'title': 'Sección 4: Cultivos y Campos (205.201 & 205.202 & 205.400(g) & 205.403(a)(2))',
         'fields': [
             {'key': '4a_producer_group', 'label': '4a. ¿Las áreas o sitios forman parte de un grupo de productores?', 'type': 'yn'},
             {'key': '4b_growers_list_attached', 'label': '4b. Lista de productores del grupo adjunta', 'type': 'yn'},
@@ -103,7 +103,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 5: Productos',
+        'title': 'Sección 5: Productos (NOP Rule 205.201(a) & 205.300)',
         'fields': [
             {'key': '5a_marketing_types', 'label': '5a. Tipo de mercado', 'type': 'checkbox_group'},
             {'key': '5a_marketing_other', 'label': 'Especifique', 'type': 'text'},
@@ -115,7 +115,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 6: Recursos Naturales y Biodiversidad',
+        'title': 'Sección 6: Recursos Naturales y Biodiversidad (NOP Rule 205.200, 205.203, 205.202, 205.205, 205.238, 205.240)',
         'fields': [
             {'key': '6a_soil_conservation', 'label': '6a. Prácticas de conservación del suelo', 'type': 'textarea'},
             {'key': '6b_erosion_problems', 'label': '6b. Problemas de erosión de suelo', 'type': 'textarea'},
@@ -139,7 +139,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 7: Requisitos del Terreno',
+        'title': 'Sección 7: Requisitos del Terreno (Norma NOP 205.201(a) and 205.202)',
         'fields': [
             {'key': '7a_field_history_attached', 'label': '7a. Historial del terreno y documentos adjuntos', 'type': 'yn'},
             {'key': '7a_updated_map_attached', 'label': 'Mapas actualizados adjuntos', 'type': 'yn'},
@@ -153,7 +153,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 8: Semillas y Material de Propagación (Anual/Perenne)',
+        'title': 'Sección 8: Semillas y Material de Propagación (Anual/Perenne) (NOP Rule 205.204 & 205.205)',
         'fields': [
             {'key': '8a_na', 'label': 'Esta sección no es aplicable a mi operación', 'type': 'checkbox'},
             {'key': '8a_seeds_json', 'label': '8a. Semillas', 'type': 'table',
@@ -174,7 +174,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 9: Manejo de la Fertilidad de Suelo y Cultivo',
+        'title': 'Sección 9: Manejo de la Fertilidad de Suelo y Cultivo (NOP Rule 205.203 and 205.205)',
         'fields': [
             {'key': '9_general_na', 'label': 'Esta sección no es aplicable a mi operación', 'type': 'checkbox'},
             {'key': '9a_soil_types', 'label': '9a. Tipos de suelo en general', 'type': 'textarea'},
@@ -202,7 +202,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 10: Rotación de Cultivos',
+        'title': 'Sección 10: Rotación de Cultivos (NOP Rule 205.204 & 205.205)',
         'fields': [
             {'key': '10_rotation_json', 'label': 'Planes de Rotación de Cultivos', 'type': 'table',
              'columns': [('rotation_plan', 'Plan de Rotación'), ('increase_organic_matter', 'Materia Orgánica'),
@@ -211,7 +211,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 11: Manejo de Plagas, Malezas y Enfermedades de Cultivos',
+        'title': 'Sección 11: Manejo de Plagas, Malezas y Enfermedades de Cultivos (Norma NOP 205.206)',
         'fields': [
             {'key': '11a_weed_disease_problems', 'label': '11a. Problemas con malezas/enfermedades y métodos de control', 'type': 'textarea'},
             {'key': '11b_restricted_strategy', 'label': '11b. Estrategia restringida utilizada', 'type': 'textarea'},
@@ -227,7 +227,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 12: Mantenimiento de la Integridad Orgánica – Insumos',
+        'title': 'Sección 12: Mantenimiento de la Integridad Orgánica – Insumos (NOP Reg 205.105 & 205.600)',
         'fields': [
             {'key': '12a_inputs_json', 'label': '12a. Insumos', 'type': 'table',
              'columns': [('input_used_for', 'Uso'), ('brand_name', 'Nombre del Producto'), ('ingredients', 'Ingredientes'),
@@ -239,7 +239,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 13: Mantenimiento de la Integridad Orgánica – Áreas de Amortiguamiento y Producción Paralela',
+        'title': 'Sección 13: Mantenimiento de la Integridad Orgánica – Áreas de Amortiguamiento y Producción Paralela (Norma NOP 205.201(a)(5) and 205.202(c))',
         'fields': [
             {'key': '13_buffer_na', 'label': 'Áreas de Amortiguamiento no aplicable', 'type': 'checkbox'},
             {'key': '13a_risk_assessment', 'label': '13a. Frecuencia de evaluación de riesgo y riesgos actuales', 'type': 'textarea'},
@@ -261,7 +261,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 14: Mantenimiento de la Integridad Orgánica – Equipo y Cosecha',
+        'title': 'Sección 14: Mantenimiento de la Integridad Orgánica – Equipo y Cosecha (Norma NOP 205.201(a)(5) and 205.202(c))',
         'fields': [
             {'key': '14_equipment_na', 'label': 'Equipo no aplicable', 'type': 'checkbox'},
             {'key': '14a_equipment_json', 'label': '14a. Equipo', 'type': 'table',
@@ -282,7 +282,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 15: Manejo Post-Cosecha, Almacenamiento y Transporte',
+        'title': 'Sección 15: Manejo Post-Cosecha, Almacenamiento y Transporte (Norma NOP 205.201(A)(5) Y 205.202(c))',
         'fields': [
             {'key': '15_handling_na', 'label': 'Manipulación Post-Cosecha no aplicable', 'type': 'checkbox'},
             {'key': '15a_handling_procedures', 'label': '15a. Procedimientos y equipo de manejo post-cosecha', 'type': 'textarea'},
@@ -323,7 +323,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 16: Sistema de Mantenimiento de Registros',
+        'title': 'Sección 16: Sistema de Mantenimiento de Registros (NOP Rule 205.103 & 205.400)',
         'fields': [
             {'key': '16a_traceback_description', 'label': '16a. Cómo los registros rastrean los productos', 'type': 'textarea'},
             {'key': '16b_lot_system', 'label': '16b. Sistema de lote/numeración', 'type': 'textarea'},
@@ -342,13 +342,13 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 17: Balance de Masas y Trazabilidad',
+        'title': 'Sección 17: Balance de Masas y Trazabilidad (NOP Rule 205.103 & 205.400(g)(8)(9) & 205.403(d)(4)(5))',
         'fields': [
             {'type': 'static', 'text': 'Sin campos — sección informativa que explica las auditorías de trazabilidad y balance de masas realizadas durante la inspección in situ.'},
         ],
     },
     {
-        'title': 'Sección 18: Afirmación',
+        'title': 'Sección 18: Afirmación (Regla NOP 205.406)',
         'fields': [
             {'type': 'static', 'text': 'Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Firma electrónica es aceptada.'},
             {'key': '18_name', 'label': 'Nombre', 'type': 'text'},
@@ -357,7 +357,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 19: Historial de Campo - Declaración Jurada',
+        'title': 'Sección 19: Historial de Campo - Declaración Jurada (Solo para los NUEVOS campos agregados a la solicitud de certificación)',
         'fields': [
             {'type': 'static', 'text': 'Solo para campos NUEVOS agregados a la solicitud de certificación. Complete esta hoja para cada campo que aún no ha sido certificado.'},
             {'key': '19_farm_producer_name', 'label': 'Nombre de la Finca/Productor', 'type': 'text'},

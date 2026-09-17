@@ -127,7 +127,18 @@ class OSPRequest(models.Model):
         self.ensure_one()
         technical_code = self.form_template_id.technical_code
         markers = ATTACHMENT_MARKERS.get(technical_code, [])
-        return [text for field_key, text in markers if self.form_data.get(field_key)]
+        result = []
+        for field_key, text in markers:
+            if not self.form_data.get(field_key):
+                continue
+            # El field_key siempre empieza con el código de la pregunta a
+            # la que pertenece (ej. "2b_certificate_attachment_needed" ->
+            # "2b") — se antepone al texto, mismo criterio que
+            # initAttachmentChecklist() en osp_form.js, para que el
+            # cliente identifique de inmediato a cuál pregunta se refiere.
+            question_code = field_key.split('_')[0]
+            result.append('%s. %s' % (question_code, text))
+        return result
 
     # Acción para abrir los adjuntos
     def action_view_attachments(self):

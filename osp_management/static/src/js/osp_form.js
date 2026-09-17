@@ -884,7 +884,13 @@ function initAttachmentChecklist(technicalCode) {
         checked.forEach(function (input) {
             const label = document.querySelector('label[for="' + input.id + '"]');
             if (!label) return;
-            const text = label.textContent.trim();
+            // El id del checkbox siempre empieza con el código de la
+            // pregunta a la que pertenece (ej. "2b_certificate_attachment_
+            // needed" -> "2b") — se antepone al texto para que el usuario
+            // identifique de inmediato a cuál pregunta se refiere (retro
+            // de usuario piloto).
+            const questionCode = input.id.split('_')[0];
+            const text = questionCode + '. ' + label.textContent.trim();
             const pane = input.closest('.tab-pane');
             const li = document.createElement('li');
             if (pane && pane.id) {

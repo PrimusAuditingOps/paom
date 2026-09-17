@@ -9,7 +9,7 @@ español, equivalente de negocio de Handler (Trader).
 
 COMERCIALIZADOR_REPORT_SECTIONS = [
     {
-        'title': 'Sección 1: Información General',
+        'title': 'Sección 1: Información General (NOP Rule 205.201 and 205.401)',
         'fields': [
             {'key': '1_applicant_type', 'label': 'Seleccione una opción', 'type': 'text'},
             {'key': '1a_org_name', 'label': '1a. Nombre de la Organización', 'type': 'text'},
@@ -54,7 +54,7 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 2: Certificación Orgánica Previa y/o Incumplimientos',
+        'title': 'Sección 2: Certificación Orgánica Previa y/o Incumplimientos (NOP Rule 205.405 (e))',
         'fields': [
             {'key': '2_na', 'label': 'No aplica esta sección a mi operación', 'type': 'checkbox'},
             {'key': '2a_denied_certification', 'label': '2a. ¿Se ha denegado, suspendido o revocado la certificación?', 'type': 'yn'},
@@ -77,7 +77,7 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 4: Información de la Operación',
+        'title': 'Sección 4: Información de la Operación (NOP Rule 205.201 and 205.401)',
         'fields': [
             {'key': '4a_other_sites', 'label': '4a. ¿Gestiona otros sitios?', 'type': 'yn'},
             {'key': '4a_sites_json', 'label': 'Sitios', 'type': 'table',
@@ -91,7 +91,7 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 5: Productos – Para ser Incluidos en el Certificado por Marca de Identificación y Mercado',
+        'title': 'Sección 5: Productos – Para ser Incluidos en el Certificado por Marca de Identificación y Mercado (NOP Rule 205.201(a) & 205.300)',
         'fields': [
             {'key': '5a_marketing_types', 'label': '5a. Tipo de mercado', 'type': 'checkbox_group'},
             {'key': '5a_marketing_other', 'label': 'Especifique', 'type': 'text'},
@@ -103,7 +103,7 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 6: Biodiversidad y Recursos Naturales',
+        'title': 'Sección 6: Biodiversidad y Recursos Naturales (NOP Rule 205.200 & 205.270)',
         'fields': [
             {'key': '6a_biodiversity_program', 'label': '6a. Programa de biodiversidad', 'type': 'textarea'},
             {'key': '6b_natural_resources', 'label': '6b. Recursos naturales dentro/alrededor de la operación', 'type': 'textarea'},
@@ -120,7 +120,7 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 7: Mantenimiento de la Integridad Orgánica',
+        'title': 'Sección 7: Mantenimiento de la Integridad Orgánica (NOP Rule 205.270, 205.272, 205.300, 205.101(b) and 205.605)',
         'fields': [
             {'key': '7_storage_na', 'label': 'Almacenamiento y Transporte — N/A', 'type': 'checkbox'},
             {'key': '7a_storage_operations', 'label': '7a. Operaciones utilizadas para almacenamiento', 'type': 'textarea'},
@@ -145,7 +145,7 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 8: Sistema de Registro',
+        'title': 'Sección 8: Sistema de Registro (NOP Rule 205.103 & 205.400)',
         'fields': [
             {'key': '8a_traceback_description', 'label': '8a. Cómo los registros rastrean el producto (trazabilidad)', 'type': 'textarea'},
             {'key': '8b_lot_tracking', 'label': '8b. Cómo el número de lote/envío vincula el producto con la documentación', 'type': 'textarea'},
@@ -163,13 +163,13 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 9: Trazabilidad y Balance de Masas',
+        'title': 'Sección 9: Trazabilidad y Balance de Masas (NOP Rule 205.103 & 205.400(g)(8)(9))',
         'fields': [
             {'type': 'static', 'text': 'Sin campos — sección informativa que explica las auditorías de trazabilidad y balance de masas realizadas durante la inspección in situ.'},
         ],
     },
     {
-        'title': 'Sección 10: Afirmación',
+        'title': 'Sección 10: Afirmación (NOP Rule 205.406 & 205.403(b))',
         'fields': [
             {'type': 'static', 'text': 'Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Firma electrónica es aceptada.'},
             {'key': '10_name', 'label': 'Nombre del Representante Autorizado', 'type': 'text'},

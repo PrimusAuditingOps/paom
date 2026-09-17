@@ -13,7 +13,7 @@ inglés, igual que en los demás manifests.
 
 MANEJO_PROCESO_REPORT_SECTIONS = [
     {
-        'title': 'Sección 1: Información General',
+        'title': 'Sección 1: Información General (NOP Rule 205.201 and 205.401)',
         'fields': [
             {'key': '1_applicant_type', 'label': 'Seleccione una opción', 'type': 'text'},
             {'key': '1a_org_name', 'label': '1a. Nombre de la Organización', 'type': 'text'},
@@ -58,7 +58,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 2: Certificación Orgánica Previa y/o No Conformidades',
+        'title': 'Sección 2: Certificación Orgánica Previa y/o No Conformidades (NOP Rule 205.405 (e))',
         'fields': [
             {'key': '2_na', 'label': 'No aplica esta sección a mi operación', 'type': 'checkbox'},
             {'key': '2a_denied_certification', 'label': '2a. ¿Alguna vez se le ha negado, suspendido o revocado la certificación?', 'type': 'yn'},
@@ -81,7 +81,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 4: Información de la Instalación y Productos',
+        'title': 'Sección 4: Información de la Instalación y Productos (NOP Rule 205.201 and 205.401)',
         'fields': [
             {'key': '4a_operation_types', 'label': '4a. Tipo de operación (todas las que apliquen)', 'type': 'checkbox_group'},
             {'key': '4a_operation_types_other', 'label': 'Especifique', 'type': 'text'},
@@ -103,7 +103,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 5: Productos – Para ser Incluidos en el Certificado por Marca de Identificación y Mercado',
+        'title': 'Sección 5: Productos – Para ser Incluidos en el Certificado por Marca de Identificación y Mercado (NOP Rule 205.201(a) & 205.300)',
         'fields': [
             {'key': '5a_marketing_types', 'label': '5a. Tipo de mercado', 'type': 'checkbox_group'},
             {'key': '5a_marketing_other', 'label': 'Especifique', 'type': 'text'},
@@ -115,7 +115,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 6: Biodiversidad y Recursos Naturales',
+        'title': 'Sección 6: Biodiversidad y Recursos Naturales (NOP Rule 205.200 & 205.270)',
         'fields': [
             {'key': '6a_biodiversity_program', 'label': '6a. Programa de biodiversidad', 'type': 'textarea'},
             {'key': '6b_natural_resources', 'label': '6b. Recursos naturales dentro/alrededor de la operación', 'type': 'textarea'},
@@ -141,7 +141,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 7: Mantenimiento de la Integridad Orgánica - Almacenamiento y Manejo Post Cosecha',
+        'title': 'Sección 7: Mantenimiento de la Integridad Orgánica - Almacenamiento y Manejo Post Cosecha (NOP Rule 205.270 and 205.272)',
         'fields': [
             {'key': '7a_storage_areas', 'label': '7a. Zonas utilizadas para almacenamiento', 'type': 'textarea'},
             {
@@ -168,7 +168,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 8: Mantenimiento de la Integridad Orgánica – Equipo y Sanitización',
+        'title': 'Sección 8: Mantenimiento de la Integridad Orgánica – Equipo y Sanitización (NOP Rule 205.270, 205.272 and 205.605)',
         'fields': [
             {'key': '8a_equipment_list', 'label': '8a. Equipos utilizados en la operación', 'type': 'textarea'},
             {'key': '8b_equipment_dedicated_organic', 'label': '8b. ¿Todo el equipo dedicado a orgánico?', 'type': 'yn'},
@@ -187,7 +187,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 9: Mantenimiento de la Integridad Orgánica - Insumos',
+        'title': 'Sección 9: Mantenimiento de la Integridad Orgánica - Insumos (NOP Reg 205.105 & 205.600)',
         'fields': [
             {'key': '9a_inputs_json', 'label': '9a. Insumos', 'type': 'table',
              'columns': [('input_used_for', 'Uso'), ('brand_name', 'Marca comercial'), ('ingredients', 'Ingredientes'),
@@ -196,7 +196,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 10: Mantenimiento de la Integridad Orgánica - Transporte',
+        'title': 'Sección 10: Mantenimiento de la Integridad Orgánica - Transporte (NOP Rule 205.270 and 205.272)',
         'fields': [
             {'key': '10a_responsible_for_transport', 'label': '10a. ¿Responsable del transporte?', 'type': 'yn'},
             {'key': '10b_receiving_method', 'label': '10b. Cómo se reciben los productos orgánicos', 'type': 'text'},
@@ -207,7 +207,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 11: Mantenimiento de la Integridad Orgánica - Envasado',
+        'title': 'Sección 11: Mantenimiento de la Integridad Orgánica - Envasado (NOP Rule 205.270, 205.272, 205.300 and 205.605)',
         'fields': [
             {'key': '11_na', 'label': 'No es aplicable a la operación', 'type': 'checkbox'},
             {'key': '11a_packaging_type', 'label': '11a. Tipo de envase/empaque', 'type': 'text'},
@@ -220,7 +220,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 12: Mantenimiento de la Integridad Orgánica – Control de Plagas',
+        'title': 'Sección 12: Mantenimiento de la Integridad Orgánica – Control de Plagas (NOP Rule 205.271)',
         'fields': [
             {'key': '12a_pest_control_responsible', 'label': '12a. Responsable del control de plagas', 'type': 'text'},
             {'key': '12a_contractor_info', 'label': 'Empresa contratada (nombre y número)', 'type': 'text'},
@@ -243,7 +243,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 13: Sistema de Mantenimiento de Registros',
+        'title': 'Sección 13: Sistema de Mantenimiento de Registros (NOP Rule 205.103 & 205.400)',
         'fields': [
             {'key': '13a_traceback_description', 'label': '13a. Cómo los registros rastrean el producto', 'type': 'textarea'},
             {'key': '13b_lot_system', 'label': '13b. Sistema de numeración de lotes', 'type': 'textarea'},
@@ -262,13 +262,13 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 14: Trazabilidad y Balance de Masas',
+        'title': 'Sección 14: Trazabilidad y Balance de Masas (NOP Rule 205.103 & 205.400(g)(8)(9))',
         'fields': [
             {'type': 'static', 'text': 'Sin campos — sección informativa que explica las auditorías de trazabilidad y balance de masas realizadas durante la inspección in situ.'},
         ],
     },
     {
-        'title': 'Sección 15: Afirmación',
+        'title': 'Sección 15: Afirmación (NOP Rule 205.406 & 205.403(b))',
         'fields': [
             {'type': 'static', 'text': 'Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Firma electrónica es aceptada.'},
             {'key': '15_name', 'label': 'Nombre del Representante Autorizado', 'type': 'text'},

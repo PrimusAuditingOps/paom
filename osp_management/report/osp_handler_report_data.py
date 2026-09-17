@@ -16,7 +16,7 @@ osp_report_common.py.
 
 HANDLER_REPORT_SECTIONS = [
     {
-        'title': 'Section 1: General Information',
+        'title': 'Section 1: General Information (NOP Rule 205.201 and 205.401)',
         'fields': [
             {'key': '1_applicant_type', 'label': 'Choose one', 'type': 'text'},
             {'key': '1a_org_name', 'label': '1a. Organization Name', 'type': 'text'},
@@ -61,7 +61,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 2: Prior Organic Certification and/or Noncompliance',
+        'title': 'Section 2: Prior Organic Certification and/or Noncompliance (NOP Rule 205.405 (e))',
         'fields': [
             {'key': '2_na', 'label': 'This section is not applicable to my operation', 'type': 'checkbox'},
             {'key': '2a_denied_certification', 'label': '2a. Has this organization ever been denied certification, suspended or revoked?', 'type': 'yn'},
@@ -84,7 +84,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 4: Facility Information & Products',
+        'title': 'Section 4: Facility Information & Products (NOP Rule 205.201 and 205.401)',
         'fields': [
             {'key': '4a_operation_types', 'label': '4a. Type of operation (select all that apply)', 'type': 'checkbox_group'},
             {'key': '4a_operation_types_other', 'label': 'If other, specify', 'type': 'text'},
@@ -106,7 +106,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 5: Products – To Be Listed on Certificate by ID Mark & Market',
+        'title': 'Section 5: Products – To Be Listed on Certificate by ID Mark & Market (NOP Rule 205.201(a) & 205.300)',
         'fields': [
             {'key': '5a_marketing_types', 'label': '5a. Type of Marketing — select all that apply', 'type': 'checkbox_group'},
             {'key': '5a_marketing_other', 'label': 'If other, specify', 'type': 'text'},
@@ -119,7 +119,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 6: Biodiversity & Natural Resources',
+        'title': 'Section 6: Biodiversity & Natural Resources (NOP Rule 205.200 & 205.270)',
         'fields': [
             {'key': '6a_biodiversity_program', 'label': '6a. Biodiversity program', 'type': 'textarea'},
             {'key': '6b_natural_resources', 'label': '6b. Natural resources within/surrounding the operation', 'type': 'textarea'},
@@ -145,7 +145,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 7: Maintenance of Organic Integrity – Storage & Post Harvest Handling',
+        'title': 'Section 7: Maintenance of Organic Integrity – Storage & Post Harvest Handling (NOP Rule 205.270 and 205.272)',
         'fields': [
             {'key': '7a_storage_areas', 'label': '7a. Areas utilized for storage', 'type': 'textarea'},
             {
@@ -172,7 +172,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 8: Maintenance of Organic Integrity - Equipment and Sanitation',
+        'title': 'Section 8: Maintenance of Organic Integrity - Equipment and Sanitation (NOP Rule 205.270, 205.272 and 205.605)',
         'fields': [
             {'key': '8a_equipment_list', 'label': '8a. Equipment types used in operation', 'type': 'textarea'},
             {'key': '8b_equipment_dedicated_organic', 'label': '8b. Is all equipment dedicated Organic?', 'type': 'yn'},
@@ -191,7 +191,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 9: Maintenance of Organic Integrity – Inputs',
+        'title': 'Section 9: Maintenance of Organic Integrity – Inputs (NOP Reg 205.105 & 205.600)',
         'fields': [
             {'key': '9a_inputs_json', 'label': '9a. Inputs', 'type': 'table',
              'columns': [('input_used_for', 'Used for'), ('brand_name', 'Brand Name'), ('ingredients', 'Ingredients'),
@@ -200,7 +200,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 10: Maintenance of Organic Integrity – Transportation',
+        'title': 'Section 10: Maintenance of Organic Integrity – Transportation (NOP Rule 205.270 and 205.272)',
         'fields': [
             {'key': '10a_responsible_for_transport', 'label': '10a. Responsible for transportation of incoming/outgoing goods?', 'type': 'yn'},
             {'key': '10b_receiving_method', 'label': '10b. How organic products are received', 'type': 'text'},
@@ -211,7 +211,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 11: Maintenance of Organic Integrity – Packaging',
+        'title': 'Section 11: Maintenance of Organic Integrity – Packaging (NOP Rule 205.270, 205.272, 205.300 and 205.605)',
         'fields': [
             {'key': '11_na', 'label': 'This section is not applicable to my operation', 'type': 'checkbox'},
             {'key': '11a_packaging_type', 'label': '11a. Type of packaging used', 'type': 'text'},
@@ -224,7 +224,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 12: Maintenance of Organic Integrity – Pest Management',
+        'title': 'Section 12: Maintenance of Organic Integrity – Pest Management (NOP Rule 205.271)',
         'fields': [
             {'key': '12a_pest_control_responsible', 'label': '12a. Who is responsible for pest control?', 'type': 'text'},
             {'key': '12a_contractor_info', 'label': 'Contractor name & number', 'type': 'text'},
@@ -247,7 +247,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 13: Record-Keeping System',
+        'title': 'Section 13: Record-Keeping System (NOP Rule 205.103 & 205.400)',
         'fields': [
             {'key': '13a_traceback_description', 'label': '13a. How records track products (traceback)', 'type': 'textarea'},
             {'key': '13b_lot_system', 'label': '13b. Lot/numbering system', 'type': 'textarea'},
@@ -266,13 +266,13 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 14: Trace back and Mass Balance',
+        'title': 'Section 14: Trace back and Mass Balance (NOP Rule 205.103 & 205.400(g) (8) (9))',
         'fields': [
             {'type': 'static', 'text': 'No fields — informational section explaining trace-back and mass-balance audits performed during the on-site inspection.'},
         ],
     },
     {
-        'title': 'Section 15: Affirmation',
+        'title': 'Section 15: Affirmation (NOP Rule 205.406 & 205.403(b))',
         'fields': [
             {'type': 'static', 'text': 'I affirm that all statements made in this application are true and correct. No prohibited products have been applied to any of my organically managed fields during the three-year period prior to projected harvest. Electronic signature is accepted.'},
             {'key': '15_name', 'label': 'Name of Person completing this OSP', 'type': 'text'},

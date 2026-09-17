@@ -594,6 +594,27 @@ class OSPPublicController(OSPPortal):
             'attachment_checklist': record.sudo().get_pending_attachment_checklist() if can_upload else [],
         })
 
+    # C2. DESCARGAR EL PDF RECIÉN GENERADO (retro de usuario piloto) — sin
+    # login, solo mientras el registro no tenga cliente asignado (misma
+    # regla exacta que /osp/public/upload de abajo). En cuanto el
+    # Administrador de OSP lo vincula a un contacto, este link se apaga —
+    # a partir de ahí, si ese contacto tiene acceso de portal, el mismo PDF
+    # se descarga desde /my/osp (botón "PDF"), por la ruta normal
+    # autenticada, no esta.
+    @http.route(['/osp/public/pdf/<int:osp_id>'], type='http', auth="public", website=True, sitemap=False)
+    def public_osp_pdf(self, osp_id, **kw):
+        record = request.env['osp.request'].sudo().browse(osp_id)
+        if not record.exists() or record.partner_id:
+            return request.redirect('/')
+
+        report = request.env.ref('osp_management.action_report_osp').sudo()
+        pdf_content, _report_type = report._render_qweb_pdf(record.ids)
+        filename = '%s.pdf' % (record.name or 'OSP').replace('"', "'")
+        return request.make_response(pdf_content, headers=[
+            ('Content-Type', 'application/pdf'),
+            ('Content-Disposition', 'attachment; filename="%s"' % filename),
+        ])
+
     # D. SUBIR ADJUNTOS (navegante público, solo mientras el registro no
     # tenga cliente asignado)
     @http.route(['/osp/public/upload/<int:osp_id>'], type='http', auth="public", methods=['POST'], website=True)

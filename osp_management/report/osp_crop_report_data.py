@@ -28,7 +28,7 @@ también para que aparezca en el PDF.
 
 CROP_REPORT_SECTIONS = [
     {
-        'title': 'Section 1: General Information',
+        'title': 'Section 1: General Information (NOP Rule 205.401)',
         'fields': [
             {'key': '1_applicant_type', 'label': 'Choose one', 'type': 'text'},
             {'key': '1a_org_name', 'label': '1a. Organization Name', 'type': 'text'},
@@ -74,7 +74,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 2: Prior Organic Certification and/or Noncompliance',
+        'title': 'Section 2: Prior Organic Certification and/or Noncompliance (§205.405 (e))',
         'fields': [
             {'key': '2_na', 'label': 'This section is not applicable to my operation', 'type': 'checkbox'},
             {'key': '2a_denied_certification', 'label': '2a. Has this organization ever been denied certification, suspended or revoked?', 'type': 'yn'},
@@ -97,7 +97,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 4: Crops & Fields',
+        'title': 'Section 4: Crops & Fields (205.201 & 205.202 & 205.400(g) & 205.403(a) (2))',
         'fields': [
             {'key': '4a_producer_group', 'label': '4a. Are the requested areas or sites part of a Producer Group?', 'type': 'yn'},
             {'key': '4b_growers_list_attached', 'label': '4b. Attach a list of all growers within the group. Is the Producer Group list attached?', 'type': 'yn'},
@@ -121,7 +121,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 5: Products',
+        'title': 'Section 5: Products (NOP Rule 205.201(a) & 205.300)',
         'fields': [
             {'key': '5a_marketing_types', 'label': '5a. Type of Marketing — Select all that apply', 'type': 'checkbox_group'},
             {'key': '5a_marketing_other', 'label': 'If other, specify', 'type': 'text'},
@@ -133,7 +133,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 6: Biodiversity & Natural Resources',
+        'title': 'Section 6: Biodiversity & Natural Resources (NOP Rule 205.200, 205.203, 205.202, 205.205, 205.238, 205.240)',
         'fields': [
             {'key': '6a_soil_conservation', 'label': '6a. What soil conservation practices are used?', 'type': 'textarea'},
             {'key': '6b_erosion_problems', 'label': '6b. What soil erosion problems do you experience?', 'type': 'textarea'},
@@ -157,7 +157,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 7: Land requirements',
+        'title': 'Section 7: Land requirements (NOP Rule 205.201(a) and 205.202)',
         'fields': [
             {'key': '7a_field_history_attached', 'label': '7a. Field History and supporting documents attached?', 'type': 'yn'},
             {'key': '7a_updated_map_attached', 'label': 'Updated Map attached?', 'type': 'yn'},
@@ -171,7 +171,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 8: Seeds & Planting Stock (Annual / Perennial)',
+        'title': 'Section 8: Seeds & Planting Stock (Annual / Perennial) (NOP Rule 205.204 & 205.205)',
         'fields': [
             {'key': '8a_na', 'label': 'This section is not applicable to my operation', 'type': 'checkbox'},
             {'key': '8a_seeds_json', 'label': '8a. Seeds', 'type': 'table',
@@ -192,7 +192,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 9: Soil and Crop Fertility Management',
+        'title': 'Section 9: Soil and Crop Fertility Management (NOP Rule 205.203 and 205.205)',
         'fields': [
             {'key': '9_general_na', 'label': 'This section is not applicable to my operation', 'type': 'checkbox'},
             {'key': '9a_soil_types', 'label': '9a. General soil types', 'type': 'textarea'},
@@ -220,7 +220,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 10: Crop Rotation',
+        'title': 'Section 10: Crop Rotation (NOP Rule 205.204 & 205.205)',
         'fields': [
             {'key': '10_rotation_json', 'label': 'Crop Rotation Plans', 'type': 'table',
              'columns': [('rotation_plan', 'Rotation Plan'), ('increase_organic_matter', 'Organic Matter'),
@@ -229,7 +229,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 11: Crop pest, weed and disease management',
+        'title': 'Section 11: Crop pest, weed and disease management (NOP Rule 205.206)',
         'fields': [
             {'key': '11a_weed_disease_problems', 'label': '11a. Weed/disease problems and control methods', 'type': 'textarea'},
             {'key': '11b_restricted_strategy', 'label': '11b. Restricted weed/disease management strategy used', 'type': 'textarea'},
@@ -245,7 +245,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 12: Maintenance of Organic Integrity – Inputs',
+        'title': 'Section 12: Maintenance of Organic Integrity – Inputs (NOP Reg 205.105 & 205.600)',
         'fields': [
             {'key': '12a_inputs_json', 'label': '12a. Inputs', 'type': 'table',
              'columns': [('input_used_for', 'Used For'), ('brand_name', 'Brand Name'), ('ingredients', 'Ingredients'),
@@ -257,7 +257,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 13: Maintenance of Organic Integrity – Buffer Areas & Split Production',
+        'title': 'Section 13: Maintenance of Organic Integrity – Buffer Areas & Split Production (NOP Rule 205.201(a) (5) and 205.202(c))',
         'fields': [
             {'key': '13_buffer_na', 'label': 'Buffer Areas section not applicable to my operation', 'type': 'checkbox'},
             {'key': '13a_risk_assessment', 'label': '13a. Frequency of risk assessment and current contamination risks', 'type': 'textarea'},
@@ -279,7 +279,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 14: Maintenance of Organic Integrity – Equipment & Harvest',
+        'title': 'Section 14: Maintenance of Organic Integrity – Equipment & Harvest (NOP Rule 205.201(a) (5) and 205.202(c))',
         'fields': [
             {'key': '14_equipment_na', 'label': 'Equipment section not applicable to my operation', 'type': 'checkbox'},
             {'key': '14a_equipment_json', 'label': '14a. Equipment', 'type': 'table',
@@ -300,7 +300,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 15: Post-Harvest Handling, Storage and Transportation',
+        'title': 'Section 15: Post-Harvest Handling, Storage and Transportation (NOP Rule 205.201(a) (5) and 205.202(c))',
         'fields': [
             {'key': '15_handling_na', 'label': 'Post-Harvest Handling section not applicable to my operation', 'type': 'checkbox'},
             {'key': '15a_handling_procedures', 'label': '15a. Post-harvest handling procedures and equipment', 'type': 'textarea'},
@@ -341,7 +341,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 16: Record Keeping System',
+        'title': 'Section 16: Record Keeping System (NOP Rule 205.103 & 205.400)',
         'fields': [
             {'key': '16a_traceback_description', 'label': '16a. How records track products back and allow traceability', 'type': 'textarea'},
             {'key': '16b_lot_system', 'label': '16b. Lot and/or numbering system', 'type': 'textarea'},
@@ -360,7 +360,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 17: Trace back and Mass Balance',
+        'title': 'Section 17: Trace back and Mass Balance (NOP Rule 205.103 & 205.400(g) (8) (9) & 205.403(d) (4) (5))',
         'fields': [
             {'key': None, 'label': None, 'type': 'static',
              'text': 'During the on-site inspection, inspectors are expected to conduct thorough trace-back and mass '
@@ -370,7 +370,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 18: Affirmation',
+        'title': 'Section 18: Affirmation (NOP Rule 205.406 & 205.403(b))',
         'fields': [
             {'key': None, 'label': None, 'type': 'static',
              'text': 'I affirm that all statements made in this application are true and correct. No prohibited '
@@ -385,7 +385,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 19: Field History Affidavit',
+        'title': 'Section 19: Field History Affidavit (Only For NEW Fields Added To Certification Request)',
         'fields': [
             {'key': None, 'label': None, 'type': 'static',
              'text': 'Only for NEW fields added to certification request. Fill out this Field History Sheet for '

@@ -31,6 +31,14 @@
                         You can still attach any supporting documents referenced in your submission (certificates, maps, lab results, etc.).
                     </p>
 
+                    <!-- Descargar el PDF recién generado (retro de usuario piloto)
+                         — ver controllers/portal.py, public_osp_pdf(). Misma regla
+                         de apagado que el resto de esta pantalla: solo mientras el
+                         registro no tenga cliente asignado. -->
+                    <a t-attf-href="/osp/public/pdf/#{osp.id}" target="_blank" class="btn btn-outline-success mb-3">
+                        <i class="fa fa-file-pdf-o"></i> Download my PDF
+                    </a>
+
                     <!-- Checklist de recordatorio (retro de usuario piloto): qué
                          casillas "Attach .../Adjunte ..." se marcaron a lo largo
                          del formulario que se acaba de enviar — para que el
