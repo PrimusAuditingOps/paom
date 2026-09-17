@@ -23,8 +23,7 @@
         # botón `type="action"` que referencia `%(osp_management.action_report_osp)d`
         # — ese xmlid debe existir ya al parsear ese botón.
         'report/osp_report_templates.xml',
-        'views/osp_menu_views.xml',
-        
+        'views/osp_menu_views.xml',        
         'views/osp_portal_templates.xml',
         'views/osp_form_crop.xml',
         'views/osp_form_handler.xml',
