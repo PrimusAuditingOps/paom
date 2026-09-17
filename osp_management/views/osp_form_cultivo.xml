@@ -80,7 +80,8 @@
                     <div class="tab-content bg-white p-4 rounded-3 shadow-sm">
 
                         <div class="tab-pane fade show active" id="sec1">
-    <h4 class="fw-bold mb-4">SECCIÓN 1: Información General</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 1: Información General</h4>
+    <p class="text-muted mb-4">(Regla NOP 205.201 y 205.401)</p>
 
     <div class="mb-4">
         <label class="fw-bold">Seleccione una opción:</label>
@@ -225,7 +226,8 @@
             <label class="form-check-label" for="1l_state_registration_no">No</label>
         </div>
     </div>
-    <div class="osp-conditional" data-conditional-field="1l_state_registration" data-conditional-value="Yes">
+    <p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 1m.</p>
+<div class="osp-conditional" data-conditional-field="1l_state_registration" data-conditional-value="Yes">
         <div class="row"><div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Indique el número de registro Estatal (si aplica):</label>
             <input type="text" class="form-control osp-input" name="1l_state_reg_number" t-att-value="data.get('1l_state_reg_number')"/>
@@ -317,7 +319,8 @@
             <label class="form-check-label" for="1v_income_5000_or_less_no">No</label>
         </div>
     </div>
-    <div class="osp-conditional" data-conditional-field="1v_income_5000_or_less" data-conditional-value="Yes">
+    <p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 1w.</p>
+<div class="osp-conditional" data-conditional-field="1v_income_5000_or_less" data-conditional-value="Yes">
         <div class="mb-3">
             <label class="form-label fw-bold d-block">En caso afirmativo, ¿tiene la intención de vender sus productos a alguien que los revenda como "orgánicos" o los utilice como ingrediente en un producto "orgánico"?</label>
             <div class="form-check form-check-inline">
@@ -342,7 +345,8 @@
             <label class="form-check-label" for="1w_is_renewal_no">No</label>
         </div>
     </div>
-    <div class="osp-conditional" data-conditional-field="1w_is_renewal" data-conditional-value="Yes">
+    <p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 1x.</p>
+<div class="osp-conditional" data-conditional-field="1w_is_renewal" data-conditional-value="Yes">
         <div class="col-md-12 mb-3">
             <label class="form-label fw-bold">Si la respuesta es sí, por favor explique los cambios:</label>
             <textarea class="form-control osp-input" name="1w_changes_summary" rows="3"><t t-esc="data.get('1w_changes_summary')"/></textarea>
@@ -361,7 +365,8 @@
             <label class="form-check-label" for="1x_self_audit_no">No</label>
         </div>
     </div>
-    <div class="osp-conditional" data-conditional-field="1x_self_audit" data-conditional-value="Yes">
+    <p class="text-muted small fst-italic mb-2">Si su respuesta es "No", no se requiere información adicional para esta sección.</p>
+<div class="osp-conditional" data-conditional-field="1x_self_audit" data-conditional-value="Yes">
         <div class="col-md-4 mb-3">
             <label class="form-label fw-bold">En caso afirmativo, indica la fecha:</label>
             <input type="date" class="form-control osp-input" name="1x_self_audit_date" t-att-value="data.get('1x_self_audit_date')"/>
@@ -370,7 +375,8 @@
 </div>
 
 <div class="tab-pane fade" id="sec2">
-    <h4 class="fw-bold mb-4">SECCIÓN 2: Certificación Orgánica Previa y/o No Conformidades</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 2: Certificación Orgánica Previa y/o No Conformidades</h4>
+    <p class="text-muted mb-4">(§205.405 (e))</p>
     <p class="text-muted small">(Solo para solicitantes por primera vez. Los solicitantes que renuevan con PAO pueden omitir esta sección)</p>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="2_na" id="cu2_na" value="yes" t-att-checked="'checked' if data.get('2_na') else None"/>
@@ -387,7 +393,8 @@
             <label class="form-check-label" for="cu2a_no">No</label>
         </div>
     </div>
-    <div class="osp-conditional" data-conditional-field="2a_denied_certification" data-conditional-value="Yes">
+    <p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 2b.</p>
+<div class="osp-conditional" data-conditional-field="2a_denied_certification" data-conditional-value="Yes">
         <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Si la respuesta es sí, indique el nombre del certificador:</label>
             <input type="text" class="form-control osp-input" name="2a_denied_certifier_name" t-att-value="data.get('2a_denied_certifier_name')"/>
@@ -409,7 +416,8 @@
             <label class="form-check-label" for="cu2b_no">No</label>
         </div>
     </div>
-    <div class="osp-conditional" data-conditional-field="2b_certified_elsewhere" data-conditional-value="Yes">
+    <p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 2c.</p>
+<div class="osp-conditional" data-conditional-field="2b_certified_elsewhere" data-conditional-value="Yes">
         <div class="form-check mb-2 small text-muted">
             <input class="form-check-input osp-input" type="checkbox" name="2b_certificate_attachment_needed" id="2b_certificate_attachment_needed" value="yes" t-att-checked="'checked' if data.get('2b_certificate_attachment_needed') else None"/>
             <label class="form-check-label" for="2b_certificate_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte una copia del certificado actual.</label>
@@ -431,7 +439,8 @@
             <label class="form-check-label" for="cu2c_na">N/A</label>
         </div>
     </div>
-    <div class="osp-conditional" data-conditional-field="2c_previously_certified" data-conditional-value="Yes">
+    <p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 2d.</p>
+<div class="osp-conditional" data-conditional-field="2c_previously_certified" data-conditional-value="Yes">
         <div class="form-check mb-2 small text-muted">
             <input class="form-check-input osp-input" type="checkbox" name="2c_certificate_attachment_needed" id="2c_certificate_attachment_needed" value="yes" t-att-checked="'checked' if data.get('2c_certificate_attachment_needed') else None"/>
             <label class="form-check-label" for="2c_certificate_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte una copia de su certificado orgánico anterior.</label>
@@ -483,7 +492,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec4">
-    <h4 class="fw-bold mb-4">SECCIÓN 4: Cultivos y Campos &#8211; (Áreas y productos a certificar)</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 4: Cultivos y Campos &#8211; (Áreas y productos a certificar)</h4>
+    <p class="text-muted mb-4">(205.201 &amp; 205.202 &amp; 205.400(g) &amp; 205.403(a)(2))</p>
 
 <div class="mb-3">
     <label class="form-label fw-bold d-block">4a. ¿Las áreas o sitios forman parte de un grupo de productores?</label>
@@ -496,6 +506,7 @@
             <label class="form-check-label" for="cu4a_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 4f.</p>
 <div class="osp-conditional" data-conditional-field="4a_producer_group" data-conditional-value="Yes">
 
 <div class="mb-3">
@@ -520,6 +531,7 @@
             <label class="form-check-label" for="cu4c_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 4d.</p>
 <div class="osp-conditional" data-conditional-field="4c_other_agency_certified" data-conditional-value="Yes">
 <div class="col-md-6 mb-3">
     <label class="form-label fw-bold">Indique la agencia de certificación orgánica:</label>
@@ -537,6 +549,7 @@
             <label class="form-check-label" for="cu4d_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 4e.</p>
 <div class="osp-conditional" data-conditional-field="4d_noncompliances_open" data-conditional-value="Yes">
 <div class="mb-3">
     <label class="form-label fw-bold d-block">Si la respuesta es sí, adjunte la información y documentación correspondiente. ¿La información está adjunta?</label>
@@ -581,7 +594,7 @@
 <div class="table-responsive border rounded mb-3">
     <table class="table table-borderless table-hover mb-0">
         <thead class="bg-light text-muted small">
-            <tr><th>ID DEL SITIO DE PRODUCCIÓN (NOMBRE/CÓDIGO)</th><th>DIRECCIÓN DE LA FINCA/DESCRIPCIÓN LEGAL</th><th>TIPO DE ÁREA</th><th>UNIDADES</th><th>ALQUILADO O PROPIO</th><th class="text-center">ACCIÓN</th></tr>
+            <tr><th>ID DEL SITIO DE PRODUCCIÓN (NOMBRE/CÓDIGO)</th><th>DIRECCIÓN DE LA FINCA/DESCRIPCIÓN LEGAL</th><th>TIPO DE ÁREA</th><th>TOTAL DE TERRENO</th><th>UNIDADES</th><th>ALQUILADO O PROPIO</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
         <tbody id="fields_tbody"></tbody>
     </table>
@@ -599,6 +612,7 @@
             <label class="form-check-label" for="cu4i_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "Sí", continúe con la pregunta 4j.</p>
 <div class="osp-conditional" data-conditional-field="4i_same_field_ids" data-conditional-value="No">
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">Si su respuesta es no, explique por qué y cómo los campos se identifican con precisión en su sistema de registro:</label>
@@ -620,7 +634,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec5">
-    <h4 class="fw-bold mb-4">SECCIÓN 5: Productos &#8211; Para ser incluidos en el Certificado por Marca de Identificación y Mercado</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 5: Productos &#8211; Para ser incluidos en el Certificado por Marca de Identificación y Mercado</h4>
+    <p class="text-muted mb-4">(NOP Rule 205.201(a) &amp; 205.300)</p>
     <h6 class="fw-bold">Tipo de mercado:</h6>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold d-block">5a. Seleccione la opción que aplica:</label>
@@ -702,7 +717,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec6">
-    <h4 class="fw-bold mb-4">SECCIÓN 6: Recursos Naturales y Biodiversidad</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 6: Recursos Naturales y Biodiversidad</h4>
+    <p class="text-muted mb-4">(NOP Rule 205.200, 205.203, 205.202, 205.205, 205.238, 205.240)</p>
     <h6 class="fw-bold">Recursos Naturales:</h6>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">6a. ¿Qué prácticas de conservación del suelo se emplean?</label>
@@ -774,6 +790,7 @@
             <label class="form-check-label" for="cu6l_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 6m.</p>
 <div class="osp-conditional" data-conditional-field="6l_shared_system" data-conditional-value="Yes">
 <div class="col-md-6 mb-3">
     <label class="form-label fw-bold">Si es sí, ¿qué productos utilizan?</label>
@@ -796,7 +813,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec7">
-    <h4 class="fw-bold mb-4">SECCIÓN 7: Requisitos del Terreno</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 7: Requisitos del Terreno</h4>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a) and 205.202)</p>
     <h6 class="fw-bold">7a. ¿Ha adjuntado para cada parcela (incluyendo cualquiera nueva) los siguientes documentos?</h6>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">Historial del terreno y documentos de respaldo:</label>
@@ -832,6 +850,7 @@
             <label class="form-check-label" for="cu7b_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "Sí", continúe con la pregunta 7c.</p>
 <div class="osp-conditional" data-conditional-field="7b_managed_3years" data-conditional-value="No">
 <div class="form-check mb-2 small text-muted">
     <input class="form-check-input osp-input" type="checkbox" name="7b_statements_attachment_needed" id="7b_statements_attachment_needed" value="yes" t-att-checked="'checked' if data.get('7b_statements_attachment_needed') else None"/>
@@ -883,7 +902,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec8">
-    <h4 class="fw-bold mb-4">SECCIÓN 8: Semillas y Material de Propagación (Anual/Perenne)</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 8: Semillas y Material de Propagación (Anual/Perenne)</h4>
+    <p class="text-muted mb-4">(NOP Rule 205.204 &amp; 205.205)</p>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="8a_na" id="8a_na" value="yes" t-att-checked="'checked' if data.get('8a_na') else None"/>
     <label class="form-check-label" for="8a_na">Esta sección no es aplicable a mi operación</label>
@@ -919,6 +939,7 @@
             <label class="form-check-label" for="cu8b_na">No aplica</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 8f.</p>
 <div class="osp-conditional" data-conditional-field="8b_organic_seedlings" data-conditional-value="Yes">
 
 <div class="col-md-12 mb-3">
@@ -951,6 +972,7 @@
             <label class="form-check-label" for="cu8f_na">No aplica</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 8g.</p>
 <div class="osp-conditional" data-conditional-field="8f_additional_services" data-conditional-value="Yes">
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">En caso afirmativo, describa:</label>
@@ -978,7 +1000,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec9">
-    <h4 class="fw-bold mb-4">SECCIÓN 9: Manejo de la Fertilidad de Suelo y Cultivo</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 9: Manejo de la Fertilidad de Suelo y Cultivo</h4>
+    <p class="text-muted mb-4">(NOP Rule 205.203 and 205.205)</p>
     <h6 class="fw-bold">Información General y Evaluación:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="9_general_na" id="9_general_na" value="yes" t-att-checked="'checked' if data.get('9_general_na') else None"/>
@@ -1132,13 +1155,15 @@
 </div>
 
                             <div class="tab-pane fade" id="sec10">
-    <h4 class="fw-bold mb-4">SECCIÓN 10: Rotación de Cultivos</h4>
-    <p class="text-muted small">Use una línea para cada rotación utilizada. Columnas: plan de rotación (secuencia de cultivos) y qué objetivos cumple.</p>
+    <h4 class="fw-bold mb-1">SECCIÓN 10: Rotación de Cultivos</h4>
+    <p class="text-muted mb-4">(NOP Rule 205.204 &amp; 205.205)</p>
+    <p class="text-muted small">Use una línea para cada rotación utilizada.</p>
+    <p class="text-muted small">Marque (x) abajo si el plan de rotación específico cumple con uno o más de los siguientes objetivos (esté preparado para explicar los detalles si se le solicita):</p>
 
 <div class="table-responsive border rounded mb-3">
     <table class="table table-borderless table-hover mb-0">
         <thead class="bg-light text-muted small">
-            <tr><th>PLAN DE ROTACIÓN DE CULTIVOS (SECUENCIA)</th><th>OBJETIVOS (Aumentar Materia Orgánica / Manejo de Nutrientes / Manejo de Plagas o Enfermedades / Control de Erosión / Otros)</th><th class="text-center">ACCIÓN</th></tr>
+            <tr><th>PLAN DE ROTACIÓN DE CULTIVOS (SECUENCIA)</th><th class="text-center">AUMENTAR MATERIA ORGÁNICA</th><th class="text-center">MANEJO DE NUTRIENTES</th><th class="text-center">MANEJO DE PLAGAS O ENFERMEDADES</th><th class="text-center">CONTROL DE EROSIÓN</th><th class="text-center">OTROS</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
         <tbody id="rotation_tbody"></tbody>
     </table>
@@ -1149,7 +1174,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec11">
-    <h4 class="fw-bold mb-4">SECCIÓN 11: Manejo de Plagas, Malezas y Enfermedades de Cultivos</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 11: Manejo de Plagas, Malezas y Enfermedades de Cultivos</h4>
+    <p class="text-muted mb-4">(Norma NOP 205.206)</p>
     <h6 class="fw-bold">Plan de Manejo para Malezas y Enfermedades:</h6>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">11a. ¿Cuáles son sus problemas con malezas y enfermedades?</label>
@@ -1176,6 +1202,7 @@
             <label class="form-check-label" for="cu11c_na">No aplica</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "Sí", continúe con la pregunta 11d.</p>
 <div class="osp-conditional" data-conditional-field="11c_mulch_removed" data-conditional-value="No">
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">Si no, explique por qué:</label>
@@ -1237,7 +1264,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec12">
-    <h4 class="fw-bold mb-4">SECCIÓN 12: Mantenimiento de la Integridad Orgánica &#8211; Insumos</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 12: Mantenimiento de la Integridad Orgánica &#8211; Insumos</h4>
+    <p class="text-muted mb-4">(NOP Reg 205.105 &amp; 205.600)</p>
     <p>12a. Describa todos los insumos de fertilidad, control de plagas y enfermedades, y de poscosecha utilizados o destinados a usarse en la temporada actual en los campos orgánicos y terrenos en transición.</p>
 
 <div class="table-responsive border rounded mb-3">
@@ -1267,7 +1295,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec13">
-    <h4 class="fw-bold mb-4">SECCIÓN 13: Mantenimiento de la Integridad Orgánica &#8211; Áreas de Amortiguamiento y Producción Paralela</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 13: Mantenimiento de la Integridad Orgánica &#8211; Áreas de Amortiguamiento y Producción Paralela</h4>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a)(5) and 205.202(c))</p>
     <h6 class="fw-bold">Áreas de Amortiguamiento: Terrenos Adyacentes</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="13_buffer_na" id="13_buffer_na" value="yes" t-att-checked="'checked' if data.get('13_buffer_na') else None"/>
@@ -1378,6 +1407,7 @@
             <label class="form-check-label" for="cu13j_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 13k.</p>
 <div class="osp-conditional" data-conditional-field="13j_fields_flood" data-conditional-value="Yes">
 <div class="col-md-6 mb-3">
     <label class="form-label fw-bold">En caso afirmativo, indique los números de terreno:</label>
@@ -1405,6 +1435,7 @@
             <label class="form-check-label" for="cu13l_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", no se requiere información adicional para esta sección.</p>
 <div class="osp-conditional" data-conditional-field="13l_same_variety_mixed" data-conditional-value="Yes">
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">Si es sí, explique qué prácticas administrativas y/o barreras físicas se utilizan para evitar la mezcla de cultivos orgánicos y no orgánicos una vez cosechados.</label>
@@ -1415,7 +1446,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec14">
-    <h4 class="fw-bold mb-4">SECCIÓN 14: Mantenimiento de la Integridad Orgánica &#8211; Equipo y Cosecha</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 14: Mantenimiento de la Integridad Orgánica &#8211; Equipo y Cosecha</h4>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a)(5) and 205.202(c))</p>
     <h6 class="fw-bold">Equipo:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="14_equipment_na" id="14_equipment_na" value="yes" t-att-checked="'checked' if data.get('14_equipment_na') else None"/>
@@ -1464,6 +1496,7 @@
             <label class="form-check-label" for="cu14c_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 14d.</p>
 <div class="osp-conditional" data-conditional-field="14c_subcontract_harvest" data-conditional-value="Yes">
 <div class="col-md-8 mb-3">
     <label class="form-label fw-bold">Si es sí, proporcione nombre y dirección del contratista de cosecha.</label>
@@ -1518,7 +1551,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec15">
-    <h4 class="fw-bold mb-4">SECCIÓN 15: Manejo Post-Cosecha, Almacenamiento y Transporte</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 15: Manejo Post-Cosecha, Almacenamiento y Transporte</h4>
+    <p class="text-muted mb-4">(Norma NOP 205.201(A)(5) Y 205.202(c))</p>
     <h6 class="fw-bold">Manipulación Post-Cosecha:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="15_handling_na" id="15_handling_na" value="yes" t-att-checked="'checked' if data.get('15_handling_na') else None"/>
@@ -1543,6 +1577,7 @@
             <label class="form-check-label" for="cu15b_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 15c.</p>
 <div class="osp-conditional" data-conditional-field="15b_shared_handling" data-conditional-value="Yes">
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">Si es sí, describa las medidas adoptadas para prevenir la mezcla y contaminación.</label>
@@ -1580,6 +1615,7 @@
             <label class="form-check-label" for="cu15f_na">No aplica</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 15j.</p>
 <div class="osp-conditional" data-conditional-field="15f_water_used" data-conditional-value="Yes">
 
 <div class="mb-3">
@@ -1646,6 +1682,7 @@
             <label class="form-check-label" for="cu15j_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 15k.</p>
 <div class="osp-conditional" data-conditional-field="15j_shared_storage" data-conditional-value="Yes">
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">Si es sí, ¿cómo separa los cultivos orgánicos de los no orgánicos?</label>
@@ -1756,6 +1793,7 @@
             <label class="form-check-label" for="cu15r_no">No</label>
         </div>
 </div>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 15s.</p>
 <div class="osp-conditional" data-conditional-field="15r_use_chlorine" data-conditional-value="Yes">
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">Si es sí, describa el propósito, formulación específica, y dónde y cómo se utiliza.</label>
@@ -1777,7 +1815,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec16">
-    <h4 class="fw-bold mb-4">SECCIÓN 16: Sistema de Mantenimiento de Registros</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 16: Sistema de Mantenimiento de Registros</h4>
+    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400)</p>
     <h6 class="fw-bold">Trazabilidad/Cadena de Suministro</h6>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">16a. Describa cómo los registros rastrean los productos desde la fecha de recepción o adquisición hasta la venta o el transporte, y permiten la trazabilidad hasta la última operación certificada:</label>
@@ -1874,7 +1913,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec17">
-    <h4 class="fw-bold mb-4">SECCIÓN 17: Balance de Masas y Trazabilidad</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 17: Balance de Masas y Trazabilidad</h4>
+    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400(g)(8)(9) &amp; 205.403(d)(4)(5))</p>
 
 <div class="alert alert-light border">
     <p>Durante la inspección in situ, se espera que los inspectores realicen auditorías exhaustivas de rastreo y auditorías de balance de masa para verificar los requisitos de rastreabilidad y mantenimiento de registros (&#167;205.103). Asegúrese de tener la documentación disponible necesaria para completar un balance de masas y la rastreabilidad durante la auditoría in situ.</p>
@@ -1886,7 +1926,8 @@
 </div>
 
                             <div class="tab-pane fade" id="sec18">
-                                <h4 class="fw-bold mb-4">SECCIÓN 18: Afirmación</h4>
+                                <h4 class="fw-bold mb-1">SECCIÓN 18: Afirmación</h4>
+                                <p class="text-muted mb-4">(Regla NOP 205.406)</p>
                                 <div class="alert alert-light border border-success rounded-3 mb-4">
                                     <p>Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Entiendo que la operación puede estar sujeta a inspección no anunciada y/o muestreo de residuos en cualquier momento que se considere apropiado para asegurar el cumplimiento con la Ley de Producción Orgánica de Alimentos de 1990 y las Reglas y Regulaciones del Programa Orgánico Nacional. Entiendo que la aceptación de este cuestionario de ninguna manera implica otorgamiento de la certificación por parte del Agente certificador. Acepto proporcionar más información según lo requiera el Agente certificador.</p>
                                     <p>Afirmo que estoy al tanto de las inspecciones sin previo aviso, en las que soy consciente de que pueden ser inspecciones adicionales, basadas en una selección aleatoria, alto riesgo, quejas y/o investigaciones.</p>
@@ -1919,7 +1960,8 @@
                             </div>
 
                             <div class="tab-pane fade" id="sec19">
-    <h4 class="fw-bold mb-4">SECCIÓN 19: Historial de Campo - Declaración Jurada</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 19: Historial de Campo - Declaración Jurada</h4>
+    <p class="text-muted mb-4">(Solo para los NUEVOS campos agregados a la solicitud de certificación)</p>
     <p class="text-muted small">(Solo para los NUEVOS campos, agregados a la solicitud de certificación). Instrucciones: Complete esta hoja del historial de Campo para cada uno de sus campos que aún no haya sido certificado y para el que se solicita la certificación orgánica. Agregue todos los insumos utilizados en los años en transición, incluyendo composta y/o estiércol.</p>
 
 <div class="row"><div class="col-md-6 mb-3">

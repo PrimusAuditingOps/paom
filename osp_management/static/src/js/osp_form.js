@@ -116,12 +116,20 @@ function initOspForm() {
                 { key: 'description', type: 'text', placeholder: 'Description of Site activities and responsibilities...' },
             ],
         },
-        fields: { // 4h
+        fields: { // 4h — reutilizada tal cual por Cultivo (Campos, misma
+            // tabla, mismo tbodyId "fields_tbody"). El Word original trae,
+            // en una sola celda "units:", tanto el valor numérico (ej. "8"
+            // en su propio ejemplo) como la unidad (Acre/Hectare) — al
+            // construir la tabla web solo se tradujo el selector de unidad
+            // y se perdió la columna numérica (retro de usuario piloto,
+            // ver CONTEXT.md). Se agrega "total_land" siguiendo el mismo
+            // patrón número+unidad ya usado en la tabla 4j de abajo.
             jsonInputId: '4h_fields_json', tbodyId: 'fields_tbody', addBtnId: 'btn_add_field',
             columns: [
                 { key: 'field_id', type: 'text', placeholder: 'Field ID (Name/Code)...' },
                 { key: 'parcel_address', type: 'text', placeholder: 'Parcel Address / Legal Description...' },
                 { key: 'area_type', type: 'select', options: ['Organic', 'Transitional', 'Non-Organic'] },
+                { key: 'total_land', type: 'text', placeholder: 'Total land...' },
                 { key: 'units', type: 'select', options: ['Acre', 'Hectare'] },
                 { key: 'rented_or_owned', type: 'select', options: ['Rented', 'Owned'] },
             ],
@@ -170,11 +178,24 @@ function initOspForm() {
                 { key: 'search_form_attached', type: 'select', options: ['Y', 'N'] },
             ],
         },
-        rotation: { // 10
+        rotation: { // 10 — reutilizada tal cual por Cultivo (mismo
+            // tbodyId "rotation_tbody"). El Word original trae, por cada
+            // plan de rotación, 5 checkboxes independientes (una casilla
+            // por objetivo) en vez de un solo texto libre — se había
+            // colapsado todo en un campo de texto genérico (retro de
+            // usuario piloto, ver CONTEXT.md). Los 5 usan el nuevo tipo de
+            // columna "checkbox" del motor (ver cellHtml()/bindDynTable()
+            // más abajo), guardando "X"/"" igual que la convención
+            // "check (x)" del propio Word — así el motor de reporte PDF no
+            // necesita saber que son checkboxes, los trata como texto normal.
             jsonInputId: '10_rotation_json', tbodyId: 'rotation_tbody', addBtnId: 'btn_add_rotation',
             columns: [
                 { key: 'rotation_plan', type: 'text', placeholder: 'Crop rotation plan (sequence of crops)...' },
-                { key: 'objectives', type: 'text', placeholder: 'Objectives (Increase Organic Matter, Nutrient Mgmt, Pest/Disease, Erosion, Other)...' },
+                { key: 'increase_organic_matter', type: 'checkbox' },
+                { key: 'nutrient_management', type: 'checkbox' },
+                { key: 'pest_disease_management', type: 'checkbox' },
+                { key: 'erosion_control', type: 'checkbox' },
+                { key: 'other', type: 'checkbox' },
             ],
         },
         inputs: { // 12a
@@ -353,6 +374,12 @@ function initOspForm() {
         if (col.type === 'date') {
             return `<td><input type="date" class="form-control form-control-sm border-0 bg-transparent dyn-input" data-index="${rowIndex}" data-field="${col.key}" value="${safeVal}"/></td>`;
         }
+        if (col.type === 'checkbox') {
+            // Se guarda "X"/"" (no true/false) para imitar la convención
+            // "check (x)" del Word y que el motor de reporte PDF (que solo
+            // sabe imprimir texto de celda) no necesite tratarlo distinto.
+            return `<td class="text-center"><input type="checkbox" class="form-check-input dyn-input" data-index="${rowIndex}" data-field="${col.key}" ${safeVal === 'X' ? 'checked' : ''}/></td>`;
+        }
         return `<td><input type="text" class="form-control border-0 bg-transparent dyn-input" data-index="${rowIndex}" data-field="${col.key}" value="${safeVal.replace(/"/g, '&quot;')}" placeholder="${col.placeholder || ''}"/></td>`;
     }
 
@@ -391,7 +418,10 @@ function initOspForm() {
             el.addEventListener('change', function () {
                 const idx = this.getAttribute('data-index');
                 const fld = this.getAttribute('data-field');
-                config._data[idx][fld] = this.value;
+                // Checkbox: this.value siempre es "on" sin importar si está
+                // marcado o no — hay que leer this.checked, y guardar
+                // "X"/"" (ver cellHtml()) en vez de true/false.
+                config._data[idx][fld] = (this.type === 'checkbox') ? (this.checked ? 'X' : '') : this.value;
                 const jsonInput = document.getElementById(config.jsonInputId);
                 if (jsonInput) jsonInput.value = JSON.stringify(config._data);
             });
@@ -789,6 +819,98 @@ function initOspForm() {
             saveForm(true);
         });
     }
+
+    initAttachmentChecklist(TECHNICAL_CODE);
+}
+
+// ============================================================
+// CHECKLIST DE ADJUNTOS PENDIENTES (retro de usuario piloto) — recordatorio
+// de qué casillas "Attach .../Adjunte ..." (sufijo de id "_attachment_needed",
+// ícono de clip 📎) están marcadas en cualquier parte del formulario,
+// mostrado justo en la pestaña de Adjuntos para que el cliente no tenga que
+// recordar de memoria qué dijo que iba a subir. 100% genérico: lee directo
+// del DOM (no depende de qué formulario sea), así que funciona igual en los
+// 6 sin necesitar ningún dato extra por formulario — ver también el
+// equivalente server-side para la pantalla pública de "Thank you"
+// (osp_attachment_markers.py + osp_request.py, get_pending_attachment_checklist()).
+// Cada item es un link que salta a su sección — funciona tanto en el
+// formulario de portal como en el público antes de enviar (en ambos casos
+// sigue siendo el mismo formulario "vivo" de una sola página).
+// ============================================================
+function initAttachmentChecklist(technicalCode) {
+    // Localiza la pestaña de Adjuntos por su link de navegación lateral —
+    // es el único que trae el ícono de clip, mismo criterio en los 6
+    // formularios (no hace falta saber si es "#sec21", "#sec16", etc.).
+    const navIcon = document.querySelector('a[data-bs-toggle="list"] i.fa-paperclip');
+    if (!navIcon) return;
+    const tabLink = navIcon.closest('a');
+    const tabId = tabLink ? tabLink.getAttribute('href') : null;
+    const tabPane = tabId ? document.querySelector(tabId) : null;
+    const heading = tabPane ? tabPane.querySelector('h4') : null;
+    if (!heading) return;
+
+    let container = document.getElementById('osp_attachment_checklist');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'osp_attachment_checklist';
+        container.className = 'mb-4';
+        heading.insertAdjacentElement('afterend', container);
+    }
+
+    // Los 6 formularios comparten el mismo motor; solo estos 3 son
+    // nativos en español (ver CONTEXT.md) — no depende de detectar el
+    // idioma del navegador ni de una variable nueva por formulario.
+    const SPANISH_FORMS = ['form_manejo_proceso', 'form_comercializador', 'form_cultivo'];
+    const checklistTitle = SPANISH_FORMS.indexOf(technicalCode) !== -1
+        ? 'Indicó que adjuntaría los siguientes documentos:'
+        : 'You indicated you would attach the following documents:';
+
+    function render() {
+        const checked = document.querySelectorAll('input[id$="_attachment_needed"]:checked');
+        container.innerHTML = '';
+        if (!checked.length) return;
+
+        const box = document.createElement('div');
+        box.className = 'alert alert-info';
+
+        const title = document.createElement('div');
+        title.className = 'fw-bold mb-2';
+        title.innerHTML = '<i class="fa fa-list-check"></i> ';
+        title.appendChild(document.createTextNode(checklistTitle));
+        box.appendChild(title);
+
+        const ul = document.createElement('ul');
+        ul.className = 'mb-0';
+        checked.forEach(function (input) {
+            const label = document.querySelector('label[for="' + input.id + '"]');
+            if (!label) return;
+            const text = label.textContent.trim();
+            const pane = input.closest('.tab-pane');
+            const li = document.createElement('li');
+            if (pane && pane.id) {
+                const a = document.createElement('a');
+                a.href = '#' + pane.id;
+                a.setAttribute('data-bs-toggle', 'list');
+                a.className = 'text-decoration-none';
+                a.textContent = text;
+                li.appendChild(a);
+            } else {
+                li.textContent = text;
+            }
+            ul.appendChild(li);
+        });
+        box.appendChild(ul);
+        container.appendChild(box);
+    }
+
+    render();
+    // Se recalcula cada vez que el visitante marca/desmarca cualquier
+    // casilla de adjunto pendiente, sin importar en qué sección esté.
+    document.addEventListener('change', function (e) {
+        if (e.target && e.target.id && e.target.id.endsWith('_attachment_needed')) {
+            render();
+        }
+    });
 }
 
 // Disparador defensivo: si el DOM ya está listo cuando este script se ejecuta

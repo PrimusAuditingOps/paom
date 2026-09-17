@@ -112,7 +112,7 @@ CROP_REPORT_SECTIONS = [
                          ('zip', 'Zip'), ('contact', 'Contact'), ('description', 'Description')]},
             {'key': '4h_fields_json', 'label': '4h. Fields', 'type': 'table',
              'columns': [('field_id', 'Field ID'), ('parcel_address', 'Parcel Address'), ('area_type', 'Area Type'),
-                         ('units', 'Units'), ('rented_or_owned', 'Rented/Owned')]},
+                         ('total_land', 'Total Land'), ('units', 'Units'), ('rented_or_owned', 'Rented/Owned')]},
             {'key': '4i_same_field_ids', 'label': '4i. Do you use these same field IDs in your record-keeping system?', 'type': 'yn'},
             {'key': '4i_explain', 'label': 'If no, explain', 'type': 'textarea'},
             {'key': '4j_crops_json', 'label': '4j. Crops', 'type': 'table',
@@ -223,7 +223,9 @@ CROP_REPORT_SECTIONS = [
         'title': 'Section 10: Crop Rotation',
         'fields': [
             {'key': '10_rotation_json', 'label': 'Crop Rotation Plans', 'type': 'table',
-             'columns': [('rotation_plan', 'Rotation Plan'), ('objectives', 'Objectives')]},
+             'columns': [('rotation_plan', 'Rotation Plan'), ('increase_organic_matter', 'Organic Matter'),
+                         ('nutrient_management', 'Nutrient Mgmt'), ('pest_disease_management', 'Pest/Disease Mgmt'),
+                         ('erosion_control', 'Erosion Control'), ('other', 'Other')]},
         ],
     },
     {

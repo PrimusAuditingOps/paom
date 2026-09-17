@@ -571,6 +571,13 @@ class OSPPublicController(OSPPortal):
             'osp': SimpleNamespace(id=osp_id),
             'attachments': attachments,
             'can_upload': can_upload,
+            # Checklist de recordatorio (retro de usuario piloto): qué
+            # casillas "Attach .../Adjunte ..." quedaron marcadas en el
+            # formulario recién enviado — ver get_pending_attachment_checklist()
+            # en osp_request.py. Solo aplica mientras can_upload sea True
+            # (si ya no puede subir nada aquí, tampoco tiene sentido el
+            # recordatorio).
+            'attachment_checklist': record.sudo().get_pending_attachment_checklist() if can_upload else [],
         })
 
     # D. SUBIR ADJUNTOS (navegante público, solo mientras el registro no

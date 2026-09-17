@@ -31,12 +31,12 @@
                  requiere conocer ni tocar el código de cada app individual
                  (ver CONTEXT.md). Esto es solo ocultamiento de navegación,
                  no una restricción de acceso real — decisión confirmada
-                 con el usuario. -->
+                 con el usuario. 
             <t t-if="request.env.user.osp_portal_only">
                 <style>
                     .o_portal_docs > *:not(#portal_osp_category) { display: none !important; }
                 </style>
-            </t>
+            </t>-->
 
         </xpath>
     </template>

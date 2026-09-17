@@ -1,5 +1,7 @@
 from odoo import models, fields, api, _
 
+from .osp_attachment_markers import ATTACHMENT_MARKERS
+
 # ==========================================
 # MODELO PRINCIPAL (FORMULARIO OSP)
 # ==========================================
@@ -102,6 +104,20 @@ class OSPRequest(models.Model):
     def action_set_pending(self):
         for record in self:
             record.write({'review_status': 'pending'})
+
+    # Checklist de recordatorio de adjuntos pendientes (retro de usuario
+    # piloto): qué casillas "Attach .../Adjunte ..." quedaron marcadas en el
+    # formulario, para mostrarlo junto al pool único de adjuntos y que el
+    # cliente no tenga que recordar de memoria qué dijo que iba a subir. Se
+    # usa en la pantalla pública de "Thank you" (controllers/portal.py,
+    # public_osp_thankyou) — el equivalente del formulario vivo (portal, o
+    # público antes de enviar) se genera aparte, 100% en el navegador (ver
+    # initAttachmentChecklist() en static/src/js/osp_form.js).
+    def get_pending_attachment_checklist(self):
+        self.ensure_one()
+        technical_code = self.form_template_id.technical_code
+        markers = ATTACHMENT_MARKERS.get(technical_code, [])
+        return [text for field_key, text in markers if self.form_data.get(field_key)]
 
     # Acción para abrir los adjuntos
     def action_view_attachments(self):

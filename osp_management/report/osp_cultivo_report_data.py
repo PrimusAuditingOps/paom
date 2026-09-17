@@ -94,7 +94,7 @@ CULTIVO_REPORT_SECTIONS = [
                          ('zip', 'CP'), ('contact', 'Contacto'), ('description', 'Descripción')]},
             {'key': '4h_fields_json', 'label': '4h. Áreas/Terrenos', 'type': 'table',
              'columns': [('field_id', 'ID del Terreno'), ('parcel_address', 'Dirección/Descripción Legal'), ('area_type', 'Tipo de Área'),
-                         ('units', 'Unidades'), ('rented_or_owned', 'Alquilado/Propio')]},
+                         ('total_land', 'Total de Terreno'), ('units', 'Unidades'), ('rented_or_owned', 'Alquilado/Propio')]},
             {'key': '4i_same_field_ids', 'label': '4i. ¿Usa la misma identificación en su sistema de registros?', 'type': 'yn'},
             {'key': '4i_explain', 'label': 'Si no, explique', 'type': 'textarea'},
             {'key': '4j_crops_json', 'label': '4j. Cultivos', 'type': 'table',
@@ -205,7 +205,9 @@ CULTIVO_REPORT_SECTIONS = [
         'title': 'Sección 10: Rotación de Cultivos',
         'fields': [
             {'key': '10_rotation_json', 'label': 'Planes de Rotación de Cultivos', 'type': 'table',
-             'columns': [('rotation_plan', 'Plan de Rotación'), ('objectives', 'Objetivos')]},
+             'columns': [('rotation_plan', 'Plan de Rotación'), ('increase_organic_matter', 'Materia Orgánica'),
+                         ('nutrient_management', 'Manejo de Nutrientes'), ('pest_disease_management', 'Manejo de Plagas/Enf.'),
+                         ('erosion_control', 'Control de Erosión'), ('other', 'Otros')]},
         ],
     },
     {

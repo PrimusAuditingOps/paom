@@ -31,6 +31,20 @@
                         You can still attach any supporting documents referenced in your submission (certificates, maps, lab results, etc.).
                     </p>
 
+                    <!-- Checklist de recordatorio (retro de usuario piloto): qué
+                         casillas "Attach .../Adjunte ..." se marcaron a lo largo
+                         del formulario que se acaba de enviar — para que el
+                         cliente no tenga que recordar de memoria qué dijo que
+                         iba a subir. Solo lectura (ya no hay formulario que
+                         navegar, a diferencia del checklist del formulario vivo
+                         — ver static/src/js/osp_form.js, initAttachmentChecklist()). -->
+                    <div t-if="attachment_checklist" class="alert alert-info">
+                        <div class="fw-bold mb-2"><i class="fa fa-list-check"></i> You indicated you would attach the following documents:</div>
+                        <ul class="mb-0">
+                            <li t-foreach="attachment_checklist" t-as="item"><t t-esc="item"/></li>
+                        </ul>
+                    </div>
+
                     <form t-attf-action="/osp/public/upload/#{osp.id}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap mb-3">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <input type="file" name="osp_files" multiple="multiple" class="form-control" style="max-width: 400px;"/>
