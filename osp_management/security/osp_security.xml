@@ -39,12 +39,15 @@
              existiera) queda visible para cualquier compañía — convención
              nativa de Odoo, no hace falta backfill manual. No se aplica al
              grupo de portal: su propia regla (arriba) ya es más estricta
-             (por partner_id), la de compañía sería redundante ahí. -->
+             (por partner_id), la de compañía sería redundante ahí. Se
+             aplica tanto a OSP Administrator como a OSP User — ambos
+             grupos solo difieren en el menú de Configuración, no en el
+             alcance de datos que pueden ver. -->
         <record id="osp_request_company_rule" model="ir.rule">
             <field name="name">Multi-Company: OSP Requests</field>
             <field name="model_id" ref="model_osp_request"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-            <field name="groups" eval="[(4, ref('osp_management.group_osp_administrator'))]"/>
+            <field name="groups" eval="[(4, ref('osp_management.group_osp_administrator')), (4, ref('osp_management.group_osp_user'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>

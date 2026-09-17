@@ -14,6 +14,25 @@ TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverif
 
 class OSPPortal(CustomerPortal):
 
+    # OSP Administrator y OSP User tienen el mismo trato funcional en todo
+    # lo relacionado a ver/editar/revisar formularios OSP — la única
+    # diferencia entre ambos grupos es el menú de Configuración (ver
+    # security/osp_security.xml y views/osp_menu_views.xml), no el acceso a
+    # los formularios en sí. Un solo punto para esta verificación evita
+    # tener que acordarse de agregar el segundo grupo en cada lugar nuevo.
+    def _is_osp_staff(self):
+        user = request.env.user
+        return user.has_group('osp_management.group_osp_administrator') or user.has_group('osp_management.group_osp_user')
+
+    # Partners de todo el personal OSP (ambos grupos), para notificarles de
+    # nuevos envíos. sudo(): quien llama esto puede ser un cliente de
+    # portal sin permiso de lectura sobre res.users.
+    def _osp_staff_partners(self):
+        admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
+        user_group = request.env.ref('osp_management.group_osp_user', raise_if_not_found=False)
+        groups = (admin_group or request.env['res.groups']) | (user_group or request.env['res.groups'])
+        return groups.sudo().users.partner_id
+
     # Campos "resumen" del registro que se sincronizan desde la Sección 1
     # del formulario, para que se vean directo en la lista/ficha del admin
     # sin abrir el JSON completo. Se usa desde CUALQUIER guardado que toque
@@ -61,11 +80,7 @@ class OSPPortal(CustomerPortal):
             'template': record.form_template_id.name or record.form_template_id.technical_code or '',
         }
 
-        # sudo(): quien llama esto es el CLIENTE de portal, que no tiene
-        # permiso de lectura sobre res.users (ni falta que le hace) —
-        # resolver a qué administradores notificar es plomería interna.
-        admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
-        admin_partners = admin_group.sudo().users.partner_id if admin_group else request.env['res.partner']
+        admin_partners = self._osp_staff_partners()
 
         if admin_partners:
             record.sudo().message_notify(
@@ -211,9 +226,9 @@ class OSPPortal(CustomerPortal):
             return request.redirect('/my/osp')
 
         is_owner = record.partner_id.id == request.env.user.partner_id.id
-        is_admin = request.env.user.has_group('osp_management.group_osp_administrator')
+        is_admin = self._is_osp_staff()
 
-        # Solo el dueño (cliente de portal) o un Administrador de OSP pueden entrar
+        # Solo el dueño (cliente de portal) o personal de OSP (Administrator/User) pueden entrar
         if not is_owner and not is_admin:
             return request.redirect('/my/osp')
 
@@ -277,7 +292,7 @@ class OSPPortal(CustomerPortal):
             return {'success': False}
 
         is_owner = record.partner_id.id == request.env.user.partner_id.id
-        is_admin = request.env.user.has_group('osp_management.group_osp_administrator')
+        is_admin = self._is_osp_staff()
         admin_editing = is_admin and not is_owner
 
         if not is_owner and not admin_editing:
@@ -539,8 +554,7 @@ class OSPPublicController(OSPPortal):
             "\"Customer\" field on this record."
         ) % (record.form_template_id.name or record.form_template_id.technical_code or '')
 
-        admin_group = request.env.ref('osp_management.group_osp_administrator', raise_if_not_found=False)
-        admin_partners = admin_group.sudo().users.partner_id if admin_group else request.env['res.partner']
+        admin_partners = self._osp_staff_partners()
 
         if admin_partners:
             record.sudo().message_notify(

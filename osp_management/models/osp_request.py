@@ -105,6 +105,16 @@ class OSPRequest(models.Model):
         for record in self:
             record.write({'review_status': 'pending'})
 
+    # OSP Administrator y OSP User tienen el mismo trato funcional para ver
+    # y editar formularios OSP — la única diferencia entre ambos grupos es
+    # el menú de Configuración (ver security/osp_security.xml y
+    # views/osp_menu_views.xml). Mismo criterio que
+    # controllers/portal.py:_is_osp_staff() (duplicado aquí porque este
+    # método corre en contexto de modelo, sin acceso a `request`).
+    def _is_osp_staff(self):
+        user = self.env.user
+        return user.has_group('osp_management.group_osp_administrator') or user.has_group('osp_management.group_osp_user')
+
     # Checklist de recordatorio de adjuntos pendientes (retro de usuario
     # piloto): qué casillas "Attach .../Adjunte ..." quedaron marcadas en el
     # formulario, para mostrarlo junto al pool único de adjuntos y que el
@@ -141,7 +151,7 @@ class OSPRequest(models.Model):
         # reconstruida del formulario: es el mismo, por lo que el admin ve
         # exactamente las mismas capturas y el guardado usa el mismo endpoint
         # (sincronización garantizada, cero riesgo de que ambas vistas diverjan).
-        if self.env.user.has_group('osp_management.group_osp_administrator'):
+        if self._is_osp_staff():
             return {
                 'type': 'ir.actions.client',
                 'tag': 'osp_admin_form_view',
