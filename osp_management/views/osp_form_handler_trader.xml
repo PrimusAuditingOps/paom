@@ -602,6 +602,13 @@
             <input class="form-check-input osp-input" type="radio" name="5b_supply_chain_attached" id="t5b_no" value="No" t-att-checked="'checked' if data.get('5b_supply_chain_attached') == 'No' else None"/>
             <label class="form-check-label" for="t5b_no">No</label>
         </div>
+        <p class="text-muted small mt-1">Complete a Master Supply Chain and Product List to include all products/ingredients and suppliers. Complete a Private Label Agreement for each ID Mark that you do not own. Complete an International Market Addendum for any additional market request. Complete a Formulation Sheet for any multi-ingredient products.</p>
+    </div>
+    <div class="osp-conditional" data-conditional-field="5b_supply_chain_attached" data-conditional-value="Yes">
+        <div class="form-check mb-2 small text-muted">
+            <input class="form-check-input osp-input" type="checkbox" name="5b_supply_chain_attachment_needed" id="5b_supply_chain_attachment_needed" value="yes" t-att-checked="'checked' if data.get('5b_supply_chain_attachment_needed') else None"/>
+            <label class="form-check-label" for="5b_supply_chain_attachment_needed"><i class="fa fa-paperclip"></i> Attach the Master Supply Chain and Product List document.</label>
+        </div>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">5c. Do you require your organic certificate to list all ID Marks?</label>
@@ -627,8 +634,6 @@
     </div>
     <button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_trader_product"><i class="fa fa-plus"></i> Add Product</button>
     <input type="hidden" class="osp-input" name="5d_products_json" id="5d_products_json" t-att-value="data.get('5d_products_json', '[]')"/>
-
-    <p class="text-muted small">Complete a Master Supply Chain and Product List to include all products/ingredients and suppliers. Complete a Private Label Agreement for each ID Mark that you do not own. Complete an International Market Addendum for any additional market request. Complete a Formulation Sheet for any multi-ingredient products.</p>
 </div>
 
 <div class="tab-pane fade" id="sec6">

@@ -727,6 +727,12 @@
             <label class="form-check-label" for="5b_supply_chain_attached_no">No</label>
         </div>
 </div>
+<div class="osp-conditional" data-conditional-field="5b_supply_chain_attached" data-conditional-value="Yes">
+    <div class="form-check mb-2 small text-muted">
+        <input class="form-check-input osp-input" type="checkbox" name="5b_supply_chain_attachment_needed" id="5b_supply_chain_attachment_needed" value="yes" t-att-checked="'checked' if data.get('5b_supply_chain_attachment_needed') else None"/>
+        <label class="form-check-label" for="5b_supply_chain_attachment_needed"><i class="fa fa-paperclip"></i> Attach the Master Supply Chain and Product List document.</label>
+    </div>
+</div>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">5c. Do you require your organic certificate to list all ID Marks?</label>
         <div class="form-check form-check-inline">

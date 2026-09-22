@@ -610,6 +610,13 @@
             <input class="form-check-input osp-input" type="radio" name="5b_supply_chain_attached" id="c5b_no" value="No" t-att-checked="'checked' if data.get('5b_supply_chain_attached') == 'No' else None"/>
             <label class="form-check-label" for="c5b_no">No</label>
         </div>
+        <p class="text-muted small mt-1">Complete la Lista Maestra de la Cadena de Suministro y una Lista de Productos con todos los productos/ingredientes y proveedores. Complete un acuerdo de etiqueta privada para cada marca que no sea de su propiedad. Complete el addendum de equivalencias de mercado cuando sea necesario. Complete una Hoja de Formulación de Productos para cada producto de ingredientes múltiples. Si tiene previsto envasar el producto con las etiquetas indicadas, presente los documentos complementarios (diseño gráfico, certificado del proveedor y acuerdo de marca privada).</p>
+    </div>
+    <div class="osp-conditional" data-conditional-field="5b_supply_chain_attached" data-conditional-value="Yes">
+        <div class="form-check mb-2 small text-muted">
+            <input class="form-check-input osp-input" type="checkbox" name="5b_supply_chain_attachment_needed" id="5b_supply_chain_attachment_needed" value="yes" t-att-checked="'checked' if data.get('5b_supply_chain_attachment_needed') else None"/>
+            <label class="form-check-label" for="5b_supply_chain_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte el documento de la Lista Maestra de la Cadena de Suministro.</label>
+        </div>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">5c. ¿Necesita su certificado orgánico una lista de todas las marcas de identificación?</label>
@@ -635,8 +642,6 @@
     </div>
     <button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_comercializador_product"><i class="fa fa-plus"></i> Agregar Producto</button>
     <input type="hidden" class="osp-input" name="5d_products_json" id="5d_products_json" t-att-value="data.get('5d_products_json', '[]')"/>
-
-    <p class="text-muted small">Complete la Lista Maestra de la Cadena de Suministro y una Lista de Productos con todos los productos/ingredientes y proveedores. Complete un acuerdo de etiqueta privada para cada marca que no sea de su propiedad. Complete el addendum de equivalencias de mercado cuando sea necesario. Complete una Hoja de Formulación de Productos para cada producto de ingredientes múltiples. Si tiene previsto envasar el producto con las etiquetas indicadas, presente los documentos complementarios (diseño gráfico, certificado del proveedor y acuerdo de marca privada).</p>
 </div>
 
 <div class="tab-pane fade" id="sec6">

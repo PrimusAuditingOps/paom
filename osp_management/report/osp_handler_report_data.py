@@ -111,6 +111,7 @@ HANDLER_REPORT_SECTIONS = [
             {'key': '5a_marketing_types', 'label': '5a. Type of Marketing — select all that apply', 'type': 'checkbox_group'},
             {'key': '5a_marketing_other', 'label': 'If other, specify', 'type': 'text'},
             {'key': '5b_supply_chain_attached', 'label': '5b. Master Supply Chain and Product List attached', 'type': 'yn'},
+            {'key': '5b_supply_chain_attachment_needed', 'label': 'Attach the Master Supply Chain and Product List document', 'type': 'checkbox'},
             {'key': '5c_list_all_id_marks', 'label': '5c. Do you require your organic certificate to list all ID Marks?', 'type': 'yn'},
             {'key': '5d_products_json', 'label': '5d. Products', 'type': 'table',
              'columns': [('product', 'Product'), ('id_mark', 'ID Mark'), ('label_type', 'Label Type'),

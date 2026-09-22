@@ -503,3 +503,17 @@ Dos mejoras de usuario piloto sobre el checklist de adjuntos (§31):
 - Versión del manifest: `17.0.1.4.0`.
 
 **Corrección (17/sep):** el link aparecía bien, pero al hacer clic daba `500: Internal Server Error`. Bug real en `public_osp_pdf()`: `_render_qweb_pdf()` se llamaba sobre el recordset del reporte (`report._render_qweb_pdf(record.ids)`), cuando en Odoo 17 este método se llama sobre el **modelo** `ir.actions.report`, pasándole el xmlid del reporte como primer argumento (`request.env['ir.actions.report']._render_qweb_pdf('osp_management.action_report_osp', record.ids)`). Corregido — versión `17.0.1.4.1`.
+
+## 38. Política del número de versión del manifest (IMPORTANTE, 17/sep)
+
+**A partir de ahora, NO subir el número de `version` en `__manifest__.py`** de `osp_management` ni de `osp_management_portal_only` en cada cambio — decisión explícita del usuario. Ambos deben quedarse fijos en `17.0.1.0.0` mientras el desarrollo siga en el staging de pruebas. Razón: el usuario no quiere liberar a producción una versión que ya avanzó mucho respecto a lo que de verdad quiere lanzar — prefiere decidir manualmente cuándo y a qué número subir la versión al momento de liberar. El número de versión de por sí no afecta si un build/`-u` funciona o no (es solo metadata + gatillo de scripts de `migrations/`), así que no tocarlo no tiene ningún costo técnico.
+
+## 39. Sección 5 (Products), pregunta 5b — párrafo reubicado + casilla de adjunto (IMPLEMENTADO — 22/sep)
+
+Retroalimentación de usuario piloto (captura de Handler): el párrafo *"Complete a Master Supply Chain and Product List..."* aparecía al final de la Sección 5 (después de la tabla 5d), lejos de la pregunta 5b a la que en realidad se refiere ("Complete a Master Supply Chain and Product List... **Is this document attached?**"). Se pidió moverlo justo debajo de las respuestas Sí/No de 5b, y agregar ahí una casilla de "adjuntar evidencia" (mismo patrón 📎 `_attachment_needed` ya usado en todo el módulo).
+
+- **Alcance real, más amplio de lo reportado**: se verificó que el mismo párrafo mal ubicado existía también en **Handler (Trader) y Comercializador** (no solo Handler y Manejo o Proceso, como pidió el usuario inicialmente) — confirmado y corregido en los 4. **Crop y Cultivo nunca tuvieron ese párrafo** en ningún lado de su Sección 5 — no había nada que reubicar ahí, pero por consistencia se les agregó la misma casilla de adjunto en 5b (confirmado con el usuario).
+- **Casilla nueva**: `5b_supply_chain_attachment_needed`, envuelta en `osp-conditional data-conditional-field="5b_supply_chain_attached" data-conditional-value="Yes"` (mismo patrón que 2b y el resto de casillas de adjunto condicionadas a "Sí") — en los 6 formularios.
+- **Reflejado en el reporte PDF**: los 6 manifests (`report/osp_*_report_data.py`) ganaron el campo nuevo (`type: 'checkbox'`) justo después de `5b_supply_chain_attached`.
+- **Reflejado en el checklist de adjuntos** (§31/§36, portal y público): entrada nueva agregada en los 6 formularios de `models/osp_attachment_markers.py` — aparece automáticamente con su número de pregunta ("5b. Attach the Master Supply Chain and Product List document.") sin necesitar ningún cambio adicional, gracias al mecanismo genérico ya existente.
+- Versión del manifest: sin cambios (política §38).

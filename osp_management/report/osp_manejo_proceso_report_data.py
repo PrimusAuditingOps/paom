@@ -108,6 +108,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
             {'key': '5a_marketing_types', 'label': '5a. Tipo de mercado', 'type': 'checkbox_group'},
             {'key': '5a_marketing_other', 'label': 'Especifique', 'type': 'text'},
             {'key': '5b_supply_chain_attached', 'label': '5b. Lista de cadena de suministro adjunta', 'type': 'yn'},
+            {'key': '5b_supply_chain_attachment_needed', 'label': 'Adjunte el documento de la Lista Maestra de la Cadena de Suministro', 'type': 'checkbox'},
             {'key': '5c_list_all_id_marks', 'label': '5c. ¿Certificado debe listar todas las marcas?', 'type': 'yn'},
             {'key': '5d_products_json', 'label': '5d. Marcas de Identificación', 'type': 'table',
              'columns': [('product', 'Producto'), ('id_mark', 'Marca'), ('label_type', 'Tipo de Etiqueta'),
