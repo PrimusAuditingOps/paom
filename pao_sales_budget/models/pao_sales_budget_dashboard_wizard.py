@@ -156,8 +156,8 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         if pct < -0.0001:
             return 'ns-neg'
         elif pct > 0.0001:
-            return 'ns-pos'
-        return 'ns-ok'
+            return 'ns-ok'
+        return 'ns-pos'
 
     def _render_table(self, title, first_col_label, rows, header_class):
         def fmt(v):
