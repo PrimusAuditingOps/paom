@@ -373,8 +373,8 @@ class PAOSalesBudget(models.Model):
             if pct < -0.0001:
                 return pct_fmts['danger']
             elif pct > 0.0001:
-                return pct_fmts['warning']
-            return pct_fmts['success']
+                return pct_fmts['success']
+            return pct_fmts['warning']
 
         # Encabezados (2 filas: mes y sub-columna)
         worksheet.merge_range(0, 0, 1, 0, 'Región', header_fmt)

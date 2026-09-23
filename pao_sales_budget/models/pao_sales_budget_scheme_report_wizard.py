@@ -174,7 +174,7 @@ class PAOSalesBudgetSchemeReportWizard(models.TransientModel):
             return '{:,.2f}'.format(v)
 
         def fmt_pct(pct, unbudgeted):
-            cls = 'ns-unbud' if unbudgeted else ('ns-neg' if pct < -0.0001 else ('ns-pos' if pct > 0.0001 else 'ns-ok'))
+            cls = 'ns-unbud' if unbudgeted else ('ns-neg' if pct < -0.0001 else ('ns-ok' if pct > 0.0001 else 'ns-pos'))
             return '<span class="ns-pct %s">%.0f%%</span>' % (cls, pct * 100)
 
         def metric_cells(metric):
@@ -288,8 +288,8 @@ class PAOSalesBudgetSchemeReportWizard(models.TransientModel):
             if pct < -0.0001:
                 return fmts['pct_neg']
             elif pct > 0.0001:
-                return fmts['pct_pos']
-            return fmts['pct_ok']
+                return fmts['pct_ok']
+            return fmts['pct_pos']
 
         def write_sheet(name, title, rows, header_fmt):
             ws = workbook.add_worksheet(name)
