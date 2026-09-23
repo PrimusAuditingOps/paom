@@ -551,8 +551,12 @@ class PaoSalesCommission(models.Model):
         return payments.filtered(lambda p: p)
 
     def _determine_exchange_rate(self, invoices, company):
-        """Devuelve (tipo_cambio_usd_mxn, account.payment) usando la fecha
-        del pago de mayor monto, comparando los pagos ya convertidos a MXN."""
+        """Devuelve (tipo_cambio_usd_mxn, account.payment): se usa la fecha
+        del pago de mayor monto (ya convertido a MXN) entre los pagos
+        conciliados a las facturas relacionadas. Si dos o más pagos empatan
+        en el monto en MXN, se toma el más antiguo (fecha de pago más
+        temprana) entre ellos, en vez de depender del orden implícito del
+        recordset."""
         self.ensure_one()
         mxn = self.env['res.currency'].search([('name', '=', 'MXN')], limit=1)
         usd = self.currency_cotizacion_id or self.env['res.currency'].search(
@@ -572,14 +576,19 @@ class PaoSalesCommission(models.Model):
 
         better_payment = self.env['account.payment']
         better_amount_mxn = -1.0
+        better_date = None
         for payment in payments:
             date = payment.date or fields.Date.context_today(self)
             amount_mxn = payment.currency_id._convert(
                 payment.amount, mxn, company, date
             )
-            if amount_mxn > better_amount_mxn:
+            is_better = amount_mxn > better_amount_mxn or (
+                amount_mxn == better_amount_mxn and date < better_date
+            )
+            if is_better:
                 better_amount_mxn = amount_mxn
                 better_payment = payment
+                better_date = date
 
         if not better_payment:
             return 0.0, self.env['account.payment']
