@@ -20,6 +20,7 @@
         'pao_quotation_consultant',
         'servicereferralagreement',
         'pao_customer_segmentation',
+        'suppliertaxes',
     ],
     'data': [
         'security/pao_sales_commission_security.xml',
@@ -28,6 +29,7 @@
         'data/pao_ir_cron_data.xml',
         'views/pao_comisionpromotores_promotor_inherit_views.xml',
         'views/pao_sale_order_views.xml',
+        'views/pao_purchase_order_views.xml',
         'views/pao_sales_commission_views.xml',
         'views/pao_menu_views.xml',
     ],

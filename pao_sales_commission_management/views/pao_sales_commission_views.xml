@@ -58,15 +58,6 @@
                            statusbar_visible="pending_invoicing,pending_service,submit_for_approval,pending_approval,approved,processed"/>
                 </header>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_view_sale" type="object"
-                                class="oe_stat_button" icon="fa-file-text-o">
-                            <div class="o_stat_info">
-                                <span class="o_stat_text">View</span>
-                                <span class="o_stat_text">Sales</span>
-                            </div>
-                        </button>
-                    </div>
                     <widget name="web_ribbon" title="Under Review"
                             bg_color="bg-danger"
                             invisible="state != 'under_review'"/>
@@ -102,6 +93,8 @@
                             <field name="applied_exchange_rate" readonly="1"/>
                             <field name="commission_amount_mxn" readonly="1"
                                    class="fw-bold fs-5"/>
+                            <field name="purchase_order_id" readonly="1"
+                                   invisible="not purchase_order_id"/>
                         </group>
                     </group>
                     <separator string="Commissionable Product Lines"/>

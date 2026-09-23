@@ -347,17 +347,27 @@ class PaoSalesCommission(models.Model):
             )
 
         total_mxn = sum(self.mapped('commission_amount_mxn'))
+        order_line_vals = {
+            'product_id': product.id,
+            'name': 'Comisiones Promotores: %s' % ', '.join(self.mapped('name')),
+            'product_qty': 1,
+            'product_uom': product.uom_po_id.id,
+            'price_unit': total_mxn,
+            'date_planned': fields.Datetime.now(),
+        }
+        # Mismo comportamiento que el módulo suppliertaxes (que solo actúa
+        # vía onchange en el formulario, por lo que no se dispara al crear
+        # la orden directo por código): si el proveedor tiene impuestos de
+        # proveedor configurados, se les asignan a la línea; si no, se deja
+        # tal cual (sin impuestos), igual que haría el onchange.
+        supplier_taxes = promotor.partner_id.st_supplier_taxes_id
+        if supplier_taxes:
+            order_line_vals['taxes_id'] = [(6, 0, supplier_taxes.taxes_id.ids)]
+
         purchase_order = self.env['purchase.order'].sudo().create({
             'partner_id': promotor.partner_id.id,
             'currency_id': mxn.id,
-            'order_line': [(0, 0, {
-                'product_id': product.id,
-                'name': 'Comisiones Promotores: %s' % ', '.join(self.mapped('name')),
-                'product_qty': 1,
-                'product_uom': product.uom_po_id.id,
-                'price_unit': total_mxn,
-                'date_planned': fields.Datetime.now(),
-            })],
+            'order_line': [(0, 0, order_line_vals)],
         })
         self.write({
             'purchase_order_id': purchase_order.id,
