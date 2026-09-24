@@ -1,0 +1,51 @@
+<odoo>
+
+  <record id="pao_sales_budget_dashboard_filter_view_tree" model="ir.ui.view">
+    <field name="name">pao.sales.budget.dashboard.filter.view.tree</field>
+    <field name="model">pao.sales.budget.dashboard.filter</field>
+    <field name="arch" type="xml">
+      <tree string="Filtros del Dashboard">
+        <field name="name"/>
+        <field name="user_id"/>
+        <field name="is_shared"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="pao_sales_budget_dashboard_filter_view_form" model="ir.ui.view">
+    <field name="name">pao.sales.budget.dashboard.filter.view.form</field>
+    <field name="model">pao.sales.budget.dashboard.filter</field>
+    <field name="arch" type="xml">
+      <form string="Filtro del Dashboard">
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="user_id" readonly="1"/>
+            <field name="is_shared"/>
+          </group>
+          <field name="domain" widget="domain" options="{'model': 'pao.sales.budget.line'}"/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_pao_sales_budget_dashboard_filter" model="ir.actions.act_window">
+    <field name="name">Filtros del Dashboard</field>
+    <field name="res_model">pao.sales.budget.dashboard.filter</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <menuitem id="pao_sales_budget_dashboard_filter_item"
+            name="Filtros del Dashboard"
+            parent="sale.menu_sales_config"
+            action="action_pao_sales_budget_dashboard_filter"
+            sequence="7"/>
+
+  <menuitem id="pao_sales_budget_dashboard_filter_vendor"
+            name="Filtros del Dashboard"
+            parent="sale.sale_order_menu"
+            action="action_pao_sales_budget_dashboard_filter"
+            groups="pao_sales_budget.group_pao_sales_budget_vendor"
+            sequence="112"/>
+
+</odoo>

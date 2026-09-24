@@ -3,6 +3,8 @@ import io
 from collections import defaultdict
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class PAOSalesBudgetDashboardWizard(models.TransientModel):
@@ -23,6 +25,12 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
          ('05', 'Mayo'), ('06', 'Junio'), ('07', 'Julio'), ('08', 'Agosto')],
         string='Mes de Corte', required=True,
         default=lambda self: self._default_month())
+    filter_domain = fields.Char(string='Filtro', default='[]',
+                                help='Condiciones sobre las líneas del presupuesto (producto, región, esquema, '
+                                     'categoría/nombre de cliente...). Se aplican a Objetivo y Real en todos los reportes.')
+    # La regla de registro ya limita a los filtros propios o compartidos.
+    saved_filter_id = fields.Many2one('pao.sales.budget.dashboard.filter', string='Filtro guardado')
+    new_filter_name = fields.Char(string='Guardar filtro como')
     report_html = fields.Html(string='Reporte', readonly=True, sanitize=False)
 
     # ------------------------------------------------------------------
@@ -63,7 +71,7 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
 
         def grouped(Model):
             groups = Model.read_group(
-                [('budget_id', '=', self.budget_id.id)],
+                self._line_domain(),
                 fields=[f + ':sum' for f in all_fields],
                 groupby=groupby_fields,
                 lazy=False,
@@ -153,6 +161,36 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
     def _get_region_category_data(self):
         return self._budget_vs_actual_monthly(['customer_category', 'region_id'])
 
+    @api.onchange('saved_filter_id')
+    def _onchange_saved_filter_id(self):
+        if self.saved_filter_id:
+            self.filter_domain = self.saved_filter_id.domain
+
+    def _line_domain(self):
+        """Dominio base sobre pao.sales.budget.line / actual.line: el
+        presupuesto elegido más el filtro del usuario (los dos modelos
+        comparten los campos de producto, región, esquema y cliente)."""
+        self.ensure_one()
+        try:
+            extra = safe_eval(self.filter_domain or '[]')
+        except Exception:
+            raise UserError(_('El filtro no es válido.'))
+        return [('budget_id', '=', self.budget_id.id)] + list(extra)
+
+    def action_save_filter(self):
+        self.ensure_one()
+        name = (self.new_filter_name or '').strip()
+        if not name:
+            raise UserError(_('Escribe un nombre para guardar el filtro.'))
+        if (self.filter_domain or '[]') == '[]':
+            raise UserError(_('No hay condiciones que guardar.'))
+        self.saved_filter_id = self.env['pao.sales.budget.dashboard.filter'].create({
+            'name': name,
+            'domain': self.filter_domain,
+        })
+        self.new_filter_name = False
+        return True
+
     def _default_month(self):
         mm = '%02d' % fields.Date.context_today(self).month
         return mm if mm in self.MONTHS_ORDER else '09'
@@ -186,7 +224,7 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
 
         def grouped_totals(Model, extra_domain, fields_list):
             groups = Model.read_group(
-                [('budget_id', '=', budget.id)] + extra_domain,
+                self._line_domain() + extra_domain,
                 fields=[f + ':sum' for f in fields_list],
                 groupby=['pao_sales_budget_scheme_id'],
             )

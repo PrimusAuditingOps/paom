@@ -12,4 +12,24 @@
         <field name="global" eval="True"/>
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
+    <record model="ir.rule" id="pao_sales_budget_dashboard_filter_read_rule">
+        <field name="name">PAO Sales Budget Dashboard Filter: propios o compartidos</field>
+        <field name="model_id" ref="model_pao_sales_budget_dashboard_filter"/>
+        <field name="global" eval="True"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|', ('user_id', '=', user.id), ('is_shared', '=', True)]</field>
+    </record>
+    <record model="ir.rule" id="pao_sales_budget_dashboard_filter_write_rule">
+        <field name="name">PAO Sales Budget Dashboard Filter: solo el propietario modifica</field>
+        <field name="model_id" ref="model_pao_sales_budget_dashboard_filter"/>
+        <field name="global" eval="True"/>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
 </odoo>
