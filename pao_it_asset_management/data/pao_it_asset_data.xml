@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Precarga inicial de catálogos. noupdate="1": se cargan una sola vez;
+         si el administrador los edita o borra, una actualización del
+         módulo NO los repone ni los sobrescribe. -->
+    <data noupdate="1">
+
+        <!-- CATEGORÍAS -->
+        <record id="category_laptop" model="pao.it.asset.category">
+            <field name="name">Laptop</field>
+        </record>
+        <record id="category_desktop" model="pao.it.asset.category">
+            <field name="name">Desktop</field>
+        </record>
+        <record id="category_server" model="pao.it.asset.category">
+            <field name="name">Server</field>
+        </record>
+        <record id="category_monitor" model="pao.it.asset.category">
+            <field name="name">Monitor</field>
+        </record>
+        <record id="category_mobile_phone" model="pao.it.asset.category">
+            <field name="name">Mobile Phone</field>
+            <field name="requires_imei" eval="True"/>
+        </record>
+        <record id="category_tablet" model="pao.it.asset.category">
+            <field name="name">Tablet</field>
+            <field name="requires_imei" eval="True"/>
+        </record>
+        <record id="category_access_point" model="pao.it.asset.category">
+            <field name="name">Access Point</field>
+        </record>
+        <record id="category_switch" model="pao.it.asset.category">
+            <field name="name">Switch</field>
+        </record>
+        <record id="category_router" model="pao.it.asset.category">
+            <field name="name">Router</field>
+        </record>
+        <record id="category_firewall" model="pao.it.asset.category">
+            <field name="name">Firewall</field>
+        </record>
+        <record id="category_printer" model="pao.it.asset.category">
+            <field name="name">Printer</field>
+        </record>
+        <record id="category_peripheral" model="pao.it.asset.category">
+            <field name="name">Peripheral</field>
+        </record>
+        <record id="category_other" model="pao.it.asset.category">
+            <field name="name">Other</field>
+        </record>
+
+        <!-- CONDICIONES -->
+        <record id="condition_good" model="pao.it.condition">
+            <field name="name">Good</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="condition_normal" model="pao.it.condition">
+            <field name="name">Normal</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="condition_bad" model="pao.it.condition">
+            <field name="name">Bad</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="condition_broken" model="pao.it.condition">
+            <field name="name">Broken</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <!-- MOTIVOS DE BAJA -->
+        <record id="retirement_reason_sold" model="pao.it.retirement.reason">
+            <field name="name">Sold</field>
+        </record>
+        <record id="retirement_reason_donated" model="pao.it.retirement.reason">
+            <field name="name">Donated</field>
+        </record>
+        <record id="retirement_reason_scrapped" model="pao.it.retirement.reason">
+            <field name="name">Scrapped</field>
+        </record>
+        <record id="retirement_reason_ewaste" model="pao.it.retirement.reason">
+            <field name="name">E-waste</field>
+        </record>
+        <record id="retirement_reason_obsolete" model="pao.it.retirement.reason">
+            <field name="name">Obsolete</field>
+        </record>
+
+        <!-- OTROS MÉTODOS DE COMPRA -->
+        <record id="purchase_method_amazon" model="pao.it.purchase.method">
+            <field name="name">Amazon</field>
+        </record>
+        <record id="purchase_method_mercado_libre" model="pao.it.purchase.method">
+            <field name="name">Mercado Libre</field>
+        </record>
+
+        <!-- PAQUETERÍAS -->
+        <record id="carrier_dhl" model="pao.it.carrier">
+            <field name="name">DHL</field>
+        </record>
+        <record id="carrier_fedex" model="pao.it.carrier">
+            <field name="name">FedEx</field>
+        </record>
+        <record id="carrier_ups" model="pao.it.carrier">
+            <field name="name">UPS</field>
+        </record>
+        <record id="carrier_estafeta" model="pao.it.carrier">
+            <field name="name">Estafeta</field>
+        </record>
+
+        <!-- TIPOS DE SOFTWARE (tomados del Excel "IT Platforms Pricing") -->
+        <record id="software_type_productivity" model="pao.it.software.type">
+            <field name="name">Productivity / Email</field>
+        </record>
+        <record id="software_type_pdf" model="pao.it.software.type">
+            <field name="name">PDF Editor</field>
+        </record>
+        <record id="software_type_video" model="pao.it.software.type">
+            <field name="name">Video Conferencing</field>
+        </record>
+        <record id="software_type_antivirus" model="pao.it.software.type">
+            <field name="name">Anti-Virus</field>
+        </record>
+        <record id="software_type_password" model="pao.it.software.type">
+            <field name="name">Password Manager</field>
+        </record>
+        <record id="software_type_email_marketing" model="pao.it.software.type">
+            <field name="name">Email Marketing</field>
+        </record>
+        <record id="software_type_design" model="pao.it.software.type">
+            <field name="name">Design / Creativity</field>
+        </record>
+        <record id="software_type_accounting" model="pao.it.software.type">
+            <field name="name">Accounting</field>
+        </record>
+        <record id="software_type_payroll" model="pao.it.software.type">
+            <field name="name">Payroll</field>
+        </record>
+        <record id="software_type_expenses" model="pao.it.software.type">
+            <field name="name">Expense Reporting</field>
+        </record>
+        <record id="software_type_survey" model="pao.it.software.type">
+            <field name="name">Online Survey</field>
+        </record>
+        <record id="software_type_hosting" model="pao.it.software.type">
+            <field name="name">Web Hosting / Domain</field>
+        </record>
+        <record id="software_type_ai" model="pao.it.software.type">
+            <field name="name">AI</field>
+        </record>
+        <record id="software_type_other" model="pao.it.software.type">
+            <field name="name">Other</field>
+        </record>
+    </data>
+</odoo>

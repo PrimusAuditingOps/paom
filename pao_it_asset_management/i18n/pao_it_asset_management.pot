@@ -1,0 +1,852 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_it_asset_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-24 23:13+0000\n"
+"PO-Revision-Date: 2026-09-24 23:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_it_asset_management
+#: model:ir.module.category,description:pao_it_asset_management.module_category_it_asset
+msgid "Access management for IT assets and software licenses."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_access_point
+msgid "Access Point"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_accounting
+msgid "Accounting"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_category__active
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_brand__active
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_carrier__active
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_condition__active
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__active
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_model__active
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_purchase_method__active
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_retirement_reason__active
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_software_type__active
+msgid "Active"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Active Assets"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:res.groups,name:pao_it_asset_management.group_it_asset_admin
+msgid "Administrator"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_ai
+msgid "AI"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_antivirus
+msgid "Anti-Virus"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_brand_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_brand_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_model_search
+msgid "Archived"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__asset_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Asset"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_retirement_reason
+msgid "Asset Retirement Reason"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__asset_tag
+msgid "Asset Tag"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_asset
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_tree
+msgid "Assets"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__assigned
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Assigned"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__assigned_department_id
+msgid "Assigned Department"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__employee_id
+msgid "Assigned Employee"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__available
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Available"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.condition,name:pao_it_asset_management.condition_bad
+msgid "Bad"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__brand_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_model__brand_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_brand_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_model_search
+msgid "Brand"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_brand
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_brand
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_brand_tree
+msgid "Brands"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.condition,name:pao_it_asset_management.condition_broken
+msgid "Broken"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_carrier
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_carrier
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_carrier_tree
+msgid "Carriers"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset_category
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_category
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_category_tree
+msgid "Categories"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__category_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Category"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__city
+msgid "City"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__company_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__company_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__company_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
+msgid "Company"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__condition_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Condition"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_condition
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_condition
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_condition_tree
+msgid "Conditions"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config
+msgid "Configuration"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__country_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
+msgid "Country"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Coverage / Notes"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__date
+msgid "Date"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__department_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_kanban
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Department"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__description
+msgid "Description"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_design
+msgid "Design / Creativity"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_desktop
+msgid "Desktop"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Details"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_donated
+msgid "Donated"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "e.g. Intel Core i5-1235U 1.30 GHz, 16 GB RAM, 256 GB SSD, 14\" FHD display, Windows 11 Pro"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "e.g. LPT-MX-076"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_email_marketing
+msgid "Email Marketing"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_kanban
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Employee"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_ewaste
+msgid "E-waste"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_expenses
+msgid "Expense Reporting"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_firewall
+msgid "Firewall"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:res.groups,comment:pao_it_asset_management.group_it_asset_admin
+msgid "Full control: register and move assets, manage licenses and catalogs."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__image_ids
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Gallery"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.condition,name:pao_it_asset_management.condition_good
+msgid "Good"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_model_search
+msgid "Group By"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_hardware
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_hardware
+msgid "Hardware"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_location__location_type__home_office
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
+msgid "Home Office"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset__payment_details
+msgid "How it was paid, e.g. corporate card, reimbursement."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Identification"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset__requires_imei
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_category__requires_imei
+msgid "If checked, assets of this category show the IMEI field (e.g. mobile phones, tablets)."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__image_1920
+msgid "Image"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__imei
+msgid "IMEI"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__in_repair
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "In Repair"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__in_transit
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "In Transit"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset
+msgid "IT Asset"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_brand
+msgid "IT Asset Brand"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_category
+msgid "IT Asset Category"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_condition
+msgid "IT Asset Condition"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_location
+msgid "IT Asset Location"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.module.category,name:pao_it_asset_management.module_category_it_asset
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_root
+msgid "IT Asset Management"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_model
+msgid "IT Asset Model"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_image
+msgid "IT Asset Photo"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_laptop
+msgid "Laptop"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset
+msgid "Laptops, desktops, servers, mobile phones, network equipment and any other device the IT team manages."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__location_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Location"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Location & Responsible"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__location_type
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__location_type
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
+msgid "Location Type"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_location
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_location
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_tree
+msgid "Locations"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__lost
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Lost / Stolen"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_mobile_phone
+msgid "Mobile Phone"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__model_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Model"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_model
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_brand__model_ids
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_model
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_brand_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_model_tree
+msgid "Models"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_monitor
+msgid "Monitor"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_category__name
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_brand__name
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_carrier__name
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_condition__name
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__name
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_model__name
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_purchase_method__name
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_retirement_reason__name
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_software_type__name
+msgid "Name"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__warranty_status__none
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "No Warranty"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.condition,name:pao_it_asset_management.condition_normal
+msgid "Normal"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__notes
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Notes"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_obsolete
+msgid "Obsolete"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_location__location_type__office
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
+msgid "Office"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_survey
+msgid "Online Survey"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_other
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_other
+msgid "Other"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_purchase_method
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_method_id
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__purchase_source__other
+msgid "Other Purchase Method"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_purchase_method
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_purchase_method
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_purchase_method_tree
+msgid "Other Purchase Methods"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_password
+msgid "Password Manager"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__payment_details
+msgid "Payment Details"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_payroll
+msgid "Payroll"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_pdf
+msgid "PDF Editor"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_peripheral
+msgid "Peripheral"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Photo"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_printer
+msgid "Printer"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__product_number
+msgid "Product Number"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_productivity
+msgid "Productivity / Email"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Purchase"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_cost
+msgid "Purchase Cost"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_date
+msgid "Purchase Date"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_order_id
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__purchase_source__purchase_order
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Purchase Order"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_line_id
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_order_ref
+msgid "Purchase Order Ref."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_source
+msgid "Purchase Source"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:res.groups,comment:pao_it_asset_management.group_it_asset_user
+msgid "Read-only access to IT assets, licenses and their history."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset
+msgid "Register your first IT asset"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__requires_imei
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_category__requires_imei
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_category_tree
+msgid "Requires IMEI"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__retired
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Retired"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_retirement_reason
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_retirement_reason
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_retirement_reason_tree
+msgid "Retirement Reasons"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_router
+msgid "Router"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_scrapped
+msgid "Scrapped"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_condition__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__serial_number
+msgid "Serial Number"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_server
+msgid "Server"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_carrier
+msgid "Shipping Carrier"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_software
+msgid "Software"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_software_type
+msgid "Software Type"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_software_type
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_software_type
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_software_type_tree
+msgid "Software Types"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_sold
+msgid "Sold"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__specifications
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Specifications"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__state_id
+msgid "State"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__state
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Status"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_switch
+msgid "Switch"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.asset.category,name:pao_it_asset_management.category_tablet
+msgid "Tablet"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.constraint,message:pao_it_asset_management.constraint_pao_it_asset_asset_tag_uniq
+msgid "The Asset Tag must be unique."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#, python-format
+msgid "The location %(location)s belongs to another company."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#, python-format
+msgid "The selected model does not belong to the selected brand."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#, python-format
+msgid "The warranty end date cannot be before its start date."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.constraint,message:pao_it_asset_management.constraint_pao_it_brand_name_uniq
+msgid "This brand already exists."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.constraint,message:pao_it_asset_management.constraint_pao_it_model_name_brand_uniq
+msgid "This model already exists for this brand."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__name
+msgid "Title"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Unassigned"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__warranty_status__active
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Under Warranty"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#, python-format
+msgid "Unsupported search on warranty status."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:res.groups,name:pao_it_asset_management.group_it_asset_user
+msgid "User"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__vendor_id
+msgid "Vendor"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__account_move_id
+msgid "Vendor Bill / Journal Entry"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__account_move_ref
+msgid "Vendor Bill / Journal Entry Ref."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_video
+msgid "Video Conferencing"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Warranty"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__warranty_notes
+msgid "Warranty Coverage / Notes"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__warranty_end
+msgid "Warranty End"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__warranty_status__expired
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Warranty Expired"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__warranty_status__expiring
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
+msgid "Warranty Expiring"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__warranty_partner_id
+msgid "Warranty Provider"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__warranty_start
+msgid "Warranty Start"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__warranty_status
+msgid "Warranty Status"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:pao.it.software.type,name:pao_it_asset_management.software_type_hosting
+msgid "Web Hosting / Domain"
+msgstr ""

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_it_asset" model="ir.module.category">
+            <field name="name">IT Asset Management</field>
+            <field name="description">Access management for IT assets and software licenses.</field>
+            <field name="sequence">16</field>
+        </record>
+
+        <!-- User: solo consulta (personal de Finanzas). -->
+        <record id="group_it_asset_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="pao_it_asset_management.module_category_it_asset"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Read-only access to IT assets, licenses and their history.</field>
+        </record>
+
+        <!-- Administrator: TI. Hace todos los movimientos y administra los
+             catálogos. Incluye al grupo User. -->
+        <record id="group_it_asset_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="pao_it_asset_management.module_category_it_asset"/>
+            <field name="implied_ids" eval="[(4, ref('pao_it_asset_management.group_it_asset_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+            <field name="comment">Full control: register and move assets, manage licenses and catalogs.</field>
+        </record>
+
+        <!-- Reglas multi-compañía: cada quien ve solo lo de las compañías
+             que tiene seleccionadas en el selector de compañías. La
+             compañía es obligatoria en estos modelos (no hay registros
+             "globales"), por eso no se incluye la variante con
+             company_id vacío. -->
+        <record id="pao_it_asset_company_rule" model="ir.rule">
+            <field name="name">IT Asset: multi-company</field>
+            <field name="model_id" ref="model_pao_it_asset"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <record id="pao_it_asset_image_company_rule" model="ir.rule">
+            <field name="name">IT Asset Photo: multi-company</field>
+            <field name="model_id" ref="model_pao_it_asset_image"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <record id="pao_it_location_company_rule" model="ir.rule">
+            <field name="name">IT Location: multi-company</field>
+            <field name="model_id" ref="model_pao_it_location"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="global" eval="True"/>
+        </record>
+    </data>
+</odoo>

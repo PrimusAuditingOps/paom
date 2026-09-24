@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú raíz: abre la lista de activos (el tablero de inicio llega en
+         el entregable 6). -->
+    <menuitem id="menu_pao_it_root"
+              name="IT Asset Management"
+              web_icon="pao_it_asset_management,static/description/icon.png"
+              groups="pao_it_asset_management.group_it_asset_user"
+              action="action_pao_it_asset"
+              sequence="60"/>
+
+    <!-- HARDWARE -->
+    <menuitem id="menu_pao_it_hardware"
+              name="Hardware"
+              parent="menu_pao_it_root"
+              sequence="20"/>
+    <menuitem id="menu_pao_it_asset"
+              name="Assets"
+              parent="menu_pao_it_hardware"
+              action="action_pao_it_asset"
+              sequence="10"/>
+
+    <!-- CONFIGURACIÓN (solo administradores) -->
+    <menuitem id="menu_pao_it_config"
+              name="Configuration"
+              parent="menu_pao_it_root"
+              groups="pao_it_asset_management.group_it_asset_admin"
+              sequence="100"/>
+
+    <menuitem id="menu_pao_it_config_hardware"
+              name="Hardware"
+              parent="menu_pao_it_config"
+              sequence="10"/>
+    <menuitem id="menu_pao_it_config_category" name="Categories" parent="menu_pao_it_config_hardware"
+              action="action_pao_it_asset_category" sequence="10"/>
+    <menuitem id="menu_pao_it_config_brand" name="Brands" parent="menu_pao_it_config_hardware"
+              action="action_pao_it_brand" sequence="20"/>
+    <menuitem id="menu_pao_it_config_model" name="Models" parent="menu_pao_it_config_hardware"
+              action="action_pao_it_model" sequence="30"/>
+    <menuitem id="menu_pao_it_config_location" name="Locations" parent="menu_pao_it_config_hardware"
+              action="action_pao_it_location" sequence="40"/>
+    <menuitem id="menu_pao_it_config_condition" name="Conditions" parent="menu_pao_it_config_hardware"
+              action="action_pao_it_condition" sequence="50"/>
+    <menuitem id="menu_pao_it_config_purchase_method" name="Other Purchase Methods"
+              parent="menu_pao_it_config_hardware"
+              action="action_pao_it_purchase_method" sequence="60"/>
+    <menuitem id="menu_pao_it_config_carrier" name="Carriers" parent="menu_pao_it_config_hardware"
+              action="action_pao_it_carrier" sequence="70"/>
+    <menuitem id="menu_pao_it_config_retirement_reason" name="Retirement Reasons"
+              parent="menu_pao_it_config_hardware"
+              action="action_pao_it_retirement_reason" sequence="80"/>
+
+    <menuitem id="menu_pao_it_config_software"
+              name="Software"
+              parent="menu_pao_it_config"
+              sequence="20"/>
+    <menuitem id="menu_pao_it_config_software_type" name="Software Types"
+              parent="menu_pao_it_config_software"
+              action="action_pao_it_software_type" sequence="10"/>
+</odoo>

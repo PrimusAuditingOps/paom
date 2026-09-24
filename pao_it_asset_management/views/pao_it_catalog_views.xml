@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================== -->
+    <!-- CATÁLOGOS SIMPLES: listas editables        -->
+    <!-- ========================================== -->
+
+    <!-- CATEGORÍAS -->
+    <record id="view_pao_it_asset_category_tree" model="ir.ui.view">
+        <field name="name">pao.it.asset.category.tree</field>
+        <field name="model">pao.it.asset.category</field>
+        <field name="arch" type="xml">
+            <tree string="Categories" editable="bottom">
+                <field name="name"/>
+                <field name="requires_imei"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pao_it_asset_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">pao.it.asset.category</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- MARCAS -->
+    <record id="view_pao_it_brand_tree" model="ir.ui.view">
+        <field name="name">pao.it.brand.tree</field>
+        <field name="model">pao.it.brand</field>
+        <field name="arch" type="xml">
+            <tree string="Brands">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_it_brand_form" model="ir.ui.view">
+        <field name="name">pao.it.brand.form</field>
+        <field name="model">pao.it.brand</field>
+        <field name="arch" type="xml">
+            <form string="Brand">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Models" name="models">
+                            <field name="model_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pao_it_brand_search" model="ir.ui.view">
+        <field name="name">pao.it.brand.search</field>
+        <field name="model">pao.it.brand</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pao_it_brand" model="ir.actions.act_window">
+        <field name="name">Brands</field>
+        <field name="res_model">pao.it.brand</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- MODELOS -->
+    <record id="view_pao_it_model_tree" model="ir.ui.view">
+        <field name="name">pao.it.model.tree</field>
+        <field name="model">pao.it.model</field>
+        <field name="arch" type="xml">
+            <tree string="Models" editable="bottom">
+                <field name="brand_id"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_it_model_search" model="ir.ui.view">
+        <field name="name">pao.it.model.search</field>
+        <field name="model">pao.it.model</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="brand_id"/>
+                <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Brand" name="group_brand" context="{'group_by': 'brand_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pao_it_model" model="ir.actions.act_window">
+        <field name="name">Models</field>
+        <field name="res_model">pao.it.model</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- UBICACIONES -->
+    <record id="view_pao_it_location_tree" model="ir.ui.view">
+        <field name="name">pao.it.location.tree</field>
+        <field name="model">pao.it.location</field>
+        <field name="arch" type="xml">
+            <tree string="Locations" editable="bottom">
+                <field name="city"/>
+                <field name="state_id" options="{'no_create': True}"/>
+                <field name="country_id" optional="show"/>
+                <field name="location_type"/>
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_it_location_search" model="ir.ui.view">
+        <field name="name">pao.it.location.search</field>
+        <field name="model">pao.it.location</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="state_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter string="Office" name="office" domain="[('location_type', '=', 'office')]"/>
+                <filter string="Home Office" name="home_office" domain="[('location_type', '=', 'home_office')]"/>
+                <separator/>
+                <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"/>
+                    <filter string="Country" name="group_country" context="{'group_by': 'country_id'}"/>
+                    <filter string="Location Type" name="group_type" context="{'group_by': 'location_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pao_it_location" model="ir.actions.act_window">
+        <field name="name">Locations</field>
+        <field name="res_model">pao.it.location</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- CONDICIONES -->
+    <record id="view_pao_it_condition_tree" model="ir.ui.view">
+        <field name="name">pao.it.condition.tree</field>
+        <field name="model">pao.it.condition</field>
+        <field name="arch" type="xml">
+            <tree string="Conditions" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pao_it_condition" model="ir.actions.act_window">
+        <field name="name">Conditions</field>
+        <field name="res_model">pao.it.condition</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- OTROS MÉTODOS DE COMPRA -->
+    <record id="view_pao_it_purchase_method_tree" model="ir.ui.view">
+        <field name="name">pao.it.purchase.method.tree</field>
+        <field name="model">pao.it.purchase.method</field>
+        <field name="arch" type="xml">
+            <tree string="Other Purchase Methods" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pao_it_purchase_method" model="ir.actions.act_window">
+        <field name="name">Other Purchase Methods</field>
+        <field name="res_model">pao.it.purchase.method</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- PAQUETERÍAS -->
+    <record id="view_pao_it_carrier_tree" model="ir.ui.view">
+        <field name="name">pao.it.carrier.tree</field>
+        <field name="model">pao.it.carrier</field>
+        <field name="arch" type="xml">
+            <tree string="Carriers" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pao_it_carrier" model="ir.actions.act_window">
+        <field name="name">Carriers</field>
+        <field name="res_model">pao.it.carrier</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- MOTIVOS DE BAJA -->
+    <record id="view_pao_it_retirement_reason_tree" model="ir.ui.view">
+        <field name="name">pao.it.retirement.reason.tree</field>
+        <field name="model">pao.it.retirement.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Retirement Reasons" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pao_it_retirement_reason" model="ir.actions.act_window">
+        <field name="name">Retirement Reasons</field>
+        <field name="res_model">pao.it.retirement.reason</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- TIPOS DE SOFTWARE -->
+    <record id="view_pao_it_software_type_tree" model="ir.ui.view">
+        <field name="name">pao.it.software.type.tree</field>
+        <field name="model">pao.it.software.type</field>
+        <field name="arch" type="xml">
+            <tree string="Software Types" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pao_it_software_type" model="ir.actions.act_window">
+        <field name="name">Software Types</field>
+        <field name="res_model">pao.it.software.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+</odoo>
