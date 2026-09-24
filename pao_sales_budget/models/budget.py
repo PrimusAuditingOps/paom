@@ -248,7 +248,7 @@ class PAOSalesBudget(models.Model):
         pct_fmts = {
             'danger': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#FFC7CE', 'font_color': '#9C0006'}),
             'success': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#C6EFCE', 'font_color': '#006100'}),
-            'warning': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#FFEB9C', 'font_color': '#9C6500'}),
+            'neutral': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#EDEDED', 'font_color': '#595959'}),
             'unbudgeted': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#BDD7EE', 'font_color': '#1F4E78'}),
         }
 
@@ -258,8 +258,8 @@ class PAOSalesBudget(models.Model):
             if pct < -0.0001:
                 return pct_fmts['danger']
             elif pct > 0.0001:
-                return pct_fmts['warning']
-            return pct_fmts['success']
+                return pct_fmts['success']
+            return pct_fmts['neutral']
 
         # Encabezados (2 filas: mes y sub-columna)
         worksheet.merge_range(0, 0, 1, 0, 'Región', header_fmt)

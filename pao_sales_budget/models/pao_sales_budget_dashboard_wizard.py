@@ -233,9 +233,9 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
             .ns-report-table td:first-child, .ns-report-table th:first-child{text-align:left;}
             .ns-total-row td{font-weight:bold;border-top:2px solid #333;}
             .ns-pct{padding:1px 5px;border-radius:3px;}
-            .ns-pos{background:#FFEB9C;color:#9C6500;}
+            .ns-pos{background:#C6EFCE;color:#006100;}
             .ns-neg{background:#FFC7CE;color:#9C0006;}
-            .ns-ok{background:#C6EFCE;color:#006100;}
+            .ns-ok{background:#EDEDED;color:#595959;}
             .ns-unbud{background:#BDD7EE;color:#1F4E78;}
         </style>'''
 
@@ -281,8 +281,8 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         num_total_fmt = workbook.add_format({'border': 1, 'num_format': '#,##0.00', 'bold': True})
         pct_fmts = {
             'ns-neg': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#FFC7CE', 'font_color': '#9C0006'}),
-            'ns-ok': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#C6EFCE', 'font_color': '#006100'}),
-            'ns-pos': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#FFEB9C', 'font_color': '#9C6500'}),
+            'ns-ok': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#EDEDED', 'font_color': '#595959'}),
+            'ns-pos': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#C6EFCE', 'font_color': '#006100'}),
             'ns-unbud': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#BDD7EE', 'font_color': '#1F4E78'}),
         }
 

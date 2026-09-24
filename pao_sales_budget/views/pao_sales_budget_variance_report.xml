@@ -33,8 +33,8 @@
       <tree string="Presupuestado vs Real" create="false" edit="false"
             decoration-info="budgeted_qty == 0 and actual_qty &gt; 0"
             decoration-danger="budgeted_qty != 0 and variance_pct &lt; -0.0001"
-            decoration-warning="budgeted_qty != 0 and variance_pct &gt; 0.0001"
-            decoration-success="budgeted_qty != 0 and variance_pct &gt;= -0.0001 and variance_pct &lt;= 0.0001">
+            decoration-success="budgeted_qty != 0 and variance_pct &gt; 0.0001"
+            decoration-muted="budgeted_qty != 0 and variance_pct &gt;= -0.0001 and variance_pct &lt;= 0.0001">
         <field name="region_id"/>
         <field name="customer_category"/>
         <field name="customer_name"/>
