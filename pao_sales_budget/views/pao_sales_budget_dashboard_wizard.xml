@@ -11,6 +11,17 @@
           </div>
           <group>
             <field name="budget_id"/>
+            <field name="month"/>
+          </group>
+          <separator string="Filtros (opcional)"/>
+          <group>
+            <field name="saved_filter_id" options="{'no_create': True}"/>
+            <field name="filter_domain" widget="domain" options="{'model': 'pao.sales.budget.line'}" invisible="not budget_id"/>
+            <label for="new_filter_name"/>
+            <div class="o_row">
+              <field name="new_filter_name" placeholder="Nombre del favorito..." class="oe_inline"/>
+              <button string="Guardar filtro" type="object" name="action_save_filter" class="btn-secondary" invisible="not new_filter_name"/>
+            </div>
           </group>
           <div class="oe_button_box" style="margin-bottom: 16px;">
             <button string="Generar" type="object" name="action_generate_report" class="btn-primary" invisible="not budget_id"/>

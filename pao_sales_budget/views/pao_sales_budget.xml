@@ -22,7 +22,6 @@
           <button string="Generate Budget" invisible="line_ids" type="object" class="btn-primary" name="generate_budget_action"/>
           <button string="Actualizar Real" invisible="not line_ids" type="object" class="btn-secondary" name="action_refresh_actual"/>
           <button string="Exportar Excel" invisible="not line_ids" type="object" class="btn-secondary" name="action_export_variance_excel"/>
-          <button string="Reporte por Esquema" invisible="not line_ids" type="object" class="btn-secondary" name="action_open_scheme_report_wizard"/>
           <div class="o_not_full oe_button_box">
               <button name="action_view_budget_line" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not line_ids">
                   <div class="o_field_widget o_stat_info">

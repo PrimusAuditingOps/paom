@@ -1,7 +1,10 @@
 import base64
 import io
+from collections import defaultdict
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class PAOSalesBudgetDashboardWizard(models.TransientModel):
@@ -16,6 +19,18 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
     MONTHS_ORDER = [m[0] for m in MONTH_SELECTION]
 
     budget_id = fields.Many2one('pao.sales.budget', string='Presupuesto', required=True)
+    month = fields.Selection(
+        [('09', 'Septiembre'), ('10', 'Octubre'), ('11', 'Noviembre'), ('12', 'Diciembre'),
+         ('01', 'Enero'), ('02', 'Febrero'), ('03', 'Marzo'), ('04', 'Abril'),
+         ('05', 'Mayo'), ('06', 'Junio'), ('07', 'Julio'), ('08', 'Agosto')],
+        string='Mes de Corte', required=True,
+        default=lambda self: self._default_month())
+    filter_domain = fields.Char(string='Filtro', default='[]',
+                                help='Condiciones sobre las líneas del presupuesto (producto, región, esquema, '
+                                     'categoría/nombre de cliente...). Se aplican a Objetivo y Real en todos los reportes.')
+    # La regla de registro ya limita a los filtros propios o compartidos.
+    saved_filter_id = fields.Many2one('pao.sales.budget.dashboard.filter', string='Filtro guardado')
+    new_filter_name = fields.Char(string='Guardar filtro como')
     report_html = fields.Html(string='Reporte', readonly=True, sanitize=False)
 
     # ------------------------------------------------------------------
@@ -56,7 +71,7 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
 
         def grouped(Model):
             groups = Model.read_group(
-                [('budget_id', '=', self.budget_id.id)],
+                self._line_domain(),
                 fields=[f + ':sum' for f in all_fields],
                 groupby=groupby_fields,
                 lazy=False,
@@ -146,6 +161,206 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
     def _get_region_category_data(self):
         return self._budget_vs_actual_monthly(['customer_category', 'region_id'])
 
+    @api.onchange('saved_filter_id')
+    def _onchange_saved_filter_id(self):
+        if self.saved_filter_id:
+            self.filter_domain = self.saved_filter_id.domain
+
+    def _line_domain(self):
+        """Dominio base sobre pao.sales.budget.line / actual.line: el
+        presupuesto elegido más el filtro del usuario (los dos modelos
+        comparten los campos de producto, región, esquema y cliente)."""
+        self.ensure_one()
+        try:
+            extra = safe_eval(self.filter_domain or '[]')
+        except Exception:
+            raise UserError(_('El filtro no es válido.'))
+        return [('budget_id', '=', self.budget_id.id)] + list(extra)
+
+    def action_save_filter(self):
+        self.ensure_one()
+        name = (self.new_filter_name or '').strip()
+        if not name:
+            raise UserError(_('Escribe un nombre para guardar el filtro.'))
+        if (self.filter_domain or '[]') == '[]':
+            raise UserError(_('No hay condiciones que guardar.'))
+        self.saved_filter_id = self.env['pao.sales.budget.dashboard.filter'].create({
+            'name': name,
+            'domain': self.filter_domain,
+        })
+        self.new_filter_name = False
+        return True
+
+    def _default_month(self):
+        mm = '%02d' % fields.Date.context_today(self).month
+        return mm if mm in self.MONTHS_ORDER else '09'
+
+    # ------------------------------------------------------------------
+    # Reporte por Esquema con mes de corte (Mes vs Acumulado): Objetivo vs Real
+    # de # Facturado, $ Facturado y # Clientes Nuevos.
+    # ------------------------------------------------------------------
+
+    def _get_scheme_cutoff_data(self):
+        """Por esquema, compara Objetivo (pao.sales.budget.line) vs Real
+        (pao.sales.budget.actual.line) para el mes de corte y para el
+        acumulado Sep..mes de corte. Tres métricas por esquema:
+        - # Facturado: cantidad total (todas las categorías de cliente).
+        - $ Facturado: monto total (m0X_amount, ya calculado por línea).
+        - # Clientes Nuevos: cantidad de las líneas de categoría "Clientes
+          Nuevos" únicamente (1 unidad de producto = 1 cliente).
+        """
+        self.ensure_one()
+        budget = self.budget_id
+        Scheme = self.env['pao.sales.budget.scheme'].sudo()
+        Line = self.env['pao.sales.budget.line'].sudo()
+        Actual = self.env['pao.sales.budget.actual.line'].sudo()
+
+        schemes = Scheme.search([
+            '|', ('company_id', '=', False), ('company_id', '=', budget.company_id.id),
+        ], order='name')
+
+        month_fields = ['m%s' % m for m in self.MONTHS_ORDER]
+        amount_fields = ['m%s_amount' % m for m in self.MONTHS_ORDER]
+
+        def grouped_totals(Model, extra_domain, fields_list):
+            groups = Model.read_group(
+                self._line_domain() + extra_domain,
+                fields=[f + ':sum' for f in fields_list],
+                groupby=['pao_sales_budget_scheme_id'],
+            )
+            result = defaultdict(lambda: {f: 0.0 for f in fields_list})
+            for g in groups:
+                scheme_val = g['pao_sales_budget_scheme_id']
+                scheme_id = scheme_val[0] if scheme_val else False
+                for f in fields_list:
+                    result[scheme_id][f] = g[f] or 0.0
+            return result
+
+        all_fields = month_fields + amount_fields
+        budget_totals = grouped_totals(Line, [], all_fields)
+        actual_totals = grouped_totals(Actual, [], all_fields)
+        budget_new = grouped_totals(Line, [('customer_category', '=', 'Clientes Nuevos')], month_fields)
+        actual_new = grouped_totals(Actual, [('customer_category', '=', 'Clientes Nuevos')], month_fields)
+
+        cutoff_idx = self.MONTHS_ORDER.index(self.month)
+        cumulative_months = self.MONTHS_ORDER[:cutoff_idx + 1]
+
+        def metric(o, real):
+            delta, pct, unbudgeted = self._variance(o, real)
+            return (o, real, delta, pct, unbudgeted)
+
+        def build_row(name, b, a, bn, an, month_keys):
+            return {
+                'name': name,
+                'qty': metric(sum(b['m%s' % m] for m in month_keys), sum(a['m%s' % m] for m in month_keys)),
+                'amount': metric(sum(b['m%s_amount' % m] for m in month_keys), sum(a['m%s_amount' % m] for m in month_keys)),
+                'new': metric(sum(bn['m%s' % m] for m in month_keys), sum(an['m%s' % m] for m in month_keys)),
+            }
+
+        def totals_row(rows):
+            return {
+                'name': _('Total / General'),
+                'is_total': True,
+                'qty': metric(sum(r['qty'][0] for r in rows), sum(r['qty'][1] for r in rows)),
+                'amount': metric(sum(r['amount'][0] for r in rows), sum(r['amount'][1] for r in rows)),
+                'new': metric(sum(r['new'][0] for r in rows), sum(r['new'][1] for r in rows)),
+            }
+
+        rows_mes, rows_acum = [], []
+        for scheme in schemes:
+            sid = scheme.id
+            b, a = budget_totals[sid], actual_totals[sid]
+            bn, an = budget_new[sid], actual_new[sid]
+            rows_mes.append(build_row(scheme.name, b, a, bn, an, [self.month]))
+            rows_acum.append(build_row(scheme.name, b, a, bn, an, cumulative_months))
+
+        rows_mes.append(totals_row(rows_mes))
+        rows_acum.append(totals_row(rows_acum))
+        return rows_mes, rows_acum
+
+    def _bar_chart_svg(self, rows, metric_key, title):
+        data_rows = [r for r in rows if not r.get('is_total')]
+        if not data_rows:
+            return ''
+        values = [(r['name'], r[metric_key][0], r[metric_key][1]) for r in data_rows]
+        max_val = max([max(o, real) for _n, o, real in values] + [1]) or 1
+
+        bar_w, gap, group_w = 16, 4, 56
+        top_pad, bottom_pad, chart_h = 10, 34, 110
+        height = top_pad + chart_h + bottom_pad
+        width = max(220, group_w * len(values) + 40)
+
+        bars, labels = '', ''
+        for i, (name, o, real) in enumerate(values):
+            x0 = 30 + i * group_w
+            h_o = (o / max_val) * chart_h
+            h_r = (real / max_val) * chart_h
+            y_o = top_pad + chart_h - h_o
+            y_r = top_pad + chart_h - h_r
+            color_r = '#2e7d32' if real >= o else '#c62828'
+            bars += '<rect x="%.1f" y="%.1f" width="%d" height="%.1f" fill="#B0BEC5"/>' % (x0, y_o, bar_w, h_o)
+            bars += '<rect x="%.1f" y="%.1f" width="%d" height="%.1f" fill="%s"/>' % (
+                x0 + bar_w + gap, y_r, bar_w, h_r, color_r)
+            label = (name[:9] + '…') if len(name) > 10 else name
+            labels += '<text x="%.1f" y="%d" font-size="9" text-anchor="middle">%s</text>' % (
+                x0 + bar_w, top_pad + chart_h + 12, label)
+
+        return '''
+        <div class="ns-report-chart">
+          <div class="ns-chart-title">%s</div>
+          <svg width="%d" height="%d" xmlns="http://www.w3.org/2000/svg">
+            %s
+            %s
+            <line x1="20" y1="%d" x2="%d" y2="%d" stroke="#999"/>
+          </svg>
+          <div class="ns-chart-legend">
+            <span class="ns-leg-box" style="background:#B0BEC5;"></span> Objetivo
+            &nbsp; <span class="ns-leg-box" style="background:#2e7d32;"></span> Real (cumple)
+            &nbsp; <span class="ns-leg-box" style="background:#c62828;"></span> Real (debajo)
+          </div>
+        </div>
+        ''' % (title, width, height, bars, labels, top_pad + chart_h, width, top_pad + chart_h)
+
+    def _render_cutoff_table(self, title, rows, header_class):
+        def fmt(v):
+            return '{:,.2f}'.format(v)
+
+        def metric_cells(m):
+            o, real, delta, pct, unbudgeted = m
+            return '<td>%s</td><td>%s</td><td>%s</td><td><span class="ns-pct %s">%.0f%%</span></td>' % (
+                fmt(o), fmt(real), fmt(delta), self._pct_class(pct, unbudgeted), pct * 100)
+
+        body_rows = ''
+        for row in rows:
+            tr_class = ' class="ns-total-row"' if row.get('is_total') else ''
+            body_rows += '<tr%s><td>%s</td>%s%s%s</tr>' % (
+                tr_class, row['name'],
+                metric_cells(row['qty']), metric_cells(row['amount']), metric_cells(row['new']))
+
+        return '''
+        <div class="ns-report-block">
+          <div class="ns-report-title %s">%s</div>
+          <table class="ns-report-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Esquema</th>
+                <th colspan="4"># Facturado</th>
+                <th colspan="4">$ Facturado</th>
+                <th colspan="4"># Clientes Nuevos</th>
+              </tr>
+              <tr>
+                <th>Objetivo</th><th>Real</th><th>Var #</th><th>Var %%</th>
+                <th>Objetivo</th><th>Real</th><th>Var #</th><th>Var %%</th>
+                <th>Objetivo</th><th>Real</th><th>Var #</th><th>Var %%</th>
+              </tr>
+            </thead>
+            <tbody>
+              %s
+            </tbody>
+          </table>
+        </div>
+        ''' % (header_class, title, body_rows)
+
     # ------------------------------------------------------------------
     # HTML (vista en pantalla)
     # ------------------------------------------------------------------
@@ -220,6 +435,8 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         scheme_amount = self._metric_monthly_rows(scheme_rows, 'amount')
         region_category_qty = self._metric_monthly_rows(region_category_rows, 'qty')
         region_category_amount = self._metric_monthly_rows(region_category_rows, 'amount')
+        rows_mes, rows_acum = self._get_scheme_cutoff_data()
+        month_label = dict(self._fields['month'].selection)[self.month]
 
         style = '''<style>
             .ns-report-block{margin-bottom:24px;overflow-x:auto;}
@@ -227,19 +444,29 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
             .ns-title-team{background:#C0006E;}
             .ns-title-scheme{background:#2E7D32;}
             .ns-title-region-category{background:#1565C0;}
+            .ns-title-mes{background:#C0006E;}
+            .ns-title-acum{background:#2E7D32;}
+            .ns-report-chart{margin-bottom:8px;}
+            .ns-chart-title{font-size:12px;font-weight:bold;margin-bottom:4px;}
+            .ns-chart-legend{font-size:10px;color:#666;margin-top:2px;}
+            .ns-leg-box{display:inline-block;width:9px;height:9px;}
             .ns-report-table{border-collapse:collapse;width:100%;font-size:12px;}
             .ns-report-table th, .ns-report-table td{border:1px solid #ddd;padding:4px 8px;text-align:right;white-space:nowrap;}
             .ns-report-table th{background:#f5f5f5;text-align:center;}
             .ns-report-table td:first-child, .ns-report-table th:first-child{text-align:left;}
             .ns-total-row td{font-weight:bold;border-top:2px solid #333;}
             .ns-pct{padding:1px 5px;border-radius:3px;}
-            .ns-pos{background:#FFEB9C;color:#9C6500;}
+            .ns-pos{background:#C6EFCE;color:#006100;}
             .ns-neg{background:#FFC7CE;color:#9C0006;}
-            .ns-ok{background:#C6EFCE;color:#006100;}
+            .ns-ok{background:#EDEDED;color:#595959;}
             .ns-unbud{background:#BDD7EE;color:#1F4E78;}
         </style>'''
 
         html = style
+        html += self._bar_chart_svg(rows_mes, 'qty', '# Facturado — %s' % month_label)
+        html += self._render_cutoff_table(month_label, rows_mes, 'ns-title-mes')
+        html += self._bar_chart_svg(rows_acum, 'qty', '# Facturado — Acumulado a %s' % month_label)
+        html += self._render_cutoff_table('Acumulado a %s' % month_label, rows_acum, 'ns-title-acum')
         html += self._render_table(_('Presupuesto por Región — Cantidad'), _('Región'), team_qty, 'ns-title-team')
         html += self._render_table(_('Presupuesto por Región — Monto'), _('Región'), team_amount, 'ns-title-team')
         html += self._render_table(_('Presupuesto por Esquema — Cantidad'), _('Esquema'), scheme_qty, 'ns-title-scheme')
@@ -262,6 +489,9 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         scheme_rows = self._get_scheme_data()
         region_category_rows = self._get_region_category_data()
 
+        rows_mes, rows_acum = self._get_scheme_cutoff_data()
+        month_label = dict(self._fields['month'].selection)[self.month]
+
         sheets = [
             ('Región - Cantidad', _('Región'), self._metric_monthly_rows(team_rows, 'qty'), '#C0006E'),
             ('Región - Monto', _('Región'), self._metric_monthly_rows(team_rows, 'amount'), '#C0006E'),
@@ -281,10 +511,41 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         num_total_fmt = workbook.add_format({'border': 1, 'num_format': '#,##0.00', 'bold': True})
         pct_fmts = {
             'ns-neg': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#FFC7CE', 'font_color': '#9C0006'}),
-            'ns-ok': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#C6EFCE', 'font_color': '#006100'}),
-            'ns-pos': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#FFEB9C', 'font_color': '#9C6500'}),
+            'ns-ok': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#EDEDED', 'font_color': '#595959'}),
+            'ns-pos': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#C6EFCE', 'font_color': '#006100'}),
             'ns-unbud': workbook.add_format({'border': 1, 'num_format': '0.0%', 'bg_color': '#BDD7EE', 'font_color': '#1F4E78'}),
         }
+
+        def write_cutoff_sheet(sheet_name, rows, color):
+            header_fmt = workbook.add_format({'bold': True, 'bg_color': color, 'font_color': 'white', 'border': 1, 'align': 'center', 'valign': 'vcenter'})
+            ws = workbook.add_worksheet(sheet_name)
+            ws.merge_range(0, 0, 1, 0, 'Esquema', header_fmt)
+            col = 1
+            for group_title in ('# Facturado', '$ Facturado', '# Clientes Nuevos'):
+                ws.merge_range(0, col, 0, col + 3, group_title, header_fmt)
+                for i, sub in enumerate(('Objetivo', 'Real', 'Var #', 'Var %')):
+                    ws.write(1, col + i, sub, sub_header_fmt)
+                col += 4
+            ws.set_column(0, 0, 26)
+            ws.set_column(1, col - 1, 11)
+            ws.freeze_panes(2, 1)
+            row_idx = 2
+            for r in rows:
+                is_total = r.get('is_total')
+                ws.write(row_idx, 0, r['name'], label_total_fmt if is_total else label_fmt)
+                nfmt = num_total_fmt if is_total else num_fmt
+                col = 1
+                for key in ('qty', 'amount', 'new'):
+                    o, real, delta, pct, unbudgeted = r[key]
+                    ws.write(row_idx, col, o, nfmt)
+                    ws.write(row_idx, col + 1, real, nfmt)
+                    ws.write(row_idx, col + 2, delta, nfmt)
+                    ws.write(row_idx, col + 3, pct, pct_fmts[self._pct_class(pct, unbudgeted)])
+                    col += 4
+                row_idx += 1
+
+        write_cutoff_sheet('Esquema - %s' % month_label, rows_mes, '#C0006E')
+        write_cutoff_sheet('Esquema - Acum a %s' % month_label, rows_acum, '#2E7D32')
 
         for sheet_name, first_col_label, rows, color in sheets:
             header_fmt = workbook.add_format({'bold': True, 'bg_color': color, 'font_color': 'white', 'border': 1, 'align': 'center', 'valign': 'vcenter'})
@@ -331,7 +592,7 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
         xlsx_data = output.getvalue()
 
         attachment = self.env['ir.attachment'].sudo().create({
-            'name': 'Dashboard_Presupuesto_%s.xlsx' % (self.budget_id.name or self.budget_id.id),
+            'name': 'Dashboard_Presupuesto_%s_%s.xlsx' % (self.budget_id.name or self.budget_id.id, month_label),
             'type': 'binary',
             'datas': base64.b64encode(xlsx_data),
             'res_model': self._name,
