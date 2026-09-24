@@ -1,4 +1,3 @@
-from . import account_analytic_account
 from . import budget
 from . import comisionpromotores_promotor
 from . import crm_team
@@ -6,5 +5,4 @@ from . import customergroups_group
 from . import pao_sales_budget_scheme
 from . import pao_sales_budget_scheme_report_wizard
 from . import pao_sales_budget_dashboard_wizard
-from . import pao_sales_budget_profitability_report_wizard
 from . import product_template
