@@ -11,6 +11,7 @@
           </div>
           <group>
             <field name="budget_id"/>
+            <field name="month"/>
           </group>
           <div class="oe_button_box" style="margin-bottom: 16px;">
             <button string="Generar" type="object" name="action_generate_report" class="btn-primary" invisible="not budget_id"/>

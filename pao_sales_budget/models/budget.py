@@ -49,18 +49,6 @@ class PAOSalesBudget(models.Model):
         }
         return action
 
-    def action_open_scheme_report_wizard(self):
-        self.ensure_one()
-        action = {
-            'res_model': 'pao.sales.budget.scheme.report.wizard',
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'name': _("Reporte por Esquema"),
-            'target': 'new',
-            'context': {'default_budget_id': self.id},
-        }
-        return action
-
     def action_view_budget_line(self):
         self.ensure_one()
         action = {

@@ -25,7 +25,6 @@
         'views/pao_sales_budget_variance_report.xml',
         'views/product_template.xml',
         'views/pao_sales_budget_scheme.xml',
-        'views/pao_sales_budget_scheme_report_wizard.xml',
         'views/pao_sales_budget_dashboard_wizard.xml',
 
     ],
