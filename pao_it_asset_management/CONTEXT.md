@@ -69,9 +69,15 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
     solo lectura y siempre sale de la PO.
   - Origen `other`: catálogo "Other Purchase Method" (Amazon, Mercado Libre…)
     más texto libre de cómo se pagó. La captura libre nunca crea contactos.
-  - Liga opcional, capturable después, a `account.move`: factura de
-    proveedor O póliza (hay compras con tarjeta que se solventan con pólizas
-    de ajuste).
+  - Facturas con origen PO: se toman **automáticamente** de la línea de la PO
+    (`purchase_move_ids`, calculado y no guardado). Se muestran **todas**
+    (parciales y notas de crédito), en borrador o publicadas, con su estado;
+    las canceladas no. Si la factura se crea después que el activo, aparece
+    sola. Decidido con el usuario el 2026-09-25, tras su primera prueba: al
+    principio era una liga manual.
+  - Con origen `other`: liga **manual** opcional, capturable después, a
+    `account.move`, factura de proveedor O póliza (hay compras con tarjeta
+    que se solventan con pólizas de ajuste).
 - **Accesos de Finanzas:** si un usuario no tiene acceso a Compras o a
   Contabilidad, la vista le muestra `purchase_order_ref` /
   `account_move_ref` (related guardados) en lugar del Many2one, para no

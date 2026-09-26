@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-24 23:13+0000\n"
-"PO-Revision-Date: 2026-09-24 23:13+0000\n"
+"POT-Creation-Date: 2026-09-26 04:25+0000\n"
+"PO-Revision-Date: 2026-09-26 04:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -743,6 +743,11 @@ msgid "The selected model does not belong to the selected brand."
 msgstr "El modelo seleccionado no pertenece a la marca seleccionada."
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "The selected purchase order line has no vendor bills yet. They will appear here automatically once created."
+msgstr "La línea de la orden de compra seleccionada aún no tiene facturas de proveedor. Aparecerán aquí automáticamente en cuanto se creen."
+
+#. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
 #, python-format
 msgid "The warranty end date cannot be before its start date."
@@ -799,6 +804,17 @@ msgstr "Factura de proveedor / Póliza"
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__account_move_ref
 msgid "Vendor Bill / Journal Entry Ref."
 msgstr "Ref. factura de proveedor / póliza"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_move_ids
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Vendor Bills"
+msgstr "Facturas de proveedor"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__purchase_move_summary
+msgid "Vendor Bills Summary"
+msgstr "Resumen de facturas de proveedor"
 
 #. module: pao_it_asset_management
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_video

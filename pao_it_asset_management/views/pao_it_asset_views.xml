@@ -144,12 +144,41 @@
                                     <field name="purchase_date"/>
                                     <field name="purchase_cost"/>
                                     <field name="currency_id" options="{'no_create': True}"/>
+                                    <!-- Origen "otro": liga manual a factura o póliza. -->
                                     <field name="account_move_id"
                                            groups="account.group_account_invoice,account.group_account_readonly"
+                                           invisible="purchase_source == 'purchase_order'"
                                            options="{'no_create': True}"/>
                                     <field name="account_move_ref"
-                                           groups="!account.group_account_invoice,!account.group_account_readonly"/>
+                                           groups="!account.group_account_invoice,!account.group_account_readonly"
+                                           invisible="purchase_source == 'purchase_order'"/>
+                                    <!-- Sin acceso a Contabilidad: resumen en texto de
+                                         las facturas de la PO. -->
+                                    <field name="purchase_move_summary"
+                                           groups="!account.group_account_invoice,!account.group_account_readonly"
+                                           invisible="purchase_source != 'purchase_order'"/>
                                 </group>
+                            </group>
+                            <!-- Origen PO: facturas tomadas automáticamente de la
+                                 línea de la PO (borrador o publicadas). -->
+                            <group string="Vendor Bills" name="purchase_bills"
+                                   groups="account.group_account_invoice,account.group_account_readonly"
+                                   invisible="purchase_source != 'purchase_order'">
+                                <field name="purchase_move_ids" nolabel="1" colspan="2" readonly="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="invoice_date"/>
+                                        <field name="move_type"/>
+                                        <field name="amount_total"/>
+                                        <field name="currency_id" column_invisible="True"/>
+                                        <field name="state" widget="badge"
+                                               decoration-muted="state == 'draft'"
+                                               decoration-success="state == 'posted'"/>
+                                    </tree>
+                                </field>
+                                <div colspan="2" class="text-muted" invisible="purchase_move_ids">
+                                    The selected purchase order line has no vendor bills yet. They will appear here automatically once created.
+                                </div>
                             </group>
                         </page>
                         <page string="Warranty" name="warranty">

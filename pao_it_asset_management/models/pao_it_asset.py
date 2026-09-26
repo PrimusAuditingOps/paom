@@ -106,8 +106,18 @@ class PaoItAsset(models.Model):
                                   default=lambda self: self.env.company.currency_id)
     purchase_cost = fields.Monetary(string='Purchase Cost', currency_field='currency_id',
                                     tracking=True)
-    # Factura de proveedor O póliza (compras con tarjeta que se solventan
-    # con pólizas de ajuste). Opcional y capturable después.
+    # Facturas de la PO: se toman SOLAS de la línea de la PO elegida (todas,
+    # en borrador o publicadas, no canceladas). No se guardan: si la factura
+    # se crea después que el activo, aparece sin tener que editarlo.
+    # compute_sudo: el resumen de texto (purchase_move_summary) debe poder
+    # verlo también quien no tiene acceso a Compras/Contabilidad.
+    purchase_move_ids = fields.Many2many('account.move', string='Vendor Bills',
+                                         compute='_compute_purchase_moves', compute_sudo=True)
+    purchase_move_summary = fields.Char(string='Vendor Bills Summary',
+                                        compute='_compute_purchase_moves', compute_sudo=True)
+    # Solo para origen "Other Purchase Method": liga MANUAL a la factura de
+    # proveedor O póliza (compras con tarjeta que se solventan con pólizas
+    # de ajuste). Opcional y capturable después.
     account_move_id = fields.Many2one(
         'account.move', string='Vendor Bill / Journal Entry',
         domain="[('company_id', '=', company_id), ('move_type', 'in', ('in_invoice', 'in_refund', 'entry'))]")
@@ -144,6 +154,18 @@ class PaoItAsset(models.Model):
     def _compute_department_id(self):
         for asset in self:
             asset.department_id = asset.employee_id.department_id or asset.assigned_department_id
+
+    @api.depends('purchase_source', 'purchase_line_id.invoice_lines.move_id.state')
+    def _compute_purchase_moves(self):
+        state_labels = dict(self.env['account.move']._fields['state']._description_selection(self.env))
+        for asset in self:
+            moves = self.env['account.move']
+            if asset.purchase_source == 'purchase_order' and asset.purchase_line_id:
+                moves = asset.purchase_line_id.invoice_lines.move_id.filtered(
+                    lambda m: m.move_type in ('in_invoice', 'in_refund') and m.state in ('draft', 'posted'))
+            asset.purchase_move_ids = moves
+            asset.purchase_move_summary = ', '.join(
+                f"{move.name or '/'} ({state_labels.get(move.state)})" for move in moves)
 
     @api.depends('warranty_end')
     def _compute_warranty_status(self):
@@ -203,6 +225,9 @@ class PaoItAsset(models.Model):
     def _onchange_purchase_source(self):
         if self.purchase_source != 'purchase_order':
             self.purchase_order_id = False
+        else:
+            # Con PO, las facturas salen de la línea: la liga manual no aplica.
+            self.account_move_id = False
         if self.purchase_source != 'other':
             self.purchase_method_id = False
             self.payment_details = False
