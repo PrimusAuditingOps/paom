@@ -178,6 +178,9 @@
                                groups="base.group_multi_company"
                                readonly="not can_change_company"
                                invisible="movement_type not in ('assign', 'reassign', 'relocate')"/>
+                        <!-- Respaldo para usuarios sin multi-compañía: el dominio
+                             de location_id necesita company_id en la vista. -->
+                        <field name="company_id" invisible="1" groups="!base.group_multi_company"/>
                         <field name="location_id" options="{'no_create': True}"
                                required="movement_type == 'relocate'"
                                invisible="movement_type not in ('assign', 'reassign', 'relocate', 'return', 'recover')"/>
