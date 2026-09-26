@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pao_survey_main_page_inherited" model="ir.ui.view">
+        <field name="name">view.pao.survey.main.page.inherited</field>
+        <field name="inherit_id" ref="survey.survey_page_fill"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'o_survey_form')]" position="attributes">
+                <attribute name="style">
+                    font-family: 'Montserrat' !important;
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pao_survey_main_page_header_inherited" model="ir.ui.view">
+        <field name="name">view.pao.survey.main.page.header.inherited</field>
+        <field name="inherit_id" ref="survey.survey_fill_header"/>
+        <field name="arch" type="xml">
+            <xpath expr="//h1[contains(@class, 'o_survey_main_title')]" position="attributes">
+                <attribute name="style">
+                    font-family: 'Montserrat' !important;
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pao_survey_form_inherited" model="ir.ui.view">
+        <field name="name">view.pao.survey.form.inherited</field>
+        <field name="inherit_id" ref="survey.survey_fill_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-set='background_image_url']" position="after">
+                <div class="d-flex justify-content-center">
+                    <img src="https://paomx.com/Primus%20Auditing%20Ops%20LOGO.png" alt="PAO Logo" style="width:400px;height:auto;margin-top:80px"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -5,6 +5,22 @@
         <field name="model">survey.user_input</field>
         <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_resend']" position="attributes">
+                <attribute name="invisible">
+                    state == 'done' or state == 'reviewed' or not partner_id and not email
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_resend']" position="after">
+                <button name="review_survey_action" invisible="state != 'done'" string="Reviewed" type="object" class="oe_highlight"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="new,in_progress,done" invisible="state == 'reviewed'"/>
+                <field name="state" widget="statusbar" statusbar_visible="new,in_progress,done,reviewed" invisible="state != 'reviewed'"/>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="responder_email" string="Respondent Email" widget="email" invisible="not responder_email" readonly="1"/>
+                <field name="responder_name" string="Respondent Name" invisible="not responder_name" readonly="1"/>
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <field name="imported_from_file" invisible="1"/>
                 <page string="Audit Details" name="audit_details" invisible="not imported_from_file and state != 'done'">
@@ -50,6 +66,8 @@
                 <field name="has_complaint_answer" string="Responses with Complaints" optional="hide"/>
                 <field name="organization_name" optional="hide" string="Organization"/>
                 <field name="registration_number" optional="hide" string="Registration #"/>
+                <field name="responder_email" optional="hide" string="Respondent Email"/>
+                <field name="responder_name" optional="hide" string="Respondent Name"/>
                 <field name="certified_date" optional="hide" string="Certified Date"/>
                 <field name="coordinator_name" optional="hide" string="Coordinator"/>
                 <field name="auditor_name" optional="hide" string="Auditor"/>
@@ -59,6 +77,10 @@
                 <field name="audit_country" optional="hide" string="Country"/>
                 <field name="compliment_theme_ids" widget="many2many_tags" optional="hide" string="Compliment Tags"/>
                 <field name="complaint_theme_ids" widget="many2many_tags" optional="hide" string="Complaint Tags"/>
+            </xpath>
+
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="decoration-primary">state == 'reviewed'</attribute>
             </xpath>
 
         </field>
