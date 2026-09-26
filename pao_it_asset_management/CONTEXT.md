@@ -127,6 +127,25 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
   se conserva la vigente. Al reasignar a otro departamento se muestra un
   aviso para revisarla (no bloquea).
 - No hay préstamos ni fecha de devolución esperada.
+- **Decisiones del diseño técnico (2026-09-25):**
+  - Campo **Registration Date** en el activo: por defecto hoy y editable al
+    crearlo. Es la fecha del movimiento Register, y ningún movimiento puede
+    ser anterior a ella (necesario para la carga inicial con fechas reales).
+  - **Relocate** puede cambiar de compañía SOLO si el activo está Available.
+    Si está asignado, la compañía la manda el responsable.
+  - **Report Lost/Stolen CONSERVA al empleado** en el activo. Recover lo
+    libera (→ Available). Retire sí libera al responsable.
+  - **Envío cancelado (Cancel Shipment):** un movimiento propio desde In
+    Transit, con motivo, que deja asentado que fue por cancelación del
+    envío. **Deshace el envío**: el activo vuelve exactamente a como estaba
+    antes de mandarlo (estatus, responsable, compañía y ubicación, tomados
+    del "antes" de la línea del envío). Tras un Assign vuelve a Available;
+    tras un Reassign, al responsable anterior.
+  - Assign y Return se pueden hacer sobre varios activos a la vez.
+  - Solo se puede borrar un activo si no tiene más movimientos que el
+    Register.
+  - Los usuarios de TI y Finanzas tienen el permiso de Contabilidad
+    analítica.
 
 ## 5. Mantenimiento y garantía (entregable 3)
 
@@ -234,8 +253,8 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
 
 | # | Entregable | Estado |
 |---|---|---|
-| 1 | Base y hardware | **Programado (2026-09-24), pendiente de pruebas del usuario** |
-| 2 | Movimientos e historial | Pendiente |
+| 1 | Base y hardware | **Probado y funcionando en staging (2026-09-25)**, incluido el ajuste de facturas automáticas desde la PO |
+| 2 | Movimientos e historial | **Programado (2026-09-25), pendiente de pruebas del usuario** |
 | 3 | Mantenimiento y garantía | Pendiente |
 | 4 | Software y licencias | Pendiente |
 | 5 | Responsiva y devolución | Pendiente |

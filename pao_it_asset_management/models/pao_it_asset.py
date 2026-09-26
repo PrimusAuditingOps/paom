@@ -1,12 +1,25 @@
 import re
+from collections import defaultdict
 from datetime import timedelta
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
+from odoo.tools import float_compare
 
 # Días antes del fin de garantía en que el activo se considera "por vencer".
 WARRANTY_EXPIRING_DAYS = 30
+
+# Estatus del activo. Fijos en código: las reglas de los movimientos
+# (pao_it_asset_movement.py) dependen de ellos. Los reutiliza el historial.
+ASSET_STATES = [
+    ('available', 'Available'),
+    ('assigned', 'Assigned'),
+    ('in_transit', 'In Transit'),
+    ('in_repair', 'In Repair'),
+    ('retired', 'Retired'),
+    ('lost', 'Lost / Stolen'),
+]
 
 
 # ==========================================
@@ -15,7 +28,7 @@ WARRANTY_EXPIRING_DAYS = 30
 class PaoItAsset(models.Model):
     _name = 'pao.it.asset'
     _description = 'IT Asset'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'image.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'image.mixin', 'analytic.mixin']
     _rec_name = 'asset_tag'
     _order = 'asset_tag'
 
@@ -34,33 +47,34 @@ class PaoItAsset(models.Model):
                                    tracking=True)
 
     # --- ESTATUS ---
-    # Fijo en código (las reglas de movimientos dependen de él). Solo lectura
-    # en la ficha: a partir del entregable 2 lo cambian únicamente los
-    # movimientos (asignar, enviar, devolver, dar de baja...).
-    state = fields.Selection([
-        ('available', 'Available'),
-        ('assigned', 'Assigned'),
-        ('in_transit', 'In Transit'),
-        ('in_repair', 'In Repair'),
-        ('retired', 'Retired'),
-        ('lost', 'Lost / Stolen'),
-    ], string='Status', required=True, default='available', readonly=True, tracking=True,
-        group_expand='_group_expand_states')
+    # Solo lectura en la ficha: lo cambian únicamente los movimientos
+    # (asignar, enviar, devolver, dar de baja...).
+    state = fields.Selection(ASSET_STATES, string='Status', required=True, default='available',
+                             readonly=True, tracking=True, group_expand='_group_expand_states')
 
     # --- COMPAÑÍA Y UBICACIÓN ---
     # company_id = compañía donde el activo está EN USO (no hay "compañía
-    # dueña"). Obligatoria: no existen activos globales.
+    # dueña"). Obligatoria: no existen activos globales. Compañía y ubicación
+    # solo se capturan al crear el activo; después cambian únicamente con
+    # movimientos (la vista las bloquea una vez guardado el registro).
     company_id = fields.Many2one('res.company', string='Company', required=True, index=True,
                                  default=lambda self: self.env.company, tracking=True)
     location_id = fields.Many2one('pao.it.location', string='Location', ondelete='restrict',
                                   tracking=True, domain="[('company_id', '=', company_id)]")
     location_type = fields.Selection(related='location_id.location_type', store=True)
 
+    # --- ALTA E HISTORIAL ---
+    # Fecha del movimiento "Register". Ningún movimiento puede ser anterior a
+    # ella; en la carga inicial se captura la fecha real de alta/compra.
+    registration_date = fields.Date(string='Registration Date', required=True,
+                                    default=fields.Date.context_today)
+    movement_ids = fields.One2many('pao.it.asset.movement', 'asset_id', string='History')
+
     # --- RESPONSABLE ---
     # Empleado O departamento (nunca ambos). Solo lectura: los llenan los
-    # movimientos (entregable 2). department_id es el departamento efectivo
-    # (el del empleado, o el asignado directamente) y existe para filtrar y
-    # agrupar.
+    # movimientos. department_id es el departamento efectivo (el del
+    # empleado, o el asignado directamente) y existe para filtrar y agrupar.
+    # Un activo Lost/Stolen CONSERVA a su último responsable.
     employee_id = fields.Many2one('hr.employee', string='Assigned Employee', readonly=True,
                                   tracking=True, index=True)
     assigned_department_id = fields.Many2one('hr.department', string='Assigned Department',
@@ -275,8 +289,33 @@ class PaoItAsset(models.Model):
             if asset.warranty_start and asset.warranty_end and asset.warranty_end < asset.warranty_start:
                 raise ValidationError(_("The warranty end date cannot be before its start date."))
 
+    @api.constrains('registration_date')
+    def _check_registration_date(self):
+        today = fields.Date.context_today(self)
+        for asset in self:
+            if asset.registration_date > today:
+                raise ValidationError(_("The registration date cannot be in the future."))
+
+    @api.constrains('analytic_distribution')
+    def _check_analytic_distribution_total(self):
+        # Opcional, pero si se captura debe sumar 100% POR PLAN analítico.
+        # Se valida por plan para funcionar igual con llaves simples ("12")
+        # que combinadas ("12,34", una cuenta de cada plan en la misma línea).
+        Account = self.env['account.analytic.account'].sudo()
+        for asset in self:
+            if not asset.analytic_distribution:
+                continue
+            totals = defaultdict(float)
+            for key, percentage in asset.analytic_distribution.items():
+                for account_id in str(key).split(','):
+                    account = Account.browse(int(account_id)).exists()
+                    if account:
+                        totals[account.root_plan_id.id or account.plan_id.id] += percentage
+            if any(float_compare(total, 100.0, precision_digits=2) for total in totals.values()):
+                raise ValidationError(_("The analytic distribution of each plan must add up to 100%."))
+
     # ==========================================
-    # CREATE / WRITE
+    # CREATE / WRITE / UNLINK
     # ==========================================
     @api.model
     def _normalize_asset_tag(self, tag):
@@ -287,9 +326,82 @@ class PaoItAsset(models.Model):
         for vals in vals_list:
             if vals.get('asset_tag'):
                 vals['asset_tag'] = self._normalize_asset_tag(vals['asset_tag'])
-        return super().create(vals_list)
+        assets = super().create(vals_list)
+        assets._create_register_movement()
+        return assets
 
     def write(self, vals):
         if vals.get('asset_tag'):
             vals['asset_tag'] = self._normalize_asset_tag(vals['asset_tag'])
         return super().write(vals)
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_only_without_movements(self):
+        # Un activo con historial no se borra: se da de baja con Retire.
+        for asset in self:
+            if asset.movement_ids.filtered(lambda m: m.movement_type != 'register'):
+                raise UserError(_(
+                    "The asset %(tag)s already has movements in its history and cannot be deleted. "
+                    "Use the Retire action instead.", tag=asset.asset_tag))
+
+    # ==========================================
+    # HISTORIAL
+    # ==========================================
+    def _create_register_movement(self):
+        """Primer renglón del historial de cada activo (alta)."""
+        vals_list = []
+        for asset in self:
+            vals_list.append({
+                'asset_id': asset.id,
+                'movement_type': 'register',
+                'date': asset.registration_date,
+                'state_to': asset.state,
+                'employee_to_id': asset.employee_id.id,
+                'department_to_id': asset.assigned_department_id.id,
+                'company_to_id': asset.company_id.id,
+                'location_to_id': asset.location_id.id,
+                'condition_to_id': asset.condition_id.id,
+            })
+        return self.env['pao.it.asset.movement'].sudo().create(vals_list)
+
+    @api.model
+    def _ensure_register_movements(self):
+        """Idempotente (se llama en cada actualización del módulo, ver
+        data/pao_it_asset_data_update.xml): da su movimiento Register a los
+        activos creados antes de que existiera el historial."""
+        assets = self.sudo().with_context(active_test=False).search([('movement_ids', '=', False)])
+        for asset in assets:
+            if asset.create_date and asset.create_date.date() < asset.registration_date:
+                asset.registration_date = asset.create_date.date()
+        assets._create_register_movement()
+
+    def _get_last_movement(self, movement_types=None):
+        """Último movimiento del activo (por fecha efectiva y luego por orden
+        de captura), opcionalmente filtrado por tipos."""
+        self.ensure_one()
+        movements = self.movement_ids
+        if movement_types:
+            movements = movements.filtered(lambda m: m.movement_type in movement_types)
+        return movements.sorted(lambda m: (m.date, m.id))[-1:]
+
+    # ==========================================
+    # ACCIONES (abren el asistente de movimientos)
+    # ==========================================
+    def action_open_movement_wizard(self):
+        movement_type = self.env.context.get('movement_type')
+        return self._action_movement_wizard(movement_type)
+
+    def _action_movement_wizard(self, movement_type):
+        wizard = self.env['pao.it.asset.movement.wizard']
+        labels = dict(wizard._fields['movement_type']._description_selection(self.env))
+        return {
+            'type': 'ir.actions.act_window',
+            'name': labels.get(movement_type, _('Movement')),
+            'res_model': 'pao.it.asset.movement.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_movement_type': movement_type,
+                'default_asset_ids': [(6, 0, self.ids)],
+            },
+        }

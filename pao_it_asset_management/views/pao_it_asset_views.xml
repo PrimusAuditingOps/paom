@@ -73,6 +73,53 @@
         <field name="arch" type="xml">
             <form string="Asset">
                 <header>
+                    <!-- Acciones de movimiento: solo administradores, y solo
+                         las que aplican al estatus actual (ver ALLOWED_FROM en
+                         pao_it_asset_movement_wizard.py). -->
+                    <button name="action_open_movement_wizard" type="object" string="Assign"
+                            class="btn-primary" context="{'movement_type': 'assign'}"
+                            invisible="not id or state != 'available'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Reassign"
+                            class="btn-primary" context="{'movement_type': 'reassign'}"
+                            invisible="state != 'assigned'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Confirm Delivery"
+                            class="btn-primary" context="{'movement_type': 'confirm_delivery'}"
+                            invisible="state != 'in_transit'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Cancel Shipment"
+                            context="{'movement_type': 'cancel_shipment'}"
+                            invisible="state != 'in_transit'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Back from Repair"
+                            class="btn-primary" context="{'movement_type': 'back_from_repair'}"
+                            invisible="state != 'in_repair'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Recover"
+                            class="btn-primary" context="{'movement_type': 'recover'}"
+                            invisible="state != 'lost'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Return"
+                            context="{'movement_type': 'return'}"
+                            invisible="state != 'assigned'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Relocate"
+                            context="{'movement_type': 'relocate'}"
+                            invisible="not id or state not in ('available', 'assigned', 'in_repair')"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Send to Repair"
+                            context="{'movement_type': 'send_to_repair'}"
+                            invisible="not id or state not in ('available', 'assigned')"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Retire"
+                            context="{'movement_type': 'retire'}"
+                            invisible="not id or state not in ('available', 'assigned', 'in_repair')"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_open_movement_wizard" type="object" string="Report Lost / Stolen"
+                            context="{'movement_type': 'report_lost'}"
+                            invisible="not id or state not in ('available', 'assigned', 'in_transit', 'in_repair')"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="available,assigned,in_transit,in_repair"/>
                 </header>
@@ -92,14 +139,17 @@
                             <field name="condition_id" options="{'no_create': True}"/>
                         </group>
                         <group string="Location &amp; Responsible" name="location">
+                            <!-- Compañía, ubicación y fecha de alta solo se capturan
+                                 al crear; después cambian únicamente con movimientos. -->
                             <field name="company_id" groups="base.group_multi_company"
-                                   options="{'no_create': True}"/>
+                                   readonly="id" options="{'no_create': True}"/>
                             <field name="company_id" invisible="1" groups="!base.group_multi_company"/>
-                            <field name="location_id" options="{'no_create': True}"/>
+                            <field name="location_id" readonly="id" options="{'no_create': True}"/>
                             <field name="location_type"/>
                             <field name="employee_id" invisible="not employee_id"/>
                             <field name="assigned_department_id" invisible="not assigned_department_id"/>
                             <field name="department_id" invisible="not employee_id"/>
+                            <field name="registration_date" readonly="id"/>
                         </group>
                     </group>
                     <notebook>
@@ -144,6 +194,11 @@
                                     <field name="purchase_date"/>
                                     <field name="purchase_cost"/>
                                     <field name="currency_id" options="{'no_create': True}"/>
+                                    <!-- Opcional; si se captura debe sumar 100% por plan. -->
+                                    <field name="analytic_precision" invisible="1"/>
+                                    <field name="analytic_distribution" widget="analytic_distribution"
+                                           groups="analytic.group_analytic_accounting"
+                                           options="{'business_domain': 'general'}"/>
                                     <!-- Origen "otro": liga manual a factura o póliza. -->
                                     <field name="account_move_id"
                                            groups="account.group_account_invoice,account.group_account_readonly"
@@ -198,6 +253,31 @@
                             <group string="Coverage / Notes">
                                 <field name="warranty_notes" nolabel="1" colspan="2"/>
                             </group>
+                        </page>
+                        <page string="History" name="history">
+                            <!-- Sin crear ni borrar desde aquí; al abrir un renglón
+                                 solo se pueden editar notas y adjuntos. -->
+                            <field name="movement_ids">
+                                <tree default_order="date desc, id desc" create="0" delete="0">
+                                    <field name="date"/>
+                                    <field name="date_end"/>
+                                    <field name="movement_type" widget="badge"/>
+                                    <field name="state_to" widget="badge"
+                                           decoration-success="state_to == 'available'"
+                                           decoration-info="state_to == 'assigned'"
+                                           decoration-warning="state_to in ('in_transit', 'in_repair')"
+                                           decoration-muted="state_to == 'retired'"
+                                           decoration-danger="state_to == 'lost'"/>
+                                    <field name="responsible_to"/>
+                                    <field name="company_from_id" optional="hide"
+                                           groups="base.group_multi_company"/>
+                                    <field name="company_to_id" groups="base.group_multi_company"/>
+                                    <field name="location_to_id"/>
+                                    <field name="condition_to_id" optional="hide"/>
+                                    <field name="tracking_number" optional="hide"/>
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="Gallery" name="gallery">
                             <field name="image_ids" mode="kanban" context="{'default_asset_id': id}">

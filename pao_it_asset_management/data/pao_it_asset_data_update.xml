@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Se ejecuta en CADA actualización del módulo (noupdate="0"). Es
+         idempotente: solo crea el movimiento Register de los activos que
+         todavía no tienen historial (p. ej. los capturados antes de que
+         existiera el historial, en el entregable 1). -->
+    <data noupdate="0">
+        <function model="pao.it.asset" name="_ensure_register_movements"/>
+    </data>
+</odoo>

@@ -44,6 +44,13 @@
             <field name="global" eval="True"/>
         </record>
 
+        <record id="pao_it_asset_movement_company_rule" model="ir.rule">
+            <field name="name">IT Asset Movement: multi-company</field>
+            <field name="model_id" ref="model_pao_it_asset_movement"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="global" eval="True"/>
+        </record>
+
         <record id="pao_it_location_company_rule" model="ir.rule">
             <field name="name">IT Location: multi-company</field>
             <field name="model_id" ref="model_pao_it_location"/>

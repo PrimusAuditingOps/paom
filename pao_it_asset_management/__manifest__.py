@@ -11,14 +11,16 @@
     'author': 'Hector Cortes',
     # 'hr': los activos se asignan a empleados/departamentos.
     # 'purchase': referencia opcional a la PO (y su línea) de compra.
-    # 'account': referencia opcional a la factura/póliza, y (a partir de
-    # entregables posteriores) distribución analítica.
-    'depends': ['base', 'mail', 'hr', 'purchase', 'account'],
+    # 'account': referencia opcional a la factura/póliza.
+    # 'analytic': distribución analítica del activo (analytic.mixin).
+    'depends': ['base', 'mail', 'hr', 'purchase', 'account', 'analytic'],
     'data': [
         'security/pao_it_asset_security.xml',
         'security/ir.model.access.csv',
         'data/pao_it_asset_data.xml',
+        'data/pao_it_asset_data_update.xml',
         'views/pao_it_catalog_views.xml',
+        'views/pao_it_asset_movement_views.xml',
         'views/pao_it_asset_views.xml',
         # Menús al final: referencian las acciones definidas arriba.
         'views/pao_it_menus.xml',

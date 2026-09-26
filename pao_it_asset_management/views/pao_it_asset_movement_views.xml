@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================== -->
+    <!-- HISTORIAL DE MOVIMIENTOS                   -->
+    <!-- ========================================== -->
+
+    <record id="view_pao_it_asset_movement_tree" model="ir.ui.view">
+        <field name="name">pao.it.asset.movement.tree</field>
+        <field name="model">pao.it.asset.movement</field>
+        <field name="arch" type="xml">
+            <tree string="Movements" create="0" edit="0" delete="0">
+                <field name="date"/>
+                <field name="date_end" optional="show"/>
+                <field name="asset_id"/>
+                <field name="movement_type" widget="badge"/>
+                <field name="state_from" optional="hide"/>
+                <field name="state_to" widget="badge"
+                       decoration-success="state_to == 'available'"
+                       decoration-info="state_to == 'assigned'"
+                       decoration-warning="state_to in ('in_transit', 'in_repair')"
+                       decoration-muted="state_to == 'retired'"
+                       decoration-danger="state_to == 'lost'"/>
+                <field name="responsible_from" optional="hide"/>
+                <field name="responsible_to"/>
+                <field name="company_from_id" optional="hide" groups="base.group_multi_company"/>
+                <field name="company_to_id" optional="show" groups="base.group_multi_company"/>
+                <field name="location_to_id" optional="show"/>
+                <field name="condition_to_id" optional="hide"/>
+                <field name="tracking_number" optional="hide"/>
+                <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_it_asset_movement_form" model="ir.ui.view">
+        <field name="name">pao.it.asset.movement.form</field>
+        <field name="model">pao.it.asset.movement</field>
+        <field name="arch" type="xml">
+            <form string="Movement" create="0" delete="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="movement_type"/></h1>
+                        <h3><field name="asset_id"/></h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="create_date" string="Recorded On"/>
+                        </group>
+                    </group>
+                    <group string="Before → After" name="changes">
+                        <group string="Before">
+                            <field name="state_from"/>
+                            <field name="responsible_from"/>
+                            <field name="company_from_id" groups="base.group_multi_company"/>
+                            <field name="location_from_id"/>
+                            <field name="condition_from_id"/>
+                        </group>
+                        <group string="After">
+                            <field name="state_to"/>
+                            <field name="responsible_to"/>
+                            <field name="company_to_id" groups="base.group_multi_company"/>
+                            <field name="location_to_id"/>
+                            <field name="condition_to_id"/>
+                        </group>
+                    </group>
+                    <group invisible="not reason and not retirement_reason_id">
+                        <field name="retirement_reason_id" invisible="not retirement_reason_id"/>
+                        <field name="reason" invisible="not reason"/>
+                    </group>
+                    <group string="Shipment" name="shipment"
+                           invisible="not requires_shipping and not shipment_movement_id">
+                        <group>
+                            <field name="requires_shipping" invisible="1"/>
+                            <field name="shipment_movement_id" invisible="not shipment_movement_id"/>
+                            <field name="carrier_id" invisible="not requires_shipping"/>
+                            <field name="tracking_number" invisible="not requires_shipping"/>
+                            <field name="ship_date" invisible="not requires_shipping"/>
+                            <field name="estimated_delivery_date" invisible="not requires_shipping"/>
+                            <field name="actual_delivery_date" invisible="not actual_delivery_date"/>
+                        </group>
+                        <group invisible="not requires_shipping">
+                            <field name="shipping_cost"/>
+                            <field name="shipping_currency_id"/>
+                            <field name="shipping_move_id"
+                                   groups="account.group_account_invoice,account.group_account_readonly"/>
+                        </group>
+                    </group>
+                    <group string="Notes &amp; Attachments">
+                        <field name="notes" placeholder="Notes can be updated at any time."/>
+                        <field name="attachment_ids" widget="many2many_binary"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pao_it_asset_movement_search" model="ir.ui.view">
+        <field name="name">pao.it.asset.movement.search</field>
+        <field name="model">pao.it.asset.movement</field>
+        <field name="arch" type="xml">
+            <search string="Movements">
+                <field name="asset_id"/>
+                <field name="employee_to_id"/>
+                <field name="employee_from_id"/>
+                <field name="tracking_number"/>
+                <field name="user_id"/>
+                <filter string="Assignments" name="assignments"
+                        domain="[('movement_type', 'in', ('assign', 'reassign'))]"/>
+                <filter string="Returns" name="returns" domain="[('movement_type', '=', 'return')]"/>
+                <filter string="Repairs" name="repairs"
+                        domain="[('movement_type', 'in', ('send_to_repair', 'back_from_repair'))]"/>
+                <filter string="Retirements &amp; Losses" name="retirements"
+                        domain="[('movement_type', 'in', ('retire', 'report_lost', 'recover'))]"/>
+                <separator/>
+                <filter string="Shipments" name="shipments" domain="[('requires_shipping', '=', True)]"/>
+                <filter string="Cancelled Shipments" name="cancelled_shipments"
+                        domain="[('movement_type', '=', 'cancel_shipment')]"/>
+                <filter string="Between Companies" name="company_changed"
+                        domain="[('company_changed', '=', True)]"/>
+                <separator/>
+                <filter string="Date" name="date" date="date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Asset" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Movement" name="group_type" context="{'group_by': 'movement_type'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_to_id'}"
+                            groups="base.group_multi_company"/>
+                    <filter string="Employee" name="group_employee" context="{'group_by': 'employee_to_id'}"/>
+                    <filter string="Performed By" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pao_it_asset_movement" model="ir.actions.act_window">
+        <field name="name">Movements</field>
+        <field name="res_model">pao.it.asset.movement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">No movements yet</p>
+            <p>Movements are recorded from the action buttons of each asset (Assign, Return, Retire...).</p>
+        </field>
+    </record>
+
+    <!-- ========================================== -->
+    <!-- ASISTENTE DE MOVIMIENTOS                   -->
+    <!-- ========================================== -->
+
+    <record id="view_pao_it_asset_movement_wizard_form" model="ir.ui.view">
+        <field name="name">pao.it.asset.movement.wizard.form</field>
+        <field name="model">pao.it.asset.movement.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Movement">
+                <field name="movement_type" invisible="1"/>
+                <field name="can_change_company" invisible="1"/>
+                <div class="alert alert-warning" role="alert" invisible="not analytic_warning">
+                    <field name="analytic_warning" nolabel="1"/>
+                </div>
+                <group>
+                    <group>
+                        <field name="asset_ids" widget="many2many_tags" readonly="1"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <!-- Nuevo responsable -->
+                        <field name="assignee_type" widget="radio" options="{'horizontal': true}"
+                               invisible="movement_type not in ('assign', 'reassign')"/>
+                        <field name="employee_id" options="{'no_create': True}"
+                               invisible="movement_type not in ('assign', 'reassign') or assignee_type != 'employee'"/>
+                        <field name="department_id" options="{'no_create': True}"
+                               invisible="movement_type not in ('assign', 'reassign') or assignee_type != 'department'"/>
+                        <field name="company_id" options="{'no_create': True}"
+                               groups="base.group_multi_company"
+                               readonly="not can_change_company"
+                               invisible="movement_type not in ('assign', 'reassign', 'relocate')"/>
+                        <field name="location_id" options="{'no_create': True}"
+                               required="movement_type == 'relocate'"
+                               invisible="movement_type not in ('assign', 'reassign', 'relocate', 'return', 'recover')"/>
+                        <field name="condition_id" options="{'no_create': True}"
+                               invisible="movement_type not in ('return', 'back_from_repair', 'recover', 'send_to_repair', 'report_lost')"/>
+                        <field name="retirement_reason_id" options="{'no_create': True}"
+                               required="movement_type == 'retire'"
+                               invisible="movement_type != 'retire'"/>
+                    </group>
+                </group>
+                <group invisible="movement_type not in ('cancel_shipment', 'send_to_repair', 'report_lost', 'retire')">
+                    <field name="reason"
+                           required="movement_type in ('cancel_shipment', 'send_to_repair', 'report_lost')"
+                           placeholder="e.g. Shipment cancelled by the carrier / Screen failure / Stolen from car..."/>
+                </group>
+                <!-- Envío -->
+                <group invisible="movement_type not in ('assign', 'reassign')">
+                    <field name="requires_shipping"/>
+                </group>
+                <group string="Shipment" invisible="movement_type not in ('assign', 'reassign') or not requires_shipping">
+                    <group>
+                        <field name="carrier_id" options="{'no_create': True}"/>
+                        <field name="tracking_number"/>
+                        <field name="ship_date"/>
+                        <field name="estimated_delivery_date"/>
+                    </group>
+                    <group>
+                        <field name="shipping_cost"/>
+                        <field name="shipping_currency_id" options="{'no_create': True}"/>
+                        <field name="shipping_move_id" options="{'no_create': True}"
+                               groups="account.group_account_invoice,account.group_account_readonly"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="notes"/>
+                    <field name="attachment_ids" widget="many2many_binary"
+                           string="Attachments (tracking label, evidence...)"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acciones sobre VARIOS activos desde la lista (Acción → ...). -->
+    <record id="action_server_pao_it_asset_assign" model="ir.actions.server">
+        <field name="name">Assign</field>
+        <field name="model_id" ref="model_pao_it_asset"/>
+        <field name="binding_model_id" ref="model_pao_it_asset"/>
+        <field name="binding_view_types">list,kanban</field>
+        <field name="groups_id" eval="[(4, ref('pao_it_asset_management.group_it_asset_admin'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = records._action_movement_wizard('assign')</field>
+    </record>
+
+    <record id="action_server_pao_it_asset_return" model="ir.actions.server">
+        <field name="name">Return</field>
+        <field name="model_id" ref="model_pao_it_asset"/>
+        <field name="binding_model_id" ref="model_pao_it_asset"/>
+        <field name="binding_view_types">list,kanban</field>
+        <field name="groups_id" eval="[(4, ref('pao_it_asset_management.group_it_asset_admin'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = records._action_movement_wizard('return')</field>
+    </record>
+</odoo>

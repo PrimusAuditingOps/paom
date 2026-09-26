@@ -19,6 +19,11 @@
               parent="menu_pao_it_hardware"
               action="action_pao_it_asset"
               sequence="10"/>
+    <menuitem id="menu_pao_it_asset_movement"
+              name="Movements"
+              parent="menu_pao_it_hardware"
+              action="action_pao_it_asset_movement"
+              sequence="30"/>
 
     <!-- CONFIGURACIÓN (solo administradores) -->
     <menuitem id="menu_pao_it_config"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-26 04:25+0000\n"
-"PO-Revision-Date: 2026-09-26 04:25+0000\n"
+"POT-Creation-Date: 2026-09-26 04:50+0000\n"
+"PO-Revision-Date: 2026-09-26 04:50+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -49,13 +49,33 @@ msgid "Active Assets"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__actual_delivery_date
+msgid "Actual Delivery Date"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:res.groups,name:pao_it_asset_management.group_it_asset_admin
 msgid "Administrator"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
+msgid "After"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_ai
 msgid "AI"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__analytic_distribution
+msgid "Analytic Distribution"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__analytic_warning
+msgid "Analytic Warning"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -73,8 +93,31 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__asset_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__asset_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 msgid "Asset"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+#, python-format
+msgid "Asset %s is already assigned to that responsible."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__asset_count
+msgid "Asset Count"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement.py:0
+msgid "Asset movements cannot be deleted."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement.py:0
+msgid "Asset movements cannot be modified. Only notes and attachments can be updated; any correction must be registered as a new movement."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -89,6 +132,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__asset_ids
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_asset
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_tree
@@ -96,7 +140,22 @@ msgid "Assets"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.actions.server,name:pao_it_asset_management.action_server_pao_it_asset_assign
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__assign
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__assign
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Assign"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__assignee_type
+msgid "Assign To"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__assigned
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_from__assigned
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_to__assigned
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Assigned"
 msgstr ""
@@ -112,14 +171,54 @@ msgid "Assigned Employee"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+msgid "Assignments"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__attachment_ids
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__attachment_ids
+msgid "Attachments"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
+msgid "Attachments (tracking label, evidence...)"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__available
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_from__available
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_to__available
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Available"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__back_from_repair
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__back_from_repair
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Back from Repair"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:pao.it.condition,name:pao_it_asset_management.condition_bad
 msgid "Bad"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
+msgid "Before"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
+msgid "Before → After"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+msgid "Between Companies"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -141,6 +240,34 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:pao.it.condition,name:pao_it_asset_management.condition_broken
 msgid "Broken"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__can_change_company
+msgid "Can Change Company"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__cancel_shipment
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__cancel_shipment
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Cancel Shipment"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+msgid "Cancelled Shipments"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__carrier_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__carrier_id
+msgid "Carrier"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -171,16 +298,41 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__company_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__company_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__company_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
 msgid "Company"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__company_to_id
+msgid "Company (After)"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__company_from_id
+msgid "Company (Before)"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__company_changed
+msgid "Company Changed"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__condition_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__condition_to_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__condition_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Condition"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__condition_from_id
+msgid "Condition (Before)"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -193,6 +345,18 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config
 msgid "Configuration"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
+msgid "Confirm"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__confirm_delivery
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__confirm_delivery
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Confirm Delivery"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -213,14 +377,30 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__date
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__date
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__date
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 msgid "Date"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_movement__date_end
+msgid "Date of the next movement of this asset. Empty while this is the current one."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__department_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__department_to_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__department_id
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__assignee_type__department
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_kanban
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Department"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__department_from_id
+msgid "Department (Before)"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -259,14 +439,44 @@ msgid "e.g. LPT-MX-076"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
+msgid "e.g. Shipment cancelled by the carrier / Screen failure / Stolen from car..."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_movement__date
+msgid "Effective date of the movement."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_movement_wizard__date
+msgid "Effective date of the movement. It can be in the past, never in the future."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_email_marketing
 msgid "Email Marketing"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__employee_to_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__employee_id
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__assignee_type__employee
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_kanban
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Employee"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__employee_from_id
+msgid "Employee (Before)"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__estimated_delivery_date
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__estimated_delivery_date
+msgid "Estimated Delivery Date"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -301,6 +511,7 @@ msgid "Good"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_model_search
@@ -311,6 +522,12 @@ msgstr ""
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_hardware
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_hardware
 msgid "Hardware"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__movement_ids
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "History"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -348,12 +565,16 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__in_repair
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_from__in_repair
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_to__in_repair
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "In Repair"
 msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__in_transit
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_from__in_transit
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_to__in_transit
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "In Transit"
 msgstr ""
@@ -395,6 +616,16 @@ msgid "IT Asset Model"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_movement
+msgid "IT Asset Movement"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_movement_wizard
+msgid "IT Asset Movement Wizard"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_image
 msgid "IT Asset Photo"
 msgstr ""
@@ -411,6 +642,8 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__location_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__location_to_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__location_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Location"
 msgstr ""
@@ -418,6 +651,11 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 msgid "Location & Responsible"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__location_from_id
+msgid "Location (Before)"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -437,6 +675,8 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__lost
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_from__lost
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_to__lost
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Lost / Stolen"
 msgstr ""
@@ -467,6 +707,29 @@ msgid "Monitor"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__movement_type
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__movement_type
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
+msgid "Movement"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset_movement
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_asset_movement
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_tree
+msgid "Movements"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_movement
+msgid "Movements are recorded from the action buttons of each asset (Assign, Return, Retire...)."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_category__name
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_brand__name
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_carrier__name
@@ -477,6 +740,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_retirement_reason__name
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_software_type__name
 msgid "Name"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_movement
+msgid "No movements yet"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+#, python-format
+msgid "No shipment was found for asset %s."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -492,8 +766,20 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__notes
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__notes
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__notes
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 msgid "Notes"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
+msgid "Notes & Attachments"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
+msgid "Notes can be updated at any time."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -554,6 +840,12 @@ msgid "PDF Editor"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__user_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+msgid "Performed By"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_peripheral
 msgid "Peripheral"
 msgstr ""
@@ -561,6 +853,31 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 msgid "Photo"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+msgid "Please indicate the reason for this movement."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+msgid "Please select the department."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+msgid "Please select the employee."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+msgid "Please select the new location."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+msgid "Please select the retirement reason."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -621,8 +938,62 @@ msgid "Read-only access to IT assets, licenses and their history."
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__reason
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__reason
+msgid "Reason"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__reassign
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__reassign
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Reassign"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
+msgid "Recorded On"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__recover
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__recover
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Recover"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__register
+msgid "Register"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset
 msgid "Register your first IT asset"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__registration_date
+msgid "Registration Date"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__relocate
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__relocate
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Relocate"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+msgid "Repairs"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__report_lost
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__report_lost
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Report Lost / Stolen"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -633,9 +1004,40 @@ msgid "Requires IMEI"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__requires_shipping
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__requires_shipping
+msgid "Requires Shipping"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__responsible_to
+msgid "Responsible"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__responsible_from
+msgid "Responsible (Before)"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__retire
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__retire
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Retire"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__retired
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_from__retired
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_to__retired
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Retired"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__retirement_reason_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__retirement_reason_id
+msgid "Retirement Reason"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -646,6 +1048,30 @@ msgid "Retirement Reasons"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+msgid "Retirements & Losses"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.server,name:pao_it_asset_management.action_server_pao_it_asset_return
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__return
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__return
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Return"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+msgid "Returns"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+#, python-format
+msgid "Review the analytic distribution of: %s. The asset is changing department."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_router
 msgid "Router"
 msgstr ""
@@ -653,6 +1079,13 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_scrapped
 msgid "Scrapped"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__send_to_repair
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__send_to_repair
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Send to Repair"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -671,8 +1104,44 @@ msgid "Server"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__ship_date
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__ship_date
+msgid "Ship Date"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipment_movement_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
+msgid "Shipment"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
+msgid "Shipments"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipping_move_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__shipping_move_id
+msgid "Shipping Bill / Journal Entry"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_carrier
 msgid "Shipping Carrier"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipping_cost
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__shipping_cost
+msgid "Shipping Cost"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipping_currency_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__shipping_currency_id
+msgid "Shipping Currency"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -710,8 +1179,14 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__state
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__state_to
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Status"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__state_from
+msgid "Status (Before)"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -725,14 +1200,60 @@ msgid "Tablet"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+msgid "The analytic distribution of each plan must add up to 100%."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#, python-format
+msgid "The asset %(tag)s already has movements in its history and cannot be deleted. Use the Retire action instead."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.constraint,message:pao_it_asset_management.constraint_pao_it_asset_asset_tag_uniq
 msgid "The Asset Tag must be unique."
 msgstr ""
 
 #. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
 #, python-format
 msgid "The location %(location)s belongs to another company."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+#, python-format
+msgid "The movement %(movement)s is not allowed for asset %(tag)s in status %(state)s."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+#, python-format
+msgid "The movement %s can only be applied to one asset at a time."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+#, python-format
+msgid "The movement date cannot be before the last movement of asset %(tag)s (%(date)s)."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+#, python-format
+msgid "The movement date cannot be before the registration date of asset %(tag)s (%(date)s)."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
+msgid "The movement date cannot be in the future."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+msgid "The registration date cannot be in the future."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -768,6 +1289,12 @@ msgid "Title"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__tracking_number
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__tracking_number
+msgid "Tracking Number"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Unassigned"
 msgstr ""
@@ -782,6 +1309,11 @@ msgstr ""
 #: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
 #, python-format
 msgid "Unsupported search on warranty status."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__date_end
+msgid "Until"
 msgstr ""
 
 #. module: pao_it_asset_management
