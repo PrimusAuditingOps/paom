@@ -171,9 +171,13 @@
                         <!-- Nuevo responsable -->
                         <field name="assignee_type" widget="radio" options="{'horizontal': true}"
                                invisible="movement_type not in ('assign', 'reassign')"/>
+                        <!-- context en el propio campo: la búsqueda de la lista
+                             desplegable siempre lo recibe (nombre con país). -->
                         <field name="employee_id" options="{'no_create': True}"
+                               context="{'pao_it_show_company': True}"
                                invisible="movement_type not in ('assign', 'reassign') or assignee_type != 'employee'"/>
                         <field name="department_id" options="{'no_create': True}"
+                               context="{'pao_it_show_company': True}"
                                invisible="movement_type not in ('assign', 'reassign') or assignee_type != 'department'"/>
                         <field name="company_id" options="{'no_create': True}"
                                groups="base.group_multi_company"
