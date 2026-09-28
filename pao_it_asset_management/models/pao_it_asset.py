@@ -24,6 +24,27 @@ ASSET_STATES = [
 ]
 
 
+def check_analytic_distribution_total(self):
+    """Distribución analítica opcional, pero si se captura debe sumar 100%
+    POR PLAN analítico. Se valida por plan para funcionar igual con llaves
+    simples ("12") que combinadas ("12,34", una cuenta de cada plan en la
+    misma línea). La usan el activo y la suscripción. (El parámetro se llama
+    `self` a propósito: `_()` de Odoo 17 busca `self` en el frame para
+    traducir al idioma del usuario.)"""
+    Account = self.env['account.analytic.account'].sudo()
+    for record in self:
+        if not record.analytic_distribution:
+            continue
+        totals = defaultdict(float)
+        for key, percentage in record.analytic_distribution.items():
+            for account_id in str(key).split(','):
+                account = Account.browse(int(account_id)).exists()
+                if account:
+                    totals[account.root_plan_id.id or account.plan_id.id] += percentage
+        if any(float_compare(total, 100.0, precision_digits=2) for total in totals.values()):
+            raise ValidationError(_("The analytic distribution of each plan must add up to 100%."))
+
+
 # ==========================================
 # ACTIVO DE HARDWARE
 # ==========================================
@@ -311,21 +332,7 @@ class PaoItAsset(models.Model):
 
     @api.constrains('analytic_distribution')
     def _check_analytic_distribution_total(self):
-        # Opcional, pero si se captura debe sumar 100% POR PLAN analítico.
-        # Se valida por plan para funcionar igual con llaves simples ("12")
-        # que combinadas ("12,34", una cuenta de cada plan en la misma línea).
-        Account = self.env['account.analytic.account'].sudo()
-        for asset in self:
-            if not asset.analytic_distribution:
-                continue
-            totals = defaultdict(float)
-            for key, percentage in asset.analytic_distribution.items():
-                for account_id in str(key).split(','):
-                    account = Account.browse(int(account_id)).exists()
-                    if account:
-                        totals[account.root_plan_id.id or account.plan_id.id] += percentage
-            if any(float_compare(total, 100.0, precision_digits=2) for total in totals.values()):
-                raise ValidationError(_("The analytic distribution of each plan must add up to 100%."))
+        check_analytic_distribution_total(self)
 
     # ==========================================
     # CREATE / WRITE / UNLINK

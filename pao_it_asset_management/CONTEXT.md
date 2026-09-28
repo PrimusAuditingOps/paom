@@ -232,6 +232,27 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
   - liga a `account.move`.
 - **Estatus:** Active, Expiring soon (10 días), Expired, Cancelled. Con
   auto-renew se avisa de la renovación en lugar del vencimiento.
+- **Decisiones del diseño técnico (2026-09-28):**
+  - **Auto-renew:** una tarea diaria crea el siguiente periodo al llegar la
+    fecha de fin (copia cantidades y costo); el admin ajusta después. Una
+    suscripción con auto-renew nunca queda vencida.
+  - **Estatus:** Active, Renewing Soon (auto-renew, ≤ 10 días), Expiring
+    Soon (sin auto-renew, ≤ 10 días), Expired, Cancelled y No Period.
+  - **Costo:** Per user = costo unitario × licencias compradas por cobro;
+    Flat fee = cargo por cobro capturado; Perpetual = pago único. Total del
+    periodo = cargo × número de cobros (calculado, nunca a mano).
+  - **Perpetual:** la fecha de fin es opcional y queda Active salvo que se
+    cancele.
+  - **Aumentos de precio** (las licencias suben año con año):
+    - Cada periodo muestra su **variación contra el periodo anterior**,
+      unitaria y total, en monto y en %, solo si ambos están en la misma
+      moneda. La suscripción muestra el "último aumento", con filtro.
+    - **Price Change:** parte un periodo en la fecha efectiva de un cambio
+      de precio a mitad del periodo.
+    - **"Aumento esperado al renovar (%)"** (opcional) en la suscripción: la
+      renovación automática lo aplica al costo del nuevo periodo.
+  - Al cancelar una suscripción se cierran sus asignaciones abiertas con la
+    fecha de cancelación.
 - **Asignaciones:**
   - opcionales, a un empleado o a un departamento;
   - al quitarse se cierran con fecha de fin (no se borran);
@@ -290,8 +311,8 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
 |---|---|---|
 | 1 | Base y hardware | **Probado y funcionando en staging (2026-09-25)**, incluido el ajuste de facturas automáticas desde la PO |
 | 2 | Movimientos e historial | **Probado y funcionando en staging (2026-09-28)**, incluido el país en empleados y departamentos |
-| 3 | Mantenimiento y garantía | **Programado (2026-09-28), pendiente de pruebas del usuario** |
-| 4 | Software y licencias | Pendiente |
+| 3 | Mantenimiento y garantía | **Probado y funcionando en staging (2026-09-28)**. "Marcar como terminado" abre una ventana (fecha de fin, condición, trabajo realizado) para que funcione también desde la pestaña de solo lectura del activo |
+| 4 | Software y licencias | **Programado (2026-09-28), pendiente de pruebas del usuario** |
 | 5 | Responsiva y devolución | Pendiente |
 | 6 | Costos y tablero | Pendiente |
 

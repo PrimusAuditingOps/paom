@@ -30,6 +30,27 @@
               action="action_pao_it_asset_movement"
               sequence="30"/>
 
+    <!-- SOFTWARE -->
+    <menuitem id="menu_pao_it_software_root"
+              name="Software"
+              parent="menu_pao_it_root"
+              sequence="30"/>
+    <menuitem id="menu_pao_it_subscription"
+              name="Subscriptions"
+              parent="menu_pao_it_software_root"
+              action="action_pao_it_subscription"
+              sequence="10"/>
+    <menuitem id="menu_pao_it_license_assignment"
+              name="License Assignments"
+              parent="menu_pao_it_software_root"
+              action="action_pao_it_license_assignment"
+              sequence="20"/>
+    <menuitem id="menu_pao_it_software"
+              name="Software Catalog"
+              parent="menu_pao_it_software_root"
+              action="action_pao_it_software"
+              sequence="30"/>
+
     <!-- CONFIGURACIÓN (solo administradores) -->
     <menuitem id="menu_pao_it_config"
               name="Configuration"

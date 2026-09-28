@@ -6,3 +6,7 @@ from . import pao_it_asset_movement
 from . import pao_it_asset_movement_wizard
 from . import pao_it_asset_maintenance
 from . import pao_it_asset_maintenance_done_wizard
+from . import pao_it_software
+from . import pao_it_subscription_period
+from . import pao_it_license_assignment
+from . import pao_it_subscription_wizards
