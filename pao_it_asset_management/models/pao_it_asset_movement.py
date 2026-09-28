@@ -116,11 +116,14 @@ class PaoItAssetMovement(models.Model):
             movement.date_end = following.date if following else False
 
     @api.depends('employee_from_id', 'employee_to_id', 'department_from_id', 'department_to_id')
+    @api.depends_context('pao_it_show_company')
     def _compute_responsible(self):
+        # display_name: dentro del módulo incluye el país de la compañía
+        # (ver hr_company_label.py).
         for movement in self:
-            movement.responsible_from = (movement.employee_from_id.name
+            movement.responsible_from = (movement.employee_from_id.display_name
                                          or movement.department_from_id.display_name or False)
-            movement.responsible_to = (movement.employee_to_id.name
+            movement.responsible_to = (movement.employee_to_id.display_name
                                        or movement.department_to_id.display_name or False)
 
     @api.depends('company_from_id', 'company_to_id')

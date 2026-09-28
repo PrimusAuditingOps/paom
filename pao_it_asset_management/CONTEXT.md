@@ -43,6 +43,17 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
   departamento de TI.
 - **Todo vive dentro del módulo:** no hay botones ni vistas en la ficha de
   empleado ni en otros módulos.
+- **Empleados y departamentos con país** (decidido el 2026-09-28): PAO
+  repite departamentos y empleados por compañía por control de gastos. Por
+  ejemplo, hay un "IT" en USA y otro en MX, y una misma persona puede ser
+  empleado en ambas. Dentro del módulo se muestran siempre como "IT
+  (México)" o "Hector Cortes (Estados Unidos)", con el país de la compañía.
+  - Se activa con la llave de contexto `pao_it_show_company`, que ponen las
+    acciones del módulo y el asistente.
+  - Está en `models/hr_company_label.py` y solo extiende
+    `_compute_display_name`: sin campos ni columnas nuevas en
+    `hr.department` / `hr.employee`.
+  - Fuera del módulo, Odoo no cambia.
 
 ## 3. Hardware (entregable 1)
 

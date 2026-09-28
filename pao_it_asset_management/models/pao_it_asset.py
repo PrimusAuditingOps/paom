@@ -403,5 +403,7 @@ class PaoItAsset(models.Model):
             'context': {
                 'default_movement_type': movement_type,
                 'default_asset_ids': [(6, 0, self.ids)],
+                # Empleados/departamentos con el país de su compañía.
+                'pao_it_show_company': True,
             },
         }

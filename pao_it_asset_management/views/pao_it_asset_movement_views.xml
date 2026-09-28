@@ -141,6 +141,7 @@
         <field name="name">Movements</field>
         <field name="res_model">pao.it.asset.movement</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'pao_it_show_company': True}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_empty_folder">No movements yet</p>
             <p>Movements are recorded from the action buttons of each asset (Assign, Return, Retire...).</p>

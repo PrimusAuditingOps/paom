@@ -91,3 +91,23 @@ Esto es sobre la mecánica de Odoo para traducir los **elementos que el propio m
 - **Trampa real y ya vivida**: si en algún momento se **fuerza por ORM/migración** (`with_context(lang=...).write(...)` dentro de un script en `migrations/`) el valor de un término `model:X,Y` para todos los idiomas — por ejemplo, para que un menú muestre siempre el mismo texto sin importar el idioma del usuario — esa escritura **queda pegada** y tiene prioridad sobre cualquier `.po` posterior: un `.po` nuevo que traduzca ese mismo término **no lo va a sobreescribir**. Si más adelante se necesita revertir ese comportamiento, hace falta **otra migración** que vuelva a escribir el valor deseado — no alcanza con editar el `.po`. Antes de forzar una traducción por ORM, vale la pena preguntarse si de verdad hace falta (vs. dejar que el `.po` normal haga su trabajo), porque es una decisión que cuesta trabajo revertir después.
 - **Cómo probar**: cambiar el idioma del usuario (Mi Perfil → Preferencias → Idioma) y recargar. Si algo no se tradujo, lo primero a revisar es un desajuste entre el `msgid` del `.po` y el texto real renderizado (típicamente espacios/comillas), y lo segundo es si ese término específico fue forzado por una migración anterior (punto arriba).
 - **Cuidado al tocar la carpeta `i18n/`**: en este proyecto la carpeta desapareció una vez del disco por una causa ajena a la sesión que la tocaba. Ante un archivo/carpeta "desaparecido", `git status` / `git log -- <ruta>` es el primer paso para confirmar si es recuperable desde el historial (`git show <commit>:<ruta>`) antes de asumir que hay que rehacerlo desde cero.
+
+## 11. Vistas: un campo del que depende otro no puede quedar restringido por `groups`
+
+**Regla**: en Odoo 17, si un campo aparece en el **dominio** de otro campo (ej. `domain="[('company_id', '=', company_id)]"`) o en sus expresiones `invisible` / `readonly` / `required`, ese campo tiene que estar en la vista **para todos los usuarios que pueden abrirla**. Si se pone con `groups="..."` (típicamente `groups="base.group_multi_company"` en `company_id`), la validación de la vista **falla al instalar/actualizar el módulo**:
+
+```
+Field 'company_id' used in domain of python field 'location_id' ([('company_id', '=', company_id)])
+is restricted to the group(s) base.group_multi_company.
+```
+
+**Cómo aplicarlo**: dejar el campo visible con su restricción y agregar **un respaldo oculto con el grupo negado**, para que el campo siempre esté presente:
+
+```xml
+<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+<field name="company_id" invisible="1" groups="!base.group_multi_company"/>
+```
+
+Odoo 17 permite repetir el campo en la misma vista. El respaldo no se ve y solo existe para que el dominio o el modificador pueda evaluarse. Excepción: si los dos campos tienen exactamente la misma restricción de `groups` (ej. PO y línea de PO, ambos solo para `purchase.group_purchase_user`), no hace falta el respaldo.
+
+**Por qué**: el error no aparece al revisar el XML (está bien formado) ni en las pruebas con un usuario administrador. Solo aparece cuando Odoo valida la vista al cargar el módulo, y detiene la instalación o actualización completa. Incidente real: `pao_it_asset_management`, entregable 2, asistente de movimientos (`location_id` filtrado por `company_id`). La ficha del activo ya tenía el respaldo desde el entregable 1, pero el asistente se escribió sin él. **Antes de entregar una vista, revisar cada `groups=` y confirmar que ese campo no aparezca en el dominio ni en los modificadores de otro campo.**
