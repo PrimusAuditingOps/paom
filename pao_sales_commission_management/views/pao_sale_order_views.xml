@@ -5,6 +5,11 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//group[@name='sales_person']/field[@name='user_id']" position="after">
+                <field name="pao_commission_agent_id"
+                       invisible="country_code != 'MX'"
+                       options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+            </xpath>
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                 <field name="pao_sales_commission_ids" invisible="1"/>
                 <button name="action_view_commissions" type="object"

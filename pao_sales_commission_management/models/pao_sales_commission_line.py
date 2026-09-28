@@ -84,7 +84,9 @@ class PaoSalesCommissionLine(models.Model):
                     'Finance if an adjustment is required.'
                 )
         res = super().write(vals)
-        if 'product_uom_qty' in vals:
+        if 'product_uom_qty' in vals and not self.env.context.get(
+            'pao_skip_commission_recompute'
+        ):
             for commission in self.mapped('commission_id'):
                 commission._update_for_sale_order()
         return res

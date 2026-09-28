@@ -5,6 +5,10 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    pao_commission_agent_id = fields.Many2one(
+        comodel_name='comisionpromotores.promotor',
+        string='Commission Agent',
+    )
     pao_sales_commission_ids = fields.One2many(
         comodel_name='pao.sales.commission',
         inverse_name='sale_order_id',
@@ -29,37 +33,48 @@ class SaleOrder(models.Model):
         return action
 
     # ------------------------------------------------------------------
-    # Propagación del promotor del encabezado (pao_promotor_id) a las líneas
-    # comisionables. El usuario puede después quitar manualmente el promotor
-    # de una línea puntual para excluirla de la comisión; si vuelve a cambiar
-    # el promotor del encabezado, se reinician (sobrescriben) todas las
-    # líneas comisionables con el nuevo valor.
+    # Al elegir el cliente, el comisionista se sugiere desde el promotor
+    # del cliente (res.partner.promotor_id); el vendedor puede cambiarlo.
+    # ------------------------------------------------------------------
+    @api.onchange('partner_id')
+    def _onchange_partner_id_pao_commission_agent(self):
+        for order in self:
+            order.pao_commission_agent_id = order.partner_id.promotor_id
+
+    # ------------------------------------------------------------------
+    # Propagación del comisionista del encabezado (pao_commission_agent_id)
+    # a las líneas comisionables. El usuario puede después quitar
+    # manualmente el comisionista de una línea puntual para excluirla de la
+    # comisión; si vuelve a cambiar el del encabezado, se reinician
+    # (sobrescriben) todas las líneas comisionables con el nuevo valor.
     # ------------------------------------------------------------------
     def _pao_sync_promotor_to_lines(self):
         for order in self:
             commissionable_lines = order.order_line.filtered(
                 lambda l: l.product_id.pao_commission_payment
             )
-            commissionable_lines.write({'pao_promotor_id': order.pao_promotor_id.id})
+            commissionable_lines.write(
+                {'pao_promotor_id': order.pao_commission_agent_id.id}
+            )
 
-    @api.onchange('pao_promotor_id')
-    def _onchange_pao_promotor_id_sync_lines(self):
+    @api.onchange('pao_commission_agent_id')
+    def _onchange_pao_commission_agent_id_sync_lines(self):
         for order in self:
             for line in order.order_line.filtered(
                 lambda l: l.product_id.pao_commission_payment
             ):
-                line.pao_promotor_id = order.pao_promotor_id
+                line.pao_promotor_id = order.pao_commission_agent_id
 
     def write(self, vals):
         res = super().write(vals)
-        if 'pao_promotor_id' in vals:
+        if 'pao_commission_agent_id' in vals:
             self._pao_sync_promotor_to_lines()
         return res
 
     @api.model_create_multi
     def create(self, vals_list):
         orders = super().create(vals_list)
-        orders.filtered('pao_promotor_id')._pao_sync_promotor_to_lines()
+        orders.filtered('pao_commission_agent_id')._pao_sync_promotor_to_lines()
         return orders
 
     # ------------------------------------------------------------------

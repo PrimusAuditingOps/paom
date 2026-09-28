@@ -17,7 +17,6 @@
         'purchase',
         'account',
         'comisionpromotores',
-        'pao_quotation_consultant',
         'servicereferralagreement',
         'pao_customer_segmentation',
         'suppliertaxes',

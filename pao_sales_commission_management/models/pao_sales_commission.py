@@ -104,11 +104,11 @@ class PaoSalesCommission(models.Model):
         comodel_name='pao.sales.commission.line', inverse_name='commission_id',
         string='Commissionable Product Lines',
         help='Product lines this commission is actually being paid on, '
-             'copied once from the quotation when this commission was '
-             'generated. Finance can lower the commissionable quantity per '
-             'line without affecting the quotation itself; the base, '
-             'commission amount and MXN amount are recalculated '
-             'automatically when they do.',
+             'copied from the quotation when this commission was generated '
+             'and refreshed only when "Recalculate" is clicked. Finance can '
+             'lower the commissionable quantity per line without affecting '
+             'the quotation itself; the base, commission amount and MXN '
+             'amount are recalculated automatically when they do.',
     )
 
     # -- Validación de servicio (sólo coordinadores) ------------------------
@@ -392,9 +392,8 @@ class PaoSalesCommission(models.Model):
         """
         domain = [
             ('state', '=', 'sale'),
-            ('date_order', '>=', '2026-06-01 00:00:00'),
-            ('pao_promotor_id', '!=', False),
-            ('pao_promotor_id.commission_rate', '>', 0),
+            ('pao_commission_agent_id', '!=', False),
+            ('pao_commission_agent_id.commission_rate', '>', 0),
             ('pao_sales_commission_ids', '=', False),
             ('country_code', '=', 'MX'),
         ]
@@ -485,7 +484,7 @@ class PaoSalesCommission(models.Model):
 
     @api.model
     def _generate_for_sale_order(self, sale_order):
-        promotor = sale_order.pao_promotor_id
+        promotor = sale_order.pao_commission_agent_id
         if not promotor:
             return
         lineas_comisionables = sale_order._pao_commissionable_lines()
@@ -503,23 +502,99 @@ class PaoSalesCommission(models.Model):
                 'promotor_type': promotor.promotor_type,
                 'related_user_id': promotor.user_id.id,
                 'commission_percentage': promotor.commission_rate,
-                'commission_line_ids': [(0, 0, {
-                    'sale_order_line_id': line.id,
-                    'product_id': line.product_id.id,
-                    'original_product_uom_qty': line.product_uom_qty,
-                    'product_uom_qty': line.product_uom_qty,
-                    'price_unit': line.price_unit,
-                    'organization_id': line.organization_id.id,
-                    'registrynumber_id': line.registrynumber_id.id,
-                    'service_start_date': line.service_start_date,
-                    'service_end_date': line.service_end_date,
-                }) for line in lineas_comisionables],
+                'commission_line_ids': [
+                    (0, 0, self._prepare_commission_line_vals(line))
+                    for line in lineas_comisionables
+                ],
             })
             record._update_for_sale_order()
 
+    @api.model
+    def _prepare_commission_line_vals(self, sale_line):
+        return {
+            'sale_order_line_id': sale_line.id,
+            'product_id': sale_line.product_id.id,
+            'original_product_uom_qty': sale_line.product_uom_qty,
+            'product_uom_qty': sale_line.product_uom_qty,
+            'price_unit': sale_line.price_unit,
+            'organization_id': sale_line.organization_id.id,
+            'registrynumber_id': sale_line.registrynumber_id.id,
+            'service_start_date': sale_line.service_start_date,
+            'service_end_date': sale_line.service_end_date,
+        }
+
+    def _sync_lines_from_sale_order(self):
+        """Resincroniza las líneas de comisión con la cotización (solo se
+        dispara a mano desde el botón 'Recalculate'; el cron nunca lo hace).
+
+        - Líneas existentes: se refrescan precio, cantidad vendida,
+          organización, registro y fechas. La cantidad comisionable sigue a
+          la cantidad vendida solo si Finanzas no la había bajado a mano; si
+          la había bajado, se respeta (recortada a la nueva cantidad vendida).
+        - Líneas nuevas comisionables de la cotización: se agregan.
+        - Líneas que ya no aplican (se quitó el comisionista o el check de
+          comisión, o se borró la línea de venta): se eliminan.
+
+        Las operaciones sobre las líneas van con sudo porque el Gerente (que
+        también puede recalcular) solo tiene lectura sobre ese modelo."""
+        self.ensure_one()
+        eligible = self.sale_order_id._pao_commissionable_lines()
+        Line = self.env['pao.sales.commission.line'].sudo().with_context(
+            pao_skip_commission_recompute=True
+        )
+        kept_sale_lines = self.env['sale.order.line']
+        updated, added, removed = [], [], []
+
+        for line in Line.browse(self.commission_line_ids.ids):
+            sale_line = line.sale_order_line_id
+            if not sale_line or sale_line not in eligible:
+                removed.append(line.product_id.display_name)
+                line.unlink()
+                continue
+            kept_sale_lines |= sale_line
+            fresh = self._prepare_commission_line_vals(sale_line)
+            fresh.pop('sale_order_line_id')
+            untouched = line.product_uom_qty == line.original_product_uom_qty
+            if untouched:
+                fresh['product_uom_qty'] = fresh['original_product_uom_qty']
+            else:
+                fresh['product_uom_qty'] = min(
+                    line.product_uom_qty, fresh['original_product_uom_qty']
+                )
+            changes = {}
+            for fname, value in fresh.items():
+                current = line[fname]
+                if isinstance(current, models.BaseModel):
+                    current = current.id
+                if current != value:
+                    changes[fname] = value
+            if changes:
+                line.write(changes)
+                updated.append(line.product_id.display_name)
+
+        for sale_line in eligible - kept_sale_lines:
+            vals = self._prepare_commission_line_vals(sale_line)
+            vals['commission_id'] = self.id
+            Line.create(vals)
+            added.append(sale_line.product_id.display_name)
+
+        self.invalidate_recordset(['commission_line_ids'])
+        if updated or added or removed:
+            parts = []
+            if updated:
+                parts.append('updated: %s' % ', '.join(updated))
+            if added:
+                parts.append('added: %s' % ', '.join(added))
+            if removed:
+                parts.append('removed: %s' % ', '.join(removed))
+            self.message_post(
+                body='Commission lines synchronized with the quotation (%s).'
+                     % '; '.join(parts)
+            )
 
     def _update_from_sale_order(self, sale_order):
-        """Wrapper de instancia usado por el botón 'Recalcular'."""
+        """Wrapper de instancia usado por el botón 'Recalcular': primero
+        resincroniza las líneas con la cotización y luego recalcula."""
         self.ensure_one()
         if self.state in self._FROZEN_STATES:
             raise UserError(
@@ -527,6 +602,15 @@ class PaoSalesCommission(models.Model):
                 'approved, not approved, or is under review cannot be '
                 'recalculated. Contact the Commissions Manager or Finance '
                 'if an adjustment is required.'
+            )
+        self._sync_lines_from_sale_order()
+        if sum(self.commission_line_ids.mapped('subtotal')) <= 0:
+            # Al lanzar el error se revierte también la resincronización.
+            raise UserError(
+                'After synchronizing with the quotation there would be no '
+                'commissionable lines with an amount left to pay. Review '
+                'the quotation (commissionable products and their '
+                'commission agent) before recalculating.'
             )
         self._update_for_sale_order()
 
