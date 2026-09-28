@@ -95,6 +95,9 @@ class PaoItAssetMovement(models.Model):
                                        readonly=True)
     # En Confirm Delivery / Cancel Shipment: el envío al que se refiere.
     shipment_movement_id = fields.Many2one('pao.it.asset.movement', string='Shipment', readonly=True)
+    # Send to Repair / Back from Repair generados por un mantenimiento.
+    maintenance_id = fields.Many2one('pao.it.asset.maintenance', string='Maintenance', readonly=True,
+                                     ondelete='set null')
     actual_delivery_date = fields.Date(string='Actual Delivery Date', readonly=True)
 
     # --- EDITABLES ---

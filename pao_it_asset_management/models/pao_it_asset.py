@@ -2,6 +2,8 @@ import re
 from collections import defaultdict
 from datetime import timedelta
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
@@ -69,6 +71,10 @@ class PaoItAsset(models.Model):
     registration_date = fields.Date(string='Registration Date', required=True,
                                     default=fields.Date.context_today)
     movement_ids = fields.One2many('pao.it.asset.movement', 'asset_id', string='History')
+
+    # --- MANTENIMIENTO ---
+    maintenance_ids = fields.One2many('pao.it.asset.maintenance', 'asset_id', string='Maintenances')
+    next_preventive_date = fields.Date(string='Next Preventive', compute='_compute_next_preventive_date')
 
     # --- RESPONSABLE ---
     # Empleado O departamento (nunca ambos). Solo lectura: los llenan los
@@ -180,6 +186,13 @@ class PaoItAsset(models.Model):
             asset.purchase_move_ids = moves
             asset.purchase_move_summary = ', '.join(
                 f"{move.name or '/'} ({state_labels.get(move.state)})" for move in moves)
+
+    @api.depends('maintenance_ids.state', 'maintenance_ids.scheduled_date', 'maintenance_ids.maintenance_type')
+    def _compute_next_preventive_date(self):
+        for asset in self:
+            pending = asset.maintenance_ids.filtered(
+                lambda m: m.maintenance_type == 'preventive' and m.state in ('scheduled', 'in_progress'))
+            asset.next_preventive_date = min(pending.mapped('scheduled_date'), default=False)
 
     @api.depends('warranty_end')
     def _compute_warranty_status(self):
@@ -328,6 +341,7 @@ class PaoItAsset(models.Model):
                 vals['asset_tag'] = self._normalize_asset_tag(vals['asset_tag'])
         assets = super().create(vals_list)
         assets._create_register_movement()
+        assets._plan_next_preventive()
         return assets
 
     def write(self, vals):
@@ -342,6 +356,10 @@ class PaoItAsset(models.Model):
             if asset.movement_ids.filtered(lambda m: m.movement_type != 'register'):
                 raise UserError(_(
                     "The asset %(tag)s already has movements in its history and cannot be deleted. "
+                    "Use the Retire action instead.", tag=asset.asset_tag))
+            if asset.maintenance_ids.filtered(lambda m: m.state not in ('scheduled', 'cancelled')):
+                raise UserError(_(
+                    "The asset %(tag)s already has maintenances in progress or done and cannot be deleted. "
                     "Use the Retire action instead.", tag=asset.asset_tag))
 
     # ==========================================
@@ -383,6 +401,75 @@ class PaoItAsset(models.Model):
         if movement_types:
             movements = movements.filtered(lambda m: m.movement_type in movement_types)
         return movements.sorted(lambda m: (m.date, m.id))[-1:]
+
+    # ==========================================
+    # PLAN PREVENTIVO
+    # ==========================================
+    def _get_preventive_base_date(self):
+        """La fecha más reciente entre: fin del último preventivo terminado,
+        fecha programada del último preventivo cancelado (cancelar "salta"
+        ese ciclo) y la fecha de alta."""
+        self.ensure_one()
+        preventives = self.maintenance_ids.filtered(lambda m: m.maintenance_type == 'preventive')
+        candidates = [self.registration_date]
+        candidates += preventives.filtered(lambda m: m.state == 'done').mapped('end_date')
+        candidates += preventives.filtered(lambda m: m.state == 'cancelled').mapped('scheduled_date')
+        return max(date for date in candidates if date)
+
+    def _plan_next_preventive(self):
+        """Crea el siguiente preventivo (Scheduled) de cada activo que lo
+        requiera y no tenga uno pendiente. Solo activos Available/Assigned."""
+        Maintenance = self.env['pao.it.asset.maintenance'].sudo()
+        vals_list = []
+        for asset in self:
+            category = asset.category_id
+            if (not category.requires_preventive or category.preventive_interval_months <= 0
+                    or asset.state not in ('available', 'assigned')):
+                continue
+            pending = asset.maintenance_ids.filtered(
+                lambda m: m.maintenance_type == 'preventive' and m.state in ('scheduled', 'in_progress'))
+            if pending:
+                continue
+            vals_list.append({
+                'asset_id': asset.id,
+                'maintenance_type': 'preventive',
+                'scheduled_date': asset._get_preventive_base_date()
+                                  + relativedelta(months=category.preventive_interval_months),
+            })
+        return Maintenance.create(vals_list) if vals_list else Maintenance
+
+    @api.model
+    def _cron_plan_preventive_maintenance(self):
+        """Tarea diaria: asegura un preventivo pendiente por activo (p. ej.
+        si la categoría activó el preventivo después, o el activo regresó a
+        Available/Assigned)."""
+        assets = self.sudo().search([
+            ('state', 'in', ('available', 'assigned')),
+            ('category_id.requires_preventive', '=', True),
+        ])
+        assets._plan_next_preventive()
+
+    # ==========================================
+    # ACCIONES (mantenimiento)
+    # ==========================================
+    def action_new_maintenance(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('New Maintenance'),
+            'res_model': 'pao.it.asset.maintenance',
+            'view_mode': 'form',
+            'target': 'current',
+            'context': {'default_asset_id': self.id, 'pao_it_show_company': True},
+        }
+
+    def action_view_maintenances(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id(
+            'pao_it_asset_management.action_pao_it_asset_maintenance')
+        action['domain'] = [('asset_id', '=', self.id)]
+        action['context'] = {'default_asset_id': self.id, 'pao_it_show_company': True}
+        return action
 
     # ==========================================
     # ACCIONES (abren el asistente de movimientos)

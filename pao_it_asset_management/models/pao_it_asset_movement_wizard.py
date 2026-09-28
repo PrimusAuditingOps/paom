@@ -72,6 +72,9 @@ class PaoItAssetMovementWizard(models.TransientModel):
     shipping_move_id = fields.Many2one('account.move', string='Shipping Bill / Journal Entry',
                                        domain="[('move_type', 'in', ('in_invoice', 'in_refund', 'entry'))]")
 
+    # Solo cuando el movimiento lo genera un mantenimiento (no se muestra).
+    maintenance_id = fields.Many2one('pao.it.asset.maintenance', string='Maintenance')
+
     notes = fields.Text(string='Notes')
     attachment_ids = fields.Many2many('ir.attachment', 'pao_it_asset_movement_wizard_attachment_rel',
                                       'wizard_id', 'attachment_id', string='Attachments')
@@ -312,6 +315,7 @@ class PaoItAssetMovementWizard(models.TransientModel):
                 'condition_to_id': after['condition'].id,
                 'reason': self.reason,
                 'notes': self.notes,
+                'maintenance_id': self.maintenance_id.id,
                 **extra,
             }
             movement = Movement.create(movement_vals)
@@ -330,4 +334,12 @@ class PaoItAssetMovementWizard(models.TransientModel):
                 'location_id': after['location'].id,
                 'condition_id': after['condition'].id,
             })
+        if self.movement_type in ('retire', 'report_lost'):
+            # Un activo dado de baja o extraviado ya no entra al plan
+            # preventivo: se cancelan sus preventivos pendientes.
+            self.env['pao.it.asset.maintenance'].search([
+                ('asset_id', 'in', self.asset_ids.ids),
+                ('maintenance_type', '=', 'preventive'),
+                ('state', '=', 'scheduled'),
+            ]).action_cancel()
         return {'type': 'ir.actions.act_window_close'}

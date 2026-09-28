@@ -137,6 +137,7 @@
                             <field name="brand_id" options="{'no_create': True}"/>
                             <field name="model_id" options="{'no_create': True}"/>
                             <field name="condition_id" options="{'no_create': True}"/>
+                            <field name="next_preventive_date" invisible="not next_preventive_date"/>
                         </group>
                         <group string="Location &amp; Responsible" name="location">
                             <!-- Compañía, ubicación y fecha de alta solo se capturan
@@ -253,6 +254,37 @@
                             <group string="Coverage / Notes">
                                 <field name="warranty_notes" nolabel="1" colspan="2"/>
                             </group>
+                        </page>
+                        <page string="Maintenance" name="maintenance">
+                            <div class="mb-2">
+                                <button name="action_new_maintenance" type="object" string="Register Maintenance"
+                                        class="btn-secondary" icon="fa-plus"
+                                        groups="pao_it_asset_management.group_it_asset_admin"/>
+                                <button name="action_view_maintenances" type="object" string="Open Maintenances"
+                                        class="btn-link" icon="fa-external-link"/>
+                            </div>
+                            <field name="maintenance_ids" readonly="1">
+                                <tree decoration-danger="is_overdue" decoration-muted="state == 'cancelled'">
+                                    <field name="is_overdue" column_invisible="True"/>
+                                    <field name="name"/>
+                                    <field name="maintenance_type" widget="badge"
+                                           decoration-info="maintenance_type == 'preventive'"
+                                           decoration-warning="maintenance_type == 'corrective'"
+                                           decoration-primary="maintenance_type == 'warranty'"/>
+                                    <field name="scheduled_date"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="technician_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="cost"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="state" widget="badge"
+                                           decoration-info="state == 'scheduled'"
+                                           decoration-warning="state == 'in_progress'"
+                                           decoration-success="state == 'done'"
+                                           decoration-muted="state == 'cancelled'"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="History" name="history">
                             <!-- Sin crear ni borrar desde aquí; al abrir un renglón

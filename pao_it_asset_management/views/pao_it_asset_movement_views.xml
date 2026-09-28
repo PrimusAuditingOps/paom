@@ -68,7 +68,8 @@
                             <field name="condition_to_id"/>
                         </group>
                     </group>
-                    <group invisible="not reason and not retirement_reason_id">
+                    <group invisible="not reason and not retirement_reason_id and not maintenance_id">
+                        <field name="maintenance_id" invisible="not maintenance_id"/>
                         <field name="retirement_reason_id" invisible="not retirement_reason_id"/>
                         <field name="reason" invisible="not reason"/>
                     </group>

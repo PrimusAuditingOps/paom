@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 # ==========================================
@@ -19,7 +20,31 @@ class PaoItAssetCategory(models.Model):
     requires_imei = fields.Boolean(
         string='Requires IMEI',
         help="If checked, assets of this category show the IMEI field (e.g. mobile phones, tablets).")
+    # Plan preventivo: Odoo programa solo el siguiente preventivo de cada
+    # activo de la categoría (ver pao.it.asset._plan_next_preventive). Un
+    # cambio de periodicidad aplica a los preventivos que se creen después.
+    requires_preventive = fields.Boolean(
+        string='Requires Preventive Maintenance',
+        help="If checked, Odoo automatically schedules the next preventive maintenance of each asset "
+             "of this category.")
+    preventive_interval_months = fields.Integer(
+        string='Preventive Interval (Months)',
+        help="Months between two preventive maintenances.")
     active = fields.Boolean(string='Active', default=True)
+
+    @api.constrains('requires_preventive', 'preventive_interval_months')
+    def _check_preventive_interval(self):
+        for category in self:
+            if category.requires_preventive and category.preventive_interval_months <= 0:
+                raise ValidationError(_("Please indicate the preventive interval in months (greater than zero)."))
+
+    def write(self, vals):
+        res = super().write(vals)
+        if vals.get('requires_preventive'):
+            # Al activar el preventivo se programa de inmediato (sin esperar
+            # a la tarea diaria) para los activos de la categoría.
+            self.env['pao.it.asset'].search([('category_id', 'in', self.ids)])._plan_next_preventive()
+        return res
 
 
 class PaoItBrand(models.Model):

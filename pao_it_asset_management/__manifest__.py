@@ -19,8 +19,10 @@
         'security/ir.model.access.csv',
         'data/pao_it_asset_data.xml',
         'data/pao_it_asset_data_update.xml',
+        'data/pao_it_asset_maintenance_data.xml',
         'views/pao_it_catalog_views.xml',
         'views/pao_it_asset_movement_views.xml',
+        'views/pao_it_asset_maintenance_views.xml',
         'views/pao_it_asset_views.xml',
         # Menús al final: referencian las acciones definidas arriba.
         'views/pao_it_menus.xml',

@@ -54,6 +54,10 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
     `_compute_display_name`: sin campos ni columnas nuevas en
     `hr.department` / `hr.employee`.
   - Fuera del módulo, Odoo no cambia.
+  - Ojo: para que la **lista desplegable** de un Many2one muestre el país, la
+    llave debe ir en el `context` del propio campo en la vista. Con ponerla
+    solo en el contexto de la acción, las pruebas del 2026-09-28 mostraron
+    que no bastaba.
 
 ## 3. Hardware (entregable 1)
 
@@ -138,6 +142,10 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
   se conserva la vigente. Al reasignar a otro departamento se muestra un
   aviso para revisarla (no bloquea).
 - No hay préstamos ni fecha de devolución esperada.
+- Los adjuntos de cada movimiento se consultan en el detalle del movimiento
+  (pestaña History o menú Movements). Se DESCARTÓ un botón "Documents" que
+  concentrara todos los adjuntos del activo (decisión del usuario,
+  2026-09-28).
 - **Decisiones del diseño técnico (2026-09-25):**
   - Campo **Registration Date** en el activo: por defecto hoy y editable al
     crearlo. Es la fecha del movimiento Register, y ningún movimiento puede
@@ -184,7 +192,23 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
   - Entran al plan los activos Available y Assigned.
   - Un cambio de periodicidad aplica solo a los preventivos siguientes.
   - Al pasar a Retired o Lost se cancelan los pendientes.
-- Un mantenimiento Done queda inalterable, salvo las notas.
+- Un mantenimiento Done queda inalterable, salvo las notas y los adjuntos.
+- **Decisiones del diseño técnico (2026-09-28):**
+  - Referencia automática `MNT/<año>/0001`.
+  - El primer preventivo de un activo sin historial se cuenta desde la
+    **fecha de alta**, no desde la compra.
+  - Cancelar un mantenimiento en curso "fuera de servicio" genera
+    automáticamente el Back from Repair.
+  - Base del plan: la fecha más reciente entre el fin del último preventivo
+    Done, la fecha programada del último preventivo cancelado (cancelar
+    "salta" ese ciclo) y la fecha de alta, + N meses. Una tarea diaria
+    asegura un preventivo pendiente por activo Available/Assigned de las
+    categorías con preventivo.
+  - Los movimientos Send to Repair / Back from Repair generados por un
+    mantenimiento pasan por el mismo asistente del entregable 2 y quedan
+    ligados al mantenimiento.
+  - La columna "Compañía (después)" del historial se queda así (el usuario
+    descartó cambiarla).
 
 ## 6. Software y licencias (entregable 4)
 
@@ -265,8 +289,8 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
 | # | Entregable | Estado |
 |---|---|---|
 | 1 | Base y hardware | **Probado y funcionando en staging (2026-09-25)**, incluido el ajuste de facturas automáticas desde la PO |
-| 2 | Movimientos e historial | **Programado (2026-09-25), pendiente de pruebas del usuario** |
-| 3 | Mantenimiento y garantía | Pendiente |
+| 2 | Movimientos e historial | **Probado y funcionando en staging (2026-09-28)**, incluido el país en empleados y departamentos |
+| 3 | Mantenimiento y garantía | **Programado (2026-09-28), pendiente de pruebas del usuario** |
 | 4 | Software y licencias | Pendiente |
 | 5 | Responsiva y devolución | Pendiente |
 | 6 | Costos y tablero | Pendiente |

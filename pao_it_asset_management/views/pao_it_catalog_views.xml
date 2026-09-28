@@ -12,6 +12,9 @@
             <tree string="Categories" editable="bottom">
                 <field name="name"/>
                 <field name="requires_imei"/>
+                <field name="requires_preventive"/>
+                <field name="preventive_interval_months" invisible="not requires_preventive"
+                       required="requires_preventive"/>
             </tree>
         </field>
     </record>

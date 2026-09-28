@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================== -->
+    <!-- MANTENIMIENTOS                             -->
+    <!-- ========================================== -->
+
+    <record id="view_pao_it_asset_maintenance_tree" model="ir.ui.view">
+        <field name="name">pao.it.asset.maintenance.tree</field>
+        <field name="model">pao.it.asset.maintenance</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenances" sample="1"
+                  decoration-danger="is_overdue" decoration-muted="state == 'cancelled'">
+                <field name="is_overdue" column_invisible="True"/>
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="category_id" optional="hide"/>
+                <field name="maintenance_type" widget="badge"
+                       decoration-info="maintenance_type == 'preventive'"
+                       decoration-warning="maintenance_type == 'corrective'"
+                       decoration-primary="maintenance_type == 'warranty'"/>
+                <field name="scheduled_date"/>
+                <field name="start_date" optional="show"/>
+                <field name="end_date" optional="show"/>
+                <field name="technician_id" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="take_out_of_service" optional="hide"/>
+                <field name="cost" optional="show"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'scheduled'"
+                       decoration-warning="state == 'in_progress'"
+                       decoration-success="state == 'done'"
+                       decoration-muted="state == 'cancelled'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_it_asset_maintenance_kanban" model="ir.ui.view">
+        <field name="name">pao.it.asset.maintenance.kanban</field>
+        <field name="model">pao.it.asset.maintenance</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" group_create="0" group_delete="0" group_edit="0"
+                    records_draggable="0" sample="1">
+                <field name="is_overdue"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="d-flex justify-content-between">
+                                <strong><field name="asset_id"/></strong>
+                                <field name="maintenance_type" widget="badge"/>
+                            </div>
+                            <div class="text-muted"><field name="name"/></div>
+                            <div t-att-class="record.is_overdue.raw_value and 'text-danger' or ''">
+                                <i class="fa fa-calendar me-1" title="Scheduled Date"/><field name="scheduled_date"/>
+                            </div>
+                            <div t-if="record.technician_id.raw_value">
+                                <i class="fa fa-user me-1" title="Technician"/><field name="technician_id"/>
+                            </div>
+                            <div t-if="record.partner_id.raw_value">
+                                <i class="fa fa-building me-1" title="Provider"/><field name="partner_id"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_pao_it_asset_maintenance_calendar" model="ir.ui.view">
+        <field name="name">pao.it.asset.maintenance.calendar</field>
+        <field name="model">pao.it.asset.maintenance</field>
+        <field name="arch" type="xml">
+            <calendar string="Maintenances" date_start="scheduled_date" color="maintenance_type"
+                      mode="month" quick_create="0" event_open_popup="0">
+                <field name="asset_id"/>
+                <field name="maintenance_type" filters="1"/>
+                <field name="state" filters="1"/>
+                <field name="technician_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_pao_it_asset_maintenance_form" model="ir.ui.view">
+        <field name="name">pao.it.asset.maintenance.form</field>
+        <field name="model">pao.it.asset.maintenance</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance">
+                <header>
+                    <button name="action_start" type="object" string="Start" class="btn-primary"
+                            invisible="state != 'scheduled'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_done" type="object" string="Mark as Done" class="btn-primary"
+                            invisible="state != 'in_progress'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_done" type="object" string="Mark as Done"
+                            invisible="state != 'scheduled'"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state not in ('scheduled', 'in_progress')"
+                            confirm="Cancel this maintenance?"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <field name="state" widget="statusbar" statusbar_visible="scheduled,in_progress,done"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Overdue" bg_color="text-bg-danger" invisible="not is_overdue"/>
+                    <field name="is_overdue" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="asset_id" options="{'no_create': True}"
+                                   readonly="id"/>
+                            <field name="category_id"/>
+                            <field name="maintenance_type" widget="radio" options="{'horizontal': true}"
+                                   readonly="state != 'scheduled'"/>
+                            <field name="take_out_of_service" readonly="state != 'scheduled'"/>
+                            <field name="repair_movement_id" invisible="not repair_movement_id"/>
+                        </group>
+                        <group>
+                            <field name="scheduled_date" readonly="state in ('done', 'cancelled')"/>
+                            <field name="start_date" readonly="state in ('done', 'cancelled')"/>
+                            <field name="end_date" readonly="state in ('done', 'cancelled')"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <!-- Respaldo (guía, punto 11): los dominios de
+                                 account_move_id/shipping_move_id usan company_id. -->
+                            <field name="company_id" invisible="1" groups="!base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Performed By">
+                            <field name="technician_id" options="{'no_create': True}"
+                                   context="{'pao_it_show_company': True}"
+                                   readonly="state in ('done', 'cancelled')"/>
+                            <field name="partner_id" readonly="state in ('done', 'cancelled')"
+                                   required="maintenance_type == 'warranty'"/>
+                            <field name="rma_number" invisible="maintenance_type != 'warranty'"
+                                   readonly="state in ('done', 'cancelled')"/>
+                        </group>
+                        <group string="Cost">
+                            <field name="cost" readonly="state in ('done', 'cancelled')"/>
+                            <field name="currency_id" options="{'no_create': True}"
+                                   readonly="state in ('done', 'cancelled')"/>
+                            <field name="account_move_id" options="{'no_create': True}"
+                                   groups="account.group_account_invoice,account.group_account_readonly"
+                                   readonly="state in ('done', 'cancelled')"/>
+                            <field name="condition_after_id" options="{'no_create': True}"
+                                   readonly="state in ('done', 'cancelled')"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Details" name="details">
+                            <group>
+                                <field name="issue_description" readonly="state in ('done', 'cancelled')"
+                                       placeholder="What is wrong with the asset / what needs to be checked?"/>
+                                <field name="work_performed" readonly="state in ('done', 'cancelled')"
+                                       placeholder="What was done, parts replaced..."/>
+                            </group>
+                        </page>
+                        <page string="Shipment" name="shipment">
+                            <group>
+                                <field name="requires_shipping" readonly="state in ('done', 'cancelled')"/>
+                            </group>
+                            <group invisible="not requires_shipping">
+                                <group>
+                                    <field name="carrier_id" options="{'no_create': True}"
+                                           readonly="state in ('done', 'cancelled')"/>
+                                    <field name="tracking_number" readonly="state in ('done', 'cancelled')"/>
+                                    <field name="ship_date" readonly="state in ('done', 'cancelled')"/>
+                                    <field name="estimated_delivery_date" readonly="state in ('done', 'cancelled')"/>
+                                    <field name="actual_delivery_date" readonly="state in ('done', 'cancelled')"/>
+                                </group>
+                                <group>
+                                    <field name="shipping_cost" readonly="state in ('done', 'cancelled')"/>
+                                    <field name="shipping_currency_id" options="{'no_create': True}"
+                                           readonly="state in ('done', 'cancelled')"/>
+                                    <field name="shipping_move_id" options="{'no_create': True}"
+                                           groups="account.group_account_invoice,account.group_account_readonly"
+                                           readonly="state in ('done', 'cancelled')"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes &amp; Attachments" name="notes">
+                            <group>
+                                <field name="notes" placeholder="Notes can be updated at any time."/>
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pao_it_asset_maintenance_search" model="ir.ui.view">
+        <field name="name">pao.it.asset.maintenance.search</field>
+        <field name="model">pao.it.asset.maintenance</field>
+        <field name="arch" type="xml">
+            <search string="Maintenances">
+                <field name="name"/>
+                <field name="asset_id"/>
+                <field name="technician_id"/>
+                <field name="partner_id"/>
+                <field name="rma_number"/>
+                <filter string="Preventive" name="preventive" domain="[('maintenance_type', '=', 'preventive')]"/>
+                <filter string="Corrective" name="corrective" domain="[('maintenance_type', '=', 'corrective')]"/>
+                <filter string="Warranty" name="warranty" domain="[('maintenance_type', '=', 'warranty')]"/>
+                <separator/>
+                <filter string="Scheduled" name="scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Overdue" name="overdue" domain="[('is_overdue', '=', True)]"/>
+                <filter string="Out of Service" name="out_of_service" domain="[('take_out_of_service', '=', True)]"/>
+                <separator/>
+                <filter string="Scheduled Date" name="filter_scheduled_date" date="scheduled_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Asset" name="group_asset" context="{'group_by': 'asset_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by': 'maintenance_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Technician" name="group_technician" context="{'group_by': 'technician_id'}"/>
+                    <filter string="Provider" name="group_provider" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"
+                            groups="base.group_multi_company"/>
+                    <filter string="Scheduled Date" name="group_scheduled_date"
+                            context="{'group_by': 'scheduled_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pao_it_asset_maintenance" model="ir.actions.act_window">
+        <field name="name">Maintenance</field>
+        <field name="res_model">pao.it.asset.maintenance</field>
+        <field name="view_mode">tree,calendar,kanban,form</field>
+        <field name="context">{'pao_it_show_company': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register a maintenance</p>
+            <p>Preventive maintenances are scheduled automatically for the categories that require them.</p>
+        </field>
+    </record>
+</odoo>

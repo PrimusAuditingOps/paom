@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-26 04:50+0000\n"
-"PO-Revision-Date: 2026-09-26 04:50+0000\n"
+"POT-Creation-Date: 2026-09-28 18:14+0000\n"
+"PO-Revision-Date: 2026-09-28 18:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Language: es_MX\n"
 "Plural-Forms: \n"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "A finished maintenance cannot be modified. Only notes and attachments can be updated."
+msgstr "Un mantenimiento terminado no se puede modificar. Solo se pueden actualizar las notas y los adjuntos."
 
 #. module: pao_it_asset_management
 #: model:ir.module.category,description:pao_it_asset_management.module_category_it_asset
@@ -50,6 +55,7 @@ msgid "Active Assets"
 msgstr "Activos vigentes"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__actual_delivery_date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__actual_delivery_date
 msgid "Actual Delivery Date"
 msgstr "Fecha real de entrega"
@@ -94,8 +100,10 @@ msgstr "Archivado"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__asset_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__asset_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__asset_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 msgid "Asset"
 msgstr "Activo"
@@ -177,6 +185,7 @@ msgid "Assignments"
 msgstr "Asignaciones"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__attachment_ids
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__attachment_ids
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__attachment_ids
 msgid "Attachments"
@@ -249,6 +258,7 @@ msgid "Can Change Company"
 msgstr "Puede cambiar de compañía"
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
 msgid "Cancel"
 msgstr "Cancelar"
@@ -261,11 +271,23 @@ msgid "Cancel Shipment"
 msgstr "Cancelar envío"
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
+msgid "Cancel this maintenance?"
+msgstr "¿Cancelar este mantenimiento?"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__state__cancelled
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 msgid "Cancelled Shipments"
 msgstr "Envíos cancelados"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__carrier_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__carrier_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__carrier_id
 msgid "Carrier"
@@ -287,6 +309,7 @@ msgstr "Categorías"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__category_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__category_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Category"
 msgstr "Categoría"
@@ -299,9 +322,11 @@ msgstr "Ciudad"
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__company_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__company_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
@@ -337,6 +362,11 @@ msgid "Condition (Before)"
 msgstr "Condición (antes)"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__condition_after_id
+msgid "Condition After"
+msgstr "Condición final"
+
+#. module: pao_it_asset_management
 #: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_condition
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_condition
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_condition_tree
@@ -361,6 +391,18 @@ msgid "Confirm Delivery"
 msgstr "Confirmar entrega"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__maintenance_type__corrective
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Corrective"
+msgstr "Correctivo"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__cost
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
+msgid "Cost"
+msgstr "Costo"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__country_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
 msgid "Country"
@@ -373,6 +415,7 @@ msgstr "Cobertura / notas"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__currency_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__currency_id
 msgid "Currency"
 msgstr "Moneda"
 
@@ -421,6 +464,7 @@ msgstr "Computadora de escritorio"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 msgid "Details"
 msgstr "Detalles"
 
@@ -428,6 +472,12 @@ msgstr "Detalles"
 #: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_donated
 msgid "Donated"
 msgstr "Donado"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__state__done
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Done"
+msgstr "Terminado"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
@@ -475,6 +525,12 @@ msgid "Employee (Before)"
 msgstr "Empleado (antes)"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__end_date
+msgid "End Date"
+msgstr "Fecha de fin"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__estimated_delivery_date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__estimated_delivery_date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__estimated_delivery_date
 msgid "Estimated Delivery Date"
@@ -489,6 +545,11 @@ msgstr "Reciclaje electrónico"
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_expenses
 msgid "Expense Reporting"
 msgstr "Reporte de gastos"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_maintenance__partner_id
+msgid "External service provider or manufacturer (required for warranty)."
+msgstr "Proveedor de servicio externo o fabricante (obligatorio en garantía)."
 
 #. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_firewall
@@ -512,6 +573,7 @@ msgid "Good"
 msgstr "Buena"
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
@@ -555,6 +617,11 @@ msgid "If checked, assets of this category show the IMEI field (e.g. mobile phon
 msgstr "Si se marca, los activos de esta categoría muestran el campo IMEI (p. ej. celulares, tabletas)."
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_category__requires_preventive
+msgid "If checked, Odoo automatically schedules the next preventive maintenance of each asset of this category."
+msgstr "Si se marca, Odoo programa automáticamente el siguiente mantenimiento preventivo de cada activo de esta categoría."
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__image_1920
 msgid "Image"
 msgstr "Imagen"
@@ -563,6 +630,12 @@ msgstr "Imagen"
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__imei
 msgid "IMEI"
 msgstr "IMEI"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__state__in_progress
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "In Progress"
+msgstr "En curso"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__in_repair
@@ -579,6 +652,11 @@ msgstr "En reparación"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "In Transit"
 msgstr "En tránsito"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__issue_description
+msgid "Issue Description"
+msgstr "Descripción del problema"
 
 #. module: pao_it_asset_management
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_asset
@@ -604,6 +682,11 @@ msgstr "Condición de activo de TI"
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_location
 msgid "IT Asset Location"
 msgstr "Ubicación de activo de TI"
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_maintenance
+msgid "IT Asset Maintenance"
+msgstr "Mantenimiento de activo de TI"
 
 #. module: pao_it_asset_management
 #: model:ir.module.category,name:pao_it_asset_management.module_category_it_asset
@@ -683,6 +766,41 @@ msgid "Lost / Stolen"
 msgstr "Extraviado / Robado"
 
 #. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset_maintenance
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__maintenance_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__maintenance_id
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_asset_maintenance
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
+msgid "Maintenance"
+msgstr "Mantenimiento"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+#, python-format
+msgid "Maintenance %s cancelled."
+msgstr "Mantenimiento %s cancelado."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+#, python-format
+msgid "Maintenance %s cannot be deleted: only scheduled or cancelled maintenances can be deleted."
+msgstr "El mantenimiento %s no se puede borrar: solo se pueden borrar mantenimientos programados o cancelados."
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__maintenance_ids
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_calendar
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_tree
+msgid "Maintenances"
+msgstr "Mantenimientos"
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
+msgid "Mark as Done"
+msgstr "Marcar como terminado"
+
+#. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_mobile_phone
 msgid "Mobile Phone"
 msgstr "Celular"
@@ -706,6 +824,11 @@ msgstr "Modelos"
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_monitor
 msgid "Monitor"
 msgstr "Monitor"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_category__preventive_interval_months
+msgid "Months between two preventive maintenances."
+msgstr "Meses entre dos mantenimientos preventivos."
 
 #. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
@@ -744,6 +867,21 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "New"
+msgstr "Nuevo"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+msgid "New Maintenance"
+msgstr "Nuevo mantenimiento"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__next_preventive_date
+msgid "Next Preventive"
+msgstr "Próximo preventivo"
+
+#. module: pao_it_asset_management
 #: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_movement
 msgid "No movements yet"
 msgstr "Aún no hay movimientos"
@@ -767,6 +905,7 @@ msgstr "Normal"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__notes
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__notes
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__notes
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__notes
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
@@ -774,11 +913,13 @@ msgid "Notes"
 msgstr "Notas"
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
 msgid "Notes & Attachments"
 msgstr "Notas y adjuntos"
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
 msgid "Notes can be updated at any time."
 msgstr "Las notas se pueden actualizar en cualquier momento."
@@ -801,6 +942,26 @@ msgid "Online Survey"
 msgstr "Encuestas en línea"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "Only maintenances in progress can be finished."
+msgstr "Solo se pueden terminar mantenimientos en curso."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "Only scheduled maintenances can be started."
+msgstr "Solo se pueden iniciar mantenimientos programados."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "Only scheduled or in-progress maintenances can be cancelled."
+msgstr "Solo se pueden cancelar mantenimientos programados o en curso."
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Open Maintenances"
+msgstr "Abrir mantenimientos"
+
+#. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_other
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_other
 msgid "Other"
@@ -819,6 +980,18 @@ msgstr "Otro método de compra"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_purchase_method_tree
 msgid "Other Purchase Methods"
 msgstr "Otros métodos de compra"
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Out of Service"
+msgstr "Fuera de servicio"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__is_overdue
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Overdue"
+msgstr "Vencido"
 
 #. module: pao_it_asset_management
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_password
@@ -842,6 +1015,7 @@ msgstr "Editor de PDF"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__user_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 msgid "Performed By"
 msgstr "Realizado por"
@@ -855,6 +1029,21 @@ msgstr "Periférico"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 msgid "Photo"
 msgstr "Foto"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "Please indicate the condition of the asset after the maintenance."
+msgstr "Indica la condición del activo después del mantenimiento."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_catalogs.py:0
+msgid "Please indicate the preventive interval in months (greater than zero)."
+msgstr "Indica la periodicidad preventiva en meses (mayor que cero)."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "Please indicate the provider of the warranty service."
+msgstr "Indica el proveedor del servicio de garantía."
 
 #. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
@@ -882,6 +1071,22 @@ msgid "Please select the retirement reason."
 msgstr "Selecciona el motivo de baja."
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__maintenance_type__preventive
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Preventive"
+msgstr "Preventivo"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_category__preventive_interval_months
+msgid "Preventive Interval (Months)"
+msgstr "Periodicidad preventiva (meses)"
+
+#. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_maintenance
+msgid "Preventive maintenances are scheduled automatically for the categories that require them."
+msgstr "Los mantenimientos preventivos se programan automáticamente en las categorías que lo requieren."
+
+#. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_printer
 msgid "Printer"
 msgstr "Impresora"
@@ -895,6 +1100,13 @@ msgstr "Número de producto"
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_productivity
 msgid "Productivity / Email"
 msgstr "Productividad / Correo"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__partner_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_kanban
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Provider"
+msgstr "Proveedor"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
@@ -964,9 +1176,24 @@ msgid "Recover"
 msgstr "Recuperar"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__name
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__register
 msgid "Register"
 msgstr "Alta"
+
+#. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_maintenance
+msgid "Register a maintenance"
+msgstr "Registra un mantenimiento"
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Register Maintenance"
+msgstr "Registrar mantenimiento"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset
@@ -1005,6 +1232,12 @@ msgid "Requires IMEI"
 msgstr "Requiere IMEI"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_category__requires_preventive
+msgid "Requires Preventive Maintenance"
+msgstr "Requiere mantenimiento preventivo"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__requires_shipping
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__requires_shipping
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__requires_shipping
 msgid "Requires Shipping"
@@ -1078,6 +1311,19 @@ msgid "Router"
 msgstr "Router"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__state__scheduled
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Scheduled"
+msgstr "Programado"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__scheduled_date
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_kanban
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Scheduled Date"
+msgstr "Fecha programada"
+
+#. module: pao_it_asset_management
 #: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_scrapped
 msgid "Scrapped"
 msgstr "Desechado"
@@ -1088,6 +1334,11 @@ msgstr "Desechado"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 msgid "Send to Repair"
 msgstr "Enviar a reparación"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__repair_movement_id
+msgid "Send to Repair Movement"
+msgstr "Movimiento de envío a reparación"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_condition__sequence
@@ -1105,6 +1356,7 @@ msgid "Server"
 msgstr "Servidor"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__ship_date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__ship_date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__ship_date
 msgid "Ship Date"
@@ -1112,6 +1364,7 @@ msgstr "Fecha de envío"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipment_movement_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
 msgid "Shipment"
@@ -1123,6 +1376,7 @@ msgid "Shipments"
 msgstr "Envíos"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__shipping_move_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipping_move_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__shipping_move_id
 msgid "Shipping Bill / Journal Entry"
@@ -1134,12 +1388,14 @@ msgid "Shipping Carrier"
 msgstr "Paquetería"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__shipping_cost
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipping_cost
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__shipping_cost
 msgid "Shipping Cost"
 msgstr "Costo del envío"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__shipping_currency_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipping_currency_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__shipping_currency_id
 msgid "Shipping Currency"
@@ -1174,13 +1430,25 @@ msgid "Specifications"
 msgstr "Especificaciones"
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
+msgid "Start"
+msgstr "Iniciar"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__start_date
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__state_id
 msgid "State"
 msgstr "Estado"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__state
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__state
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__state_to
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Status"
 msgstr "Estatus"
@@ -1201,9 +1469,27 @@ msgid "Tablet"
 msgstr "Tableta"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__take_out_of_service
+msgid "Take Asset Out of Service"
+msgstr "Sacar el activo de servicio"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__technician_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_kanban
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Technician"
+msgstr "Técnico"
+
+#. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
 msgid "The analytic distribution of each plan must add up to 100%."
 msgstr "La distribución analítica de cada plan debe sumar 100%."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#, python-format
+msgid "The asset %(tag)s already has maintenances in progress or done and cannot be deleted. Use the Retire action instead."
+msgstr "El activo %(tag)s ya tiene mantenimientos en curso o terminados y no se puede borrar. Usa la acción Dar de baja."
 
 #. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
@@ -1215,6 +1501,11 @@ msgstr "El activo %(tag)s ya tiene movimientos en su historial y no se puede bor
 #: model:ir.model.constraint,message:pao_it_asset_management.constraint_pao_it_asset_asset_tag_uniq
 msgid "The Asset Tag must be unique."
 msgstr "La etiqueta de activo debe ser única."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "The end date cannot be before the start date."
+msgstr "La fecha de fin no puede ser anterior a la fecha de inicio."
 
 #. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
@@ -1290,10 +1581,17 @@ msgid "Title"
 msgstr "Título"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__tracking_number
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__tracking_number
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__tracking_number
 msgid "Tracking Number"
 msgstr "Número de guía"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__maintenance_type
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
+msgid "Type"
+msgstr "Tipo"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
@@ -1329,6 +1627,7 @@ msgstr "Proveedor"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__account_move_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__account_move_id
 msgid "Vendor Bill / Journal Entry"
 msgstr "Factura de proveedor / Póliza"
 
@@ -1354,9 +1653,16 @@ msgid "Video Conferencing"
 msgstr "Videoconferencia"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__maintenance_type__warranty
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 msgid "Warranty"
 msgstr "Garantía"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__rma_number
+msgid "Warranty Case / RMA No."
+msgstr "Caso de garantía / No. RMA"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__warranty_notes
@@ -1399,3 +1705,23 @@ msgstr "Estatus de garantía"
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_hosting
 msgid "Web Hosting / Domain"
 msgstr "Hosting web / Dominio"
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
+msgid "What is wrong with the asset / what needs to be checked?"
+msgstr "¿Qué falla tiene el activo / qué hay que revisar?"
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
+msgid "What was done, parts replaced..."
+msgstr "Qué se hizo, piezas reemplazadas..."
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_maintenance__take_out_of_service
+msgid "When started, the asset goes to In Repair (Send to Repair movement); when done or cancelled, it goes back to its previous status (Back from Repair)."
+msgstr "Al iniciar, el activo pasa a En reparación (movimiento Enviar a reparación); al terminar o cancelar, regresa a su estatus anterior (Regreso de reparación)."
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__work_performed
+msgid "Work Performed"
+msgstr "Trabajo realizado"
