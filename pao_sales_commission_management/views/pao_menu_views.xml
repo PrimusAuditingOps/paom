@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_pao_sales_commission_root" name="Commissions"
+              web_icon="pao_sales_commission_management,static/description/icon.png"
+              sequence="45"/>
+    
+    <menuitem id="menu_pao_sales_commission_commissions" name="Commissions"
+              parent="menu_pao_sales_commission_root" sequence="10"/>
+
+    
+
+    <menuitem id="menu_pao_sales_commission_all" name="All Commissions"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission" sequence="10"/>
+
+    <menuitem id="menu_pao_sales_commission_submit_for_approval" name="Submit for Approval"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_submit_for_approval" sequence="20"/>
+
+    <menuitem id="menu_pao_sales_commission_pending_approval" name="Pending Approval"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_pending_approval" sequence="30"/>
+
+    <menuitem id="menu_pao_sales_commission_approved" name="Approved"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_approved" sequence="40"/>
+
+    <menuitem id="menu_pao_sales_commission_not_approved" name="Not Approved"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_not_approved" sequence="50"/>
+
+    <menuitem id="menu_pao_sales_commission_processed" name="Processed"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_processed" sequence="55"/>
+
+    <menuitem id="menu_pao_sales_commission_under_review" name="Under Review"
+              parent="menu_pao_sales_commission_commissions"
+              action="action_pao_sales_commission_under_review" sequence="60"/>
+
+    <menuitem id="menu_pao_sales_commission_configuration" name="Configuration"
+              parent="menu_pao_sales_commission_root" sequence="80"/>
+
+    <menuitem id="menu_pao_sales_commission_agent" name="Commission Agent"
+              parent="menu_pao_sales_commission_configuration"
+              action="comisionpromotores.comisionpromotores_action" sequence="10"/>
+</odoo>

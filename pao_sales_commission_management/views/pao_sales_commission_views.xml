@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_pao_sales_commission_tree" model="ir.ui.view">
+        <field name="name">pao.sales.commission.tree</field>
+        <field name="model">pao.sales.commission</field>
+        <field name="arch" type="xml">
+            <tree string="Commissions" create="0" decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
+                  decoration-warning="state in ('pending_service', 'pending_approval')"
+                  decoration-success="state in ('approved', 'processed')"
+                  decoration-danger="state in ('under_review', 'not_approved')">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="sales_customer_type"/>
+                <field name="promotor_id"/>
+                <field name="promotor_type"/>
+                <field name="commissionable_base" sum="Base"/>
+                <field name="commission_percentage"/>
+                <field name="commission_amount" sum="Commission USD"/>
+                <field name="applied_exchange_rate"/>
+                <field name="commission_amount_mxn" sum="Commission MXN"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
+                       decoration-warning="state in ('pending_service', 'pending_approval')"
+                       decoration-success="state in ('approved', 'processed')"
+                       decoration-danger="state in ('under_review', 'not_approved')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_sales_commission_form" model="ir.ui.view">
+        <field name="name">pao.sales.commission.form</field>
+        <field name="model">pao.sales.commission</field>
+        <field name="arch" type="xml">
+            <form string="Sales Commission" create="0">
+                <header>
+                    <button name="action_recalculate" type="object"
+                            string="Recalculate" class="btn-secondary"
+                            invisible="state in ('pending_approval', 'approved', 'not_approved', 'processed', 'under_review')"/>
+                    <button name="action_submit_for_approval" type="object"
+                            string="Submit for Approval" class="btn-primary"
+                            invisible="state not in ('submit_for_approval', 'not_approved')"
+                            groups="pao_sales_commission_management.group_pao_sales_commission_manager"/>
+                    <button name="action_approve" type="object"
+                            string="Approve" class="btn-primary"
+                            invisible="state != 'pending_approval'"
+                            groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
+                    <button name="action_reject" type="object"
+                            string="Reject" class="btn-secondary"
+                            invisible="state != 'pending_approval'"
+                            groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
+                    <button name="action_mark_processed" type="object"
+                            string="Mark as Processed" class="btn-primary"
+                            invisible="state != 'approved' or promotor_type == 'external'"
+                            groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="pending_invoicing,pending_service,submit_for_approval,pending_approval,approved,processed"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Under Review"
+                            bg_color="bg-danger"
+                            invisible="state != 'under_review'"/>
+                    <widget name="web_ribbon" title="Not Approved"
+                            bg_color="bg-danger"
+                            invisible="state != 'not_approved'"/>
+                    <widget name="web_ribbon" title="Approved"
+                            bg_color="bg-success"
+                            invisible="state != 'approved'"/>
+                    <widget name="web_ribbon" title="Processed"
+                            bg_color="bg-success"
+                            invisible="state != 'processed'"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Sales and Commission Agent">
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="sales_customer_type" readonly="1"/>
+                            <field name="user_id" readonly="1"/>
+                            <field name="promotor_id" readonly="1"/>
+                            <field name="promotor_type" readonly="1"/>
+                            <field name="related_user_id" readonly="1"/>
+                        </group>
+                        <group string="Amounts">
+                            <field name="currency_cotizacion_id" invisible="1"/>
+                            <field name="currency_mxn_id" invisible="1"/>
+                            <field name="commissionable_base" readonly="1"/>
+                            <field name="commission_percentage" readonly="1"/>
+                            <field name="commission_amount" readonly="1"/>
+                            <field name="reference_payment_id" readonly="1"/>
+                            <field name="applied_exchange_rate" readonly="1"/>
+                            <field name="commission_amount_mxn" readonly="1"
+                                   class="fw-bold fs-5"/>
+                            <field name="purchase_order_id" readonly="1"
+                                   invisible="not purchase_order_id"/>
+                        </group>
+                    </group>
+                    <separator string="Commissionable Product Lines"/>
+                    <field name="commission_line_ids">
+                        <tree string="Commissionable Product Lines" editable="bottom"
+                              create="0" delete="0">
+                            <field name="product_id" readonly="1"/>
+                            <field name="original_product_uom_qty" readonly="1" string="Qty Sold"/>
+                            <field name="product_uom_qty" string="Commissionable Qty"
+                                   readonly="parent.state in ('pending_approval', 'approved', 'not_approved', 'processed', 'under_review')"/>
+                            <field name="price_unit" readonly="1"/>
+                            <field name="subtotal" readonly="1" sum="Subtotal"/>
+                            <field name="organization_id" readonly="1"/>
+                            <field name="registrynumber_id" readonly="1"/>
+                            <field name="service_start_date" readonly="1"/>
+                            <field name="service_end_date" readonly="1"/>
+                        </tree>
+                    </field>
+                    <group string="Service Validation (Coordinator only)"
+                           invisible="not requires_service_validation">
+                        <field name="requires_service_validation" invisible="1"/>
+                        <field name="service_performed" readonly="1"/>
+                        <field name="service_performed_date" readonly="1"/>
+                    </group>
+                    <group string="Alert" invisible="state != 'under_review'">
+                        <field name="alert_reason" readonly="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pao_sales_commission_search" model="ir.ui.view">
+        <field name="name">pao.sales.commission.search</field>
+        <field name="model">pao.sales.commission</field>
+        <field name="arch" type="xml">
+            <search string="Commissions">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="promotor_id"/>
+                <field name="related_user_id"/>
+                <filter string="Pending Invoicing"
+                        name="filter_pending_invoicing"
+                        domain="[('state', '=', 'pending_invoicing')]"/>
+                <filter string="Pending Service"
+                        name="filter_pending_service"
+                        domain="[('state', '=', 'pending_service')]"/>
+                <filter string="Submit for Approval" name="filter_submit_for_approval"
+                        domain="[('state', '=', 'submit_for_approval')]"/>
+                <filter string="Pending Approval" name="filter_pending_approval"
+                        domain="[('state', '=', 'pending_approval')]"/>
+                <filter string="Approved" name="filter_approved"
+                        domain="[('state', '=', 'approved')]"/>
+                <filter string="Not Approved" name="filter_not_approved"
+                        domain="[('state', '=', 'not_approved')]"/>
+                <filter string="Processed" name="filter_processed"
+                        domain="[('state', '=', 'processed')]"/>
+                <filter string="Under Review" name="filter_under_review"
+                        domain="[('state', '=', 'under_review')]"/>
+                <separator/>
+                <filter string="External" name="filter_external"
+                        domain="[('promotor_type', '=', 'external')]"/>
+                <filter string="Sales" name="filter_sales"
+                        domain="[('promotor_type', '=', 'sales')]"/>
+                <filter string="Coordination" name="filter_coordination"
+                        domain="[('promotor_type', '=', 'coordination')]"/>
+                <group expand="0" string="Group by">
+                    <filter string="State" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Commission Agent" name="group_promotor"
+                            context="{'group_by': 'promotor_id'}"/>
+                    <filter string="Promoter Type" name="group_tipo"
+                            context="{'group_by': 'promotor_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pao_sales_commission" model="ir.actions.act_window">
+        <field name="name">Commissions Payable</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_state': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Listed here are the commissions generated from
+                quotes with an assigned commission agent.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_pao_sales_commission_submit_for_approval" model="ir.actions.act_window">
+        <field name="name">Submit for Approval</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'submit_for_approval')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_pending_approval" model="ir.actions.act_window">
+        <field name="name">Pending Approval</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'pending_approval')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_approved" model="ir.actions.act_window">
+        <field name="name">Approved</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'approved')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_not_approved" model="ir.actions.act_window">
+        <field name="name">Not Approved</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'not_approved')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_processed" model="ir.actions.act_window">
+        <field name="name">Processed</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'processed')]</field>
+    </record>
+
+    <record id="action_pao_sales_commission_under_review" model="ir.actions.act_window">
+        <field name="name">Under Review</field>
+        <field name="res_model">pao.sales.commission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '=', 'under_review')]</field>
+    </record>
+
+    <!-- Acción masiva del Gerente de Comisiones, disponible en el engrane
+         de acciones de la vista de lista al seleccionar varias comisiones
+         Aprobadas de un mismo comisionista externo. -->
+    <record id="action_pao_sales_commission_generate_purchase_order" model="ir.actions.server">
+        <field name="name">Generate Purchase Order</field>
+        <field name="model_id" ref="model_pao_sales_commission"/>
+        <field name="binding_model_id" ref="model_pao_sales_commission"/>
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('group_pao_sales_commission_manager'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_generate_purchase_order()</field>
+    </record>
+</odoo>
