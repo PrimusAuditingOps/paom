@@ -94,6 +94,7 @@
                         </group>
                         <group string="Quantities">
                             <field name="licenses_purchased"/>
+                            <field name="users_per_license"/>
                             <field name="allowed_users"/>
                         </group>
                     </group>
@@ -254,6 +255,7 @@
                                     <field name="end_date"/>
                                     <field name="billing_frequency"/>
                                     <field name="licenses_purchased"/>
+                                    <field name="users_per_license" optional="show"/>
                                     <field name="allowed_users"/>
                                     <field name="unit_cost"/>
                                     <field name="billing_amount"/>
@@ -277,11 +279,15 @@
                                            invisible="assignee_type != 'employee'"
                                            required="assignee_type == 'employee'"
                                            readonly="state == 'closed'"/>
-                                    <field name="department_id" options="{'no_create': True}"
+                                    <!-- Una sola columna de departamento: en renglones de
+                                         empleado muestra el de RR. HH. (solo lectura); en
+                                         renglones de departamento es el que se captura. -->
+                                    <field name="department_id" column_invisible="True"/>
+                                    <field name="effective_department_id" string="Department"
+                                           options="{'no_create': True}"
                                            context="{'pao_it_show_company': True}"
-                                           invisible="assignee_type != 'department'"
                                            required="assignee_type == 'department'"
-                                           readonly="state == 'closed'"/>
+                                           readonly="state == 'closed' or assignee_type == 'employee'"/>
                                     <field name="date_start" readonly="state == 'closed'"/>
                                     <field name="date_end" readonly="state == 'closed'"/>
                                     <field name="notes"/>
@@ -383,6 +389,7 @@
                 <field name="subscription_id"/>
                 <field name="software_id" optional="hide"/>
                 <field name="responsible"/>
+                <field name="effective_department_id" optional="show"/>
                 <field name="company_id" optional="show" groups="base.group_multi_company"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
@@ -403,7 +410,7 @@
         <field name="arch" type="xml">
             <search string="License Assignments">
                 <field name="employee_id"/>
-                <field name="department_id"/>
+                <field name="effective_department_id"/>
                 <field name="subscription_id"/>
                 <field name="software_id"/>
                 <filter string="Active" name="active_state" domain="[('state', '=', 'active')]"/>
@@ -412,7 +419,8 @@
                 <filter string="To Review" name="to_review" domain="[('to_review', '=', True)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Employee" name="group_employee" context="{'group_by': 'employee_id'}"/>
-                    <filter string="Department" name="group_department" context="{'group_by': 'department_id'}"/>
+                    <filter string="Department" name="group_department"
+                            context="{'group_by': 'effective_department_id'}"/>
                     <filter string="Subscription" name="group_subscription" context="{'group_by': 'subscription_id'}"/>
                     <filter string="Software" name="group_software" context="{'group_by': 'software_id'}"/>
                     <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"

@@ -40,10 +40,16 @@ class PaoItSubscriptionPeriod(models.Model):
         ('one_time', 'One-time'),
     ], string='Billing Frequency', required=True, default='yearly')
 
-    # --- CANTIDADES (independientes: WPS 6 licencias → 18 usuarios) ---
+    # --- CANTIDADES ---
+    # Permitidos = compradas × usuarios por licencia (WPS: 6 × 3 = 18). Por
+    # defecto 1 usuario por licencia (Google Workspace: 46 × 1). Decisión del
+    # usuario 2026-09-28 (antes era un total capturado a mano).
     licenses_purchased = fields.Integer(string='Licenses Purchased', default=1)
-    allowed_users = fields.Integer(string='Allowed Users',
-                                   help="How many people can use it. Compared against the active assignments.")
+    users_per_license = fields.Integer(string='Users per License', default=1,
+                                       help="How many people can use each license (e.g. WPS: 3).")
+    allowed_users = fields.Integer(string='Allowed Users', compute='_compute_allowed_users', store=True,
+                                   help="Licenses purchased × users per license. "
+                                        "Compared against the active assignments.")
 
     # --- COSTO ---
     currency_id = fields.Many2one('res.currency', string='Currency', required=True,
@@ -108,6 +114,30 @@ class PaoItSubscriptionPeriod(models.Model):
             dates = f"{period.start_date or ''} → {period.end_date or '∞'}"
             period.display_name = f"{period.subscription_id.display_name}: {dates}"
 
+    @api.depends('licenses_purchased', 'users_per_license')
+    def _compute_allowed_users(self):
+        for period in self:
+            period.allowed_users = period.licenses_purchased * period.users_per_license
+
+    @api.model
+    def _migrate_users_per_license(self):
+        """Idempotente (data/pao_it_asset_data_update.xml). Periodos
+        capturados cuando "usuarios permitidos" era un total a mano: deduce
+        los usuarios por licencia (18 / 6 = 3) y recalcula el total."""
+        self.env.flush_all()
+        self.env.cr.execute("""
+            UPDATE pao_it_subscription_period
+               SET users_per_license = allowed_users / licenses_purchased
+             WHERE licenses_purchased > 0
+               AND allowed_users > licenses_purchased
+               AND MOD(allowed_users, licenses_purchased) = 0
+               AND COALESCE(users_per_license, 1) = 1
+        """)
+        periods = self.sudo().with_context(active_test=False).search([])
+        periods.invalidate_recordset(['users_per_license'])
+        self.env.add_to_compute(self._fields['allowed_users'], periods)
+        periods._recompute_recordset(['allowed_users'])
+
     @api.depends('license_type', 'unit_cost', 'licenses_purchased')
     def _compute_billing_amount(self):
         for period in self:
@@ -170,12 +200,6 @@ class PaoItSubscriptionPeriod(models.Model):
     # ==========================================
     # ONCHANGES
     # ==========================================
-    @api.onchange('licenses_purchased')
-    def _onchange_licenses_purchased(self):
-        # Permitidos se prellena con compradas (se puede cambiar: WPS 6 → 18).
-        if not self.allowed_users or self.allowed_users == self._origin.licenses_purchased:
-            self.allowed_users = self.licenses_purchased
-
     @api.onchange('license_type')
     def _onchange_license_type(self):
         if self.license_type == 'perpetual':
@@ -213,13 +237,6 @@ class PaoItSubscriptionPeriod(models.Model):
     # ==========================================
     # CREATE / VALIDACIONES
     # ==========================================
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            if not vals.get('allowed_users'):
-                vals['allowed_users'] = vals.get('licenses_purchased', 1)
-        return super().create(vals_list)
-
     @api.constrains('start_date', 'end_date', 'subscription_id')
     def _check_dates(self):
         for period in self:
@@ -236,11 +253,13 @@ class PaoItSubscriptionPeriod(models.Model):
                         "The periods of a subscription cannot overlap (%(period)s overlaps %(other)s).",
                         period=period.display_name, other=other.display_name))
 
-    @api.constrains('licenses_purchased', 'allowed_users')
+    @api.constrains('licenses_purchased', 'users_per_license')
     def _check_quantities(self):
         for period in self:
-            if period.licenses_purchased < 0 or period.allowed_users < 0:
+            if period.licenses_purchased < 0:
                 raise ValidationError(_("Quantities cannot be negative."))
+            if period.users_per_license < 1:
+                raise ValidationError(_("Users per license must be at least 1."))
 
     # ==========================================
     # ACCIONES

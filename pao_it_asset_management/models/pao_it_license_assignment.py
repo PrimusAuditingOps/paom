@@ -29,6 +29,13 @@ class PaoItLicenseAssignment(models.Model):
     ], string='Assign To', required=True, default='employee')
     employee_id = fields.Many2one('hr.employee', string='Employee', index=True, ondelete='restrict')
     department_id = fields.Many2one('hr.department', string='Department', ondelete='restrict')
+    # Departamento del responsable: el del empleado en RR. HH., o el asignado
+    # directamente. Guardado para agrupar/filtrar ("licencias de
+    # Operaciones", personales + del área). En renglones de departamento es
+    # el campo que se captura (y se copia a department_id, ver onchange).
+    effective_department_id = fields.Many2one(
+        'hr.department', string="Responsible's Department", compute='_compute_effective_department',
+        store=True, readonly=False, index=True)
     responsible = fields.Char(string='Responsible', compute='_compute_responsible')
     date_start = fields.Date(string='Start Date', required=True, default=fields.Date.context_today)
     date_end = fields.Date(string='End Date')
@@ -50,6 +57,19 @@ class PaoItLicenseAssignment(models.Model):
         for assignment in self:
             assignment.responsible = (assignment.employee_id.display_name
                                       or assignment.department_id.display_name or False)
+
+    @api.depends('assignee_type', 'employee_id.department_id', 'department_id')
+    def _compute_effective_department(self):
+        for assignment in self:
+            if assignment.assignee_type == 'employee':
+                assignment.effective_department_id = assignment.employee_id.department_id
+            else:
+                assignment.effective_department_id = assignment.department_id
+
+    @api.onchange('effective_department_id')
+    def _onchange_effective_department(self):
+        if self.assignee_type == 'department':
+            self.department_id = self.effective_department_id
 
     @api.depends('subscription_id', 'responsible')
     def _compute_display_name(self):

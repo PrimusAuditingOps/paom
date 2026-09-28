@@ -6,5 +6,8 @@
          existiera el historial, en el entregable 1). -->
     <data noupdate="0">
         <function model="pao.it.asset" name="_ensure_register_movements"/>
+        <!-- Periodos capturados cuando "usuarios permitidos" era un total a
+             mano: deduce los usuarios por licencia y recalcula. -->
+        <function model="pao.it.subscription.period" name="_migrate_users_per_license"/>
     </data>
 </odoo>

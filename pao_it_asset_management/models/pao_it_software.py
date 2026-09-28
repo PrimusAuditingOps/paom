@@ -266,7 +266,7 @@ class PaoItSubscription(models.Model):
             'end_date': start + duration - timedelta(days=1),
             'billing_frequency': last.billing_frequency,
             'licenses_purchased': last.licenses_purchased,
-            'allowed_users': last.allowed_users,
+            'users_per_license': last.users_per_license,
             'currency_id': last.currency_id.id,
             'unit_cost': last.unit_cost * factor,
             'billing_amount': last.billing_amount * factor,

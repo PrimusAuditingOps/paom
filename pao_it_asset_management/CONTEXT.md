@@ -253,6 +253,19 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
       renovación automática lo aplica al costo del nuevo periodo.
   - Al cancelar una suscripción se cierran sus asignaciones abiertas con la
     fecha de cancelación.
+  - **Ajustes tras las pruebas (2026-09-28):**
+    - **Usuarios por licencia:** el periodo captura licencias compradas y
+      **usuarios por licencia** (por defecto 1). Usuarios permitidos se
+      CALCULA: compradas × usuarios por licencia (WPS 6 × 3 = 18). Esto
+      reemplaza el total capturado a mano. La función
+      `_migrate_users_per_license` (en cada actualización) convierte los
+      periodos capturados con el esquema anterior cuando la división es
+      exacta.
+    - **Departamento del responsable** (`effective_department_id`, guardado)
+      en las asignaciones: el departamento del empleado en RR. HH., o el
+      asignado directamente. Es una sola columna en la pestaña de la
+      suscripción (solo lectura en renglones de empleado) y sirve para
+      agrupar y filtrar.
 - **Asignaciones:**
   - opcionales, a un empleado o a un departamento;
   - al quitarse se cierran con fecha de fin (no se borran);
