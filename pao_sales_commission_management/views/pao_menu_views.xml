@@ -2,6 +2,7 @@
 <odoo>
     <menuitem id="menu_pao_sales_commission_root" name="Commissions"
               web_icon="pao_sales_commission_management,static/description/icon.png"
+              groups="group_pao_sales_commission_manager,group_pao_sales_finance_commission,group_pao_sales_commission_read"
               sequence="45"/>
     
     <menuitem id="menu_pao_sales_commission_commissions" name="Commissions"
