@@ -5,3 +5,4 @@ from . import pao_it_asset_image
 from . import pao_it_asset_movement
 from . import pao_it_asset_movement_wizard
 from . import pao_it_asset_maintenance
+from . import pao_it_asset_maintenance_done_wizard

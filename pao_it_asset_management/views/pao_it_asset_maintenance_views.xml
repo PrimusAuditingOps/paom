@@ -236,6 +236,31 @@
         </field>
     </record>
 
+    <!-- Ventana "Marcar como terminado" -->
+    <record id="view_pao_it_asset_maintenance_done_wizard_form" model="ir.ui.view">
+        <field name="name">pao.it.asset.maintenance.done.wizard.form</field>
+        <field name="model">pao.it.asset.maintenance.done.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Mark as Done">
+                <group>
+                    <group>
+                        <field name="maintenance_id" readonly="1"/>
+                        <field name="end_date"/>
+                        <field name="condition_after_id" options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="work_performed" placeholder="What was done, parts replaced..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
     <record id="action_pao_it_asset_maintenance" model="ir.actions.act_window">
         <field name="name">Maintenance</field>
         <field name="res_model">pao.it.asset.maintenance</field>

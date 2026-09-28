@@ -174,21 +174,48 @@ class PaoItAssetMaintenance(models.Model):
         return True
 
     def action_done(self):
-        today = fields.Date.context_today(self)
-        for maintenance in self:
-            if maintenance.state == 'scheduled':
-                maintenance.action_start()
-            if maintenance.state != 'in_progress':
-                raise UserError(_("Only maintenances in progress can be finished."))
-            if not maintenance.condition_after_id:
-                raise UserError(_("Please indicate the condition of the asset after the maintenance."))
-            end_date = maintenance.end_date or today
-            if end_date < maintenance.start_date:
-                raise UserError(_("The end date cannot be before the start date."))
-            maintenance._back_to_service(end_date, maintenance.condition_after_id)
-            maintenance.write({'state': 'done', 'end_date': end_date})
-            if maintenance.maintenance_type == 'preventive':
-                maintenance.asset_id._plan_next_preventive()
+        """Abre una ventana que pide fecha de fin, condición final y trabajo
+        realizado. Así se puede terminar desde cualquier lugar (incluida la
+        pestaña de solo lectura del activo), sin depender de que el
+        formulario sea editable."""
+        self.ensure_one()
+        if self.state not in ('scheduled', 'in_progress'):
+            raise UserError(_("Only scheduled or in-progress maintenances can be finished."))
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Mark as Done'),
+            'res_model': 'pao.it.asset.maintenance.done.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_maintenance_id': self.id,
+                'default_condition_after_id': (self.condition_after_id or self.asset_id.condition_id).id,
+                'default_work_performed': self.work_performed,
+            },
+        }
+
+    def _finish(self, end_date, condition, work_performed=False):
+        """Termina el mantenimiento (desde la ventana de action_done). Si
+        estaba solo programado, primero se inicia (mismo día que el fin, si
+        no tenía fecha de inicio)."""
+        self.ensure_one()
+        if not condition:
+            raise UserError(_("Please indicate the condition of the asset after the maintenance."))
+        if self.state == 'scheduled':
+            if not self.start_date:
+                self.start_date = end_date
+            self.action_start()
+        if self.state != 'in_progress':
+            raise UserError(_("Only maintenances in progress can be finished."))
+        if end_date < self.start_date:
+            raise UserError(_("The end date cannot be before the start date."))
+        self._back_to_service(end_date, condition)
+        vals = {'state': 'done', 'end_date': end_date, 'condition_after_id': condition.id}
+        if work_performed:
+            vals['work_performed'] = work_performed
+        self.write(vals)
+        if self.maintenance_type == 'preventive':
+            self.asset_id._plan_next_preventive()
         return True
 
     def action_cancel(self):

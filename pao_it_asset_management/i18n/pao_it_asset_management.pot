@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 18:14+0000\n"
-"PO-Revision-Date: 2026-09-28 18:14+0000\n"
+"POT-Creation-Date: 2026-09-28 20:08+0000\n"
+"PO-Revision-Date: 2026-09-28 20:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -257,6 +257,7 @@ msgid "Can Change Company"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_done_wizard_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
 msgid "Cancel"
@@ -362,6 +363,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__condition_after_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance_done_wizard__condition_after_id
 msgid "Condition After"
 msgstr ""
 
@@ -378,6 +380,7 @@ msgid "Configuration"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_done_wizard_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
 msgid "Confirm"
 msgstr ""
@@ -525,6 +528,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__end_date
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance_done_wizard__end_date
 msgid "End Date"
 msgstr ""
 
@@ -548,6 +552,11 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_maintenance__partner_id
 msgid "External service provider or manufacturer (required for warranty)."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_maintenance_done_wizard
+msgid "Finish IT Asset Maintenance"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -766,6 +775,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset_maintenance
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance_done_wizard__maintenance_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__maintenance_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__maintenance_id
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_asset_maintenance
@@ -795,6 +805,8 @@ msgid "Maintenances"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_done_wizard_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 msgid "Mark as Done"
 msgstr ""
@@ -953,6 +965,11 @@ msgstr ""
 #. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
 msgid "Only scheduled or in-progress maintenances can be cancelled."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_maintenance.py:0
+msgid "Only scheduled or in-progress maintenances can be finished."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -1711,6 +1728,7 @@ msgid "What is wrong with the asset / what needs to be checked?"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_done_wizard_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 msgid "What was done, parts replaced..."
 msgstr ""
@@ -1722,5 +1740,6 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__work_performed
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance_done_wizard__work_performed
 msgid "Work Performed"
 msgstr ""
