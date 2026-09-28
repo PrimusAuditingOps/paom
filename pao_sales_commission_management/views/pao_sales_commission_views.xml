@@ -5,7 +5,7 @@
         <field name="name">pao.sales.commission.tree</field>
         <field name="model">pao.sales.commission</field>
         <field name="arch" type="xml">
-            <tree string="Commissions" decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
+            <tree string="Commissions" create="0" decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
                   decoration-warning="state in ('pending_service', 'pending_approval')"
                   decoration-success="state in ('approved', 'processed')"
                   decoration-danger="state in ('under_review', 'not_approved')">
@@ -33,7 +33,7 @@
         <field name="name">pao.sales.commission.form</field>
         <field name="model">pao.sales.commission</field>
         <field name="arch" type="xml">
-            <form string="Sales Commission">
+            <form string="Sales Commission" create="0">
                 <header>
                     <button name="action_recalculate" type="object"
                             string="Recalculate" class="btn-secondary"
