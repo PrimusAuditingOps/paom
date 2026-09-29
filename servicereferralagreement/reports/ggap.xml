@@ -175,6 +175,10 @@
                                                 <td style="border:0px; background-color:white; width:50%;"><p><b>Fecha de Auditoría: </b><span t-field="line.service_start_date"/> - <span t-field="line.service_end_date"/></p></td>
                                                 <td style="border:0px; background-color:white; width:50%;"><p><b>Tipo de Auditoría: </b><span t-field="line.registrynumber_id.type_of_audit"/></p></td>
                                             </tr>
+                                            <tr>
+                                                <td style="border:0px; background-color:white; width:50%;"><p></p></td>
+                                                <td style="border:0px; background-color:white; width:50%;"><p><b>Total de días de auditoría: </b><span t-field="line.registrynumber_id.audit_duration"/></p></td>
+                                            </tr>
                                         </table>
                                         <t t-set="sumtotal" t-value="0"/>
                                         <table style="width:100%">
@@ -204,7 +208,8 @@
                                             <b>NOTA:</b> Para el concepto de gastos de viaje,  el cliente acepta que son montos estimados y 
                                             que estos podrían variar en función de los cargos reales que pudieran generarse el día de la 
                                             evaluación. En caso de que el cliente cancele la auditoría, se aplicará un cargo por Gastos de 
-                                            Cancelación de acuerdo con la política vigente descrita en nuestro sitio web.  
+                                            Cancelación de acuerdo con la política vigente descrita en nuestro sitio web.  <br/>
+                                            <b>NOTA 2:</b> Considere, en el total de días de auditoría, una jornada como 8 h con una tolerancia ± 2 h.
                                         </p>
                                         </p>
                                         <div style="page-break-after: always;">

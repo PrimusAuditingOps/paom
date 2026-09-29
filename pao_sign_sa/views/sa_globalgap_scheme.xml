@@ -143,6 +143,13 @@
                         <p style="text-align:left;"><b>Tipo de Auditoría: </b><span t-field="serviceagreement.audit_type"/></p>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-6">
+                    </div>
+                    <div class="col-6">
+                        <p style="text-align:left;"><b>Total de días de auditoría: </b><span t-field="serviceagreement.audit_duration"/></p>
+                    </div>
+                </div>
                 <br/>
                 <table class="table">
                     <thead class="thead-dark" style="text-align:center">
@@ -176,7 +183,8 @@
                     <b>NOTA:</b> Para el concepto de gastos de viaje,  el cliente acepta que son montos estimados y 
                     que estos podrían variar en función de los cargos reales que pudieran generarse el día de la 
                     evaluación. En caso de que el cliente cancele la auditoría, se aplicará un cargo por Gastos de 
-                    Cancelación de acuerdo con la política vigente descrita en nuestro sitio web.  
+                    Cancelación de acuerdo con la política vigente descrita en nuestro sitio web.  <br/>
+                    <b>NOTA 2:</b> Considere, en el total de días de auditoría, una jornada como 8 h con una tolerancia ± 2 h.
                 </p>
                 <p>
                     <b>TERCERA. -SERVICIOS. - "El Cliente"</b> tiene derecho a recibir a su entera satisfacción el o los servicios acordados bajo 
