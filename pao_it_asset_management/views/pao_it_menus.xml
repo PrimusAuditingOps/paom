@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Menú raíz: abre la lista de activos (el tablero de inicio llega en
-         el entregable 6). -->
+    <!-- Menú raíz: abre el tablero de inicio. -->
     <menuitem id="menu_pao_it_root"
               name="IT Asset Management"
               web_icon="pao_it_asset_management,static/description/icon.png"
               groups="pao_it_asset_management.group_it_asset_user"
-              action="action_pao_it_asset"
+              action="action_pao_it_dashboard"
               sequence="60"/>
+
+    <menuitem id="menu_pao_it_dashboard"
+              name="Dashboard"
+              parent="menu_pao_it_root"
+              action="action_pao_it_dashboard"
+              sequence="10"/>
 
     <!-- HARDWARE -->
     <menuitem id="menu_pao_it_hardware"

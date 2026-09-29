@@ -336,6 +336,24 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
   - El rango de fechas solo afecta compras, gasto en software y la gráfica
     de software.
 - Sin notificaciones por correo por ahora. Finanzas ve el mismo tablero.
+- **Decisiones del diseño técnico (2026-09-28):**
+  - "Valor de activos" = **costo de adquisición** de los activos vigentes,
+    con una leyenda que lo aclara y remite a la pestaña Costs del activo
+    para los costos complementarios.
+  - **Gasto en software del periodo = por fecha de INICIO del periodo**
+    (el total completo cuenta en el año en que inicia, como en el Excel).
+  - Sección **"Gasto del periodo por concepto"** (petición del usuario), en
+    USD y sobre todos los activos del rango: Adquisiciones (fecha de
+    compra), Mantenimiento y Garantías (fecha de fin → inicio → programada;
+    se excluyen los cancelados), Envíos (fecha de envío → fecha del
+    movimiento; incluye los envíos de mantenimientos), Software (inicio
+    del periodo) y Total.
+  - El costo total del activo se guarda por concepto en USD (tipo de
+    cambio histórico de la fecha de cada partida). El detalle se ve en la
+    pestaña Costs.
+  - Tablero hecho con OWL (acción cliente), sin librerías externas: la
+    gráfica es un SVG propio y el calendario una cuadrícula propia. Las
+    etiquetas llegan ya traducidas desde Python (sin traducciones en JS).
 
 ## 9. Estado de entregables
 
@@ -345,8 +363,8 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
 | 2 | Movimientos e historial | **Probado y funcionando en staging (2026-09-28)**, incluido el país en empleados y departamentos |
 | 3 | Mantenimiento y garantía | **Probado y funcionando en staging (2026-09-28)**. "Marcar como terminado" abre una ventana (fecha de fin, condición, trabajo realizado) para que funcione también desde la pestaña de solo lectura del activo |
 | 4 | Software y licencias | **Probado y funcionando en staging (2026-09-28)**, con usuarios por licencia y departamento del responsable |
-| 5 | Responsiva y devolución | **Programado (2026-09-28), pendiente de pruebas del usuario** |
-| 6 | Costos y tablero | Pendiente |
+| 5 | Responsiva y devolución | **Probado y funcionando en staging (2026-09-28)**. El PDF firmado se sube desde el registro de la carta (menú Cartas / "Abrir cartas"), no desde la lista de solo lectura del activo |
+| 6 | Costos y tablero | **Programado (2026-09-28), pendiente de pruebas del usuario** |
 
 - **Carga inicial** (AssetTiger + Excel de suscripciones): pospuesta hasta
   después de las pruebas funcionales del usuario.

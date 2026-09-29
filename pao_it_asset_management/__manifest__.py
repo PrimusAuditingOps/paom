@@ -30,10 +30,18 @@
         'views/pao_it_asset_maintenance_views.xml',
         'views/pao_it_software_views.xml',
         'views/pao_it_asset_letter_views.xml',
+        'views/pao_it_dashboard_views.xml',
         'views/pao_it_asset_views.xml',
         # Menús al final: referencian las acciones definidas arriba.
         'views/pao_it_menus.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'pao_it_asset_management/static/src/dashboard/dashboard.js',
+            'pao_it_asset_management/static/src/dashboard/dashboard.xml',
+            'pao_it_asset_management/static/src/dashboard/dashboard.scss',
+        ],
+    },
     'installable': True,
     'application': True,
     'license': 'LGPL-3',

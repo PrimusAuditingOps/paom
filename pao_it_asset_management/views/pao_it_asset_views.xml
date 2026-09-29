@@ -21,6 +21,9 @@
                 <field name="department_id" optional="show"/>
                 <field name="condition_id" optional="show"/>
                 <field name="warranty_end" optional="hide"/>
+                <field name="usd_currency_id" column_invisible="True"/>
+                <field name="cost_acquisition_usd" optional="hide" sum="Total"/>
+                <field name="cost_total_usd" optional="hide" sum="Total"/>
                 <field name="state" widget="badge"
                        decoration-success="state == 'available'"
                        decoration-info="state == 'assigned'"
@@ -257,6 +260,26 @@
                             </group>
                             <group string="Coverage / Notes">
                                 <field name="warranty_notes" nolabel="1" colspan="2"/>
+                            </group>
+                        </page>
+                        <page string="Costs" name="costs">
+                            <field name="usd_currency_id" invisible="1"/>
+                            <group>
+                                <group string="Total Cost (USD)">
+                                    <field name="cost_acquisition_usd"/>
+                                    <field name="cost_maintenance_usd"/>
+                                    <field name="cost_warranty_usd"/>
+                                    <field name="cost_shipping_usd"/>
+                                    <field name="cost_total_usd" class="fw-bold"/>
+                                </group>
+                                <group>
+                                    <div class="text-muted" colspan="2">
+                                        <span>Each item is converted to USD with the exchange rate of its own date (purchase, maintenance or shipment).</span>
+                                    </div>
+                                </group>
+                            </group>
+                            <group string="Detail">
+                                <field name="cost_detail_html" nolabel="1" colspan="2"/>
                             </group>
                         </page>
                         <page string="Maintenance" name="maintenance">

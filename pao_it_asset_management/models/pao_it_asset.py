@@ -6,8 +6,12 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
+from markupsafe import escape
+
 from odoo.osv import expression
-from odoo.tools import float_compare
+from odoo.tools import float_compare, formatLang
+
+from .pao_it_costs import asset_cost_items, usd_currency
 
 # Días antes del fin de garantía en que el activo se considera "por vencer".
 WARRANTY_EXPIRING_DAYS = 30
@@ -92,6 +96,22 @@ class PaoItAsset(models.Model):
     registration_date = fields.Date(string='Registration Date', required=True,
                                     default=fields.Date.context_today)
     movement_ids = fields.One2many('pao.it.asset.movement', 'asset_id', string='History')
+
+    # --- COSTO TOTAL (USD, tipo de cambio histórico de cada partida) ---
+    # Guardados por concepto para ordenar/sumar en listas y para el tablero.
+    # Reglas en pao_it_costs.py (las mismas que usa el tablero).
+    usd_currency_id = fields.Many2one('res.currency', compute='_compute_usd_currency')
+    cost_acquisition_usd = fields.Monetary(string='Acquisition (USD)', currency_field='usd_currency_id',
+                                           compute='_compute_costs', store=True)
+    cost_maintenance_usd = fields.Monetary(string='Maintenance (USD)', currency_field='usd_currency_id',
+                                           compute='_compute_costs', store=True)
+    cost_warranty_usd = fields.Monetary(string='Warranty (USD)', currency_field='usd_currency_id',
+                                        compute='_compute_costs', store=True)
+    cost_shipping_usd = fields.Monetary(string='Shipping (USD)', currency_field='usd_currency_id',
+                                        compute='_compute_costs', store=True)
+    cost_total_usd = fields.Monetary(string='Total Cost (USD)', currency_field='usd_currency_id',
+                                     compute='_compute_costs', store=True)
+    cost_detail_html = fields.Html(string='Cost Detail', compute='_compute_cost_detail_html', sanitize=False)
 
     # --- CARTAS (responsiva / devolución) ---
     letter_line_ids = fields.One2many('pao.it.asset.letter.line', 'asset_id', string='Letter Lines')
@@ -211,6 +231,58 @@ class PaoItAsset(models.Model):
             asset.purchase_move_ids = moves
             asset.purchase_move_summary = ', '.join(
                 f"{move.name or '/'} ({state_labels.get(move.state)})" for move in moves)
+
+    def _compute_usd_currency(self):
+        usd = usd_currency(self.env)
+        for asset in self:
+            asset.usd_currency_id = usd
+
+    @api.depends('purchase_cost', 'currency_id', 'purchase_date', 'company_id',
+                 'maintenance_ids.state', 'maintenance_ids.maintenance_type', 'maintenance_ids.cost',
+                 'maintenance_ids.currency_id', 'maintenance_ids.end_date', 'maintenance_ids.start_date',
+                 'maintenance_ids.scheduled_date', 'maintenance_ids.shipping_cost',
+                 'maintenance_ids.shipping_currency_id', 'maintenance_ids.ship_date',
+                 'movement_ids.shipping_cost', 'movement_ids.shipping_currency_id', 'movement_ids.ship_date')
+    def _compute_costs(self):
+        for asset in self:
+            totals = defaultdict(float)
+            for item in asset_cost_items(asset):
+                totals[item['concept']] += item['usd']
+            asset.cost_acquisition_usd = totals['acquisition']
+            asset.cost_maintenance_usd = totals['maintenance']
+            asset.cost_warranty_usd = totals['warranty']
+            asset.cost_shipping_usd = totals['shipping']
+            asset.cost_total_usd = sum(totals.values())
+
+    @api.depends('cost_total_usd')
+    @api.depends_context('lang')
+    def _compute_cost_detail_html(self):
+        labels = {
+            'acquisition': _("Acquisition"), 'maintenance': _("Maintenance"),
+            'warranty': _("Warranty"), 'shipping': _("Shipping"),
+        }
+        for asset in self:
+            rows = []
+            for item in asset_cost_items(asset):
+                rows.append(
+                    "<tr><td>%s</td><td>%s</td><td>%s</td><td class='text-end'>%s</td>"
+                    "<td class='text-end'>%s</td></tr>" % (
+                        escape(str(item['date'] or '')), escape(labels[item['concept']]),
+                        escape(item['reference'] or ''),
+                        escape(formatLang(self.env, item['amount'], currency_obj=item['currency'])),
+                        escape(formatLang(self.env, item['usd'], currency_obj=asset.usd_currency_id))))
+            if not rows:
+                asset.cost_detail_html = "<p class='text-muted'>%s</p>" % escape(_("No costs registered yet."))
+                continue
+            asset.cost_detail_html = (
+                "<table class='table table-sm'><thead><tr><th>%s</th><th>%s</th><th>%s</th>"
+                "<th class='text-end'>%s</th><th class='text-end'>%s</th></tr></thead><tbody>%s</tbody>"
+                "<tfoot><tr><th colspan='4' class='text-end'>%s</th><th class='text-end'>%s</th></tr></tfoot>"
+                "</table>" % (
+                    escape(_("Date")), escape(_("Concept")), escape(_("Reference")),
+                    escape(_("Original Amount")), escape(_("USD")), ''.join(rows),
+                    escape(_("Total Cost (USD)")),
+                    escape(formatLang(self.env, asset.cost_total_usd, currency_obj=asset.usd_currency_id))))
 
     @api.depends('letter_line_ids.letter_id')
     def _compute_letter_ids(self):

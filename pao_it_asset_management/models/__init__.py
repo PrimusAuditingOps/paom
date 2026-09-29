@@ -12,3 +12,4 @@ from . import pao_it_license_assignment
 from . import pao_it_subscription_wizards
 from . import pao_it_asset_letter
 from . import pao_it_asset_letter_wizard
+from . import pao_it_dashboard

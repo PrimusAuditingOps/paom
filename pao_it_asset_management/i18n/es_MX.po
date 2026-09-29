@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 23:59+0000\n"
-"PO-Revision-Date: 2026-09-28 23:59+0000\n"
+"POT-Creation-Date: 2026-09-29 03:47+0000\n"
+"PO-Revision-Date: 2026-09-29 03:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -42,6 +42,21 @@ msgid "Accounting"
 msgstr "Contabilidad"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+msgid "Acquisition"
+msgstr "Adquisición"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__cost_acquisition_usd
+msgid "Acquisition (USD)"
+msgstr "Adquisición (USD)"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Acquisitions"
+msgstr "Adquisiciones"
+
+#. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_subscription_form
 msgid "Activation / license keys. Never store passwords here."
 msgstr "Claves de activación / licencia. Nunca guardes contraseñas aquí."
@@ -64,6 +79,7 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Active Assets"
 msgstr "Activos vigentes"
@@ -88,6 +104,11 @@ msgstr "Después"
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_ai
 msgid "AI"
 msgstr "IA"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Alerts"
+msgstr "Alertas"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__allowed_users
@@ -182,6 +203,17 @@ msgid "Asset Tag"
 msgstr "Etiqueta de activo"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Asset Value (acquisition cost)"
+msgstr "Valor de activos (costo de adquisición)"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Asset Value by Category (acquisition cost)"
+msgstr "Valor de activos por categoría (costo de adquisición)"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__line_ids
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_wizard__asset_ids
@@ -221,6 +253,11 @@ msgid "Assigned"
 msgstr "Asignado"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "assigned / allowed users"
+msgstr "usuarios asignados / permitidos"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__assigned_department_id
 msgid "Assigned Department"
 msgstr "Departamento asignado"
@@ -253,6 +290,7 @@ msgid "Assignments of archived employees to review (free those licenses):"
 msgstr "Asignaciones de empleados archivados por revisar (libera esas licencias):"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__review_count
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_subscription_search
 msgid "Assignments to Review"
@@ -347,6 +385,11 @@ msgstr "Marcas"
 #: model:pao.it.condition,name:pao_it_asset_management.condition_broken
 msgid "Broken"
 msgstr "Descompuesta"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "By period start date."
+msgstr "Por fecha de inicio del periodo."
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__can_change_company
@@ -479,6 +522,11 @@ msgid "Closed"
 msgstr "Cerrada"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__company_id
@@ -515,6 +563,16 @@ msgstr "Compañía (antes)"
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__company_changed
 msgid "Company Changed"
 msgstr "Cambio de compañía"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Complementary costs (maintenance, warranty, shipping) are shown in each asset, Costs tab."
+msgstr "Los costos complementarios (mantenimiento, garantía, envíos) se ven en cada activo, pestaña Costos."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+msgid "Concept"
+msgstr "Concepto"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__condition_id
@@ -587,9 +645,19 @@ msgid "Cost"
 msgstr "Costo"
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__cost_detail_html
+msgid "Cost Detail"
+msgstr "Detalle de costos"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_subscription_period__unit_cost
 msgid "Cost per license per billing (per-user licenses)."
 msgstr "Costo por licencia por cobro (licencias por usuario)."
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Costs"
+msgstr "Costos"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__country_id
@@ -633,6 +701,13 @@ msgid "Current Start"
 msgstr "Inicio vigente"
 
 #. module: pao_it_asset_management
+#: model:ir.actions.client,name:pao_it_asset_management.action_pao_it_dashboard
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_dashboard
+msgid "Dashboard"
+msgstr "Tablero"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_wizard__date
@@ -647,6 +722,11 @@ msgstr "Fecha"
 #: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_movement__date_end
 msgid "Date of the next movement of this asset. Empty while this is the current one."
 msgstr "Fecha del siguiente movimiento de este activo. Vacía mientras sea el movimiento vigente."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Delayed Shipments"
+msgstr "Envíos retrasados"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_letter
@@ -702,6 +782,11 @@ msgstr "Diseño / Creatividad"
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_desktop
 msgid "Desktop"
 msgstr "Computadora de escritorio"
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Detail"
+msgstr "Detalle"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
@@ -766,6 +851,11 @@ msgstr "p. ej. LPT-MX-076"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
 msgid "e.g. Shipment cancelled by the carrier / Screen failure / Stolen from car..."
 msgstr "p. ej. Envío cancelado por la paquetería / Falla de pantalla / Robado del auto..."
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Each item is converted to USD with the exchange rate of its own date (purchase, maintenance or shipment)."
+msgstr "Cada partida se convierte a USD con el tipo de cambio de su propia fecha (compra, mantenimiento o envío)."
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription_price_wizard__effective_date
@@ -880,6 +970,16 @@ msgid "Flat Fee"
 msgstr "Tarifa fija"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Fri"
+msgstr "Vie"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "From"
+msgstr "Desde"
+
+#. module: pao_it_asset_management
 #: model:res.groups,comment:pao_it_asset_management.group_it_asset_admin
 msgid "Full control: register and move assets, manage licenses and catalogs."
 msgstr "Control total: registrar y mover activos, administrar licencias y catálogos."
@@ -937,6 +1037,7 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_hardware
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_hardware
 msgid "Hardware"
@@ -1007,6 +1108,7 @@ msgid "In Repair"
 msgstr "En reparación"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__state__in_transit
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_from__in_transit
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__state_to__in_transit
@@ -1066,10 +1168,16 @@ msgid "IT Asset Maintenance"
 msgstr "Mantenimiento de activo de TI"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model:ir.module.category,name:pao_it_asset_management.module_category_it_asset
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_root
 msgid "IT Asset Management"
 msgstr "Gestión de activos de TI"
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_dashboard
+msgid "IT Asset Management Dashboard"
+msgstr "Tablero de gestión de activos de TI"
 
 #. module: pao_it_asset_management
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_model
@@ -1239,6 +1347,11 @@ msgid "License Type"
 msgstr "Tipo de licencia"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "License Usage"
+msgstr "Uso de licencias"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__licenses_purchased
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription_period__licenses_purchased
 msgid "Licenses Purchased"
@@ -1291,6 +1404,8 @@ msgid "Lost / Stolen"
 msgstr "Extraviado / Robado"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset_maintenance
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance_done_wizard__maintenance_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__maintenance_id
@@ -1312,6 +1427,16 @@ msgstr "Mantenimiento %s cancelado."
 #, python-format
 msgid "Maintenance %s cannot be deleted: only scheduled or cancelled maintenances can be deleted."
 msgstr "El mantenimiento %s no se puede borrar: solo se pueden borrar mantenimientos programados o cancelados."
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__cost_maintenance_usd
+msgid "Maintenance (USD)"
+msgstr "Mantenimiento (USD)"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Maintenance Due"
+msgstr "Mantenimiento programado"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__maintenance_ids
@@ -1348,6 +1473,11 @@ msgstr "Modelo"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_model_tree
 msgid "Models"
 msgstr "Modelos"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Mon"
+msgstr "Lun"
 
 #. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_monitor
@@ -1432,6 +1562,16 @@ msgstr "Nuevo costo unitario"
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__next_preventive_date
 msgid "Next Preventive"
 msgstr "Próximo preventivo"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+msgid "No costs registered yet."
+msgstr "Aún no hay costos registrados."
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "No data for the selected filters."
+msgstr "No hay datos para los filtros seleccionados."
 
 #. module: pao_it_asset_management
 #: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_letter
@@ -1575,6 +1715,11 @@ msgid "Optional. When the next period is created automatically (auto-renew), its
 msgstr "Opcional. Cuando el siguiente periodo se crea automáticamente (renovación automática), su costo aumenta en este porcentaje."
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+msgid "Original Amount"
+msgstr "Monto original"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__original_edition_date
 msgid "Original Edition"
 msgstr "Edición original"
@@ -1618,6 +1763,11 @@ msgstr "Excedente"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 msgid "Overdue"
 msgstr "Vencido"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Overdue Preventives"
+msgstr "Preventivos vencidos"
 
 #. module: pao_it_asset_management
 #: model:pao.it.software.type,name:pao_it_asset_management.software_type_password
@@ -1878,6 +2028,11 @@ msgid "Purchase Source"
 msgstr "Origen de compra"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Purchases in Period"
+msgstr "Compras del periodo"
+
+#. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_subscription_period_form
 msgid "Quantities"
 msgstr "Cantidades"
@@ -1924,6 +2079,7 @@ msgid "Recover"
 msgstr "Recuperar"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__name
 msgid "Reference"
 msgstr "Referencia"
@@ -2118,6 +2274,11 @@ msgid "Same text for all countries. Separate the clauses with a blank line."
 msgstr "Mismo texto para todos los países. Separa las cláusulas con una línea en blanco."
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Sat"
+msgstr "Sáb"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__state__scheduled
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 msgid "Scheduled"
@@ -2195,6 +2356,17 @@ msgid "Shipments"
 msgstr "Envíos"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Shipping"
+msgstr "Envíos"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__cost_shipping_usd
+msgid "Shipping (USD)"
+msgstr "Envíos (USD)"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__shipping_move_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__shipping_move_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__shipping_move_id
@@ -2242,6 +2414,7 @@ msgid "Signed PDF (upload it once signed)"
 msgstr "PDF firmado (súbelo una vez firmado)"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_software
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_license_assignment__software_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__software_id
@@ -2260,6 +2433,16 @@ msgstr "Software"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_software_tree
 msgid "Software Catalog"
 msgstr "Catálogo de software"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Software Spend by Type (period)"
+msgstr "Gasto en software por tipo (periodo)"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Software Spend in Period"
+msgstr "Gasto en software del periodo"
 
 #. module: pao_it_asset_management
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_subscription
@@ -2301,6 +2484,11 @@ msgstr "Español"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 msgid "Specifications"
 msgstr "Especificaciones"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Spend in Period by Concept (USD)"
+msgstr "Gasto del periodo por concepto (USD)"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
@@ -2362,6 +2550,11 @@ msgid "Subscription Price Change"
 msgstr "Cambio de precio de suscripción"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Subscription Renewal / Expiring"
+msgstr "Renovación / vencimiento de suscripción"
+
+#. module: pao_it_asset_management
 #: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_subscription
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_software__subscription_ids
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_subscription
@@ -2370,6 +2563,11 @@ msgstr "Cambio de precio de suscripción"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_subscription_tree
 msgid "Subscriptions"
 msgstr "Suscripciones"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Sun"
+msgstr "Dom"
 
 #. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_switch
@@ -2541,6 +2739,11 @@ msgid "This model already exists for this brand."
 msgstr "Este modelo ya existe para esta marca."
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Thu"
+msgstr "Jue"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__name
 msgid "Title"
 msgstr "Título"
@@ -2556,10 +2759,25 @@ msgid "Title (Spanish)"
 msgstr "Título (español)"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "To"
+msgstr "Hasta"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_license_assignment__to_review
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_license_assignment_search
 msgid "To Review"
 msgstr "Por revisar"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Total"
+msgstr "Total"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Total assets"
+msgstr "Total de activos"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription_period__total_increase
@@ -2573,11 +2791,23 @@ msgid "Total Change (%)"
 msgstr "Cambio total (%)"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__cost_total_usd
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Total Cost (USD)"
+msgstr "Costo total (USD)"
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__tracking_number
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__tracking_number
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__tracking_number
 msgid "Tracking Number"
 msgstr "Número de guía"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Tue"
+msgstr "Mar"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__maintenance_type
@@ -2589,6 +2819,11 @@ msgstr "Tipo"
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Unassigned"
 msgstr "Sin asignar"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Undefined"
+msgstr "Sin definir"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__warranty_status__active
@@ -2632,6 +2867,11 @@ msgstr "Búsqueda no soportada sobre el estatus de garantía."
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__date_end
 msgid "Until"
 msgstr "Hasta"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+msgid "USD"
+msgstr "USD"
 
 #. module: pao_it_asset_management
 #: model:res.groups,name:pao_it_asset_management.group_it_asset_user
@@ -2686,11 +2926,22 @@ msgid "Video Conferencing"
 msgstr "Videoconferencia"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Warranties"
+msgstr "Garantías"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__maintenance_type__warranty
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 msgid "Warranty"
 msgstr "Garantía"
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__cost_warranty_usd
+msgid "Warranty (USD)"
+msgstr "Garantía (USD)"
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__rma_number
@@ -2714,6 +2965,7 @@ msgid "Warranty Expired"
 msgstr "Garantía vencida"
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset__warranty_status__expiring
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Warranty Expiring"
@@ -2743,6 +2995,11 @@ msgstr "Hosting web / Dominio"
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_software__website
 msgid "Website"
 msgstr "Sitio web"
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_dashboard.py:0
+msgid "Wed"
+msgstr "Mié"
 
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
