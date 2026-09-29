@@ -408,12 +408,18 @@ publicWidget.registry.globalgapproductinformation = publicWidget.Widget.extend({
             }
             
         }
+        if (products.length>0 && $("#sites_travel_time").val().trim() == ""){
+            alert("Favor de capturar el tiempo promedio total de desplazamiento entre sitios (en horas) o señalar N/A.");
+            $("#sites_travel_time").focus()
+            products = [];
+        }
         if (products.length>0){
             await this.rpc('/pao/fan/register/product_information',
             {
                 'fan_id': $("#fr_id").val().trim(), 
                 'fan_token': $("#fr_token").val().trim(), 
                 'products': products, 
+                'sites_travel_time': $("#sites_travel_time").val().trim(),
             }).then(function (data) {
                 window.location = data.redirect_url;           
 

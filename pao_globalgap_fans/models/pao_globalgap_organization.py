@@ -213,6 +213,10 @@ class PaoGlobalgapOrganization(models.Model):
         tracking=True,
         copy=False,
     )
+    sites_travel_time = fields.Text(
+        string='Average total travel time between sites (hours)',
+        tracking=True,
+    )
     version_id = fields.Many2one(
         comodel_name='pao.globalgap.version',
         string='Version',
