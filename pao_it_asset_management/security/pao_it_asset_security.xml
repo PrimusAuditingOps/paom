@@ -79,6 +79,27 @@
             <field name="global" eval="True"/>
         </record>
 
+        <record id="pao_it_asset_letter_company_rule" model="ir.rule">
+            <field name="name">IT Asset Letter: multi-company</field>
+            <field name="model_id" ref="model_pao_it_asset_letter"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <record id="pao_it_asset_letter_line_company_rule" model="ir.rule">
+            <field name="name">IT Asset Letter Line: multi-company</field>
+            <field name="model_id" ref="model_pao_it_asset_letter_line"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="global" eval="True"/>
+        </record>
+
+        <record id="pao_it_letter_control_company_rule" model="ir.rule">
+            <field name="name">IT Letter Control: multi-company</field>
+            <field name="model_id" ref="model_pao_it_letter_control"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="global" eval="True"/>
+        </record>
+
         <record id="pao_it_location_company_rule" model="ir.rule">
             <field name="name">IT Location: multi-company</field>
             <field name="model_id" ref="model_pao_it_location"/>

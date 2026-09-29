@@ -120,6 +120,10 @@
                             context="{'movement_type': 'report_lost'}"
                             invisible="not id or state not in ('available', 'assigned', 'in_transit', 'in_repair')"
                             groups="pao_it_asset_management.group_it_asset_admin"/>
+                    <button name="action_generate_delivery_letter" type="object" string="Delivery Letter"
+                            icon="fa-file-text-o"
+                            invisible="state not in ('assigned', 'in_transit') or not employee_id"
+                            groups="pao_it_asset_management.group_it_asset_admin"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="available,assigned,in_transit,in_repair"/>
                 </header>
@@ -308,6 +312,25 @@
                                     <field name="condition_to_id" optional="hide"/>
                                     <field name="tracking_number" optional="hide"/>
                                     <field name="user_id" widget="many2one_avatar_user"/>
+                                </tree>
+                            </field>
+                            <!-- Cartas generadas (responsiva / devolución). El PDF
+                                 firmado se sube desde el registro de la carta. -->
+                            <div class="d-flex align-items-center mt-3 mb-2">
+                                <h5 class="mb-0 me-3">Letters</h5>
+                                <button name="action_view_letters" type="object" string="Open Letters"
+                                        class="btn-link" icon="fa-external-link"/>
+                            </div>
+                            <field name="letter_ids" readonly="1">
+                                <tree decoration-warning="state == 'pending'">
+                                    <field name="date"/>
+                                    <field name="letter_type" widget="badge"/>
+                                    <field name="employee_id"/>
+                                    <field name="lang"/>
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                    <field name="state" widget="badge"
+                                           decoration-warning="state == 'pending'"
+                                           decoration-success="state == 'signed'"/>
                                 </tree>
                             </field>
                         </page>

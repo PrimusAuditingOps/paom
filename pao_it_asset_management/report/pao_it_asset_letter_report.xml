@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Carta responsiva / de devolución. Los textos (en el idioma elegido
+         para la carta) los arma pao.it.asset.letter._get_report_values(). -->
+    <record id="action_report_asset_letter" model="ir.actions.report">
+        <field name="name">IT Asset Letter</field>
+        <field name="model">pao.it.asset.letter</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_it_asset_management.report_asset_letter</field>
+        <field name="report_file">pao_it_asset_management.report_asset_letter</field>
+        <field name="print_report_name">object.display_name.replace('/', '-')</field>
+        <field name="binding_model_id" ref="model_pao_it_asset_letter"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_asset_letter">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="v" t-value="doc._get_report_values()"/>
+                <t t-set="texts" t-value="v['texts']"/>
+                <t t-set="control" t-value="v['control']"/>
+                <t t-set="company" t-value="doc.company_id"/>
+
+                <!-- ENCABEZADO (documento controlado) -->
+                <div class="header">
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid #555;">
+                        <tr>
+                            <td style="width: 28%; padding: 6px; border: 1px solid #555; text-align: center;">
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                     style="max-height: 55px; max-width: 170px;" alt="Logo"/>
+                            </td>
+                            <td style="padding: 6px; border: 1px solid #555; text-align: center; font-weight: bold; font-size: 15px;">
+                                <span t-esc="control.code"/> <span t-esc="v['title']"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="article" t-att-data-oe-model="doc._name" t-att-data-oe-id="doc.id"
+                     t-att-data-oe-lang="doc._print_lang()">
+                    <div class="page" style="font-size: 13px; line-height: 1.45;">
+                        <p style="text-align: right; margin-top: 10px;" t-esc="v['place_line']"/>
+
+                        <p style="margin-top: 14px; margin-bottom: 0;"><strong t-esc="company.name"/></p>
+                        <p style="margin-top: 0;" t-esc="v['address']"/>
+
+                        <p style="text-align: justify; margin-top: 14px;" t-esc="v['paragraph']"/>
+
+                        <table style="width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11.5px;">
+                            <thead>
+                                <tr style="background-color: #eeeeee;">
+                                    <th style="border: 1px solid #555; padding: 4px;" t-esc="texts['col_tag']"/>
+                                    <th style="border: 1px solid #555; padding: 4px;" t-esc="texts['col_category']"/>
+                                    <th style="border: 1px solid #555; padding: 4px;" t-esc="texts['col_brand']"/>
+                                    <th style="border: 1px solid #555; padding: 4px;" t-esc="texts['col_model']"/>
+                                    <th style="border: 1px solid #555; padding: 4px;" t-esc="texts['col_specs']"/>
+                                    <th style="border: 1px solid #555; padding: 4px;" t-esc="texts['col_serial']"/>
+                                    <th t-if="v['is_return']" style="border: 1px solid #555; padding: 4px;"
+                                        t-esc="texts['col_condition']"/>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <td style="border: 1px solid #555; padding: 4px;" t-esc="line.asset_tag"/>
+                                    <td style="border: 1px solid #555; padding: 4px;" t-esc="line.category"/>
+                                    <td style="border: 1px solid #555; padding: 4px;" t-esc="line.brand"/>
+                                    <td style="border: 1px solid #555; padding: 4px;" t-esc="line.model"/>
+                                    <td style="border: 1px solid #555; padding: 4px;" t-esc="line.specifications"/>
+                                    <td style="border: 1px solid #555; padding: 4px;" t-esc="line.serial_number"/>
+                                    <td t-if="v['is_return']" style="border: 1px solid #555; padding: 4px;"
+                                        t-esc="line.condition"/>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p t-foreach="v['clauses']" t-as="clause" style="text-align: justify;" t-esc="clause"/>
+
+                        <p style="margin-top: 22px;" t-esc="texts['regards']"/>
+
+                        <!-- Firmas: solo las líneas, SIN nombres (se llenan a mano). -->
+                        <table style="width: 100%; margin-top: 60px; page-break-inside: avoid;">
+                            <tr>
+                                <td style="width: 42%; border-top: 1px solid #000; text-align: center; padding-top: 4px;">
+                                    <strong t-esc="v['left_role']"/>
+                                </td>
+                                <td style="width: 16%;"/>
+                                <td style="width: 42%; border-top: 1px solid #000; text-align: center; padding-top: 4px;">
+                                    <strong t-esc="v['right_role']"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PIE (documento controlado) -->
+                <div class="footer">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 10px; border: 1px solid #555;">
+                        <tr>
+                            <td style="border: 1px solid #555; padding: 3px;">
+                                <span t-esc="texts['prepared']"/>: <span t-esc="control.prepared_by"/>
+                            </td>
+                            <td style="border: 1px solid #555; padding: 3px;">
+                                <span t-esc="texts['reviewed']"/>: <span t-esc="control.reviewed_by"/>
+                            </td>
+                            <td style="border: 1px solid #555; padding: 3px;">
+                                <span t-esc="texts['approved']"/>: <span t-esc="control.approved_by"/>
+                            </td>
+                            <td style="border: 1px solid #555; padding: 3px; text-align: center;" rowspan="2">
+                                <span t-esc="texts['page']"/> <span class="page"/> <span t-esc="texts['of']"/> <span class="topage"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #555; padding: 3px;">
+                                <span t-esc="texts['original_edition']"/>: <span t-esc="v['original_edition']"/>
+                            </td>
+                            <td style="border: 1px solid #555; padding: 3px;">
+                                <span t-esc="texts['revision']"/>: <span t-esc="control.revision"/>
+                            </td>
+                            <td style="border: 1px solid #555; padding: 3px;">
+                                <span t-esc="texts['issue']"/>: <span t-esc="v['issue']"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

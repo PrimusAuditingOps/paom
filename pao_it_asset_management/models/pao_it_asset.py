@@ -93,6 +93,10 @@ class PaoItAsset(models.Model):
                                     default=fields.Date.context_today)
     movement_ids = fields.One2many('pao.it.asset.movement', 'asset_id', string='History')
 
+    # --- CARTAS (responsiva / devolución) ---
+    letter_line_ids = fields.One2many('pao.it.asset.letter.line', 'asset_id', string='Letter Lines')
+    letter_ids = fields.Many2many('pao.it.asset.letter', string='Letters', compute='_compute_letter_ids')
+
     # --- MANTENIMIENTO ---
     maintenance_ids = fields.One2many('pao.it.asset.maintenance', 'asset_id', string='Maintenances')
     next_preventive_date = fields.Date(string='Next Preventive', compute='_compute_next_preventive_date')
@@ -207,6 +211,11 @@ class PaoItAsset(models.Model):
             asset.purchase_move_ids = moves
             asset.purchase_move_summary = ', '.join(
                 f"{move.name or '/'} ({state_labels.get(move.state)})" for move in moves)
+
+    @api.depends('letter_line_ids.letter_id')
+    def _compute_letter_ids(self):
+        for asset in self:
+            asset.letter_ids = asset.letter_line_ids.letter_id
 
     @api.depends('maintenance_ids.state', 'maintenance_ids.scheduled_date', 'maintenance_ids.maintenance_type')
     def _compute_next_preventive_date(self):
@@ -469,6 +478,23 @@ class PaoItAsset(models.Model):
             'target': 'current',
             'context': {'default_asset_id': self.id, 'pao_it_show_company': True},
         }
+
+    def action_generate_delivery_letter(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Generate Delivery Letter'),
+            'res_model': 'pao.it.asset.letter.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_asset_ids': [(6, 0, self.ids)], 'pao_it_show_company': True},
+        }
+
+    def action_view_letters(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id('pao_it_asset_management.action_pao_it_asset_letter')
+        action['domain'] = [('line_ids.asset_id', '=', self.id)]
+        action['context'] = {'pao_it_show_company': True}
+        return action
 
     def action_view_maintenances(self):
         self.ensure_one()

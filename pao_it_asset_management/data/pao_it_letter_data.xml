@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Plantillas globales de las cartas (título y cláusulas EN/ES), con el
+         texto de los formatos FTI-01 / FTI-02 vigentes. noupdate: una vez
+         cargadas, las edita el administrador (Configuración > Documentos). -->
+    <data noupdate="1">
+        <record id="letter_template_delivery" model="pao.it.letter.template">
+            <field name="letter_type">delivery</field>
+            <field name="title_en">COMPUTER EQUIPMENT RESPONSIBILITY LETTER</field>
+            <field name="title_es">CARTA RESPONSIVA DE EQUIPO DE CÓMPUTO</field>
+            <field name="clauses_en">The Grantor delivers the equipment according to the characteristics described in the table and in proper working order, as verified by the IT department. The equipment will be under the responsibility of the Recipient, who must keep it in good condition and take care of its functional integrity, as well as use it strictly for work purposes and in accordance with the best practices for the use of computer equipment.
+
+In case of any problem or failure, the Recipient must immediately inform the IT department, which will assess the damage and will be in charge of managing the solution, making the necessary repairs or replacing the equipment in case of obsolescence.
+
+It is essential that the Recipient be fully aware that, in case of damage, loss or misuse of the equipment, and after a prior assessment by the corresponding departments and, where applicable, by management, the Recipient will be responsible for covering the resulting costs. This includes the repair of the damage, to the extent possible, or, failing that, covering the total value of the equipment if it cannot be repaired or recovered.</field>
+            <field name="clauses_es">El otorgante entrega el equipo conforme a las características descritas en la tabla y en correcto funcionamiento, según lo verifica el departamento de TI. El equipo quedará bajo la responsabilidad del receptor, quien deberá mantenerlo en buen estado y cuidar su integridad funcional, así como utilizarlo estrictamente para fines laborales y de acuerdo con las mejores prácticas de uso de equipo de cómputo.
+
+En caso de cualquier problema o fallo, el receptor deberá informar de inmediato al departamento de TI, quien evaluará el daño y se encargará de gestionar la solución, realizar las reparaciones necesarias o reemplazar el equipo en caso de obsolescencia.
+
+Es fundamental que el receptor tenga pleno conocimiento de que, en caso de daño, extravío o uso incorrecto del equipo, y tras una evaluación previa por parte de los departamentos correspondientes y, en su caso, de la dirección, el receptor será responsable de asumir los costos derivados. Esto incluye la reparación del daño, en la medida de lo posible, o, en su defecto, la cobertura del valor total del equipo si este no puede ser reparado o recuperado.</field>
+        </record>
+
+        <record id="letter_template_return" model="pao.it.letter.template">
+            <field name="letter_type">return</field>
+            <field name="title_en">COMPUTER EQUIPMENT RETURN LETTER</field>
+            <field name="title_es">CARTA DE DEVOLUCIÓN DE EQUIPO DE CÓMPUTO</field>
+            <field name="clauses_en">The Recipient assumes full responsibility for the delivered equipment, which is accepted as complete and in the conditions described in the table.</field>
+            <field name="clauses_es">El receptor asume la completa responsabilidad del equipo entregado, que se acepta como completo y en las condiciones descritas en la tabla.</field>
+        </record>
+    </data>
+</odoo>

@@ -297,6 +297,25 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
     el PDF firmado;
   - el PDF en blanco no se guarda.
 - Solo aplica a asignaciones a empleados. Una carta agrupa varios activos.
+- **Decisiones del diseño técnico (2026-09-28):**
+  - **Plantilla global editable** por tipo (Responsiva / Devolución): título
+    y cláusulas en EN y ES. **Control del documento por compañía**: código,
+    revisión, elaborado/revisado/aprobado, edición original y emisión.
+  - **Otorgante = nombre de la compañía** (`res.company.name`), no un
+    nombre corto.
+  - **Lugar:** ubicación del primer activo; si no hay, la ciudad de la
+    compañía.
+  - **Papel:** el formato de papel configurado en cada compañía (A4 / Letter).
+  - **Reasignación:** ofrece dos casillas opcionales, responsiva para el
+    nuevo empleado y devolución para el anterior.
+  - Cada carta es un registro (`pao.it.asset.letter`) con renglones que
+    guardan una **foto** de los datos de cada activo al generarla, para que
+    el PDF regenerado sea siempre idéntico. El PDF en blanco no se guarda;
+    el firmado se sube al registro (estatus Pendiente de firma / Firmada).
+  - Los textos fijos del PDF (párrafos, encabezados de tabla, pie) salen de
+    un diccionario Python por idioma y no del `.po`. Así el PDF sale en el
+    idioma elegido sin depender de cómo Odoo parte los términos de un
+    reporte QWeb.
 
 ## 8. Costos y tablero (entregable 6)
 
@@ -325,8 +344,8 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
 | 1 | Base y hardware | **Probado y funcionando en staging (2026-09-25)**, incluido el ajuste de facturas automáticas desde la PO |
 | 2 | Movimientos e historial | **Probado y funcionando en staging (2026-09-28)**, incluido el país en empleados y departamentos |
 | 3 | Mantenimiento y garantía | **Probado y funcionando en staging (2026-09-28)**. "Marcar como terminado" abre una ventana (fecha de fin, condición, trabajo realizado) para que funcione también desde la pestaña de solo lectura del activo |
-| 4 | Software y licencias | **Programado (2026-09-28), pendiente de pruebas del usuario** |
-| 5 | Responsiva y devolución | Pendiente |
+| 4 | Software y licencias | **Probado y funcionando en staging (2026-09-28)**, con usuarios por licencia y departamento del responsable |
+| 5 | Responsiva y devolución | **Programado (2026-09-28), pendiente de pruebas del usuario** |
 | 6 | Costos y tablero | Pendiente |
 
 - **Carga inicial** (AssetTiger + Excel de suscripciones): pospuesta hasta

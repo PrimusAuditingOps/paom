@@ -2,6 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
 from .pao_it_asset_movement import MOVEMENT_TYPES
+from .pao_it_asset_letter import LETTER_LANGS
 
 # Desde qué estatus se permite cada movimiento (Register no pasa por aquí).
 ALLOWED_FROM = {
@@ -74,6 +75,14 @@ class PaoItAssetMovementWizard(models.TransientModel):
 
     # Solo cuando el movimiento lo genera un mantenimiento (no se muestra).
     maintenance_id = fields.Many2one('pao.it.asset.maintenance', string='Maintenance')
+
+    # --- CARTAS (entregable 5) ---
+    # Responsiva: al asignar/reasignar a un EMPLEADO. Devolución: al devolver,
+    # o al reasignar (para el responsable anterior). Ambas opcionales.
+    generate_delivery_letter = fields.Boolean(string='Generate Delivery Letter')
+    generate_return_letter = fields.Boolean(string='Generate Return Letter')
+    letter_lang = fields.Selection(LETTER_LANGS, string='Letter Language',
+                                   default=lambda self: 'es_MX' if (self.env.lang or '').startswith('es') else 'en_US')
 
     notes = fields.Text(string='Notes')
     attachment_ids = fields.Many2many('ir.attachment', 'pao_it_asset_movement_wizard_attachment_rel',
@@ -342,4 +351,25 @@ class PaoItAssetMovementWizard(models.TransientModel):
                 ('maintenance_type', '=', 'preventive'),
                 ('state', '=', 'scheduled'),
             ]).action_cancel()
+        letters = self._generate_letters(movements)
+        if letters:
+            action = self.env.ref('pao_it_asset_management.action_report_asset_letter').report_action(letters)
+            action['close_on_report_download'] = True
+            return action
         return {'type': 'ir.actions.act_window_close'}
+
+    def _generate_letters(self, movements):
+        """Cartas opcionales del movimiento. Una carta por empleado."""
+        Letter = self.env['pao.it.asset.letter']
+        letters = Letter
+        if (self.generate_delivery_letter and self.movement_type in ('assign', 'reassign')
+                and self.assignee_type == 'employee' and self.employee_id):
+            letters |= Letter._create_letter('delivery', self.employee_id, movements.asset_id,
+                                             self.date, self.letter_lang, movements)
+        if self.generate_return_letter and self.movement_type in ('return', 'reassign'):
+            # Devolución: del responsable ANTERIOR de cada activo (empleado).
+            for employee in movements.employee_from_id:
+                returned = movements.filtered(lambda m: m.employee_from_id == employee)
+                letters |= Letter._create_letter('return', employee, returned.asset_id,
+                                                 self.date, self.letter_lang, returned)
+        return letters

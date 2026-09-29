@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 23:31+0000\n"
-"PO-Revision-Date: 2026-09-28 23:31+0000\n"
+"POT-Creation-Date: 2026-09-28 23:59+0000\n"
+"PO-Revision-Date: 2026-09-28 23:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -122,6 +122,11 @@ msgid "Anti-Virus"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__approved_by
+msgid "Approved by"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_brand_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_brand_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_location_search
@@ -133,9 +138,11 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__asset_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__asset_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__asset_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__asset_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 msgid "Asset"
@@ -169,16 +176,25 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__asset_tag
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__asset_tag
 msgid "Asset Tag"
 msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__line_ids
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_wizard__asset_ids
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__asset_ids
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_asset
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_tree
 msgid "Assets"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__asset_ids
+msgid "Assets (Records)"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -311,6 +327,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__brand_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__brand
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_model__brand_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_brand_form
@@ -336,6 +353,7 @@ msgid "Can Change Company"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_wizard_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_done_wizard_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
@@ -421,6 +439,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__category_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__category
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__category_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Category"
@@ -434,6 +453,16 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__city
 msgid "City"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_template__clauses_en
+msgid "Clauses (English)"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_template__clauses_es
+msgid "Clauses (Spanish)"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -451,13 +480,17 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__company_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__company_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__company_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_license_assignment__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_location__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__company_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription_period__company_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
@@ -484,6 +517,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__condition_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__condition
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__condition_to_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__condition_id
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
@@ -599,8 +633,11 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__date
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__date
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_wizard__date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__date
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__date
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 msgid "Date"
 msgstr ""
@@ -608,6 +645,24 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_asset_movement__date_end
 msgid "Date of the next movement of this asset. Empty while this is the current one."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_letter
+msgid "Delivery and return letters are generated from the Assign, Reassign and Return actions of each asset."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_letter__letter_type__delivery
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_letter_control__letter_type__delivery
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_letter_template__letter_type__delivery
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Delivery Letter"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
+msgid "Delivery Letters"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -654,6 +709,23 @@ msgid "Details"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__code
+msgid "Document Code"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_letter_control
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_letter_control
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_letter_control_tree
+msgid "Document Control"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_documents
+msgid "Documents"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:pao.it.retirement.reason,name:pao_it_asset_management.retirement_reason_donated
 msgid "Donated"
 msgstr ""
@@ -662,6 +734,16 @@ msgstr ""
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_maintenance__state__done
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 msgid "Done"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_form
+msgid "Download (English)"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_form
+msgid "Download (Spanish)"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -705,12 +787,15 @@ msgid "Email Marketing"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__employee_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_wizard__employee_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__employee_to_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__employee_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_license_assignment__employee_id
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__assignee_type__employee
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_license_assignment__assignee_type__employee
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_kanban
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_license_assignment_search
@@ -728,6 +813,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_license_assignment__date_end
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription_period__end_date
 msgid "End Date"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_letter__lang__en_us
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_letter_wizard__lang__en_us
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__letter_lang__en_us
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_letter_template_form
+msgid "English"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -797,11 +890,40 @@ msgid "Gallery"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_wizard_form
+msgid "Generate"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset.py:0
+#: model:ir.actions.server,name:pao_it_asset_management.action_server_pao_it_asset_delivery_letter
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__generate_delivery_letter
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_wizard_form
+msgid "Generate Delivery Letter"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_letter_wizard
+msgid "Generate IT Asset Delivery Letter"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__generate_return_letter
+msgid "Generate Return Letter"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__user_id
+msgid "Generated By"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:pao.it.condition,name:pao_it_asset_management.condition_good
 msgid "Good"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
@@ -892,6 +1014,11 @@ msgid "In Transit"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__issue_date
+msgid "Issue Date"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__issue_description
 msgid "Issue Description"
 msgstr ""
@@ -914,6 +1041,17 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_condition
 msgid "IT Asset Condition"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.report,name:pao_it_asset_management.action_report_asset_letter
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_letter
+msgid "IT Asset Letter"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_asset_letter_line
+msgid "IT Asset Letter Line"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -953,6 +1091,16 @@ msgid "IT Asset Photo"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_letter_control
+msgid "IT Letter Document Control"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model,name:pao_it_asset_management.model_pao_it_letter_template
+msgid "IT Letter Template"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_subscription_cancel_wizard_form
 msgid "Its open license assignments will be closed on the cancellation date. Its periods are kept as spending history."
 msgstr ""
@@ -960,6 +1108,12 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__justification
 msgid "Justification"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__lang
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_wizard__lang
+msgid "Language"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -987,6 +1141,68 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__last_increase_unit_pct
 msgid "Last Unit Price Increase (%)"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_letter_control__issue_date
+msgid "Leave empty to print \"As per record\" / \"Según la ficha\"."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__letter_id
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_form
+msgid "Letter"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__letter_lang
+msgid "Letter Language"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__letter_line_ids
+msgid "Letter Lines"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_letter_template_form
+msgid "Letter Template"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_letter_template
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_config_letter_template
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_letter_template_tree
+msgid "Letter Templates"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__letter_type
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__letter_type
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_template__letter_type
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
+msgid "Letter Type"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset_letter
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__letter_ids
+#: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_asset_letter
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_tree
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_wizard_form
+msgid "Letters"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_letter.py:0
+msgid "Letters are part of the asset history and cannot be deleted."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_letter.py:0
+msgid "Letters can only be generated for assets assigned to an employee."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -1118,6 +1334,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__model_id
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__model
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Model"
 msgstr ""
@@ -1163,7 +1380,9 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.actions.act_window,name:pao_it_asset_management.action_pao_it_asset_movement
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__movement_ids
 #: model:ir.ui.menu,name:pao_it_asset_management.menu_pao_it_asset_movement
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_form
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_tree
 msgid "Movements"
@@ -1214,6 +1433,11 @@ msgid "Next Preventive"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_asset_letter
+msgid "No letters yet"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_license_assignment
 msgid "No license assignments yet"
 msgstr ""
@@ -1253,6 +1477,7 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__notes
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__notes
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__notes
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__notes
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement_wizard__notes
@@ -1294,6 +1519,11 @@ msgid "Office"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_letter_control
+msgid "One record per company and letter type (FTI-01 / FTI-02). They are created automatically when the module is updated."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model_terms:ir.actions.act_window,help:pao_it_asset_management.action_pao_it_subscription
 msgid "One subscription per software, plan and company. Its costs are registered by period (contract cycle)."
 msgstr ""
@@ -1330,12 +1560,22 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
+msgid "Open Letters"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 msgid "Open Maintenances"
 msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_subscription__expected_increase_pct
 msgid "Optional. When the next period is created automatically (auto-renew), its cost is increased by this percentage."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__original_edition_date
+msgid "Original Edition"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -1400,6 +1640,12 @@ msgid "PDF Editor"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_letter__state__pending
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
+msgid "Pending Signature"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_subscription__license_type__per_user
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_subscription_search
 msgid "Per User"
@@ -1446,6 +1692,11 @@ msgid "Photo"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__place
+msgid "Place"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__plan
 msgid "Plan / Edition"
 msgstr ""
@@ -1453,6 +1704,12 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_subscription_form
 msgid "Plan / Edition, e.g. Business Plus"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_letter.py:0
+#, python-format
+msgid "Please configure the letter template and the document control of %s (Configuration > Documents)."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -1508,6 +1765,11 @@ msgstr ""
 #. module: pao_it_asset_management
 #: code:addons/pao_it_asset_management/models/pao_it_asset_movement_wizard.py:0
 msgid "Please select the retirement reason."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__prepared_by
+msgid "Prepared by"
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -1812,6 +2074,18 @@ msgid "Return"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_letter__letter_type__return
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_letter_control__letter_type__return
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_letter_template__letter_type__return
+msgid "Return Letter"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
+msgid "Return Letters"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_movement_search
 msgid "Returns"
 msgstr ""
@@ -1823,8 +2097,23 @@ msgid "Review the analytic distribution of: %s. The asset is changing department
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__reviewed_by
+msgid "Reviewed by"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_control__revision
+msgid "Revision"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:pao.it.asset.category,name:pao_it_asset_management.category_router
 msgid "Router"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_letter_template_form
+msgid "Same text for all countries. Separate the clauses with a blank line."
 msgstr ""
 
 #. module: pao_it_asset_management
@@ -1846,6 +2135,11 @@ msgid "Scrapped"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: code:addons/pao_it_asset_management/models/pao_it_asset_letter_wizard.py:0
+msgid "Select assets assigned to one and the same employee."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement__movement_type__send_to_repair
 #: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__movement_type__send_to_repair
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
@@ -1858,12 +2152,19 @@ msgid "Send to Repair Movement"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_letter_template__clauses_en
+#: model:ir.model.fields,help:pao_it_asset_management.field_pao_it_letter_template__clauses_es
+msgid "Separate paragraphs with a blank line."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_condition__sequence
 msgid "Sequence"
 msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__serial_number
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__serial_number
 msgid "Serial Number"
 msgstr ""
 
@@ -1919,6 +2220,27 @@ msgid "Shipping Currency"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_letter__state__signed
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
+msgid "Signed"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_form
+msgid "Signed Letter"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__signed_attachment_ids
+msgid "Signed PDF"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_form
+msgid "Signed PDF (upload it once signed)"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model,name:pao_it_asset_management.model_pao_it_software
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_license_assignment__software_id
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__software_id
@@ -1965,7 +2287,16 @@ msgid "Sold"
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_letter__lang__es_mx
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_letter_wizard__lang__es_mx
+#: model:ir.model.fields.selection,name:pao_it_asset_management.selection__pao_it_asset_movement_wizard__letter_lang__es_mx
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_letter_template_form
+msgid "Spanish"
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__specifications
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter_line__specifications
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_form
 msgid "Specifications"
 msgstr ""
@@ -1989,10 +2320,12 @@ msgstr ""
 
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset__state
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_letter__state
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_maintenance__state
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_movement__state_to
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_license_assignment__state
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_subscription__state
+#: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_letter_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_maintenance_search
 #: model_terms:ir.ui.view,arch_db:pao_it_asset_management.view_pao_it_asset_search
 msgid "Status"
@@ -2187,6 +2520,16 @@ msgid "The warranty end date cannot be before its start date."
 msgstr ""
 
 #. module: pao_it_asset_management
+#: model:ir.model.constraint,message:pao_it_asset_management.constraint_pao_it_letter_control_company_type_uniq
+msgid "There is already a document control for this company and letter type."
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.constraint,message:pao_it_asset_management.constraint_pao_it_letter_template_letter_type_uniq
+msgid "There is already a template for this letter type."
+msgstr ""
+
+#. module: pao_it_asset_management
 #: model:ir.model.constraint,message:pao_it_asset_management.constraint_pao_it_brand_name_uniq
 msgid "This brand already exists."
 msgstr ""
@@ -2199,6 +2542,16 @@ msgstr ""
 #. module: pao_it_asset_management
 #: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_asset_image__name
 msgid "Title"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_template__title_en
+msgid "Title (English)"
+msgstr ""
+
+#. module: pao_it_asset_management
+#: model:ir.model.fields,field_description:pao_it_asset_management.field_pao_it_letter_template__title_es
+msgid "Title (Spanish)"
 msgstr ""
 
 #. module: pao_it_asset_management

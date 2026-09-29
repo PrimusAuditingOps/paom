@@ -220,6 +220,19 @@
                                groups="account.group_account_invoice,account.group_account_readonly"/>
                     </group>
                 </group>
+                <!-- Cartas (responsiva / devolución) -->
+                <group string="Letters" invisible="movement_type not in ('assign', 'reassign', 'return')">
+                    <group>
+                        <field name="generate_delivery_letter"
+                               invisible="movement_type not in ('assign', 'reassign') or assignee_type != 'employee'"/>
+                        <field name="generate_return_letter"
+                               invisible="movement_type not in ('return', 'reassign')"/>
+                    </group>
+                    <group>
+                        <field name="letter_lang" widget="radio" options="{'horizontal': true}"
+                               invisible="not generate_delivery_letter and not generate_return_letter"/>
+                    </group>
+                </group>
                 <group>
                     <field name="notes"/>
                     <field name="attachment_ids" widget="many2many_binary"

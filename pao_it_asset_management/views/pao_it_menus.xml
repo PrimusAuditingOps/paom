@@ -29,6 +29,11 @@
               parent="menu_pao_it_hardware"
               action="action_pao_it_asset_movement"
               sequence="30"/>
+    <menuitem id="menu_pao_it_asset_letter"
+              name="Letters"
+              parent="menu_pao_it_hardware"
+              action="action_pao_it_asset_letter"
+              sequence="40"/>
 
     <!-- SOFTWARE -->
     <menuitem id="menu_pao_it_software_root"
@@ -80,6 +85,17 @@
     <menuitem id="menu_pao_it_config_retirement_reason" name="Retirement Reasons"
               parent="menu_pao_it_config_hardware"
               action="action_pao_it_retirement_reason" sequence="80"/>
+
+    <menuitem id="menu_pao_it_config_documents"
+              name="Documents"
+              parent="menu_pao_it_config"
+              sequence="30"/>
+    <menuitem id="menu_pao_it_config_letter_template" name="Letter Templates"
+              parent="menu_pao_it_config_documents"
+              action="action_pao_it_letter_template" sequence="10"/>
+    <menuitem id="menu_pao_it_config_letter_control" name="Document Control"
+              parent="menu_pao_it_config_documents"
+              action="action_pao_it_letter_control" sequence="20"/>
 
     <menuitem id="menu_pao_it_config_software"
               name="Software"

@@ -10,3 +10,5 @@ from . import pao_it_software
 from . import pao_it_subscription_period
 from . import pao_it_license_assignment
 from . import pao_it_subscription_wizards
+from . import pao_it_asset_letter
+from . import pao_it_asset_letter_wizard
