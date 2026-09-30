@@ -884,6 +884,8 @@ function initOspForm() {
         function openModal() {
             const existing = document.getElementById('signature_modal');
             if (existing) existing.remove();
+            const existingBackdrop = document.getElementById('signature_modal_backdrop');
+            if (existingBackdrop) existingBackdrop.remove();
 
             const modalEl = document.createElement('div');
             modalEl.className = 'modal fade';
@@ -894,7 +896,7 @@ function initOspForm() {
                     '<div class="modal-content">' +
                         '<div class="modal-header">' +
                             '<h5 class="modal-title">' + L.title + '</h5>' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="modal"></button>' +
+                            '<button type="button" class="btn-close" id="btn_sign_close"></button>' +
                         '</div>' +
                         '<div class="modal-body">' +
                             '<p class="text-muted small">' + L.instructions + '</p>' +
@@ -902,12 +904,35 @@ function initOspForm() {
                         '</div>' +
                         '<div class="modal-footer">' +
                             '<button type="button" class="btn btn-outline-secondary btn-sm me-auto" id="btn_sign_clear">' + L.clear + '</button>' +
-                            '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' + L.cancel + '</button>' +
+                            '<button type="button" class="btn btn-secondary" id="btn_sign_cancel">' + L.cancel + '</button>' +
                             '<button type="button" class="btn btn-success" id="btn_sign_save" disabled="disabled">' + L.save + '</button>' +
                         '</div>' +
                     '</div>' +
                 '</div>';
             document.body.appendChild(modalEl);
+
+            // Odoo no expone window.bootstrap como global en este bundle del
+            // frontend (aunque el CSS de Bootstrap sí está disponible) — el
+            // JS del componente Modal (new bootstrap.Modal(...)) rompía con
+            // "bootstrap is not defined". Se maneja el show/hide a mano con
+            // las mismas clases que usa Bootstrap (.modal.show, backdrop,
+            // modal-open en <body>), sin depender de su JS.
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop fade show';
+            backdrop.id = 'signature_modal_backdrop';
+            document.body.appendChild(backdrop);
+            document.body.classList.add('modal-open');
+            modalEl.style.display = 'block';
+            modalEl.classList.add('show');
+
+            function closeModal() {
+                document.body.classList.remove('modal-open');
+                backdrop.remove();
+                modalEl.remove();
+            }
+            modalEl.querySelector('#btn_sign_close').addEventListener('click', closeModal);
+            modalEl.querySelector('#btn_sign_cancel').addEventListener('click', closeModal);
+            backdrop.addEventListener('click', closeModal);
 
             const canvas = modalEl.querySelector('#signature_canvas');
             const ctx = canvas.getContext('2d');
@@ -971,20 +996,17 @@ function initOspForm() {
                 saveBtn.disabled = true;
             });
 
-            const bsModal = new bootstrap.Modal(modalEl);
-
             saveBtn.addEventListener('click', function () {
                 hiddenInput.value = canvas.toDataURL('image/png');
                 renderTrigger();
-                bsModal.hide();
+                closeModal();
             });
 
-            modalEl.addEventListener('shown.bs.modal', resizeCanvas);
-            modalEl.addEventListener('hidden.bs.modal', function () {
-                modalEl.remove();
-            });
-
-            bsModal.show();
+            // requestAnimationFrame en vez de un evento "shown" de Bootstrap
+            // (que no existe sin su JS) — asegura que el modal ya esté
+            // pintado en pantalla (display:block aplicado) antes de medir
+            // su ancho real con getBoundingClientRect() en resizeCanvas().
+            requestAnimationFrame(resizeCanvas);
         }
 
         renderTrigger();
