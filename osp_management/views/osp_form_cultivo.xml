@@ -57,9 +57,9 @@
                         <a href="#sec15" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">15: Post-Cosecha/Almacenamiento/Transporte</a>
                         <a href="#sec16" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">16: Mantenimiento de Registros</a>
                         <a href="#sec17" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">17: Balance de Masas y Trazabilidad</a>
-                        <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Afirmación (Firma)</a>
                         <a href="#sec19" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">19: Historial de Campo - Declaración Jurada</a>
                         <a href="#sec20" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">20: Registro de Búsqueda</a>
+                        <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Afirmación (Firma)</a>
                         <a href="#sec21" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list"><i class="fa fa-paperclip"></i> Adjuntos</a>
                     </div>
                 </div>
@@ -763,25 +763,13 @@
     <textarea class="form-control osp-input" name="6d_natural_resources" rows="3"><t t-esc="data.get('6d_natural_resources')"/></textarea>
 </div>
 
-<div class="form-check mb-2">
-    <input class="form-check-input osp-input" type="checkbox" name="6e_woodland_na" id="6e_woodland_na" value="yes" t-att-checked="'checked' if data.get('6e_woodland_na') else None"/>
-    <label class="form-check-label" for="6e_woodland_na">N/A</label>
-</div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">6e. ¿Existen zonas boscosas o selváticas? Describa, si las hay.</label>
     <textarea class="form-control osp-input" name="6e_woodland_details" rows="3"><t t-esc="data.get('6e_woodland_details')"/></textarea>
 </div>
-<div class="form-check mb-2">
-    <input class="form-check-input osp-input" type="checkbox" name="6f_wetlands_na" id="6f_wetlands_na" value="yes" t-att-checked="'checked' if data.get('6f_wetlands_na') else None"/>
-    <label class="form-check-label" for="6f_wetlands_na">N/A</label>
-</div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">6f. ¿Existen humedales? Describa, si los hay.</label>
     <textarea class="form-control osp-input" name="6f_wetlands_details" rows="3"><t t-esc="data.get('6f_wetlands_details')"/></textarea>
-</div>
-<div class="form-check mb-2">
-    <input class="form-check-input osp-input" type="checkbox" name="6g_wildlife_na" id="6g_wildlife_na" value="yes" t-att-checked="'checked' if data.get('6g_wildlife_na') else None"/>
-    <label class="form-check-label" for="6g_wildlife_na">N/A</label>
 </div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">6g. ¿Existe fauna silvestre/biodiversidad? Describa, si la hay.</label>
@@ -1029,10 +1017,6 @@
     <h4 class="fw-bold mb-1">SECCIÓN 9: Manejo de la Fertilidad de Suelo y Cultivo</h4>
     <p class="text-muted mb-4">(Norma NOP 205.203 &amp; 205.205)</p>
     <h6 class="fw-bold">Información General y Evaluación:</h6>
-<div class="form-check mb-2">
-    <input class="form-check-input osp-input" type="checkbox" name="9_general_na" id="9_general_na" value="yes" t-att-checked="'checked' if data.get('9_general_na') else None"/>
-    <label class="form-check-label" for="9_general_na">Esta sección no es aplicable a mi operación</label>
-</div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">9a. ¿Cuáles son sus tipos de suelo en general?</label>
     <textarea class="form-control osp-input" name="9a_soil_types" rows="3"><t t-esc="data.get('9a_soil_types')"/></textarea>
@@ -1186,6 +1170,11 @@
     <p class="text-muted small">Use una línea para cada rotación utilizada.</p>
     <p class="text-muted small">Marque (x) abajo si el plan de rotación específico cumple con uno o más de los siguientes objetivos (esté preparado para explicar los detalles si se le solicita):</p>
 
+<div class="form-check mb-2">
+    <input class="form-check-input osp-input" type="checkbox" name="10_perennial_na" id="10_perennial_na" value="yes" t-att-checked="'checked' if data.get('10_perennial_na') else None"/>
+    <label class="form-check-label" for="10_perennial_na">No aplica para operadores con cultivos perennes</label>
+</div>
+
 <div class="table-responsive border rounded mb-3">
     <table class="table table-borderless table-hover mb-0">
         <thead class="bg-light text-muted small">
@@ -1196,6 +1185,11 @@
 </div>
 <button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_rotation"><i class="fa fa-plus"></i> Agregar Plan de Rotación</button>
 <input type="hidden" class="osp-input" name="10_rotation_json" id="10_rotation_json" t-att-value="data.get('10_rotation_json', '[]')"/>
+
+<div class="col-md-12 mb-3">
+    <label class="form-label fw-bold">Detalles o explicaciones adicionales de su Plan de Rotación:</label>
+    <textarea class="form-control osp-input" name="10_additional_details" rows="3"><t t-esc="data.get('10_additional_details')"/></textarea>
+</div>
 
 </div>
 
@@ -1951,41 +1945,6 @@
 
 </div>
 
-                            <div class="tab-pane fade" id="sec18">
-                                <h4 class="fw-bold mb-1">SECCIÓN 18: Afirmación</h4>
-                                <p class="text-muted mb-4">(Norma NOP 205.406)</p>
-                                <div class="alert alert-light border border-success rounded-3 mb-4">
-                                    <p>Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Entiendo que la operación puede estar sujeta a inspección no anunciada y/o muestreo de residuos en cualquier momento que se considere apropiado para asegurar el cumplimiento con la Ley de Producción Orgánica de Alimentos de 1990 y las Reglas y Regulaciones del Programa Orgánico Nacional. Entiendo que la aceptación de este cuestionario de ninguna manera implica otorgamiento de la certificación por parte del Agente certificador. Acepto proporcionar más información según lo requiera el Agente certificador.</p>
-                                    <p>Afirmo que estoy al tanto de las inspecciones sin previo aviso, en las que soy consciente de que pueden ser inspecciones adicionales, basadas en una selección aleatoria, alto riesgo, quejas y/o investigaciones.</p>
-                                    <p>Afirmo que estoy al tanto de que pueden realizarse auditorías de la cadena de suministro, debido a los criterios basados en el riesgo establecidos por los organismos de certificación.</p>
-                                    <h5 class="text-success fw-bold">*Firma electrónica es aceptada*</h5>
-
-                                    <div class="mb-3 mt-3">
-                                        <label class="form-label fw-bold">Nombre: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control osp-input" name="18_name" id="req_name" t-att-value="data.get('18_name')"/>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label fw-bold">Firma: <span class="text-danger">*</span></label>
-                                        <input type="hidden" class="osp-input" name="18_signature" id="req_sign" t-att-value="data.get('18_signature')"/>
-                                        <div id="signature_pad_wrap"></div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label fw-bold">Fecha: <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control osp-input" name="18_date" id="req_date" t-att-value="data.get('18_date')"/>
-                                    </div>
-                                </div>
-
-                                <button t-if="not is_admin and not readonly" type="button" class="btn btn-success btn-lg w-100 fw-bold" id="btn_submit_osp">
-                                    Enviar Plan de Sistema Orgánico
-                                </button>
-                                <div t-if="is_admin" class="alert alert-secondary mb-0">
-                                    <i class="fa fa-info-circle"></i> Como Administrador de OSP, tus cambios se guardan con el botón "Guardar cambios" de arriba. Este formulario ya fue enviado por el cliente, por lo que aquí no existe un botón de reenvío.
-                                </div>
-                                <div t-if="readonly" class="alert alert-info mb-0">
-                                    <i class="fa fa-lock"></i> Este formulario ya fue enviado y está en revisión (solo lectura).
-                                </div>
-                            </div>
-
                             <div class="tab-pane fade" id="sec19">
     <h4 class="fw-bold mb-1">SECCIÓN 19: Historial de Campo - Declaración Jurada</h4>
     <p class="text-muted mb-4">(Solo para los NUEVOS campos agregados a la solicitud de certificación)</p>
@@ -2023,6 +1982,41 @@
 <input type="hidden" class="osp-input" name="20_search_record_json" id="20_search_record_json" t-att-value="data.get('20_search_record_json', '[]')"/>
 
 </div>
+
+                            <div class="tab-pane fade" id="sec18">
+                                <h4 class="fw-bold mb-1">SECCIÓN 18: Afirmación</h4>
+                                <p class="text-muted mb-4">(Norma NOP 205.406)</p>
+                                <div class="alert alert-light border border-success rounded-3 mb-4">
+                                    <p>Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Entiendo que la operación puede estar sujeta a inspección no anunciada y/o muestreo de residuos en cualquier momento que se considere apropiado para asegurar el cumplimiento con la Ley de Producción Orgánica de Alimentos de 1990 y las Reglas y Regulaciones del Programa Orgánico Nacional. Entiendo que la aceptación de este cuestionario de ninguna manera implica otorgamiento de la certificación por parte del Agente certificador. Acepto proporcionar más información según lo requiera el Agente certificador.</p>
+                                    <p>Afirmo que estoy al tanto de las inspecciones sin previo aviso, en las que soy consciente de que pueden ser inspecciones adicionales, basadas en una selección aleatoria, alto riesgo, quejas y/o investigaciones.</p>
+                                    <p>Afirmo que estoy al tanto de que pueden realizarse auditorías de la cadena de suministro, debido a los criterios basados en el riesgo establecidos por los organismos de certificación.</p>
+                                    <h5 class="text-success fw-bold">*Firma electrónica es aceptada*</h5>
+
+                                    <div class="mb-3 mt-3">
+                                        <label class="form-label fw-bold">Nombre: <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control osp-input" name="18_name" id="req_name" t-att-value="data.get('18_name')"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Firma: <span class="text-danger">*</span></label>
+                                        <input type="hidden" class="osp-input" name="18_signature" id="req_sign" t-att-value="data.get('18_signature')"/>
+                                        <div id="signature_pad_wrap"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Fecha: <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control osp-input" name="18_date" id="req_date" t-att-value="data.get('18_date')"/>
+                                    </div>
+                                </div>
+
+                                <button t-if="not is_admin and not readonly" type="button" class="btn btn-success btn-lg w-100 fw-bold" id="btn_submit_osp">
+                                    Enviar Plan de Sistema Orgánico
+                                </button>
+                                <div t-if="is_admin" class="alert alert-secondary mb-0">
+                                    <i class="fa fa-info-circle"></i> Como Administrador de OSP, tus cambios se guardan con el botón "Guardar cambios" de arriba. Este formulario ya fue enviado por el cliente, por lo que aquí no existe un botón de reenvío.
+                                </div>
+                                <div t-if="readonly" class="alert alert-info mb-0">
+                                    <i class="fa fa-lock"></i> Este formulario ya fue enviado y está en revisión (solo lectura).
+                                </div>
+                            </div>
 
                             <div class="tab-pane fade" id="sec21">
                                 <h4 class="fw-bold mb-4"><i class="fa fa-paperclip"></i> Adjuntos</h4>

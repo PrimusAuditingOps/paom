@@ -123,11 +123,8 @@ CULTIVO_REPORT_SECTIONS = [
             {'key': '6b_erosion_problems', 'label': '6b. Problemas de erosión de suelo', 'type': 'textarea'},
             {'key': '6c_erosion_mitigation', 'label': '6c. Esfuerzos para reducir erosión / monitoreo', 'type': 'textarea'},
             {'key': '6d_natural_resources', 'label': '6d. Recursos naturales dentro/adyacentes a la operación', 'type': 'textarea'},
-            {'key': '6e_woodland_na', 'label': 'N/A (zonas boscosas)', 'type': 'checkbox'},
             {'key': '6e_woodland_details', 'label': '6e. ¿Existen zonas boscosas o selváticas?', 'type': 'textarea'},
-            {'key': '6f_wetlands_na', 'label': 'N/A (humedales)', 'type': 'checkbox'},
             {'key': '6f_wetlands_details', 'label': '6f. ¿Existen humedales?', 'type': 'textarea'},
-            {'key': '6g_wildlife_na', 'label': 'N/A (fauna silvestre)', 'type': 'checkbox'},
             {'key': '6g_wildlife_details', 'label': '6g. ¿Existe fauna silvestre/biodiversidad?', 'type': 'textarea'},
             {'key': '6h_water_source', 'label': '6h. Fuente de agua', 'type': 'text'},
             {'key': '6i_water_use', 'label': '6i. Uso del agua en la operación', 'type': 'text'},
@@ -178,7 +175,6 @@ CULTIVO_REPORT_SECTIONS = [
     {
         'title': 'Sección 9: Manejo de la Fertilidad de Suelo y Cultivo (Norma NOP 205.203 & 205.205)',
         'fields': [
-            {'key': '9_general_na', 'label': 'Esta sección no es aplicable a mi operación', 'type': 'checkbox'},
             {'key': '9a_soil_types', 'label': '9a. Tipos de suelo en general', 'type': 'textarea'},
             {'key': '9b_soil_limitations', 'label': '9b. Limitaciones químicas/físicas/biológicas del suelo', 'type': 'textarea'},
             {'key': '9c_fertility_practices', 'label': '9c. Prácticas para mejorar/mantener fertilidad del suelo', 'type': 'textarea'},
@@ -207,10 +203,12 @@ CULTIVO_REPORT_SECTIONS = [
     {
         'title': 'Sección 10: Rotación de Cultivos (Norma NOP 205.204 & 205.205)',
         'fields': [
+            {'key': '10_perennial_na', 'label': 'No aplica para operadores con cultivos perennes', 'type': 'checkbox'},
             {'key': '10_rotation_json', 'label': 'Planes de Rotación de Cultivos', 'type': 'table',
              'columns': [('rotation_plan', 'Plan de Rotación'), ('increase_organic_matter', 'Materia Orgánica'),
                          ('nutrient_management', 'Manejo de Nutrientes'), ('pest_disease_management', 'Manejo de Plagas/Enf.'),
                          ('erosion_control', 'Control de Erosión'), ('other', 'Otros')]},
+            {'key': '10_additional_details', 'label': 'Detalles o explicaciones adicionales de su Plan de Rotación', 'type': 'textarea'},
         ],
     },
     {
@@ -354,15 +352,6 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 18: Afirmación (Norma NOP 205.406)',
-        'fields': [
-            {'type': 'static', 'text': 'Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Firma electrónica es aceptada.'},
-            {'key': '18_name', 'label': 'Nombre', 'type': 'text'},
-            {'key': '18_signature', 'label': 'Firma', 'type': 'image'},
-            {'key': '18_date', 'label': 'Fecha', 'type': 'date'},
-        ],
-    },
-    {
         'title': 'Sección 19: Historial de Campo - Declaración Jurada (Solo para los NUEVOS campos agregados a la solicitud de certificación)',
         'fields': [
             {'type': 'static', 'text': 'Solo para campos NUEVOS agregados a la solicitud de certificación. Complete esta hoja para cada campo que aún no ha sido certificado.'},
@@ -391,6 +380,15 @@ CULTIVO_REPORT_SECTIONS = [
              'columns': [('crop', 'Cultivo'), ('traits', 'Características'), ('why_not_met', 'Por Qué No Cumple'),
                          ('suppliers_contacted', 'Proveedores Contactados'), ('date_contacted', 'Fecha de Contacto'),
                          ('method_of_contact', 'Método de Contacto')]},
+        ],
+    },
+    {
+        'title': 'Sección 18: Afirmación (Norma NOP 205.406)',
+        'fields': [
+            {'type': 'static', 'text': 'Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Firma electrónica es aceptada.'},
+            {'key': '18_name', 'label': 'Nombre', 'type': 'text'},
+            {'key': '18_signature', 'label': 'Firma', 'type': 'image'},
+            {'key': '18_date', 'label': 'Fecha', 'type': 'date'},
         ],
     },
 ]
