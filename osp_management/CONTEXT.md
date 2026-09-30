@@ -620,3 +620,49 @@ Continuación directa de §46. El patrón es el mismo en los 6 formularios: `<op
 - **1s de Cultivo deliberadamente NO tocado** — el usuario pidió ignorar ese punto específico (ver nota de descarte antes de §45).
 - Sin cambios en ningún `views/osp_form_*.xml` — el mapa de opciones vive solo en los manifests del reporte PDF, que ya declaran esta información de forma independiente del HTML.
 - Registros existentes conservan cualquier valor viejo de los campos `_na` eliminados como dato huérfano en el JSON histórico — no se migra, mismo criterio de siempre.
+
+## 48. Cultivo 8a/8g — tablas Semillas y Material de Propagación, seguían compartidas con Crop en inglés (IMPLEMENTADO — 30/sep)
+
+Encontrado en el repaso comparativo contra el documento §40 (punto 29 de la lista): Cultivo seguía usando `TABLE_CONFIGS.seeds`/`planting_stock` de Crop sin forkear — mismo patrón de "Cultivo comparte tabla con Crop, encabezados en español pero opciones internas en inglés" ya corregido esta sesión para 5d/12a/4h/4j (§40/§43).
+
+- **`static/src/js/osp_form.js`**: nuevos `cultivo_seeds` (8a) y `cultivo_planting_stock` (8g), forks independientes de `seeds`/`planting_stock` (Crop). Terminología de certificación traducida y **confirmada explícitamente con el usuario antes de tocar código** (términos NOP/USDA, no se adivinó):
+  - `seed_type` (8a): Orgánico Certificado / No-Orgánico: Sin Tratar / No-Orgánico: Tratado / Material de Siembra Orgánico Certificado / Material de Siembra No-Orgánico: Sin Tratar / Material de Siembra No-Orgánico: Tratado.
+  - `seedling_type` (8g): Orgánico Certificado / No-Orgánico.
+  - Las columnas Y/N (declaración No-OGM, formulario de búsqueda) se dejaron como "Y"/"N" a propósito — mismo criterio que el resto de tablas del módulo, no se tradujeron a "Sí"/"No".
+- `views/osp_form_cultivo.xml`: ids actualizados (`seeds_tbody`→`cultivo_seeds_tbody`, `btn_add_seed`→`btn_add_cultivo_seed`, `planting_stock_tbody`→`cultivo_planting_stock_tbody`, `btn_add_planting_stock`→`btn_add_cultivo_planting_stock`).
+- No se tocó ningún reporte PDF — son tablas `type: 'table'`, solo imprimen el valor ya guardado como texto.
+- **Sigue pendiente de la comparación completa contra §40**: 15m de Cultivo (falta "Especifique" para "Sí"), 6c/6f de Manejo (inconsistencia de formato, necesita revisar imagen), 12i de Manejo (falta texto para "Otros"), la pregunta "primera vez/renovación" en el PDF de los 3 formularios (label genérico + valor crudo en inglés), 1t/1u en el PDF (mismo problema, nunca se les aplicó la causa raíz #2), y 1s de Manejo (campo distinto al 1s de Cultivo que se descartó, sigue sin corregir).
+
+## 49. Cultivo 14a — tabla de Equipo, seguía compartida con Crop en inglés (IMPLEMENTADO — 30/sep)
+
+Punto 33 de la comparación contra §40, mismo patrón que §48 pero sin terminología NOP/USDA de por medio — más simple. El encabezado de la tabla en Cultivo ya existía en español ("PROPIO, ALQUILADO O COMPARTIDO") y sirvió como referencia directa para resolver la única palabra con ambigüedad real ("Custom"), confirmada con el usuario antes de tocar código.
+
+- **`static/src/js/osp_form.js`**: nuevo `cultivo_equipment` (14a), fork independiente de `equipment` (Crop):
+  - `owned_rented_custom`: Propio / Alquilado / **Compartido** (no "Por contrato" — se usó la palabra que ya traía el encabezado existente de la tabla, en vez de introducir una nueva).
+  - `used_for`: Orgánico / No-Orgánico / Ambos (Orgánico y No-Orgánico).
+- `views/osp_form_cultivo.xml`: ids actualizados (`equipment_tbody`→`cultivo_equipment_tbody`, `btn_add_equipment`→`btn_add_cultivo_equipment`).
+- Sin cambios en ningún reporte PDF, mismo motivo que §48 (tabla `type: 'table'`, imprime el valor ya guardado tal cual).
+
+## 50. Puntos 34 y 46 — 15m de Cultivo y 12i de Manejo, faltaba texto libre condicional (IMPLEMENTADO — 30/sep)
+
+Dos puntos directos, sin terminología técnica de por medio.
+
+- **15m ("¿Almacena en un almacén externo?")** — faltaba el textarea "Especifique" cuando la respuesta es "Sí" (`osp-conditional data-conditional-value="Yes"`, campo nuevo `15m_offsite_storage_specify`). Aplicado en **Cultivo y en su gemelo Crop** (misma pregunta exacta, mismo campo, confirmado por grep antes de tocar código).
+- **12i ("¿Registros documentados?")** — dentro del checkbox-group condicional "¿Qué registros se usan?", la opción "Otros"/"Other" no tenía campo de texto para especificar. Se agregó (`osp-conditional data-conditional-field="12i_records_used" data-conditional-value="Otros"/"Other"`, aprovechando que `isConditionMet()` ya soporta condicionales sobre checkbox-groups vía `data-group`, sin necesitar ningún cambio de JS). Aplicado en **Manejo o Proceso y en su gemelo Handler** (mismo campo exacto en ambos, confirmado por grep).
+- Reflejado en los 4 reportes PDF correspondientes (`show_if` apuntando a la casilla condicionante en cada caso).
+
+## 51. Punto 43 — 6c/6f de Manejo, inconsistencia de formato de descripción (IMPLEMENTADO — 30/sep)
+
+Este punto necesitaba revisar la imagen de referencia del documento original (`Ej: 6c, 6f:`) — se localizó extrayendo el `r:embed` (rId18 → `word/media/image13.png`) justo después del texto "6c, 6f" en el `document.xml` del `.docx`, ya que la extracción de texto plano no captura imágenes.
+
+- **Hallazgo confirmado por la captura**: 6c ("¿Cuál es su fuente de agua?") y 6f ("¿En qué actividad se utiliza el agua?") eran `<input type="text">` de una sola línea, mientras 6e ("Describa cualquier práctica...", en el mismo bloque de preguntas) ya era un `<textarea>` de varias líneas — inconsistencia visual real, confirmada con el usuario antes de tocar código.
+- **Corrección**: 6c y 6f convertidos a `<textarea>` (mismo patrón que 6e) en **Manejo o Proceso y en su gemelo Handler** (mismo campo exacto, mismo bloque "Uso de Agua" con la misma numeración 6c-6g en ambos formularios — Cultivo no tiene esta sección con esta numeración, no aplica).
+- Reflejado en ambos reportes PDF (`'type': 'text'` → `'type': 'textarea'`, para que el motor use el bloque `kind: 'textarea'` en vez de una sola línea).
+
+## 52. Últimos 3 puntos de la comparación contra §40 — cierre del documento original completo (IMPLEMENTADO — 30/sep)
+
+- **"¿Primera vez o actualización?" (`1_applicant_type`)**: mismo campo exacto (`'First time'`/`'Update'`) en los 6 formularios — el manifest lo trataba como `'text'` con un label genérico ("Choose one"/"Seleccione una opción"), así que el PDF mostraba el valor crudo en inglés sin contexto de qué pregunta era. Corregido a `'select'` en los 6, con label descriptivo real ("First time applicant or update?"/"¿Primera aplicación o actualización?") y opciones traducidas.
+- **1t/1u (horarios de contacto/inspección)**: mismo problema de causa raíz #2 que nunca se había aplicado a este campo específico — corregido en **los 3 formularios en español** (Manejo o Proceso, Comercializador, Cultivo) con las 5 opciones ya estandarizadas en §42 (Morning/Afternoon/Evening/Morning & Afternoon/Any time → Mañana/Tarde/Noche/Mañana y Tarde/Cualquier tiempo). Los formularios en inglés no lo necesitaban — su valor guardado ya es idéntico a su etiqueta visible.
+- **1s de Manejo / "¿Produce o maneja?" (`1s`/`1t_produce_or_handle`)**: al investigar se encontró que este es el MISMO campo en los 6 formularios (`Organic & Non-Organic Product`/`Organic Only`), con labels visibles distintos por formulario ("Orgánico y No-Orgánico"/"Solo Orgánico" en Manejo; "Orgánico y No-Orgánico"/"Solamente Orgánico" en Comercializador y Cultivo — nótese la diferencia real "Solo" vs "Solamente" entre formularios, respetada tal cual está en cada uno). Corregido en los 3 formularios en español; Crop/Handler/Handler Trader no lo necesitaban por la misma razón que 1t/1u.
+
+**Con esto, el documento completo de retroalimentación (§40) y todos los puntos descubiertos durante su revisión quedan cerrados** — implementados (§41-§52) o descartados explícitamente a petición del usuario (ver nota antes de §45).

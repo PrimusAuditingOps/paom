@@ -773,7 +773,7 @@
     </div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6c. ¿Cuál es su fuente de agua?</label>
-        <input type="text" class="form-control osp-input" name="6c_water_source" t-att-value="data.get('6c_water_source')"/>
+        <textarea class="form-control osp-input" name="6c_water_source" rows="2"><t t-esc="data.get('6c_water_source')"/></textarea>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">6d. Adjunte una copia del análisis de agua que verifique la potabilidad si el agua proviene de una fuente no municipal. ¿El documento está adjuntado?</label>
@@ -794,7 +794,7 @@
     </div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6f. ¿En qué actividad se utiliza el agua en la operación?</label>
-        <input type="text" class="form-control osp-input" name="6f_water_use_capacity" t-att-value="data.get('6f_water_use_capacity')"/>
+        <textarea class="form-control osp-input" name="6f_water_use_capacity" rows="2"><t t-esc="data.get('6f_water_use_capacity')"/></textarea>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">6g. ¿Se utilizan tratamientos para el agua?</label>
@@ -1518,6 +1518,12 @@
                 <input class="form-check-input osp-input" type="checkbox" data-group="12i_records_used" value="Otros" id="m12i_3" t-att-checked="'checked' if 'Otros' in (data.get('12i_records_used') or []) else None"/>
                 <label class="form-check-label" for="m12i_3">Otros</label>
             </div>
+        </div>
+        <div class="osp-conditional" data-conditional-field="12i_records_used" data-conditional-value="Otros">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Si es otro, especifique:</label>
+            <input type="text" class="form-control osp-input" name="12i_records_used_other" t-att-value="data.get('12i_records_used_other')"/>
+        </div>
         </div>
         <p class="text-muted small">Enumere todos los materiales de control de plagas utilizados en la Lista de insumos (Sección 9).</p>
     </div>

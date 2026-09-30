@@ -767,7 +767,7 @@
     </div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6c. What is your water source?</label>
-        <input type="text" class="form-control osp-input" name="6c_water_source" t-att-value="data.get('6c_water_source')"/>
+        <textarea class="form-control osp-input" name="6c_water_source" rows="2"><t t-esc="data.get('6c_water_source')"/></textarea>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">6d. Attach a copy of the water analysis verifying potability if water is from a non-municipal source. Is the document attached?</label>
@@ -788,7 +788,7 @@
     </div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6f. In what capacity is water used?</label>
-        <input type="text" class="form-control osp-input" name="6f_water_use_capacity" t-att-value="data.get('6f_water_use_capacity')"/>
+        <textarea class="form-control osp-input" name="6f_water_use_capacity" rows="2"><t t-esc="data.get('6f_water_use_capacity')"/></textarea>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">6g. Are there onsite water treatments used?</label>
@@ -1508,6 +1508,12 @@
                 <input class="form-check-input osp-input" type="checkbox" data-group="12i_records_used" value="Other" id="h12i_3" t-att-checked="'checked' if 'Other' in (data.get('12i_records_used') or []) else None"/>
                 <label class="form-check-label" for="h12i_3">Other</label>
             </div>
+        </div>
+        <div class="osp-conditional" data-conditional-field="12i_records_used" data-conditional-value="Other">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">If other, specify:</label>
+            <input type="text" class="form-control osp-input" name="12i_records_used_other" t-att-value="data.get('12i_records_used_other')"/>
+        </div>
         </div>
         <p class="text-muted small">List all pest control materials used on the Inputs log (Section 9).</p>
     </div>

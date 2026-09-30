@@ -202,7 +202,7 @@ function initOspForm() {
                 { key: 'international_market', type: 'text', placeholder: 'Mercados internacionales / solicitud de equivalencia...' },
             ],
         },
-        seeds: { // 8a
+        seeds: { // 8a (Crop)
             jsonInputId: '8a_seeds_json', tbodyId: 'seeds_tbody', addBtnId: 'btn_add_seed',
             columns: [
                 { key: 'crop_variety', type: 'text', placeholder: 'Crop / Variety...' },
@@ -213,12 +213,34 @@ function initOspForm() {
                 { key: 'seed_search_form_completed', type: 'select', options: ['Y', 'N'] },
             ],
         },
-        planting_stock: { // 8g
+        cultivo_seeds: { // 8a (Cultivo) — config propia, ya no comparte la de Crop
+            jsonInputId: '8a_seeds_json', tbodyId: 'cultivo_seeds_tbody', addBtnId: 'btn_add_cultivo_seed',
+            columns: [
+                { key: 'crop_variety', type: 'text', placeholder: 'Cultivo/Variedad...' },
+                { key: 'brand_supplier', type: 'text', placeholder: 'Marca/Proveedor...' },
+                { key: 'seed_type', type: 'select', options: ['Orgánico Certificado', 'No-Orgánico: Sin Tratar', 'No-Orgánico: Tratado', 'Material de Siembra Orgánico Certificado', 'Material de Siembra No-Orgánico: Sin Tratar', 'Material de Siembra No-Orgánico: Tratado'] },
+                { key: 'non_organic_treatment', type: 'text', placeholder: 'Si es tratada: tipo/marca del tratamiento...' },
+                { key: 'non_gmo_documented', type: 'select', options: ['Y', 'N'] },
+                { key: 'seed_search_form_completed', type: 'select', options: ['Y', 'N'] },
+            ],
+        },
+        planting_stock: { // 8g (Crop)
             jsonInputId: '8g_planting_stock_json', tbodyId: 'planting_stock_tbody', addBtnId: 'btn_add_planting_stock',
             columns: [
                 { key: 'type_crop_variety', type: 'text', placeholder: 'Type (Crop - Variety)...' },
                 { key: 'source_supplier', type: 'text', placeholder: 'Planting stock source / supplier...' },
                 { key: 'seedling_type', type: 'select', options: ['Certified Organic', 'Non-Organic'] },
+                { key: 'date_planted', type: 'date', placeholder: '' },
+                { key: 'expected_harvest_date', type: 'date', placeholder: '' },
+                { key: 'search_form_attached', type: 'select', options: ['Y', 'N'] },
+            ],
+        },
+        cultivo_planting_stock: { // 8g (Cultivo) — config propia, ya no comparte la de Crop
+            jsonInputId: '8g_planting_stock_json', tbodyId: 'cultivo_planting_stock_tbody', addBtnId: 'btn_add_cultivo_planting_stock',
+            columns: [
+                { key: 'type_crop_variety', type: 'text', placeholder: 'Tipo (Cultivo - Variedad)...' },
+                { key: 'source_supplier', type: 'text', placeholder: 'Fuente/Proveedor del material...' },
+                { key: 'seedling_type', type: 'select', options: ['Orgánico Certificado', 'No-Orgánico'] },
                 { key: 'date_planted', type: 'date', placeholder: '' },
                 { key: 'expected_harvest_date', type: 'date', placeholder: '' },
                 { key: 'search_form_attached', type: 'select', options: ['Y', 'N'] },
@@ -266,13 +288,22 @@ function initOspForm() {
                 { key: 'restrictions_compliance_description', type: 'text', placeholder: 'Cumplimiento Anotación NOP...' },
             ],
         },
-        equipment: { // 14a
+        equipment: { // 14a (Crop)
             jsonInputId: '14a_equipment_json', tbodyId: 'equipment_tbody', addBtnId: 'btn_add_equipment',
             columns: [
                 { key: 'equipment_name_model_code', type: 'text', placeholder: 'Equipment Name / Model / Code...' },
                 { key: 'owned_rented_custom', type: 'select', options: ['Owned', 'Rented', 'Custom'] },
                 { key: 'used_for', type: 'select', options: ['Organic', 'Non-Organic', 'Both Organic and Non-Organic'] },
                 { key: 'cleaning_method', type: 'text', placeholder: 'How is equipment cleaned before use...' },
+            ],
+        },
+        cultivo_equipment: { // 14a (Cultivo) — config propia, ya no comparte la de Crop
+            jsonInputId: '14a_equipment_json', tbodyId: 'cultivo_equipment_tbody', addBtnId: 'btn_add_cultivo_equipment',
+            columns: [
+                { key: 'equipment_name_model_code', type: 'text', placeholder: 'Nombre del Equipo/Modelo/Código...' },
+                { key: 'owned_rented_custom', type: 'select', options: ['Propio', 'Alquilado', 'Compartido'] },
+                { key: 'used_for', type: 'select', options: ['Orgánico', 'No-Orgánico', 'Ambos (Orgánico y No-Orgánico)'] },
+                { key: 'cleaning_method', type: 'text', placeholder: '¿Cómo se limpia antes de su uso en campos orgánicos?...' },
             ],
         },
         // "history" (19) se retiró de aquí — la Sección 19 dejó de ser una

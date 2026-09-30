@@ -1803,6 +1803,12 @@
             <label class="form-check-label" for="15m_offsite_storage_no">No</label>
         </div>
 </div>
+<div class="osp-conditional" data-conditional-field="15m_offsite_storage" data-conditional-value="Yes">
+<div class="col-md-6 mb-3">
+    <label class="form-label fw-bold">Specify:</label>
+    <input type="text" class="form-control osp-input" name="15m_offsite_storage_specify" t-att-value="data.get('15m_offsite_storage_specify')"/>
+</div>
+</div>
 
 <h6 class="fw-bold mt-4">Transportation:</h6>
 <div class="form-check mb-2">

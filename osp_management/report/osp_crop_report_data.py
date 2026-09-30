@@ -30,7 +30,8 @@ CROP_REPORT_SECTIONS = [
     {
         'title': 'Section 1: General Information (NOP Rule 205.401)',
         'fields': [
-            {'key': '1_applicant_type', 'label': 'Choose one', 'type': 'text'},
+            {'key': '1_applicant_type', 'label': 'First time applicant or update?', 'type': 'select',
+             'options': [('First time', 'First time applicant'), ('Update', 'Update of a previously submitted plan')]},
             {'key': '1a_org_name', 'label': '1a. Organization Name', 'type': 'text'},
             {'key': '1b_dba_name', 'label': '1b. dba Name (if applicable)', 'type': 'text'},
             {'key': '1c_address', 'label': '1c. Address', 'type': 'text'},
@@ -326,6 +327,7 @@ CROP_REPORT_SECTIONS = [
             {'key': '15k_storage_cleaning', 'label': '15k. Cleaning of storage units prior to organic crop storage', 'type': 'textarea'},
             {'key': '15l_pest_control_storage', 'label': '15l. Pest/rodent control in storage areas', 'type': 'textarea'},
             {'key': '15m_offsite_storage', 'label': '15m. Are goods ever stored at an offsite warehouse?', 'type': 'yn'},
+            {'key': '15m_offsite_storage_specify', 'label': 'Specify', 'type': 'text', 'show_if': {'field': '15m_offsite_storage', 'value': 'Yes'}},
             {'key': '15_transport_na', 'label': 'Transportation section not applicable to my operation', 'type': 'checkbox'},
             {'key': '15n_transport_responsible', 'label': '15n. Who is responsible for arranging transportation?', 'type': 'text'},
             {'key': '15n_transport_responsible_other', 'label': 'If other, specify', 'type': 'text', 'show_if': {'field': '15n_transport_responsible', 'value': 'Other'}},

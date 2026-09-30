@@ -10,7 +10,8 @@ HANDLER_TRADER_REPORT_SECTIONS = [
     {
         'title': 'Section 1: General Information (NOP Rule 205.201 & 205.401)',
         'fields': [
-            {'key': '1_applicant_type', 'label': 'Choose one', 'type': 'text'},
+            {'key': '1_applicant_type', 'label': 'First time applicant or update?', 'type': 'select',
+             'options': [('First time', 'First time applicant'), ('Update', 'Update of a previously submitted plan')]},
             {'key': '1a_org_name', 'label': '1a. Organization Name', 'type': 'text'},
             {'key': '1b_dba_name', 'label': '1b. Name (if applicable)', 'type': 'text'},
             {'key': '1c_address', 'label': '1c. Address', 'type': 'text'},

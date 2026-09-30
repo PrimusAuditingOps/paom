@@ -928,10 +928,10 @@
         <thead class="bg-light text-muted small">
             <tr><th>CULTIVO/VARIEDAD</th><th>MARCA/PROVEEDOR</th><th>TIPO DE SEMILLA</th><th>SI NO ES ORGÁNICA PERO TRATADA: TIPO DE TRATAMIENTO</th><th>¿DECLARACIÓN NO-OGM?</th><th>¿FORMULARIO DE BÚSQUEDA COMPLETADO?</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
-        <tbody id="seeds_tbody"></tbody>
+        <tbody id="cultivo_seeds_tbody"></tbody>
     </table>
 </div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_seed"><i class="fa fa-plus"></i> Agregar Semilla</button>
+<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_cultivo_seed"><i class="fa fa-plus"></i> Agregar Semilla</button>
 <input type="hidden" class="osp-input" name="8a_seeds_json" id="8a_seeds_json" t-att-value="data.get('8a_seeds_json', '[]')"/>
 <div class="form-check mb-2 small text-muted">
     <input class="form-check-input osp-input" type="checkbox" name="8a_seeds_attachment_needed" id="8a_seeds_attachment_needed" value="yes" t-att-checked="'checked' if data.get('8a_seeds_attachment_needed') else None"/>
@@ -1005,10 +1005,10 @@
         <thead class="bg-light text-muted small">
             <tr><th>TIPO (CULTIVO - VARIEDAD)</th><th>FUENTE/PROVEEDOR DEL MATERIAL</th><th>TIPO DE MATERIAL</th><th>FECHA DE PLANTACIÓN (SI NO ES ORGÁNICO)</th><th>FECHA DE COSECHA TENTATIVA (SI NO ES ORGÁNICO)</th><th>¿FORMULARIO DE BÚSQUEDA ADJUNTO? (SI NO ES ORGÁNICO)</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
-        <tbody id="planting_stock_tbody"></tbody>
+        <tbody id="cultivo_planting_stock_tbody"></tbody>
     </table>
 </div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_planting_stock"><i class="fa fa-plus"></i> Agregar Material de Propagación</button>
+<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_cultivo_planting_stock"><i class="fa fa-plus"></i> Agregar Material de Propagación</button>
 <input type="hidden" class="osp-input" name="8g_planting_stock_json" id="8g_planting_stock_json" t-att-value="data.get('8g_planting_stock_json', '[]')"/>
 
 </div>
@@ -1479,10 +1479,10 @@
         <thead class="bg-light text-muted small">
             <tr><th>NOMBRE DEL EQUIPO/MODELO/CÓDIGO</th><th>PROPIO, ALQUILADO O COMPARTIDO</th><th>CULTIVO PARA EL QUE SE UTILIZA</th><th>¿CÓMO SE LIMPIA ANTES DE SU USO EN CAMPOS ORGÁNICOS?</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
-        <tbody id="equipment_tbody"></tbody>
+        <tbody id="cultivo_equipment_tbody"></tbody>
     </table>
 </div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_equipment"><i class="fa fa-plus"></i> Agregar Equipo</button>
+<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_cultivo_equipment"><i class="fa fa-plus"></i> Agregar Equipo</button>
 <input type="hidden" class="osp-input" name="14a_equipment_json" id="14a_equipment_json" t-att-value="data.get('14a_equipment_json', '[]')"/>
 
 <h6 class="fw-bold mt-4">Cosecha:</h6>
@@ -1727,6 +1727,12 @@
             <input class="form-check-input osp-input" type="radio" name="15m_offsite_storage" id="cu15m_no" value="No" t-att-checked="'checked' if data.get('15m_offsite_storage') == 'No' else None"/>
             <label class="form-check-label" for="cu15m_no">No</label>
         </div>
+</div>
+<div class="osp-conditional" data-conditional-field="15m_offsite_storage" data-conditional-value="Yes">
+<div class="col-md-6 mb-3">
+    <label class="form-label fw-bold">Especifique:</label>
+    <input type="text" class="form-control osp-input" name="15m_offsite_storage_specify" t-att-value="data.get('15m_offsite_storage_specify')"/>
+</div>
 </div>
 
 <h6 class="fw-bold mt-4">Transporte:</h6>
