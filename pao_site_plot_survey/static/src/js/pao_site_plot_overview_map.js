@@ -76,7 +76,7 @@ export class PaoSitePlotOverviewMap extends Component {
                 "pao.site.plot",
                 [["sale_order_id", "=", this.saleOrderId]],
                 ["name", "geojson_polygon", "computed_surface_ha", "declared_surface_ha",
-                 "state", "location", "variety"]
+                 "state", "location", "variety", "center_lat", "center_lng"]
             );
             await this._loadServices();
             try {
@@ -158,40 +158,53 @@ export class PaoSitePlotOverviewMap extends Component {
         const chainEntries = [];
 
         this.state.sites.forEach((site, index) => {
-            if (!site.geojson_polygon) {
-                return;
-            }
-            let geo;
-            try {
-                geo = JSON.parse(site.geojson_polygon);
-            } catch {
-                return;
-            }
-            const path = geo.coordinates[0].map(([lng, lat]) => ({ lat, lng }));
-            path.forEach((p) => bounds.extend(p));
             const color = SITE_COLOR_PALETTE[index % SITE_COLOR_PALETTE.length];
 
-            const polygon = new google.maps.Polygon({
-                paths: path,
-                map: this.map,
-                strokeColor: color,
-                fillColor: color,
-                fillOpacity: 0.25,
-                strokeWeight: 2,
-                clickable: true,
-            });
-            // Polygon clicks don't bubble to the map's own "click" listener,
-            // so forward them manually while a measurement is in progress -
-            // otherwise clicking on top of a site would never register as a
-            // measurement point.
-            polygon.addListener("click", (ev) => {
-                if (this.state.measuring) {
-                    this._addMeasurePoint(ev.latLng);
+            if (site.geojson_polygon) {
+                let geo;
+                try {
+                    geo = JSON.parse(site.geojson_polygon);
+                } catch {
+                    geo = null;
                 }
-            });
+                if (geo) {
+                    const path = geo.coordinates[0].map(([lng, lat]) => ({ lat, lng }));
+                    path.forEach((p) => bounds.extend(p));
 
-            const centroid = this._centroid(path);
-            chainEntries.push({ site, point: centroid });
+                    const polygon = new google.maps.Polygon({
+                        paths: path,
+                        map: this.map,
+                        strokeColor: color,
+                        fillColor: color,
+                        fillOpacity: 0.25,
+                        strokeWeight: 2,
+                        clickable: true,
+                    });
+                    // Polygon clicks don't bubble to the map's own "click"
+                    // listener, so forward them manually while a measurement
+                    // is in progress - otherwise clicking on top of a site
+                    // would never register as a measurement point.
+                    polygon.addListener("click", (ev) => {
+                        if (this.state.measuring) {
+                            this._addMeasurePoint(ev.latLng);
+                        }
+                    });
+
+                    chainEntries.push({ site, point: this._centroid(path), hasPolygon: true, color });
+                    return;
+                }
+            }
+
+            // No polygon drawn yet, but a site's center_lat/center_lng is
+            // always captured on import/creation - show it as a plain pin
+            // so it's still visible and still counts for the distance
+            // chain/driving route instead of silently disappearing from
+            // the map until someone gets around to drawing it.
+            if (site.center_lat && site.center_lng) {
+                const point = { lat: site.center_lat, lng: site.center_lng };
+                bounds.extend(point);
+                chainEntries.push({ site, point, hasPolygon: false, color });
+            }
         });
 
         const orderedEntries = this._optimizeChainOrder(chainEntries);
@@ -200,16 +213,34 @@ export class PaoSitePlotOverviewMap extends Component {
         // black line and by "Calcular ruta en carro" - a quick visual way to
         // confirm both follow the exact same order.
         orderedEntries.forEach((entry, i) => {
+            const label = {
+                text: `${i + 1}. ${entry.site.name}${entry.hasPolygon ? "" : " (sin polígono)"}`,
+                color: "#ffffff",
+                fontWeight: "bold",
+                fontSize: "12px",
+            };
+            // A drawn site already has its colored polygon as the visual
+            // anchor, so its marker is just the floating name label (no
+            // visible dot). A site with only a point has nothing else on
+            // the map, so give it an actual visible pin - otherwise it
+            // would never show up at all until someone draws it.
+            const icon = entry.hasPolygon
+                ? { path: google.maps.SymbolPath.CIRCLE, scale: 0, labelOrigin: new google.maps.Point(0, 0) }
+                : {
+                      path: google.maps.SymbolPath.CIRCLE,
+                      scale: 8,
+                      fillColor: entry.color,
+                      fillOpacity: 1,
+                      strokeColor: "#ffffff",
+                      strokeWeight: 2,
+                      labelOrigin: new google.maps.Point(0, -16),
+                  };
             new google.maps.Marker({
                 position: entry.point,
                 map: this.map,
                 clickable: false,
-                label: { text: `${i + 1}. ${entry.site.name}`, color: "#ffffff", fontWeight: "bold", fontSize: "12px" },
-                icon: {
-                    path: google.maps.SymbolPath.CIRCLE,
-                    scale: 0,
-                    labelOrigin: new google.maps.Point(0, 0),
-                },
+                label,
+                icon,
             });
         });
 

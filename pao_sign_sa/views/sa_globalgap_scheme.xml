@@ -2,6 +2,51 @@
 <odoo>
     <template id="sa_globalgap_scheme">
 
+        <style>
+            @font-face {
+                font-family: 'MontserratLight';
+                src: url('/pao_sign_sa/static/src/fonts/Montserrat-Light.ttf') format('truetype');
+                font-style: normal;
+                }
+
+            .page p, ul
+            {   
+            text-align:justify; 
+            font-size: 16px;
+            line-height: 1.15;
+            color: black;
+            font-family: 'MontserratLight' !important;
+            }
+            .page table tr td
+            {
+            border:0px; 
+            background-color:white;
+            font-family: 'MontserratLight' !important; 
+            font-size: 16px; color: black;
+            }
+            .page table
+            {
+            width:100%; 
+            }
+            .page h3, h2, h1
+            {
+            font-size: 26px;
+            text-align:center;
+            font-weight:Bold;
+            font-family: 'MontserratLight' !important;
+            color: black;
+            }
+            .page h4
+            {
+            font-size: 18px;
+            text-align:center;
+            font-weight:Bold;
+            font-family: 'MontserratLight' !important;
+            color: black;
+            }
+
+        </style>
+
         <div id="portal_sa_globalgap_content" t-attf-class="#{'card pb-5' if not print else ''}">
             <div id="introduction" class="pb-2 pt-3 card-header bg-white" style="text-align: center;" t-if="print == False">
                     <h3><b>FAN-05 ACUERDO DE SERVICIOS DE CERTIFICACIÓN</b></h3>
@@ -177,8 +222,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <div style="page-break-after: always;">
-                </div>
                 <p>
                     <b>NOTA:</b> Para el concepto de gastos de viaje,  el cliente acepta que son montos estimados y 
                     que estos podrían variar en función de los cargos reales que pudieran generarse el día de la 
@@ -186,6 +229,7 @@
                     Cancelación de acuerdo con la política vigente descrita en nuestro sitio web.  <br/>
                     <b>NOTA 2:</b> Considere, en el total de días de auditoría, una jornada como 8 h con una tolerancia ± 2 h.
                 </p>
+
                 <p>
                     <b>TERCERA. -SERVICIOS. - "El Cliente"</b> tiene derecho a recibir a su entera satisfacción el o los servicios acordados bajo 
                     este instrumento, con la documentación correspondiente que le deberá proporcionar "PAOMX", por el servicio contratado.
@@ -531,12 +575,12 @@
                     <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
                     <ul class="list-inline" style="text-align: center !important;">
                         <li class="list-inline-item">Elaborado Por: A. Iñiguez</li>
-                        <li class="list-inline-item">Revisado Por: M. Saldaña</li>
-                        <li class="list-inline-item">Aprobado Por: I. Salazar</li>
+                        <li class="list-inline-item">Revisado Por: S. Rodríguez</li>
+                        <li class="list-inline-item">Aprobado Por: B. López</li>
                     </ul>
                     <ul class="list-inline" style="text-align: center !important;">
                         <li class="list-inline-item">Edición Original: 21 Nov. 2017</li>
-                        <li class="list-inline-item">Revisión: 12</li>
+                        <li class="list-inline-item">Revisión: 14</li>
                         <li class="list-inline-item">Emisión: Según la ficha</li>
                     </ul>
                 </div>
