@@ -616,10 +616,10 @@
         <thead class="bg-light text-muted small">
             <tr><th>ID DEL SITIO DE PRODUCCIÓN (NOMBRE/CÓDIGO)</th><th>DIRECCIÓN DE LA FINCA/DESCRIPCIÓN LEGAL</th><th>TIPO DE ÁREA</th><th>TOTAL DE TERRENO</th><th>UNIDADES</th><th>ALQUILADO O PROPIO</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
-        <tbody id="fields_tbody"></tbody>
+        <tbody id="cultivo_fields_tbody"></tbody>
     </table>
 </div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_field"><i class="fa fa-plus"></i> Agregar Campo</button>
+<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_cultivo_field"><i class="fa fa-plus"></i> Agregar Campo</button>
 <input type="hidden" class="osp-input" name="4h_fields_json" id="4h_fields_json" t-att-value="data.get('4h_fields_json', '[]')"/>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">4i. ¿Utiliza la misma identificación del terreno en su sistema de registros (registro de actividades de campo, registro de cosecha, etc.)?</label>
@@ -645,10 +645,10 @@
         <thead class="bg-light text-muted small">
             <tr><th>CULTIVOS SOLICITADOS PARA LA CERTIFICACIÓN</th><th>ID DE TERRENO(S) DONDE FUERON SEMBRADOS ESTE AÑO</th><th>ÁREA TOTAL SEMBRADA</th><th>UNIDADES</th><th>RENDIMIENTO PROYECTADO</th><th>UNIDADES</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
-        <tbody id="crops_tbody"></tbody>
+        <tbody id="cultivo_crops_tbody"></tbody>
     </table>
 </div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_crop"><i class="fa fa-plus"></i> Agregar Cultivo</button>
+<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_cultivo_crop"><i class="fa fa-plus"></i> Agregar Cultivo</button>
 <input type="hidden" class="osp-input" name="4j_crops_json" id="4j_crops_json" t-att-value="data.get('4j_crops_json', '[]')"/>
 <p class="text-muted small">Nota: se refiere al área actual de cultivo, no al tamaño total del campo; considere si se realiza más de un ciclo de cultivo al año.</p>
 </div>

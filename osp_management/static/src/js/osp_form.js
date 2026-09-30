@@ -126,14 +126,13 @@ function initOspForm() {
                 { key: 'description', type: 'text', placeholder: 'Description of Site activities and responsibilities...' },
             ],
         },
-        fields: { // 4h — reutilizada tal cual por Cultivo (Campos, misma
-            // tabla, mismo tbodyId "fields_tbody"). El Word original trae,
-            // en una sola celda "units:", tanto el valor numérico (ej. "8"
-            // en su propio ejemplo) como la unidad (Acre/Hectare) — al
-            // construir la tabla web solo se tradujo el selector de unidad
-            // y se perdió la columna numérica (retro de usuario piloto,
-            // ver CONTEXT.md). Se agrega "total_land" siguiendo el mismo
-            // patrón número+unidad ya usado en la tabla 4j de abajo.
+        fields: { // 4h (Crop)
+            // El Word original trae, en una sola celda "units:", tanto el
+            // valor numérico (ej. "8" en su propio ejemplo) como la unidad
+            // (Acre/Hectare) — al construir la tabla web solo se tradujo el
+            // selector de unidad y se perdió la columna numérica (retro de
+            // usuario piloto, ver CONTEXT.md). Se agrega "total_land"
+            // siguiendo el mismo patrón número+unidad ya usado en 4j.
             jsonInputId: '4h_fields_json', tbodyId: 'fields_tbody', addBtnId: 'btn_add_field',
             columns: [
                 { key: 'field_id', type: 'text', placeholder: 'Field ID (Name/Code)...' },
@@ -144,7 +143,18 @@ function initOspForm() {
                 { key: 'rented_or_owned', type: 'select', options: ['Rented', 'Owned'] },
             ],
         },
-        crops: { // 4j
+        cultivo_fields: { // 4h (Cultivo) — config propia, ya no comparte la de Crop
+            jsonInputId: '4h_fields_json', tbodyId: 'cultivo_fields_tbody', addBtnId: 'btn_add_cultivo_field',
+            columns: [
+                { key: 'field_id', type: 'text', placeholder: 'ID del sitio (Nombre/Código)...' },
+                { key: 'parcel_address', type: 'text', placeholder: 'Dirección de la finca/Descripción legal...' },
+                { key: 'area_type', type: 'select', options: ['Orgánico', 'En transición', 'No orgánico'] },
+                { key: 'total_land', type: 'text', placeholder: 'Total de terreno...' },
+                { key: 'units', type: 'select', options: ['Acres', 'Hectáreas'] },
+                { key: 'rented_or_owned', type: 'select', options: ['Alquilado', 'Propio'] },
+            ],
+        },
+        crops: { // 4j (Crop)
             jsonInputId: '4j_crops_json', tbodyId: 'crops_tbody', addBtnId: 'btn_add_crop',
             columns: [
                 { key: 'crop_requested', type: 'text', placeholder: 'Crop requested for certification...' },
@@ -152,7 +162,22 @@ function initOspForm() {
                 { key: 'total_planted_area', type: 'text', placeholder: 'Total planted area...' },
                 { key: 'area_units', type: 'select', options: ['Acre', 'Hectare'] },
                 { key: 'projected_yield', type: 'text', placeholder: 'Projected yield...' },
-                { key: 'yield_units', type: 'select', options: ['Acre', 'Hectare'] },
+                // Retro de usuario piloto: esta columna es la UNIDAD DEL
+                // RENDIMIENTO (peso de cosecha, no área) — venía mal desde
+                // su construcción original, reutilizando por error las
+                // mismas opciones de área (Acre/Hectare) que "area_units".
+                { key: 'yield_units', type: 'select', options: ['Kilogram', 'Ton'] },
+            ],
+        },
+        cultivo_crops: { // 4j (Cultivo) — config propia, ya no comparte la de Crop
+            jsonInputId: '4j_crops_json', tbodyId: 'cultivo_crops_tbody', addBtnId: 'btn_add_cultivo_crop',
+            columns: [
+                { key: 'crop_requested', type: 'text', placeholder: 'Cultivo solicitado para certificación...' },
+                { key: 'field_id', type: 'text', placeholder: 'ID de terreno(s) donde fue sembrado este año...' },
+                { key: 'total_planted_area', type: 'text', placeholder: 'Área total sembrada...' },
+                { key: 'area_units', type: 'select', options: ['Acres', 'Hectáreas'] },
+                { key: 'projected_yield', type: 'text', placeholder: 'Rendimiento proyectado...' },
+                { key: 'yield_units', type: 'select', options: ['Kilogramos', 'Toneladas'] },
             ],
         },
         products: { // 5d (Crop)

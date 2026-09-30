@@ -90,7 +90,7 @@
             <input type="text" class="form-control osp-input" name="1a_org_name" t-att-value="data.get('1a_org_name')"/>
         </div>
         <div class="col-md-6">
-            <label class="form-label fw-bold">1b. dba Name (if applicable):</label>
+            <label class="form-label fw-bold">1b. Name (if applicable):</label>
             <input type="text" class="form-control osp-input" name="1b_dba_name" t-att-value="data.get('1b_dba_name')"/>
         </div>
     </div>
@@ -529,6 +529,12 @@
             <label class="form-check-label" for="t4b_no">No</label>
         </div>
         <p class="text-muted small mt-1">Provide a schematic or written description of the process flow from receiving records through to product shipping records.</p>
+        <div class="osp-conditional" data-conditional-field="4b_flow_diagram_attached" data-conditional-value="Yes">
+        <div class="form-check mb-2 small text-muted">
+            <input class="form-check-input osp-input" type="checkbox" name="4b_flow_diagram_attachment_needed" id="4b_flow_diagram_attachment_needed" value="yes" t-att-checked="'checked' if data.get('4b_flow_diagram_attachment_needed') else None"/>
+            <label class="form-check-label" for="4b_flow_diagram_attachment_needed"><i class="fa fa-paperclip"></i> Attach the Operation Flow Diagram.</label>
+        </div>
+        </div>
     </div>
 
     <div class="row mb-3">
@@ -662,16 +668,28 @@
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6a. Describe your biodiversity program:</label>
         <textarea class="form-control osp-input" name="6a_biodiversity_program" rows="2"><t t-esc="data.get('6a_biodiversity_program')"/></textarea>
+        <div class="form-check mb-2 small text-muted mt-1">
+            <input class="form-check-input osp-input" type="checkbox" name="6a_biodiversity_attachment_needed" id="6a_biodiversity_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6a_biodiversity_attachment_needed') else None"/>
+            <label class="form-check-label" for="6a_biodiversity_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
+        </div>
     </div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6b. Describe the natural resources within and/or surrounding your operation:</label>
         <textarea class="form-control osp-input" name="6b_natural_resources" rows="2"><t t-esc="data.get('6b_natural_resources')"/></textarea>
+        <div class="form-check mb-2 small text-muted mt-1">
+            <input class="form-check-input osp-input" type="checkbox" name="6b_natural_resources_attachment_needed" id="6b_natural_resources_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6b_natural_resources_attachment_needed') else None"/>
+            <label class="form-check-label" for="6b_natural_resources_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
+        </div>
     </div>
 
     <h6 class="fw-bold mt-4">Waste Management</h6>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6c. Describe any practices in place used for waste management:</label>
         <textarea class="form-control osp-input" name="6c_waste_management" rows="2"><t t-esc="data.get('6c_waste_management')"/></textarea>
+        <div class="form-check mb-2 small text-muted mt-1">
+            <input class="form-check-input osp-input" type="checkbox" name="6c_waste_management_attachment_needed" id="6c_waste_management_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6c_waste_management_attachment_needed') else None"/>
+            <label class="form-check-label" for="6c_waste_management_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
+        </div>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">6d. Do you recycle waste materials?</label>
@@ -685,16 +703,28 @@
         </div>
         <div class="mt-2"><label class="form-label fw-bold">Describe:</label>
         <textarea class="form-control osp-input" name="6d_recycle_describe" rows="2"><t t-esc="data.get('6d_recycle_describe')"/></textarea></div>
+        <div class="form-check mb-2 small text-muted mt-1">
+            <input class="form-check-input osp-input" type="checkbox" name="6d_recycle_attachment_needed" id="6d_recycle_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6d_recycle_attachment_needed') else None"/>
+            <label class="form-check-label" for="6d_recycle_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
+        </div>
     </div>
 
     <h6 class="fw-bold mt-4">Energy Conservation &amp; Air Quality</h6>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6e. Describe any practices in place used for energy conservation (i.e. solar, wind):</label>
         <textarea class="form-control osp-input" name="6e_energy_conservation" rows="2"><t t-esc="data.get('6e_energy_conservation')"/></textarea>
+        <div class="form-check mb-2 small text-muted mt-1">
+            <input class="form-check-input osp-input" type="checkbox" name="6e_energy_attachment_needed" id="6e_energy_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6e_energy_attachment_needed') else None"/>
+            <label class="form-check-label" for="6e_energy_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
+        </div>
     </div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6f. Describe any practices in place used for air quality management:</label>
         <textarea class="form-control osp-input" name="6f_air_quality" rows="2"><t t-esc="data.get('6f_air_quality')"/></textarea>
+        <div class="form-check mb-2 small text-muted mt-1">
+            <input class="form-check-input osp-input" type="checkbox" name="6f_air_quality_attachment_needed" id="6f_air_quality_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6f_air_quality_attachment_needed') else None"/>
+            <label class="form-check-label" for="6f_air_quality_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
+        </div>
     </div>
 
     <h6 class="fw-bold mt-4">Water Use</h6>
@@ -754,12 +784,17 @@
             <label class="form-check-label" for="t7b_no">No</label>
         </div>
     </div>
-    <p class="text-muted small fst-italic mb-2">If your answer is "No", proceed to question 7c.</p>
 <div class="osp-conditional" data-conditional-field="7b_responsible_for_transport" data-conditional-value="Yes">
         <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">If yes, please list the company:</label>
             <input type="text" class="form-control osp-input" name="7b_transport_company" t-att-value="data.get('7b_transport_company')"/>
             <p class="text-muted small">*Be aware some transportation companies are required to be certified organic.</p>
+        </div>
+    </div>
+    <div class="osp-conditional" data-conditional-field="7b_responsible_for_transport" data-conditional-value="No">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">If no, indicate who is responsible for transport:</label>
+            <textarea class="form-control osp-input" name="7b_transport_explain" rows="2"><t t-esc="data.get('7b_transport_explain')"/></textarea>
         </div>
     </div>
     <div class="col-md-6 mb-3">
