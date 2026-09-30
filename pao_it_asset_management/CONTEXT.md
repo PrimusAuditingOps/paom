@@ -364,10 +364,17 @@ Si llegan, van en **módulos complementarios** con el mismo ícono.
 | 3 | Mantenimiento y garantía | **Probado y funcionando en staging (2026-09-28)**. "Marcar como terminado" abre una ventana (fecha de fin, condición, trabajo realizado) para que funcione también desde la pestaña de solo lectura del activo |
 | 4 | Software y licencias | **Probado y funcionando en staging (2026-09-28)**, con usuarios por licencia y departamento del responsable |
 | 5 | Responsiva y devolución | **Probado y funcionando en staging (2026-09-28)**. El PDF firmado se sube desde el registro de la carta (menú Cartas / "Abrir cartas"), no desde la lista de solo lectura del activo |
-| 6 | Costos y tablero | **Programado (2026-09-28), pendiente de pruebas del usuario** |
+| 6 | Costos y tablero | **Probado y funcionando en staging (2026-09-28)** |
 
 - **Carga inicial** (AssetTiger + Excel de suscripciones): pospuesta hasta
   después de las pruebas funcionales del usuario.
+- **Guías de usuario** (2026-09-29), para compartir con los usuarios del día
+  a día: `docs/GUIA_ADMINISTRADOR.md` (TI) y `docs/GUIA_USUARIO.md`
+  (Finanzas, consulta). Usan las etiquetas en español de la interfaz. **Si
+  cambia un menú, botón o flujo, actualiza también las guías.**
+- **Liberación:** el usuario liberará lo construido para usarlo, detectar
+  mejoras y después abordar los complementos (depreciación, saving plan,
+  cambios de plan, Odoo Sign, notificaciones) con base en el uso real.
 - La versión del manifest NO se sube en cada entrega; la decide el usuario al
   liberar (guía, punto 2).
 - La traducción `i18n/es_MX.po` se escribe a mano (no hay Odoo local). Al

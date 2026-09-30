@@ -81,7 +81,7 @@
 
                         <div class="tab-pane fade show active" id="sec1">
     <h4 class="fw-bold mb-1">SECCIÓN 1: Información General</h4>
-    <p class="text-muted mb-4">(Regla NOP 205.201 y 205.401)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201 &amp; 205.401)</p>
 
     <div class="mb-4">
         <label class="fw-bold">Seleccione una opción:</label>
@@ -160,7 +160,15 @@
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">Estado:</label>
-            <input type="text" class="form-control osp-input" name="1h_billing_state" t-att-value="data.get('1h_billing_state')"/>
+            <select class="form-select osp-input" name="1h_billing_state" id="1h_billing_state">
+                <option value="">-- Seleccione --</option>
+                <t t-foreach="states" t-as="st">
+                    <option t-att-value="st.id" t-att-data-country="st.country_id.id"
+                            t-att-selected="'selected' if str(data.get('1h_billing_state')) == str(st.id) else None">
+                        <t t-esc="st.name"/>
+                    </option>
+                </t>
+            </select>
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">CP:</label>
@@ -168,7 +176,14 @@
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">País:</label>
-            <input type="text" class="form-control osp-input" name="1h_billing_country" t-att-value="data.get('1h_billing_country')"/>
+            <select class="form-select osp-input" name="1h_billing_country" id="1h_billing_country">
+                <option value="">-- Seleccione --</option>
+                <t t-foreach="countries" t-as="c">
+                    <option t-att-value="c.id" t-att-selected="'selected' if str(data.get('1h_billing_country')) == str(c.id) else None">
+                        <t t-esc="c.name"/>
+                    </option>
+                </t>
+            </select>
         </div>
     </div>
 
@@ -295,16 +310,20 @@
         <select class="form-select osp-input" name="1u_available_contact">
             <option value="">-- Seleccione --</option>
             <option value="Morning" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning' else None">Mañana</option>
-            <option value="Evening" t-att-selected="'selected' if data.get('1u_available_contact') == 'Evening' else None">Tarde</option>
-            <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Afternoon' else None">Noche</option>
+            <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Afternoon' else None">Tarde</option>
+            <option value="Evening" t-att-selected="'selected' if data.get('1u_available_contact') == 'Evening' else None">Noche</option>
+            <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning &amp; Afternoon' else None">Mañana y Tarde</option>
+            <option value="Any time" t-att-selected="'selected' if data.get('1u_available_contact') == 'Any time' else None">Cualquier tiempo</option>
         </select>
     </div><div class="col-md-6 mb-3">
         <label class="form-label fw-bold">¿En qué horario se encuentra disponible para la inspección?</label>
         <select class="form-select osp-input" name="1u_available_inspection">
             <option value="">-- Seleccione --</option>
             <option value="Morning" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning' else None">Mañana</option>
-            <option value="Evening" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Evening' else None">Tarde</option>
-            <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Afternoon' else None">Cualquier tiempo</option>
+            <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Afternoon' else None">Tarde</option>
+            <option value="Evening" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Evening' else None">Noche</option>
+            <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning &amp; Afternoon' else None">Mañana y Tarde</option>
+            <option value="Any time" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Any time' else None">Cualquier tiempo</option>
         </select>
     </div></div>
 
@@ -376,7 +395,7 @@
 
 <div class="tab-pane fade" id="sec2">
     <h4 class="fw-bold mb-1">SECCIÓN 2: Certificación Orgánica Previa y/o No Conformidades</h4>
-    <p class="text-muted mb-4">(§205.405 (e))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.405(e))</p>
     <p class="text-muted small">(Solo para solicitantes por primera vez. Los solicitantes que renuevan con PAO pueden omitir esta sección)</p>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="2_na" id="cu2_na" value="yes" t-att-checked="'checked' if data.get('2_na') else None"/>
@@ -464,6 +483,7 @@
 
 <div class="tab-pane fade" id="sec3">
     <h4 class="fw-bold mb-4">SECCIÓN 3: Mercados Internacionales</h4>
+    <p class="text-muted mb-4">(Norma NOP 205.201, 205.273 &amp; 205.300(b)(c))</p>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="3_na" id="cu3_na" value="yes" t-att-checked="'checked' if data.get('3_na') else None"/>
         <label class="form-check-label" for="cu3_na">No aplica esta sección a mi operación</label>
@@ -493,7 +513,7 @@
 
                             <div class="tab-pane fade" id="sec4">
     <h4 class="fw-bold mb-1">SECCIÓN 4: Cultivos y Campos &#8211; (Áreas y productos a certificar)</h4>
-    <p class="text-muted mb-4">(205.201 &amp; 205.202 &amp; 205.400(g) &amp; 205.403(a)(2))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201, 205.202, 205.400(g) &amp; 205.403(a)(2))</p>
 
 <div class="mb-3">
     <label class="form-label fw-bold d-block">4a. ¿Las áreas o sitios forman parte de un grupo de productores?</label>
@@ -635,7 +655,7 @@
 
                             <div class="tab-pane fade" id="sec5">
     <h4 class="fw-bold mb-1">SECCIÓN 5: Productos &#8211; Para ser incluidos en el Certificado por Marca de Identificación y Mercado</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201(a) &amp; 205.300)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a) &amp; 205.300)</p>
     <h6 class="fw-bold">Tipo de mercado:</h6>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold d-block">5a. Seleccione la opción que aplica:</label>
@@ -714,17 +734,17 @@
         <thead class="bg-light text-muted small">
             <tr><th>PRODUCTO SOLICITADO</th><th>MARCA DE IDENTIFICACIÓN</th><th>TIPO DE ETIQUETA</th><th>¿EMPACARÁ CON ESTA ETIQUETA?</th><th>ORGÁNICO O 100% ORGÁNICO?</th><th>MERCADOS INTERNACIONALES/EQUIVALENCIA</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
-        <tbody id="products_tbody"></tbody>
+        <tbody id="cultivo_products_tbody"></tbody>
     </table>
 </div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_product"><i class="fa fa-plus"></i> Agregar Producto</button>
+<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_cultivo_product"><i class="fa fa-plus"></i> Agregar Producto</button>
 <input type="hidden" class="osp-input" name="5d_products_json" id="5d_products_json" t-att-value="data.get('5d_products_json', '[]')"/>
 
 </div>
 
                             <div class="tab-pane fade" id="sec6">
     <h4 class="fw-bold mb-1">SECCIÓN 6: Recursos Naturales y Biodiversidad</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.200, 205.203, 205.202, 205.205, 205.238, 205.240)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.200, 205.203, 205.202, 205.205, 205.238 &amp; 205.240)</p>
     <h6 class="fw-bold">Recursos Naturales:</h6>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">6a. ¿Qué prácticas de conservación del suelo se emplean?</label>
@@ -820,7 +840,7 @@
 
                             <div class="tab-pane fade" id="sec7">
     <h4 class="fw-bold mb-1">SECCIÓN 7: Requisitos del Terreno</h4>
-    <p class="text-muted mb-4">(Norma NOP 205.201(a) and 205.202)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a) &amp; 205.202)</p>
     <h6 class="fw-bold">7a. ¿Ha adjuntado para cada parcela (incluyendo cualquiera nueva) los siguientes documentos?</h6>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">Historial del terreno y documentos de respaldo:</label>
@@ -909,7 +929,7 @@
 
                             <div class="tab-pane fade" id="sec8">
     <h4 class="fw-bold mb-1">SECCIÓN 8: Semillas y Material de Propagación (Anual/Perenne)</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.204 &amp; 205.205)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.204 &amp; 205.205)</p>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="8a_na" id="8a_na" value="yes" t-att-checked="'checked' if data.get('8a_na') else None"/>
     <label class="form-check-label" for="8a_na">Esta sección no es aplicable a mi operación</label>
@@ -1007,7 +1027,7 @@
 
                             <div class="tab-pane fade" id="sec9">
     <h4 class="fw-bold mb-1">SECCIÓN 9: Manejo de la Fertilidad de Suelo y Cultivo</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.203 and 205.205)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.203 &amp; 205.205)</p>
     <h6 class="fw-bold">Información General y Evaluación:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="9_general_na" id="9_general_na" value="yes" t-att-checked="'checked' if data.get('9_general_na') else None"/>
@@ -1162,7 +1182,7 @@
 
                             <div class="tab-pane fade" id="sec10">
     <h4 class="fw-bold mb-1">SECCIÓN 10: Rotación de Cultivos</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.204 &amp; 205.205)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.204 &amp; 205.205)</p>
     <p class="text-muted small">Use una línea para cada rotación utilizada.</p>
     <p class="text-muted small">Marque (x) abajo si el plan de rotación específico cumple con uno o más de los siguientes objetivos (esté preparado para explicar los detalles si se le solicita):</p>
 
@@ -1271,7 +1291,7 @@
 
                             <div class="tab-pane fade" id="sec12">
     <h4 class="fw-bold mb-1">SECCIÓN 12: Mantenimiento de la Integridad Orgánica &#8211; Insumos</h4>
-    <p class="text-muted mb-4">(NOP Reg 205.105 &amp; 205.600)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.105 &amp; 205.600)</p>
     <p>12a. Describa todos los insumos de fertilidad, control de plagas y enfermedades, y de poscosecha utilizados o destinados a usarse en la temporada actual en los campos orgánicos y terrenos en transición.</p>
 
 <div class="table-responsive border rounded mb-3">
@@ -1279,10 +1299,10 @@
         <thead class="bg-light text-muted small">
             <tr><th>INSUMO UTILIZADO PARA</th><th>NOMBRE DEL PRODUCTO</th><th>INGREDIENTES</th><th>APROBACIÓN DE CONFORMIDAD POR</th><th>¿ETIQUETA Y DOCS DE CUMPLIMIENTO ADJUNTOS?</th><th>SI TIENE RESTRICCIONES: CÓMO CUMPLE CON LA ANOTACIÓN NOP</th><th class="text-center">ACCIÓN</th></tr>
         </thead>
-        <tbody id="inputs_tbody"></tbody>
+        <tbody id="cultivo_inputs_tbody"></tbody>
     </table>
 </div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_input"><i class="fa fa-plus"></i> Agregar Insumo</button>
+<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_cultivo_input"><i class="fa fa-plus"></i> Agregar Insumo</button>
 <input type="hidden" class="osp-input" name="12a_inputs_json" id="12a_inputs_json" t-att-value="data.get('12a_inputs_json', '[]')"/>
 
 <div class="form-check mb-2">
@@ -1302,7 +1322,7 @@
 
                             <div class="tab-pane fade" id="sec13">
     <h4 class="fw-bold mb-1">SECCIÓN 13: Mantenimiento de la Integridad Orgánica &#8211; Áreas de Amortiguamiento y Producción Paralela</h4>
-    <p class="text-muted mb-4">(Norma NOP 205.201(a)(5) and 205.202(c))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a)(5) &amp; 205.202(c))</p>
     <h6 class="fw-bold">Áreas de Amortiguamiento: Terrenos Adyacentes</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="13_buffer_na" id="13_buffer_na" value="yes" t-att-checked="'checked' if data.get('13_buffer_na') else None"/>
@@ -1453,7 +1473,7 @@
 
                             <div class="tab-pane fade" id="sec14">
     <h4 class="fw-bold mb-1">SECCIÓN 14: Mantenimiento de la Integridad Orgánica &#8211; Equipo y Cosecha</h4>
-    <p class="text-muted mb-4">(Norma NOP 205.201(a)(5) and 205.202(c))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a)(5) &amp; 205.202(c))</p>
     <h6 class="fw-bold">Equipo:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="14_equipment_na" id="14_equipment_na" value="yes" t-att-checked="'checked' if data.get('14_equipment_na') else None"/>
@@ -1558,7 +1578,7 @@
 
                             <div class="tab-pane fade" id="sec15">
     <h4 class="fw-bold mb-1">SECCIÓN 15: Manejo Post-Cosecha, Almacenamiento y Transporte</h4>
-    <p class="text-muted mb-4">(Norma NOP 205.201(A)(5) Y 205.202(c))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a)(5) &amp; 205.202(c))</p>
     <h6 class="fw-bold">Manipulación Post-Cosecha:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="15_handling_na" id="15_handling_na" value="yes" t-att-checked="'checked' if data.get('15_handling_na') else None"/>
@@ -1822,7 +1842,7 @@
 
                             <div class="tab-pane fade" id="sec16">
     <h4 class="fw-bold mb-1">SECCIÓN 16: Sistema de Mantenimiento de Registros</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.103 &amp; 205.400)</p>
     <h6 class="fw-bold">Trazabilidad/Cadena de Suministro</h6>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">16a. Describa cómo los registros rastrean los productos desde la fecha de recepción o adquisición hasta la venta o el transporte, y permiten la trazabilidad hasta la última operación certificada:</label>
@@ -1920,7 +1940,7 @@
 
                             <div class="tab-pane fade" id="sec17">
     <h4 class="fw-bold mb-1">SECCIÓN 17: Balance de Masas y Trazabilidad</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400(g)(8)(9) &amp; 205.403(d)(4)(5))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.103, 205.400(g)(8)(9) &amp; 205.403(d)(4)(5))</p>
 
 <div class="alert alert-light border">
     <p>Durante la inspección in situ, se espera que los inspectores realicen auditorías exhaustivas de rastreo y auditorías de balance de masa para verificar los requisitos de rastreabilidad y mantenimiento de registros (&#167;205.103). Asegúrese de tener la documentación disponible necesaria para completar un balance de masas y la rastreabilidad durante la auditoría in situ.</p>
@@ -1933,7 +1953,7 @@
 
                             <div class="tab-pane fade" id="sec18">
                                 <h4 class="fw-bold mb-1">SECCIÓN 18: Afirmación</h4>
-                                <p class="text-muted mb-4">(Regla NOP 205.406)</p>
+                                <p class="text-muted mb-4">(Norma NOP 205.406)</p>
                                 <div class="alert alert-light border border-success rounded-3 mb-4">
                                     <p>Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Entiendo que la operación puede estar sujeta a inspección no anunciada y/o muestreo de residuos en cualquier momento que se considere apropiado para asegurar el cumplimiento con la Ley de Producción Orgánica de Alimentos de 1990 y las Reglas y Regulaciones del Programa Orgánico Nacional. Entiendo que la aceptación de este cuestionario de ninguna manera implica otorgamiento de la certificación por parte del Agente certificador. Acepto proporcionar más información según lo requiera el Agente certificador.</p>
                                     <p>Afirmo que estoy al tanto de las inspecciones sin previo aviso, en las que soy consciente de que pueden ser inspecciones adicionales, basadas en una selección aleatoria, alto riesgo, quejas y/o investigaciones.</p>
@@ -1946,7 +1966,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Firma: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control osp-input" name="18_signature" id="req_sign" t-att-value="data.get('18_signature')"/>
+                                        <input type="hidden" class="osp-input" name="18_signature" id="req_sign" t-att-value="data.get('18_signature')"/>
+                                        <div id="signature_pad_wrap"></div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Fecha: <span class="text-danger">*</span></label>
@@ -1968,84 +1989,11 @@
                             <div class="tab-pane fade" id="sec19">
     <h4 class="fw-bold mb-1">SECCIÓN 19: Historial de Campo - Declaración Jurada</h4>
     <p class="text-muted mb-4">(Solo para los NUEVOS campos agregados a la solicitud de certificación)</p>
-    <p class="text-muted small">(Solo para los NUEVOS campos, agregados a la solicitud de certificación). Instrucciones: Complete esta hoja del historial de Campo para cada uno de sus campos que aún no haya sido certificado y para el que se solicita la certificación orgánica. Agregue todos los insumos utilizados en los años en transición, incluyendo composta y/o estiércol.</p>
+    <p class="text-muted small">(Solo para los NUEVOS campos, agregados a la solicitud de certificación). Instrucciones: Complete esta hoja del historial de Campo para cada uno de sus campos que aún no haya sido certificado y para el que se solicita la certificación orgánica. Agregue todos los insumos utilizados en los años en transición, incluyendo composta y/o estiércol. Haga clic en "Agregar Campo Nuevo" por cada campo adicional que necesite su propio historial.</p>
 
-<div class="row"><div class="col-md-6 mb-3">
-    <label class="form-label fw-bold">Nombre de la Finca/Productor:</label>
-    <input type="text" class="form-control osp-input" name="19_farm_producer_name" t-att-value="data.get('19_farm_producer_name')"/>
-</div><div class="col-md-4 mb-3">
-    <label class="form-label fw-bold">Nombre del campo/ID número:</label>
-    <input type="text" class="form-control osp-input" name="19_field_id" t-att-value="data.get('19_field_id')"/>
-</div><div class="col-md-4 mb-3">
-    <label class="form-label fw-bold">Fecha de inicio de transición:</label>
-    <input type="date" class="form-control osp-input" name="19_transition_start_date" t-att-value="data.get('19_transition_start_date')"/>
-</div></div>
-
-<div class="mb-3">
-    <label class="form-label fw-bold d-block">¿Ha administrado el campo por más de 3 años?</label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_managed_3years" id="cu19_managed_yes" value="Yes" t-att-checked="'checked' if data.get('19_managed_3years') == 'Yes' else None"/>
-            <label class="form-check-label" for="cu19_managed_yes">Sí</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_managed_3years" id="cu19_managed_no" value="No" t-att-checked="'checked' if data.get('19_managed_3years') == 'No' else None"/>
-            <label class="form-check-label" for="cu19_managed_no">No</label>
-        </div>
-</div>
-<div class="osp-conditional" data-conditional-field="19_managed_3years" data-conditional-value="No">
-<div class="mb-3">
-    <label class="form-label fw-bold d-block">Si la respuesta es no, debe presentar las declaraciones firmadas del administrador anterior indicando el uso y aplicación de todos los insumos durante los 3 años anteriores. ¿Adjunto?</label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_statements_attached" id="cu19_stmt_yes" value="Yes" t-att-checked="'checked' if data.get('19_statements_attached') == 'Yes' else None"/>
-            <label class="form-check-label" for="cu19_stmt_yes">Sí</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_statements_attached" id="cu19_stmt_no" value="No" t-att-checked="'checked' if data.get('19_statements_attached') == 'No' else None"/>
-            <label class="form-check-label" for="cu19_stmt_no">No</label>
-        </div>
-</div>
-</div>
-
-<div class="mb-3">
-    <label class="form-label fw-bold d-block">¿Está el área certificada actualmente?</label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_field_certified" id="cu19_cert_yes" value="Yes" t-att-checked="'checked' if data.get('19_field_certified') == 'Yes' else None"/>
-            <label class="form-check-label" for="cu19_cert_yes">Sí</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_field_certified" id="cu19_cert_no" value="No" t-att-checked="'checked' if data.get('19_field_certified') == 'No' else None"/>
-            <label class="form-check-label" for="cu19_cert_no">No</label>
-        </div>
-</div>
-<div class="osp-conditional" data-conditional-field="19_field_certified" data-conditional-value="Yes">
-<div class="form-check mb-2 small text-muted">
-    <input class="form-check-input osp-input" type="checkbox" name="19_certification_attachment_needed" id="19_certification_attachment_needed" value="yes" t-att-checked="'checked' if data.get('19_certification_attachment_needed') else None"/>
-    <label class="form-check-label" for="19_certification_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte una copia del certificado actual (no es necesario completar la tabla siguiente).</label>
-</div>
-</div>
-
-<div class="osp-conditional" data-conditional-field="19_field_certified" data-conditional-value="No">
-
-<div class="row"><div class="col-md-6 mb-3">
-    <label class="form-label fw-bold">Última sustancia prohibida aplicada &#8211; Sustancia (marca e ingrediente activo):</label>
-    <input type="text" class="form-control osp-input" name="19_last_substance_brand" t-att-value="data.get('19_last_substance_brand')"/>
-</div><div class="col-md-4 mb-3">
-    <label class="form-label fw-bold">Fecha de la última aplicación:</label>
-    <input type="date" class="form-control osp-input" name="19_last_substance_date" t-att-value="data.get('19_last_substance_date')"/>
-</div></div>
-<p class="mt-3">Complete una fila por año durante todo el proceso de transición.</p>
-<div class="table-responsive border rounded mb-3">
-    <table class="table table-borderless table-hover mb-0">
-        <thead class="bg-light text-muted small">
-            <tr><th>AÑO</th><th>CULTIVO(S) PREVIOS</th><th>INSUMOS APLICADOS</th><th class="text-center">ACCIÓN</th></tr>
-        </thead>
-        <tbody id="history_tbody"></tbody>
-    </table>
-</div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_history"><i class="fa fa-plus"></i> Agregar Año</button>
-<input type="hidden" class="osp-input" name="19_history_json" id="19_history_json" t-att-value="data.get('19_history_json', '[]')"/>
-
-</div>
+<div id="fields19_container"></div>
+<button type="button" class="btn btn-sm btn-outline-primary mb-4" id="btn_add_field19"><i class="fa fa-plus"></i> Agregar Campo Nuevo</button>
+<input type="hidden" class="osp-input" name="19_fields_json" id="19_fields_json" t-att-value="data.get('19_fields_json', '[]')"/>
 
 <div class="mt-4">
     <p class="fw-bold">Afirmo que todas las declaraciones hechas en este formulario son verdaderas y correctas y pueden ser verificadas en sitio.</p>

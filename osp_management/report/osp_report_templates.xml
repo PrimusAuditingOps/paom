@@ -77,6 +77,12 @@
                                     <t t-esc="'☑' if field['checked'] else '☐'"/> <t t-esc="field['label']"/>
                                 </div>
 
+                                <div t-if="field['kind'] == 'image'" class="mb-2">
+                                    <div class="fw-bold mb-1" t-esc="field['label']"/>
+                                    <img t-if="field['value']" t-att-src="field['value']" style="max-height: 60px; border: 1px solid #ccc; border-radius: 4px;"/>
+                                    <div t-if="not field['value']" class="text-muted">—</div>
+                                </div>
+
                                 <div t-if="field['kind'] == 'checkbox_group'" class="mb-2">
                                     <div class="fw-bold" t-esc="field['label']"/>
                                     <div t-if="not field['selected']">—</div>
@@ -98,6 +104,50 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
+
+                                <div t-if="field['kind'] == 'repeatable'" class="mb-3">
+                                    <div class="fw-bold mb-1" t-esc="field['label']"/>
+                                    <div t-if="not field['entries']" class="text-muted">— No entries —</div>
+                                    <div t-foreach="field['entries']" t-as="entry" style="border: 1px solid #ccc; padding: 6px; margin-bottom: 8px; page-break-inside: avoid;">
+                                        <t t-foreach="entry" t-as="subfield">
+
+                                            <div t-if="subfield['kind'] == 'text'" class="mb-1">
+                                                <span class="fw-bold" t-esc="subfield['label']"/>: <span t-esc="subfield['value'] or '—'"/>
+                                            </div>
+
+                                            <div t-if="subfield['kind'] == 'options'" class="mb-1">
+                                                <span class="fw-bold" t-esc="subfield['label']"/>:
+                                                <t t-foreach="subfield['options']" t-as="opt">
+                                                    <span style="margin-right: 12px; white-space: nowrap;">
+                                                        <t t-esc="'☑' if subfield['value'] == opt else '☐'"/> <t t-esc="opt"/>
+                                                    </span>
+                                                </t>
+                                            </div>
+
+                                            <div t-if="subfield['kind'] == 'checkbox'" class="mb-1">
+                                                <t t-esc="'☑' if subfield['checked'] else '☐'"/> <t t-esc="subfield['label']"/>
+                                            </div>
+
+                                            <div t-if="subfield['kind'] == 'table'" class="mb-1">
+                                                <div class="fw-bold mb-1" t-esc="subfield['label']"/>
+                                                <div t-if="not subfield['rows']" class="text-muted">— No entries —</div>
+                                                <table t-if="subfield['rows']" class="table table-sm table-bordered" style="font-size: 10px;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th t-foreach="subfield['columns']" t-as="col" t-esc="col[1]"/>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr t-foreach="subfield['rows']" t-as="row">
+                                                            <td t-foreach="subfield['columns']" t-as="col" t-esc="row.get(col[0], '')"/>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </t>
+                                    </div>
                                 </div>
 
                             </t>

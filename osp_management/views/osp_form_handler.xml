@@ -81,7 +81,7 @@
 
                         <div class="tab-pane fade show active" id="sec1">
     <h4 class="fw-bold mb-1">SECTION 1: General Information</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201 and 205.401)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.201 &amp; 205.401)</p>
 
     <div class="mb-4">
         <label class="fw-bold">Choose one:</label>
@@ -160,7 +160,15 @@
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">Billing State:</label>
-            <input type="text" class="form-control osp-input" name="1h_billing_state" t-att-value="data.get('1h_billing_state')"/>
+            <select class="form-select osp-input" name="1h_billing_state" id="1h_billing_state">
+                <option value="">-- Select --</option>
+                <t t-foreach="states" t-as="st">
+                    <option t-att-value="st.id" t-att-data-country="st.country_id.id"
+                            t-att-selected="'selected' if str(data.get('1h_billing_state')) == str(st.id) else None">
+                        <t t-esc="st.name"/>
+                    </option>
+                </t>
+            </select>
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">Billing Zip:</label>
@@ -168,7 +176,14 @@
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">Billing Country:</label>
-            <input type="text" class="form-control osp-input" name="1h_billing_country" t-att-value="data.get('1h_billing_country')"/>
+            <select class="form-select osp-input" name="1h_billing_country" id="1h_billing_country">
+                <option value="">-- Select --</option>
+                <t t-foreach="countries" t-as="c">
+                    <option t-att-value="c.id" t-att-selected="'selected' if str(data.get('1h_billing_country')) == str(c.id) else None">
+                        <t t-esc="c.name"/>
+                    </option>
+                </t>
+            </select>
         </div>
     </div>
 
@@ -286,16 +301,20 @@
         <select class="form-select osp-input" name="1t_available_contact">
             <option value="">-- Select --</option>
             <option value="Morning" t-att-selected="'selected' if data.get('1t_available_contact') == 'Morning' else None">Morning</option>
-            <option value="Evening" t-att-selected="'selected' if data.get('1t_available_contact') == 'Evening' else None">Evening</option>
             <option value="Afternoon" t-att-selected="'selected' if data.get('1t_available_contact') == 'Afternoon' else None">Afternoon</option>
+            <option value="Evening" t-att-selected="'selected' if data.get('1t_available_contact') == 'Evening' else None">Evening</option>
+            <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1t_available_contact') == 'Morning &amp; Afternoon' else None">Morning &amp; Afternoon</option>
+            <option value="Any time" t-att-selected="'selected' if data.get('1t_available_contact') == 'Any time' else None">Any time</option>
         </select>
     </div><div class="col-md-6 mb-3">
         <label class="form-label fw-bold">When are you available for inspection?</label>
         <select class="form-select osp-input" name="1t_available_inspection">
             <option value="">-- Select --</option>
             <option value="Morning" t-att-selected="'selected' if data.get('1t_available_inspection') == 'Morning' else None">Morning</option>
-            <option value="Evening" t-att-selected="'selected' if data.get('1t_available_inspection') == 'Evening' else None">Evening</option>
             <option value="Afternoon" t-att-selected="'selected' if data.get('1t_available_inspection') == 'Afternoon' else None">Afternoon</option>
+            <option value="Evening" t-att-selected="'selected' if data.get('1t_available_inspection') == 'Evening' else None">Evening</option>
+            <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1t_available_inspection') == 'Morning &amp; Afternoon' else None">Morning &amp; Afternoon</option>
+            <option value="Any time" t-att-selected="'selected' if data.get('1t_available_inspection') == 'Any time' else None">Any time</option>
         </select>
     </div></div>
 
@@ -366,7 +385,7 @@
 
 <div class="tab-pane fade" id="sec2">
     <h4 class="fw-bold mb-1">SECTION 2: Prior Organic Certification and/or Noncompliance</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.405 (e))</p>
+    <p class="text-muted mb-4">(NOP Rule 205.405(e))</p>
     <p class="text-muted small">(For first time applicants only. Renewing applicants may skip this section)</p>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="2_na" id="h2_na" value="yes" t-att-checked="'checked' if data.get('2_na') else None"/>
@@ -454,6 +473,7 @@
 
 <div class="tab-pane fade" id="sec3">
     <h4 class="fw-bold mb-4">SECTION 3: International Markets</h4>
+    <p class="text-muted mb-4">(NOP Rule 205.201, 205.273 &amp; 205.300(b)(c))</p>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="3_na" id="h3_na" value="yes" t-att-checked="'checked' if data.get('3_na') else None"/>
         <label class="form-check-label" for="h3_na">This section is not applicable to my operation</label>
@@ -482,7 +502,7 @@
 
 <div class="tab-pane fade" id="sec4">
     <h4 class="fw-bold mb-1">SECTION 4: Facility Information &amp; Products</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201 and 205.401)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.201 &amp; 205.401)</p>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold d-block">4a. Indicate the type of operation (select all that apply):</label>
         <div class="form-check">
@@ -865,7 +885,7 @@
 
 <div class="tab-pane fade" id="sec7">
     <h4 class="fw-bold mb-1">SECTION 7: Maintenance of Organic Integrity &#8211; Storage &amp; Post Harvest Handling</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.270 and 205.272)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.270 &amp; 205.272)</p>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">7a. Describe the areas being utilized for storage:</label>
         <textarea class="form-control osp-input" name="7a_storage_areas" rows="2"><t t-esc="data.get('7a_storage_areas')"/></textarea>
@@ -1018,7 +1038,7 @@
 
 <div class="tab-pane fade" id="sec8">
     <h4 class="fw-bold mb-1">SECTION 8: Maintenance of Organic Integrity - Equipment and Sanitation</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.270, 205.272 and 205.605)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.270, 205.272 &amp; 205.605)</p>
     <h6 class="fw-bold">List All Equipment Used in Handling</h6>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">8a. List all names of equipment types used in your operation:</label>
@@ -1135,7 +1155,7 @@
 
 <div class="tab-pane fade" id="sec9">
     <h4 class="fw-bold mb-1">SECTION 9: Maintenance of Organic Integrity &#8211; Inputs</h4>
-    <p class="text-muted mb-4">(NOP Reg 205.105 &amp; 205.600)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.105 &amp; 205.600)</p>
     <p class="text-muted small">List any inputs used, including but not limited to cleaners, disinfectants, sanitizers, harvest fungicides or insecticides, waxes, coats, seals, wash water additives, pest control, etc.</p>
     <div class="table-responsive border rounded mb-3">
         <table class="table table-borderless table-hover mb-0">
@@ -1151,7 +1171,7 @@
 
 <div class="tab-pane fade" id="sec10">
     <h4 class="fw-bold mb-1">SECTION 10: Maintenance of Organic Integrity &#8211; Transportation</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.270 and 205.272)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.270 &amp; 205.272)</p>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">10a. Are you responsible for the transportation of incoming commodities and/or outgoing finished goods?</label>
         <div class="form-check form-check-inline">
@@ -1226,7 +1246,7 @@
 
 <div class="tab-pane fade" id="sec11">
     <h4 class="fw-bold mb-1">SECTION 11: Maintenance of Organic Integrity &#8211; Packaging</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.270, 205.272, 205.300 and 205.605)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.270, 205.272, 205.300 &amp; 205.605)</p>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="11_na" id="11_na" value="yes" t-att-checked="'checked' if data.get('11_na') else None"/>
         <label class="form-check-label" for="11_na">This section is not applicable to my operation</label>
@@ -1577,7 +1597,7 @@
 
 <div class="tab-pane fade" id="sec14">
     <h4 class="fw-bold mb-1">SECTION 14: Trace back and Mass Balance</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400(g) (8) (9))</p>
+    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400(g)(8)(9))</p>
     <p class="text-muted">During the on-site inspection, inspectors are expected to conduct thorough trace-back audits and mass balance audits to verify traceability and record-keeping requirements. Please make sure to have the documentation available needed to complete a mass balance and trace back during the onsite audit. Please note that the inspector will pick a product to conduct a traceback and choose the time frame to conduct a mass balance (may range from 1 month to 1 year).</p>
     <p class="fw-bold mt-3">What is a trace back?</p>
     <p class="text-muted">A trace back is a trail of documentation that can be used to trace the origin of product and material inputs. The system should also show that it can trace forward and indicate which customer(s) received the product. This is usually accomplished by lot coding materials throughout a process and recording these lot codes at different points in the process.</p>
@@ -1603,7 +1623,8 @@
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold">Signature of Authorized Person: <span class="text-danger">*</span></label>
-            <input type="text" class="form-control osp-input" name="15_signature" id="req_sign" t-att-value="data.get('15_signature')"/>
+            <input type="hidden" class="osp-input" name="15_signature" id="req_sign" t-att-value="data.get('15_signature')"/>
+            <div id="signature_pad_wrap"></div>
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold">Date: <span class="text-danger">*</span></label>

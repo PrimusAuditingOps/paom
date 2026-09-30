@@ -40,7 +40,10 @@ ATTACHMENT_MARKERS = {
         ('15s_test_kit_attachment_needed', 'If chlorine levels are monitored, attach a label or spec sheet of the test kit used.'),
         ('16e_supporting_document_attachment_needed', 'You may submit a supporting document with a list.'),
         ('16k_documents_attachment_needed', 'Submit the documents listed above.'),
-        ('19_certification_attachment_needed', 'Submit a copy of your certification (table below not required).'),
+        # 19_certification_attachment_needed: ya NO es una casilla plana —
+        # vive anidada dentro de "19_fields_json" (una por cada campo
+        # agregado), así que se resuelve aparte en
+        # get_pending_attachment_checklist() (osp_request.py), no aquí.
     ],
     'form_handler': [
         ('1l_certificate_attachment_needed', 'Attach a copy of your current State certificate.'),
@@ -105,6 +108,9 @@ ATTACHMENT_MARKERS = {
         ('15s_test_kit_attachment_needed', 'Si se monitorean los niveles de cloro, adjunte una etiqueta o especificación del kit de prueba utilizado.'),
         ('16e_supporting_document_attachment_needed', 'Puede adjuntar una lista de los registros que mantiene en su operación.'),
         ('16k_documents_attachment_needed', 'Envíe los documentos enumerados arriba.'),
-        ('19_certification_attachment_needed', 'Adjunte una copia del certificado actual (no es necesario completar la tabla siguiente).'),
+        # 19_certification_attachment_needed: ya NO es una casilla plana —
+        # vive anidada dentro de "19_fields_json" (una por cada campo
+        # agregado), así que se resuelve aparte en
+        # get_pending_attachment_checklist() (osp_request.py), no aquí.
     ],
 }

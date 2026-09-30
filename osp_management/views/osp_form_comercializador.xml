@@ -76,7 +76,7 @@
 
                         <div class="tab-pane fade show active" id="sec1">
     <h4 class="fw-bold mb-1">SECCIÓN 1: Información General</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201 and 205.401)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201 &amp; 205.401)</p>
 
     <div class="mb-4">
         <label class="fw-bold">Seleccione una opción:</label>
@@ -155,7 +155,15 @@
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">Estado:</label>
-            <input type="text" class="form-control osp-input" name="1h_billing_state" t-att-value="data.get('1h_billing_state')"/>
+            <select class="form-select osp-input" name="1h_billing_state" id="1h_billing_state">
+                <option value="">-- Seleccione --</option>
+                <t t-foreach="states" t-as="st">
+                    <option t-att-value="st.id" t-att-data-country="st.country_id.id"
+                            t-att-selected="'selected' if str(data.get('1h_billing_state')) == str(st.id) else None">
+                        <t t-esc="st.name"/>
+                    </option>
+                </t>
+            </select>
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">CP:</label>
@@ -163,7 +171,14 @@
         </div>
         <div class="col-md-2 mb-3">
             <label class="form-label fw-bold">País:</label>
-            <input type="text" class="form-control osp-input" name="1h_billing_country" t-att-value="data.get('1h_billing_country')"/>
+            <select class="form-select osp-input" name="1h_billing_country" id="1h_billing_country">
+                <option value="">-- Seleccione --</option>
+                <t t-foreach="countries" t-as="c">
+                    <option t-att-value="c.id" t-att-selected="'selected' if str(data.get('1h_billing_country')) == str(c.id) else None">
+                        <t t-esc="c.name"/>
+                    </option>
+                </t>
+            </select>
         </div>
     </div>
 
@@ -283,6 +298,7 @@
             <option value="Morning" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning' else None">Mañana</option>
             <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Afternoon' else None">Tarde</option>
             <option value="Evening" t-att-selected="'selected' if data.get('1u_available_contact') == 'Evening' else None">Noche</option>
+            <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning &amp; Afternoon' else None">Mañana y Tarde</option>
             <option value="Any time" t-att-selected="'selected' if data.get('1u_available_contact') == 'Any time' else None">Cualquier tiempo</option>
         </select>
     </div><div class="col-md-6 mb-3">
@@ -291,6 +307,8 @@
             <option value="">-- Seleccione --</option>
             <option value="Morning" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning' else None">Mañana</option>
             <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Afternoon' else None">Tarde</option>
+            <option value="Evening" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Evening' else None">Noche</option>
+            <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning &amp; Afternoon' else None">Mañana y Tarde</option>
             <option value="Any time" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Any time' else None">Cualquier tiempo</option>
         </select>
     </div></div>
@@ -362,7 +380,7 @@
 
 <div class="tab-pane fade" id="sec2">
     <h4 class="fw-bold mb-1">SECCIÓN 2: Certificación Orgánica Previa y/o Incumplimientos</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.405 (e))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.405(e))</p>
     <p class="text-muted small">(Solo para los que solicitan por primera vez. Los solicitantes que renuevan con PAO pueden omitir esta sección)</p>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="2_na" id="c2_na" value="yes" t-att-checked="'checked' if data.get('2_na') else None"/>
@@ -450,6 +468,7 @@
 
 <div class="tab-pane fade" id="sec3">
     <h4 class="fw-bold mb-4">SECCIÓN 3: Mercados Internacionales</h4>
+    <p class="text-muted mb-4">(Norma NOP 205.201, 205.273 &amp; 205.300(b)(c))</p>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="3_na" id="c3_na" value="yes" t-att-checked="'checked' if data.get('3_na') else None"/>
         <label class="form-check-label" for="c3_na">No aplica esta sección a mi operación</label>
@@ -479,7 +498,7 @@
 
 <div class="tab-pane fade" id="sec4">
     <h4 class="fw-bold mb-1">SECCIÓN 4: Información de la Operación</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201 and 205.401)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201 &amp; 205.401)</p>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">4a. ¿Gestiona otros sitios distintos de la dirección de la Organización indicada en la Sección 1?</label>
         <div class="form-check form-check-inline">
@@ -556,7 +575,7 @@
 
 <div class="tab-pane fade" id="sec5">
     <h4 class="fw-bold mb-1">SECCIÓN 5: Productos &#8211; Para ser Incluidos en el Certificado por Marca de Identificación y Mercado</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201(a) &amp; 205.300)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.201(a) &amp; 205.300)</p>
     <h6 class="fw-bold">Tipo de mercado:</h6>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold d-block">5a. Seleccione la opción que aplica:</label>
@@ -646,7 +665,7 @@
 
 <div class="tab-pane fade" id="sec6">
     <h4 class="fw-bold mb-1">SECCIÓN 6: Biodiversidad y Recursos Naturales</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.200 &amp; 205.270)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.200 &amp; 205.270)</p>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6a. Describa su programa de biodiversidad:</label>
         <textarea class="form-control osp-input" name="6a_biodiversity_program" rows="2"><t t-esc="data.get('6a_biodiversity_program')"/></textarea>
@@ -715,7 +734,7 @@
 
 <div class="tab-pane fade" id="sec7">
     <h4 class="fw-bold mb-1">SECCIÓN 7: Mantenimiento de la Integridad Orgánica</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.270, 205.272, 205.300, 205.101(b) and 205.605)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.270, 205.272, 205.300, 205.101(b) &amp; 205.605)</p>
 
     <h6 class="fw-bold">Almacenamiento y Transporte</h6>
     <div class="form-check mb-2">
@@ -870,7 +889,7 @@
 
 <div class="tab-pane fade" id="sec8">
     <h4 class="fw-bold mb-1">SECCIÓN 8: Sistema de Registro</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400)</p>
+    <p class="text-muted mb-4">(Norma NOP 205.103 &amp; 205.400)</p>
     <h6 class="fw-bold">Trazabilidad/Cadena de Suministro</h6>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">8a. Describa cómo los registros rastrean los productos hasta la fecha de recepción o adquisición, a través de la venta o el transporte, y permiten la trazabilidad hasta la última operación certificada:</label>
@@ -961,7 +980,7 @@
 
 <div class="tab-pane fade" id="sec9">
     <h4 class="fw-bold mb-1">SECCIÓN 9: Trazabilidad y Balance de Masas</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400(g)(8)(9))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.103 &amp; 205.400(g)(8)(9))</p>
     <p class="text-muted">Durante la inspección in situ, se espera que los inspectores realicen auditorías exhaustivas de rastreo y auditorías de balance de masa para verificar los requisitos de rastreabilidad y mantenimiento de registros. Asegúrese de tener disponible la documentación necesaria para completar un balance de masas y la trazabilidad durante la auditoría in situ. El inspector seleccionará un producto para realizar un rastreo y elegirá el marco de tiempo para realizar un balance de masa (puede variar de 1 mes a 1 año).</p>
     <p class="fw-bold mt-3">¿Qué es Trazabilidad?</p>
     <p class="text-muted">La trazabilidad es un rastro de documentación que puede usarse para rastrear el origen del producto, incluidas las semillas y los insumos materiales. El sistema también debe mostrar que puede rastrear hacia adelante e indicar qué cliente(s) recibió el producto. Esto generalmente se logra mediante la codificación de lotes de materiales a lo largo de un proceso y el registro de estos códigos de lote en diferentes puntos del proceso.</p>
@@ -973,7 +992,7 @@
 
 <div class="tab-pane fade" id="sec10">
     <h4 class="fw-bold mb-1">SECCIÓN 10: Afirmación</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.406 &amp; 205.403(b))</p>
+    <p class="text-muted mb-4">(Norma NOP 205.406 &amp; 205.403(b))</p>
     <div class="alert alert-light border border-success rounded-3 mb-4">
         <p>Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Entiendo que la operación puede estar sujeta a inspección no anunciada y/o muestreo de residuos en cualquier momento que se considere apropiado para asegurar el cumplimiento con la Ley de Producción Orgánica de Alimentos de 1990 y las Reglas y Regulaciones del Programa Orgánico Nacional. Entiendo que la aceptación de este cuestionario de ninguna manera implica otorgamiento de la certificación por parte del Agente certificador. Acepto proporcionar más información según lo requiera el Agente certificador.</p>
         <p>Al enviar esta solicitud firmada, la organización arriba mencionada declara su compromiso de cumplir con los requisitos principales del Programa Orgánico Nacional del USDA. Esta declaración también incluye el compromiso de pagar todas las tarifas impuestas por el Programa NOP y las tarifas y gastos incurridos por Primus Auditing Operations como Agente Certificador en el desempeño de las actividades de inspección y certificación. Esto incluye el pago de la tarifa de registro no reembolsable, como se indica en la Lista de tarifas.</p>
@@ -987,7 +1006,8 @@
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold">Firma del Representante Autorizado: <span class="text-danger">*</span></label>
-            <input type="text" class="form-control osp-input" name="10_signature" id="req_sign" t-att-value="data.get('10_signature')"/>
+            <input type="hidden" class="osp-input" name="10_signature" id="req_sign" t-att-value="data.get('10_signature')"/>
+            <div id="signature_pad_wrap"></div>
         </div>
         <div class="mb-3">
             <label class="form-label fw-bold">Fecha: <span class="text-danger">*</span></label>

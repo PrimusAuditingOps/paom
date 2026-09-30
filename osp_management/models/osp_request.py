@@ -1,3 +1,5 @@
+import json
+
 from odoo import models, fields, api, _
 
 from .osp_attachment_markers import ATTACHMENT_MARKERS
@@ -138,6 +140,27 @@ class OSPRequest(models.Model):
             # cliente identifique de inmediato a cuál pregunta se refiere.
             question_code = field_key.split('_')[0]
             result.append('%s. %s' % (question_code, text))
+
+        # Sección 19 (Crop/Cultivo, "Field History Affidavit"): desde que se
+        # volvió repetible (varios campos, cada uno con su propia casilla
+        # "Submit a copy of your certification"), esa casilla ya no es un
+        # field_key plano en form_data — vive anidada dentro de
+        # "19_fields_json", una entrada por cada campo agregado. No cabe en
+        # el bucle genérico de arriba, así que se resuelve aparte.
+        cert_texts = {
+            'form_crop': 'Submit a copy of your certification (table below not required).',
+            'form_cultivo': 'Adjunte una copia del certificado actual (no es necesario completar la tabla siguiente).',
+        }
+        cert_text = cert_texts.get(technical_code)
+        if cert_text:
+            try:
+                field_entries = json.loads(self.form_data.get('19_fields_json') or '[]')
+            except (ValueError, TypeError):
+                field_entries = []
+            for entry in field_entries:
+                if isinstance(entry, dict) and entry.get('certification_attachment_needed') == 'X':
+                    result.append('19. %s' % cert_text)
+
         return result
 
     # Acción para abrir los adjuntos

@@ -179,7 +179,15 @@
 </div>
     <div class="col-md-2 mb-3">
     <label class="form-label fw-bold">Billing State:</label>
-    <input type="text" class="form-control osp-input" name="1h_billing_state" t-att-value="data.get('1h_billing_state')"/>
+    <select class="form-select osp-input" name="1h_billing_state" id="1h_billing_state">
+        <option value="">-- Select --</option>
+        <t t-foreach="states" t-as="st">
+            <option t-att-value="st.id" t-att-data-country="st.country_id.id"
+                    t-att-selected="'selected' if str(data.get('1h_billing_state')) == str(st.id) else None">
+                <t t-esc="st.name"/>
+            </option>
+        </t>
+    </select>
 </div>
     <div class="col-md-2 mb-3">
     <label class="form-label fw-bold">Billing Zip:</label>
@@ -187,7 +195,14 @@
 </div>
     <div class="col-md-2 mb-3">
     <label class="form-label fw-bold">Billing Country:</label>
-    <input type="text" class="form-control osp-input" name="1h_billing_country" t-att-value="data.get('1h_billing_country')"/>
+    <select class="form-select osp-input" name="1h_billing_country" id="1h_billing_country">
+        <option value="">-- Select --</option>
+        <t t-foreach="countries" t-as="c">
+            <option t-att-value="c.id" t-att-selected="'selected' if str(data.get('1h_billing_country')) == str(c.id) else None">
+                <t t-esc="c.name"/>
+            </option>
+        </t>
+    </select>
 </div>
 </div>
 
@@ -318,16 +333,20 @@
     <select class="form-select osp-input" name="1u_available_contact">
         <option value="">-- Select --</option>
         <option value="Morning" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning' else None">Morning</option>
-        <option value="Evening" t-att-selected="'selected' if data.get('1u_available_contact') == 'Evening' else None">Evening</option>
         <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Afternoon' else None">Afternoon</option>
+        <option value="Evening" t-att-selected="'selected' if data.get('1u_available_contact') == 'Evening' else None">Evening</option>
+        <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning &amp; Afternoon' else None">Morning &amp; Afternoon</option>
+        <option value="Any time" t-att-selected="'selected' if data.get('1u_available_contact') == 'Any time' else None">Any time</option>
     </select>
 </div><div class="col-md-6 mb-3">
     <label class="form-label fw-bold">When are you available for inspection?</label>
     <select class="form-select osp-input" name="1u_available_inspection">
         <option value="">-- Select --</option>
         <option value="Morning" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning' else None">Morning</option>
-        <option value="Evening" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Evening' else None">Evening</option>
         <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Afternoon' else None">Afternoon</option>
+        <option value="Evening" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Evening' else None">Evening</option>
+        <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning &amp; Afternoon' else None">Morning &amp; Afternoon</option>
+        <option value="Any time" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Any time' else None">Any time</option>
     </select>
 </div></div>
 
@@ -399,7 +418,7 @@
 
                             <div class="tab-pane fade" id="sec2">
     <h4 class="fw-bold mb-1">SECTION 2: Prior Organic Certification and/or Noncompliance</h4>
-    <p class="text-muted mb-4">(§205.405 (e))</p>
+    <p class="text-muted mb-4">(NOP Rule 205.405(e))</p>
     
 <p class="text-muted small">(For first time applicants only. Renewing applicants may skip this section)</p>
 <div class="form-check mb-2">
@@ -488,7 +507,7 @@
 
                             <div class="tab-pane fade" id="sec3">
     <h4 class="fw-bold mb-4">SECTION 3: International Markets</h4>
-    
+    <p class="text-muted mb-4">(NOP Rule 205.201, 205.273 &amp; 205.300(b)(c))</p>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="3_na" id="3_na" value="yes" t-att-checked="'checked' if data.get('3_na') else None"/>
     <label class="form-check-label" for="3_na">This section is not applicable to my operation</label>
@@ -518,7 +537,7 @@
 
                             <div class="tab-pane fade" id="sec4">
                                 <h4 class="fw-bold mb-1">SECTION 4: Crops &amp; Fields</h4>
-                                <p class="text-muted mb-4">(205.201 &amp; 205.202 &amp; 205.400(g) &amp; 205.403(a) (2))</p>
+                                <p class="text-muted mb-4">(NOP Rule 205.201, 205.202, 205.400(g) &amp; 205.403(a)(2))</p>
                                 
 <div class="mb-3">
     <label class="form-label fw-bold d-block">4a. Are the requested areas or sites part of a Producer Group?</label>
@@ -765,7 +784,7 @@
 
                             <div class="tab-pane fade" id="sec6">
     <h4 class="fw-bold mb-1">SECTION 6: Biodiversity &amp; Natural Resources</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.200, 205.203, 205.202, 205.205, 205.238, 205.240)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.200, 205.203, 205.202, 205.205, 205.238 &amp; 205.240)</p>
     
 <h6 class="fw-bold">Natural Resources:</h6>
 <div class="col-md-12 mb-3">
@@ -862,7 +881,7 @@
 
                             <div class="tab-pane fade" id="sec7">
     <h4 class="fw-bold mb-1">SECTION 7: Land requirements</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201(a) and 205.202)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.201(a) &amp; 205.202)</p>
     
 <h6 class="fw-bold">7a. Have you attached for each field (including any new one) the following documents?</h6>
 <div class="mb-3">
@@ -1059,7 +1078,7 @@
 
                             <div class="tab-pane fade" id="sec9">
     <h4 class="fw-bold mb-1">SECTION 9: Soil and Crop Fertility Management</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.203 and 205.205)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.203 &amp; 205.205)</p>
     
 <h6 class="fw-bold">General Information and Evaluation:</h6>
 <div class="form-check mb-2">
@@ -1329,7 +1348,7 @@
 
                             <div class="tab-pane fade" id="sec12">
     <h4 class="fw-bold mb-1">SECTION 12: Maintenance of Organic Integrity &#8211; Inputs</h4>
-    <p class="text-muted mb-4">(NOP Reg 205.105 &amp; 205.600)</p>
+    <p class="text-muted mb-4">(NOP Rule 205.105 &amp; 205.600)</p>
     
 <p>12a. List any inputs used, including but not limited to cleaners, disinfectants, sanitizers, harvest fungicides or insecticides, waxes, coats, seals, wash water additives, pest control, etc.</p>
 
@@ -1365,7 +1384,7 @@
 
                             <div class="tab-pane fade" id="sec13">
     <h4 class="fw-bold mb-1">SECTION 13: Maintenance of Organic Integrity &#8211; Buffer Areas &amp; Split Production</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201(a) (5) and 205.202(c))</p>
+    <p class="text-muted mb-4">(NOP Rule 205.201(a)(5) &amp; 205.202(c))</p>
     
 <h6 class="fw-bold">Buffer Areas: Adjoining Land Areas</h6>
 <div class="form-check mb-2">
@@ -1517,7 +1536,7 @@
 
                             <div class="tab-pane fade" id="sec14">
     <h4 class="fw-bold mb-1">SECTION 14: Maintenance of Organic Integrity &#8211; Equipment &amp; Harvest</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201(a) (5) and 205.202(c))</p>
+    <p class="text-muted mb-4">(NOP Rule 205.201(a)(5) &amp; 205.202(c))</p>
     
 <h6 class="fw-bold">Equipment:</h6>
 <div class="form-check mb-2">
@@ -1627,7 +1646,7 @@
 
                             <div class="tab-pane fade" id="sec15">
     <h4 class="fw-bold mb-1">SECTION 15: Post-Harvest Handling, Storage and Transportation</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.201(a) (5) and 205.202(c))</p>
+    <p class="text-muted mb-4">(NOP Rule 205.201(a)(5) &amp; 205.202(c))</p>
     
 <h6 class="fw-bold">Post-Harvest Handling:</h6>
 <div class="form-check mb-2">
@@ -1991,7 +2010,7 @@
 
                             <div class="tab-pane fade" id="sec17">
     <h4 class="fw-bold mb-1">SECTION 17: Trace back and Mass Balance</h4>
-    <p class="text-muted mb-4">(NOP Rule 205.103 &amp; 205.400(g) (8) (9) &amp; 205.403(d) (4) (5))</p>
+    <p class="text-muted mb-4">(NOP Rule 205.103, 205.400(g)(8)(9) &amp; 205.403(d)(4)(5))</p>
     
 <div class="alert alert-light border">
     <p>During the on-site inspection, inspectors are expected to conduct thorough trace-back audits and mass balance audits to verify traceability and record-keeping requirements (&#167;205.103). Please make sure to have the documentation available needed to complete a mass balance and trace back during the onsite audit.</p>
@@ -2014,7 +2033,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Signature: <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control osp-input" name="18_signature" id="req_sign" t-att-value="data.get('18_signature')"/>
+                                        <input type="hidden" class="osp-input" name="18_signature" id="req_sign" t-att-value="data.get('18_signature')"/>
+                                        <div id="signature_pad_wrap"></div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">Date: <span class="text-danger">*</span></label>
@@ -2036,88 +2056,12 @@
                             <div class="tab-pane fade" id="sec19">
     <h4 class="fw-bold mb-1">SECTION 19: Field History Affidavit</h4>
     <p class="text-muted mb-4">(Only For NEW Fields Added To Certification Request)</p>
-    
-<p class="text-muted small">Only for NEW fields added to certification request. Fill out this Field History Sheet for every field that has not yet been certified.</p>
-<div class="row"><div class="col-md-6 mb-3">
-    <label class="form-label fw-bold">Farm / Producer Name:</label>
-    <input type="text" class="form-control osp-input" name="19_farm_producer_name" t-att-value="data.get('19_farm_producer_name')"/>
-</div><div class="col-md-3 mb-3">
-    <label class="form-label fw-bold">Field name / ID number:</label>
-    <input type="text" class="form-control osp-input" name="19_field_id" t-att-value="data.get('19_field_id')"/>
-</div><div class="col-md-3 mb-3">
-    <label class="form-label fw-bold">Transition Start Date:</label>
-    <input type="date" class="form-control osp-input" name="19_transition_start_date" t-att-value="data.get('19_transition_start_date')"/>
-</div></div>
 
-<div class="mb-3">
-    <label class="form-label fw-bold d-block">Have you managed this field for 3 or more years?</label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_managed_3years" id="19_managed_3years_yes" value="Yes" t-att-checked="'checked' if data.get('19_managed_3years') == 'Yes' else None"/>
-            <label class="form-check-label" for="19_managed_3years_yes">Yes</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_managed_3years" id="19_managed_3years_no" value="No" t-att-checked="'checked' if data.get('19_managed_3years') == 'No' else None"/>
-            <label class="form-check-label" for="19_managed_3years_no">No</label>
-        </div>
-</div>
-<div class="osp-conditional" data-conditional-field="19_managed_3years" data-conditional-value="No">
-<div class="mb-3">
-    <label class="form-label fw-bold d-block">If no, have you attached signed statements from the previous land manager stating use and all inputs applied during the previous 3 years?</label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_statements_attached" id="19_statements_attached_yes" value="Yes" t-att-checked="'checked' if data.get('19_statements_attached') == 'Yes' else None"/>
-            <label class="form-check-label" for="19_statements_attached_yes">Yes</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_statements_attached" id="19_statements_attached_no" value="No" t-att-checked="'checked' if data.get('19_statements_attached') == 'No' else None"/>
-            <label class="form-check-label" for="19_statements_attached_no">No</label>
-        </div>
-</div>
-</div>
+<p class="text-muted small">Only for NEW fields added to certification request. Fill out this Field History Sheet for every field that has not yet been certified. Click "Add New Field" for each additional field that needs its own history.</p>
 
-<div class="mb-3">
-    <label class="form-label fw-bold d-block">Is this field currently certified?</label>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_field_certified" id="19_field_certified_yes" value="Yes" t-att-checked="'checked' if data.get('19_field_certified') == 'Yes' else None"/>
-            <label class="form-check-label" for="19_field_certified_yes">Yes</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input osp-input" type="radio" name="19_field_certified" id="19_field_certified_no" value="No" t-att-checked="'checked' if data.get('19_field_certified') == 'No' else None"/>
-            <label class="form-check-label" for="19_field_certified_no">No</label>
-        </div>
-</div>
-<div class="osp-conditional" data-conditional-field="19_field_certified" data-conditional-value="Yes">
-<div class="form-check mb-2 small text-muted">
-    <input class="form-check-input osp-input" type="checkbox" name="19_certification_attachment_needed" id="19_certification_attachment_needed" value="yes" t-att-checked="'checked' if data.get('19_certification_attachment_needed') else None"/>
-    <label class="form-check-label" for="19_certification_attachment_needed"><i class="fa fa-paperclip"></i> Submit a copy of your certification (table below not required).</label>
-</div>
-</div>
-
-<div class="osp-conditional" data-conditional-field="19_field_certified" data-conditional-value="No">
-
-<div class="row"><div class="col-md-6 mb-3">
-    <label class="form-label fw-bold">Last prohibited substance applied &#8211; Substance (Brand name and active ingredient):</label>
-    <input type="text" class="form-control osp-input" name="19_last_substance_brand" t-att-value="data.get('19_last_substance_brand')"/>
-</div><div class="col-md-4 mb-3">
-    <label class="form-label fw-bold">Date of last application:</label>
-    <input type="date" class="form-control osp-input" name="19_last_substance_date" t-att-value="data.get('19_last_substance_date')"/>
-</div></div>
-<p class="mt-3">Complete one row per year throughout the transition process.</p>
-<div class="table-responsive border rounded mb-3">
-    <table class="table table-borderless table-hover mb-0">
-        <thead class="bg-light text-muted small">
-            <tr><th>YEAR</th><th>CROP(S) (product planted)</th><th>INPUTS USED (brand name, formulation, compost, manure, fertilizers, crop production aids, pest control, additives, etc.)</th><th class="text-center">ACTION</th></tr>
-        </thead>
-        <tbody id="history_tbody">
-            <!-- JS llenará esto -->
-        </tbody>
-    </table>
-</div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_history">
-    <i class="fa fa-plus"></i> Add Year
-</button>
-<input type="hidden" class="osp-input" name="19_history_json" id="19_history_json" t-att-value="data.get('19_history_json', '[]')"/>
-
-</div>
+<div id="fields19_container"></div>
+<button type="button" class="btn btn-sm btn-outline-primary mb-4" id="btn_add_field19"><i class="fa fa-plus"></i> Add New Field</button>
+<input type="hidden" class="osp-input" name="19_fields_json" id="19_fields_json" t-att-value="data.get('19_fields_json', '[]')"/>
 
 <div class="mt-4">
     <p class="fw-bold">I affirm that all statements made in this form are true and correct and can be verified on site.</p>

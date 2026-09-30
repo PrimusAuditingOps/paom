@@ -29,6 +29,16 @@ function initOspForm() {
     // en localStorage sin pisar el de otro si el navegante llena más de
     // uno en el mismo navegador.
     const PUBLIC_STORAGE_KEY = 'osp_public_draft_' + TECHNICAL_CODE;
+    // Retro de usuario piloto: el navegante público quería poder elegir el
+    // archivo de cada sección desde ya (para no olvidarlo), sin reabrir el
+    // problema de registros basura en el servidor (nunca se crea nada hasta
+    // el Submit final). Los File objects solo viven en memoria del
+    // navegador — no son serializables a localStorage, así que "Save
+    // progress" no los conserva; solo necesitan sobrevivir hasta el Submit
+    // de esta misma carga de página (ver initPublicFileUploads() y el envío
+    // automático dentro de savePublicForm() más abajo). Llave: el id del
+    // checkbox "..._attachment_needed" -> el File elegido para esa pregunta.
+    const pendingPublicFiles = {};
 
     // Widget de Cloudflare Turnstile: se inyecta ya, al cargar la página
     // (no hasta que el visitante haga clic en Submit), para que Turnstile
@@ -145,15 +155,26 @@ function initOspForm() {
                 { key: 'yield_units', type: 'select', options: ['Acre', 'Hectare'] },
             ],
         },
-        products: { // 5d
+        products: { // 5d (Crop)
             jsonInputId: '5d_products_json', tbodyId: 'products_tbody', addBtnId: 'btn_add_product',
             columns: [
                 { key: 'product', type: 'text', placeholder: 'Product requested for certification...' },
                 { key: 'id_mark', type: 'text', placeholder: 'ID Mark (Labels)...' },
-                { key: 'label_type', type: 'text', placeholder: 'Retail / Non-Retail / Private Label...' },
+                { key: 'label_type', type: 'multicheckbox', options: ['Retail', 'Non-Retail', 'Private Label'] },
                 { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
                 { key: 'organic_or_100', type: 'select', options: ['Organic', '100% Organic'] },
                 { key: 'international_market', type: 'text', placeholder: 'International market / equivalency request...' },
+            ],
+        },
+        cultivo_products: { // 5d (Cultivo) — config propia, ya no comparte la de Crop
+            jsonInputId: '5d_products_json', tbodyId: 'cultivo_products_tbody', addBtnId: 'btn_add_cultivo_product',
+            columns: [
+                { key: 'product', type: 'text', placeholder: 'Producto solicitado para certificación...' },
+                { key: 'id_mark', type: 'text', placeholder: 'Marca de Identificación...' },
+                { key: 'label_type', type: 'multicheckbox', options: ['Minorista', 'Mayoreo', 'Etiqueta Privada'] },
+                { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
+                { key: 'organic_or_100', type: 'select', options: ['Orgánico', '100% Orgánico'] },
+                { key: 'international_market', type: 'text', placeholder: 'Mercados internacionales / solicitud de equivalencia...' },
             ],
         },
         seeds: { // 8a
@@ -198,15 +219,26 @@ function initOspForm() {
                 { key: 'other', type: 'checkbox' },
             ],
         },
-        inputs: { // 12a
+        inputs: { // 12a (Crop)
             jsonInputId: '12a_inputs_json', tbodyId: 'inputs_tbody', addBtnId: 'btn_add_input',
             columns: [
-                { key: 'input_used_for', type: 'select', options: ['Fertility', 'Pest', 'Disease', 'Post-Harvest', 'Seed Treatment', 'Perennial Treatment'] },
+                { key: 'input_used_for', type: 'select', options: ['Fertilization', 'Pest Control', 'Disease Control', 'Cleaning', 'Disinfection', 'Seed Treatment', 'Other'] },
                 { key: 'brand_name', type: 'text', placeholder: 'Brand Name...' },
                 { key: 'ingredients', type: 'text', placeholder: 'Ingredients...' },
                 { key: 'compliance_approval_by', type: 'text', placeholder: 'Compliance approval by...' },
                 { key: 'label_compliance_docs_attached', type: 'select', options: ['Y', 'N'] },
                 { key: 'restrictions_compliance_description', type: 'text', placeholder: 'How you comply with NOP annotation...' },
+            ],
+        },
+        cultivo_inputs: { // 12a (Cultivo) — config propia, ya no comparte la de Crop
+            jsonInputId: '12a_inputs_json', tbodyId: 'cultivo_inputs_tbody', addBtnId: 'btn_add_cultivo_input',
+            columns: [
+                { key: 'input_used_for', type: 'select', options: ['Fertilización', 'Control de Plagas', 'Control de Enfermedades', 'Limpieza', 'Desinfección', 'Tratamiento de Semillas', 'Otro'] },
+                { key: 'brand_name', type: 'text', placeholder: 'Nombre del Producto...' },
+                { key: 'ingredients', type: 'text', placeholder: 'Ingredientes...' },
+                { key: 'compliance_approval_by', type: 'text', placeholder: 'Aprobación de Conformidad Por...' },
+                { key: 'label_compliance_docs_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'restrictions_compliance_description', type: 'text', placeholder: 'Cumplimiento Anotación NOP...' },
             ],
         },
         equipment: { // 14a
@@ -218,14 +250,9 @@ function initOspForm() {
                 { key: 'cleaning_method', type: 'text', placeholder: 'How is equipment cleaned before use...' },
             ],
         },
-        history: { // 19
-            jsonInputId: '19_history_json', tbodyId: 'history_tbody', addBtnId: 'btn_add_history',
-            columns: [
-                { key: 'year', type: 'text', placeholder: 'Year...' },
-                { key: 'crops', type: 'text', placeholder: 'Crop(s) planted...' },
-                { key: 'inputs_used', type: 'text', placeholder: 'Inputs used (brand, formulation)...' },
-            ],
-        },
+        // "history" (19) se retiró de aquí — la Sección 19 dejó de ser una
+        // tabla plana y ahora es un bloque repetible por campo, con su
+        // propio renderer dedicado (ver initFieldHistoryBlock() más abajo).
         search_record: { // 20
             jsonInputId: '20_search_record_json', tbodyId: 'search_record_tbody', addBtnId: 'btn_add_search_record',
             columns: [
@@ -258,7 +285,7 @@ function initOspForm() {
             columns: [
                 { key: 'product', type: 'text', placeholder: 'Product requested for certification...' },
                 { key: 'id_mark', type: 'text', placeholder: 'ID Mark (Labels)...' },
-                { key: 'label_type', type: 'text', placeholder: 'Retail / Non-Retail / Private Label...' },
+                { key: 'label_type', type: 'multicheckbox', options: ['Retail', 'Non-Retail', 'Private Label'] },
                 { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
                 { key: 'organic_or_100', type: 'text', placeholder: 'Organic or 100% Organic?...' },
                 { key: 'international_market', type: 'text', placeholder: 'International market...' },
@@ -267,7 +294,7 @@ function initOspForm() {
         handler_inputs: { // 9a
             jsonInputId: '9a_inputs_json', tbodyId: 'handler_inputs_tbody', addBtnId: 'btn_add_handler_input',
             columns: [
-                { key: 'input_used_for', type: 'select', options: ['Pest', 'Disease', 'Post-Harvest', 'Sanitizer', 'Other'] },
+                { key: 'input_used_for', type: 'select', options: ['Pest Control (Facility)', 'Cleaning', 'Disinfection', 'Post-Harvest Treatment', 'Other'] },
                 { key: 'brand_name', type: 'text', placeholder: 'Brand Name...' },
                 { key: 'ingredients', type: 'text', placeholder: 'Ingredients...' },
                 { key: 'food_contact', type: 'select', options: ['Y', 'N'] },
@@ -291,7 +318,7 @@ function initOspForm() {
             columns: [
                 { key: 'product', type: 'text', placeholder: 'Product requested for certification...' },
                 { key: 'id_mark', type: 'text', placeholder: 'ID Mark (Labels)...' },
-                { key: 'label_type', type: 'text', placeholder: 'Retail / Non-Retail / Private Label...' },
+                { key: 'label_type', type: 'multicheckbox', options: ['Retail', 'Non-Retail', 'Private Label'] },
                 { key: 'organic_or_100', type: 'text', placeholder: 'Organic or 100% Organic?...' },
                 { key: 'international_market', type: 'text', placeholder: 'International market...' },
             ],
@@ -315,7 +342,7 @@ function initOspForm() {
             columns: [
                 { key: 'product', type: 'text', placeholder: 'Producto solicitado para certificación...' },
                 { key: 'id_mark', type: 'text', placeholder: 'Marca de Identificación...' },
-                { key: 'label_type', type: 'text', placeholder: 'Minorista / Mayoreo / Etiqueta Privada...' },
+                { key: 'label_type', type: 'multicheckbox', options: ['Minorista', 'Mayoreo', 'Etiqueta Privada'] },
                 { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
                 { key: 'organic_or_100', type: 'text', placeholder: 'Orgánico o 100% Orgánico?...' },
                 { key: 'international_market', type: 'text', placeholder: 'Mercados internacionales...' },
@@ -324,7 +351,7 @@ function initOspForm() {
         manejo_inputs: { // 9a
             jsonInputId: '9a_inputs_json', tbodyId: 'manejo_inputs_tbody', addBtnId: 'btn_add_manejo_input',
             columns: [
-                { key: 'input_used_for', type: 'select', options: ['Fertilidad', 'Control de Plagas', 'Enfermedades', 'Poscosecha', 'Tratamiento Semilla', 'Tratamiento Perenne'] },
+                { key: 'input_used_for', type: 'select', options: ['Control de Plagas (Instalaciones)', 'Limpieza', 'Desinfección', 'Tratamiento Postcosecha', 'Otro'] },
                 { key: 'brand_name', type: 'text', placeholder: 'Marca comercial...' },
                 { key: 'ingredients', type: 'text', placeholder: 'Ingredientes...' },
                 { key: 'food_contact', type: 'select', options: ['Y', 'N'] },
@@ -348,7 +375,7 @@ function initOspForm() {
             columns: [
                 { key: 'product', type: 'text', placeholder: 'Producto solicitado para certificación...' },
                 { key: 'id_mark', type: 'text', placeholder: 'Marca de Identificación...' },
-                { key: 'label_type', type: 'text', placeholder: 'Minorista / Mayoreo / Etiqueta Privada...' },
+                { key: 'label_type', type: 'multicheckbox', options: ['Minorista', 'Mayoreo', 'Etiqueta Privada'] },
                 { key: 'organic_or_100', type: 'text', placeholder: 'Orgánico o 100% Orgánico?...' },
                 { key: 'international_market', type: 'text', placeholder: 'Mercados internacionales...' },
             ],
@@ -379,6 +406,19 @@ function initOspForm() {
             // "check (x)" del Word y que el motor de reporte PDF (que solo
             // sabe imprimir texto de celda) no necesite tratarlo distinto.
             return `<td class="text-center"><input type="checkbox" class="form-check-input dyn-input" data-index="${rowIndex}" data-field="${col.key}" ${safeVal === 'X' ? 'checked' : ''}/></td>`;
+        }
+        if (col.type === 'multicheckbox') {
+            // Varias casillas independientes dentro de una sola celda (ej.
+            // "Label Type": Retail/Non-Retail/Private Label — el operador
+            // puede marcar más de una). Se guarda como texto separado por
+            // comas (ej. "Retail, Private Label") en vez de un array, para
+            // que el motor de reporte PDF (que solo sabe imprimir texto de
+            // celda) siga sin necesitar ningún cambio.
+            const selected = safeVal ? safeVal.split(',').map(s => s.trim()).filter(Boolean) : [];
+            const opts = col.options.map(o =>
+                `<div class="form-check"><input type="checkbox" class="form-check-input dyn-multicheck" data-index="${rowIndex}" data-field="${col.key}" data-option="${o}" ${selected.includes(o) ? 'checked' : ''}/><label class="form-check-label small">${o}</label></div>`
+            ).join('');
+            return `<td>${opts}</td>`;
         }
         return `<td><input type="text" class="form-control border-0 bg-transparent dyn-input" data-index="${rowIndex}" data-field="${col.key}" value="${safeVal.replace(/"/g, '&quot;')}" placeholder="${col.placeholder || ''}"/></td>`;
     }
@@ -422,6 +462,22 @@ function initOspForm() {
                 // marcado o no — hay que leer this.checked, y guardar
                 // "X"/"" (ver cellHtml()) en vez de true/false.
                 config._data[idx][fld] = (this.type === 'checkbox') ? (this.checked ? 'X' : '') : this.value;
+                const jsonInput = document.getElementById(config.jsonInputId);
+                if (jsonInput) jsonInput.value = JSON.stringify(config._data);
+            });
+        });
+        tbody.querySelectorAll('.dyn-multicheck').forEach(el => {
+            el.addEventListener('change', function () {
+                const idx = this.getAttribute('data-index');
+                const fld = this.getAttribute('data-field');
+                const opt = this.getAttribute('data-option');
+                let selected = config._data[idx][fld] ? config._data[idx][fld].split(',').map(s => s.trim()).filter(Boolean) : [];
+                if (this.checked) {
+                    if (!selected.includes(opt)) selected.push(opt);
+                } else {
+                    selected = selected.filter(v => v !== opt);
+                }
+                config._data[idx][fld] = selected.join(', ');
                 const jsonInput = document.getElementById(config.jsonInputId);
                 if (jsonInput) jsonInput.value = JSON.stringify(config._data);
             });
@@ -492,6 +548,451 @@ function initOspForm() {
     applyConditionals();
 
     // ============================================================
+    // SECCIÓN 19 (Crop/Cultivo) — "Field History Affidavit" repetible.
+    // Retro de usuario piloto: el formato original permite declarar el
+    // historial de VARIOS campos nuevos, no solo uno — se había colapsado
+    // toda la sección en un único set de preguntas. A diferencia del resto
+    // de tablas dinámicas (TABLE_CONFIGS, filas planas de un solo tipo de
+    // celda), aquí cada "entrada" es un bloque completo con preguntas
+    // condicionales (radios Sí/No que revelan más campos) + su propia
+    // tabla año-por-año anidada — no cabe en el motor genérico de tablas,
+    // así que tiene su propio renderer dedicado. Reutiliza el motor
+    // genérico de condicionales (osp-conditional/applyConditionals() de
+    // arriba) dándole a cada radio un "name" único por entrada
+    // (ej. "f19_managed3_0", "f19_managed3_1"...), en vez de reinventar
+    // el show/hide.
+    // ============================================================
+    function initFieldHistoryBlock() {
+        const jsonInput = document.getElementById('19_fields_json');
+        const container = document.getElementById('fields19_container');
+        const addBtn = document.getElementById('btn_add_field19');
+        if (!jsonInput || !container) return; // sección no presente en este formulario (solo Crop/Cultivo)
+
+        const isSpanish = TECHNICAL_CODE === 'form_cultivo';
+        const L = isSpanish ? {
+            field: 'Campo', fieldId: 'Nombre del campo/ID número:', farmName: 'Nombre de la Finca/Productor:',
+            transitionDate: 'Fecha de inicio de transición:', managed3: '¿Ha administrado el campo por más de 3 años?',
+            yes: 'Sí', no: 'No',
+            statements: 'Si la respuesta es no, debe presentar las declaraciones firmadas del administrador anterior indicando el uso y aplicación de todos los insumos durante los 3 años anteriores. ¿Adjunto?',
+            certified: '¿Está el área certificada actualmente?',
+            attachCert: 'Adjunte una copia del certificado actual (no es necesario completar la tabla siguiente).',
+            lastSubstance: 'Última sustancia prohibida aplicada — Sustancia (marca e ingrediente activo):',
+            lastDate: 'Fecha de la última aplicación:',
+            rowInstruction: 'Complete una fila por año durante todo el proceso de transición.',
+            year: 'AÑO', crops: 'CULTIVO(S) PREVIOS', inputsUsed: 'INSUMOS APLICADOS',
+            addYear: 'Agregar Año', action: 'ACCIÓN', addField: 'Agregar Campo Nuevo', deleteField: 'Eliminar este campo',
+        } : {
+            field: 'Field', fieldId: 'Field name / ID number:', farmName: 'Farm / Producer Name:',
+            transitionDate: 'Transition Start Date:', managed3: 'Have you managed this field for 3 or more years?',
+            yes: 'Yes', no: 'No',
+            statements: 'If no, have you attached signed statements from the previous land manager stating use and all inputs applied during the previous 3 years?',
+            certified: 'Is this field currently certified?',
+            attachCert: 'Submit a copy of your certification (table below not required).',
+            lastSubstance: 'Last prohibited substance applied — Substance (Brand name and active ingredient):',
+            lastDate: 'Date of last application:',
+            rowInstruction: 'Complete one row per year throughout the transition process.',
+            year: 'YEAR', crops: 'CROP(S) (product planted)',
+            inputsUsed: 'INPUTS USED (brand name, formulation, compost, manure, fertilizers, crop production aids, pest control, additives, etc.)',
+            addYear: 'Add Year', action: 'ACTION', addField: 'Add New Field', deleteField: 'Remove this field',
+        };
+
+        function esc(v) {
+            return (v === undefined || v === null ? '' : String(v)).replace(/"/g, '&quot;');
+        }
+
+        function emptyEntry() {
+            return {
+                field_id: '', farm_producer_name: '', transition_start_date: '',
+                managed_3years: '', statements_attached: '', field_certified: '',
+                certification_attachment_needed: '', last_substance_brand: '', last_substance_date: '',
+                history: [{ year: '', crops: '', inputs_used: '' }],
+            };
+        }
+
+        let data;
+        try {
+            data = JSON.parse(jsonInput.value || '[]');
+        } catch (e) {
+            data = [];
+        }
+        if (!data.length) data.push(emptyEntry());
+
+        function sync() {
+            jsonInput.value = JSON.stringify(data);
+        }
+
+        function radioHtml(idx, field, value, optValue, optLabel) {
+            const id = 'f19_' + field + '_' + idx + '_' + optValue;
+            return '<div class="form-check form-check-inline">' +
+                '<input class="form-check-input" type="radio" name="f19_' + field + '_' + idx + '" id="' + id + '" value="' + optValue + '" ' + (value === optValue ? 'checked' : '') + (READONLY ? ' disabled' : '') + '/>' +
+                '<label class="form-check-label" for="' + id + '">' + optLabel + '</label></div>';
+        }
+
+        function historyRowsHtml(idx, history) {
+            return history.map(function (r, hIdx) {
+                return '<tr>' +
+                    '<td><input type="text" class="form-control form-control-sm border-0 bg-transparent f19-hist-input" data-idx="' + idx + '" data-hidx="' + hIdx + '" data-field="year" value="' + esc(r.year) + '" placeholder="' + (isSpanish ? 'Año...' : 'Year...') + '" ' + (READONLY ? 'disabled' : '') + '/></td>' +
+                    '<td><input type="text" class="form-control form-control-sm border-0 bg-transparent f19-hist-input" data-idx="' + idx + '" data-hidx="' + hIdx + '" data-field="crops" value="' + esc(r.crops) + '" ' + (READONLY ? 'disabled' : '') + '/></td>' +
+                    '<td><input type="text" class="form-control form-control-sm border-0 bg-transparent f19-hist-input" data-idx="' + idx + '" data-hidx="' + hIdx + '" data-field="inputs_used" value="' + esc(r.inputs_used) + '" ' + (READONLY ? 'disabled' : '') + '/></td>' +
+                    '<td class="text-center"><button type="button" class="btn btn-sm text-danger f19-hist-del" data-idx="' + idx + '" data-hidx="' + hIdx + '" ' + (READONLY ? 'disabled' : '') + '><i class="fa fa-trash"></i></button></td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        function entryHtml(entry, idx) {
+            const history = (entry.history && entry.history.length) ? entry.history : [{ year: '', crops: '', inputs_used: '' }];
+            let html = '';
+            html += '<div class="d-flex justify-content-between align-items-center mb-2">';
+            html += '<div class="fw-bold text-muted">' + L.field + ' #' + (idx + 1) + '</div>';
+            if (!READONLY) {
+                html += '<button type="button" class="btn btn-sm text-danger f19-del-entry" data-idx="' + idx + '"><i class="fa fa-trash"></i> ' + L.deleteField + '</button>';
+            }
+            html += '</div>';
+
+            html += '<div class="row"><div class="col-md-6 mb-3">' +
+                '<label class="form-label fw-bold">' + L.farmName + '</label>' +
+                '<input type="text" class="form-control f19-input" data-idx="' + idx + '" data-field="farm_producer_name" value="' + esc(entry.farm_producer_name) + '" ' + (READONLY ? 'disabled' : '') + '/>' +
+                '</div><div class="col-md-3 mb-3">' +
+                '<label class="form-label fw-bold">' + L.fieldId + '</label>' +
+                '<input type="text" class="form-control f19-input" data-idx="' + idx + '" data-field="field_id" value="' + esc(entry.field_id) + '" ' + (READONLY ? 'disabled' : '') + '/>' +
+                '</div><div class="col-md-3 mb-3">' +
+                '<label class="form-label fw-bold">' + L.transitionDate + '</label>' +
+                '<input type="date" class="form-control f19-input" data-idx="' + idx + '" data-field="transition_start_date" value="' + esc(entry.transition_start_date) + '" ' + (READONLY ? 'disabled' : '') + '/>' +
+                '</div></div>';
+
+            html += '<div class="mb-3"><label class="form-label fw-bold d-block">' + L.managed3 + '</label>' +
+                radioHtml(idx, 'managed3', entry.managed_3years, 'Yes', L.yes) +
+                radioHtml(idx, 'managed3', entry.managed_3years, 'No', L.no) +
+                '</div>';
+
+            html += '<div class="osp-conditional" data-conditional-field="f19_managed3_' + idx + '" data-conditional-value="No">' +
+                '<div class="mb-3"><label class="form-label fw-bold d-block">' + L.statements + '</label>' +
+                radioHtml(idx, 'statements', entry.statements_attached, 'Yes', L.yes) +
+                radioHtml(idx, 'statements', entry.statements_attached, 'No', L.no) +
+                '</div></div>';
+
+            html += '<div class="mb-3"><label class="form-label fw-bold d-block">' + L.certified + '</label>' +
+                radioHtml(idx, 'certified', entry.field_certified, 'Yes', L.yes) +
+                radioHtml(idx, 'certified', entry.field_certified, 'No', L.no) +
+                '</div>';
+
+            html += '<div class="osp-conditional" data-conditional-field="f19_certified_' + idx + '" data-conditional-value="Yes">' +
+                '<div class="form-check mb-2 small text-muted">' +
+                '<input class="form-check-input f19-check" type="checkbox" data-idx="' + idx + '" data-field="certification_attachment_needed" id="19_' + idx + '_certification_attachment_needed" ' + (entry.certification_attachment_needed === 'X' ? 'checked' : '') + (READONLY ? ' disabled' : '') + '/>' +
+                '<label class="form-check-label" for="19_' + idx + '_certification_attachment_needed"><i class="fa fa-paperclip"></i> ' + L.attachCert + '</label>' +
+                '</div></div>';
+
+            html += '<div class="osp-conditional" data-conditional-field="f19_certified_' + idx + '" data-conditional-value="No">';
+            html += '<div class="row"><div class="col-md-6 mb-3">' +
+                '<label class="form-label fw-bold">' + L.lastSubstance + '</label>' +
+                '<input type="text" class="form-control f19-input" data-idx="' + idx + '" data-field="last_substance_brand" value="' + esc(entry.last_substance_brand) + '" ' + (READONLY ? 'disabled' : '') + '/>' +
+                '</div><div class="col-md-4 mb-3">' +
+                '<label class="form-label fw-bold">' + L.lastDate + '</label>' +
+                '<input type="date" class="form-control f19-input" data-idx="' + idx + '" data-field="last_substance_date" value="' + esc(entry.last_substance_date) + '" ' + (READONLY ? 'disabled' : '') + '/>' +
+                '</div></div>';
+            html += '<p class="mt-3">' + L.rowInstruction + '</p>';
+            html += '<div class="table-responsive border rounded mb-3"><table class="table table-borderless table-hover mb-0">' +
+                '<thead class="bg-light text-muted small"><tr><th>' + L.year + '</th><th>' + L.crops + '</th><th>' + L.inputsUsed + '</th><th class="text-center">' + L.action + '</th></tr></thead>' +
+                '<tbody>' + historyRowsHtml(idx, history) + '</tbody>' +
+                '</table></div>';
+            if (!READONLY) {
+                html += '<button type="button" class="btn btn-sm btn-outline-success mb-2 f19-add-year" data-idx="' + idx + '"><i class="fa fa-plus"></i> ' + L.addYear + '</button>';
+            }
+            html += '</div>'; // cierre osp-conditional certified=No
+
+            return html;
+        }
+
+        function bindEvents() {
+            container.querySelectorAll('.f19-input').forEach(function (el) {
+                el.addEventListener('change', function () {
+                    data[this.getAttribute('data-idx')][this.getAttribute('data-field')] = this.value;
+                    sync();
+                });
+            });
+            container.querySelectorAll('.f19-check').forEach(function (el) {
+                el.addEventListener('change', function () {
+                    data[this.getAttribute('data-idx')][this.getAttribute('data-field')] = this.checked ? 'X' : '';
+                    sync();
+                });
+            });
+            container.querySelectorAll('input[type="radio"][name^="f19_"]').forEach(function (el) {
+                el.addEventListener('change', function () {
+                    // name = "f19_<field>_<idx>" (el idx siempre es el último tramo).
+                    const parts = this.name.split('_');
+                    const idx = parts[parts.length - 1];
+                    const fld = parts.slice(1, -1).join('_');
+                    const fieldMap = { managed3: 'managed_3years', statements: 'statements_attached', certified: 'field_certified' };
+                    data[idx][fieldMap[fld]] = this.value;
+                    sync();
+                    applyConditionals();
+                });
+            });
+            container.querySelectorAll('.f19-hist-input').forEach(function (el) {
+                el.addEventListener('change', function () {
+                    const idx = this.getAttribute('data-idx');
+                    const hIdx = this.getAttribute('data-hidx');
+                    data[idx].history[hIdx][this.getAttribute('data-field')] = this.value;
+                    sync();
+                });
+            });
+            container.querySelectorAll('.f19-hist-del').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const idx = btn.getAttribute('data-idx');
+                    const hIdx = btn.getAttribute('data-hidx');
+                    data[idx].history.splice(hIdx, 1);
+                    if (!data[idx].history.length) data[idx].history.push({ year: '', crops: '', inputs_used: '' });
+                    sync();
+                    render();
+                });
+            });
+            container.querySelectorAll('.f19-add-year').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const idx = btn.getAttribute('data-idx');
+                    data[idx].history.push({ year: '', crops: '', inputs_used: '' });
+                    sync();
+                    render();
+                });
+            });
+            container.querySelectorAll('.f19-del-entry').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    data.splice(btn.getAttribute('data-idx'), 1);
+                    if (!data.length) data.push(emptyEntry());
+                    sync();
+                    render();
+                });
+            });
+        }
+
+        function render() {
+            container.innerHTML = '';
+            data.forEach(function (entry, idx) {
+                const card = document.createElement('div');
+                card.className = 'border rounded p-3 mb-3';
+                card.innerHTML = entryHtml(entry, idx);
+                container.appendChild(card);
+            });
+            sync();
+            bindEvents();
+            applyConditionals();
+        }
+
+        render();
+
+        if (addBtn) {
+            if (READONLY) {
+                addBtn.disabled = true;
+            } else {
+                addBtn.addEventListener('click', function () {
+                    data.push(emptyEntry());
+                    sync();
+                    render();
+                });
+            }
+        }
+    }
+
+    initFieldHistoryBlock();
+
+    // ============================================================
+    // "NO APLICA ESTA SECCIÓN A MI OPERACIÓN" — retro de usuario piloto:
+    // al marcar esta casilla, el resto de las preguntas de esa sección
+    // debería minimizarse/ocultarse, para que el cliente no llene
+    // información que no le corresponde. 100% genérico: cualquier
+    // checkbox cuyo "name" sea EXACTAMENTE "<número>_na" (ej. "2_na",
+    // "11_na") se trata como marcador de sección completa — a propósito
+    // NO aplica a los demás checkboxes "_na" del módulo (ej.
+    // "9_manure_na", "13_buffer_na"), que son de una subsección, no de
+    // toda la sección, y sí deben seguir mostrando sus vecinos. El
+    // checkbox y todo lo que esté ANTES de él en el tab-pane (encabezado,
+    // cita regulatoria, nota de "solo primera vez", etc.) nunca se oculta
+    // — solo lo que viene DESPUÉS.
+    // ============================================================
+    function initSectionNAHiding() {
+        document.querySelectorAll('input[type="checkbox"].osp-input').forEach(function (cb) {
+            if (!/^\d+_na$/.test(cb.name)) return;
+            const wrapDiv = cb.closest('.form-check');
+            const tabPane = cb.closest('.tab-pane');
+            if (!wrapDiv || !tabPane) return;
+
+            function applyHide() {
+                let hide = false;
+                Array.from(tabPane.children).forEach(function (child) {
+                    if (child === wrapDiv) {
+                        hide = cb.checked;
+                        return;
+                    }
+                    child.classList.toggle('d-none', hide);
+                });
+            }
+            cb.addEventListener('change', applyHide);
+            applyHide();
+        });
+    }
+
+    initSectionNAHiding();
+
+    // ============================================================
+    // FIRMA A MANO (modal con canvas) — retro de usuario piloto: el campo
+    // de firma solo aceptaba texto libre; se pidió un modal donde el
+    // usuario pueda "dibujar" su firma con mouse/dedo (como el módulo
+    // Sign de Odoo), guardada como imagen PNG (base64) en el mismo
+    // hidden input de siempre (#req_sign — la validación de Submit y
+    // gatherFormData() ya lo leen genéricamente por .value, sin saber que
+    // ahora es una imagen en vez de texto, así que no necesitan cambios).
+    // Aplica en los 3 contextos (portal, público, Administrador de OSP) —
+    // en READONLY solo se muestra la imagen ya guardada, sin editor.
+    // ============================================================
+    function initSignaturePad() {
+        const hiddenInput = document.getElementById('req_sign');
+        const wrap = document.getElementById('signature_pad_wrap');
+        if (!hiddenInput || !wrap) return;
+
+        const isSpanish = ['form_manejo_proceso', 'form_comercializador', 'form_cultivo'].indexOf(TECHNICAL_CODE) !== -1;
+        const L = isSpanish ? {
+            sign: 'Firmar', change: 'Cambiar firma', title: 'Firme aquí',
+            instructions: 'Dibuje su firma dentro del recuadro con el mouse o el dedo.',
+            clear: 'Limpiar', save: 'Guardar', cancel: 'Cancelar',
+        } : {
+            sign: 'Sign', change: 'Change signature', title: 'Sign here',
+            instructions: 'Draw your signature inside the box below with your mouse or finger.',
+            clear: 'Clear', save: 'Save', cancel: 'Cancel',
+        };
+
+        function renderTrigger() {
+            wrap.innerHTML = '';
+            if (hiddenInput.value) {
+                const img = document.createElement('img');
+                img.src = hiddenInput.value;
+                img.style.maxHeight = '80px';
+                img.style.border = '1px solid #dee2e6';
+                img.style.borderRadius = '4px';
+                img.style.display = 'block';
+                img.style.marginBottom = '6px';
+                img.style.background = '#fff';
+                wrap.appendChild(img);
+            }
+            if (READONLY) return;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn btn-outline-success btn-sm';
+            btn.innerHTML = '<i class="fa fa-pencil"></i> ' + (hiddenInput.value ? L.change : L.sign);
+            btn.addEventListener('click', openModal);
+            wrap.appendChild(btn);
+        }
+
+        function openModal() {
+            const existing = document.getElementById('signature_modal');
+            if (existing) existing.remove();
+
+            const modalEl = document.createElement('div');
+            modalEl.className = 'modal fade';
+            modalEl.id = 'signature_modal';
+            modalEl.tabIndex = -1;
+            modalEl.innerHTML =
+                '<div class="modal-dialog modal-dialog-centered">' +
+                    '<div class="modal-content">' +
+                        '<div class="modal-header">' +
+                            '<h5 class="modal-title">' + L.title + '</h5>' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="modal"></button>' +
+                        '</div>' +
+                        '<div class="modal-body">' +
+                            '<p class="text-muted small">' + L.instructions + '</p>' +
+                            '<canvas id="signature_canvas" style="border: 1px dashed #adb5bd; border-radius: 4px; width: 100%; height: 200px; touch-action: none; cursor: crosshair; background: #fff;"></canvas>' +
+                        '</div>' +
+                        '<div class="modal-footer">' +
+                            '<button type="button" class="btn btn-outline-secondary btn-sm me-auto" id="btn_sign_clear">' + L.clear + '</button>' +
+                            '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' + L.cancel + '</button>' +
+                            '<button type="button" class="btn btn-success" id="btn_sign_save" disabled="disabled">' + L.save + '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            document.body.appendChild(modalEl);
+
+            const canvas = modalEl.querySelector('#signature_canvas');
+            const ctx = canvas.getContext('2d');
+            const saveBtn = modalEl.querySelector('#btn_sign_save');
+            const clearBtn = modalEl.querySelector('#btn_sign_clear');
+            let drawing = false;
+            let hasDrawn = false;
+
+            function resizeCanvas() {
+                const ratio = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * ratio;
+                canvas.height = rect.height * ratio;
+                ctx.scale(ratio, ratio);
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.strokeStyle = '#000000';
+            }
+
+            function pointerPos(evt) {
+                const rect = canvas.getBoundingClientRect();
+                const point = evt.touches && evt.touches.length ? evt.touches[0] : evt;
+                return { x: point.clientX - rect.left, y: point.clientY - rect.top };
+            }
+
+            function startDraw(evt) {
+                evt.preventDefault();
+                drawing = true;
+                const p = pointerPos(evt);
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+            }
+
+            function moveDraw(evt) {
+                if (!drawing) return;
+                evt.preventDefault();
+                const p = pointerPos(evt);
+                ctx.lineTo(p.x, p.y);
+                ctx.stroke();
+                if (!hasDrawn) {
+                    hasDrawn = true;
+                    saveBtn.disabled = false;
+                }
+            }
+
+            function endDraw() {
+                drawing = false;
+            }
+
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', moveDraw);
+            window.addEventListener('mouseup', endDraw);
+            canvas.addEventListener('touchstart', startDraw);
+            canvas.addEventListener('touchmove', moveDraw);
+            canvas.addEventListener('touchend', endDraw);
+
+            clearBtn.addEventListener('click', function () {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                hasDrawn = false;
+                saveBtn.disabled = true;
+            });
+
+            const bsModal = new bootstrap.Modal(modalEl);
+
+            saveBtn.addEventListener('click', function () {
+                hiddenInput.value = canvas.toDataURL('image/png');
+                renderTrigger();
+                bsModal.hide();
+            });
+
+            modalEl.addEventListener('shown.bs.modal', resizeCanvas);
+            modalEl.addEventListener('hidden.bs.modal', function () {
+                modalEl.remove();
+            });
+
+            bsModal.show();
+        }
+
+        renderTrigger();
+    }
+
+    initSignaturePad();
+
+    // ============================================================
     // Caso especial: 1h "Same as Physical address" oculta los
     // campos de billing en vez de mostrarlos (lógica inversa).
     // ============================================================
@@ -506,31 +1007,37 @@ function initOspForm() {
         toggleBillingFields();
     }
 
-    // --- Filtro en cascada País -> Estado (1g -> 1e) ---
-    const countrySelect = document.getElementById('1g_country');
-    const stateSelect = document.getElementById('1e_state');
-
-    function filterStatesByCountry() {
+    // --- Filtro en cascada País -> Estado — genérico, soporta varios pares
+    // en la misma página (1g/1e para la dirección física, y el mismo
+    // patrón para 1h_billing_country/1h_billing_state en Facturación —
+    // retro de usuario piloto: 1h no desglosaba estado/país como 1e/1g). ---
+    function initCountryStateFilter(countryId, stateId) {
+        const countrySelect = document.getElementById(countryId);
+        const stateSelect = document.getElementById(stateId);
         if (!countrySelect || !stateSelect) return;
-        const selectedCountry = countrySelect.value;
-        let currentStateStillValid = false;
 
-        Array.from(stateSelect.options).forEach(opt => {
-            if (!opt.value) return; // deja siempre visible la opción "-- Select --"
-            const belongsToCountry = opt.getAttribute('data-country') === selectedCountry;
-            opt.hidden = selectedCountry !== '' && !belongsToCountry;
-            if (opt.selected && belongsToCountry) currentStateStillValid = true;
-        });
+        function filterStatesByCountry() {
+            const selectedCountry = countrySelect.value;
+            let currentStateStillValid = false;
 
-        if (selectedCountry !== '' && !currentStateStillValid) {
-            stateSelect.value = '';
+            Array.from(stateSelect.options).forEach(opt => {
+                if (!opt.value) return; // deja siempre visible la opción "-- Select --"
+                const belongsToCountry = opt.getAttribute('data-country') === selectedCountry;
+                opt.hidden = selectedCountry !== '' && !belongsToCountry;
+                if (opt.selected && belongsToCountry) currentStateStillValid = true;
+            });
+
+            if (selectedCountry !== '' && !currentStateStillValid) {
+                stateSelect.value = '';
+            }
         }
-    }
 
-    if (countrySelect) {
         countrySelect.addEventListener('change', filterStatesByCountry);
         filterStatesByCountry();
     }
+
+    initCountryStateFilter('1g_country', '1e_state');
+    initCountryStateFilter('1h_billing_country', '1h_billing_state');
 
     // ============================================================
     // MODO SOLO LECTURA: deshabilita todos los campos normales
@@ -699,7 +1206,37 @@ function initOspForm() {
           .then(data => {
               if (data.result && data.result.success) {
                   try { localStorage.removeItem(PUBLIC_STORAGE_KEY); } catch (e) { /* no-op */ }
-                  window.location.href = `/osp/public/thankyou/${data.result.osp_id}`;
+                  const ospId = data.result.osp_id;
+                  const goToThankYou = () => { window.location.href = `/osp/public/thankyou/${ospId}`; };
+
+                  // Sube en un solo paso, automáticamente, todo lo que el
+                  // navegante fue seleccionando por sección durante el
+                  // llenado (ver initPublicFileUploads() más arriba) —
+                  // reutiliza el MISMO endpoint que ya usa la subida manual
+                  // de la pantalla "Thank you" (controllers/portal.py,
+                  // public_osp_upload), así que ningún cambio de servidor
+                  // es indispensable para el flujo normal de esa pantalla.
+                  const checkboxIds = Object.keys(pendingPublicFiles);
+                  if (!checkboxIds.length) {
+                      goToThankYou();
+                      return;
+                  }
+
+                  if (statusText) statusText.innerText = 'Uploading attachments...';
+                  const uploadData = new FormData();
+                  uploadData.append('csrf_token', window.OSP_CSRF_TOKEN || '');
+                  checkboxIds.forEach(function (checkboxId) {
+                      const file = pendingPublicFiles[checkboxId];
+                      // Código de pregunta (ej. "2b") tomado del id del
+                      // checkbox — mismo criterio que initAttachmentChecklist(),
+                      // para que ir.attachment quede etiquetado con a qué
+                      // pregunta corresponde cada archivo.
+                      uploadData.append('osp_files', file, file.name);
+                      uploadData.append('osp_labels', checkboxId.split('_')[0]);
+                  });
+                  fetch(`/osp/public/upload/${ospId}`, { method: 'POST', body: uploadData })
+                      .catch(err => console.error('🔴 [OSP] No se pudieron subir los adjuntos seleccionados por sección:', err))
+                      .then(goToThankYou);
               } else {
                   console.error('🔴 [OSP] Error al enviar el formulario:', data.error || data);
                   if (statusText) {
@@ -821,6 +1358,65 @@ function initOspForm() {
     }
 
     initAttachmentChecklist(TECHNICAL_CODE);
+
+    // ============================================================
+    // SELECCIÓN DE ADJUNTOS POR SECCIÓN (solo navegante público) — retro
+    // de usuario piloto: "que no se le olvide adjuntar algo". El registro
+    // sigue sin crearse hasta el Submit (no se reabre el problema de
+    // registros basura) — lo único que cambia es que el archivo se ELIGE
+    // en el navegador justo al lado de cada casilla "Attach .../Adjunte
+    // ..." desde que se llena esa sección, en vez de tener que recordar
+    // todo hasta el final. La subida real a Odoo sigue pasando toda junta,
+    // automáticamente, justo después de que el Submit cree el registro
+    // (ver el bloque de éxito dentro de savePublicForm() más abajo).
+    // ============================================================
+    if (PUBLIC_MODE) {
+        initPublicFileUploads();
+    }
+
+    function initPublicFileUploads() {
+        document.querySelectorAll('input[id$="_attachment_needed"]').forEach(function (cb) {
+            // La Sección 19 (Crop/Cultivo) es un bloque repetible que se
+            // reconstruye por completo (innerHTML) en cada cambio — un
+            // picker inyectado aquí se perdería en el primer re-render (ver
+            // initFieldHistoryBlock() más arriba). Se deja fuera a
+            // propósito: esa casilla en particular sigue funcionando con la
+            // subida al final (pantalla "Thank you"), solo sin el atajo por
+            // sección.
+            if (cb.closest('#fields19_container')) return;
+
+            const wrapDiv = cb.closest('.form-check');
+            if (!wrapDiv) return;
+
+            const picker = document.createElement('div');
+            picker.className = 'mb-2';
+            picker.style.marginLeft = '1.5rem';
+            picker.style.display = cb.checked ? '' : 'none';
+
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.className = 'form-control form-control-sm';
+            input.style.maxWidth = '350px';
+            picker.appendChild(input);
+            wrapDiv.insertAdjacentElement('afterend', picker);
+
+            cb.addEventListener('change', function () {
+                picker.style.display = cb.checked ? '' : 'none';
+                if (!cb.checked) {
+                    input.value = '';
+                    delete pendingPublicFiles[cb.id];
+                }
+            });
+
+            input.addEventListener('change', function () {
+                if (input.files && input.files[0]) {
+                    pendingPublicFiles[cb.id] = input.files[0];
+                } else {
+                    delete pendingPublicFiles[cb.id];
+                }
+            });
+        });
+    }
 }
 
 // ============================================================

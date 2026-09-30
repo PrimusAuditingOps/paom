@@ -53,6 +53,70 @@ class OSPRequestReportCommon(models.Model):
 
         return [row for row in rows if isinstance(row, dict) and not is_empty_row(row)]
 
+    def _report_show_if_met(self, condition, data):
+        """condition: None (siempre se muestra, comportamiento de siempre)
+        o {'field': <key>, 'value': <valor esperado>} — mismo concepto que
+        data-conditional-field/data-conditional-value en el HTML (ver
+        osp-conditional en osp_form.js). 'data' es el dict contra el que se
+        evalúa: form_data completo para un campo normal, o la entrada
+        individual (entry) para un subfield de 'repeatable'.
+
+        El campo controlador puede ser un 'checkbox_group' (ej. "marque
+        todas las que apliquen"), cuyo valor en form_data es una LISTA de
+        opciones marcadas, no un string único — a diferencia de un radio o
+        un select. Si el valor guardado es una lista, se revisa que el
+        valor esperado esté DENTRO de ella; si no, se compara igual que
+        siempre (==)."""
+        if not condition:
+            return True
+        current = data.get(condition['field'])
+        if isinstance(current, list):
+            return condition['value'] in current
+        return current == condition['value']
+
+    def _report_repeatable_entries(self, field, raw_json):
+        """Decodifica un campo 'repeatable' (ej. Sección 19: varios campos
+        nuevos, cada uno con su propio set de preguntas + su propia tabla
+        año-por-año anidada — ver Sección 19 en osp_crop_report_data.py).
+        A diferencia de 'table' (filas planas de un solo tipo de celda),
+        cada entrada aquí es una mini-lista de sub-campos de distinto tipo
+        (texto/sí-no/checkbox/tabla), resuelta con el mismo switch que
+        _resolve_report_sections() usa para los campos normales de nivel
+        superior — así una entrada nueva de subfields no requiere tocar
+        el motor, solo el manifest."""
+        try:
+            entries = json.loads(raw_json) if raw_json else []
+        except (ValueError, TypeError):
+            entries = []
+
+        entries_out = []
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            subfields_out = []
+            for subfield in field['subfields']:
+                if not self._report_show_if_met(subfield.get('show_if'), entry):
+                    continue
+                sftype = subfield['type']
+                svalue = entry.get(subfield['key'])
+                slabel = subfield.get('label')
+                if sftype in ('text', 'date'):
+                    subfields_out.append({'kind': 'text', 'label': slabel, 'value': svalue or ''})
+                elif sftype == 'yn':
+                    subfields_out.append({'kind': 'options', 'label': slabel, 'options': YN_OPTIONS, 'value': svalue or ''})
+                elif sftype == 'checkbox':
+                    subfields_out.append({'kind': 'checkbox', 'label': slabel, 'checked': svalue == 'X'})
+                elif sftype == 'table':
+                    rows = svalue if isinstance(svalue, list) else []
+                    rows = [r for r in rows if isinstance(r, dict) and any((str(v).strip() if v is not None else '') for v in r.values())]
+                    subfields_out.append({'kind': 'table', 'label': slabel, 'columns': subfield['columns'], 'rows': rows})
+            # Entrada completamente vacía (usuario nunca la llenó): se
+            # descarta, mismo criterio que _report_parse_table() con las
+            # filas de las tablas planas.
+            if any(sf.get('value') or sf.get('checked') or sf.get('rows') for sf in subfields_out):
+                entries_out.append(subfields_out)
+        return entries_out
+
     def _report_fixed_rows(self, field, data):
         """Para secciones con un número FIJO de filas armadas desde varias
         claves sueltas de form_data en vez de un solo blob JSON (ej. la
@@ -82,6 +146,17 @@ class OSPRequestReportCommon(models.Model):
         for section in sections_manifest:
             fields_out = []
             for field in section['fields']:
+                # 'show_if' (opcional, cualquier tipo de campo): mismo
+                # concepto que osp-conditional/data-conditional-field en el
+                # HTML del formulario — antes, el PDF imprimía TODOS los
+                # campos del manifest sin importar si la pregunta de la que
+                # dependen en realidad los reveló (retro de usuario piloto:
+                # ej. "Si no, explique" salía vacío aunque la respuesta
+                # hubiera sido "Sí"). Si no coincide, el campo se omite del
+                # PDF por completo — no se agrega ni siquiera vacío.
+                if not self._report_show_if_met(field.get('show_if'), data):
+                    continue
+
                 ftype = field['type']
 
                 if ftype == 'static':
@@ -112,6 +187,12 @@ class OSPRequestReportCommon(models.Model):
                     fields_out.append({'kind': 'options', 'label': label, 'options': YNNA_OPTIONS, 'value': value or ''})
                 elif ftype == 'checkbox':
                     fields_out.append({'kind': 'checkbox', 'label': label, 'checked': bool(value)})
+                elif ftype == 'image':
+                    # Firma a mano (retro de usuario piloto): se guarda como
+                    # PNG en base64 (data URL) — wkhtmltopdf imprime data:
+                    # URIs de imagen sin problema, no hace falta subirla
+                    # como ir.attachment aparte.
+                    fields_out.append({'kind': 'image', 'label': label, 'value': value or ''})
                 elif ftype == 'checkbox_group':
                     fields_out.append({'kind': 'checkbox_group', 'label': label, 'selected': value or []})
                 elif ftype == 'm2o_state':
@@ -124,6 +205,12 @@ class OSPRequestReportCommon(models.Model):
                         'label': label,
                         'columns': field['columns'],
                         'rows': self._report_parse_table(value),
+                    })
+                elif ftype == 'repeatable':
+                    fields_out.append({
+                        'kind': 'repeatable',
+                        'label': label,
+                        'entries': self._report_repeatable_entries(field, value),
                     })
 
             sections.append({'title': section['title'], 'fields': fields_out})

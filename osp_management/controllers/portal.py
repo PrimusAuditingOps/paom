@@ -12,6 +12,14 @@ _logger = logging.getLogger(__name__)
 
 TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 
+# Retro de usuario piloto: "Santa Bárbara Heredia" es una entrada real de
+# res.country.state (Costa Rica) que no es una opción válida para la
+# pregunta 1e — se excluye aquí, en los 3 puntos donde se arma la lista de
+# estados, en vez de tocar el dato base de Odoo (más seguro: no depende de
+# saber el id exacto del registro, ni se pierde si algún día se reimporta
+# la data base de país/estado).
+STATE_EXCLUDE_NAMES = ['Santa Bárbara Heredia']
+
 class OSPPortal(CustomerPortal):
 
     # OSP Administrator y OSP User tienen el mismo trato funcional en todo
@@ -189,7 +197,7 @@ class OSPPortal(CustomerPortal):
         }
         if template.technical_code in FORM_BODY_TEMPLATES:
             countries = request.env['res.country'].search([], order='name asc')
-            states = request.env['res.country.state'].search([], order='name asc')
+            states = request.env['res.country.state'].search([('name', 'not in', STATE_EXCLUDE_NAMES)], order='name asc')
             return request.render(FORM_BODY_TEMPLATES[template.technical_code], {
                 'osp': SimpleNamespace(id=0, form_data={}),
                 'countries': countries,
@@ -253,7 +261,7 @@ class OSPPortal(CustomerPortal):
         }
         if record.form_template_id.technical_code in FORM_BODY_TEMPLATES:
             countries = request.env['res.country'].search([], order='name asc')
-            states = request.env['res.country.state'].search([], order='name asc')
+            states = request.env['res.country.state'].search([('name', 'not in', STATE_EXCLUDE_NAMES)], order='name asc')
             # Adjuntos ya subidos (punto 6): se listan para el cliente (dueño)
             # y para el Administrador de OSP; se leen con sudo() porque el
             # acceso real ya se validó arriba (is_owner / is_admin).
@@ -444,7 +452,7 @@ class OSPPublicController(OSPPortal):
 
     def _render_public_form(self, technical_code, template):
         countries = request.env['res.country'].sudo().search([], order='name asc')
-        states = request.env['res.country.state'].sudo().search([], order='name asc')
+        states = request.env['res.country.state'].sudo().search([('name', 'not in', STATE_EXCLUDE_NAMES)], order='name asc')
         ctx = {
             'osp': SimpleNamespace(id=0, form_data={}),
             'countries': countries,
@@ -627,15 +635,27 @@ class OSPPublicController(OSPPortal):
         record = request.env['osp.request'].sudo().browse(osp_id)
         if record.exists() and not record.partner_id:
             files = request.httprequest.files.getlist('osp_files')
-            for uploaded_file in files:
+            # 'osp_labels' es opcional — solo lo manda la subida automática
+            # que dispara savePublicForm() justo después del Submit (ver
+            # osp_form.js, initPublicFileUploads()), con el código de
+            # pregunta (ej. "2b") de la casilla "Attach .../Adjunte ..."
+            # donde el navegante eligió cada archivo, en el mismo orden en
+            # que se agregaron. La subida manual de la pantalla "Thank you"
+            # no manda esta lista — sigue funcionando igual que antes.
+            labels = request.httprequest.form.getlist('osp_labels')
+            for index, uploaded_file in enumerate(files):
                 if not uploaded_file or not uploaded_file.filename:
                     continue
+                label = labels[index] if index < len(labels) else ''
+                description = _("Uploaded by a website visitor (no account)")
+                if label:
+                    description = _("Uploaded by a website visitor (no account) — for question %s") % label
                 request.env['ir.attachment'].sudo().create({
                     'name': uploaded_file.filename,
                     'datas': base64.b64encode(uploaded_file.read()),
                     'res_model': 'osp.request',
                     'res_id': record.id,
-                    'description': _("Uploaded by a website visitor (no account)"),
+                    'description': description,
                 })
 
         return request.redirect('/osp/public/thankyou/%s' % osp_id)
