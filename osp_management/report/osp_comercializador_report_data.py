@@ -136,6 +136,7 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
             {'key': '7a_storage_operations', 'label': '7a. Operaciones utilizadas para almacenamiento', 'type': 'textarea'},
             {'key': '7b_responsible_for_transport', 'label': '7b. ¿Responsable del transporte del producto orgánico?', 'type': 'yn'},
             {'key': '7b_transport_company', 'label': 'Si sí, empresa', 'type': 'text', 'show_if': {'field': '7b_responsible_for_transport', 'value': 'Yes'}},
+            {'key': '7b_transport_explain', 'label': 'Si no, quién es responsable del transporte', 'type': 'textarea', 'show_if': {'field': '7b_responsible_for_transport', 'value': 'No'}},
             {'key': '7c_receiving_form', 'label': '7c. Forma en que se reciben los productos orgánicos', 'type': 'text'},
             {'key': '7d_shipping_form', 'label': '7d. Forma en que se envían los productos terminados', 'type': 'text'},
             {'key': '7_quality_na', 'label': 'Pruebas de Calidad — N/A', 'type': 'checkbox'},

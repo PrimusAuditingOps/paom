@@ -138,6 +138,7 @@ HANDLER_TRADER_REPORT_SECTIONS = [
             {'key': '7a_storage_operations', 'label': '7a. Operations utilized for storage', 'type': 'textarea'},
             {'key': '7b_responsible_for_transport', 'label': '7b. Responsible for the transportation of the organic product?', 'type': 'yn'},
             {'key': '7b_transport_company', 'label': 'If yes, company', 'type': 'text', 'show_if': {'field': '7b_responsible_for_transport', 'value': 'Yes'}},
+            {'key': '7b_transport_explain', 'label': 'If no, who is responsible for transport', 'type': 'textarea', 'show_if': {'field': '7b_responsible_for_transport', 'value': 'No'}},
             {'key': '7c_receiving_form', 'label': '7c. Form in which organic products are received', 'type': 'text'},
             {'key': '7d_shipping_form', 'label': '7d. Form in which finished products are shipped', 'type': 'text'},
             {'key': '7_quality_na', 'label': 'Quality Testing — N/A', 'type': 'checkbox'},
