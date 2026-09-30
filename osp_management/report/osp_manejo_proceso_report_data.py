@@ -162,7 +162,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
                     {'key': 'ingredients', 'label': 'Ingredientes'},
                     {'key': 'finished_goods', 'label': 'Productos Terminados'},
                     {'key': 'packaging_materials', 'label': 'Material de Empaque'},
-                    {'key': 'other', 'label_key': '7b_other_label'},
+                    {'key': 'other', 'label_key': '7b_other_label', 'label': 'Otro'},
                 ],
             },
             {'key': '7c_shipping_form', 'label': '7c. Forma de envío de productos terminados', 'type': 'text'},

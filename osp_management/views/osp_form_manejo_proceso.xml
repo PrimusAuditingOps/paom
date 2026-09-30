@@ -12,10 +12,11 @@
          OJO: los `name`/JSON keys de los campos Sí/No usan valores
          internos en INGLÉS ("Yes"/"No"/"N/A") aunque la etiqueta visible
          esté en español ("Sí"/"No") — el motor de reporte PDF compartido
-         (report/osp_report_common.py, YN_OPTIONS/YNNA_OPTIONS) compara
-         contra esos valores literales para dibujar los glifos ☐/☑, así
-         que cambiarlos rompería el PDF de este formulario. Ver
-         FORM_SPEC_MANEJO_PROCESO.md.
+         (report/osp_report_common.py, YN_OPTIONS_ES/YNNA_OPTIONS_ES)
+         compara contra esos valores literales para dibujar los glifos
+         ☐/☑ (y ya traduce la etiqueta que se imprime al lado, ver
+         CONTEXT.md §46), así que cambiar los valores internos rompería
+         el PDF de este formulario. Ver FORM_SPEC_MANEJO_PROCESO.md.
          ============================================================ -->
     <template id="osp_form_manejo_proceso_body" name="OSP Manejo o Proceso Form Body">
         <t t-set="data" t-value="osp.form_data or {}"/>

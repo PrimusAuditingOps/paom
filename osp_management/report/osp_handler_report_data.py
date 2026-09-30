@@ -166,7 +166,7 @@ HANDLER_REPORT_SECTIONS = [
                     {'key': 'ingredients', 'label': 'Ingredients'},
                     {'key': 'finished_goods', 'label': 'Finished Goods'},
                     {'key': 'packaging_materials', 'label': 'Packaging Materials'},
-                    {'key': 'other', 'label_key': '7b_other_label'},
+                    {'key': 'other', 'label_key': '7b_other_label', 'label': 'Other'},
                 ],
             },
             {'key': '7c_shipping_form', 'label': '7c. Form in which finished products are shipped', 'type': 'text'},

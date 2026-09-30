@@ -68,7 +68,7 @@
                                     <span class="fw-bold" t-esc="field['label']"/>:
                                     <t t-foreach="field['options']" t-as="opt">
                                         <span style="margin-right: 12px; white-space: nowrap;">
-                                            <t t-esc="'☑' if field['value'] == opt else '☐'"/> <t t-esc="opt"/>
+                                            <t t-esc="'☑' if field['value'] == opt[0] else '☐'"/> <t t-esc="opt[1]"/>
                                         </span>
                                     </t>
                                 </div>
@@ -120,7 +120,7 @@
                                                 <span class="fw-bold" t-esc="subfield['label']"/>:
                                                 <t t-foreach="subfield['options']" t-as="opt">
                                                     <span style="margin-right: 12px; white-space: nowrap;">
-                                                        <t t-esc="'☑' if subfield['value'] == opt else '☐'"/> <t t-esc="opt"/>
+                                                        <t t-esc="'☑' if subfield['value'] == opt[0] else '☐'"/> <t t-esc="opt[1]"/>
                                                     </span>
                                                 </t>
                                             </div>

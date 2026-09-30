@@ -21,12 +21,32 @@ import json
 
 from odoo import models
 
-YN_OPTIONS = ['Yes', 'No']
-YNNA_OPTIONS = ['Yes', 'No', 'N/A']
+# Retro de usuario piloto: el PDF imprimía literalmente "Yes"/"No"/"N/A"
+# en los 3 formularios en español (el motor solo conocía el valor guardado
+# en form_data, siempre en inglés — "Sí"/"No" son solo la etiqueta que
+# muestra el HTML del formulario web, el PDF nunca tuvo acceso a eso).
+# Cada opción es una tupla (valor_guardado, etiqueta_a_mostrar) — mismo
+# patrón que ya se usa para las columnas de las tablas ('columns': [(key,
+# header), ...]) — así el valor interno para comparar "¿está marcado?"
+# sigue siendo el de siempre (inglés), y solo cambia lo que se imprime.
+YN_OPTIONS_EN = [('Yes', 'Yes'), ('No', 'No')]
+YN_OPTIONS_ES = [('Yes', 'Sí'), ('No', 'No')]
+YNNA_OPTIONS_EN = [('Yes', 'Yes'), ('No', 'No'), ('N/A', 'N/A')]
+YNNA_OPTIONS_ES = [('Yes', 'Sí'), ('No', 'No'), ('N/A', 'N/A')]
+
+# Mismos 3 formularios nativos en español reconocidos en todo el módulo
+# (ver SPANISH_FORMS en static/src/js/osp_form.js).
+SPANISH_FORM_CODES = ['form_manejo_proceso', 'form_comercializador', 'form_cultivo']
 
 
 class OSPRequestReportCommon(models.Model):
     _inherit = 'osp.request'
+
+    def _report_is_spanish(self):
+        """True si el formulario es uno de los 3 nativos en español
+        (Manejo o Proceso, Comercializador, Cultivo) — determina si las
+        opciones Sí/No/N/A del PDF se imprimen en español o en inglés."""
+        return (self.form_template_id.technical_code or '') in SPANISH_FORM_CODES
 
     def _report_lookup_name(self, model, res_id):
         """Para campos m2o_state/m2o_country: form_data solo guarda el id
@@ -103,7 +123,8 @@ class OSPRequestReportCommon(models.Model):
                 if sftype in ('text', 'date'):
                     subfields_out.append({'kind': 'text', 'label': slabel, 'value': svalue or ''})
                 elif sftype == 'yn':
-                    subfields_out.append({'kind': 'options', 'label': slabel, 'options': YN_OPTIONS, 'value': svalue or ''})
+                    yn_options = YN_OPTIONS_ES if self._report_is_spanish() else YN_OPTIONS_EN
+                    subfields_out.append({'kind': 'options', 'label': slabel, 'options': yn_options, 'value': svalue or ''})
                 elif sftype == 'checkbox':
                     subfields_out.append({'kind': 'checkbox', 'label': slabel, 'checked': svalue == 'X'})
                 elif sftype == 'table':
@@ -128,12 +149,32 @@ class OSPRequestReportCommon(models.Model):
         for row_def in field['rows']:
             row_key = row_def['key']
             label_key = row_def.get('label_key')
-            row_label = data.get(label_key) if label_key else row_def.get('label')
+            # Retro de usuario piloto: si el cliente deja vacío el campo de
+            # texto libre (ej. "Categoría" de la fila "Otro"), el fallback
+            # ANTES caía en row_key — el nombre técnico interno en inglés
+            # ("other") — en vez de una etiqueta real. Ahora usa row_def
+            # ['label'] (la etiqueta ya traducida que trae cada manifest)
+            # como fallback antes de llegar a row_key.
+            row_label = (data.get(label_key) if label_key else None) or row_def.get('label')
             row = {'__label': row_label or row_key}
             for col_key, _col_header in field['columns']:
                 row[col_key] = data.get('%s_%s_%s' % (field['prefix'], row_key, col_key), '')
             rows.append(row)
         return rows
+
+    def _report_option_label(self, options, value):
+        """Busca 'value' dentro de una lista de opciones [(valor_guardado,
+        etiqueta_a_mostrar), ...] (mismo patrón que YN_OPTIONS_ES/EN y que
+        las columnas de tabla) y devuelve la etiqueta correspondiente. Si
+        no hay match (valor vacío, o un valor viejo que ya no está en la
+        lista de opciones actual), devuelve el valor crudo tal cual —
+        mejor mostrar el dato viejo en inglés que no mostrar nada."""
+        if not value:
+            return ''
+        for opt_value, opt_label in options:
+            if opt_value == value:
+                return opt_label
+        return value
 
     def _resolve_report_sections(self, sections_manifest):
         """Motor genérico: resuelve un manifest de secciones (mismo formato
@@ -179,12 +220,23 @@ class OSPRequestReportCommon(models.Model):
 
                 if ftype in ('text', 'date'):
                     fields_out.append({'kind': 'text', 'label': label, 'value': value or ''})
+                elif ftype == 'select':
+                    # Retro de usuario piloto: un <select>/radio guarda un
+                    # valor interno en inglés aunque el HTML muestre una
+                    # etiqueta en español — el PDF (que solo conoce el
+                    # valor guardado) imprimía ese valor crudo en vez de la
+                    # etiqueta. 'options' (obligatorio para este tipo) es
+                    # la misma lista [(valor, etiqueta)] que el manifest ya
+                    # trae para reconstruir el <select> si hiciera falta.
+                    fields_out.append({'kind': 'text', 'label': label, 'value': self._report_option_label(field['options'], value)})
                 elif ftype == 'textarea':
                     fields_out.append({'kind': 'textarea', 'label': label, 'value': value or ''})
                 elif ftype == 'yn':
-                    fields_out.append({'kind': 'options', 'label': label, 'options': YN_OPTIONS, 'value': value or ''})
+                    yn_options = YN_OPTIONS_ES if self._report_is_spanish() else YN_OPTIONS_EN
+                    fields_out.append({'kind': 'options', 'label': label, 'options': yn_options, 'value': value or ''})
                 elif ftype == 'yn_na':
-                    fields_out.append({'kind': 'options', 'label': label, 'options': YNNA_OPTIONS, 'value': value or ''})
+                    ynna_options = YNNA_OPTIONS_ES if self._report_is_spanish() else YNNA_OPTIONS_EN
+                    fields_out.append({'kind': 'options', 'label': label, 'options': ynna_options, 'value': value or ''})
                 elif ftype == 'checkbox':
                     fields_out.append({'kind': 'checkbox', 'label': label, 'checked': bool(value)})
                 elif ftype == 'image':
@@ -194,7 +246,17 @@ class OSPRequestReportCommon(models.Model):
                     # como ir.attachment aparte.
                     fields_out.append({'kind': 'image', 'label': label, 'value': value or ''})
                 elif ftype == 'checkbox_group':
-                    fields_out.append({'kind': 'checkbox_group', 'label': label, 'selected': value or []})
+                    # 'options' es opcional (retrocompatible): si el campo
+                    # ya trae la lista [(valor, etiqueta)], cada valor
+                    # marcado se resuelve a su etiqueta en español antes de
+                    # imprimir — mismo problema y mismo mecanismo que
+                    # 'select' de arriba, pero aquí el valor guardado es
+                    # una LISTA (varias opciones marcadas), no uno solo.
+                    selected = value or []
+                    options = field.get('options')
+                    if options:
+                        selected = [self._report_option_label(options, v) for v in selected]
+                    fields_out.append({'kind': 'checkbox_group', 'label': label, 'selected': selected})
                 elif ftype == 'm2o_state':
                     fields_out.append({'kind': 'text', 'label': label, 'value': self._report_lookup_name('res.country.state', value)})
                 elif ftype == 'm2o_country':
