@@ -111,3 +111,25 @@ is restricted to the group(s) base.group_multi_company.
 Odoo 17 permite repetir el campo en la misma vista. El respaldo no se ve y solo existe para que el dominio o el modificador pueda evaluarse. Excepción: si los dos campos tienen exactamente la misma restricción de `groups` (ej. PO y línea de PO, ambos solo para `purchase.group_purchase_user`), no hace falta el respaldo.
 
 **Por qué**: el error no aparece al revisar el XML (está bien formado) ni en las pruebas con un usuario administrador. Solo aparece cuando Odoo valida la vista al cargar el módulo, y detiene la instalación o actualización completa. Incidente real: `pao_it_asset_management`, entregable 2, asistente de movimientos (`location_id` filtrado por `company_id`). La ficha del activo ya tenía el respaldo desde el entregable 1, pero el asistente se escribió sin él. **Antes de entregar una vista, revisar cada `groups=` y confirmar que ese campo no aparezca en el dominio ni en los modificadores de otro campo.**
+
+## 12. Un "valor guardado" distinto de su "etiqueta mostrada" hay que sincronizarlo en CADA consumidor que lea el dato crudo
+
+Es común (y necesario) que un `<select>`/radio guarde un valor interno estable en un solo idioma (ej. `value="Indoor Crop Area"`) mientras la etiqueta visible cambia según el idioma del formulario (`Zona de Cultivo Interior`). El formulario web queda perfecto — el problema aparece en **cualquier otro componente que lea `form_data` directamente sin pasar por ese HTML**, como un motor de reporte PDF desacoplado: ese componente solo conoce el valor crudo, nunca vio la etiqueta, así que imprime el valor crudo tal cual (en el idioma "interno", casi siempre inglés).
+
+- **Sospechar de esto sistemáticamente** en cualquier módulo que tenga un exportador/reporte separado del HTML del formulario — no es un bug puntual de un campo, es una clase entera de bugs que aparece en cada campo `select`/radio/checkbox-group que tenga esa separación valor≠etiqueta.
+- **Patrón de solución reutilizable**: representar cada opción como una tupla `(valor_guardado, etiqueta_a_mostrar)` en el manifest/config del exportador (mismo patrón que ya usan las columnas de una tabla: `[(key, header), ...]`), y resolver la etiqueta ahí mismo antes de imprimir — nunca imprimir el valor crudo directamente. Esto también aplica a valores fijos reutilizados en todo el motor (ej. un tipo `yn` que siempre imprime "Yes"/"No": debe ser parametrizable por idioma, no una constante fija compartida por todos los formularios si el módulo sirve más de un idioma).
+- **Caso real y más sutil**: un fallback "si el campo de texto libre está vacío, usa el nombre técnico interno de la fila" puede filtrar el mismo problema — un `row_key='other'` como fallback aparece literal en el PDF si nadie llenó la etiqueta. El fallback correcto es la etiqueta ya traducida que el propio manifest define para ese caso, nunca el identificador técnico.
+
+## 13. No compartir un config de tabla/campo dinámico entre dos "variantes" de un mismo formulario, aunque se vean idénticas al construirlo
+
+Cuando un módulo maneja el mismo tipo de documento en varios "sabores" (ej. la misma tabla en un formulario en inglés y su equivalente en español), es tentador reutilizar literalmente el mismo objeto de configuración (columnas, opciones de un select) entre ambos — al fin y al cabo la estructura es idéntica. **No hacerlo en cuanto el contenido real diverja** (opciones/labels en otro idioma, aunque sea una sola palabra distinta): compartir el config dinámico dado que solo el HEADER de la tabla está traducido, pero las OPCIONES internas siguen en el idioma original, es un patrón de bug que se repite: se ve bien en el navegador (el encabezado ya está traducido) pero el valor real que termina guardado — y que después lee cualquier exportador — sigue en el idioma equivocado. Bifurcar el config tan pronto se detecte la necesidad es más barato que rastrear, campo por campo, cuáles quedaron "a medio traducir" meses después.
+
+## 14. Encontrar la imagen exacta referenciada en un `.docx` de retroalimentación, sin herramienta de extracción visual
+
+Cuando un documento de feedback dice "ver imagen" o similar junto a un punto específico, la extracción de texto plano (ver punto 8) no trae las imágenes — hay que rastrear la referencia directamente en el XML:
+
+1. Localizar el texto de anclaje (ej. "6c, 6f") dentro de `word/document.xml` y leer el fragmento inmediatamente después — ahí aparece un tag `<w:drawing>` con un `r:embed="rIdN"`.
+2. Resolver `rIdN` a un archivo real en `word/_rels/document.xml.rels` (busca `Id="rIdN" ... Target="media/imageX.png"`).
+3. Leer `word/media/imageX.png` directamente (la herramienta de lectura de archivos puede mostrar imágenes).
+
+Esto evita tener que abrir y revisar las 20+ imágenes de un documento largo una por una para encontrar la correcta — se llega directo a la que el punto de retroalimentación realmente referencia.

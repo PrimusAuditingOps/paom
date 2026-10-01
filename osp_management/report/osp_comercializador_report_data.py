@@ -126,6 +126,7 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
             {'key': '6e_energy_attachment_needed', 'label': 'Adjunte documentos de respaldo del Programa de Biodiversidad', 'type': 'checkbox'},
             {'key': '6f_air_quality', 'label': '6f. Prácticas de calidad del aire', 'type': 'textarea'},
             {'key': '6f_air_quality_attachment_needed', 'label': 'Adjunte documentos de respaldo del Programa de Biodiversidad', 'type': 'checkbox'},
+            {'key': '6_water_use_na', 'label': 'Uso de Agua — N/A', 'type': 'checkbox'},
             {'key': '6g_water_source', 'label': '6g. Fuente de agua', 'type': 'text'},
             {'key': '6h_water_analysis_attached', 'label': '6h. Análisis de agua adjunto (fuente no municipal)', 'type': 'yn'},
             {'key': '6h_water_analysis_doc_name', 'label': 'Nombre del documento', 'type': 'text'},
