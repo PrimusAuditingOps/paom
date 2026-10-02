@@ -551,10 +551,11 @@ class CustomerPortal(portal.CustomerPortal):
         }
     
     @http.route(['/pao/fan/register/product_information'], type='json', auth='public', methods=['POST'])
-    def pao_fan_register_product_information(self, fan_id=False, fan_token=None, products=None, **kwargs):
+    def pao_fan_register_product_information(self, fan_id=False, fan_token=None, products=None, sites_travel_time=None, **kwargs):
         
         try:
             fan_sudo = self._document_check_access('pao.globalgap.fans.request', int(fan_id), access_token=str(fan_token))
+            fan_sudo.organization_id.write({"sites_travel_time": (sites_travel_time or "").strip()})
             for p in products:
                 countries = []
                 for c in p["countries_of_products"]:
