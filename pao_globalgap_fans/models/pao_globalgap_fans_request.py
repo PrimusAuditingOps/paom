@@ -201,7 +201,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 elif vals.get("request_status") == "signature_request":
                     record.qa_status = 'to_approve'
                     record.qa_assignment_date = date.today()
-                    user_notification = self.env['res.users'].browse(187)
+                    user_notification = self.env['res.users'].browse([144,332]) #
                     if user_notification:
                         existing_activity = self.env["mail.activity"].search([
                         ("res_model", "=", "pao.globalgap.fans.request"),
@@ -209,15 +209,16 @@ class PaoGlobalgapFansRequest(models.Model):
                         ("summary", "=", "Revisión de Aplicación GlobalG.A.P."),
                             ], limit=1)
                         if not existing_activity:
-                            record.activity_schedule(
-                                activity_type_id=activity_type.id,
-                                date_deadline=date.today(),
-                                summary="Revisión de Aplicación GlobalG.A.P.",
-                                note=_(
-                                    "Favor de revisar la aplicación"
-                                ),
-                                user_id=user_notification.id,
-                            )
+                            for usr in user_notification:
+                                record.activity_schedule(
+                                    activity_type_id=activity_type.id,
+                                    date_deadline=date.today(),
+                                    summary="Revisión de Aplicación GlobalG.A.P.",
+                                    note=_(
+                                        "Favor de revisar la aplicación"
+                                    ),
+                                    user_id=usr.id,
+                                )
                             users = self.env['res.users'].browse([27, 332, 187,144])
                             record.message_post(
                                 body="Se ha actualizado el estatus de QA para la Revisión de Aplicación GlobalG.A.P.",
