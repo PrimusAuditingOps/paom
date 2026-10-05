@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Styles shared by the PDF (header, article and footer are rendered as separate pages by wkhtmltopdf,
+         so each one includes them) and by the portal. Everything is scoped to the o_pao_* classes. -->
+    <template id="pao_quote_styles">
+        <style>
+            .o_pao_quote, .o_pao_quote_footer { font-family: Calibri, Carlito, Arial, sans-serif; color: #000; }
+            .o_pao_quote { font-size: 14px; line-height: 1.35; }
+            .o_pao_quote p { margin: 0 0 8px 0; }
+            .o_pao_quote .o_pao_pre { white-space: pre-line; }
+            .o_pao_quote .o_pao_title { text-align: center; font-weight: bold; font-size: 18px; margin: 4px 0 26px 0; }
+            .o_pao_quote .o_pao_info { margin: 0 0 26px 50px; border-collapse: collapse; }
+            .o_pao_quote .o_pao_info td { padding: 0; vertical-align: top; }
+            .o_pao_quote .o_pao_info .o_pao_info_label { width: 240px; }
+            .o_pao_quote .o_pao_intro { text-align: justify; margin-bottom: 16px; }
+            .o_pao_quote .o_pao_h1 { font-size: 14px; font-weight: bold; margin: 18px 0 12px 20px; }
+            .o_pao_quote .o_pao_h1 u { text-decoration: underline; }
+            .o_pao_quote .o_pao_h2 { font-size: 14px; font-weight: bold; margin: 14px 0 6px 20px; }
+            .o_pao_quote .o_pao_table_block { page-break-inside: avoid; margin-bottom: 18px; }
+            .o_pao_quote .o_pao_qt { width: 100%; border-collapse: collapse; border: 2px solid #000; }
+            .o_pao_quote .o_pao_qt th, .o_pao_quote .o_pao_qt td { border: 1px solid #000; padding: 4px 8px; }
+            .o_pao_quote .o_pao_qt th { text-align: center; font-weight: bold; }
+            .o_pao_quote .o_pao_qt_main thead th { background-color: #8c8c8c; }
+            .o_pao_quote .o_pao_qt_module thead th { background-color: #ccffcc; }
+            .o_pao_quote .o_pao_qt th.o_pao_qt_band { background-color: #ccffcc; }
+            .o_pao_quote .o_pao_qt td.o_pao_qt_desc { border-right: 1px dotted #000; }
+            .o_pao_quote .o_pao_qt .o_pao_qt_price { width: 26%; text-align: center; }
+            .o_pao_quote .o_pao_qt td.o_pao_qt_footer { background-color: #bfbfbf; text-align: center; font-weight: bold; font-size: 13px; }
+            .o_pao_quote .o_pao_qt_module td.o_pao_qt_footer { background-color: #d9d9d9; }
+            .o_pao_quote .o_pao_qt tr.o_pao_qt_total td { font-weight: bold; }
+            .o_pao_quote .o_pao_footnotes { font-size: 11px; margin-top: 2px; }
+            .o_pao_quote .o_pao_footnotes p { margin: 0; }
+            .o_pao_quote .o_pao_section { text-align: justify; }
+            .o_pao_quote .o_pao_signature { margin-top: 10px; }
+            .o_pao_quote .o_pao_signature small { color: #7f7f7f; }
+            .o_pao_quote .o_pao_page_title { text-align: center; font-weight: bold; margin: 0 0 24px 0; }
+            .o_pao_quote .o_pao_block { text-align: justify; margin-bottom: 14px; }
+            .o_pao_quote .o_pao_block_title { font-weight: bold; font-style: italic; text-decoration: underline; }
+            .o_pao_quote .o_pao_block table { border-collapse: collapse; }
+            .o_pao_quote .o_pao_page_break { page-break-before: always; }
+            .o_pao_quote_footer { text-align: center; font-size: 11px; }
+            .o_pao_quote_footer .o_pao_footer_band { width: 100%; margin-top: 6px; background-color: #000; color: #fff; border-collapse: collapse; }
+            .o_pao_quote_footer .o_pao_footer_band td { padding: 8px 4px; font-size: 13px; text-align: center; width: 33%; }
+            .o_pao_quote_footer .o_pao_footer_band td + td { border-left: 2px solid #fff; }
+            .o_pao_quote_footer .o_pao_footer_band .fa { color: #6abf4b; margin-right: 6px; }
+        </style>
+    </template>
+
+    <!-- One information block (billing, additional information or annex). -->
+    <template id="pao_quote_block">
+        <div class="o_pao_block">
+            <p t-if="block.show_title" class="o_pao_block_title" t-out="block.name"/>
+            <div t-out="block.content"/>
+        </div>
+    </template>
+
+    <!-- Quotation body, shared by the PDF and the portal. Expects `doc` (sale.order). -->
+    <template id="pao_quote_body">
+        <t t-set="config" t-value="doc._pao_get_quote_config()"/>
+        <t t-set="quote" t-value="doc._pao_quote_groups()"/>
+        <t t-set="contact" t-value="doc._pao_quote_contact()"/>
+        <t t-set="partner" t-value="contact or doc.partner_id"/>
+        <div class="o_pao_quote">
+            <div class="o_pao_title">
+                <t t-out="config.title"/><br/>
+                <t t-out="doc.name if (doc.name or '').startswith('#') else '#%s' % doc.name"/>
+            </div>
+
+            <table class="o_pao_info">
+                <tr>
+                    <td class="o_pao_info_label">Cliente</td>
+                    <td>: <t t-out="doc.partner_id.commercial_partner_id.name"/></td>
+                </tr>
+                <tr t-if="contact">
+                    <td class="o_pao_info_label">Contacto</td>
+                    <td>: <t t-out="contact.name"/></td>
+                </tr>
+                <tr t-if="partner.email">
+                    <td class="o_pao_info_label"/>
+                    <td>&#160;&#160;Email: <a t-att-href="'mailto:%s' % partner.email" t-out="partner.email"/></td>
+                </tr>
+                <tr>
+                    <td class="o_pao_info_label">Teléfono</td>
+                    <td>: <t t-out="partner.phone or partner.mobile or 'No Registra.'"/></td>
+                </tr>
+                <tr>
+                    <td class="o_pao_info_label">Fecha</td>
+                    <td>: <t t-out="doc._pao_quote_date_label()"/></td>
+                </tr>
+            </table>
+
+            <p t-out="doc._pao_quote_greeting()"/>
+            <div class="o_pao_intro" t-out="doc._pao_quote_intro()"/>
+
+            <!-- Tables: one per order section, grouped under numbered categories -->
+            <t t-foreach="quote['groups']" t-as="group">
+                <div t-if="group['number']" class="o_pao_h1">
+                    <t t-out="group['number']"/>. <u t-out="group['category'].name"/>:
+                </div>
+                <t t-foreach="group['tables']" t-as="table">
+                    <t t-set="table_format" t-value="table['format']"/>
+                    <div class="o_pao_table_block">
+                        <div t-if="table['title']" class="o_pao_h2">
+                            <t t-if="table['letter']" t-out="'%s. ' % table['letter']"/><t t-out="table['title']"/>
+                        </div>
+                        <t t-foreach="table['notes_before']" t-as="note">
+                            <p class="o_pao_pre" t-out="note"/>
+                        </t>
+                        <table t-if="table['rows']" t-attf-class="o_pao_qt o_pao_qt_#{table_format.style or 'main'}">
+                            <thead>
+                                <tr>
+                                    <th t-out="table_format.header_label or 'ALTERNATIVAS'"/>
+                                    <th class="o_pao_qt_price">
+                                        <t t-out="table_format.price_label or 'Valor'"/>
+                                        <t t-if="table['currency_label']"><br/><t t-out="table['currency_label']"/></t>
+                                    </th>
+                                </tr>
+                                <tr t-if="table_format.band_label">
+                                    <th colspan="2" class="o_pao_qt_band" t-out="table_format.band_label"/>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="table['rows']" t-as="row">
+                                    <td class="o_pao_qt_desc">
+                                        <t t-foreach="row['names']" t-as="row_name">
+                                            <span class="o_pao_pre" t-out="row_name"/><t t-if="not row_name_last"> + </t>
+                                        </t>
+                                    </td>
+                                    <td class="o_pao_qt_price" t-out="row['amount_label']"/>
+                                </tr>
+                                <tr t-if="table['total_label']" class="o_pao_qt_total">
+                                    <td class="o_pao_qt_desc text-end" t-out="table_format.total_label"/>
+                                    <td class="o_pao_qt_price" t-out="table['total_label']"/>
+                                </tr>
+                                <tr t-if="table_format.footer_label">
+                                    <td colspan="2" class="o_pao_qt_footer" t-out="table_format.footer_label"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div t-if="table['footnotes']" class="o_pao_footnotes">
+                            <t t-foreach="table['footnotes']" t-as="footnote">
+                                <div t-out="footnote"/>
+                            </t>
+                        </div>
+                        <t t-foreach="table['notes_after']" t-as="note">
+                            <p class="o_pao_pre mt-2" t-out="note"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+
+            <!-- Billing considerations: native terms and conditions + billing blocks -->
+            <div class="o_pao_section">
+                <div class="o_pao_h1">
+                    <t t-if="quote['billing_number']" t-out="'%s. ' % quote['billing_number']"/><t t-out="config.billing_title"/>
+                </div>
+                <div t-if="not is_html_empty(doc.note)" t-out="doc.note"/>
+                <t t-foreach="doc._pao_quote_blocks('billing')" t-as="block">
+                    <t t-call="pao_sale_quote_chile.pao_quote_block"/>
+                </t>
+                <div class="mt-3" t-out="config.closing"/>
+                <div class="o_pao_signature">
+                    <img t-if="config.signature_image" t-att-src="image_data_uri(config.signature_image)" style="max-height: 90px;" alt="Signature"/>
+                    <div t-out="config.signature_text"/>
+                </div>
+            </div>
+
+            <!-- Additional information, selected by the schemes of the quotation -->
+            <t t-set="additional_blocks" t-value="doc._pao_quote_blocks('additional')"/>
+            <div t-if="additional_blocks" class="o_pao_page_break">
+                <div class="o_pao_page_title" t-out="config.additional_title"/>
+                <t t-foreach="additional_blocks" t-as="block">
+                    <t t-call="pao_sale_quote_chile.pao_quote_block"/>
+                </t>
+            </div>
+
+            <!-- Annexes, one per page -->
+            <t t-foreach="doc._pao_quote_blocks('annex')" t-as="block">
+                <div class="o_pao_page_break">
+                    <div class="o_pao_page_title" t-out="block.name"/>
+                    <div class="o_pao_block" t-out="block.content"/>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <!-- PDF document: own header/footer instead of the company external layout. -->
+    <template id="report_saleorder_chile_document">
+        <t t-set="doc" t-value="doc.with_context(lang=doc._pao_quote_lang())"/>
+        <t t-set="config" t-value="doc._pao_get_quote_config()"/>
+        <t t-set="company" t-value="doc.company_id.sudo()"/>
+        <t t-set="logo" t-value="config.logo or company.logo"/>
+
+        <div class="header">
+            <t t-call="pao_sale_quote_chile.pao_quote_styles"/>
+            <img t-if="logo" t-att-src="image_data_uri(logo)" style="max-height: 85px;" alt="Logo"/>
+        </div>
+
+        <div class="article" t-att-data-oe-model="doc._name" t-att-data-oe-id="doc.id" t-att-data-oe-lang="doc.env.context.get('lang')">
+            <t t-call="pao_sale_quote_chile.pao_quote_styles"/>
+            <t t-call="pao_sale_quote_chile.pao_quote_body"/>
+        </div>
+
+        <div class="footer o_pao_quote_footer">
+            <t t-call="pao_sale_quote_chile.pao_quote_styles"/>
+            <div t-if="config.footer_address"><b t-out="config.footer_address"/></div>
+            <div t-if="not is_html_empty(config.footer_offices)" t-out="config.footer_offices"/>
+            <table class="o_pao_footer_band">
+                <tr>
+                    <td t-if="config.footer_email"><i class="fa fa-envelope"/><t t-out="config.footer_email"/></td>
+                    <td t-if="config.footer_phone"><i class="fa fa-phone"/><t t-out="config.footer_phone"/></td>
+                    <td t-if="config.footer_website"><i class="fa fa-globe"/><t t-out="config.footer_website"/></td>
+                </tr>
+            </table>
+        </div>
+    </template>
+
+    <!-- Quotations of companies with a Chile format use the regional document; everything else stays native. -->
+    <template id="report_saleorder_raw_chile" inherit_id="sale.report_saleorder_raw">
+        <xpath expr="//t[@t-call='sale.report_saleorder_document']" position="attributes">
+            <attribute name="t-if">not doc._pao_is_chile_quote()</attribute>
+        </xpath>
+        <xpath expr="//t[@t-call='sale.report_saleorder_document']" position="before">
+            <t t-if="doc._pao_is_chile_quote()" t-call="pao_sale_quote_chile.report_saleorder_chile_document"/>
+        </xpath>
+    </template>
+
+</odoo>

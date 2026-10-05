@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_pao_quote_chile_root"
+              name="Chile Quotation"
+              parent="sale.menu_sale_config"
+              sequence="60"
+              groups="sales_team.group_sale_manager"/>
+
+    <menuitem id="menu_pao_quote_config"
+              name="Quotation Format"
+              parent="menu_pao_quote_chile_root"
+              action="pao_quote_config_action"
+              sequence="10"/>
+    <menuitem id="menu_pao_quote_scheme"
+              name="Audit Schemes"
+              parent="menu_pao_quote_chile_root"
+              action="pao_quote_scheme_action"
+              sequence="20"/>
+    <menuitem id="menu_pao_quote_table"
+              name="Table Formats"
+              parent="menu_pao_quote_chile_root"
+              action="pao_quote_table_action"
+              sequence="30"/>
+    <menuitem id="menu_pao_quote_category"
+              name="Categories"
+              parent="menu_pao_quote_chile_root"
+              action="pao_quote_category_action"
+              sequence="40"/>
+    <menuitem id="menu_pao_quote_block"
+              name="Information Blocks"
+              parent="menu_pao_quote_chile_root"
+              action="pao_quote_block_action"
+              sequence="50"/>
+</odoo>

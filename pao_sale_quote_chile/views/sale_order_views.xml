@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Two optional columns on the order lines, only for companies with the Chile quotation format. -->
+    <record id="view_order_form_pao_quote_chile" model="ir.ui.view">
+        <field name="name">sale.order.form.pao.quote.chile</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']" position="before">
+                <field name="pao_use_chile_format" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                <field name="pao_quote_combine"
+                       optional="show"
+                       column_invisible="not parent.pao_use_chile_format"
+                       invisible="display_type"/>
+                <field name="pao_quote_table_id"
+                       optional="hide"
+                       column_invisible="not parent.pao_use_chile_format"
+                       invisible="display_type"
+                       options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
