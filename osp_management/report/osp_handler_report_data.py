@@ -284,7 +284,7 @@ HANDLER_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 15: Affirmation (NOP Rule 205.406 & 205.403(b))',
+        'title': 'Affirmation (NOP Rule 205.406 & 205.403(b))',
         'fields': [
             {'type': 'static', 'text': 'I affirm that all statements made in this application are true and correct. No prohibited products have been applied to any of my organically managed fields during the three-year period prior to projected harvest. Electronic signature is accepted.'},
             {'key': '15_name', 'label': 'Name of Person completing this OSP', 'type': 'text'},

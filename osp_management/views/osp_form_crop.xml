@@ -61,9 +61,9 @@
                             <a href="#sec15" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">15: Post-Harvest/Storage/Transport</a>
                             <a href="#sec16" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">16: Record Keeping</a>
                             <a href="#sec17" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">17: Traceback &amp; Mass Balance</a>
-                            <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Affirmation (Firma)</a>
-                            <a href="#sec19" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">19: Field History Affidavit</a>
-                            <a href="#sec20" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">20: Search Record</a>
+                            <a href="#sec19" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Field History Affidavit</a>
+                            <a href="#sec20" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">19: Search Record</a>
+                            <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">Affirmation (Firma)</a>
                             <a href="#sec21" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list"><i class="fa fa-paperclip"></i> Attachments</a>
                         </div>
                     </div>
@@ -2027,8 +2027,52 @@
 
 </div>
 
+                            <div class="tab-pane fade" id="sec19">
+    <h4 class="fw-bold mb-1">SECTION 18: Field History Affidavit</h4>
+    <p class="text-muted mb-4">(Only For NEW Fields Added To Certification Request)</p>
+
+<p class="text-muted small">Only for NEW fields added to certification request. Fill out this Field History Sheet for every field that has not yet been certified. Click "Add New Field" for each additional field that needs its own history.</p>
+
+<div id="fields19_container"></div>
+<button type="button" class="btn btn-sm btn-outline-primary mb-4" id="btn_add_field19"><i class="fa fa-plus"></i> Add New Field</button>
+<input type="hidden" class="osp-input" name="19_fields_json" id="19_fields_json" t-att-value="data.get('19_fields_json', '[]')"/>
+
+<div class="mt-4">
+    <p class="fw-bold">I affirm that all statements made in this form are true and correct and can be verified on site.</p>
+    <div class="row"><div class="col-md-6 mb-3">
+    <label class="form-label fw-bold">Name of Operator:</label>
+    <input type="text" class="form-control osp-input" name="19_operator_name" t-att-value="data.get('19_operator_name')"/>
+</div><div class="col-md-4 mb-3">
+    <label class="form-label fw-bold">Date:</label>
+    <input type="date" class="form-control osp-input" name="19_operator_date" t-att-value="data.get('19_operator_date')"/>
+</div></div>
+</div>
+
+</div>
+
+                            <div class="tab-pane fade" id="sec20">
+    <h4 class="fw-bold mb-4">SECTION 19: Search Record &#8211; Commercial Availability of Seed and Planting Stock</h4>
+    
+
+<div class="table-responsive border rounded mb-3">
+    <table class="table table-borderless table-hover mb-0">
+        <thead class="bg-light text-muted small">
+            <tr><th>CROP</th><th>TRAITS</th><th>WHY IS THE CROP SPECIFICATION NOT MET BY AN EQUIVALENT VARIETY?</th><th>WHICH ORGANIC SUPPLIERS HAVE YOU CONTACTED?</th><th>DATE SUPPLIER CONTACTED</th><th>METHOD OF CONTACT</th><th class="text-center">ACTION</th></tr>
+        </thead>
+        <tbody id="search_record_tbody">
+            <!-- JS llenará esto -->
+        </tbody>
+    </table>
+</div>
+<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_search_record">
+    <i class="fa fa-plus"></i> Add Record
+</button>
+<input type="hidden" class="osp-input" name="20_search_record_json" id="20_search_record_json" t-att-value="data.get('20_search_record_json', '[]')"/>
+
+</div>
+
                             <div class="tab-pane fade" id="sec18">
-                                <h4 class="fw-bold mb-1">SECTION 18: Affirmation</h4>
+                                <h4 class="fw-bold mb-1">AFFIRMATION</h4>
                                 <p class="text-muted mb-4">(NOP Rule 205.406 &amp; 205.403(b))</p>
                                 <div class="alert alert-light border border-success rounded-3 mb-4">
                                     <h5 class="text-success fw-bold">*electronic signature is accepted*</h5>
@@ -2058,50 +2102,6 @@
                                     <i class="fa fa-lock"></i> Este formulario ya fue enviado y está en revisión (solo lectura).
                                 </div>
                             </div>
-
-                            <div class="tab-pane fade" id="sec19">
-    <h4 class="fw-bold mb-1">SECTION 19: Field History Affidavit</h4>
-    <p class="text-muted mb-4">(Only For NEW Fields Added To Certification Request)</p>
-
-<p class="text-muted small">Only for NEW fields added to certification request. Fill out this Field History Sheet for every field that has not yet been certified. Click "Add New Field" for each additional field that needs its own history.</p>
-
-<div id="fields19_container"></div>
-<button type="button" class="btn btn-sm btn-outline-primary mb-4" id="btn_add_field19"><i class="fa fa-plus"></i> Add New Field</button>
-<input type="hidden" class="osp-input" name="19_fields_json" id="19_fields_json" t-att-value="data.get('19_fields_json', '[]')"/>
-
-<div class="mt-4">
-    <p class="fw-bold">I affirm that all statements made in this form are true and correct and can be verified on site.</p>
-    <div class="row"><div class="col-md-6 mb-3">
-    <label class="form-label fw-bold">Name of Operator:</label>
-    <input type="text" class="form-control osp-input" name="19_operator_name" t-att-value="data.get('19_operator_name')"/>
-</div><div class="col-md-4 mb-3">
-    <label class="form-label fw-bold">Date:</label>
-    <input type="date" class="form-control osp-input" name="19_operator_date" t-att-value="data.get('19_operator_date')"/>
-</div></div>
-</div>
-
-</div>
-
-                            <div class="tab-pane fade" id="sec20">
-    <h4 class="fw-bold mb-4">SECTION 20: Search Record &#8211; Commercial Availability of Seed and Planting Stock</h4>
-    
-
-<div class="table-responsive border rounded mb-3">
-    <table class="table table-borderless table-hover mb-0">
-        <thead class="bg-light text-muted small">
-            <tr><th>CROP</th><th>TRAITS</th><th>WHY IS THE CROP SPECIFICATION NOT MET BY AN EQUIVALENT VARIETY?</th><th>WHICH ORGANIC SUPPLIERS HAVE YOU CONTACTED?</th><th>DATE SUPPLIER CONTACTED</th><th>METHOD OF CONTACT</th><th class="text-center">ACTION</th></tr>
-        </thead>
-        <tbody id="search_record_tbody">
-            <!-- JS llenará esto -->
-        </tbody>
-    </table>
-</div>
-<button type="button" class="btn btn-sm btn-outline-success mb-4" id="btn_add_search_record">
-    <i class="fa fa-plus"></i> Add Record
-</button>
-<input type="hidden" class="osp-input" name="20_search_record_json" id="20_search_record_json" t-att-value="data.get('20_search_record_json', '[]')"/>
-
-</div>
 
                             <div class="tab-pane fade" id="sec21">
                                 <h4 class="fw-bold mb-4"><i class="fa fa-paperclip"></i> Attachments</h4>

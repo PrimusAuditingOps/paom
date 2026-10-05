@@ -376,7 +376,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 19: Historial de Campo - Declaración Jurada (Solo para los NUEVOS campos agregados a la solicitud de certificación)',
+        'title': 'Sección 18: Historial de Campo - Declaración Jurada (Solo para los NUEVOS campos agregados a la solicitud de certificación)',
         'fields': [
             {'type': 'static', 'text': 'Solo para campos NUEVOS agregados a la solicitud de certificación. Complete esta hoja para cada campo que aún no ha sido certificado.'},
             {'key': '19_fields_json', 'label': 'Campos', 'type': 'repeatable',
@@ -398,7 +398,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 20: Registro de Búsqueda – Disponibilidad Comercial de Semillas y Material de Siembra',
+        'title': 'Sección 19: Registro de Búsqueda – Disponibilidad Comercial de Semillas y Material de Siembra',
         'fields': [
             {'key': '20_search_record_json', 'label': 'Registro de Búsqueda', 'type': 'table',
              'columns': [('crop', 'Cultivo'), ('traits', 'Características'), ('why_not_met', 'Por Qué No Cumple'),
@@ -407,7 +407,7 @@ CULTIVO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 18: Afirmación (Norma NOP 205.406)',
+        'title': 'Afirmación (Norma NOP 205.406)',
         'fields': [
             {'type': 'static', 'text': 'Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Firma electrónica es aceptada.'},
             {'key': '18_name', 'label': 'Nombre', 'type': 'text'},

@@ -734,8 +734,8 @@ function initOspForm() {
 
             html += '<div class="osp-conditional" data-conditional-field="f19_certified_' + idx + '" data-conditional-value="Yes">' +
                 '<div class="form-check mb-2 small text-muted">' +
-                '<input class="form-check-input f19-check" type="checkbox" data-idx="' + idx + '" data-field="certification_attachment_needed" id="19_' + idx + '_certification_attachment_needed" ' + (entry.certification_attachment_needed === 'X' ? 'checked' : '') + (READONLY ? ' disabled' : '') + '/>' +
-                '<label class="form-check-label" for="19_' + idx + '_certification_attachment_needed"><i class="fa fa-paperclip"></i> ' + L.attachCert + '</label>' +
+                '<input class="form-check-input f19-check" type="checkbox" data-idx="' + idx + '" data-field="certification_attachment_needed" id="18_' + idx + '_certification_attachment_needed" ' + (entry.certification_attachment_needed === 'X' ? 'checked' : '') + (READONLY ? ' disabled' : '') + '/>' +
+                '<label class="form-check-label" for="18_' + idx + '_certification_attachment_needed"><i class="fa fa-paperclip"></i> ' + L.attachCert + '</label>' +
                 '</div></div>';
 
             html += '<div class="osp-conditional" data-conditional-field="f19_certified_' + idx + '" data-conditional-value="No">';

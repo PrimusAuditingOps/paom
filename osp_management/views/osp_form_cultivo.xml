@@ -57,9 +57,9 @@
                         <a href="#sec15" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">15: Post-Cosecha/Almacenamiento/Transporte</a>
                         <a href="#sec16" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">16: Mantenimiento de Registros</a>
                         <a href="#sec17" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">17: Balance de Masas y Trazabilidad</a>
-                        <a href="#sec19" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">19: Historial de Campo - Declaración Jurada</a>
-                        <a href="#sec20" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">20: Registro de Búsqueda</a>
-                        <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Afirmación (Firma)</a>
+                        <a href="#sec19" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">18: Historial de Campo - Declaración Jurada</a>
+                        <a href="#sec20" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">19: Registro de Búsqueda</a>
+                        <a href="#sec18" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list">Afirmación (Firma)</a>
                         <a href="#sec21" class="list-group-item list-group-item-action fw-bold" data-bs-toggle="list"><i class="fa fa-paperclip"></i> Adjuntos</a>
                     </div>
                 </div>
@@ -370,7 +370,7 @@
             <label class="form-label fw-bold">Si la respuesta es sí, por favor explique los cambios:</label>
             <textarea class="form-control osp-input" name="1w_changes_summary" rows="3"><t t-esc="data.get('1w_changes_summary')"/></textarea>
         </div>
-        <p class="text-danger small">En caso de incluir nuevos campos, presente la Declaración Jurada del Historial de Campo para cada campo nuevo agregado a la solicitud de certificación de este año (Sección 19).</p>
+        <p class="text-danger small">En caso de incluir nuevos campos, presente la Declaración Jurada del Historial de Campo para cada campo nuevo agregado a la solicitud de certificación de este año (Sección 18).</p>
     </div>
 
     <div class="mb-3">
@@ -1952,7 +1952,7 @@
 </div>
 
                             <div class="tab-pane fade" id="sec19">
-    <h4 class="fw-bold mb-1">SECCIÓN 19: Historial de Campo - Declaración Jurada</h4>
+    <h4 class="fw-bold mb-1">SECCIÓN 18: Historial de Campo - Declaración Jurada</h4>
     <p class="text-muted mb-4">(Solo para los NUEVOS campos agregados a la solicitud de certificación)</p>
     <p class="text-muted small">(Solo para los NUEVOS campos, agregados a la solicitud de certificación). Instrucciones: Complete esta hoja del historial de Campo para cada uno de sus campos que aún no haya sido certificado y para el que se solicita la certificación orgánica. Agregue todos los insumos utilizados en los años en transición, incluyendo composta y/o estiércol. Haga clic en "Agregar Campo Nuevo" por cada campo adicional que necesite su propio historial.</p>
 
@@ -1974,7 +1974,7 @@
 </div>
 
                             <div class="tab-pane fade" id="sec20">
-    <h4 class="fw-bold mb-4">SECCIÓN 20: Registro de Búsqueda &#8211; Disponibilidad Comercial de Semillas y Material de Siembra</h4>
+    <h4 class="fw-bold mb-4">SECCIÓN 19: Registro de Búsqueda &#8211; Disponibilidad Comercial de Semillas y Material de Siembra</h4>
 
 <div class="table-responsive border rounded mb-3">
     <table class="table table-borderless table-hover mb-0">
@@ -1990,7 +1990,7 @@
 </div>
 
                             <div class="tab-pane fade" id="sec18">
-                                <h4 class="fw-bold mb-1">SECCIÓN 18: Afirmación</h4>
+                                <h4 class="fw-bold mb-1">AFIRMACIÓN</h4>
                                 <p class="text-muted mb-4">(Norma NOP 205.406)</p>
                                 <div class="alert alert-light border border-success rounded-3 mb-4">
                                     <p>Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Entiendo que la operación puede estar sujeta a inspección no anunciada y/o muestreo de residuos en cualquier momento que se considere apropiado para asegurar el cumplimiento con la Ley de Producción Orgánica de Alimentos de 1990 y las Reglas y Regulaciones del Programa Orgánico Nacional. Entiendo que la aceptación de este cuestionario de ninguna manera implica otorgamiento de la certificación por parte del Agente certificador. Acepto proporcionar más información según lo requiera el Agente certificador.</p>

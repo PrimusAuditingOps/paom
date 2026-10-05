@@ -283,7 +283,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Sección 15: Afirmación (Norma NOP 205.406 & 205.403(b))',
+        'title': 'Afirmación (Norma NOP 205.406 & 205.403(b))',
         'fields': [
             {'type': 'static', 'text': 'Yo afirmo que todas las declaraciones hechas en esta aplicación son verdaderas y correctas. Firma electrónica es aceptada.'},
             {'key': '15_name', 'label': 'Nombre del Representante Autorizado', 'type': 'text'},

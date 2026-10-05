@@ -373,22 +373,7 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 18: Affirmation (NOP Rule 205.406 & 205.403(b))',
-        'fields': [
-            {'key': None, 'label': None, 'type': 'static',
-             'text': 'I affirm that all statements made in this application are true and correct. No prohibited '
-                     'products have been applied to any of my organically managed fields during the three-year '
-                     'period prior to projected harvest. I understand that the operation may be subject to '
-                     'unannounced inspection and/or sampling for residues at any time as deemed appropriate to '
-                     'ensure compliance with the Organic Foods Production Act of 1990 and National Organic Program '
-                     'Rules and Regulations.'},
-            {'key': '18_name', 'label': 'Name of Person completing this OSP', 'type': 'text'},
-            {'key': '18_signature', 'label': 'Signature of Authorized Person', 'type': 'image'},
-            {'key': '18_date', 'label': 'Date', 'type': 'date'},
-        ],
-    },
-    {
-        'title': 'Section 19: Field History Affidavit (Only For NEW Fields Added To Certification Request)',
+        'title': 'Section 18: Field History Affidavit (Only For NEW Fields Added To Certification Request)',
         'fields': [
             {'key': None, 'label': None, 'type': 'static',
              'text': 'Only for NEW fields added to certification request. Fill out this Field History Sheet for '
@@ -412,12 +397,27 @@ CROP_REPORT_SECTIONS = [
         ],
     },
     {
-        'title': 'Section 20: Search Record – Commercial Availability of Seed and Planting Stock',
+        'title': 'Section 19: Search Record – Commercial Availability of Seed and Planting Stock',
         'fields': [
             {'key': '20_search_record_json', 'label': 'Search Record', 'type': 'table',
              'columns': [('crop', 'Crop'), ('traits', 'Traits'), ('why_not_met', 'Why Not Met'),
                          ('suppliers_contacted', 'Suppliers Contacted'), ('date_contacted', 'Date Contacted'),
                          ('method_of_contact', 'Method of Contact')]},
+        ],
+    },
+    {
+        'title': 'Affirmation (NOP Rule 205.406 & 205.403(b))',
+        'fields': [
+            {'key': None, 'label': None, 'type': 'static',
+             'text': 'I affirm that all statements made in this application are true and correct. No prohibited '
+                     'products have been applied to any of my organically managed fields during the three-year '
+                     'period prior to projected harvest. I understand that the operation may be subject to '
+                     'unannounced inspection and/or sampling for residues at any time as deemed appropriate to '
+                     'ensure compliance with the Organic Foods Production Act of 1990 and National Organic Program '
+                     'Rules and Regulations.'},
+            {'key': '18_name', 'label': 'Name of Person completing this OSP', 'type': 'text'},
+            {'key': '18_signature', 'label': 'Signature of Authorized Person', 'type': 'image'},
+            {'key': '18_date', 'label': 'Date', 'type': 'date'},
         ],
     },
 ]

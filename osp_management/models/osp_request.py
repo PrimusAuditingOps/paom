@@ -159,7 +159,7 @@ class OSPRequest(models.Model):
                 field_entries = []
             for entry in field_entries:
                 if isinstance(entry, dict) and entry.get('certification_attachment_needed') == 'X':
-                    result.append('19. %s' % cert_text)
+                    result.append('18. %s' % cert_text)
 
         return result
 
