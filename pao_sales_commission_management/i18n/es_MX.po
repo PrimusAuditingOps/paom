@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 07:49+0000\n"
-"PO-Revision-Date: 2026-09-28 07:49+0000\n"
+"POT-Creation-Date: 2026-10-06 06:47+0000\n"
+"PO-Revision-Date: 2026-10-06 06:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -116,8 +116,8 @@ msgid ""
 "Can send commissions that are ready (\"Submit for Approval\") to Finance for"
 " approval."
 msgstr ""
-"Puede enviar comisiones que estén listas (Enviar para aprobación) a Finanzas para"
-" aprobar."
+"Puede enviar comisiones que estén listas (Enviar para aprobación) a Finanzas"
+" para aprobar."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__commission_id
@@ -271,8 +271,8 @@ msgid ""
 "Customer payment used to determine the exchange rate (it was the one with "
 "the highest amount in MXN equivalent)."
 msgstr ""
-"El pago del cliente se utilizó para determinar el tipo de cambio (fue el que "
-"presentaba el importe más elevado en su equivalente en MXN)."
+"El pago del cliente se utilizó para determinar el tipo de cambio (fue el que"
+" presentaba el importe más elevado en su equivalente en MXN)."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,help:pao_sales_commission_management.field_comisionpromotores_promotor__promotor_type
@@ -402,6 +402,31 @@ msgstr ""
 "                cotizaciones con un agente comisionista asignado."
 
 #. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_tree
+msgid "Manager Commission"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__manager_commission_percentage
+msgid "Manager Commission %"
+msgstr "% comisión del administrador"
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__manager_commission_amount
+msgid "Manager Commission Amount"
+msgstr "Monto de comisión del administrador"
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__manager_commission_amount_mxn
+msgid "Manager Commission Amount (MXN)"
+msgstr "Monto de comisión del administrador (MXN)"
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_tree
+msgid "Manager Commission MXN"
+msgstr "Comisión administrador MXN"
+
+#. module: pao_sales_commission_management
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_form
 msgid "Mark as Processed"
 msgstr "Marcar como procesado"
@@ -483,10 +508,10 @@ msgid ""
 " name match. It is optional for external commission agents (who do not have "
 "an Odoo user)."
 msgstr ""
-"Usuario de Odoo correspondiente a este agente comisionista. Obligatorio para "
-"vendedores internos y coordinadores, ya que anteriormente se les identificaba "
-"solo por la coincidencia del nombre. Es opcional para los agentes comisionistas "
-"Externos (que no tienen usuario de Odoo)."
+"Usuario de Odoo correspondiente a este agente comisionista. Obligatorio para"
+" vendedores internos y coordinadores, ya que anteriormente se les "
+"identificaba solo por la coincidencia del nombre. Es opcional para los "
+"agentes comisionistas Externos (que no tienen usuario de Odoo)."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__organization_id
@@ -523,6 +548,17 @@ msgid "Pending Service (Coordinator)"
 msgstr "Servicio pendiente (Coordinación)"
 
 #. module: pao_sales_commission_management
+#: model:ir.model.fields,help:pao_sales_commission_management.field_pao_sales_commission__manager_commission_percentage
+msgid ""
+"Percentage of the commissionable base that the commissions manager receives "
+"on commissions of Salesperson and Coordination agents. External agents do "
+"not generate it."
+msgstr ""
+"Porcentaje de la base comisionable que el administrador recibe "
+"sobre comisiones internas. Las comisiones externas no "
+"generan esta comisión."
+
+#. module: pao_sales_commission_management
 #: model:ir.actions.act_window,name:pao_sales_commission_management.action_pao_sales_commission_processed
 #: model:ir.model.fields.selection,name:pao_sales_commission_management.selection__pao_sales_commission__state__processed
 #: model:ir.ui.menu,name:pao_sales_commission_management.menu_pao_sales_commission_processed
@@ -545,11 +581,12 @@ msgid ""
 "per line without affecting the quotation itself; the base, commission amount"
 " and MXN amount are recalculated automatically when they do."
 msgstr ""
-"Líneas de productos sobre las que realmente se paga esta comisión, copiadas de la "
-"cotización cuando se generó esta comisión y se actualizó solo cuando "
-"Se hace clic en \"Recalcular\". El departamento de Finanzas puede reducir la cantidad sujeta a comisión "
-"por línea sin afectar a la cotización en sí; la base, el importe de la comisión"
-" y el importe en MXN se recalcula automáticamente cuando eso sucede."
+"Líneas de productos sobre las que realmente se paga esta comisión, copiadas "
+"de la cotización cuando se generó esta comisión y se actualizó solo cuando "
+"Se hace clic en \"Recalcular\". El departamento de Finanzas puede reducir la"
+" cantidad sujeta a comisión por línea sin afectar a la cotización en sí; la "
+"base, el importe de la comisión y el importe en MXN se recalcula "
+"automáticamente cuando eso sucede."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__promotor_id
@@ -570,15 +607,15 @@ msgid ""
 "clear it manually to exclude this specific line from the commission "
 "calculation."
 msgstr ""
-"Comisionista que percibe una comisión por esta línea. Se rellena automáticamente a partir de la cotización"
-" Agente de comisiones (pao_commission_agent_id) para productos sujetos a comisión; "
-"elimine el valor manualmente para excluir esta línea específica del cálculo "
-"de la comisión."
+"Comisionista que percibe una comisión por esta línea. Se rellena automáticamente"
+" a partir de la cotización Agente de comisiones (pao_commission_agent_id) "
+"para productos sujetos a comisión; elimine el valor manualmente para excluir"
+" esta línea específica del cálculo de la comisión."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_comisionpromotores_promotor__promotor_type
 msgid "Promotor Type"
-msgstr "Tipo de comisionista"
+msgstr "Tipo de Comisionista"
 
 #. module: pao_sales_commission_management
 #: model:ir.model,name:pao_sales_commission_management.model_purchase_order
@@ -606,9 +643,10 @@ msgid ""
 "sold, but can be lowered if the promoter doesn't earn commission on the full"
 " quantity sold. Editing this never changes the quotation."
 msgstr ""
-"La cantidad sobre la que finanzas realmente paga la comisión. Por defecto, utiliza la cantidad "
-"vendido, pero puede ser rebajado si el comisionista no gana comisión sobre el total"
-" cantidad vendida. Modificar esto nunca altera el presupuesto."
+"La cantidad sobre la que finanzas realmente paga la comisión. Por defecto, "
+"utiliza la cantidad vendido, pero puede ser rebajado si el comisionista no gana "
+"comisión sobre el total cantidad vendida. Modificar esto nunca altera el "
+"presupuesto."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__original_product_uom_qty
@@ -621,8 +659,9 @@ msgid ""
 "Quantity actually sold on the quotation line at the time this commission was"
 " generated. Reference only, never changes afterwards."
 msgstr ""
-"Cantidad realmente vendida en la línea de presupuesto en el momento en que se generó esta comisión"
-" generado. Solo como referencia; no cambia posteriormente."
+"Cantidad realmente vendida en la línea de presupuesto en el momento en que "
+"se generó esta comisión generado. Solo como referencia; no cambia "
+"posteriormente."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__sale_order_id
@@ -695,8 +734,8 @@ msgid ""
 "Reviews commissions sent for approval by the Commissions Manager: can "
 "approve or reject them."
 msgstr ""
-"Revisar comisones enviadas para aprobación por el administrador de comisiones: puede "
-"aprobar o rechazarlas."
+"Revisar comisones enviadas para aprobación por el administrador de "
+"comisiones: puede aprobar o rechazarlas."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__message_has_sms_error
@@ -753,11 +792,11 @@ msgid ""
 "pay. It defaults to the integer value but can be edited independently "
 "afterwards."
 msgstr ""
-"El mismo porcentaje de comisión que Porcentaje de comisión, pero permitiendo "
-"decimales (p. ej., 1,5 %). El módulo de Gestión de comisiones de ventas utiliza este campo en lugar del"
-" campo de número entero Porcentaje de comisión para calcular la comisión a "
-"pagar. Por defecto, toma el valor entero, pero puede editarse de forma "
-"independiente posteriormente."
+"El mismo porcentaje de comisión que Porcentaje de comisión, pero permitiendo"
+" decimales (p. ej., 1,5 %). El módulo de Gestión de comisiones de ventas "
+"utiliza este campo en lugar del campo de número entero Porcentaje de "
+"comisión para calcular la comisión a pagar. Por defecto, toma el valor "
+"entero, pero puede editarse de forma independiente posteriormente."
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__service_performed
@@ -778,7 +817,7 @@ msgstr "Fecha inicio de servicio"
 #. module: pao_sales_commission_management
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_form
 msgid "Service Validation (Coordinator only)"
-msgstr "Validación de servicio (solo coordinación)"
+msgstr "Validación de servicio (solo coordinacióßn)"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__state
@@ -841,8 +880,8 @@ msgid ""
 "agent's approved commissions. Required for External commission agents before"
 " a purchase order can be generated for them."
 msgstr ""
-"Proveedor utilizado al generar una orden de compra para pagar "
-"comisiones aprobadas del agente. Requerido para agentes comisionistas externos antes de"
+"Proveedor utilizado al generar una orden de compra para pagar comisiones "
+"aprobadas del agente. Requerido para agentes comisionistas externos antes de"
 " Se puede generar una orden de compra para ellas."
 
 #. module: pao_sales_commission_management
