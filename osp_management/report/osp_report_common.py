@@ -71,7 +71,15 @@ class OSPRequestReportCommon(models.Model):
         def is_empty_row(row):
             return not any((str(v).strip() if v is not None else '') for v in row.values())
 
-        return [row for row in rows if isinstance(row, dict) and not is_empty_row(row)]
+        return [self._report_localize_yn_cells(row) for row in rows
+                if isinstance(row, dict) and not is_empty_row(row)]
+
+    def _report_localize_yn_cells(self, row):
+        """Los selects Y/N de las tablas dinámicas guardan 'Y'/'N' (valor
+        interno estable) pero muestran Sí/No (o Yes/No) en pantalla; aquí
+        el PDF imprime la misma etiqueta visible en vez del valor crudo."""
+        labels = {'Y': 'Sí', 'N': 'No'} if self._report_is_spanish() else {'Y': 'Yes', 'N': 'No'}
+        return {k: labels.get(v, v) if isinstance(v, str) else v for k, v in row.items()}
 
     def _report_show_if_met(self, condition, data):
         """condition: None (siempre se muestra, comportamiento de siempre)
@@ -129,7 +137,8 @@ class OSPRequestReportCommon(models.Model):
                     subfields_out.append({'kind': 'checkbox', 'label': slabel, 'checked': svalue == 'X'})
                 elif sftype == 'table':
                     rows = svalue if isinstance(svalue, list) else []
-                    rows = [r for r in rows if isinstance(r, dict) and any((str(v).strip() if v is not None else '') for v in r.values())]
+                    rows = [self._report_localize_yn_cells(r) for r in rows
+                            if isinstance(r, dict) and any((str(v).strip() if v is not None else '') for v in r.values())]
                     subfields_out.append({'kind': 'table', 'label': slabel, 'columns': subfield['columns'], 'rows': rows})
             # Entrada completamente vacía (usuario nunca la llenó): se
             # descarta, mismo criterio que _report_parse_table() con las

@@ -313,7 +313,7 @@
             <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Afternoon' else None">Tarde</option>
             <option value="Evening" t-att-selected="'selected' if data.get('1u_available_contact') == 'Evening' else None">Noche</option>
             <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning &amp; Afternoon' else None">Mañana y Tarde</option>
-            <option value="Any time" t-att-selected="'selected' if data.get('1u_available_contact') == 'Any time' else None">Cualquier tiempo</option>
+            <option value="Any time" t-att-selected="'selected' if (data.get('1u_available_contact') or 'Any time') == 'Any time' else None">Cualquier tiempo</option>
         </select>
     </div><div class="col-md-6 mb-3">
         <label class="form-label fw-bold">¿En qué horario se encuentra disponible para la inspección?</label>
@@ -323,7 +323,7 @@
             <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Afternoon' else None">Tarde</option>
             <option value="Evening" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Evening' else None">Noche</option>
             <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning &amp; Afternoon' else None">Mañana y Tarde</option>
-            <option value="Any time" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Any time' else None">Cualquier tiempo</option>
+            <option value="Any time" t-att-selected="'selected' if (data.get('1u_available_inspection') or 'Any time') == 'Any time' else None">Cualquier tiempo</option>
         </select>
     </div></div>
 

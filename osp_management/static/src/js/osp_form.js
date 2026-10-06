@@ -106,6 +106,11 @@ function initOspForm() {
     // y cada fila se generan siempre desde la misma fuente, para que
     // nunca puedan desalinearse (lección aprendida con la tabla Sites).
     // ============================================================
+    // Selects Y/N: se guarda 'Y'/'N' (valor estable, el PDF lo traduce en
+    // _report_localize_yn_cells) pero se muestra Sí/No o Yes/No según el idioma.
+    const YN_EN = [{ value: 'Y', label: 'Yes' }, { value: 'N', label: 'No' }];
+    const YN_ES = [{ value: 'Y', label: 'Sí' }, { value: 'N', label: 'No' }];
+
     const TABLE_CONFIGS = {
         contacts: { // 1j
             jsonInputId: '1j_contacts_json', tbodyId: 'contacts_tbody', addBtnId: 'btn_add_contact',
@@ -186,7 +191,7 @@ function initOspForm() {
                 { key: 'product', type: 'text', placeholder: 'Product requested for certification...' },
                 { key: 'id_mark', type: 'text', placeholder: 'ID Mark (Labels)...' },
                 { key: 'label_type', type: 'multicheckbox', options: ['Retail', 'Non-Retail', 'Private Label'] },
-                { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
+                { key: 'packing_with_id', type: 'select', options: YN_EN },
                 { key: 'organic_or_100', type: 'select', options: ['Organic', '100% Organic'] },
                 { key: 'international_market', type: 'text', placeholder: 'International market / equivalency request...' },
             ],
@@ -197,7 +202,7 @@ function initOspForm() {
                 { key: 'product', type: 'text', placeholder: 'Producto solicitado para certificación...' },
                 { key: 'id_mark', type: 'text', placeholder: 'Marca de Identificación...' },
                 { key: 'label_type', type: 'multicheckbox', options: ['Minorista', 'Mayoreo', 'Etiqueta Privada'] },
-                { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
+                { key: 'packing_with_id', type: 'select', options: YN_ES },
                 { key: 'organic_or_100', type: 'select', options: ['Orgánico', '100% Orgánico'] },
                 { key: 'international_market', type: 'text', placeholder: 'Mercados internacionales / solicitud de equivalencia...' },
             ],
@@ -209,8 +214,8 @@ function initOspForm() {
                 { key: 'brand_supplier', type: 'text', placeholder: 'Brand / Supplier...' },
                 { key: 'seed_type', type: 'select', options: ['Certified Organic', 'Non-Organic: Untreated', 'Non-Organic: Treated', 'Certified Organic Planting Stock', 'Non-Organic: Untreated Planting Stock', 'Non-Organic: Treated Planting Stock'] },
                 { key: 'non_organic_treatment', type: 'text', placeholder: 'If treated: type/brand of treatment...' },
-                { key: 'non_gmo_documented', type: 'select', options: ['Y', 'N'] },
-                { key: 'seed_search_form_completed', type: 'select', options: ['Y', 'N'] },
+                { key: 'non_gmo_documented', type: 'select', options: YN_EN },
+                { key: 'seed_search_form_completed', type: 'select', options: YN_EN },
             ],
         },
         cultivo_seeds: { // 8a (Cultivo) — config propia, ya no comparte la de Crop
@@ -220,8 +225,8 @@ function initOspForm() {
                 { key: 'brand_supplier', type: 'text', placeholder: 'Marca/Proveedor...' },
                 { key: 'seed_type', type: 'select', options: ['Orgánico Certificado', 'No-Orgánico: Sin Tratar', 'No-Orgánico: Tratado', 'Material de Siembra Orgánico Certificado', 'Material de Siembra No-Orgánico: Sin Tratar', 'Material de Siembra No-Orgánico: Tratado'] },
                 { key: 'non_organic_treatment', type: 'text', placeholder: 'Si es tratada: tipo/marca del tratamiento...' },
-                { key: 'non_gmo_documented', type: 'select', options: ['Y', 'N'] },
-                { key: 'seed_search_form_completed', type: 'select', options: ['Y', 'N'] },
+                { key: 'non_gmo_documented', type: 'select', options: YN_ES },
+                { key: 'seed_search_form_completed', type: 'select', options: YN_ES },
             ],
         },
         planting_stock: { // 8g (Crop)
@@ -232,7 +237,7 @@ function initOspForm() {
                 { key: 'seedling_type', type: 'select', options: ['Certified Organic', 'Non-Organic'] },
                 { key: 'date_planted', type: 'date', placeholder: '' },
                 { key: 'expected_harvest_date', type: 'date', placeholder: '' },
-                { key: 'search_form_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'search_form_attached', type: 'select', options: YN_EN },
             ],
         },
         cultivo_planting_stock: { // 8g (Cultivo) — config propia, ya no comparte la de Crop
@@ -243,7 +248,7 @@ function initOspForm() {
                 { key: 'seedling_type', type: 'select', options: ['Orgánico Certificado', 'No-Orgánico'] },
                 { key: 'date_planted', type: 'date', placeholder: '' },
                 { key: 'expected_harvest_date', type: 'date', placeholder: '' },
-                { key: 'search_form_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'search_form_attached', type: 'select', options: YN_ES },
             ],
         },
         rotation: { // 10 — reutilizada tal cual por Cultivo (mismo
@@ -273,7 +278,7 @@ function initOspForm() {
                 { key: 'brand_name', type: 'text', placeholder: 'Brand Name...' },
                 { key: 'ingredients', type: 'text', placeholder: 'Ingredients...' },
                 { key: 'compliance_approval_by', type: 'text', placeholder: 'Compliance approval by...' },
-                { key: 'label_compliance_docs_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'label_compliance_docs_attached', type: 'select', options: YN_EN },
                 { key: 'restrictions_compliance_description', type: 'text', placeholder: 'How you comply with NOP annotation...' },
             ],
         },
@@ -284,7 +289,7 @@ function initOspForm() {
                 { key: 'brand_name', type: 'text', placeholder: 'Nombre del Producto...' },
                 { key: 'ingredients', type: 'text', placeholder: 'Ingredientes...' },
                 { key: 'compliance_approval_by', type: 'text', placeholder: 'Aprobación de Conformidad Por...' },
-                { key: 'label_compliance_docs_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'label_compliance_docs_attached', type: 'select', options: YN_ES },
                 { key: 'restrictions_compliance_description', type: 'text', placeholder: 'Cumplimiento Anotación NOP...' },
             ],
         },
@@ -342,7 +347,7 @@ function initOspForm() {
                 { key: 'product', type: 'text', placeholder: 'Product requested for certification...' },
                 { key: 'id_mark', type: 'text', placeholder: 'ID Mark (Labels)...' },
                 { key: 'label_type', type: 'multicheckbox', options: ['Retail', 'Non-Retail', 'Private Label'] },
-                { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
+                { key: 'packing_with_id', type: 'select', options: YN_EN },
                 { key: 'organic_or_100', type: 'text', placeholder: 'Organic or 100% Organic?...' },
                 { key: 'international_market', type: 'text', placeholder: 'International market...' },
             ],
@@ -353,9 +358,9 @@ function initOspForm() {
                 { key: 'input_used_for', type: 'select', options: ['Pest Control (Facility)', 'Cleaning', 'Disinfection', 'Post-Harvest Treatment', 'Other'] },
                 { key: 'brand_name', type: 'text', placeholder: 'Brand Name...' },
                 { key: 'ingredients', type: 'text', placeholder: 'Ingredients...' },
-                { key: 'food_contact', type: 'select', options: ['Y', 'N'] },
+                { key: 'food_contact', type: 'select', options: YN_EN },
                 { key: 'compliance_approval_by', type: 'text', placeholder: 'Compliance approval by...' },
-                { key: 'label_docs_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'label_docs_attached', type: 'select', options: YN_EN },
                 { key: 'restrictions_description', type: 'text', placeholder: 'If product has restrictions...' },
             ],
         },
@@ -399,7 +404,7 @@ function initOspForm() {
                 { key: 'product', type: 'text', placeholder: 'Producto solicitado para certificación...' },
                 { key: 'id_mark', type: 'text', placeholder: 'Marca de Identificación...' },
                 { key: 'label_type', type: 'multicheckbox', options: ['Minorista', 'Mayoreo', 'Etiqueta Privada'] },
-                { key: 'packing_with_id', type: 'select', options: ['Y', 'N'] },
+                { key: 'packing_with_id', type: 'select', options: YN_ES },
                 { key: 'organic_or_100', type: 'text', placeholder: 'Orgánico o 100% Orgánico?...' },
                 { key: 'international_market', type: 'text', placeholder: 'Mercados internacionales...' },
             ],
@@ -410,9 +415,9 @@ function initOspForm() {
                 { key: 'input_used_for', type: 'select', options: ['Control de Plagas (Instalaciones)', 'Limpieza', 'Desinfección', 'Tratamiento Postcosecha', 'Otro'] },
                 { key: 'brand_name', type: 'text', placeholder: 'Marca comercial...' },
                 { key: 'ingredients', type: 'text', placeholder: 'Ingredientes...' },
-                { key: 'food_contact', type: 'select', options: ['Y', 'N'] },
+                { key: 'food_contact', type: 'select', options: YN_ES },
                 { key: 'compliance_approval_by', type: 'text', placeholder: 'Aprobación de conformidad por...' },
-                { key: 'label_docs_attached', type: 'select', options: ['Y', 'N'] },
+                { key: 'label_docs_attached', type: 'select', options: YN_ES },
                 { key: 'restrictions_description', type: 'text', placeholder: 'Si tiene restricciones...' },
             ],
         },
@@ -447,9 +452,11 @@ function initOspForm() {
     function cellHtml(col, rowIndex, value) {
         const safeVal = (value === undefined || value === null) ? '' : String(value);
         if (col.type === 'select') {
-            const opts = col.options.map(o =>
-                `<option value="${o}" ${safeVal === o ? 'selected' : ''}>${o}</option>`
-            ).join('');
+            const opts = col.options.map(o => {
+                const ov = (typeof o === 'object') ? o.value : o;
+                const ol = (typeof o === 'object') ? o.label : o;
+                return `<option value="${ov}" ${safeVal === ov ? 'selected' : ''}>${ol}</option>`;
+            }).join('');
             return `<td><select class="form-select form-select-sm border-0 bg-transparent dyn-input" data-index="${rowIndex}" data-field="${col.key}">
                 <option value="">--</option>${opts}
             </select></td>`;
@@ -851,37 +858,42 @@ function initOspForm() {
     initFieldHistoryBlock();
 
     // ============================================================
-    // "NO APLICA ESTA SECCIÓN A MI OPERACIÓN" — retro de usuario piloto:
-    // al marcar esta casilla, el resto de las preguntas de esa sección
-    // debería minimizarse/ocultarse, para que el cliente no llene
-    // información que no le corresponde. 100% genérico: cualquier
-    // checkbox cuyo "name" sea EXACTAMENTE "<número>_na" (ej. "2_na",
-    // "11_na") se trata como marcador de sección completa — a propósito
-    // NO aplica a los demás checkboxes "_na" del módulo (ej.
-    // "9_manure_na", "13_buffer_na"), que son de una subsección, no de
-    // toda la sección, y sí deben seguir mostrando sus vecinos. El
-    // checkbox y todo lo que esté ANTES de él en el tab-pane (encabezado,
-    // cita regulatoria, nota de "solo primera vez", etc.) nunca se oculta
-    // — solo lo que viene DESPUÉS.
+    // CASILLAS "NO APLICA" — retro de usuario piloto: al marcar la casilla,
+    // lo que dependa de ella debe ocultarse para que el cliente no llene
+    // información que no le corresponde. 100% genérico, dos tipos:
+    //   - De SECCIÓN completa: name EXACTAMENTE "<número>_na" (ej. "2_na",
+    //     "11_na"): oculta todo lo que viene DESPUÉS en el tab-pane.
+    //   - De SUBSECCIÓN: cualquier otro "*_na" (ej. "9_manure_na",
+    //     "13_buffer_na", "2d_noncompliances_na"): oculta solo lo que viene
+    //     después hasta el siguiente encabezado (h3-h6) o la siguiente
+    //     casilla "_na" — es decir, solo su propio bloque.
+    // El checkbox y todo lo anterior (encabezado, cita regulatoria, etc.)
+    // nunca se oculta. Los datos capturados se conservan (solo se oculta
+    // con el atributo "hidden"); el PDF no cambia. Todas las casillas "_na"
+    // son hijas directas del tab-pane (validado en los 6 formularios).
     // ============================================================
     function initSectionNAHiding() {
-        document.querySelectorAll('input[type="checkbox"].osp-input').forEach(function (cb) {
-            if (!/^\d+_na$/.test(cb.name)) return;
-            const wrapDiv = cb.closest('.form-check');
-            const tabPane = cb.closest('.tab-pane');
-            if (!wrapDiv || !tabPane) return;
+        const isNaWrap = el => !!el.querySelector('input[type="checkbox"].osp-input[name$="_na"]');
+        document.querySelectorAll('.tab-pane').forEach(function (tabPane) {
+            const kids = Array.from(tabPane.children);
+            const checks = kids.map((el, idx) => {
+                const cb = el.matches('.form-check') ? el.querySelector('input[type="checkbox"].osp-input[name$="_na"]') : null;
+                return cb ? { cb: cb, idx: idx, section: /^d+_na$/.test(cb.name) } : null;
+            }).filter(Boolean);
+            if (!checks.length) return;
 
             function applyHide() {
-                let hide = false;
-                Array.from(tabPane.children).forEach(function (child) {
-                    if (child === wrapDiv) {
-                        hide = cb.checked;
-                        return;
+                const hide = new Set();
+                checks.forEach(function (c) {
+                    if (!c.cb.checked) return;
+                    for (let i = c.idx + 1; i < kids.length; i++) {
+                        if (!c.section && (/^H[3-6]$/.test(kids[i].tagName) || isNaWrap(kids[i]))) break;
+                        hide.add(i);
                     }
-                    child.classList.toggle('d-none', hide);
                 });
+                kids.forEach((el, i) => { el.hidden = hide.has(i); });
             }
-            cb.addEventListener('change', applyHide);
+            checks.forEach(c => c.cb.addEventListener('change', applyHide));
             applyHide();
         });
     }

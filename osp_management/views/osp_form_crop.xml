@@ -336,7 +336,7 @@
         <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Afternoon' else None">Afternoon</option>
         <option value="Evening" t-att-selected="'selected' if data.get('1u_available_contact') == 'Evening' else None">Evening</option>
         <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_contact') == 'Morning &amp; Afternoon' else None">Morning &amp; Afternoon</option>
-        <option value="Any time" t-att-selected="'selected' if data.get('1u_available_contact') == 'Any time' else None">Any time</option>
+        <option value="Any time" t-att-selected="'selected' if (data.get('1u_available_contact') or 'Any time') == 'Any time' else None">Any time</option>
     </select>
 </div><div class="col-md-6 mb-3">
     <label class="form-label fw-bold">When are you available for inspection?</label>
@@ -346,7 +346,7 @@
         <option value="Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Afternoon' else None">Afternoon</option>
         <option value="Evening" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Evening' else None">Evening</option>
         <option value="Morning &amp; Afternoon" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Morning &amp; Afternoon' else None">Morning &amp; Afternoon</option>
-        <option value="Any time" t-att-selected="'selected' if data.get('1u_available_inspection') == 'Any time' else None">Any time</option>
+        <option value="Any time" t-att-selected="'selected' if (data.get('1u_available_inspection') or 'Any time') == 'Any time' else None">Any time</option>
     </select>
 </div></div>
 
@@ -804,25 +804,13 @@
     <textarea class="form-control osp-input" name="6d_natural_resources" rows="3"><t t-esc="data.get('6d_natural_resources')"/></textarea>
 </div>
 
-<div class="form-check mb-2">
-    <input class="form-check-input osp-input" type="checkbox" name="6e_woodland_na" id="6e_woodland_na" value="yes" t-att-checked="'checked' if data.get('6e_woodland_na') else None"/>
-    <label class="form-check-label" for="6e_woodland_na">N/A</label>
-</div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">6e. Are there woodland areas? Describe, if any.</label>
     <textarea class="form-control osp-input" name="6e_woodland_details" rows="3"><t t-esc="data.get('6e_woodland_details')"/></textarea>
 </div>
-<div class="form-check mb-2">
-    <input class="form-check-input osp-input" type="checkbox" name="6f_wetlands_na" id="6f_wetlands_na" value="yes" t-att-checked="'checked' if data.get('6f_wetlands_na') else None"/>
-    <label class="form-check-label" for="6f_wetlands_na">N/A</label>
-</div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">6f. Are there wetlands? Describe, if any.</label>
     <textarea class="form-control osp-input" name="6f_wetlands_details" rows="3"><t t-esc="data.get('6f_wetlands_details')"/></textarea>
-</div>
-<div class="form-check mb-2">
-    <input class="form-check-input osp-input" type="checkbox" name="6g_wildlife_na" id="6g_wildlife_na" value="yes" t-att-checked="'checked' if data.get('6g_wildlife_na') else None"/>
-    <label class="form-check-label" for="6g_wildlife_na">N/A</label>
 </div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">6g. Are there wildlife/biodiversity? Describe, if any.</label>

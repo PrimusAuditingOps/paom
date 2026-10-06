@@ -133,3 +133,29 @@ Cuando un documento de feedback dice "ver imagen" o similar junto a un punto esp
 3. Leer `word/media/imageX.png` directamente (la herramienta de lectura de archivos puede mostrar imágenes).
 
 Esto evita tener que abrir y revisar las 20+ imágenes de un documento largo una por una para encontrar la correcta — se llega directo a la que el punto de retroalimentación realmente referencia.
+
+## 15. Una vista con aunque sea UNA traducción en el `.po` guarda una copia por idioma — y se desincroniza al cambiar el texto fuente
+
+Si el `.po` de un idioma tiene **al menos un `msgstr` real** referenciando una vista (`#: model_terms:ir.ui.view,arch_db:modulo.vista`), Odoo guarda para esa vista una **copia completa del `arch_db` en ese idioma** (columna `jsonb`, clave `es_MX`, etc.). Las vistas sin ninguna traducción real no tienen esa copia y siempre muestran el texto fuente (`en_US`).
+
+**Síntoma real (confirmado):** tras editar textos de una vista cuyo fuente está en inglés, un usuario con el idioma en español veía el menú **mezclado** (algunos textos nuevos, otros viejos), mientras el mismo usuario con idioma inglés lo veía perfecto, y una vista hermana con fuente en español (sin copia guardada) se veía bien en ambos idiomas. El código en disco era correcto — lo que estaba desfasado era la copia por idioma tras el `-u`. En `osp_management`, la vista de Crop tenía esa copia por solo **4** traducciones reales (de ~456 entradas, el resto vacías), referentes a la pestaña de adjuntos.
+
+**Cómo diagnosticar (sin adivinar):** probar la misma pantalla cambiando el idioma del usuario — si en el idioma fuente se ve bien y en el otro no, es esto. Y confirmar qué vistas tienen copia:
+```sql
+SELECT d.name, (SELECT string_agg(k, ',') FROM jsonb_object_keys(v.arch_db) k) AS idiomas
+FROM ir_ui_view v JOIN ir_model_data d ON d.model='ir.ui.view' AND d.res_id=v.id
+WHERE d.module='<modulo>' AND d.name LIKE '<patron>%';
+```
+
+**Corrección:** borrar la copia desfasada y volver a actualizar el módulo (la vista cae al texto fuente):
+```sql
+UPDATE ir_ui_view SET arch_db = arch_db - 'es_MX'
+WHERE id = (SELECT res_id FROM ir_model_data WHERE module='<modulo>' AND name='<xmlid_vista>');
+```
+
+**Prevención:** si el contenido de una vista **no debe traducirse** (decisión de negocio), no dejar `msgstr` reales que la referencien — basta una sola para que reaparezca la copia y el problema. Alternativamente, si sí se traduce, esperar este desfase tras cada cambio de texto fuente y planear la limpieza anterior.
+
+
+## 16. Una casilla "No aplica" decorativa es un bug de UX: generalizar el motor que oculta, en vez de cablear cada una
+
+Si solo las casillas de sección completa ocultan y las de subsección no hacen nada, el usuario las reporta una por una. Mejor un solo motor genérico: la casilla oculta los hermanos siguientes hasta el próximo encabezado o la próxima casilla "N/A". Usar el atributo `hidden` (Bootstrap lo respeta con `!important`) y recalcular todo el conjunto en cada cambio, para que dos casillas no se pisen al quitar la clase. Antes de generalizar, validar con un parser XML que todas las casillas sean hijas directas del contenedor. Combinar con §12: si además hay selects con valor guardado ≠ etiqueta (Y/N → Sí/No), traducir también en el PDF.
