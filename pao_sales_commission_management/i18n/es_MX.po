@@ -554,13 +554,13 @@ msgstr ""
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__promotor_id
 msgid "Promoter"
-msgstr "Promotor"
+msgstr "Comisionista"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__promotor_type
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_search
 msgid "Promoter Type"
-msgstr "Tipo de promotor"
+msgstr "Tipo de comisionista"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,help:pao_sales_commission_management.field_sale_order_line__pao_promotor_id
@@ -570,7 +570,7 @@ msgid ""
 "clear it manually to exclude this specific line from the commission "
 "calculation."
 msgstr ""
-"Promotor que percibe una comisión por esta línea. Se rellena automáticamente a partir de la cotización"
+"Comisionista que percibe una comisión por esta línea. Se rellena automáticamente a partir de la cotización"
 " Agente de comisiones (pao_commission_agent_id) para productos sujetos a comisión; "
 "elimine el valor manualmente para excluir esta línea específica del cálculo "
 "de la comisión."
@@ -578,7 +578,7 @@ msgstr ""
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_comisionpromotores_promotor__promotor_type
 msgid "Promotor Type"
-msgstr "Tipo de promotor"
+msgstr "Tipo de comisionista"
 
 #. module: pao_sales_commission_management
 #: model:ir.model,name:pao_sales_commission_management.model_purchase_order
@@ -607,7 +607,7 @@ msgid ""
 " quantity sold. Editing this never changes the quotation."
 msgstr ""
 "La cantidad sobre la que finanzas realmente paga la comisión. Por defecto, utiliza la cantidad "
-"vendido, pero puede ser rebajado si el promotor no gana comisión sobre el total"
+"vendido, pero puede ser rebajado si el comisionista no gana comisión sobre el total"
 " cantidad vendida. Modificar esto nunca altera el presupuesto."
 
 #. module: pao_sales_commission_management
@@ -778,7 +778,7 @@ msgstr "Fecha inicio de servicio"
 #. module: pao_sales_commission_management
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_form
 msgid "Service Validation (Coordinator only)"
-msgstr "Validación de servicio (solo coordinacióßn)"
+msgstr "Validación de servicio (solo coordinación)"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__state

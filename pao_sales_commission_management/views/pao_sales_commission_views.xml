@@ -20,6 +20,9 @@
                 <field name="commission_amount" sum="Commission USD"/>
                 <field name="applied_exchange_rate"/>
                 <field name="commission_amount_mxn" sum="Commission MXN"/>
+                <field name="manager_commission_percentage" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"/>
+                <field name="manager_commission_amount" sum="Manager Commission" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"/>
+                <field name="manager_commission_amount_mxn" sum="Manager Commission MXN" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"/>
                 <field name="state" widget="badge"
                        decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
                        decoration-warning="state in ('pending_service', 'pending_approval')"
@@ -92,6 +95,13 @@
                             <field name="reference_payment_id" readonly="1"/>
                             <field name="applied_exchange_rate" readonly="1"/>
                             <field name="commission_amount_mxn" readonly="1"
+                                   class="fw-bold fs-5"/>
+                            <field name="manager_commission_percentage" readonly="1" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"
+                                   invisible="not manager_commission_percentage"/>
+                            <field name="manager_commission_amount" readonly="1" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"
+                                   invisible="not manager_commission_percentage"/>
+                            <field name="manager_commission_amount_mxn" readonly="1" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"
+                                   invisible="not manager_commission_percentage"
                                    class="fw-bold fs-5"/>
                             <field name="purchase_order_id" readonly="1"
                                    invisible="not purchase_order_id"/>
