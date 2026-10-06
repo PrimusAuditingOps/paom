@@ -244,9 +244,14 @@ class PaoSalesCommission(models.Model):
     # ------------------------------------------------------------------
     # Ciclo de aprobación: Gerente envía a Finanzas, Finanzas aprueba/rechaza.
     # ------------------------------------------------------------------
-    def _check_user_in_group(self, group_xmlid, action_label):
-        if not self.env.user.has_group(
-            'pao_sales_commission_management.%s' % group_xmlid
+    def _check_user_in_group(self, group_xmlids, action_label):
+        """group_xmlids: un xml_id (str) o varios (tuple); basta con
+        pertenecer a uno."""
+        if isinstance(group_xmlids, str):
+            group_xmlids = (group_xmlids,)
+        if not any(
+            self.env.user.has_group('pao_sales_commission_management.%s' % xmlid)
+            for xmlid in group_xmlids
         ):
             raise UserError(
                 'You do not have permission to %s.' % action_label
@@ -291,17 +296,24 @@ class PaoSalesCommission(models.Model):
         return True
 
     def action_reject(self):
-        """Botón de Finanzas: rechaza la comisión y cierra la actividad."""
+        """Botón de Finanzas o del Gerente de Comisiones: rechaza la
+        comisión mientras no esté Aprobada, Procesada ni ya Rechazada. Si
+        estaba pendiente de aprobación, cierra las actividades de Finanzas."""
         self._check_user_in_group(
-            'group_pao_sales_finance_commission', 'reject commissions'
+            ('group_pao_sales_finance_commission',
+             'group_pao_sales_commission_manager'),
+            'reject commissions',
         )
         for rec in self:
-            if rec.state != 'pending_approval':
+            if rec.state in ('approved', 'processed', 'not_approved'):
                 raise UserError(
-                    'Only commissions "Pending Approval" can be rejected.'
+                    'Commissions that are Approved, Processed or already '
+                    'Not Approved cannot be rejected.'
                 )
+            was_pending_approval = rec.state == 'pending_approval'
             rec.state = 'not_approved'
-            rec._close_approval_activities('Commission not approved.')
+            if was_pending_approval:
+                rec._close_approval_activities('Commission not approved.')
         return True
 
     def action_mark_processed(self):

@@ -15,6 +15,8 @@
                 <field name="sales_customer_type"/>
                 <field name="promotor_id"/>
                 <field name="promotor_type"/>
+                <field name="currency_cotizacion_id" column_invisible="1"/>
+                <field name="currency_mxn_id" column_invisible="1"/>
                 <field name="commissionable_base" sum="Base"/>
                 <field name="commission_percentage"/>
                 <field name="commission_amount" sum="Commission USD"/>
@@ -51,8 +53,8 @@
                             groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
                     <button name="action_reject" type="object"
                             string="Reject" class="btn-secondary"
-                            invisible="state != 'pending_approval'"
-                            groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
+                            invisible="state in ('approved', 'processed', 'not_approved')"
+                            groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"/>
                     <button name="action_mark_processed" type="object"
                             string="Mark as Processed" class="btn-primary"
                             invisible="state != 'approved' or promotor_type == 'external'"
