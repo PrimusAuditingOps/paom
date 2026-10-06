@@ -10,7 +10,13 @@
         <field name="inherit_id" ref="comisionpromotores.comisionpromotores_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='porcentaje']" position="after">
-                <field name="commission_rate"/>
+                <!-- Externo: lo ve cualquier usuario. Interno (ventas /
+                     coordinación): solo el grupo view_promoter_commission_percentage. -->
+                <field name="commission_rate"
+                       invisible="promotor_type != 'external'"/>
+                <field name="commission_rate"
+                       invisible="promotor_type == 'external'"
+                       groups="pao_sales_commission_management.view_promoter_commission_percentage"/>
                 <field name="promotor_type"/>
                 <field name="user_id"
                        invisible="promotor_type == 'external'"/>
@@ -27,7 +33,8 @@
         <field name="inherit_id" ref="comisionpromotores.comisionpromotores_promotores_view_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='porcentaje']" position="after">
-                <field name="commission_rate"/>
+                <field name="commission_rate"
+                       groups="pao_sales_commission_management.view_promoter_commission_percentage"/>
                 <field name="promotor_type"/>
                 <field name="user_id" optional="hide"/>
                 <field name="partner_id" optional="hide"/>
