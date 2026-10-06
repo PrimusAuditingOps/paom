@@ -27,6 +27,12 @@
         <field name="comment">Can send commissions that are ready ("Submit for Approval") to Finance for approval.</field>
     </record>
 
+    <record id="view_promoter_commission_percentage" model="res.groups">
+        <field name="name">Commissions / View Promoter Commission Percentage</field>
+        <field name="category_id" ref="module_category_pao_sales_commission"/>
+        <field name="comment">Can see the commission percentage (commission_rate) of internal commission agents (Sales and Coordination). The percentage of External agents is visible to everyone.</field>
+    </record>
+
     <!-- Reglas de registro: un usuario del grupo "Consulta" (o de los
          grupos base de Ventas/Compras "Own Documents Only"/"User", que
          necesitan poder abrir sus propias cotizaciones/compras sin que el
