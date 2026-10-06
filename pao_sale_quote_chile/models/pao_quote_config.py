@@ -2,45 +2,21 @@
 from markupsafe import Markup
 
 from odoo import fields, models
+from odoo.tools import file_open
 
-DEFAULT_INTRO_LONG = Markup(
-    "<p>Muchas gracias por su interés en los servicios que ofrece Primus Auditing Ops.<br/>"
-    "Una de las principales ventajas de nuestra compañía es que los reportes de auditoría cuentan con una "
-    "herramienta de traducción automática gratuita además de poder vincular los informes de auditorías "
-    "PrimusGFS, GLOBALG.A.P. y Primus Estándar a la plataforma de Azzule.com para ser transferidas a sus "
-    "Clientes/Compradores. A continuación, detallamos los valores de acuerdo a los servicios solicitados. "
-    "Los precios indicados no incluyen IVA.</p>"
-)
-
-DEFAULT_INTRO_SHORT = Markup(
-    "<p>Muchas gracias por su interés en los servicios que ofrece Primus Auditing Ops.<br/>"
-    "A continuación, detallamos los valores de acuerdo a los servicios solicitados:</p>"
-)
-
-DEFAULT_CLOSING = Markup(
-    "<p>Esperamos que esta propuesta sea satisfactoria para sus expectativas de inversión en inocuidad, "
-    "además de que esta temporada sea de excelentes resultados, agradecemos de antemano su intención de "
-    "trabajar con el equipo de Primus Auditing Ops - Chile.</p>"
-    "<p>Quedamos atentos a sus consultas y/o dudas.</p>"
-    "<p>Saludos Cordiales.</p>"
-)
-
-DEFAULT_SIGNATURE_TEXT = Markup(
-    "<p>Katherine Legua S.<br/>"
-    "<small>Director of Primus Auditing Ops<br/>"
-    "Chile and South America<br/>"
-    "Klegua@pao-cl.com<br/>"
-    "Av. Libertad #798, oficina 902.<br/>"
-    "Viña del Mar - Chile.<br/>"
-    "Office (+56 32) 361 2313.<br/>"
-    "Mobile (+569) 84298135</small></p>"
-)
+DEFAULT_FORMAT_TEMPLATE_PATH = 'pao_sale_quote_chile/data/pao_quote_default_format.html'
 
 DEFAULT_FOOTER_OFFICES = Markup(
     "<b>USA:</b> HQ Santa Maria, CA &#9679; Brandon, FL &#9679; "
     "<b>Mexico:</b> Guadalajara &#9679; Culiacán &#9679; Uruapan &#9679; "
     "<b>Costa Rica:</b> San José &#9679; <b>Chile:</b> Viña del Mar"
 )
+
+
+def default_format_template():
+    """Sample format taken from the manual GLOBALG.A.P. quotations of Primus Auditing Ops Chile."""
+    with file_open(DEFAULT_FORMAT_TEMPLATE_PATH) as template_file:
+        return Markup(template_file.read())
 
 
 class PaoQuoteConfig(models.Model):
@@ -54,27 +30,13 @@ class PaoQuoteConfig(models.Model):
         required=True,
         default=lambda self: self.env.company,
     )
-
-    # Header
-    logo = fields.Binary(string='Logo', help="Logo printed in the quotation header. Uses the company logo when empty.")
-    title = fields.Char(string='Document Title', default='Cotización Servicios Auditorias', required=True)
-
-    # Body texts
-    intro_long = fields.Html(
-        string='Introduction (long)',
-        default=DEFAULT_INTRO_LONG,
-        help="Used when at least one scheme of the quotation is marked to use the long introduction.",
+    logo = fields.Binary(string='Logo', help="Logo printed in the header. Uses the company logo when empty.")
+    signature_image = fields.Binary(string='Signature Image', help="Image printed in place of [[FIRMA]].")
+    default_format_template = fields.Html(
+        string='Default Format',
+        default=lambda self: default_format_template(),
+        help="Format used when the quotation has no quotation template, or its template has no Chile format.",
     )
-    intro_short = fields.Html(
-        string='Introduction (short)',
-        default=DEFAULT_INTRO_SHORT,
-        help="Used when no scheme of the quotation asks for the long introduction.",
-    )
-    billing_title = fields.Char(string='Billing Section Title', default='Consideraciones de Facturación')
-    closing = fields.Html(string='Closing Text', default=DEFAULT_CLOSING)
-    signature_image = fields.Binary(string='Signature Image')
-    signature_text = fields.Html(string='Signature Text', default=DEFAULT_SIGNATURE_TEXT)
-    additional_title = fields.Char(string='Additional Information Title', default='INFORMACIÓN ADICIONAL')
 
     # Footer
     footer_address = fields.Char(

@@ -6,14 +6,14 @@
     'category': 'Sales',
     'website': 'https://paomx.com',
     'summary': """
-        Regional quotation format (PDF and portal) for the Chilean company.
+        Editable regional quotation format (PDF and portal) for the Chilean company.
     """,
     'description': """
-        Prints quotations of companies with a "Chile quotation format" configured
-        using the regional layout: tables per order section, combined services
-        (service + add-ons) printed as a single row, amounts shown in the product
-        base currency, and additional information blocks selected by audit scheme.
-        Confirmed orders and other companies keep the native Odoo format.
+        Companies with a "Chile quotation format" print their quotations and orders with an editable HTML
+        format: it is generated from the format of the quotation template (placeholders for the customer data
+        and tables built from the order lines, with combined rows and amounts in the product base currency)
+        and then freely edited by the salesperson. The PDF adds the logo header and the regional footer.
+        Other companies keep the native Odoo format.
     """,
     'depends': ['sale_management', 'pao_chile_invoices'],
     'data': [
@@ -22,14 +22,11 @@
         'security/ir.model.access.csv',
         # data
         'data/report_paperformat_data.xml',
-        'data/pao_quote_data.xml',
         # reports
         'report/pao_quote_report_templates.xml',
         'report/pao_quote_portal_templates.xml',
         # views
         'views/pao_quote_config_views.xml',
-        'views/pao_quote_catalog_views.xml',
-        'views/product_template_views.xml',
         'views/sale_order_views.xml',
         'views/pao_menu_views.xml',
     ],

@@ -16,137 +16,38 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__active
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_category__active
 #: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__active
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_scheme__active
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__active
 msgid "Active"
 msgstr "Activo"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields.selection,name:pao_sale_quote_chile.selection__pao_quote_block__position__additional
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_block_view_search
-msgid "Additional Information"
-msgstr "Información adicional"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__additional_title
-msgid "Additional Information Title"
-msgstr "Título de información adicional"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields.selection,name:pao_sale_quote_chile.selection__pao_quote_block__audience__all
-msgid "All Customers"
-msgstr "Todos los clientes"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__apply_always
-msgid "Always Print"
-msgstr "Imprimir siempre"
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_block_view_search
-msgid "Annex"
-msgstr "Anexo"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields.selection,name:pao_sale_quote_chile.selection__pao_quote_block__position__annex
-msgid "Annex (new page)"
-msgstr "Anexo (página nueva)"
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_block_view_form
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_block_view_search
 #: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_config_view_form
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_scheme_view_form
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_table_view_form
 msgid "Archived"
 msgstr "Archivado"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__audience
-msgid "Audience"
-msgstr "Destinatarios"
+#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.view_order_form_pao_quote_chile
+msgid "Built from the quotation template and the order lines; edit it freely afterwards."
+msgstr "Se arma desde la plantilla de cotización y las líneas; después puede editarlo libremente."
 
 #. module: pao_sale_quote_chile
-#: model:ir.model,name:pao_sale_quote_chile.model_pao_quote_scheme
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_product_template__pao_quote_scheme_id
-msgid "Audit Scheme"
-msgstr "Esquema de auditoría"
+#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.sale_order_template_view_form_pao_quote_chile
+msgid "Chile Format"
+msgstr "Formato Chile"
 
 #. module: pao_sale_quote_chile
-#: model:ir.actions.act_window,name:pao_sale_quote_chile.pao_quote_scheme_action
-#: model:ir.ui.menu,name:pao_sale_quote_chile.menu_pao_quote_scheme
-msgid "Audit Schemes"
-msgstr "Esquemas de auditoría"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__band_label
-msgid "Band Label"
-msgstr "Franja"
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_block_view_search
-msgid "Billing"
-msgstr "Facturación"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields.selection,name:pao_sale_quote_chile.selection__pao_quote_block__position__billing
-msgid "Billing Considerations"
-msgstr "Consideraciones de facturación"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__billing_title
-msgid "Billing Section Title"
-msgstr "Título de sección de facturación"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_scheme__block_ids
-msgid "Blocks printed when a quotation includes a product of this scheme."
-msgstr "Bloques que se imprimen cuando la cotización incluye un producto de este esquema."
-
-#. module: pao_sale_quote_chile
-#: model:ir.ui.menu,name:pao_sale_quote_chile.menu_pao_quote_category
-msgid "Categories"
-msgstr "Categorías"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__category_id
-msgid "Category"
-msgstr "Categoría"
-
-#. module: pao_sale_quote_chile
-#: model:ir.ui.menu,name:pao_sale_quote_chile.menu_pao_quote_chile_root
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.product_template_form_view_pao_quote_chile
-msgid "Chile Quotation"
-msgstr "Cotización Chile"
-
-#. module: pao_sale_quote_chile
+#: model:ir.actions.act_window,name:pao_sale_quote_chile.pao_quote_config_action
 #: model:ir.model,name:pao_sale_quote_chile.model_pao_quote_config
 #: model:ir.model.fields,field_description:pao_sale_quote_chile.field_sale_order__pao_use_chile_format
+#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_sale_order_template__pao_quote_format_template
+#: model:ir.ui.menu,name:pao_sale_quote_chile.menu_pao_quote_config
 msgid "Chile Quotation Format"
 msgstr "Formato de cotización Chile"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_sale_order_line__pao_quote_table_id
-msgid "Chile quotation: format of the table when this line is its first product line."
-msgstr "Cotización Chile: formato de la tabla cuando esta línea es su primera línea de producto."
-
-#. module: pao_sale_quote_chile
 #: model:ir.model.fields,help:pao_sale_quote_chile.field_sale_order_line__pao_quote_combine
-msgid "Chile quotation: print this line in the same row as the previous line, with the summed price."
-msgstr "Cotización Chile: imprime esta línea en la misma fila que la línea anterior, con el precio sumado."
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_config_view_form
-msgid "Closing and Signature"
-msgstr "Cierre y firma"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__closing
-msgid "Closing Text"
-msgstr "Texto de cierre"
+msgid "Chile quotation format: when generating the format, print this line in the same row as the previous line, with the summed price (e.g. 'GLOBALG.A.P. + Nurture Add-On')."
+msgstr "Formato de cotización Chile: al generar el formato, imprime esta línea en la misma fila que la línea anterior, con el precio sumado (p. ej. 'GLOBALG.A.P. + Nurture Add-On')."
 
 #. module: pao_sale_quote_chile
 #: model:ir.model.fields,field_description:pao_sale_quote_chile.field_sale_order_line__pao_quote_combine
@@ -154,23 +55,14 @@ msgid "Combine"
 msgstr "Combinar"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_product_template__pao_quote_combine
-msgid "Combine With Previous Line"
-msgstr "Combinar con la línea anterior"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__company_id
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_category__company_id
 #: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__company_id
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_scheme__company_id
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__company_id
 msgid "Company"
 msgstr "Compañía"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__content
-msgid "Content"
-msgstr "Contenido"
+#: model:ir.model.fields,help:pao_sale_quote_chile.field_sale_order__pao_quote_format
+msgid "Content printed in the quotation (between the logo header and the footer). Generated from the quotation template and the order lines, then freely editable."
+msgstr "Contenido impreso en la cotización (entre el encabezado con logo y el pie de página). Se genera desde la plantilla de cotización y las líneas, y después se edita libremente."
 
 #. module: pao_sale_quote_chile
 #: model_terms:ir.actions.act_window,help:pao_sale_quote_chile.pao_quote_config_action
@@ -178,19 +70,15 @@ msgid "Create the Chile quotation format of a company"
 msgstr "Cree el formato de cotización Chile de una compañía"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields.selection,name:pao_sale_quote_chile.selection__pao_quote_block__audience__national
-msgid "Customers in the Company Country"
-msgstr "Clientes del país de la compañía"
+#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__default_format_template
+#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_config_view_form
+msgid "Default Format"
+msgstr "Formato por defecto"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__header_label
-msgid "Description Column"
-msgstr "Columna de descripción"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__title
-msgid "Document Title"
-msgstr "Título del documento"
+#: model:ir.model.fields,help:pao_sale_quote_chile.field_sale_order_template__pao_quote_format_template
+msgid "Design of the Chile quotation format for quotations using this template. Placeholders: [[NUMERO]], [[CLIENTE]], [[CONTACTO]], [[EMAIL]], [[TELEFONO]], [[FECHA]], [[SALUDO]], [[TABLAS]], [[FIRMA]]. Uses the default format of the company when empty."
+msgstr "Diseño del formato de cotización Chile para las cotizaciones que usan esta plantilla. Marcadores: [[NUMERO]], [[CLIENTE]], [[CONTACTO]], [[EMAIL]], [[TELEFONO]], [[FECHA]], [[SALUDO]], [[TABLAS]], [[FIRMA]]. Si está vacío se usa el formato por defecto de la compañía."
 
 #. module: pao_sale_quote_chile
 #: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_config_view_form
@@ -223,57 +111,19 @@ msgid "Footer Website"
 msgstr "Sitio web del pie de página"
 
 #. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.product_template_form_view_pao_quote_chile
-msgid "Footnote"
-msgstr "Nota al pie"
+#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_config__default_format_template
+msgid "Format used when the quotation has no quotation template, or its template has no Chile format."
+msgstr "Formato usado cuando la cotización no tiene plantilla de cotización, o su plantilla no tiene formato Chile."
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_product_template__pao_quote_note
-msgid "Footnote printed below the table that contains this product."
-msgstr "Nota al pie impresa debajo de la tabla que contiene este producto."
+#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.view_order_form_pao_quote_chile
+msgid "Generate Format"
+msgstr "Generar formato"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields.selection,name:pao_sale_quote_chile.selection__pao_quote_block__audience__foreign
-msgid "Foreign Customers"
-msgstr "Clientes extranjeros"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_product_template__pao_quote_table_id
-msgid "Format used by the table where this product is the first row."
-msgstr "Formato de la tabla cuando este producto es la primera fila."
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_block_view_search
-msgid "Group By"
-msgstr "Agrupar por"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_product_template__pao_quote_combine
-msgid "In the Chile quotation, print this product in the same row as the previous line, e.g. 'GLOBALG.A.P. + Nurture Add-On' with the summed price."
-msgstr "En la cotización Chile, imprime este producto en la misma fila que la línea anterior, p. ej. 'GLOBALG.A.P. + Nurture Add-On' con el precio sumado."
-
-#. module: pao_sale_quote_chile
-#: model:ir.actions.act_window,name:pao_sale_quote_chile.pao_quote_block_action
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_scheme__block_ids
-#: model:ir.ui.menu,name:pao_sale_quote_chile.menu_pao_quote_block
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_scheme_view_form
-msgid "Information Blocks"
-msgstr "Bloques de información"
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_config_view_form
-msgid "Introduction"
-msgstr "Introducción"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__intro_long
-msgid "Introduction (long)"
-msgstr "Introducción (larga)"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__intro_short
-msgid "Introduction (short)"
-msgstr "Introducción (corta)"
+#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_config__signature_image
+msgid "Image printed in place of [[FIRMA]]."
+msgstr "Imagen impresa en lugar de [[FIRMA]]."
 
 #. module: pao_sale_quote_chile
 #: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__logo
@@ -282,173 +132,34 @@ msgstr "Logo"
 
 #. module: pao_sale_quote_chile
 #: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_config__logo
-msgid "Logo printed in the quotation header. Uses the company logo when empty."
-msgstr "Logo impreso en el encabezado de la cotización. Si está vacío se usa el logo de la compañía."
+msgid "Logo printed in the header. Uses the company logo when empty."
+msgstr "Logo impreso en el encabezado. Si está vacío se usa el logo de la compañía."
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields.selection,name:pao_sale_quote_chile.selection__pao_quote_table__style__main
-msgid "Main (grey header)"
-msgstr "Principal (encabezado gris)"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields.selection,name:pao_sale_quote_chile.selection__pao_quote_table__style__module
-msgid "Module (green header)"
-msgstr "Módulo (encabezado verde)"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_category__name
 #: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__name
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_scheme__name
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__name
 msgid "Name"
 msgstr "Nombre"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_product_template__pao_quote_name
-msgid "Name printed in the Chile quotation. Uses the product name when empty. Footnote marks can be typed directly, e.g. 'GLOBALG.A.P. (v.6 GFS)¹'."
-msgstr "Nombre impreso en la cotización Chile. Si está vacío se usa el nombre del producto. Las marcas de nota al pie se escriben directo, p. ej. 'GLOBALG.A.P. (v.6 GFS)¹'."
+#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_config_view_form
+msgid "Placeholders: [[NUMERO]], [[CLIENTE]], [[CONTACTO]], [[EMAIL]], [[TELEFONO]], [[FECHA]], [[SALUDO]], [[TABLAS]] (tables built from the order lines) and [[FIRMA]] (signature image)."
+msgstr "Marcadores: [[NUMERO]], [[CLIENTE]], [[CONTACTO]], [[EMAIL]], [[TELEFONO]], [[FECHA]], [[SALUDO]], [[TABLAS]] (tablas armadas desde las líneas) y [[FIRMA]] (imagen de firma)."
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__notes_after
-msgid "Notes (after product notes)"
-msgstr "Notas (después de las notas de productos)"
+#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.sale_order_template_view_form_pao_quote_chile
+msgid "Placeholders: [[NUMERO]], [[CLIENTE]], [[CONTACTO]], [[EMAIL]], [[TELEFONO]], [[FECHA]], [[SALUDO]], [[TABLAS]] (tables built from the order lines) and [[FIRMA]] (signature image). When empty, the default format of the company is used."
+msgstr "Marcadores: [[NUMERO]], [[CLIENTE]], [[CONTACTO]], [[EMAIL]], [[TELEFONO]], [[FECHA]], [[SALUDO]], [[TABLAS]] (tablas armadas desde las líneas) y [[FIRMA]] (imagen de firma). Si está vacío se usa el formato por defecto de la compañía."
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__notes
-msgid "Notes (before product notes)"
-msgstr "Notas (antes de las notas de productos)"
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_table_view_form
-msgid "Notes below the table"
-msgstr "Notas debajo de la tabla"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_category__name
-msgid "Numbered heading of the quotation, e.g. 'Auditorías de Campo'."
-msgstr "Encabezado numerado de la cotización, p. ej. 'Auditorías de Campo'."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_table__category_id
-msgid "Numbered heading under which tables with this format are grouped."
-msgstr "Encabezado numerado bajo el cual se agrupan las tablas con este formato."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_table__band_label
-msgid "Optional green band printed below the header, e.g. 'Auditorías'."
-msgstr "Franja verde opcional debajo del encabezado, p. ej. 'Auditorías'."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__position
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_block_view_search
-msgid "Position"
-msgstr "Posición"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__price_label
-msgid "Price Column"
-msgstr "Columna de precio"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_table__show_total
-msgid "Print a total row (e.g. organic certification stages). Only when all rows share the same currency."
-msgstr "Imprime una fila de total (p. ej. etapas de certificación orgánica). Solo cuando todas las filas tienen la misma moneda."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_block__apply_always
-msgid "Print in every quotation. Otherwise it is printed only when the quotation includes one of its schemes."
-msgstr "Se imprime en todas las cotizaciones. Si no, solo cuando la cotización incluye alguno de sus esquemas."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__show_title
-msgid "Print Title"
-msgstr "Imprimir título"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_table__notes_after
-msgid "Printed below the table, after the quotation notes of its products."
-msgstr "Se imprimen debajo de la tabla, después de las notas de sus productos."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_table__notes
-msgid "Printed below the table, before the quotation notes of its products."
-msgstr "Se imprimen debajo de la tabla, antes de las notas de sus productos."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_scheme__product_tmpl_ids
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_scheme_view_form
-msgid "Products"
-msgstr "Productos"
-
-#. module: pao_sale_quote_chile
-#: model:ir.actions.act_window,name:pao_sale_quote_chile.pao_quote_category_action
-msgid "Quotation Categories"
-msgstr "Categorías de cotización"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model,name:pao_sale_quote_chile.model_pao_quote_category
-msgid "Quotation Category"
-msgstr "Categoría de cotización"
-
-#. module: pao_sale_quote_chile
-#: model:ir.actions.act_window,name:pao_sale_quote_chile.pao_quote_config_action
-#: model:ir.ui.menu,name:pao_sale_quote_chile.menu_pao_quote_config
+#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_sale_order__pao_quote_format
+#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.view_order_form_pao_quote_chile
 msgid "Quotation Format"
 msgstr "Formato de cotización"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model,name:pao_sale_quote_chile.model_pao_quote_block
-msgid "Quotation Information Block"
-msgstr "Bloque de información de cotización"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_product_template__pao_quote_name
-msgid "Quotation Name"
-msgstr "Nombre en cotización"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_product_template__pao_quote_note
-msgid "Quotation Note"
-msgstr "Nota en cotización"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model,name:pao_sale_quote_chile.model_pao_quote_table
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_product_template__pao_quote_table_id
-msgid "Quotation Table Format"
-msgstr "Formato de tabla en cotización"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_scheme__use_long_intro
-msgid "Quotations including this scheme print the long introduction (Azzule platform paragraph)."
-msgstr "Las cotizaciones que incluyen este esquema imprimen la introducción larga (párrafo de la plataforma Azzule)."
-
-#. module: pao_sale_quote_chile
 #: model_terms:ir.actions.act_window,help:pao_sale_quote_chile.pao_quote_config_action
-msgid "Quotations of the companies listed here are printed with the regional format."
-msgstr "Las cotizaciones de las compañías listadas aquí se imprimen con el formato regional."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_product_template__pao_quote_scheme_id
-msgid "Scheme of the service or add-on. Defines which information blocks the Chile quotation prints."
-msgstr "Esquema del servicio o add-on. Define qué bloques de información imprime la cotización Chile."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__scheme_ids
-msgid "Schemes"
-msgstr "Esquemas"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__sequence
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_category__sequence
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_scheme__sequence
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__sequence
-msgid "Sequence"
-msgstr "Secuencia"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__show_total
-msgid "Show Total"
-msgstr "Mostrar total"
+msgid "Quotations and orders of the companies listed here are printed with the regional format."
+msgstr "Las cotizaciones y pedidos de las compañías listadas aquí se imprimen con el formato regional."
 
 #. module: pao_sale_quote_chile
 #: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__signature_image
@@ -456,40 +167,9 @@ msgid "Signature Image"
 msgstr "Imagen de firma"
 
 #. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_config__signature_text
-msgid "Signature Text"
-msgstr "Texto de firma"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__style
-msgid "Style"
-msgstr "Estilo"
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_table_view_form
-msgid "Table"
-msgstr "Tabla"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__footer_label
-msgid "Table Footer"
-msgstr "Pie de tabla"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_sale_order_line__pao_quote_table_id
-msgid "Table Format"
-msgstr "Formato de tabla"
-
-#. module: pao_sale_quote_chile
-#: model:ir.actions.act_window,name:pao_sale_quote_chile.pao_quote_table_action
-#: model:ir.ui.menu,name:pao_sale_quote_chile.menu_pao_quote_table
-msgid "Table Formats"
-msgstr "Formatos de tabla"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_table__price_label
-msgid "The currency (e.g. 'USD $') is added below this label automatically."
-msgstr "La moneda (p. ej. 'USD $') se agrega automáticamente debajo de esta etiqueta."
+#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.view_order_form_pao_quote_chile
+msgid "The format will be generated again from the quotation template and the order lines. Your manual changes will be lost. Continue?"
+msgstr "El formato se generará de nuevo desde la plantilla de cotización y las líneas. Se perderán sus cambios manuales. ¿Continuar?"
 
 #. module: pao_sale_quote_chile
 #: code:addons/pao_sale_quote_chile/models/sale_order.py:0
@@ -501,33 +181,3 @@ msgstr "Las líneas '%(lines)s' se combinan en una sola fila de la cotización p
 #: model:ir.model.constraint,message:pao_sale_quote_chile.constraint_pao_quote_config_company_uniq
 msgid "There can only be one quotation format per company."
 msgstr "Solo puede existir un formato de cotización por compañía."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_block__name
-msgid "Title"
-msgstr "Título"
-
-#. module: pao_sale_quote_chile
-#: model_terms:ir.ui.view,arch_db:pao_sale_quote_chile.pao_quote_table_view_form
-msgid "Total"
-msgstr "Total"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_table__total_label
-msgid "Total Label"
-msgstr "Etiqueta del total"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,field_description:pao_sale_quote_chile.field_pao_quote_scheme__use_long_intro
-msgid "Use Long Introduction"
-msgstr "Usar introducción larga"
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_config__intro_long
-msgid "Used when at least one scheme of the quotation is marked to use the long introduction."
-msgstr "Se usa cuando al menos un esquema de la cotización está marcado para usar la introducción larga."
-
-#. module: pao_sale_quote_chile
-#: model:ir.model.fields,help:pao_sale_quote_chile.field_pao_quote_config__intro_short
-msgid "Used when no scheme of the quotation asks for the long introduction."
-msgstr "Se usa cuando ningún esquema de la cotización pide la introducción larga."
