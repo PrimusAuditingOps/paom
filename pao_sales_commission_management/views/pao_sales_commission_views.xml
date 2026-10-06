@@ -15,11 +15,16 @@
                 <field name="sales_customer_type"/>
                 <field name="promotor_id"/>
                 <field name="promotor_type"/>
+                <field name="currency_cotizacion_id" column_invisible="1"/>
+                <field name="currency_mxn_id" column_invisible="1"/>
                 <field name="commissionable_base" sum="Base"/>
                 <field name="commission_percentage"/>
                 <field name="commission_amount" sum="Commission USD"/>
                 <field name="applied_exchange_rate"/>
                 <field name="commission_amount_mxn" sum="Commission MXN"/>
+                <field name="manager_commission_percentage" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"/>
+                <field name="manager_commission_amount" sum="Manager Commission" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"/>
+                <field name="manager_commission_amount_mxn" sum="Manager Commission MXN" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"/>
                 <field name="state" widget="badge"
                        decoration-info="state in ('pending_invoicing', 'submit_for_approval')"
                        decoration-warning="state in ('pending_service', 'pending_approval')"
@@ -48,8 +53,8 @@
                             groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
                     <button name="action_reject" type="object"
                             string="Reject" class="btn-secondary"
-                            invisible="state != 'pending_approval'"
-                            groups="pao_sales_commission_management.group_pao_sales_finance_commission"/>
+                            invisible="state in ('approved', 'processed', 'not_approved')"
+                            groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"/>
                     <button name="action_mark_processed" type="object"
                             string="Mark as Processed" class="btn-primary"
                             invisible="state != 'approved' or promotor_type == 'external'"
@@ -92,6 +97,13 @@
                             <field name="reference_payment_id" readonly="1"/>
                             <field name="applied_exchange_rate" readonly="1"/>
                             <field name="commission_amount_mxn" readonly="1"
+                                   class="fw-bold fs-5"/>
+                            <field name="manager_commission_percentage" readonly="1" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"
+                                   invisible="not manager_commission_percentage"/>
+                            <field name="manager_commission_amount" readonly="1" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"
+                                   invisible="not manager_commission_percentage"/>
+                            <field name="manager_commission_amount_mxn" readonly="1" groups="pao_sales_commission_management.group_pao_sales_finance_commission,pao_sales_commission_management.group_pao_sales_commission_manager"
+                                   invisible="not manager_commission_percentage"
                                    class="fw-bold fs-5"/>
                             <field name="purchase_order_id" readonly="1"
                                    invisible="not purchase_order_id"/>

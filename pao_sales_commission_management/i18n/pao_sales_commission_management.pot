@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 07:49+0000\n"
-"PO-Revision-Date: 2026-09-28 07:49+0000\n"
+"POT-Creation-Date: 2026-10-06 06:46+0000\n"
+"PO-Revision-Date: 2026-10-06 06:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -393,6 +393,31 @@ msgid ""
 msgstr ""
 
 #. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_tree
+msgid "Manager Commission"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__manager_commission_percentage
+msgid "Manager Commission %"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__manager_commission_amount
+msgid "Manager Commission Amount"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__manager_commission_amount_mxn
+msgid "Manager Commission Amount (MXN)"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_tree
+msgid "Manager Commission MXN"
+msgstr ""
+
+#. module: pao_sales_commission_management
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_form
 msgid "Mark as Processed"
 msgstr ""
@@ -507,6 +532,14 @@ msgstr ""
 #. module: pao_sales_commission_management
 #: model:ir.model.fields.selection,name:pao_sales_commission_management.selection__pao_sales_commission__state__pending_service
 msgid "Pending Service (Coordinator)"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,help:pao_sales_commission_management.field_pao_sales_commission__manager_commission_percentage
+msgid ""
+"Percentage of the commissionable base that the commissions manager receives "
+"on commissions of Salesperson and Coordination agents. External agents do "
+"not generate it."
 msgstr ""
 
 #. module: pao_sales_commission_management

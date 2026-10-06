@@ -6,6 +6,13 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+# Los importes del encargado de comisiones solo los ve Finanzas o el
+# Gerente de Comisiones (también deben ocultarse en las vistas).
+_MANAGER_COMMISSION_GROUPS = (
+    'pao_sales_commission_management.group_pao_sales_finance_commission,'
+    'pao_sales_commission_management.group_pao_sales_commission_manager'
+)
+
 
 class PaoSalesCommission(models.Model):
     _name = 'pao.sales.commission'
@@ -87,6 +94,26 @@ class PaoSalesCommission(models.Model):
         string='Commission Amount (MXN)', readonly=True,
         currency_field='currency_mxn_id',
     )
+    manager_commission_percentage = fields.Float(
+        string='Manager Commission %', digits=(5, 2),
+        compute='_compute_manager_commission_percentage', store=True,
+        groups=_MANAGER_COMMISSION_GROUPS,
+        help='Percentage of the commissionable base that the commissions '
+             'manager receives on commissions of Salesperson and '
+             'Coordination agents. External agents do not generate it.',
+    )
+    manager_commission_amount = fields.Monetary(
+        string='Manager Commission Amount',
+        compute='_compute_manager_commission_amount', store=True,
+        currency_field='currency_cotizacion_id',
+        groups=_MANAGER_COMMISSION_GROUPS,
+    )
+    manager_commission_amount_mxn = fields.Monetary(
+        string='Manager Commission Amount (MXN)',
+        compute='_compute_manager_commission_amount', store=True,
+        currency_field='currency_mxn_id',
+        groups=_MANAGER_COMMISSION_GROUPS,
+    )
     reference_payment_id = fields.Many2one(
         comodel_name='account.payment', string='Reference Payment (E.R.)',
         readonly=True,
@@ -153,6 +180,10 @@ class PaoSalesCommission(models.Model):
     # amounts or state under them anymore.
     _FROZEN_STATES = ('pending_approval', 'approved', 'not_approved', 'processed', 'under_review')
 
+    # % de la base comisionable (sin impuestos) que se lleva el encargado de
+    # comisiones en comisiones de vendedores y coordinadores.
+    _MANAGER_COMMISSION_PERCENTAGE = 1.5
+
     _sql_constraints = [
         ('sale_order_uniq', 'unique(sale_order_id)',
          'A commission for this quote already exists.'),
@@ -165,6 +196,26 @@ class PaoSalesCommission(models.Model):
     def _compute_requires_service_validation(self):
         for rec in self:
             rec.requires_service_validation = rec.promotor_type == 'coordination'
+
+    @api.depends('promotor_type')
+    def _compute_manager_commission_percentage(self):
+        for rec in self:
+            rec.manager_commission_percentage = (
+                self._MANAGER_COMMISSION_PERCENTAGE
+                if rec.promotor_type in ('sales', 'coordination') else 0.0
+            )
+
+    @api.depends('commissionable_base', 'manager_commission_percentage',
+                 'applied_exchange_rate')
+    def _compute_manager_commission_amount(self):
+        for rec in self:
+            # sudo: quien dispare el recálculo puede no tener acceso de
+            # lectura a este campo restringido por grupo.
+            amount = rec.commissionable_base * (
+                rec.sudo().manager_commission_percentage / 100.0
+            )
+            rec.manager_commission_amount = amount
+            rec.manager_commission_amount_mxn = amount * rec.applied_exchange_rate
 
     @api.depends()
     def _compute_currency_mxn_id(self):
@@ -193,9 +244,14 @@ class PaoSalesCommission(models.Model):
     # ------------------------------------------------------------------
     # Ciclo de aprobación: Gerente envía a Finanzas, Finanzas aprueba/rechaza.
     # ------------------------------------------------------------------
-    def _check_user_in_group(self, group_xmlid, action_label):
-        if not self.env.user.has_group(
-            'pao_sales_commission_management.%s' % group_xmlid
+    def _check_user_in_group(self, group_xmlids, action_label):
+        """group_xmlids: un xml_id (str) o varios (tuple); basta con
+        pertenecer a uno."""
+        if isinstance(group_xmlids, str):
+            group_xmlids = (group_xmlids,)
+        if not any(
+            self.env.user.has_group('pao_sales_commission_management.%s' % xmlid)
+            for xmlid in group_xmlids
         ):
             raise UserError(
                 'You do not have permission to %s.' % action_label
@@ -240,17 +296,24 @@ class PaoSalesCommission(models.Model):
         return True
 
     def action_reject(self):
-        """Botón de Finanzas: rechaza la comisión y cierra la actividad."""
+        """Botón de Finanzas o del Gerente de Comisiones: rechaza la
+        comisión mientras no esté Aprobada, Procesada ni ya Rechazada. Si
+        estaba pendiente de aprobación, cierra las actividades de Finanzas."""
         self._check_user_in_group(
-            'group_pao_sales_finance_commission', 'reject commissions'
+            ('group_pao_sales_finance_commission',
+             'group_pao_sales_commission_manager'),
+            'reject commissions',
         )
         for rec in self:
-            if rec.state != 'pending_approval':
+            if rec.state in ('approved', 'processed', 'not_approved'):
                 raise UserError(
-                    'Only commissions "Pending Approval" can be rejected.'
+                    'Commissions that are Approved, Processed or already '
+                    'Not Approved cannot be rejected.'
                 )
+            was_pending_approval = rec.state == 'pending_approval'
             rec.state = 'not_approved'
-            rec._close_approval_activities('Commission not approved.')
+            if was_pending_approval:
+                rec._close_approval_activities('Commission not approved.')
         return True
 
     def action_mark_processed(self):
