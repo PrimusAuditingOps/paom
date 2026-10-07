@@ -659,10 +659,13 @@ class PaoSalesCommission(models.Model):
         """Wrapper de instancia usado por el botón 'Recalcular': primero
         resincroniza las líneas con la cotización y luego recalcula."""
         self.ensure_one()
+        if self.state == 'approved':
+            self._refresh_exchange_rate()
+            return
         if self.state in self._FROZEN_STATES:
             raise UserError(
                 'A commission that has already been sent for approval, '
-                'approved, not approved, or is under review cannot be '
+                'not approved, processed, or is under review cannot be '
                 'recalculated. Contact the Commissions Manager or Finance '
                 'if an adjustment is required.'
             )
@@ -676,6 +679,49 @@ class PaoSalesCommission(models.Model):
                 'commission agent) before recalculating.'
             )
         self._update_for_sale_order()
+
+    def _refresh_exchange_rate(self):
+        """Recalcular sobre una comisión ya Aprobada: solo se vuelve a
+        determinar el tipo de cambio (y con él el importe en MXN); las
+        líneas, la base y el importe en moneda de la cotización, que
+        Finanzas ya aprobó, no se tocan ni el estado cambia."""
+        self.ensure_one()
+        self._check_user_in_group(
+            ('group_pao_sales_finance_commission',
+             'group_pao_sales_commission_manager'),
+            'recalculate approved commissions',
+        )
+        # sudo: los facturas/pagos pueden no ser legibles para el Gerente.
+        sale = self.sale_order_id.sudo()
+        if not sale._commission_is_invoiced_and_paid():
+            raise UserError(
+                'The quotation is no longer fully invoiced and paid; the '
+                'exchange rate was not refreshed. Review the invoices.'
+            )
+        invoices = sale._commission_get_invoices().filtered(
+            lambda m: m.state == 'posted'
+        )
+        exchange_rate, better_pay = self.sudo()._determine_exchange_rate(
+            invoices, sale.company_id
+        )
+        if not exchange_rate:
+            raise UserError(
+                'The exchange rate could not be determined (no related '
+                'payments or USD/MXN currencies not found).'
+            )
+        old_rate = self.applied_exchange_rate
+        old_mxn = self.commission_amount_mxn
+        self.applied_exchange_rate = exchange_rate
+        self.reference_payment_id = better_pay.id
+        self.commission_amount_mxn = self.commission_amount * exchange_rate
+        if old_rate != exchange_rate:
+            self.message_post(
+                body='Exchange rate refreshed on an approved commission: '
+                     '%s -> %s (commission MXN %s -> %s).' % (
+                         old_rate, exchange_rate,
+                         old_mxn, self.commission_amount_mxn,
+                     )
+            )
 
     # ------------------------------------------------------------------
     # Cálculo de tipo de cambio (pago de mayor monto en equivalente MXN)
@@ -741,7 +787,11 @@ class PaoSalesCommission(models.Model):
             return 0.0, self.env['account.payment']
 
         better_payment_date = better_payment.date or fields.Date.context_today(self)
-        exchange_rate = usd._convert(1.0, mxn, company, better_payment_date)
+        # round=False: _convert redondea a los decimales de MXN (2) y eso
+        # truncaría el tipo de cambio (17.8413 -> 17.84).
+        exchange_rate = usd._convert(
+            1.0, mxn, company, better_payment_date, round=False
+        )
         return exchange_rate, better_payment
 
     # ------------------------------------------------------------------
