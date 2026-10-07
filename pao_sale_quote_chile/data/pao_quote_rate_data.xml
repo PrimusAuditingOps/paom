@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rate sheets taken from the manual quotations of Primus Auditing Ops Chile (docs/formatos_cotizacion).
+     noupdate: the sales department edits them from Sales > Configuration > Quotation Rate Sheets. -->
+<odoo>
+    <data noupdate="1">
+        <record id="rate_globalgap" model="pao.quote.rate">
+            <field name="name">GLOBALG.A.P.</field>
+            <field name="sequence">10</field>
+            <field name="company_id" eval="False"/>
+            <field name="content" file="pao_sale_quote_chile/data/rates/globalgap.html"/>
+        </record>
+        <record id="rate_globalgap_combo" model="pao.quote.rate">
+            <field name="name">GLOBALG.A.P. + Combo</field>
+            <field name="sequence">20</field>
+            <field name="company_id" eval="False"/>
+            <field name="content" file="pao_sale_quote_chile/data/rates/globalgap_combo.html"/>
+        </record>
+        <record id="rate_globalgap_combo_addons" model="pao.quote.rate">
+            <field name="name">GLOBALG.A.P. + Combo + Add-ons</field>
+            <field name="sequence">30</field>
+            <field name="company_id" eval="False"/>
+            <field name="content" file="pao_sale_quote_chile/data/rates/globalgap_combo_addons.html"/>
+        </record>
+        <record id="rate_varios_esquemas" model="pao.quote.rate">
+            <field name="name">Varios esquemas con combo y add-ons</field>
+            <field name="sequence">40</field>
+            <field name="company_id" eval="False"/>
+            <field name="content" file="pao_sale_quote_chile/data/rates/varios_esquemas.html"/>
+        </record>
+        <record id="rate_smeta" model="pao.quote.rate">
+            <field name="name">SMETA</field>
+            <field name="sequence">50</field>
+            <field name="company_id" eval="False"/>
+            <field name="content" file="pao_sale_quote_chile/data/rates/smeta.html"/>
+        </record>
+        <record id="rate_primusgfs" model="pao.quote.rate">
+            <field name="name">PrimusGFS</field>
+            <field name="sequence">60</field>
+            <field name="company_id" eval="False"/>
+            <field name="content" file="pao_sale_quote_chile/data/rates/primusgfs.html"/>
+        </record>
+        <record id="rate_leaf" model="pao.quote.rate">
+            <field name="name">LEAF Marque</field>
+            <field name="sequence">70</field>
+            <field name="company_id" eval="False"/>
+            <field name="content" file="pao_sale_quote_chile/data/rates/leaf.html"/>
+        </record>
+        <record id="rate_pha" model="pao.quote.rate">
+            <field name="name">Produce Handling Assurance (PHA)</field>
+            <field name="sequence">80</field>
+            <field name="company_id" eval="False"/>
+            <field name="content" file="pao_sale_quote_chile/data/rates/pha.html"/>
+        </record>
+    </data>
+</odoo>

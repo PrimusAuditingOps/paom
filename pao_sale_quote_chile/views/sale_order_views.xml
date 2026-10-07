@@ -6,17 +6,9 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='order_line']" position="before">
-                <field name="pao_use_chile_format" invisible="1"/>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
-                <field name="pao_quote_combine"
-                       optional="show"
-                       column_invisible="not parent.pao_use_chile_format"
-                       invisible="display_type"/>
-            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Quotation Format" name="pao_quote_format" invisible="not pao_use_chile_format">
+                    <field name="pao_use_chile_format" invisible="1"/>
                     <div class="mb-2">
                         <button name="action_pao_generate_quote_format"
                                 type="object"
@@ -30,8 +22,8 @@
                                 class="btn-secondary"
                                 icon="fa-refresh"
                                 invisible="not pao_quote_format"
-                                confirm="The format will be generated again from the quotation template and the order lines. Your manual changes will be lost. Continue?"/>
-                        <span class="text-muted ms-2">Built from the quotation template and the order lines; edit it freely afterwards.</span>
+                                confirm="The format will be loaded again from the rate sheet of the quotation template. Your manual changes will be lost. Continue?"/>
+                        <span class="text-muted ms-2">Loaded from the rate sheet of the quotation template with the customer data; edit it freely afterwards.</span>
                     </div>
                     <field name="pao_quote_format" nolabel="1" options="{'codeview': true}"/>
                 </page>
@@ -44,11 +36,12 @@
         <field name="model">sale.order.template</field>
         <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook[@name='main_book']" position="inside">
-                <page string="Chile Format" name="pao_quote_format">
-                    <div class="text-muted mb-2">Placeholders: [[NUMERO]], [[CLIENTE]], [[CONTACTO]], [[EMAIL]], [[TELEFONO]], [[FECHA]], [[SALUDO]], [[TABLAS]] (tables built from the order lines) and [[FIRMA]] (signature image). When empty, the default format of the company is used.</div>
-                    <field name="pao_quote_format_template" nolabel="1" options="{'codeview': true}"/>
-                </page>
+            <xpath expr="//notebook[@name='main_book']" position="before">
+                <group name="pao_quote_rate">
+                    <group>
+                        <field name="pao_quote_rate_id" options="{'no_quick_create': True}"/>
+                    </group>
+                </group>
             </xpath>
         </field>
     </record>

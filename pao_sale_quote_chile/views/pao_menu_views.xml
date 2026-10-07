@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <menuitem id="menu_pao_quote_rate"
+              name="Quotation Rate Sheets"
+              parent="sale.menu_sale_config"
+              action="pao_quote_rate_action"
+              sequence="59"
+              groups="sales_team.group_sale_manager"/>
     <menuitem id="menu_pao_quote_config"
               name="Chile Quotation Format"
               parent="sale.menu_sale_config"

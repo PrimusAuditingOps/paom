@@ -2,21 +2,12 @@
 from markupsafe import Markup
 
 from odoo import fields, models
-from odoo.tools import file_open
-
-DEFAULT_FORMAT_TEMPLATE_PATH = 'pao_sale_quote_chile/data/pao_quote_default_format.html'
 
 DEFAULT_FOOTER_OFFICES = Markup(
     "<b>USA:</b> HQ Santa Maria, CA &#9679; Brandon, FL &#9679; "
     "<b>Mexico:</b> Guadalajara &#9679; Culiacán &#9679; Uruapan &#9679; "
     "<b>Costa Rica:</b> San José &#9679; <b>Chile:</b> Viña del Mar"
 )
-
-
-def default_format_template():
-    """Sample format taken from the manual GLOBALG.A.P. quotations of Primus Auditing Ops Chile."""
-    with file_open(DEFAULT_FORMAT_TEMPLATE_PATH) as template_file:
-        return Markup(template_file.read())
 
 
 class PaoQuoteConfig(models.Model):
@@ -32,11 +23,6 @@ class PaoQuoteConfig(models.Model):
     )
     logo = fields.Binary(string='Logo', help="Logo printed in the header. Uses the company logo when empty.")
     signature_image = fields.Binary(string='Signature Image', help="Image printed in place of [[FIRMA]].")
-    default_format_template = fields.Html(
-        string='Default Format',
-        default=lambda self: default_format_template(),
-        help="Format used when the quotation has no quotation template, or its template has no Chile format.",
-    )
 
     # Footer
     footer_address = fields.Char(

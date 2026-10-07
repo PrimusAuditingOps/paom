@@ -1,24 +1,18 @@
 # -*- coding: utf-8 -*-
-from .models.pao_quote_config import default_format_template
 
 
 def post_init_hook(env):
-    """Create the Chile quotation format configuration and a sample quotation template per Chilean company.
-
-    Both start with the content of the manual GLOBALG.A.P. quotations (data/pao_quote_default_format.html)
-    and are adjusted afterwards by the sales department.
+    """Create the Chile quotation format configuration of every Chilean company, and assign the
+    initial rate sheets (data/pao_quote_rate_data.xml) to the Chilean company when there is only one.
     """
     Config = env['pao.quote.config'].with_context(active_test=False)
     companies = env['res.company'].search([('country_id.code', '=', 'CL')])
     for company in companies:
-        if Config.search_count([('company_id', '=', company.id)]):
-            continue
-        Config.create({
-            'name': company.name,
-            'company_id': company.id,
-        })
-        env['sale.order.template'].create({
-            'name': 'GLOBALG.A.P. (Chile)',
-            'company_id': company.id,
-            'pao_quote_format_template': default_format_template(),
-        })
+        if not Config.search_count([('company_id', '=', company.id)]):
+            Config.create({
+                'name': company.name,
+                'company_id': company.id,
+            })
+    if len(companies) == 1:
+        rates = env['pao.quote.rate'].with_context(active_test=False).search([('company_id', '=', False)])
+        rates.write({'company_id': companies.id})

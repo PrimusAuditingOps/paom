@@ -32,10 +32,6 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Default Format" name="default_format">
-                            <div class="text-muted mb-2">Placeholders: [[NUMERO]], [[CLIENTE]], [[CONTACTO]], [[EMAIL]], [[TELEFONO]], [[FECHA]], [[SALUDO]], [[TABLAS]] (tables built from the order lines) and [[FIRMA]] (signature image).</div>
-                            <field name="default_format_template" options="{'codeview': true}"/>
-                        </page>
                         <page string="Footer" name="footer">
                             <group>
                                 <field name="footer_address"/>
