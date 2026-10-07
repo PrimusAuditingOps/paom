@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="pao_sale_combo.ListRenderer" t-inherit="web.ListRenderer" t-inherit-mode="extension">
-        <xpath expr="//ViewButton[@clickParams='create.clickParams']" position="attributes">
+    <!-- The control buttons ("Add a product", "Catalog"...) are rendered in web.ListRenderer.Rows. -->
+    <t t-name="pao_sale_combo.ListRendererRows" t-inherit="web.ListRenderer.Rows" t-inherit-mode="extension">
+        <xpath expr="//t[@t-foreach='creates']/ViewButton" position="attributes">
             <attribute name="t-if">create.type === 'button' &amp;&amp; paoIsControlButtonVisible(create)</attribute>
         </xpath>
     </t>
