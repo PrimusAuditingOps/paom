@@ -1,0 +1,219 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_sale_combo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-05 00:00+0000\n"
+"PO-Revision-Date: 2026-10-05 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__product_count
+msgid "# Products"
+msgstr "# Productos"
+
+#. module: pao_sale_combo
+#: model:ir.model.constraint,message:pao_sale_combo.constraint_pao_pricelist_combo_pricelist_combo_uniq
+msgid "A combo can only be once in the same pricelist."
+msgstr "Un combo solo puede estar una vez en la misma lista de precios."
+
+#. module: pao_sale_combo
+#: model:ir.model.constraint,message:pao_sale_combo.constraint_pao_sale_combo_line_combo_product_uniq
+msgid "A product can only be once in the same combo."
+msgstr "Un producto solo puede estar una vez en el mismo combo."
+
+#. module: pao_sale_combo
+#: model:ir.model.constraint,message:pao_sale_combo.constraint_pao_pricelist_combo_line_pricelist_combo_product_uniq
+msgid "A product can only have one price in the same combo of a pricelist."
+msgstr "Un producto solo puede tener un precio en el mismo combo de una lista de precios."
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: pao_sale_combo
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_add_view_form
+msgid "Add"
+msgstr "Agregar"
+
+#. module: pao_sale_combo
+#: code:addons/pao_sale_combo/models/sale_order.py:0
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.view_order_form_pao_sale_combo
+msgid "Add a combo"
+msgstr "Agregar combo"
+
+#. module: pao_sale_combo
+#: model:ir.model,name:pao_sale_combo.model_pao_sale_combo_add
+msgid "Add a Combo to a Quotation"
+msgstr "Agregar un combo a una cotización"
+
+#. module: pao_sale_combo
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_view_form
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_view_search
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: pao_sale_combo
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_add_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__combo_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__combo_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_line__combo_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_sale_order_line__pao_combo_id
+msgid "Combo"
+msgstr "Combo"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,help:pao_sale_combo.field_sale_order_line__pao_combo_id
+msgid "Combo that added this line. Its unit price comes from the combo prices of the order pricelist."
+msgstr "Combo que agregó esta línea. Su precio unitario viene de los precios del combo en la lista de precios de la cotización."
+
+#. module: pao_sale_combo
+#: model:ir.actions.act_window,name:pao_sale_combo.pao_sale_combo_action
+#: model:ir.model.fields,field_description:pao_sale_combo.field_product_pricelist__pao_combo_ids
+#: model:ir.ui.menu,name:pao_sale_combo.menu_pao_sale_combo
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.product_pricelist_view_pao_sale_combo
+msgid "Combos"
+msgstr "Combos"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__company_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__company_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__company_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_line__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: pao_sale_combo
+#: model_terms:ir.actions.act_window,help:pao_sale_combo.pao_sale_combo_action
+msgid "Create a combo"
+msgstr "Cree un combo"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__currency_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: pao_sale_combo
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_view_form
+msgid "e.g. GLOBALG.A.P. Option 1 + Nurture"
+msgstr "p. ej. GLOBALG.A.P. Opción 1 + Nurture"
+
+#. module: pao_sale_combo
+#: model_terms:ir.actions.act_window,help:pao_sale_combo.pao_sale_combo_action
+msgid "Group the products sold together, price them in the pricelists and add them to quotations in one click."
+msgstr "Agrupe los productos que se venden juntos, asígneles precio en las listas de precios y agréguelos a las cotizaciones en un clic."
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__in_pricelist
+msgid "In Pricelist"
+msgstr "En lista de precios"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__order_id
+msgid "Order"
+msgstr "Pedido"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_product_pricelist__pao_combo_enabled
+#: model:ir.model.fields,field_description:pao_sale_combo.field_sale_order__pao_combo_enabled
+msgid "Pao Combo Enabled"
+msgstr "Combos habilitados"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__pricelist_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__pricelist_id
+msgid "Pricelist"
+msgstr "Lista de precios"
+
+#. module: pao_sale_combo
+#: model:ir.model,name:pao_sale_combo.model_pao_pricelist_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo_line__pricelist_combo_id
+msgid "Pricelist Combo"
+msgstr "Combo de lista de precios"
+
+#. module: pao_sale_combo
+#: model:ir.model,name:pao_sale_combo.model_pao_pricelist_combo_line
+msgid "Pricelist Combo Price"
+msgstr "Precio de combo en lista de precios"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__line_ids
+msgid "Prices"
+msgstr "Precios"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo_line__product_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_line__product_id
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_add_view_form
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_view_search
+msgid "Product"
+msgstr "Producto"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__line_ids
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__combo_product_ids
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_view_form
+msgid "Products"
+msgstr "Productos"
+
+#. module: pao_sale_combo
+#: model:ir.model,name:pao_sale_combo.model_pao_sale_combo
+msgid "Sale Combo"
+msgstr "Combo de venta"
+
+#. module: pao_sale_combo
+#: model:ir.model,name:pao_sale_combo.model_pao_sale_combo_line
+msgid "Sale Combo Product"
+msgstr "Producto del combo"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__sequence
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo_line__sequence
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__sequence
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_line__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: pao_sale_combo
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_add_view_form
+msgid "This combo has no prices in the pricelist of the quotation: its products will be added with a unit price of 0."
+msgstr "Este combo no tiene precios en la lista de precios de la cotización: sus productos se agregarán con precio unitario 0."
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__total_price
+msgid "Total"
+msgstr "Total"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo_line__price
+msgid "Unit Price"
+msgstr "Precio unitario"
+
+#. module: pao_sale_combo
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_pricelist_combo_view_form
+msgid "Update Products From Combo"
+msgstr "Actualizar productos desde el combo"
+
+#. module: pao_sale_combo
+#: code:addons/pao_sale_combo/models/sale_order.py:0
+msgid "You cannot add a combo to a cancelled or locked order."
+msgstr "No puede agregar un combo a un pedido cancelado o bloqueado."

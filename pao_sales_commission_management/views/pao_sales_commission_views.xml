@@ -42,7 +42,7 @@
                 <header>
                     <button name="action_recalculate" type="object"
                             string="Recalculate" class="btn-secondary"
-                            invisible="state in ('pending_approval', 'not_approved', 'processed', 'under_review')"/>
+                            invisible="state in ('not_approved', 'processed', 'under_review')"/>
                     <button name="action_submit_for_approval" type="object"
                             string="Submit for Approval" class="btn-primary"
                             invisible="state not in ('submit_for_approval', 'not_approved')"

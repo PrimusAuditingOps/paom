@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_pao_sale_combo"
+              name="Combos"
+              parent="sale.menu_sale_config"
+              action="pao_sale_combo_action"
+              sequence="30"
+              groups="sales_team.group_sale_manager"/>
+</odoo>
