@@ -5,7 +5,7 @@ Solo disponible para compañías con país **Chile**.
 
 ## 1. Catálogo de combos
 
-**Ventas › Configuración › Combos**
+**Ventas › Productos › Combos** (debajo de Listas de precios)
 
 - Nombre del combo (p. ej. "GLOBALG.A.P. Opción 1 + Nurture") y sus productos, en el orden en que se
   agregarán a la cotización.
