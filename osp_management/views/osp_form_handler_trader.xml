@@ -57,6 +57,13 @@
                     <input type="hidden" name="osp_id" id="osp_id_input" t-attf-value="#{osp.id}"/>
                     <input type="hidden" name="new_service_id" id="new_service_id_input" t-attf-value="#{new_service_id or 0}"/>
                     <input type="hidden" name="new_template_id" id="new_template_id_input" t-attf-value="#{new_template_id or 0}"/>
+                    <!-- Adjuntos por pregunta (initQuestionUploads en osp_form.js). enabled:
+                         este formulario ya usa el selector por pregunta; can: el dueño
+                         puede subir/quitar (el admin solo ve la lista); files: ya subidos. -->
+                    <div id="osp_question_uploads_cfg" class="d-none"
+                         t-att-data-enabled="'1' if question_uploads else '0'"
+                         t-att-data-can="'1' if (can_upload or (osp.id == 0 and not is_public)) else '0'"
+                         t-att-data-files="question_files_json"/>
                     <script>
                         window.OSP_READONLY = <t t-esc="'true' if readonly else 'false'"/>;
                         window.OSP_IS_ADMIN = <t t-esc="'true' if is_admin else 'false'"/>;

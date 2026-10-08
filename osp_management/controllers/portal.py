@@ -29,7 +29,8 @@ STATE_EXCLUDE_NAMES = ['Santa Bárbara Heredia']
 # ============================================================
 # Formularios que ya tienen el selector de archivos por pregunta. Se amplía
 # aquí (un renglón por formulario) conforme se valida cada uno en staging.
-QUESTION_UPLOAD_FORMS = {'form_crop'}
+QUESTION_UPLOAD_FORMS = {'form_crop', 'form_cultivo', 'form_handler', 'form_handler_trader',
+                         'form_manejo_proceso', 'form_comercializador'}
 UPLOAD_MAX_FILE_BYTES = 10 * 1024 * 1024        # por archivo
 UPLOAD_MAX_FILES_PER_QUESTION = 5
 UPLOAD_MAX_TOTAL_BYTES = 50 * 1024 * 1024       # por formulario (todos los adjuntos)
