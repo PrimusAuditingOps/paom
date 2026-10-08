@@ -159,3 +159,8 @@ WHERE id = (SELECT res_id FROM ir_model_data WHERE module='<modulo>' AND name='<
 ## 16. Una casilla "No aplica" decorativa es un bug de UX: generalizar el motor que oculta, en vez de cablear cada una
 
 Si solo las casillas de sección completa ocultan y las de subsección no hacen nada, el usuario las reporta una por una. Mejor un solo motor genérico: la casilla oculta los hermanos siguientes hasta el próximo encabezado o la próxima casilla "N/A". Usar el atributo `hidden` (Bootstrap lo respeta con `!important`) y recalcular todo el conjunto en cada cambio, para que dos casillas no se pisen al quitar la clase. Antes de generalizar, validar con un parser XML que todas las casillas sean hijas directas del contenedor. Combinar con §12: si además hay selects con valor guardado ≠ etiqueta (Y/N → Sí/No), traducir también en el PDF.
+
+
+## 17. Subidas de archivos: validar en el servidor (extensión + magic bytes + tamaño + cantidad + total), y no agregar campos a `ir.attachment` solo para etiquetar
+
+Los límites del JS son cortesía; el navegador se puede saltar. Validar siempre en la ruta: extensión permitida **y** firma real del archivo (un `.exe` renombrado a `.pdf` pasa solo por extensión), tamaño por archivo, cantidad por pregunta y total por registro (el filestore de Odoo.sh se cobra). Para etiquetar un adjunto con su contexto (ej. la pregunta) sin tocar un modelo core, un prefijo parseable en `description` (`[Q:2b] ...`) evita un campo nuevo. Un rechazo no debe tumbar el lote: se guardan los válidos y se devuelven los errores. En Windows/bash, al escribir bytes con escapes (`\xff`) mediante scripts generados, verificar el resultado con `cat -A`: las barras invertidas pueden perderse.

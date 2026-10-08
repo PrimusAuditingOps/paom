@@ -1171,6 +1171,7 @@ function initOspForm() {
     // si no existía (caso nuevo), se construye aquí.
     // ============================================================
     function enableAttachmentsUpload(realOspId) {
+        document.dispatchEvent(new CustomEvent('osp:record-created'));
         const notice = document.getElementById('attachments_save_first_notice');
         if (notice) notice.style.display = 'none';
 
@@ -1452,6 +1453,202 @@ function initOspForm() {
         });
     }
 
+    // ============================================================
+    // ADJUNTOS POR PREGUNTA (portal; retro de usuario piloto) — junto a
+    // cada casilla "Attach .../Adjunte ..." (ícono 📎) aparece un selector
+    // de archivos con lista discreta de lo ya subido (nombre, tamaño, ✕).
+    // Reemplaza a la casilla: queda oculta y se sincroniza sola (marcada
+    // si la pregunta tiene al menos un archivo), así form_data/PDF/
+    // marcadores siguen funcionando sin cambios. Límites (10 MB por
+    // archivo, 5 por pregunta, 50 MB por formulario, solo PDF/JPG/PNG/Word/
+    // Excel) se repiten aquí solo para avisar; el servidor es quien manda
+    // (controllers/portal.py, portal_question_upload). Las fotos grandes se
+    // reducen en el navegador antes de subir. Se activa por formulario con
+    // QUESTION_UPLOAD_FORMS (servidor) -> #osp_question_uploads_cfg.
+    // ============================================================
+    function initQuestionUploads() {
+        const cfg = document.getElementById('osp_question_uploads_cfg');
+        if (!cfg || cfg.dataset.enabled !== '1' || PUBLIC_MODE) return;
+        const canEdit = cfg.dataset.can === '1';
+        const MAX_FILE = 10 * 1024 * 1024, MAX_PER_Q = 5;
+        const ALLOWED = ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx'];
+        const ES = ['form_manejo_proceso', 'form_comercializador', 'form_cultivo'].indexOf(TECHNICAL_CODE) !== -1;
+        const T = ES ? {
+            attach: 'Adjuntar archivos', saveFirst: 'Guarde su avance para poder adjuntar archivos.',
+            hint: 'PDF, JPG, PNG, Word o Excel · hasta 10 MB c/u · máx. 5 archivos',
+            remove: '¿Quitar este archivo?', type: 'tipo no permitido', big: 'supera 10 MB', max: 'máximo 5 archivos por pregunta',
+            uploading: 'Subiendo…', fail: 'No se pudo subir el archivo.',
+        } : {
+            attach: 'Attach files', saveFirst: 'Save your progress to enable attaching files.',
+            hint: 'PDF, JPG, PNG, Word or Excel · up to 10 MB each · max 5 files',
+            remove: 'Remove this file?', type: 'file type not allowed', big: 'larger than 10 MB', max: 'maximum 5 files per question',
+            uploading: 'Uploading…', fail: 'The file could not be uploaded.',
+        };
+        let initial = [];
+        try { initial = JSON.parse(cfg.dataset.files || '[]'); } catch (e) { initial = []; }
+        const widgets = [];
+
+        function fmtSize(b) {
+            return b >= 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB';
+        }
+        // Fotos grandes -> JPEG reducido (máx. 2000 px). Si no mejora, se sube el original.
+        function shrinkImage(file) {
+            const isImg = /^image\/(jpeg|png)$/.test(file.type);
+            if (!isImg || file.size < 1048576 || !window.createImageBitmap) return Promise.resolve(file);
+            return createImageBitmap(file).then(function (bmp) {
+                const scale = Math.min(1, 2000 / Math.max(bmp.width, bmp.height));
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.round(bmp.width * scale);
+                canvas.height = Math.round(bmp.height * scale);
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(bmp, 0, 0, canvas.width, canvas.height);
+                return new Promise(function (resolve) {
+                    canvas.toBlob(function (blob) {
+                        if (!blob || blob.size >= file.size) return resolve(file);
+                        resolve(new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' }));
+                    }, 'image/jpeg', 0.82);
+                });
+            }).catch(function () { return file; });
+        }
+
+        document.querySelectorAll('input[id$="_attachment_needed"]').forEach(function (cb) {
+            // La Sección 18 repetible se reconstruye por completo en cada
+            // cambio: queda para una segunda entrega (sigue con su casilla).
+            if (cb.closest('#fields19_container')) return;
+            const wrapDiv = cb.closest('.form-check');
+            if (!wrapDiv) return;
+            const code = cb.id.split('_')[0];
+            let files = initial.filter(f => f.question === code);
+
+            cb.style.display = 'none';
+            wrapDiv.classList.add('ps-0');
+            // Sin 'for': un clic en el texto ya no alterna la casilla oculta.
+            const cbLabel = wrapDiv.querySelector('label');
+            if (cbLabel) cbLabel.removeAttribute('for');
+
+            const box = document.createElement('div');
+            box.className = 'osp-qfiles mb-2 ms-3 small';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn btn-sm btn-outline-secondary py-0';
+            btn.innerHTML = '<i class="fa fa-upload me-1"></i>' + T.attach;
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.multiple = true;
+            input.accept = ALLOWED.map(e => '.' + e).join(',');
+            input.style.display = 'none';
+            const hint = document.createElement('span');
+            hint.className = 'text-muted ms-2';
+            const msg = document.createElement('div');
+            msg.className = 'text-danger';
+            const list = document.createElement('ul');
+            list.className = 'list-unstyled mb-0 mt-1';
+            if (canEdit) { box.appendChild(btn); box.appendChild(input); box.appendChild(hint); }
+            box.appendChild(msg);
+            box.appendChild(list);
+            wrapDiv.insertAdjacentElement('afterend', box);
+
+            function refreshState() {
+                const full = files.length >= MAX_PER_Q;
+                btn.disabled = ospId === 0 || full;
+                hint.textContent = ospId === 0 ? T.saveFirst : T.hint;
+                cb.checked = files.length > 0;
+                box.style.display = (canEdit || files.length) ? '' : 'none';
+            }
+            function render() {
+                list.innerHTML = '';
+                files.forEach(function (f) {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '/web/content/' + f.id + '?download=true';
+                    a.target = '_blank';
+                    a.className = 'text-decoration-none';
+                    a.innerHTML = '<i class="fa fa-file-o me-1"></i>';
+                    a.appendChild(document.createTextNode(f.name));
+                    li.appendChild(a);
+                    const sz = document.createElement('span');
+                    sz.className = 'text-muted ms-2';
+                    sz.textContent = fmtSize(f.size || 0);
+                    li.appendChild(sz);
+                    if (canEdit) {
+                        const x = document.createElement('a');
+                        x.href = '#';
+                        x.className = 'text-danger ms-2 text-decoration-none';
+                        x.innerHTML = '<i class="fa fa-times"></i>';
+                        x.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            if (!window.confirm(T.remove)) return;
+                            fetch('/my/osp/question_delete/' + f.id, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ jsonrpc: '2.0', method: 'call', params: {} })
+                            }).then(r => r.json()).then(function (res) {
+                                if (res.result && res.result.success) {
+                                    files = files.filter(g => g.id !== f.id);
+                                    msg.textContent = '';
+                                    render();
+                                }
+                            });
+                        });
+                        li.appendChild(x);
+                    }
+                    list.appendChild(li);
+                });
+                refreshState();
+            }
+
+            btn.addEventListener('click', function () { input.click(); });
+            input.addEventListener('change', function () {
+                const picked = Array.from(input.files || []);
+                input.value = '';
+                if (!picked.length || ospId === 0) return;
+                msg.textContent = '';
+                const errs = [];
+                const ok = [];
+                picked.forEach(function (f) {
+                    const ext = (f.name.split('.').pop() || '').toLowerCase();
+                    if (ALLOWED.indexOf(ext) === -1) errs.push(f.name + ': ' + T.type);
+                    else if (files.length + ok.length >= MAX_PER_Q) errs.push(f.name + ': ' + T.max);
+                    else ok.push(f);
+                });
+                if (!ok.length) { msg.textContent = errs.join(' · '); return; }
+                btn.disabled = true;
+                hint.textContent = T.uploading;
+                Promise.all(ok.map(shrinkImage)).then(function (prepared) {
+                    const fd = new FormData();
+                    fd.append('csrf_token', window.OSP_CSRF_TOKEN || '');
+                    fd.append('question', code);
+                    let toSend = 0;
+                    prepared.forEach(function (f) {
+                        if (f.size > MAX_FILE) errs.push(f.name + ': ' + T.big);
+                        else { fd.append('osp_files', f, f.name); toSend += 1; }
+                    });
+                    if (!toSend) { msg.textContent = errs.join(' · '); refreshState(); return; }
+                    return fetch('/my/osp/question_upload/' + ospId, { method: 'POST', body: fd })
+                        .then(r => r.json())
+                        .then(function (res) {
+                            (res.files || []).forEach(f => files.push(f));
+                            msg.textContent = errs.concat(res.errors || []).join(' · ');
+                            render();
+                        });
+                }).catch(function () {
+                    msg.textContent = T.fail;
+                    refreshState();
+                });
+            });
+
+            widgets.push(refreshState);
+            render();
+        });
+
+        // Formulario nuevo: el primer guardado crea el registro y habilita los selectores.
+        document.addEventListener('osp:record-created', function () { widgets.forEach(fn => fn()); });
+    }
+
+    initQuestionUploads();
+
     initAttachmentChecklist(TECHNICAL_CODE);
 
     // ============================================================
@@ -1529,6 +1726,10 @@ function initOspForm() {
 // sigue siendo el mismo formulario "vivo" de una sola página).
 // ============================================================
 function initAttachmentChecklist(technicalCode) {
+    // Con el selector por pregunta activo (initQuestionUploads) cada pregunta
+    // muestra sus propios archivos: este recordatorio ya no aplica.
+    const qcfg = document.getElementById('osp_question_uploads_cfg');
+    if (qcfg && qcfg.dataset.enabled === '1') return;
     // Localiza la pestaña de Adjuntos por su link de navegación lateral —
     // es el único que trae el ícono de clip, mismo criterio en los 6
     // formularios (no hace falta saber si es "#sec21", "#sec16", etc.).

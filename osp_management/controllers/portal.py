@@ -1,5 +1,7 @@
 import base64
+import json
 import logging
+import re
 from types import SimpleNamespace
 
 import requests
@@ -19,6 +21,43 @@ TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverif
 # saber el id exacto del registro, ni se pierde si algún día se reimporta
 # la data base de país/estado).
 STATE_EXCLUDE_NAMES = ['Santa Bárbara Heredia']
+
+# ============================================================
+# ADJUNTOS POR PREGUNTA (retro de usuario piloto) — límites y reglas.
+# Se validan SIEMPRE en el servidor (el JS solo los repite para dar
+# retroalimentación inmediata; el navegador se puede saltar).
+# ============================================================
+# Formularios que ya tienen el selector de archivos por pregunta. Se amplía
+# aquí (un renglón por formulario) conforme se valida cada uno en staging.
+QUESTION_UPLOAD_FORMS = {'form_crop'}
+UPLOAD_MAX_FILE_BYTES = 10 * 1024 * 1024        # por archivo
+UPLOAD_MAX_FILES_PER_QUESTION = 5
+UPLOAD_MAX_TOTAL_BYTES = 50 * 1024 * 1024       # por formulario (todos los adjuntos)
+# extensión -> prefijos de "magic bytes" válidos (defensa mínima: Odoo no
+# revisa virus; esto evita que un ejecutable se suba renombrado a .pdf).
+UPLOAD_ALLOWED_TYPES = {
+    'pdf': (b'%PDF',),
+    'jpg': (b'\xff\xd8',), 'jpeg': (b'\xff\xd8',),
+    'png': (b'\x89PNG',),
+    'docx': (b'PK',), 'xlsx': (b'PK',),
+    'doc': (b'\xd0\xcf\x11\xe0',), 'xls': (b'\xd0\xcf\x11\xe0',),
+}
+QUESTION_TAG_RE = re.compile(r'^\[Q:([^\]]+)\]')
+
+
+def _question_of(attachment):
+    """Código de pregunta (ej. '2b') con que se etiquetó el adjunto al subirlo
+    ('[Q:2b] ...' en description), o '' si es del depósito general."""
+    m = QUESTION_TAG_RE.match(attachment.description or '')
+    return m.group(1) if m else ''
+
+
+def _question_files_payload(attachments):
+    return json.dumps([
+        {'id': a.id, 'name': a.name, 'size': a.file_size, 'question': _question_of(a)}
+        for a in attachments if _question_of(a)
+    ])
+
 
 class OSPPortal(CustomerPortal):
 
@@ -208,6 +247,8 @@ class OSPPortal(CustomerPortal):
                 'is_public': False,
                 'readonly': False,
                 'attachments': [],
+                'question_uploads': template.technical_code in QUESTION_UPLOAD_FORMS,
+                'question_files_json': '[]',
                 # No hay registro real todavía: no se puede subir adjuntos
                 # hasta el primer guardado (necesita un osp_id real).
                 'can_upload': False,
@@ -279,6 +320,8 @@ class OSPPortal(CustomerPortal):
                 'is_public': False,
                 'readonly': readonly,
                 'attachments': attachments,
+                'question_uploads': record.form_template_id.technical_code in QUESTION_UPLOAD_FORMS,
+                'question_files_json': _question_files_payload(attachments),
                 # El cliente dueño siempre puede subir/borrar adjuntos, sin
                 # importar el estado (mismo criterio que la edición del
                 # formulario en general — ver CONTEXT.md punto 6).
@@ -403,6 +446,66 @@ class OSPPortal(CustomerPortal):
                 return request.redirect('/my/osp/form/%s#sec21' % osp_id)
         return request.redirect('/my/osp')
 
+    # 9. ADJUNTOS POR PREGUNTA (AJAX) — el selector de archivos junto a cada
+    # pregunta que pide un documento sube aquí, un lote por pregunta. Solo
+    # el dueño del registro. Todas las reglas (cantidad, tamaño, tipo, total)
+    # se validan aquí; el JS solo las repite para avisar antes de enviar.
+    # Respuesta: {'success', 'files': [...nuevos...], 'errors': [...]} — un
+    # archivo rechazado no impide que se guarden los demás del lote.
+    @http.route(['/my/osp/question_upload/<int:osp_id>'], type='http', auth="user", methods=['POST'], website=True)
+    def portal_question_upload(self, osp_id, question='', **kw):
+        record = request.env['osp.request'].browse(osp_id)
+        question = (question or '').strip()
+        if (not record.exists() or record.partner_id.id != request.env.user.partner_id.id
+                or record.form_template_id.technical_code not in QUESTION_UPLOAD_FORMS
+                or not re.match(r'^[0-9]{1,2}[a-z]{0,2}$', question)):
+            return request.make_json_response({'success': False, 'files': [], 'errors': [_("Upload not allowed.")]})
+
+        Attachment = request.env['ir.attachment'].sudo()
+        existing = Attachment.search([('res_model', '=', 'osp.request'), ('res_id', '=', record.id)])
+        total_bytes = sum(existing.mapped('file_size'))
+        question_count = len([a for a in existing if _question_of(a) == question])
+
+        saved, errors = [], []
+        for uploaded_file in request.httprequest.files.getlist('osp_files'):
+            if not uploaded_file or not uploaded_file.filename:
+                continue
+            name = uploaded_file.filename
+            content = uploaded_file.read()
+            ext = name.rsplit('.', 1)[-1].lower() if '.' in name else ''
+            if ext not in UPLOAD_ALLOWED_TYPES or not any(content.startswith(sig) for sig in UPLOAD_ALLOWED_TYPES[ext]):
+                errors.append(_("%s: file type not allowed (PDF, JPG, PNG, Word or Excel only).") % name)
+            elif len(content) > UPLOAD_MAX_FILE_BYTES:
+                errors.append(_("%(name)s: larger than %(mb)s MB.") % {'name': name, 'mb': UPLOAD_MAX_FILE_BYTES // (1024 * 1024)})
+            elif question_count >= UPLOAD_MAX_FILES_PER_QUESTION:
+                errors.append(_("%(name)s: maximum %(n)s files per question.") % {'name': name, 'n': UPLOAD_MAX_FILES_PER_QUESTION})
+            elif total_bytes + len(content) > UPLOAD_MAX_TOTAL_BYTES:
+                errors.append(_("%(name)s: the form's total attachment limit (%(mb)s MB) would be exceeded.") % {'name': name, 'mb': UPLOAD_MAX_TOTAL_BYTES // (1024 * 1024)})
+            else:
+                att = Attachment.create({
+                    'name': name,
+                    'datas': base64.b64encode(content),
+                    'res_model': 'osp.request',
+                    'res_id': record.id,
+                    'description': "[Q:%s] %s" % (question, _("Uploaded by the customer via the portal (%s)") % request.env.user.name),
+                })
+                question_count += 1
+                total_bytes += len(content)
+                saved.append({'id': att.id, 'name': att.name, 'size': att.file_size, 'question': question})
+        return request.make_json_response({'success': bool(saved) or not errors, 'files': saved, 'errors': errors})
+
+    # 10. QUITAR UN ADJUNTO POR PREGUNTA (AJAX) — dueño, cualquier estado
+    # (decisión del usuario: puede quitar siempre, también después del Submit).
+    @http.route(['/my/osp/question_delete/<int:attachment_id>'], type='json', auth="user", methods=['POST'], website=True)
+    def portal_question_delete(self, attachment_id, **kw):
+        attachment = request.env['ir.attachment'].sudo().browse(attachment_id)
+        if attachment.exists() and attachment.res_model == 'osp.request' and _question_of(attachment):
+            record = request.env['osp.request'].browse(attachment.res_id)
+            if record.exists() and record.partner_id.id == request.env.user.partner_id.id:
+                attachment.unlink()
+                return {'success': True}
+        return {'success': False}
+
 
 # ============================================================
 # NAVEGANTE PÚBLICO (sin login, no es cliente de portal)
@@ -463,6 +566,11 @@ class OSPPublicController(OSPPortal):
             'is_public': True,
             'readonly': False,
             'attachments': [],
+            # El selector por pregunta aún no aplica al formulario público
+            # (fase posterior); se pasa explícito para no referenciar una
+            # variable no definida en la plantilla.
+            'question_uploads': False,
+            'question_files_json': '[]',
             'can_upload': False,
             'new_service_id': 0,
             'new_template_id': 0,
