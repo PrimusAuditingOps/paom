@@ -127,11 +127,11 @@ COMERCIALIZADOR_REPORT_SECTIONS = [
             {'key': '6f_air_quality', 'label': '6f. Prácticas de calidad del aire', 'type': 'textarea'},
             {'key': '6f_air_quality_attachment_needed', 'label': 'Adjunte documentos de respaldo del Programa de Biodiversidad', 'type': 'checkbox'},
             {'key': '6_water_use_na', 'label': 'Uso de Agua — N/A', 'type': 'checkbox'},
-            {'key': '6g_water_source', 'label': '6g. Fuente de agua', 'type': 'text'},
+            {'key': '6g_water_source', 'label': '6g. ¿Cuál es su fuente de agua? (pozo, acueducto, río, canal, etc)', 'type': 'text'},
             {'key': '6h_water_analysis_attached', 'label': '6h. Análisis de agua adjunto (fuente no municipal)', 'type': 'yn'},
             {'key': '6h_water_analysis_doc_name', 'label': 'Nombre del documento', 'type': 'text'},
             {'key': '6i_water_conservation', 'label': '6i. Prácticas de conservación de agua', 'type': 'textarea'},
-            {'key': '6j_water_use_capacity', 'label': '6j. Actividad en que se usa el agua', 'type': 'text'},
+            {'key': '6j_water_use_capacity', 'label': '6j. ¿En qué actividad se utiliza el agua en la operación? (limpieza y desinfección, cocción, enfriamiento, transporte, proceso, etc)', 'type': 'text'},
         ],
     },
     {

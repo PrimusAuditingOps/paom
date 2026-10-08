@@ -707,3 +707,22 @@ Tras §54 (Afirmación al final), en Crop el menú lateral salía mezclado (text
 - Campo nuevo `customer_company_id` (**"Customer" / "Cliente"**): many2one a `res.partner`, calculado, almacenado, solo lectura = `partner_id.commercial_partner_id` (empresa padre, o el propio contacto si no tiene empresa). Los registros existentes se llenan solos con `-u osp_management`.
 - Lista: columnas separadas Contacto del cliente + Cliente. Búsqueda: campo y "Group by" Customer (empresa) y Customer Contact. Ficha: Cliente de solo lectura bajo el contacto. La notificación al admin (`_do_client_submit`) muestra "Contacto (Empresa)".
 - Traducciones en `i18n/es_MX.po`/`.pot`: nuevo msgid "Customer Contact"; el field de `partner_id` ya no comparte msgid con "Customer". El PDF no usa este dato y no se tocó.
+
+## 58. Uso de agua obligatorio en Handler y Manejo o Proceso
+
+Retro de usuario piloto: en Crop, Cultivo, Handler y Manejo o Proceso el uso de agua (sección 6) es obligatorio, así que Handler y Manejo ya no tienen la casilla `6_water_use_na` (vista y manifiesto PDF; el bloque 6c–6g queda siempre visible). Handler Trader y Comercializador SÍ la conservan. `6_boiler_na` (caldera) no cambió. No se valida que las preguntas estén contestadas al enviar.
+
+## 59. Cultivo 1s: opciones renombradas
+Opciones de "Tipo de operación" (valores guardados sin cambio): "Cultivo cubierto", "Cultivo a campo abierto", "Cultivo cubierto y a campo abierto". El manifiesto PDF pasó de `text` (imprimía el valor crudo en inglés) a `select` con esas etiquetas (§12 de la guía).
+
+## 60. Handler / Manejo: casilla N/A propia en 4d y 4h
+Cada una (`4d_nonorganic_na`, `4h_contamination_na`, en vista y manifiesto PDF) oculta solo su respuesta. Mecanismo genérico nuevo en `initSectionNAHiding`: wrapper con `data-na-single="1"` oculta únicamente el elemento siguiente; los checks de bloque (`4c_flow_diagram_na` oculta 4c–4f, `4g_uses_ingredients_na` oculta 4g–4h) no lo toman como límite, así que su comportamiento no cambió.
+
+## 61. Sección 6 (agua): ejemplos entre paréntesis restituidos
+Retro de usuario piloto: faltaban las aclaraciones en "fuente de agua" (6c Manejo/Handler, 6g Trader/Comercializador) y "actividad en que se usa el agua" (6f / 6j). Restituidas en pantalla y en las etiquetas del PDF de los 4 formularios. Texto en español tomado de la captura del piloto; el inglés es traducción acordada con el usuario (sin Word original a mano). El usuario indicó que solo se señaló esto, no se auditó el resto contra el Word.
+
+## 62. Sección 10 (Cultivo): casilla "No aplica para operadores con cultivos perennes" eliminada
+Pedido del cliente; se quitó de la vista y del manifiesto PDF de Cultivo. Crop nunca la tuvo (comparte la tabla de rotación). Reemplaza la mención de `10_perennial_na` en §56.
+
+## 63. Crop y Cultivo: casilla "No aplica" en las secciones 18 y 19
+Nuevas casillas de sección completa `18_na` (Field History Affidavit, pane `sec19`) y `19_na` (Search Record, pane `sec20`), con nombre `<n>_na` para que las tome el motor de sección de `initSectionNAHiding` (oculta todo lo que sigue en el pane, datos conservados). Van justo después del encabezado/cita. También agregadas al manifiesto PDF como checkbox al inicio de cada sección; el PDF no omite el contenido. Limitación: el recordatorio de adjuntos pendientes ("Submit a copy of your certification" de la sección 18) no distingue si la sección se marcó N/A.

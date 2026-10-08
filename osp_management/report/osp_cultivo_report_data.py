@@ -43,7 +43,8 @@ CULTIVO_REPORT_SECTIONS = [
             {'key': '1p_business_hours', 'label': '1p. Horarios laborales', 'type': 'text'},
             {'key': '1q_inspection_language', 'label': '1q. Idioma de inspección de preferencia', 'type': 'text'},
             {'key': '1r_documentation_language', 'label': '1r. Idioma de documentación', 'type': 'text'},
-            {'key': '1s_operation_type', 'label': '1s. Tipo de operación', 'type': 'text'},
+            {'key': '1s_operation_type', 'label': '1s. Tipo de operación', 'type': 'select',
+             'options': [('Indoor Crop Area', 'Cultivo cubierto'), ('Outdoor Crop Area', 'Cultivo a campo abierto'), ('Both Indoor and Outdoor Crop Areas', 'Cultivo cubierto y a campo abierto')]},
             {'key': '1t_produce_or_handle', 'label': '1t. ¿Su operación produce o maneja?', 'type': 'select',
              'options': [('Organic & Non-Organic Product', 'Orgánico y No-Orgánico'), ('Organic Only', 'Solamente Orgánico')]},
             {'key': '1u_directions', 'label': '1u. Indicaciones de ubicación / GPS', 'type': 'textarea'},
@@ -213,7 +214,6 @@ CULTIVO_REPORT_SECTIONS = [
     {
         'title': 'Sección 10: Rotación de Cultivos (Norma NOP 205.204 & 205.205)',
         'fields': [
-            {'key': '10_perennial_na', 'label': 'No aplica para operadores con cultivos perennes', 'type': 'checkbox'},
             {'key': '10_rotation_json', 'label': 'Planes de Rotación de Cultivos', 'type': 'table',
              'columns': [('rotation_plan', 'Plan de Rotación'), ('increase_organic_matter', 'Materia Orgánica'),
                          ('nutrient_management', 'Manejo de Nutrientes'), ('pest_disease_management', 'Manejo de Plagas/Enf.'),
@@ -378,6 +378,7 @@ CULTIVO_REPORT_SECTIONS = [
     {
         'title': 'Sección 18: Historial de Campo - Declaración Jurada (Solo para los NUEVOS campos agregados a la solicitud de certificación)',
         'fields': [
+            {'key': '18_na', 'label': 'Sección 18 — N/A', 'type': 'checkbox'},
             {'type': 'static', 'text': 'Solo para campos NUEVOS agregados a la solicitud de certificación. Complete esta hoja para cada campo que aún no ha sido certificado.'},
             {'key': '19_fields_json', 'label': 'Campos', 'type': 'repeatable',
              'subfields': [
@@ -400,6 +401,7 @@ CULTIVO_REPORT_SECTIONS = [
     {
         'title': 'Sección 19: Registro de Búsqueda – Disponibilidad Comercial de Semillas y Material de Siembra',
         'fields': [
+            {'key': '19_na', 'label': 'Sección 19 — N/A', 'type': 'checkbox'},
             {'key': '20_search_record_json', 'label': 'Registro de Búsqueda', 'type': 'table',
              'columns': [('crop', 'Cultivo'), ('traits', 'Características'), ('why_not_met', 'Por Qué No Cumple'),
                          ('suppliers_contacted', 'Proveedores Contactados'), ('date_contacted', 'Fecha de Contacto'),

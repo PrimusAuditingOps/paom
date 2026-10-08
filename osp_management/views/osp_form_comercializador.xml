@@ -740,7 +740,7 @@
         <label class="form-check-label" for="6_water_use_na">No es aplicable a la operación</label>
     </div>
     <div class="col-md-12 mb-3">
-        <label class="form-label fw-bold">6g. ¿Cuál es su fuente de agua?</label>
+        <label class="form-label fw-bold">6g. ¿Cuál es su fuente de agua? (pozo, acueducto, río, canal, etc)</label>
         <input type="text" class="form-control osp-input" name="6g_water_source" t-att-value="data.get('6g_water_source')"/>
     </div>
     <div class="mb-3">
@@ -761,7 +761,7 @@
         <textarea class="form-control osp-input" name="6i_water_conservation" rows="2"><t t-esc="data.get('6i_water_conservation')"/></textarea>
     </div>
     <div class="col-md-12 mb-3">
-        <label class="form-label fw-bold">6j. ¿En qué actividad se utiliza el agua en la operación?</label>
+        <label class="form-label fw-bold">6j. ¿En qué actividad se utiliza el agua en la operación? (limpieza y desinfección, cocción, enfriamiento, transporte, proceso, etc)</label>
         <input type="text" class="form-control osp-input" name="6j_water_use_capacity" t-att-value="data.get('6j_water_use_capacity')"/>
     </div>
 </div>

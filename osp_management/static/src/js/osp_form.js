@@ -867,6 +867,10 @@ function initOspForm() {
     //     "13_buffer_na", "2d_noncompliances_na"): oculta solo lo que viene
     //     después hasta el siguiente encabezado (h3-h6) o la siguiente
     //     casilla "_na" — es decir, solo su propio bloque.
+    //   - De UNA sola pregunta: el wrapper lleva data-na-single="1" y oculta
+    //     únicamente el elemento inmediato siguiente (ej. 4d/4h de Handler y
+    //     Manejo). Las de bloque ignoran estas como límite, así que 4c_na
+    //     sigue ocultando 4c–4f completo.
     // El checkbox y todo lo anterior (encabezado, cita regulatoria, etc.)
     // nunca se oculta. Los datos capturados se conservan (solo se oculta
     // con el atributo "hidden"); el PDF no cambia. Todas las casillas "_na"
@@ -878,7 +882,7 @@ function initOspForm() {
             const kids = Array.from(tabPane.children);
             const checks = kids.map((el, idx) => {
                 const cb = el.matches('.form-check') ? el.querySelector('input[type="checkbox"].osp-input[name$="_na"]') : null;
-                return cb ? { cb: cb, idx: idx, section: /^d+_na$/.test(cb.name) } : null;
+                return cb ? { cb: cb, idx: idx, section: /^d+_na$/.test(cb.name), single: el.hasAttribute('data-na-single') } : null;
             }).filter(Boolean);
             if (!checks.length) return;
 
@@ -887,7 +891,8 @@ function initOspForm() {
                 checks.forEach(function (c) {
                     if (!c.cb.checked) return;
                     for (let i = c.idx + 1; i < kids.length; i++) {
-                        if (!c.section && (/^H[3-6]$/.test(kids[i].tagName) || isNaWrap(kids[i]))) break;
+                        if (c.single && i > c.idx + 1) break;
+                        if (!c.section && !c.single && (/^H[3-6]$/.test(kids[i].tagName) || (isNaWrap(kids[i]) && !kids[i].hasAttribute('data-na-single')))) break;
                         hide.add(i);
                     }
                 });

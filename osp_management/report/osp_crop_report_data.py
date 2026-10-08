@@ -372,6 +372,7 @@ CROP_REPORT_SECTIONS = [
     {
         'title': 'Section 18: Field History Affidavit (Only For NEW Fields Added To Certification Request)',
         'fields': [
+            {'key': '18_na', 'label': 'Section 18 — N/A', 'type': 'checkbox'},
             {'key': None, 'label': None, 'type': 'static',
              'text': 'Only for NEW fields added to certification request. Fill out this Field History Sheet for '
                      'every field that has not yet been certified.'},
@@ -396,6 +397,7 @@ CROP_REPORT_SECTIONS = [
     {
         'title': 'Section 19: Search Record – Commercial Availability of Seed and Planting Stock',
         'fields': [
+            {'key': '19_na', 'label': 'Section 19 — N/A', 'type': 'checkbox'},
             {'key': '20_search_record_json', 'label': 'Search Record', 'type': 'table',
              'columns': [('crop', 'Crop'), ('traits', 'Traits'), ('why_not_met', 'Why Not Met'),
                          ('suppliers_contacted', 'Suppliers Contacted'), ('date_contacted', 'Date Contacted'),

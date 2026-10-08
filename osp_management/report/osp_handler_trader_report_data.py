@@ -125,11 +125,11 @@ HANDLER_TRADER_REPORT_SECTIONS = [
             {'key': '6f_air_quality', 'label': '6f. Air quality management practices', 'type': 'textarea'},
             {'key': '6f_air_quality_attachment_needed', 'label': 'Attach supporting documents for the Biodiversity Program', 'type': 'checkbox'},
             {'key': '6_water_use_na', 'label': 'Water Use — N/A', 'type': 'checkbox'},
-            {'key': '6g_water_source', 'label': '6g. Water source', 'type': 'text'},
+            {'key': '6g_water_source', 'label': '6g. What is your water source? (well, aqueduct, river, canal, etc.)', 'type': 'text'},
             {'key': '6h_water_analysis_attached', 'label': '6h. Water analysis attached (non-municipal source)', 'type': 'yn'},
             {'key': '6h_water_analysis_doc_name', 'label': 'Name of document', 'type': 'text'},
             {'key': '6i_water_conservation', 'label': '6i. Water conservation practices', 'type': 'textarea'},
-            {'key': '6j_water_use_capacity', 'label': '6j. Water use capacity', 'type': 'text'},
+            {'key': '6j_water_use_capacity', 'label': '6j. In what capacity is water used? (cleaning and sanitizing, cooking, cooling, transport, processing, etc.)', 'type': 'text'},
         ],
     },
     {

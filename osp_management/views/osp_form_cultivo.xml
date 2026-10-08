@@ -288,9 +288,9 @@
         <label class="form-label fw-bold">1s. Tipo de operación:</label>
         <select class="form-select osp-input" name="1s_operation_type">
             <option value="">-- Seleccione --</option>
-            <option value="Indoor Crop Area" t-att-selected="'selected' if data.get('1s_operation_type') == 'Indoor Crop Area' else None">Zona de Cultivo Interior</option>
-            <option value="Outdoor Crop Area" t-att-selected="'selected' if data.get('1s_operation_type') == 'Outdoor Crop Area' else None">Zona de Cultivo Exterior</option>
-            <option value="Both Indoor and Outdoor Crop Areas" t-att-selected="'selected' if data.get('1s_operation_type') == 'Both Indoor and Outdoor Crop Areas' else None">Zonas de Cultivo Interior y Exterior</option>
+            <option value="Indoor Crop Area" t-att-selected="'selected' if data.get('1s_operation_type') == 'Indoor Crop Area' else None">Cultivo cubierto</option>
+            <option value="Outdoor Crop Area" t-att-selected="'selected' if data.get('1s_operation_type') == 'Outdoor Crop Area' else None">Cultivo a campo abierto</option>
+            <option value="Both Indoor and Outdoor Crop Areas" t-att-selected="'selected' if data.get('1s_operation_type') == 'Both Indoor and Outdoor Crop Areas' else None">Cultivo cubierto y a campo abierto</option>
         </select>
     </div>
     <div class="col-md-6 mb-3">
@@ -920,7 +920,7 @@
     <p class="text-muted mb-4">(Norma NOP 205.204 &amp; 205.205)</p>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="8a_na" id="8a_na" value="yes" t-att-checked="'checked' if data.get('8a_na') else None"/>
-    <label class="form-check-label" for="8a_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="8a_na">No aplica esta sección a mi operación</label>
 </div>
 <p>8a. Enumere todas las semillas previstas para el uso en la temporada actual en el siguiente cuadro:</p>
 <div class="table-responsive border rounded mb-3">
@@ -997,7 +997,7 @@
 <h6 class="fw-bold mt-4">8g. Plantas y material de propagación para cultivos perennes y semi-perennes</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="8g_na" id="8g_na" value="yes" t-att-checked="'checked' if data.get('8g_na') else None"/>
-    <label class="form-check-label" for="8g_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="8g_na">No aplica esta sección a mi operación</label>
 </div>
 
 <div class="table-responsive border rounded mb-3">
@@ -1054,7 +1054,7 @@
 <h6 class="fw-bold mt-4">Compostaje en la Finca:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="9_composting_na" id="9_composting_na" value="yes" t-att-checked="'checked' if data.get('9_composting_na') else None"/>
-    <label class="form-check-label" for="9_composting_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="9_composting_na">No aplica esta sección a mi operación</label>
 </div>
 <p class="text-muted small">Si no hace composta, pero compra composta, no llene esta sección y describa la información de la composta comprada en la tabla de la Sección 12.</p>
 <div class="col-md-12 mb-3">
@@ -1084,7 +1084,7 @@
 <h6 class="fw-bold mt-4">Uso de Estiércol:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="9_manure_na" id="9_manure_na" value="yes" t-att-checked="'checked' if data.get('9_manure_na') else None"/>
-    <label class="form-check-label" for="9_manure_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="9_manure_na">No aplica esta sección a mi operación</label>
 </div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold d-block">9j. ¿Qué tipo de abono utiliza?</label>
@@ -1169,11 +1169,6 @@
     <p class="text-muted mb-4">(Norma NOP 205.204 &amp; 205.205)</p>
     <p class="text-muted small">Use una línea para cada rotación utilizada.</p>
     <p class="text-muted small">Marque (x) abajo si el plan de rotación específico cumple con uno o más de los siguientes objetivos (esté preparado para explicar los detalles si se le solicita):</p>
-
-<div class="form-check mb-2">
-    <input class="form-check-input osp-input" type="checkbox" name="10_perennial_na" id="10_perennial_na" value="yes" t-att-checked="'checked' if data.get('10_perennial_na') else None"/>
-    <label class="form-check-label" for="10_perennial_na">No aplica para operadores con cultivos perennes</label>
-</div>
 
 <div class="table-responsive border rounded mb-3">
     <table class="table table-borderless table-hover mb-0">
@@ -1320,7 +1315,7 @@
     <h6 class="fw-bold">Áreas de Amortiguamiento: Terrenos Adyacentes</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="13_buffer_na" id="13_buffer_na" value="yes" t-att-checked="'checked' if data.get('13_buffer_na') else None"/>
-    <label class="form-check-label" for="13_buffer_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="13_buffer_na">No aplica esta sección a mi operación</label>
 </div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">13a. Describa con qué frecuencia lleva a cabo una evaluación de riesgo de la utilización de los terrenos adyacentes y liste los riesgos principales de contaminación actualmente presentes.</label>
@@ -1438,7 +1433,7 @@
 <h6 class="fw-bold mt-4">Producción Paralela:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="13_split_na" id="13_split_na" value="yes" t-att-checked="'checked' if data.get('13_split_na') else None"/>
-    <label class="form-check-label" for="13_split_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="13_split_na">No aplica esta sección a mi operación</label>
 </div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">13k. Si cultiva algún producto no orgánico en su operación, explique qué prácticas administrativas y/o barreras físicas se utilizan para prevenir la contaminación de cultivos orgánicos con sustancias prohibidas.</label>
@@ -1471,7 +1466,7 @@
     <h6 class="fw-bold">Equipo:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="14_equipment_na" id="14_equipment_na" value="yes" t-att-checked="'checked' if data.get('14_equipment_na') else None"/>
-    <label class="form-check-label" for="14_equipment_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="14_equipment_na">No aplica esta sección a mi operación</label>
 </div>
 <p>14a. Enumere el equipo utilizado para siembra, labranza, riego y cosecha.</p>
 <div class="table-responsive border rounded mb-3">
@@ -1488,7 +1483,7 @@
 <h6 class="fw-bold mt-4">Cosecha:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="14_harvest_na" id="14_harvest_na" value="yes" t-att-checked="'checked' if data.get('14_harvest_na') else None"/>
-    <label class="form-check-label" for="14_harvest_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="14_harvest_na">No aplica esta sección a mi operación</label>
 </div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold d-block">14b. ¿Cómo se cosechan sus cultivos orgánicos?</label>
@@ -1576,7 +1571,7 @@
     <h6 class="fw-bold">Manipulación Post-Cosecha:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="15_handling_na" id="15_handling_na" value="yes" t-att-checked="'checked' if data.get('15_handling_na') else None"/>
-    <label class="form-check-label" for="15_handling_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="15_handling_na">No aplica esta sección a mi operación</label>
 </div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">15a. Describa sus procedimientos y equipo de manejo post-cosecha. Adjunte un diagrama de flujo y un plano de planta:</label>
@@ -1666,7 +1661,7 @@
 <h6 class="fw-bold mt-4">Almacenamiento:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="15_storage_na" id="15_storage_na" value="yes" t-att-checked="'checked' if data.get('15_storage_na') else None"/>
-    <label class="form-check-label" for="15_storage_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="15_storage_na">No aplica esta sección a mi operación</label>
 </div>
 <div class="row"><div class="col-md-2 mb-3">
     <label class="form-label fw-bold">Identificación del área:</label>
@@ -1738,7 +1733,7 @@
 <h6 class="fw-bold mt-4">Transporte:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="15_transport_na" id="15_transport_na" value="yes" t-att-checked="'checked' if data.get('15_transport_na') else None"/>
-    <label class="form-check-label" for="15_transport_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="15_transport_na">No aplica esta sección a mi operación</label>
 </div>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">15n. ¿Quién es el responsable de realizar el transporte de los productos orgánicos?</label>
@@ -1806,7 +1801,7 @@
 <h6 class="fw-bold mt-4">Uso de Cloro:</h6>
 <div class="form-check mb-2">
     <input class="form-check-input osp-input" type="checkbox" name="15_chlorine_na" id="15_chlorine_na" value="yes" t-att-checked="'checked' if data.get('15_chlorine_na') else None"/>
-    <label class="form-check-label" for="15_chlorine_na">Esta sección no es aplicable a mi operación</label>
+    <label class="form-check-label" for="15_chlorine_na">No aplica esta sección a mi operación</label>
 </div>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">15r. ¿Utiliza cloro o productos que contienen cloro?</label>
@@ -1954,6 +1949,10 @@
                             <div class="tab-pane fade" id="sec19">
     <h4 class="fw-bold mb-1">SECCIÓN 18: Historial de Campo - Declaración Jurada</h4>
     <p class="text-muted mb-4">(Solo para los NUEVOS campos agregados a la solicitud de certificación)</p>
+<div class="form-check mb-2">
+    <input class="form-check-input osp-input" type="checkbox" name="18_na" id="18_na" value="yes" t-att-checked="'checked' if data.get('18_na') else None"/>
+    <label class="form-check-label" for="18_na">No aplica esta sección a mi operación</label>
+</div>
     <p class="text-muted small">(Solo para los NUEVOS campos, agregados a la solicitud de certificación). Instrucciones: Complete esta hoja del historial de Campo para cada uno de sus campos que aún no haya sido certificado y para el que se solicita la certificación orgánica. Agregue todos los insumos utilizados en los años en transición, incluyendo composta y/o estiércol. Haga clic en "Agregar Campo Nuevo" por cada campo adicional que necesite su propio historial.</p>
 
 <div id="fields19_container"></div>
@@ -1976,6 +1975,10 @@
                             <div class="tab-pane fade" id="sec20">
     <h4 class="fw-bold mb-4">SECCIÓN 19: Registro de Búsqueda &#8211; Disponibilidad Comercial de Semillas y Material de Siembra</h4>
 
+<div class="form-check mb-2">
+    <input class="form-check-input osp-input" type="checkbox" name="19_na" id="19_na" value="yes" t-att-checked="'checked' if data.get('19_na') else None"/>
+    <label class="form-check-label" for="19_na">No aplica esta sección a mi operación</label>
+</div>
 <div class="table-responsive border rounded mb-3">
     <table class="table table-borderless table-hover mb-0">
         <thead class="bg-light text-muted small">

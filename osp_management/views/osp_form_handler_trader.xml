@@ -733,7 +733,7 @@
         <label class="form-check-label" for="6_water_use_na">This section is not applicable to my operation</label>
     </div>
     <div class="col-md-12 mb-3">
-        <label class="form-label fw-bold">6g. What is your water source?</label>
+        <label class="form-label fw-bold">6g. What is your water source? (well, aqueduct, river, canal, etc.)</label>
         <input type="text" class="form-control osp-input" name="6g_water_source" t-att-value="data.get('6g_water_source')"/>
     </div>
     <div class="mb-3">
@@ -754,7 +754,7 @@
         <textarea class="form-control osp-input" name="6i_water_conservation" rows="2"><t t-esc="data.get('6i_water_conservation')"/></textarea>
     </div>
     <div class="col-md-12 mb-3">
-        <label class="form-label fw-bold">6j. In what capacity is water used?</label>
+        <label class="form-label fw-bold">6j. In what capacity is water used? (cleaning and sanitizing, cooking, cooling, transport, processing, etc.)</label>
         <input type="text" class="form-control osp-input" name="6j_water_use_capacity" t-att-value="data.get('6j_water_use_capacity')"/>
     </div>
 </div>

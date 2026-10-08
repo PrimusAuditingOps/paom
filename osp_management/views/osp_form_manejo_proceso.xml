@@ -592,8 +592,14 @@
         </div>
     </div>
 
-    <div class="col-md-12 mb-3">
+    <div class="col-md-12 mb-1">
         <label class="form-label fw-bold">4d. Si manipula productos orgánicos y no orgánicos, describa todos los productos no orgánicos que manipula en sus instalaciones:</label>
+    </div>
+    <div class="form-check mb-2" data-na-single="1">
+        <input class="form-check-input osp-input" type="checkbox" name="4d_nonorganic_na" id="4d_nonorganic_na" value="yes" t-att-checked="'checked' if data.get('4d_nonorganic_na') else None"/>
+        <label class="form-check-label" for="4d_nonorganic_na">N/A</label>
+    </div>
+    <div class="col-md-12 mb-3">
         <textarea class="form-control osp-input" name="4d_nonorganic_products" rows="2"><t t-esc="data.get('4d_nonorganic_products')"/></textarea>
     </div>
 
@@ -650,8 +656,14 @@
         </div>
     </div>
 
-    <div class="col-md-12 mb-3">
+    <div class="col-md-12 mb-1">
         <label class="form-label fw-bold">4h. Si manipula productos orgánicos y no orgánicos, describa cómo previene la contaminación/mezcla entre ambos:</label>
+    </div>
+    <div class="form-check mb-2" data-na-single="1">
+        <input class="form-check-input osp-input" type="checkbox" name="4h_contamination_na" id="4h_contamination_na" value="yes" t-att-checked="'checked' if data.get('4h_contamination_na') else None"/>
+        <label class="form-check-label" for="4h_contamination_na">N/A</label>
+    </div>
+    <div class="col-md-12 mb-3">
         <textarea class="form-control osp-input" name="4h_contamination_prevention" rows="2"><t t-esc="data.get('4h_contamination_prevention')"/></textarea>
     </div>
 </div>
@@ -767,12 +779,8 @@
     </div>
 
     <h6 class="fw-bold mt-4">Uso de Agua</h6>
-    <div class="form-check mb-2">
-        <input class="form-check-input osp-input" type="checkbox" name="6_water_use_na" id="6_water_use_na" value="yes" t-att-checked="'checked' if data.get('6_water_use_na') else None"/>
-        <label class="form-check-label" for="6_water_use_na">No es aplicable a la operación</label>
-    </div>
     <div class="col-md-12 mb-3">
-        <label class="form-label fw-bold">6c. ¿Cuál es su fuente de agua?</label>
+        <label class="form-label fw-bold">6c. ¿Cuál es su fuente de agua? (pozo, acueducto, río, canal, etc)</label>
         <textarea class="form-control osp-input" name="6c_water_source" rows="2"><t t-esc="data.get('6c_water_source')"/></textarea>
     </div>
     <div class="mb-3">
@@ -793,7 +801,7 @@
         <textarea class="form-control osp-input" name="6e_water_conservation" rows="2"><t t-esc="data.get('6e_water_conservation')"/></textarea>
     </div>
     <div class="col-md-12 mb-3">
-        <label class="form-label fw-bold">6f. ¿En qué actividad se utiliza el agua en la operación?</label>
+        <label class="form-label fw-bold">6f. ¿En qué actividad se utiliza el agua en la operación? (limpieza y desinfección, cocción, enfriamiento, transporte, proceso, etc)</label>
         <textarea class="form-control osp-input" name="6f_water_use_capacity" rows="2"><t t-esc="data.get('6f_water_use_capacity')"/></textarea>
     </div>
     <div class="mb-3">
