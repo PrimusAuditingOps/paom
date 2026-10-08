@@ -1072,13 +1072,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:osp_management.view_osp_request_form
 msgid ""
 "<i class=\"fa fa-exclamation-triangle\"/>\n"
-"                        This form was submitted by a website visitor without logging in — it has no Customer assigned.\n"
-"                        Select one in the \"Customer\" field below and save to link it. From that point on, that\n"
+"                        This form was submitted by a website visitor without logging in — it has no Customer Contact assigned.\n"
+"                        Select one in the \"Customer Contact\" field below and save to link it. From that point on, that\n"
 "                        customer's portal users will be able to see this record in their own portal."
 msgstr ""
 "<i class=\"fa fa-exclamation-triangle\"/>\n"
-"                        Este formulario fue enviado por un visitante del sitio web sin iniciar sesión — no tiene un Cliente asignado.\n"
-"                        Selecciónalo en el campo \"Cliente\" de abajo y guarda para vincularlo. A partir de ese momento, los usuarios\n"
+"                        Este formulario fue enviado por un visitante del sitio web sin iniciar sesión — no tiene un Contacto del cliente asignado.\n"
+"                        Selecciónalo en el campo \"Contacto del cliente\" de abajo y guarda para vincularlo. A partir de ese momento, los usuarios\n"
 "                        de portal de ese cliente podrán ver este registro en su propio portal."
 
 #. module: osp_management
@@ -1341,12 +1341,12 @@ msgstr ""
 #, python-format
 msgid ""
 "A website visitor (no customer account) submitted the '%s' form. It has no "
-"customer assigned — link it to an existing contact from the \"Customer\" "
+"customer assigned — link it to an existing contact from the \"Customer Contact\" "
 "field on this record."
 msgstr ""
 "Un visitante del sitio web (sin cuenta de cliente) envió el formulario "
 "'%s'. No tiene un cliente asignado — vincúlalo a un contacto existente "
-"desde el campo \"Cliente\" de esta ficha."
+"desde el campo \"Contacto del cliente\" de esta ficha."
 
 #. module: osp_management
 #: model_terms:ir.ui.view,arch_db:osp_management.osp_form_crop_body
@@ -1679,10 +1679,16 @@ msgid "Crops not used for human consumption"
 msgstr ""
 
 #. module: osp_management
-#: model:ir.model.fields,field_description:osp_management.field_osp_request__partner_id
+#: model:ir.model.fields,field_description:osp_management.field_osp_request__customer_company_id
 #: model_terms:ir.ui.view,arch_db:osp_management.view_osp_request_search
 msgid "Customer"
 msgstr "Cliente"
+
+#. module: osp_management
+#: model:ir.model.fields,field_description:osp_management.field_osp_request__partner_id
+#: model_terms:ir.ui.view,arch_db:osp_management.view_osp_request_search
+msgid "Customer Contact"
+msgstr "Contacto del cliente"
 
 #. module: osp_management
 #: model_terms:ir.ui.view,arch_db:osp_management.view_osp_request_form
@@ -2047,8 +2053,8 @@ msgstr ""
 
 #. module: osp_management
 #: model:ir.model.fields,help:osp_management.field_osp_request__partner_id
-msgid "If empty, the administrator can assign the customer here."
-msgstr "Si está vacío, el administrador puede asignar el cliente aquí."
+msgid "If empty, the administrator can assign the customer contact here."
+msgstr "Si está vacío, el administrador puede asignar el contacto del cliente aquí."
 
 #. module: osp_management
 #: model_terms:ir.ui.view,arch_db:osp_management.osp_form_crop_body
@@ -2903,8 +2909,8 @@ msgstr "Selecciona el Servicio Requerido"
 
 #. module: osp_management
 #: model_terms:ir.ui.view,arch_db:osp_management.view_osp_request_form
-msgid "Select or create a customer..."
-msgstr "Selecciona o crea un cliente..."
+msgid "Select or create a customer contact..."
+msgstr "Selecciona o crea un contacto del cliente..."
 
 #. module: osp_management
 #: model_terms:ir.ui.view,arch_db:osp_management.osp_form_crop_body

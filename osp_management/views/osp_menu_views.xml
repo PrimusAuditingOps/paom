@@ -12,6 +12,7 @@
                 <field name="service_id" optional="show"/>
                 <field name="form_template_id" optional="show"/>
                 <field name="partner_id" optional="show"/>
+                <field name="customer_company_id" optional="show"/>
                 <field name="company_id" optional="show" groups="base.group_multi_company"/>
                 <field name="organization_name" optional="show"/>
                 <field name="dba_name" optional="show"/>
@@ -38,6 +39,7 @@
                 <field name="organization_name"/>
                 <field name="dba_name"/>
                 <field name="partner_id"/>
+                <field name="customer_company_id"/>
                 <field name="app_azas"/>
                 <field name="audit_azas"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -48,7 +50,8 @@
                 <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
 
                 <group expand="0" string="Group By">
-                    <filter string="Customer" name="group_partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Customer" name="group_customer" context="{'group_by':'customer_company_id'}"/>
+                    <filter string="Customer Contact" name="group_partner" context="{'group_by':'partner_id'}"/>
                     <filter string="Form Type" name="group_type" context="{'group_by':'form_template_id'}"/>
                     <filter string="Review Status" name="group_review" context="{'group_by':'review_status'}"/>
                     <filter string="Country" name="group_country" context="{'group_by':'country_id'}"/>
@@ -104,14 +107,15 @@
                          guarda, este aviso desaparece solo (ya no aplica la condición). -->
                     <div class="alert alert-warning" role="alert" invisible="partner_id">
                         <i class="fa fa-exclamation-triangle"/>
-                        This form was submitted by a website visitor without logging in — it has no Customer assigned.
-                        Select one in the "Customer" field below and save to link it. From that point on, that
+                        This form was submitted by a website visitor without logging in — it has no Customer Contact assigned.
+                        Select one in the "Customer Contact" field below and save to link it. From that point on, that
                         customer's portal users will be able to see this record in their own portal.
                     </div>
 
                     <group>
                         <group string="Customer &amp; Form Information">
-                            <field name="partner_id" placeholder="Select or create a customer..."/>
+                            <field name="partner_id" placeholder="Select or create a customer contact..."/>
+                            <field name="customer_company_id"/>
                             <field name="service_id"/>
                             <field name="form_template_id"/>
                             <field name="form_version"/>

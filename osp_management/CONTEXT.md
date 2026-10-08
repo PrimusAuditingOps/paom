@@ -700,3 +700,10 @@ Tras §54 (Afirmación al final), en Crop el menú lateral salía mezclado (text
 - **Crop sección 6:** se eliminaron las casillas `6e_woodland_na`, `6f_wetlands_na`, `6g_wildlife_na` (vista y manifiesto PDF) para igualar a Cultivo, que no las tiene.
 - **PDF:** NO omite bloques marcados "No aplica" (decisión del usuario).
 - `.po` de Crop: el usuario pidió NO vaciar las 4 traducciones todavía (§55 sigue pendiente).
+
+## 57. "Contacto del cliente" vs "Cliente" (empresa)
+
+- `partner_id` conserva nombre técnico y comportamiento (es la llave del portal: controladores y regla `osp_security.xml` lo comparan con el partner del usuario); solo cambió su etiqueta a **"Customer Contact" / "Contacto del cliente"**. Sigue pudiendo elegirse cualquier partner.
+- Campo nuevo `customer_company_id` (**"Customer" / "Cliente"**): many2one a `res.partner`, calculado, almacenado, solo lectura = `partner_id.commercial_partner_id` (empresa padre, o el propio contacto si no tiene empresa). Los registros existentes se llenan solos con `-u osp_management`.
+- Lista: columnas separadas Contacto del cliente + Cliente. Búsqueda: campo y "Group by" Customer (empresa) y Customer Contact. Ficha: Cliente de solo lectura bajo el contacto. La notificación al admin (`_do_client_submit`) muestra "Contacto (Empresa)".
+- Traducciones en `i18n/es_MX.po`/`.pot`: nuevo msgid "Customer Contact"; el field de `partner_id` ya no comparte msgid con "Customer". El PDF no usa este dato y no se tocó.

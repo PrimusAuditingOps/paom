@@ -21,8 +21,24 @@ class OSPRequest(models.Model):
     form_version = fields.Char(related='form_template_id.version', string='Version', readonly=True)
 
     # --- CLIENTE Y ORGANIZACIÓN ---
-    partner_id = fields.Many2one('res.partner', string='Customer', tracking=True,
-                                 help="If empty, the administrator can assign the customer here.")
+    # "Customer Contact" = la persona (con usuario de portal) a la que
+    # pertenece el formulario. OJO: este campo es la llave del portal
+    # (controllers/portal.py y la regla de osp_security.xml comparan
+    # partner_id con el partner del usuario) — solo cambió su etiqueta.
+    partner_id = fields.Many2one('res.partner', string='Customer Contact', tracking=True,
+                                 help="If empty, the administrator can assign the customer contact here.")
+    # "Customer" = la empresa del contacto (commercial_partner_id: la
+    # empresa padre, o el propio contacto si no tiene empresa). Solo
+    # lectura, se llena sola; almacenado para poder agrupar/filtrar en lista.
+    customer_company_id = fields.Many2one('res.partner', string='Customer',
+                                          compute='_compute_customer_company_id', store=True,
+                                          index=True, readonly=True)
+
+    @api.depends('partner_id', 'partner_id.parent_id', 'partner_id.commercial_partner_id')
+    def _compute_customer_company_id(self):
+        for record in self:
+            record.customer_company_id = record.partner_id.commercial_partner_id
+
     organization_name = fields.Char(string='Organization', tracking=True)
     dba_name = fields.Char(string='DBA name', tracking=True)
 

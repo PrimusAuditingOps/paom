@@ -83,7 +83,9 @@ class OSPPortal(CustomerPortal):
 
         verb = _("updated and re-submitted") if was_submitted else _("submitted for the first time")
         log_body = _("Portal customer %(partner)s %(verb)s the '%(template)s' form.") % {
-            'partner': record.partner_id.name or request.env.user.name,
+            'partner': ('%s (%s)' % (record.partner_id.name, record.customer_company_id.name)
+                        if record.customer_company_id and record.customer_company_id != record.partner_id
+                        else record.partner_id.name) or request.env.user.name,
             'verb': verb,
             'template': record.form_template_id.name or record.form_template_id.technical_code or '',
         }
@@ -559,7 +561,7 @@ class OSPPublicController(OSPPortal):
         log_body = _(
             "A website visitor (no customer account) submitted the '%s' form. "
             "It has no customer assigned — link it to an existing contact from the "
-            "\"Customer\" field on this record."
+            "\"Customer Contact\" field on this record."
         ) % (record.form_template_id.name or record.form_template_id.technical_code or '')
 
         admin_partners = self._osp_staff_partners()
