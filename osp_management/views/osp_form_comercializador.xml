@@ -68,7 +68,7 @@
                          puede subir/quitar (el admin solo ve la lista); files: ya subidos. -->
                     <div id="osp_question_uploads_cfg" class="d-none"
                          t-att-data-enabled="'1' if question_uploads else '0'"
-                         t-att-data-can="'1' if (can_upload or (osp.id == 0 and not is_public)) else '0'"
+                         t-att-data-can="'1' if (can_upload or osp.id == 0) else '0'"
                          t-att-data-files="question_files_json"/>
                     <script>
                         window.OSP_READONLY = <t t-esc="'true' if readonly else 'false'"/>;

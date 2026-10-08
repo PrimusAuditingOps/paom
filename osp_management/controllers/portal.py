@@ -2,11 +2,12 @@ import base64
 import json
 import logging
 import re
+from datetime import timedelta
 from types import SimpleNamespace
 
 import requests
 
-from odoo import http, _
+from odoo import fields, http, _
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 from odoo.http import request
 
@@ -447,6 +448,44 @@ class OSPPortal(CustomerPortal):
                 return request.redirect('/my/osp/form/%s#sec21' % osp_id)
         return request.redirect('/my/osp')
 
+    # Helper compartido (portal y público): guarda los archivos del request en
+    # el registro aplicando TODAS las reglas de UPLOAD_* (tipo+firma, tamaño,
+    # cantidad por pregunta, total). 'question' vacío = depósito general (sin
+    # tope por pregunta). Un archivo rechazado no impide guardar los demás.
+    def _store_question_files(self, record, question, description):
+        Attachment = request.env['ir.attachment'].sudo()
+        existing = Attachment.search([('res_model', '=', 'osp.request'), ('res_id', '=', record.id)])
+        total_bytes = sum(existing.mapped('file_size'))
+        question_count = len([a for a in existing if question and _question_of(a) == question])
+
+        saved, errors = [], []
+        for uploaded_file in request.httprequest.files.getlist('osp_files'):
+            if not uploaded_file or not uploaded_file.filename:
+                continue
+            name = uploaded_file.filename
+            content = uploaded_file.read()
+            ext = name.rsplit('.', 1)[-1].lower() if '.' in name else ''
+            if ext not in UPLOAD_ALLOWED_TYPES or not any(content.startswith(sig) for sig in UPLOAD_ALLOWED_TYPES[ext]):
+                errors.append(_("%s: file type not allowed (PDF, JPG, PNG, Word or Excel only).") % name)
+            elif len(content) > UPLOAD_MAX_FILE_BYTES:
+                errors.append(_("%(name)s: larger than %(mb)s MB.") % {'name': name, 'mb': UPLOAD_MAX_FILE_BYTES // (1024 * 1024)})
+            elif question and question_count >= UPLOAD_MAX_FILES_PER_QUESTION:
+                errors.append(_("%(name)s: maximum %(n)s files per question.") % {'name': name, 'n': UPLOAD_MAX_FILES_PER_QUESTION})
+            elif total_bytes + len(content) > UPLOAD_MAX_TOTAL_BYTES:
+                errors.append(_("%(name)s: the form's total attachment limit (%(mb)s MB) would be exceeded.") % {'name': name, 'mb': UPLOAD_MAX_TOTAL_BYTES // (1024 * 1024)})
+            else:
+                att = Attachment.create({
+                    'name': name,
+                    'datas': base64.b64encode(content),
+                    'res_model': 'osp.request',
+                    'res_id': record.id,
+                    'description': ('[Q:%s] %s' % (question, description)) if question else description,
+                })
+                question_count += 1
+                total_bytes += len(content)
+                saved.append({'id': att.id, 'name': att.name, 'size': att.file_size, 'question': question})
+        return saved, errors
+
     # 9. ADJUNTOS POR PREGUNTA (AJAX) — el selector de archivos junto a cada
     # pregunta que pide un documento sube aquí, un lote por pregunta. Solo
     # el dueño del registro. Todas las reglas (cantidad, tamaño, tipo, total)
@@ -462,37 +501,8 @@ class OSPPortal(CustomerPortal):
                 or not re.match(r'^[0-9]{1,2}[a-z]{0,2}$', question)):
             return request.make_json_response({'success': False, 'files': [], 'errors': [_("Upload not allowed.")]})
 
-        Attachment = request.env['ir.attachment'].sudo()
-        existing = Attachment.search([('res_model', '=', 'osp.request'), ('res_id', '=', record.id)])
-        total_bytes = sum(existing.mapped('file_size'))
-        question_count = len([a for a in existing if _question_of(a) == question])
-
-        saved, errors = [], []
-        for uploaded_file in request.httprequest.files.getlist('osp_files'):
-            if not uploaded_file or not uploaded_file.filename:
-                continue
-            name = uploaded_file.filename
-            content = uploaded_file.read()
-            ext = name.rsplit('.', 1)[-1].lower() if '.' in name else ''
-            if ext not in UPLOAD_ALLOWED_TYPES or not any(content.startswith(sig) for sig in UPLOAD_ALLOWED_TYPES[ext]):
-                errors.append(_("%s: file type not allowed (PDF, JPG, PNG, Word or Excel only).") % name)
-            elif len(content) > UPLOAD_MAX_FILE_BYTES:
-                errors.append(_("%(name)s: larger than %(mb)s MB.") % {'name': name, 'mb': UPLOAD_MAX_FILE_BYTES // (1024 * 1024)})
-            elif question_count >= UPLOAD_MAX_FILES_PER_QUESTION:
-                errors.append(_("%(name)s: maximum %(n)s files per question.") % {'name': name, 'n': UPLOAD_MAX_FILES_PER_QUESTION})
-            elif total_bytes + len(content) > UPLOAD_MAX_TOTAL_BYTES:
-                errors.append(_("%(name)s: the form's total attachment limit (%(mb)s MB) would be exceeded.") % {'name': name, 'mb': UPLOAD_MAX_TOTAL_BYTES // (1024 * 1024)})
-            else:
-                att = Attachment.create({
-                    'name': name,
-                    'datas': base64.b64encode(content),
-                    'res_model': 'osp.request',
-                    'res_id': record.id,
-                    'description': "[Q:%s] %s" % (question, _("Uploaded by the customer via the portal (%s)") % request.env.user.name),
-                })
-                question_count += 1
-                total_bytes += len(content)
-                saved.append({'id': att.id, 'name': att.name, 'size': att.file_size, 'question': question})
+        saved, errors = self._store_question_files(
+            record, question, _("Uploaded by the customer via the portal (%s)") % request.env.user.name)
         return request.make_json_response({'success': bool(saved) or not errors, 'files': saved, 'errors': errors})
 
     # 10. QUITAR UN ADJUNTO POR PREGUNTA (AJAX) — dueño, cualquier estado
@@ -567,10 +577,8 @@ class OSPPublicController(OSPPortal):
             'is_public': True,
             'readonly': False,
             'attachments': [],
-            # El selector por pregunta aún no aplica al formulario público
-            # (fase posterior); se pasa explícito para no referenciar una
-            # variable no definida en la plantilla.
-            'question_uploads': False,
+            # Selector por pregunta en memoria hasta el Submit (osp_form.js).
+            'question_uploads': technical_code in QUESTION_UPLOAD_FORMS,
             'question_files_json': '[]',
             'can_upload': False,
             'new_service_id': 0,
@@ -741,32 +749,45 @@ class OSPPublicController(OSPPortal):
 
     # D. SUBIR ADJUNTOS (navegante público, solo mientras el registro no
     # tenga cliente asignado)
+    # Un registro público solo acepta archivos mientras siga sin cliente asignado
+    # Y durante las 24 h posteriores a su creación (los archivos se suben
+    # justo después del Submit; evita que alguien con un id adivinado siga
+    # cargando archivos días después). Sumado a los límites de
+    # _store_question_files, acota el abuso de esta ruta pública.
+    def _public_upload_allowed(self, record):
+        if not record.exists() or record.partner_id:
+            return False
+        return record.create_date and fields.Datetime.now() - record.create_date < timedelta(hours=24)
+
+    # Selector por pregunta del formulario público: el JS sube, tras el Submit
+    # (el registro no existe antes), un lote por pregunta. Mismas reglas y
+    # respuesta JSON que /my/osp/question_upload.
+    @http.route(['/osp/public/question_upload/<int:osp_id>'], type='http', auth="public", methods=['POST'], website=True)
+    def public_question_upload(self, osp_id, question='', **kw):
+        record = request.env['osp.request'].sudo().browse(osp_id)
+        question = (question or '').strip()
+        if (not self._public_upload_allowed(record)
+                or record.form_template_id.technical_code not in QUESTION_UPLOAD_FORMS
+                or not re.match(r'^[0-9]{1,2}[a-z]{0,2}$', question)):
+            return request.make_json_response({'success': False, 'files': [], 'errors': [_("Upload not allowed.")]})
+        saved, errors = self._store_question_files(
+            record, question, _("Uploaded by a website visitor (no account)"))
+        return request.make_json_response({'success': bool(saved) or not errors, 'files': saved, 'errors': errors})
+
     @http.route(['/osp/public/upload/<int:osp_id>'], type='http', auth="public", methods=['POST'], website=True)
     def public_osp_upload(self, osp_id, **kw):
         record = request.env['osp.request'].sudo().browse(osp_id)
-        if record.exists() and not record.partner_id:
-            files = request.httprequest.files.getlist('osp_files')
-            # 'osp_labels' es opcional — solo lo manda la subida automática
-            # que dispara savePublicForm() justo después del Submit (ver
-            # osp_form.js, initPublicFileUploads()), con el código de
-            # pregunta (ej. "2b") de la casilla "Attach .../Adjunte ..."
-            # donde el navegante eligió cada archivo, en el mismo orden en
-            # que se agregaron. La subida manual de la pantalla "Thank you"
-            # no manda esta lista — sigue funcionando igual que antes.
+        if self._public_upload_allowed(record):
+            # 'osp_labels' es opcional (código de pregunta por archivo, mismo
+            # orden): lo mandaba la subida automática anterior al selector por
+            # pregunta; la subida manual de "Thank you" no lo manda. Ahora
+            # todo pasa por las mismas reglas de tipo/tamaño/total que el
+            # portal (_store_question_files); un archivo inválido se omite.
             labels = request.httprequest.form.getlist('osp_labels')
-            for index, uploaded_file in enumerate(files):
-                if not uploaded_file or not uploaded_file.filename:
-                    continue
-                label = labels[index] if index < len(labels) else ''
-                description = _("Uploaded by a website visitor (no account)")
-                if label:
-                    description = _("Uploaded by a website visitor (no account) — for question %s") % label
-                request.env['ir.attachment'].sudo().create({
-                    'name': uploaded_file.filename,
-                    'datas': base64.b64encode(uploaded_file.read()),
-                    'res_model': 'osp.request',
-                    'res_id': record.id,
-                    'description': description,
-                })
+            question = ''
+            if labels and re.match(r'^[0-9]{1,2}[a-z]{0,2}$', labels[0] or ''):
+                question = labels[0]
+            self._store_question_files(
+                record, question, _("Uploaded by a website visitor (no account)"))
 
         return request.redirect('/osp/public/thankyou/%s' % osp_id)

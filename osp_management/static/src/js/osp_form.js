@@ -39,6 +39,9 @@ function initOspForm() {
     // automático dentro de savePublicForm() más abajo). Llave: el id del
     // checkbox "..._attachment_needed" -> el File elegido para esa pregunta.
     const pendingPublicFiles = {};
+    // Selector por pregunta del formulario público: código de pregunta -> [{name,size,file}]
+    // (File objects en memoria; se suben justo después del Submit).
+    const publicQuestionFiles = {};
 
     // Widget de Cloudflare Turnstile: se inyecta ya, al cargar la página
     // (no hasta que el visitante haga clic en Submit), para que Turnstile
@@ -1313,26 +1316,46 @@ function initOspForm() {
                   // public_osp_upload), así que ningún cambio de servidor
                   // es indispensable para el flujo normal de esa pantalla.
                   const checkboxIds = Object.keys(pendingPublicFiles);
-                  if (!checkboxIds.length) {
+                  const questionCodes = Object.keys(publicQuestionFiles).filter(c => publicQuestionFiles[c].length);
+                  if (!checkboxIds.length && !questionCodes.length) {
                       goToThankYou();
                       return;
                   }
 
-                  if (statusText) statusText.innerText = 'Uploading attachments...';
-                  const uploadData = new FormData();
-                  uploadData.append('csrf_token', window.OSP_CSRF_TOKEN || '');
-                  checkboxIds.forEach(function (checkboxId) {
-                      const file = pendingPublicFiles[checkboxId];
-                      // Código de pregunta (ej. "2b") tomado del id del
-                      // checkbox — mismo criterio que initAttachmentChecklist(),
-                      // para que ir.attachment quede etiquetado con a qué
-                      // pregunta corresponde cada archivo.
-                      uploadData.append('osp_files', file, file.name);
-                      uploadData.append('osp_labels', checkboxId.split('_')[0]);
+                  // Selector por pregunta: un lote por pregunta, en serie, hacia
+                  // la ruta pública con las mismas reglas que el portal. Un lote
+                  // que falle no detiene a los demás; lo que no se haya subido
+                  // aparece como pendiente en la pantalla "Thank you".
+                  let chain = Promise.resolve();
+                  questionCodes.forEach(function (code, idx) {
+                      chain = chain.then(function () {
+                          if (statusText) statusText.innerText = 'Uploading attachments (' + (idx + 1) + '/' + questionCodes.length + ')...';
+                          const fd = new FormData();
+                          fd.append('csrf_token', window.OSP_CSRF_TOKEN || '');
+                          fd.append('question', code);
+                          publicQuestionFiles[code].forEach(f => fd.append('osp_files', f.file, f.name));
+                          return fetch('/osp/public/question_upload/' + ospId, { method: 'POST', body: fd })
+                              .catch(err => console.error('🔴 [OSP] No se pudieron subir los adjuntos de la pregunta ' + code + ':', err));
+                      });
                   });
-                  fetch(`/osp/public/upload/${ospId}`, { method: 'POST', body: uploadData })
-                      .catch(err => console.error('🔴 [OSP] No se pudieron subir los adjuntos seleccionados por sección:', err))
-                      .then(goToThankYou);
+
+                  // Camino anterior (1 archivo por casilla), solo si el selector
+                  // por pregunta no está activo en este formulario.
+                  if (checkboxIds.length) {
+                      chain = chain.then(function () {
+                          if (statusText) statusText.innerText = 'Uploading attachments...';
+                          const uploadData = new FormData();
+                          uploadData.append('csrf_token', window.OSP_CSRF_TOKEN || '');
+                          checkboxIds.forEach(function (checkboxId) {
+                              const file = pendingPublicFiles[checkboxId];
+                              uploadData.append('osp_files', file, file.name);
+                              uploadData.append('osp_labels', checkboxId.split('_')[0]);
+                          });
+                          return fetch('/osp/public/upload/' + ospId, { method: 'POST', body: uploadData })
+                              .catch(err => console.error('🔴 [OSP] No se pudieron subir los adjuntos seleccionados por sección:', err));
+                      });
+                  }
+                  chain.then(goToThankYou);
               } else {
                   console.error('🔴 [OSP] Error al enviar el formulario:', data.error || data);
                   if (statusText) {
@@ -1468,7 +1491,10 @@ function initOspForm() {
     // ============================================================
     function initQuestionUploads() {
         const cfg = document.getElementById('osp_question_uploads_cfg');
-        if (!cfg || cfg.dataset.enabled !== '1' || PUBLIC_MODE) return;
+        if (!cfg || cfg.dataset.enabled !== '1') return;
+        // Público: no hay registro hasta el Submit, los archivos viven en memoria
+        // (publicQuestionFiles) y se suben al enviar; portal: se suben al elegirlos.
+        const NEEDS_RECORD = !PUBLIC_MODE;
         const canEdit = cfg.dataset.can === '1';
         const MAX_FILE = 10 * 1024 * 1024, MAX_PER_Q = 5;
         const ALLOWED = ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx'];
@@ -1478,15 +1504,23 @@ function initOspForm() {
             hint: 'PDF, JPG, PNG, Word o Excel · hasta 10 MB c/u · máx. 5 archivos',
             remove: '¿Quitar este archivo?', type: 'tipo no permitido', big: 'supera 10 MB', max: 'máximo 5 archivos por pregunta',
             uploading: 'Subiendo…', fail: 'No se pudo subir el archivo.',
+            total: 'supera el límite de 50 MB del formulario', keep: 'Los archivos se envían al presionar Enviar; si recarga la página deberá elegirlos de nuevo.',
         } : {
             attach: 'Attach files', saveFirst: 'Save your progress to enable attaching files.',
             hint: 'PDF, JPG, PNG, Word or Excel · up to 10 MB each · max 5 files',
             remove: 'Remove this file?', type: 'file type not allowed', big: 'larger than 10 MB', max: 'maximum 5 files per question',
             uploading: 'Uploading…', fail: 'The file could not be uploaded.',
+            total: 'exceeds the 50 MB form limit', keep: 'Files are sent when you press Submit; if you reload the page you will need to choose them again.',
         };
         let initial = [];
         try { initial = JSON.parse(cfg.dataset.files || '[]'); } catch (e) { initial = []; }
         const widgets = [];
+        const MAX_TOTAL = 50 * 1024 * 1024;
+        function totalPublicBytes() {
+            let t = 0;
+            Object.keys(publicQuestionFiles).forEach(k => publicQuestionFiles[k].forEach(f => { t += f.size || 0; }));
+            return t;
+        }
 
         function fmtSize(b) {
             return b >= 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB';
@@ -1552,8 +1586,8 @@ function initOspForm() {
 
             function refreshState() {
                 const full = files.length >= MAX_PER_Q;
-                btn.disabled = ospId === 0 || full;
-                hint.textContent = ospId === 0 ? T.saveFirst : T.hint;
+                btn.disabled = (NEEDS_RECORD && ospId === 0) || full;
+                hint.textContent = (NEEDS_RECORD && ospId === 0) ? T.saveFirst : (PUBLIC_MODE ? T.hint + ' · ' + T.keep : T.hint);
                 cb.checked = files.length > 0;
                 box.style.display = (canEdit || files.length) ? '' : 'none';
             }
@@ -1561,9 +1595,8 @@ function initOspForm() {
                 list.innerHTML = '';
                 files.forEach(function (f) {
                     const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.href = '/web/content/' + f.id + '?download=true';
-                    a.target = '_blank';
+                    const a = document.createElement(f.file ? 'span' : 'a');
+                    if (!f.file) { a.href = '/web/content/' + f.id + '?download=true'; a.target = '_blank'; }
                     a.className = 'text-decoration-none';
                     a.innerHTML = '<i class="fa fa-file-o me-1"></i>';
                     a.appendChild(document.createTextNode(f.name));
@@ -1580,6 +1613,12 @@ function initOspForm() {
                         x.addEventListener('click', function (e) {
                             e.preventDefault();
                             if (!window.confirm(T.remove)) return;
+                            if (f.file) {
+                                files = files.filter(g => g !== f);
+                                msg.textContent = '';
+                                render();
+                                return;
+                            }
                             fetch('/my/osp/question_delete/' + f.id, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -1596,6 +1635,7 @@ function initOspForm() {
                     }
                     list.appendChild(li);
                 });
+                publicQuestionFiles[code] = files.filter(g => g.file);
                 refreshState();
             }
 
@@ -1603,7 +1643,7 @@ function initOspForm() {
             input.addEventListener('change', function () {
                 const picked = Array.from(input.files || []);
                 input.value = '';
-                if (!picked.length || ospId === 0) return;
+                if (!picked.length || (NEEDS_RECORD && ospId === 0)) return;
                 msg.textContent = '';
                 const errs = [];
                 const ok = [];
@@ -1617,6 +1657,18 @@ function initOspForm() {
                 btn.disabled = true;
                 hint.textContent = T.uploading;
                 Promise.all(ok.map(shrinkImage)).then(function (prepared) {
+                    if (PUBLIC_MODE) {
+                        // Solo en memoria hasta el Submit; el total se controla aquí
+                        // para no congelar el celular (el servidor lo vuelve a validar).
+                        prepared.forEach(function (f) {
+                            if (f.size > MAX_FILE) errs.push(f.name + ': ' + T.big);
+                            else if (totalPublicBytes() + f.size > MAX_TOTAL) errs.push(f.name + ': ' + T.total);
+                            else { files.push({ name: f.name, size: f.size, file: f }); publicQuestionFiles[code] = files.filter(g => g.file); }
+                        });
+                        msg.textContent = errs.join(' · ');
+                        render();
+                        return;
+                    }
                     const fd = new FormData();
                     fd.append('csrf_token', window.OSP_CSRF_TOKEN || '');
                     fd.append('question', code);
@@ -1662,7 +1714,8 @@ function initOspForm() {
     // automáticamente, justo después de que el Submit cree el registro
     // (ver el bloque de éxito dentro de savePublicForm() más abajo).
     // ============================================================
-    if (PUBLIC_MODE) {
+    const questionCfg = document.getElementById('osp_question_uploads_cfg');
+    if (PUBLIC_MODE && !(questionCfg && questionCfg.dataset.enabled === '1')) {
         initPublicFileUploads();
     }
 

@@ -146,6 +146,14 @@ class OSPRequest(models.Model):
         technical_code = self.form_template_id.technical_code
         markers = ATTACHMENT_MARKERS.get(technical_code, [])
         result = []
+        # Preguntas que ya tienen al menos un archivo subido con el selector por
+        # pregunta ('[Q:2b] ...' en la descripción del adjunto): ya no están
+        # pendientes aunque su casilla siga marcada.
+        answered = set()
+        for att in self.env['ir.attachment'].sudo().search([('res_model', '=', self._name), ('res_id', '=', self.id)]):
+            tag = (att.description or '')[:12]
+            if tag.startswith('[Q:') and ']' in tag:
+                answered.add(tag[3:tag.index(']')])
         for field_key, text in markers:
             if not self.form_data.get(field_key):
                 continue
@@ -155,6 +163,8 @@ class OSPRequest(models.Model):
             # initAttachmentChecklist() en osp_form.js, para que el
             # cliente identifique de inmediato a cuál pregunta se refiere.
             question_code = field_key.split('_')[0]
+            if question_code in answered:
+                continue
             result.append('%s. %s' % (question_code, text))
 
         # Sección 19 (Crop/Cultivo, "Field History Affidavit"): desde que se
