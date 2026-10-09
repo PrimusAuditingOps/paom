@@ -371,7 +371,7 @@ function initOspForm() {
                 { key: 'food_contact', type: 'select', options: YN_EN },
                 { key: 'compliance_approval_by', type: 'text', placeholder: 'Compliance approval by...' },
                 { key: 'label_docs_attached', type: 'select', options: YN_EN },
-                { key: 'restrictions_description', type: 'text', placeholder: 'If product has restrictions...' },
+                { key: 'restrictions_description', type: 'text', placeholder: 'Describe how you comply with the regulation...' },
             ],
         },
         // ---- Formulario Handler (Trader) (ver views/osp_form_handler_trader.xml) ----
@@ -428,7 +428,7 @@ function initOspForm() {
                 { key: 'food_contact', type: 'select', options: YN_ES },
                 { key: 'compliance_approval_by', type: 'text', placeholder: 'Aprobación de conformidad por...' },
                 { key: 'label_docs_attached', type: 'select', options: YN_ES },
-                { key: 'restrictions_description', type: 'text', placeholder: 'Si tiene restricciones...' },
+                { key: 'restrictions_description', type: 'text', placeholder: 'Describa cómo cumple con la regulación...' },
             ],
         },
         // ---- Formulario Comercializador (ver views/osp_form_comercializador.xml) ----

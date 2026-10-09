@@ -774,3 +774,6 @@ Retro de usuario piloto:
 - **6d** (análisis de agua): casilla/selector `6d_water_analysis_attachment_needed`, visible solo si 6d = Sí. **13k** (programa de prevención de fraude): `13k_documents_attachment_needed`, siempre visible, igual que 16k de Cultivo. Ambas en catálogo de marcadores y manifiesto PDF.
 - **PDF, cuadro 7b (Storage, `fixed_rows`)**: las columnas Sí/No (`dedicated_organic`, `offsite_used`) imprimían `Yes`/`No` crudo. `_report_fixed_rows` ahora pasa las filas por `_report_localize_yn_cells()` (que además traduce `Yes`→`Sí` en formularios en español). Aplica a cualquier tabla de filas fijas de los formularios en español.
 - No se tocaron Handler Trader ni Comercializador (no se pidió).
+
+## 72. Sección 9 (Handler / Manejo o Proceso): encabezado de la columna de restricciones
+Retro del cliente: "SI EL PRODUCTO TIENE RESTRICCIONES" no era claro. Ahora dice "…, DESCRIBA CÓMO CUMPLE CON LA REGULACIÓN" (en inglés: "IF PRODUCT HAS RESTRICTIONS, DESCRIBE HOW YOU COMPLY WITH THE REGULATION"), con `min-width: 220px` en esa columna para que el encabezado largo y el texto libre no queden apretados. También el placeholder del campo (`osp_form.js`, tablas `handler_inputs`/`manejo_inputs`) y la etiqueta de la columna en el PDF. Ambos formularios quedan iguales. La estructura de la tabla (8 columnas) no cambia.

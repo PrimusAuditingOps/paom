@@ -207,7 +207,7 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
             {'key': '9a_inputs_json', 'label': '9a. Insumos', 'type': 'table',
              'columns': [('input_used_for', 'Uso'), ('brand_name', 'Marca comercial'), ('ingredients', 'Ingredientes'),
                          ('food_contact', '¿Contacto con alimentos?'), ('compliance_approval_by', 'Aprobación de conformidad por'),
-                         ('label_docs_attached', 'Etiqueta/docs adjunta'), ('restrictions_description', 'Restricciones')]},
+                         ('label_docs_attached', 'Etiqueta/docs adjunta'), ('restrictions_description', 'Si el producto tiene restricciones, describa cómo cumple con la regulación')]},
         ],
     },
     {

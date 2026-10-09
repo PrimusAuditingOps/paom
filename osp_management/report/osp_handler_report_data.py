@@ -207,7 +207,7 @@ HANDLER_REPORT_SECTIONS = [
             {'key': '9a_inputs_json', 'label': '9a. Inputs', 'type': 'table',
              'columns': [('input_used_for', 'Used for'), ('brand_name', 'Brand Name'), ('ingredients', 'Ingredients'),
                          ('food_contact', 'Food Contact?'), ('compliance_approval_by', 'Compliance Approval By'),
-                         ('label_docs_attached', 'Label/Docs Attached'), ('restrictions_description', 'Restrictions')]},
+                         ('label_docs_attached', 'Label/Docs Attached'), ('restrictions_description', 'If product has restrictions, describe how you comply with the regulation')]},
         ],
     },
     {
