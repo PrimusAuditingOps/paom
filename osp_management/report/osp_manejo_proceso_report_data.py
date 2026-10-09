@@ -35,7 +35,8 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
             {'key': '1i_legal_rep_phone', 'label': 'Representante Legal — Teléfono', 'type': 'text'},
             {'key': '1j_contacts_json', 'label': '1j. Representantes Autorizados', 'type': 'table',
              'columns': [('name', 'Nombre'), ('email', 'Correo'), ('phone', 'Teléfono')]},
-            {'key': '1k_legal_status', 'label': '1k. Estatus Legal de Organización', 'type': 'text'},
+            {'key': '1k_legal_status', 'label': '1k. Estatus Legal de Organización', 'type': 'select',
+             'options': [('Propietario Individual', 'Propietario Individual'), ('Fideicomiso o Sin Fines de Lucro', 'Fideicomiso o Sin Fines de Lucro'), ('Corporacion', 'Corporación'), ('Cooperativa', 'Cooperativa'), ('Asociacion Legal (forma federal 1065)', 'Asociación Legal (forma federal 1065)'), ('Otra', 'Otra')]},
             {'key': '1k_legal_status_other', 'label': 'Otra (especifique)', 'type': 'text', 'show_if': {'field': '1k_legal_status', 'value': 'Otra'}},
             {'key': '1l_state_registration', 'label': '1l. ¿Cuenta con un registro Estatal?', 'type': 'yn'},
             {'key': '1l_state_reg_number', 'label': 'Número de registro Estatal (si aplica)', 'type': 'text', 'show_if': {'field': '1l_state_registration', 'value': 'Yes'}},
@@ -237,7 +238,8 @@ MANEJO_PROCESO_REPORT_SECTIONS = [
     {
         'title': 'Sección 12: Mantenimiento de la Integridad Orgánica – Control de Plagas (Norma NOP 205.271)',
         'fields': [
-            {'key': '12a_pest_control_responsible', 'label': '12a. Responsable del control de plagas', 'type': 'text'},
+            {'key': '12a_pest_control_responsible', 'label': '12a. Responsable del control de plagas', 'type': 'select',
+             'options': [('Interno', 'Interno'), ('Contratado', 'Empresa de control de plagas contratada')]},
             {'key': '12a_contractor_info', 'label': 'Empresa contratada (nombre y número)', 'type': 'text', 'show_if': {'field': '12a_pest_control_responsible', 'value': 'Contratado'}},
             {'key': '12b_pest_issues', 'label': '12b. ¿Problemas de plagas?', 'type': 'yn'},
             {'key': '12b_problem_pests', 'label': 'Si sí, plagas', 'type': 'textarea', 'show_if': {'field': '12b_pest_issues', 'value': 'Yes'}},
