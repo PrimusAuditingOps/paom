@@ -547,6 +547,12 @@
             <label class="form-check-label" for="cu4b_no">No</label>
         </div>
 </div>
+<div class="osp-conditional" data-conditional-field="4b_growers_list_attached" data-conditional-value="Yes">
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="4b_growers_list_attachment_needed" id="4b_growers_list_attachment_needed" value="yes" t-att-checked="'checked' if data.get('4b_growers_list_attachment_needed') else None"/>
+    <label class="form-check-label" for="4b_growers_list_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte la lista de todos los productores del grupo.</label>
+</div>
+</div>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">4c. ¿Alguno de los sitios/áreas ha sido certificado por alguna otra agencia de certificación?</label>
         <div class="form-check form-check-inline">
@@ -589,6 +595,12 @@
             <label class="form-check-label" for="cu4d2_no">No</label>
         </div>
 </div>
+<div class="osp-conditional" data-conditional-field="4d_info_attached" data-conditional-value="Yes">
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="4d_info_attachment_needed" id="4d_info_attachment_needed" value="yes" t-att-checked="'checked' if data.get('4d_info_attachment_needed') else None"/>
+    <label class="form-check-label" for="4d_info_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte la información y documentación correspondiente.</label>
+</div>
+</div>
 </div>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">4e. Envíe una lista de todos los no cumplimientos emitidos por el Sistema de Control Interno (SIC) a los miembros del grupo de productores desde la última visita anual. ¿Se adjunta la lista?</label>
@@ -601,11 +613,21 @@
             <label class="form-check-label" for="cu4e_no">No</label>
         </div>
 </div>
+<div class="osp-conditional" data-conditional-field="4e_ics_list_attached" data-conditional-value="Yes">
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="4e_ics_list_attachment_needed" id="4e_ics_list_attachment_needed" value="yes" t-att-checked="'checked' if data.get('4e_ics_list_attachment_needed') else None"/>
+    <label class="form-check-label" for="4e_ics_list_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte la lista de no cumplimientos emitidos por el Sistema de Control Interno (SCI).</label>
+</div>
+</div>
 
 </div>
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">4f. Describa todos los productos no orgánicos y las áreas donde se cultivan (puede adjuntar una lista con los productos y áreas):</label>
     <textarea class="form-control osp-input" name="4f_nonorganic_products" rows="3"><t t-esc="data.get('4f_nonorganic_products')"/></textarea>
+</div>
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="4f_nonorganic_list_attachment_needed" id="4f_nonorganic_list_attachment_needed" value="yes" t-att-checked="'checked' if data.get('4f_nonorganic_list_attachment_needed') else None"/>
+    <label class="form-check-label" for="4f_nonorganic_list_attachment_needed"><i class="fa fa-paperclip"></i> Opcional: adjunte una lista de los productos no orgánicos y las áreas.</label>
 </div>
 <p><b>Sitios de Producción</b><br/>4g. Complete la siguiente tabla con la información de cada área (sitios de producción) manejados por la organización (incluyendo los campos orgánicos y no orgánicos):</p>
 <div class="table-responsive border rounded mb-3">
@@ -848,6 +870,12 @@
             <label class="form-check-label" for="cu7a_no">No</label>
         </div>
 </div>
+<div class="osp-conditional" data-conditional-field="7a_field_history_attached" data-conditional-value="Yes">
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="7a-historial_attachment_needed" id="7a-historial_attachment_needed" value="yes" t-att-checked="'checked' if data.get('7a-historial_attachment_needed') else None"/>
+    <label class="form-check-label" for="7a-historial_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte el historial del terreno y los documentos de respaldo.</label>
+</div>
+</div>
 <div class="mb-3">
     <label class="form-label fw-bold d-block">Mapas actualizados:</label>
         <div class="form-check form-check-inline">
@@ -858,6 +886,12 @@
             <input class="form-check-input osp-input" type="radio" name="7a_updated_map_attached" id="cu7a2_no" value="No" t-att-checked="'checked' if data.get('7a_updated_map_attached') == 'No' else None"/>
             <label class="form-check-label" for="cu7a2_no">No</label>
         </div>
+</div>
+<div class="osp-conditional" data-conditional-field="7a_updated_map_attached" data-conditional-value="Yes">
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="7a-mapas_attachment_needed" id="7a-mapas_attachment_needed" value="yes" t-att-checked="'checked' if data.get('7a-mapas_attachment_needed') else None"/>
+    <label class="form-check-label" for="7a-mapas_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte los mapas actualizados.</label>
+</div>
 </div>
 
 <div class="mb-3">

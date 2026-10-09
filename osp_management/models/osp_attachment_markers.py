@@ -44,6 +44,12 @@ ATTACHMENT_MARKERS = {
         # vive anidada dentro de "19_fields_json" (una por cada campo
         # agregado), así que se resuelve aparte en
         # get_pending_attachment_checklist() (osp_request.py), no aquí.
+        ('4b_growers_list_attachment_needed', 'Attach the Producer Group list of all growers.'),
+        ('4d_info_attachment_needed', 'Attach the corresponding information and documentation.'),
+        ('4e_ics_list_attachment_needed', 'Attach the list of non compliances issued by the Internal Control System (ICS).'),
+        ('4f_nonorganic_list_attachment_needed', 'Optional: attach a list of the non-organic products and areas.'),
+        ('7a-historial_attachment_needed', 'Attach the field history and supporting documents.'),
+        ('7a-mapas_attachment_needed', 'Attach the updated map(s).'),
     ],
     'form_handler': [
         ('1l_certificate_attachment_needed', 'Attach a copy of your current State certificate.'),
@@ -140,5 +146,11 @@ ATTACHMENT_MARKERS = {
         # vive anidada dentro de "19_fields_json" (una por cada campo
         # agregado), así que se resuelve aparte en
         # get_pending_attachment_checklist() (osp_request.py), no aquí.
+        ('4b_growers_list_attachment_needed', 'Adjunte la lista de todos los productores del grupo.'),
+        ('4d_info_attachment_needed', 'Adjunte la información y documentación correspondiente.'),
+        ('4e_ics_list_attachment_needed', 'Adjunte la lista de no cumplimientos emitidos por el Sistema de Control Interno (SCI).'),
+        ('4f_nonorganic_list_attachment_needed', 'Opcional: adjunte una lista de los productos no orgánicos y las áreas.'),
+        ('7a-historial_attachment_needed', 'Adjunte el historial del terreno y los documentos de respaldo.'),
+        ('7a-mapas_attachment_needed', 'Adjunte los mapas actualizados.'),
     ],
 }

@@ -151,7 +151,7 @@ class OSPRequest(models.Model):
         # pendientes aunque su casilla siga marcada.
         answered = set()
         for att in self.env['ir.attachment'].sudo().search([('res_model', '=', self._name), ('res_id', '=', self.id)]):
-            tag = (att.description or '')[:12]
+            tag = (att.description or '')[:30]
             if tag.startswith('[Q:') and ']' in tag:
                 answered.add(tag[3:tag.index(']')])
         for field_key, text in markers:
