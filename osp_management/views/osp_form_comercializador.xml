@@ -103,7 +103,7 @@
             <input type="text" class="form-control osp-input" name="1a_org_name" t-att-value="data.get('1a_org_name')"/>
         </div>
         <div class="col-md-6">
-            <label class="form-label fw-bold">1b. Nombre (en caso de que aplique):</label>
+            <label class="form-label fw-bold">1b. Nombre "dba" (en caso de que aplique):</label>
             <input type="text" class="form-control osp-input" name="1b_dba_name" t-att-value="data.get('1b_dba_name')"/>
         </div>
     </div>
@@ -763,6 +763,12 @@
         <div class="mt-2"><label class="form-label fw-bold">Nombre del documento:</label>
         <input type="text" class="form-control osp-input" name="6h_water_analysis_doc_name" t-att-value="data.get('6h_water_analysis_doc_name')"/></div>
     </div>
+<div class="osp-conditional" data-conditional-field="6h_water_analysis_attached" data-conditional-value="Yes">
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="6h_water_analysis_attachment_needed" id="6h_water_analysis_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6h_water_analysis_attachment_needed') else None"/>
+    <label class="form-check-label" for="6h_water_analysis_attachment_needed"><i class="fa fa-paperclip"></i> Adjunte el análisis de agua.</label>
+</div>
+</div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6i. Describa cualquier práctica utilizada para conservar el agua:</label>
         <textarea class="form-control osp-input" name="6i_water_conservation" rows="2"><t t-esc="data.get('6i_water_conservation')"/></textarea>
@@ -1018,6 +1024,10 @@
         <label class="form-label fw-bold">8j. Describa y envíe los documentos que mantiene para su programa de prevención del fraude orgánico:</label>
         <textarea class="form-control osp-input" name="8j_fraud_prevention_docs" rows="2"><t t-esc="data.get('8j_fraud_prevention_docs')"/></textarea>
     </div>
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="8j_documents_attachment_needed" id="8j_documents_attachment_needed" value="yes" t-att-checked="'checked' if data.get('8j_documents_attachment_needed') else None"/>
+    <label class="form-check-label" for="8j_documents_attachment_needed"><i class="fa fa-paperclip"></i> Envíe los documentos enumerados arriba.</label>
+</div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">8k. ¿Cómo monitorea la eficacia del programa de prevención del fraude orgánico?</label>
         <textarea class="form-control osp-input" name="8k_fraud_prevention_monitoring" rows="2"><t t-esc="data.get('8k_fraud_prevention_monitoring')"/></textarea>

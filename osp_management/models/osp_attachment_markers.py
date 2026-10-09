@@ -88,6 +88,8 @@ ATTACHMENT_MARKERS = {
         ('6e_energy_attachment_needed', 'Attach supporting documents for the Biodiversity Program.'),
         ('6f_air_quality_attachment_needed', 'Attach supporting documents for the Biodiversity Program.'),
         ('7g_evidence_attachment_needed', 'Attach documented evidence.'),
+        ('6h_water_analysis_attachment_needed', 'Attach the water analysis.'),
+        ('8j_documents_attachment_needed', 'Submit the documents listed above.'),
     ],
     'form_manejo_proceso': [
         ('1l_certificate_attachment_needed', 'Adjunte una copia de su certificado Estatal más actual.'),
@@ -126,6 +128,8 @@ ATTACHMENT_MARKERS = {
         ('4c_nonorganic_list_attachment_needed', 'Si se manipulan productos no orgánicos, presente una lista de los productos no orgánicos manipulados en esta operación.'),
         ('5b_supply_chain_attachment_needed', 'Adjunte el documento de la Lista Maestra de la Cadena de Suministro.'),
         ('7g_evidence_attachment_needed', 'Adjunte pruebas documentadas.'),
+        ('6h_water_analysis_attachment_needed', 'Adjunte el análisis de agua.'),
+        ('8j_documents_attachment_needed', 'Envíe los documentos enumerados arriba.'),
     ],
     'form_cultivo': [
         ('1l_certificate_attachment_needed', 'Adjunte una copia de su certificado Estatal más actual.'),
