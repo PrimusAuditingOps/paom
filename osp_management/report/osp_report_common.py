@@ -18,6 +18,7 @@ solo, por convención de nombre, a partir de `form_template_id.technical_code`
 """
 
 import json
+import re
 
 from odoo import models
 
@@ -185,6 +186,32 @@ class OSPRequestReportCommon(models.Model):
                 return opt_label
         return value
 
+    def _report_na_hidden_indexes(self, fields, data):
+        """Índices de campos que el PDF debe omitir porque una casilla "No
+        aplica" está marcada (retro de usuario piloto: el formulario web
+        oculta esas preguntas y el PDF debe verse igual, aunque tengan
+        respuestas guardadas — los datos NO se borran, solo no se imprimen).
+        - Casilla de SECCIÓN completa (key "<número>_na"): se omite todo lo que
+          viene después de ella en la sección.
+        - Casilla de SUBSECCIÓN: lleva 'hides_until': <key o prefix del último
+          campo de su bloque>; se omite desde el campo siguiente hasta ese
+          (inclusive). Si el destino no se encuentra no se oculta nada.
+        La propia casilla marcada SIEMPRE se imprime."""
+        hidden = set()
+        for idx, field in enumerate(fields):
+            key = field.get('key')
+            if not key or field.get('type') != 'checkbox' or not data.get(key):
+                continue
+            if re.match(r'^\d+_na$', key):
+                hidden.update(range(idx + 1, len(fields)))
+            elif field.get('hides_until'):
+                target = field['hides_until']
+                for j in range(idx + 1, len(fields)):
+                    if fields[j].get('key') == target or fields[j].get('prefix') == target:
+                        hidden.update(range(idx + 1, j + 1))
+                        break
+        return hidden
+
     def _resolve_report_sections(self, sections_manifest):
         """Motor genérico: resuelve un manifest de secciones (mismo formato
         que CROP_REPORT_SECTIONS/HANDLER_REPORT_SECTIONS) contra
@@ -195,7 +222,10 @@ class OSPRequestReportCommon(models.Model):
 
         for section in sections_manifest:
             fields_out = []
-            for field in section['fields']:
+            na_hidden = self._report_na_hidden_indexes(section['fields'], data)
+            for field_index, field in enumerate(section['fields']):
+                if field_index in na_hidden:
+                    continue
                 # 'show_if' (opcional, cualquier tipo de campo): mismo
                 # concepto que osp-conditional/data-conditional-field en el
                 # HTML del formulario — antes, el PDF imprimía TODOS los
