@@ -78,7 +78,7 @@ class OSPRequestReportCommon(models.Model):
         """Los selects Y/N de las tablas dinámicas guardan 'Y'/'N' (valor
         interno estable) pero muestran Sí/No (o Yes/No) en pantalla; aquí
         el PDF imprime la misma etiqueta visible en vez del valor crudo."""
-        labels = {'Y': 'Sí', 'N': 'No'} if self._report_is_spanish() else {'Y': 'Yes', 'N': 'No'}
+        labels = {'Y': 'Sí', 'N': 'No', 'Yes': 'Sí'} if self._report_is_spanish() else {'Y': 'Yes', 'N': 'No'}
         return {k: labels.get(v, v) if isinstance(v, str) else v for k, v in row.items()}
 
     def _report_show_if_met(self, condition, data):
@@ -168,7 +168,7 @@ class OSPRequestReportCommon(models.Model):
             row = {'__label': row_label or row_key}
             for col_key, _col_header in field['columns']:
                 row[col_key] = data.get('%s_%s_%s' % (field['prefix'], row_key, col_key), '')
-            rows.append(row)
+            rows.append(self._report_localize_yn_cells(row))
         return rows
 
     def _report_option_label(self, options, value):

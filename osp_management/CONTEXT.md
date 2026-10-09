@@ -766,3 +766,11 @@ Retro de usuario piloto: 7f, 9j, 9k y 9l salían en inglés en el PDF de Cultivo
 - **Cultivo:** `7f_buffer_zones`, `9j_manure_forms`, `9k_crop_types`, `9l_manure_source` (reportados) + `1k_legal_status`, `9e_effectiveness_rating`, `15i_storage_used_for`.
 - **Manejo o Proceso:** `1k_legal_status`, `12a_pest_control_responsible` (imprimía "Contratado" en vez de "Empresa de control de plagas contratada"). **Comercializador:** `1k_legal_status` (se imprimía "Corporacion" sin acento).
 Los `type: text` pasaron a `select` con `options [(valor, etiqueta)]`; los `checkbox_group` ganaron `options`. Valores guardados sin cambios. Los formularios en inglés (Crop, Handler, Handler Trader) no necesitan esto: valor y etiqueta coinciden. Regla a futuro: todo select/radio/checkbox_group nuevo en un formulario en español necesita sus `options` en el manifiesto.
+
+## 71. Handler y Manejo o Proceso: 1b, N/A de 4c/4g, adjuntos en 6d y 13k, Sí/No de 7b en el PDF (IMPLEMENTADO — pendiente de probar en staging)
+Retro de usuario piloto:
+- **1b**: etiqueta ahora `Name "dba" (if applicable)` / `Nombre "dba" (en caso de que aplique)` (vista y PDF).
+- **N/A "que no corresponde"**: eran las casillas `4c_flow_diagram_na` (quedaba al final de 4b, antes de 4c) y `4g_uses_ingredients_na` (al final de 4f, antes de 4g). Se eliminaron de la vista y del manifiesto PDF. Los N/A propios de 4d y 4h (§60) se quedan. Esto reemplaza lo dicho en §56 y §60 sobre que el N/A de 4c ocultaba 4c–4f y el de 4g ocultaba 4g–4h.
+- **6d** (análisis de agua): casilla/selector `6d_water_analysis_attachment_needed`, visible solo si 6d = Sí. **13k** (programa de prevención de fraude): `13k_documents_attachment_needed`, siempre visible, igual que 16k de Cultivo. Ambas en catálogo de marcadores y manifiesto PDF.
+- **PDF, cuadro 7b (Storage, `fixed_rows`)**: las columnas Sí/No (`dedicated_organic`, `offsite_used`) imprimían `Yes`/`No` crudo. `_report_fixed_rows` ahora pasa las filas por `_report_localize_yn_cells()` (que además traduce `Yes`→`Sí` en formularios en español). Aplica a cualquier tabla de filas fijas de los formularios en español.
+- No se tocaron Handler Trader ni Comercializador (no se pidió).

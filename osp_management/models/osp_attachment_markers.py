@@ -69,6 +69,8 @@ ATTACHMENT_MARKERS = {
         ('6m_air_quality_attachment_needed', 'Attach supporting documents for the Biodiversity Program.'),
         ('7e_evidence_attachment_needed', 'Attach documented evidence.'),
         ('7f_test_results_attachment_needed', 'Attach test results.'),
+        ('6d_water_analysis_attachment_needed', 'Attach the water analysis.'),
+        ('13k_documents_attachment_needed', 'Submit the documents listed above.'),
     ],
     'form_handler_trader': [
         ('1l_certificate_attachment_needed', 'Attach a copy of your current State certificate.'),
@@ -105,6 +107,8 @@ ATTACHMENT_MARKERS = {
         ('6m_air_quality_attachment_needed', 'Adjunte documentos de respaldo del Programa de Biodiversidad.'),
         ('7e_evidence_attachment_needed', 'Adjunte evidencia documentada.'),
         ('7f_test_results_attachment_needed', 'Adjunte resultados del análisis.'),
+        ('6d_water_analysis_attachment_needed', 'Adjunte el análisis de agua.'),
+        ('13k_documents_attachment_needed', 'Envíe los documentos enumerados arriba.'),
     ],
     'form_comercializador': [
         ('1l_certificate_attachment_needed', 'Adjunte una copia de su certificado Estatal más actual.'),

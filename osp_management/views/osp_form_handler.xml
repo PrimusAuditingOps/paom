@@ -108,7 +108,7 @@
             <input type="text" class="form-control osp-input" name="1a_org_name" t-att-value="data.get('1a_org_name')"/>
         </div>
         <div class="col-md-6">
-            <label class="form-label fw-bold">1b. Name (if applicable):</label>
+            <label class="form-label fw-bold">1b. Name "dba" (if applicable):</label>
             <input type="text" class="form-control osp-input" name="1b_dba_name" t-att-value="data.get('1b_dba_name')"/>
         </div>
     </div>
@@ -570,10 +570,6 @@
         <input type="hidden" class="osp-input" name="4b_sites_json" id="4b_sites_json" t-att-value="data.get('4b_sites_json', '[]')"/>
     </div>
 
-    <div class="form-check mb-2">
-        <input class="form-check-input osp-input" type="checkbox" name="4c_flow_diagram_na" id="4c_flow_diagram_na" value="yes" t-att-checked="'checked' if data.get('4c_flow_diagram_na') else None"/>
-        <label class="form-check-label" for="4c_flow_diagram_na">N/A</label>
-    </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">4c. Operation Flow Diagram Attached:</label>
         <div class="form-check form-check-inline">
@@ -634,10 +630,6 @@
         </div>
     </div>
 
-    <div class="form-check mb-2">
-        <input class="form-check-input osp-input" type="checkbox" name="4g_uses_ingredients_na" id="4g_uses_ingredients_na" value="yes" t-att-checked="'checked' if data.get('4g_uses_ingredients_na') else None"/>
-        <label class="form-check-label" for="4g_uses_ingredients_na">N/A</label>
-    </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">4g. Do you utilize and/or add ingredients for processing products in this operation?</label>
         <div class="form-check form-check-inline">
@@ -797,6 +789,12 @@
         <div class="mt-2"><label class="form-label fw-bold">Name of document:</label>
         <input type="text" class="form-control osp-input" name="6d_water_analysis_doc_name" t-att-value="data.get('6d_water_analysis_doc_name')"/></div>
     </div>
+<div class="osp-conditional" data-conditional-field="6d_water_analysis_attached" data-conditional-value="Yes">
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="6d_water_analysis_attachment_needed" id="6d_water_analysis_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6d_water_analysis_attachment_needed') else None"/>
+    <label class="form-check-label" for="6d_water_analysis_attachment_needed"><i class="fa fa-paperclip"></i> Attach the water analysis.</label>
+</div>
+</div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6e. Describe any practices in place used to conserve water:</label>
         <textarea class="form-control osp-input" name="6e_water_conservation" rows="2"><t t-esc="data.get('6e_water_conservation')"/></textarea>
@@ -1640,6 +1638,10 @@
         <label class="form-label fw-bold">13k. List the documents you maintain for your organic fraud prevention program and submit them:</label>
         <textarea class="form-control osp-input" name="13k_fraud_prevention_docs" rows="2"><t t-esc="data.get('13k_fraud_prevention_docs')"/></textarea>
     </div>
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="13k_documents_attachment_needed" id="13k_documents_attachment_needed" value="yes" t-att-checked="'checked' if data.get('13k_documents_attachment_needed') else None"/>
+    <label class="form-check-label" for="13k_documents_attachment_needed"><i class="fa fa-paperclip"></i> Submit the documents listed above.</label>
+</div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">13l. How do you monitor the effectiveness of the organic fraud prevention program?</label>
         <textarea class="form-control osp-input" name="13l_fraud_prevention_monitoring" rows="2"><t t-esc="data.get('13l_fraud_prevention_monitoring')"/></textarea>
