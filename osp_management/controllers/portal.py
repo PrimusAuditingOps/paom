@@ -498,7 +498,7 @@ class OSPPortal(CustomerPortal):
         question = (question or '').strip()
         if (not record.exists() or record.partner_id.id != request.env.user.partner_id.id
                 or record.form_template_id.technical_code not in QUESTION_UPLOAD_FORMS
-                or not re.match(r'^[0-9]{1,2}[a-z]{0,2}(-[a-z]+)?$', question)):
+                or not re.match(r'^[0-9]{1,2}[a-z]{0,2}(-[a-z0-9]+)*$', question)):
             return request.make_json_response({'success': False, 'files': [], 'errors': [_("Upload not allowed.")]})
 
         saved, errors = self._store_question_files(
@@ -768,7 +768,7 @@ class OSPPublicController(OSPPortal):
         question = (question or '').strip()
         if (not self._public_upload_allowed(record)
                 or record.form_template_id.technical_code not in QUESTION_UPLOAD_FORMS
-                or not re.match(r'^[0-9]{1,2}[a-z]{0,2}(-[a-z]+)?$', question)):
+                or not re.match(r'^[0-9]{1,2}[a-z]{0,2}(-[a-z0-9]+)*$', question)):
             return request.make_json_response({'success': False, 'files': [], 'errors': [_("Upload not allowed.")]})
         saved, errors = self._store_question_files(
             record, question, _("Uploaded by a website visitor (no account)"))
@@ -785,7 +785,7 @@ class OSPPublicController(OSPPortal):
             # portal (_store_question_files); un archivo inválido se omite.
             labels = request.httprequest.form.getlist('osp_labels')
             question = ''
-            if labels and re.match(r'^[0-9]{1,2}[a-z]{0,2}(-[a-z]+)?$', labels[0] or ''):
+            if labels and re.match(r'^[0-9]{1,2}[a-z]{0,2}(-[a-z0-9]+)*$', labels[0] or ''):
                 question = labels[0]
             self._store_question_files(
                 record, question, _("Uploaded by a website visitor (no account)"))

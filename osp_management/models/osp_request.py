@@ -177,6 +177,10 @@ class OSPRequest(models.Model):
             'form_crop': 'Submit a copy of your certification (table below not required).',
             'form_cultivo': 'Adjunte una copia del certificado actual (no es necesario completar la tabla siguiente).',
         }
+        statements_texts = {
+            'form_crop': 'Attach the signed statements from the previous land manager.',
+            'form_cultivo': 'Adjunte las declaraciones firmadas del administrador anterior.',
+        }
         cert_text = cert_texts.get(technical_code)
         if cert_text:
             try:
@@ -184,8 +188,15 @@ class OSPRequest(models.Model):
             except (ValueError, TypeError):
                 field_entries = []
             for entry in field_entries:
-                if isinstance(entry, dict) and entry.get('certification_attachment_needed') == 'X':
+                if not isinstance(entry, dict):
+                    continue
+                uid = entry.get('uid') or ''
+                # Un campo cuyo selector ya tiene archivos (etiqueta [Q:18-cert-<uid>] /
+                # [Q:18-decl-<uid>]) no está pendiente aunque su casilla siga marcada.
+                if entry.get('certification_attachment_needed') == 'X' and ('18-cert-%s' % uid) not in answered:
                     result.append('18. %s' % cert_text)
+                if entry.get('statements_attachment_needed') == 'X' and ('18-decl-%s' % uid) not in answered:
+                    result.append('18. %s' % statements_texts[technical_code])
 
         return result
 

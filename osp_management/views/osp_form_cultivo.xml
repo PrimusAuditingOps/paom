@@ -1552,16 +1552,18 @@
             <label class="form-check-label" for="cu14c_no">No</label>
         </div>
 </div>
-<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 14d.</p>
+<p class="text-muted small fst-italic mb-2">Si su respuesta es "No", continúe con la pregunta 14e.</p>
 <div class="osp-conditional" data-conditional-field="14c_subcontract_harvest" data-conditional-value="Yes">
 <div class="col-md-8 mb-3">
     <label class="form-label fw-bold">Si es sí, proporcione nombre y dirección del contratista de cosecha.</label>
     <input type="text" class="form-control osp-input" name="14c_subcontractor_info" t-att-value="data.get('14c_subcontractor_info')"/>
 </div>
 </div>
+<div class="osp-conditional" data-conditional-field="14c_subcontract_harvest" data-conditional-value="Yes">
 <div class="col-md-12 mb-3">
     <label class="form-label fw-bold">14d. Explique cómo se capacita a la mano de obra subcontratada en los protocolos orgánicos:</label>
     <textarea class="form-control osp-input" name="14d_subcontractor_training" rows="3"><t t-esc="data.get('14d_subcontractor_training')"/></textarea>
+</div>
 </div>
 <div class="col-md-6 mb-3">
     <label class="form-label fw-bold">14e. ¿Qué contenedores se utilizan para la cosecha?</label>

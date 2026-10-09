@@ -42,6 +42,13 @@ function initOspForm() {
     // Selector por pregunta del formulario público: código de pregunta -> [{name,size,file}]
     // (File objects en memoria; se suben justo después del Submit).
     const publicQuestionFiles = {};
+    // Archivos ya subidos / elegidos por pregunta: código -> [{id,name,size,question[,file]}].
+    // Vive fuera de cada selector porque el bloque repetible de la sección 18 se
+    // reconstruye (y sus selectores se vuelven a montar) en cada cambio.
+    const questionFilesByCode = {};
+    let questionMount = null;          // la asigna initQuestionUploads()
+    let questionFilesApi = null;       // { count(codes), discard(codes) }
+    let fieldHistoryRemount = null;    // la asigna initFieldHistoryBlock()
 
     // Widget de Cloudflare Turnstile: se inyecta ya, al cargar la página
     // (no hasta que el visitante haga clic en Submit), para que Turnstile
@@ -639,6 +646,8 @@ function initOspForm() {
             field: 'Campo', fieldId: 'Nombre del campo/ID número:', farmName: 'Nombre de la Finca/Productor:',
             transitionDate: 'Fecha de inicio de transición:', managed3: '¿Ha administrado el campo por más de 3 años?',
             yes: 'Sí', no: 'No',
+            attachStatements: 'Adjunte las declaraciones firmadas del administrador anterior.',
+            deleteWithFiles: 'Este campo tiene archivos adjuntos; al eliminarlo también se borrarán. ¿Continuar?',
             statements: 'Si la respuesta es no, debe presentar las declaraciones firmadas del administrador anterior indicando el uso y aplicación de todos los insumos durante los 3 años anteriores. ¿Adjunto?',
             certified: '¿Está el área certificada actualmente?',
             attachCert: 'Adjunte una copia del certificado actual (no es necesario completar la tabla siguiente).',
@@ -651,6 +660,8 @@ function initOspForm() {
             field: 'Field', fieldId: 'Field name / ID number:', farmName: 'Farm / Producer Name:',
             transitionDate: 'Transition Start Date:', managed3: 'Have you managed this field for 3 or more years?',
             yes: 'Yes', no: 'No',
+            attachStatements: 'Attach the signed statements from the previous land manager.',
+            deleteWithFiles: 'This field has attached files; they will be deleted too. Continue?',
             statements: 'If no, have you attached signed statements from the previous land manager stating use and all inputs applied during the previous 3 years?',
             certified: 'Is this field currently certified?',
             attachCert: 'Submit a copy of your certification (table below not required).',
@@ -666,8 +677,17 @@ function initOspForm() {
             return (v === undefined || v === null ? '' : String(v)).replace(/"/g, '&quot;');
         }
 
+        function newUid() {
+            return 'u' + Math.random().toString(36).slice(2, 8);
+        }
+
+        function entryCodes(entry) {
+            return ['18-cert-' + entry.uid, '18-decl-' + entry.uid];
+        }
+
         function emptyEntry() {
             return {
+                uid: newUid(), statements_attachment_needed: '',
                 field_id: '', farm_producer_name: '', transition_start_date: '',
                 managed_3years: '', statements_attached: '', field_certified: '',
                 certification_attachment_needed: '', last_substance_brand: '', last_substance_date: '',
@@ -682,6 +702,8 @@ function initOspForm() {
             data = [];
         }
         if (!data.length) data.push(emptyEntry());
+        // Campos guardados antes de existir los adjuntos no traen uid: se les asigna uno.
+        data.forEach(function (e) { if (!e.uid) e.uid = newUid(); });
 
         function sync() {
             jsonInput.value = JSON.stringify(data);
@@ -735,7 +757,13 @@ function initOspForm() {
                 '<div class="mb-3"><label class="form-label fw-bold d-block">' + L.statements + '</label>' +
                 radioHtml(idx, 'statements', entry.statements_attached, 'Yes', L.yes) +
                 radioHtml(idx, 'statements', entry.statements_attached, 'No', L.no) +
-                '</div></div>';
+                '</div>' +
+                '<div class="osp-conditional" data-conditional-field="f19_statements_' + idx + '" data-conditional-value="Yes">' +
+                '<div class="form-check mb-2 small text-muted">' +
+                '<input class="form-check-input f19-check" type="checkbox" data-idx="' + idx + '" data-field="statements_attachment_needed" data-q-code="18-decl-' + entry.uid + '" id="18_' + idx + '_statements_attachment_needed" ' + (entry.statements_attachment_needed === 'X' ? 'checked' : '') + (READONLY ? ' disabled' : '') + '/>' +
+                '<label class="form-check-label" for="18_' + idx + '_statements_attachment_needed"><i class="fa fa-paperclip"></i> ' + L.attachStatements + '</label>' +
+                '</div></div>' +
+                '</div>';
 
             html += '<div class="mb-3"><label class="form-label fw-bold d-block">' + L.certified + '</label>' +
                 radioHtml(idx, 'certified', entry.field_certified, 'Yes', L.yes) +
@@ -744,7 +772,7 @@ function initOspForm() {
 
             html += '<div class="osp-conditional" data-conditional-field="f19_certified_' + idx + '" data-conditional-value="Yes">' +
                 '<div class="form-check mb-2 small text-muted">' +
-                '<input class="form-check-input f19-check" type="checkbox" data-idx="' + idx + '" data-field="certification_attachment_needed" id="18_' + idx + '_certification_attachment_needed" ' + (entry.certification_attachment_needed === 'X' ? 'checked' : '') + (READONLY ? ' disabled' : '') + '/>' +
+                '<input class="form-check-input f19-check" type="checkbox" data-idx="' + idx + '" data-field="certification_attachment_needed" data-q-code="18-cert-' + entry.uid + '" id="18_' + idx + '_certification_attachment_needed" ' + (entry.certification_attachment_needed === 'X' ? 'checked' : '') + (READONLY ? ' disabled' : '') + '/>' +
                 '<label class="form-check-label" for="18_' + idx + '_certification_attachment_needed"><i class="fa fa-paperclip"></i> ' + L.attachCert + '</label>' +
                 '</div></div>';
 
@@ -822,6 +850,12 @@ function initOspForm() {
             });
             container.querySelectorAll('.f19-del-entry').forEach(function (btn) {
                 btn.addEventListener('click', function () {
+                    const doomed = data[btn.getAttribute('data-idx')];
+                    if (questionFilesApi && doomed) {
+                        const codes = entryCodes(doomed);
+                        if (questionFilesApi.count(codes) > 0 && !window.confirm(L.deleteWithFiles)) return;
+                        questionFilesApi.discard(codes);
+                    }
                     data.splice(btn.getAttribute('data-idx'), 1);
                     if (!data.length) data.push(emptyEntry());
                     sync();
@@ -841,7 +875,14 @@ function initOspForm() {
             sync();
             bindEvents();
             applyConditionals();
+            mountUploaders();
         }
+
+        function mountUploaders() {
+            if (!questionMount) return;
+            container.querySelectorAll('input[data-q-code]').forEach(cb => questionMount(cb, cb.getAttribute('data-q-code')));
+        }
+        fieldHistoryRemount = mountUploaders;
 
         render();
 
@@ -885,7 +926,7 @@ function initOspForm() {
             const kids = Array.from(tabPane.children);
             const checks = kids.map((el, idx) => {
                 const cb = el.matches('.form-check') ? el.querySelector('input[type="checkbox"].osp-input[name$="_na"]') : null;
-                return cb ? { cb: cb, idx: idx, section: /^d+_na$/.test(cb.name), single: el.hasAttribute('data-na-single') } : null;
+                return cb ? { cb: cb, idx: idx, section: /^\d+_na$/.test(cb.name), single: el.hasAttribute('data-na-single') } : null;
             }).filter(Boolean);
             if (!checks.length) return;
 
@@ -1547,14 +1588,13 @@ function initOspForm() {
             }).catch(function () { return file; });
         }
 
-        document.querySelectorAll('input[id$="_attachment_needed"]').forEach(function (cb) {
-            // La Sección 18 repetible se reconstruye por completo en cada
-            // cambio: queda para una segunda entrega (sigue con su casilla).
-            if (cb.closest('#fields19_container')) return;
+        // Monta el selector junto a una casilla de adjunto. 'code' identifica la
+        // pregunta (ej. '2b', '7a-mapas', '18-cert-<uid>'). Se puede volver a llamar
+        // con una casilla nueva (sección 18): los archivos viven en questionFilesByCode.
+        function mount(cb, code) {
             const wrapDiv = cb.closest('.form-check');
             if (!wrapDiv) return;
-            const code = cb.id.split('_')[0];
-            let files = initial.filter(f => f.question === code);
+            let files = questionFilesByCode[code] || (questionFilesByCode[code] = initial.filter(f => f.question === code));
 
             cb.style.display = 'none';
             wrapDiv.classList.add('ps-0');
@@ -1585,10 +1625,16 @@ function initOspForm() {
             wrapDiv.insertAdjacentElement('afterend', box);
 
             function refreshState() {
+                questionFilesByCode[code] = files;
                 const full = files.length >= MAX_PER_Q;
                 btn.disabled = (NEEDS_RECORD && ospId === 0) || full;
                 hint.textContent = (NEEDS_RECORD && ospId === 0) ? T.saveFirst : (PUBLIC_MODE ? T.hint + ' · ' + T.keep : T.hint);
-                cb.checked = files.length > 0;
+                const want = files.length > 0;
+                if (cb.checked !== want) {
+                    cb.checked = want;
+                    // Avisa al bloque repetible (sección 18), que guarda 'X' en su JSON.
+                    cb.dispatchEvent(new Event('change', { bubbles: true }));
+                }
                 box.style.display = (canEdit || files.length) ? '' : 'none';
             }
             function render() {
@@ -1693,7 +1739,38 @@ function initOspForm() {
 
             widgets.push(refreshState);
             render();
+        }
+
+        document.querySelectorAll('input[id$="_attachment_needed"]').forEach(function (cb) {
+            // Las casillas dentro del bloque repetible de la sección 18 las monta
+            // ese bloque (initFieldHistoryBlock) porque se reconstruyen en cada cambio.
+            if (cb.closest('#fields19_container')) return;
+            mount(cb, cb.id.split('_')[0]);
         });
+
+        questionMount = mount;
+        questionFilesApi = {
+            count: function (codes) {
+                return codes.reduce((t, c) => t + (questionFilesByCode[c] || []).length, 0);
+            },
+            // Al borrar un campo de la sección 18: se borran sus archivos del servidor
+            // (portal) o de la memoria del navegador (público, aún sin subir).
+            discard: function (codes) {
+                codes.forEach(function (c) {
+                    (questionFilesByCode[c] || []).forEach(function (f) {
+                        if (f.file || !f.id) return;
+                        fetch('/my/osp/question_delete/' + f.id, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ jsonrpc: '2.0', method: 'call', params: {} })
+                        });
+                    });
+                    delete questionFilesByCode[c];
+                    delete publicQuestionFiles[c];
+                });
+            }
+        };
+        if (fieldHistoryRemount) fieldHistoryRemount();
 
         // Formulario nuevo: el primer guardado crea el registro y habilita los selectores.
         document.addEventListener('osp:record-created', function () { widgets.forEach(fn => fn()); });
