@@ -504,7 +504,7 @@
             <label class="form-check-label" for="h3a_3">Export Indirectly</label>
         </div>
     </div>
-    <p class="text-danger small">If any of these options are applicable, you must request and complete the International Markets OSP Addendum.</p>
+    <p class="text-danger small">If any of these options are applicable you must request and complete the International Markets OSP Addendum, this will need to be included (attached) in Section 5.</p>
 </div>
 
 <div class="tab-pane fade" id="sec4">
@@ -600,13 +600,16 @@
         <textarea class="form-control osp-input" name="4d_nonorganic_products" rows="2"><t t-esc="data.get('4d_nonorganic_products')"/></textarea>
     </div>
 
+    <div class="mb-1">
+        <label class="form-label fw-bold d-block">4e. Projected % of total production &#8211;</label>
+    </div>
     <div class="row mb-3">
         <div class="col-md-6">
-            <label class="form-label fw-bold">4e. Projected % of total production &#8211; Non-organic:</label>
+            <label class="form-label fw-semibold">Non-organic:</label>
             <input type="text" class="form-control osp-input" name="4e_pct_nonorganic" t-att-value="data.get('4e_pct_nonorganic')"/>
         </div>
         <div class="col-md-6">
-            <label class="form-label fw-bold">Organic:</label>
+            <label class="form-label fw-semibold">Organic:</label>
             <input type="text" class="form-control osp-input" name="4e_pct_organic" t-att-value="data.get('4e_pct_organic')"/>
         </div>
     </div>
@@ -773,7 +776,7 @@
 
     <h6 class="fw-bold mt-4">Water Use</h6>
     <div class="col-md-12 mb-3">
-        <label class="form-label fw-bold">6c. What is your water source? (well, aqueduct, river, canal, etc.)</label>
+        <label class="form-label fw-bold">6c. What is your water source? (i.e., on-site well, river, pond, municipal, county, etc.)</label>
         <textarea class="form-control osp-input" name="6c_water_source" rows="2"><t t-esc="data.get('6c_water_source')"/></textarea>
     </div>
     <div class="mb-3">
@@ -789,12 +792,6 @@
         <div class="mt-2"><label class="form-label fw-bold">Name of document:</label>
         <input type="text" class="form-control osp-input" name="6d_water_analysis_doc_name" t-att-value="data.get('6d_water_analysis_doc_name')"/></div>
     </div>
-<div class="osp-conditional" data-conditional-field="6d_water_analysis_attached" data-conditional-value="Yes">
-<div class="form-check mb-2 small text-muted">
-    <input class="form-check-input osp-input" type="checkbox" name="6d_water_analysis_attachment_needed" id="6d_water_analysis_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6d_water_analysis_attachment_needed') else None"/>
-    <label class="form-check-label" for="6d_water_analysis_attachment_needed"><i class="fa fa-paperclip"></i> Attach the water analysis.</label>
-</div>
-</div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6e. Describe any practices in place used to conserve water:</label>
         <textarea class="form-control osp-input" name="6e_water_conservation" rows="2"><t t-esc="data.get('6e_water_conservation')"/></textarea>
@@ -816,6 +813,10 @@
         <p class="text-muted small mt-1">If yes, list all water treatment chemicals on the Materials List.</p>
     </div>
 
+    <div class="form-check mb-2 small text-muted">
+        <input class="form-check-input osp-input" type="checkbox" name="6-water_attachment_needed" id="6-water_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6-water_attachment_needed') else None"/>
+        <label class="form-check-label" for="6-water_attachment_needed"><i class="fa fa-paperclip"></i> Attach here the documents supporting the entire Water Use subsection.</label>
+    </div>
     <h6 class="fw-bold mt-4">Boiler Use</h6>
     <div class="form-check mb-2">
         <input class="form-check-input osp-input" type="checkbox" name="6_boiler_na" id="6_boiler_na" value="yes" t-att-checked="'checked' if data.get('6_boiler_na') else None"/>
@@ -873,21 +874,15 @@
         </div>
     </div>
     <p class="text-muted small fst-italic mb-2">If your answer is "No", proceed to question 6j.</p>
-<div class="osp-conditional" data-conditional-field="6i_boiler_condensation_tested" data-conditional-value="Yes">
-        <div class="form-check mb-2 small text-muted">
-            <input class="form-check-input osp-input" type="checkbox" name="6i_results_attachment_needed" id="6i_results_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6i_results_attachment_needed') else None"/>
-            <label class="form-check-label" for="6i_results_attachment_needed"><i class="fa fa-paperclip"></i> Attach the results from the analysis.</label>
-        </div>
-    </div>
 
+    <div class="form-check mb-2 small text-muted">
+        <input class="form-check-input osp-input" type="checkbox" name="6-boiler_attachment_needed" id="6-boiler_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6-boiler_attachment_needed') else None"/>
+        <label class="form-check-label" for="6-boiler_attachment_needed"><i class="fa fa-paperclip"></i> Attach here the documents supporting the entire Boiler Use subsection.</label>
+    </div>
     <h6 class="fw-bold mt-4">Waste Management</h6>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6j. Describe any practices in place used for waste management:</label>
         <textarea class="form-control osp-input" name="6j_waste_management" rows="2"><t t-esc="data.get('6j_waste_management')"/></textarea>
-        <div class="form-check mb-2 small text-muted mt-1">
-            <input class="form-check-input osp-input" type="checkbox" name="6j_waste_management_attachment_needed" id="6j_waste_management_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6j_waste_management_attachment_needed') else None"/>
-            <label class="form-check-label" for="6j_waste_management_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
-        </div>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">6k. Do you recycle waste materials?</label>
@@ -901,28 +896,24 @@
         </div>
         <div class="mt-2"><label class="form-label fw-bold">Describe:</label>
         <textarea class="form-control osp-input" name="6k_recycle_describe" rows="2"><t t-esc="data.get('6k_recycle_describe')"/></textarea></div>
-        <div class="form-check mb-2 small text-muted mt-1">
-            <input class="form-check-input osp-input" type="checkbox" name="6k_recycle_attachment_needed" id="6k_recycle_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6k_recycle_attachment_needed') else None"/>
-            <label class="form-check-label" for="6k_recycle_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
-        </div>
     </div>
 
+    <div class="form-check mb-2 small text-muted">
+        <input class="form-check-input osp-input" type="checkbox" name="6-waste_attachment_needed" id="6-waste_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6-waste_attachment_needed') else None"/>
+        <label class="form-check-label" for="6-waste_attachment_needed"><i class="fa fa-paperclip"></i> Attach here the documents supporting the entire Waste Management subsection.</label>
+    </div>
     <h6 class="fw-bold mt-4">Energy Conservation &amp; Air Quality</h6>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6l. Describe any practices in place used for energy conservation (i.e. solar, wind):</label>
         <textarea class="form-control osp-input" name="6l_energy_conservation" rows="2"><t t-esc="data.get('6l_energy_conservation')"/></textarea>
-        <div class="form-check mb-2 small text-muted mt-1">
-            <input class="form-check-input osp-input" type="checkbox" name="6l_energy_attachment_needed" id="6l_energy_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6l_energy_attachment_needed') else None"/>
-            <label class="form-check-label" for="6l_energy_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
-        </div>
     </div>
     <div class="col-md-12 mb-3">
         <label class="form-label fw-bold">6m. Describe any practices in place used for air quality management:</label>
         <textarea class="form-control osp-input" name="6m_air_quality" rows="2"><t t-esc="data.get('6m_air_quality')"/></textarea>
-        <div class="form-check mb-2 small text-muted mt-1">
-            <input class="form-check-input osp-input" type="checkbox" name="6m_air_quality_attachment_needed" id="6m_air_quality_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6m_air_quality_attachment_needed') else None"/>
-            <label class="form-check-label" for="6m_air_quality_attachment_needed"><i class="fa fa-paperclip"></i> Attach supporting documents for the Biodiversity Program.</label>
-        </div>
+    </div>
+    <div class="form-check mb-2 small text-muted">
+        <input class="form-check-input osp-input" type="checkbox" name="6-energy_attachment_needed" id="6-energy_attachment_needed" value="yes" t-att-checked="'checked' if data.get('6-energy_attachment_needed') else None"/>
+        <label class="form-check-label" for="6-energy_attachment_needed"><i class="fa fa-paperclip"></i> Attach here the documents supporting the entire Energy Conservation &amp; Air Quality subsection.</label>
     </div>
 </div>
 
@@ -1589,6 +1580,10 @@
         <textarea class="form-control osp-input" name="13e_organic_records" rows="2"><t t-esc="data.get('13e_organic_records')"/></textarea>
         <p class="text-muted small">(You may submit a supporting document with a list, specify name of that document here)</p>
     </div>
+<div class="form-check mb-2 small text-muted">
+    <input class="form-check-input osp-input" type="checkbox" name="13e_records_attachment_needed" id="13e_records_attachment_needed" value="yes" t-att-checked="'checked' if data.get('13e_records_attachment_needed') else None"/>
+    <label class="form-check-label" for="13e_records_attachment_needed"><i class="fa fa-paperclip"></i> Attach a supporting document with the list of records.</label>
+</div>
     <div class="mb-3">
         <label class="form-label fw-bold d-block">13f. Are all records that verify organic compliance maintained for a minimum of 5 years beyond creation?</label>
         <div class="form-check form-check-inline">
