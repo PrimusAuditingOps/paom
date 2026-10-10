@@ -659,15 +659,15 @@ class PaoSalesCommission(models.Model):
         """Wrapper de instancia usado por el botón 'Recalcular': primero
         resincroniza las líneas con la cotización y luego recalcula."""
         self.ensure_one()
-        if self.state == 'approved':
+        if self.state in ('approved', 'pending_approval'):
             self._refresh_exchange_rate()
             return
         if self.state in self._FROZEN_STATES:
             raise UserError(
-                'A commission that has already been sent for approval, '
-                'not approved, processed, or is under review cannot be '
-                'recalculated. Contact the Commissions Manager or Finance '
-                'if an adjustment is required.'
+                'A commission in "Not Approved", "Processed" or "Under '
+                'Review" status cannot be recalculated. Contact the '
+                'Commissions Manager or Finance if an adjustment is '
+                'required.'
             )
         self._sync_lines_from_sale_order()
         if sum(self.commission_line_ids.mapped('subtotal')) <= 0:
@@ -681,7 +681,8 @@ class PaoSalesCommission(models.Model):
         self._update_for_sale_order()
 
     def _refresh_exchange_rate(self):
-        """Recalcular sobre una comisión ya Aprobada: solo se vuelve a
+        """Recalcular sobre una comisión Pendiente de aprobación o ya
+        Aprobada: solo se vuelve a
         determinar el tipo de cambio (y con él el importe en MXN); las
         líneas, la base y el importe en moneda de la cotización, que
         Finanzas ya aprobó, no se tocan ni el estado cambia."""
