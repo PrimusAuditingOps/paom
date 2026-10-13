@@ -34,3 +34,5 @@ class PaoServicereFerralAgreementOrganization(models.Model):
     registry_number_id = fields.One2many('servicereferralagreement.registrynumber',
                                          inverse_name='organization_id',
                                          string='Registration Number')
+    
+    active = fields.Boolean(default=True, string='Active')
