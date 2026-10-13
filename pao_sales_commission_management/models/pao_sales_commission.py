@@ -20,6 +20,9 @@ class PaoSalesCommission(models.Model):
     _description = 'Sales Commission Payable'
     _order = 'id desc'
     _rec_name = 'name'
+    # Los comisionistas solo tienen lectura (y solo ven las suyas por regla de
+    # registro); con 'write' (default) no podrían comentar en el historial.
+    _mail_post_access = 'read'
 
     name = fields.Char(
         string='Folio', required=True, copy=False, readonly=True,
