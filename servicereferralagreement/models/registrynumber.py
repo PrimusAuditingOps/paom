@@ -27,6 +27,8 @@ class PaoServicereFerralAgreementRegistryNumber(models.Model):
         comodel_name='res.company',
         required=True, index=True,
         default=lambda self: self.env.company)
+    
+    active = fields.Boolean(default=True, string='Active')
 
     @api.constrains('name')
     def _action_prevent_registry_number_duplication(self):
