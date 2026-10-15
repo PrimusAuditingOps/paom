@@ -810,3 +810,6 @@ Se comparó, por formulario, cada campo `osp-input` de la vista contra el manifi
 
 ## 81. Crop y Cultivo: se quita el "N/A" de la sección 12 (12b_storage_na)
 Pedido del usuario: la casilla "N/A" que quedaba debajo de la tabla 12a (antes de 12b, "Describa su área de almacenamiento de insumos") se omitió de la vista y del manifiesto PDF en Crop y Cultivo. 12b y 12c quedan siempre visibles. Reemplaza la mención de `12b_storage_na` en §56 y §74.
+
+## 82. BUG corregido: AccessError al enviar (Submit) como usuario de portal
+`_do_client_submit()` (§57) leía `record.customer_company_id.name` con los permisos del usuario de portal; ese campo apunta a la empresa del contacto (`res.partner`) y un usuario de portal no puede leer el contacto de su empresa → `AccessError` ("no tiene acceso 'leer' a: Contacto (res.partner)") al hacer Submit, con registros cuyo "Cliente" es otro partner. Ahora los nombres se leen con `record.sudo()` (solo para armar el aviso al administrador). Lección: cualquier lectura de un many2one a `res.partner` distinto del propio dentro de una ruta de portal debe hacerse con `sudo()`.

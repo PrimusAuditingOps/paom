@@ -123,10 +123,14 @@ class OSPPortal(CustomerPortal):
         record.write({'state': 'submitted'})
 
         verb = _("updated and re-submitted") if was_submitted else _("submitted for the first time")
+        # sudo(): un usuario de portal no puede leer el contacto de su empresa
+        # (customer_company_id, res.partner) — solo se usa para armar el nombre
+        # del aviso al administrador; leerlo con sus permisos daba AccessError.
+        record_sudo = record.sudo()
         log_body = _("Portal customer %(partner)s %(verb)s the '%(template)s' form.") % {
-            'partner': ('%s (%s)' % (record.partner_id.name, record.customer_company_id.name)
-                        if record.customer_company_id and record.customer_company_id != record.partner_id
-                        else record.partner_id.name) or request.env.user.name,
+            'partner': ('%s (%s)' % (record_sudo.partner_id.name, record_sudo.customer_company_id.name)
+                        if record_sudo.customer_company_id and record_sudo.customer_company_id != record_sudo.partner_id
+                        else record_sudo.partner_id.name) or request.env.user.name,
             'verb': verb,
             'template': record.form_template_id.name or record.form_template_id.technical_code or '',
         }
