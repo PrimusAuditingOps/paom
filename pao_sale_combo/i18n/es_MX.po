@@ -50,6 +50,8 @@ msgstr "Agregar"
 
 #. module: pao_sale_combo
 #: code:addons/pao_sale_combo/models/sale_order.py:0
+#: code:addons/pao_sale_combo/models/sale_order_template.py:0
+#: model_terms:ir.ui.view,arch_db:pao_sale_combo.sale_order_template_view_form_pao_sale_combo
 #: model_terms:ir.ui.view,arch_db:pao_sale_combo.view_order_form_pao_sale_combo
 msgid "Add a combo"
 msgstr "Agregar combo"
@@ -80,6 +82,7 @@ msgstr "Cancelar"
 #: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__combo_id
 #: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_line__combo_id
 #: model:ir.model.fields,field_description:pao_sale_combo.field_sale_order_line__pao_combo_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_sale_order_template_line__pao_combo_id
 msgid "Combo"
 msgstr "Combo"
 
@@ -87,6 +90,11 @@ msgstr "Combo"
 #: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__price
 msgid "Combo Price"
 msgstr "Precio del combo"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,help:pao_sale_combo.field_sale_order_template_line__pao_combo_id
+msgid "Combo that added this line. It is passed to the quotation lines created from this template."
+msgstr "Combo que agregó esta línea. Se pasa a las líneas de las cotizaciones creadas desde esta plantilla."
 
 #. module: pao_sale_combo
 #: model:ir.model.fields,help:pao_sale_combo.field_sale_order_line__pao_combo_id
@@ -103,6 +111,7 @@ msgstr "Combos"
 
 #. module: pao_sale_combo
 #: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__company_id
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__company_id
 msgid "Company"
 msgstr "Compañía"
 
@@ -144,6 +153,7 @@ msgstr "Pedido"
 #. module: pao_sale_combo
 #: model:ir.model.fields,field_description:pao_sale_combo.field_product_pricelist__pao_combo_enabled
 #: model:ir.model.fields,field_description:pao_sale_combo.field_sale_order__pao_combo_enabled
+#: model:ir.model.fields,field_description:pao_sale_combo.field_sale_order_template__pao_combo_enabled
 msgid "Pao Combo Enabled"
 msgstr "Combos habilitados"
 
@@ -215,6 +225,11 @@ msgstr "Secuencia"
 #: model:ir.model.fields,help:pao_sale_combo.field_pao_pricelist_combo_line__percentage
 msgid "Share of the combo price for this product."
 msgstr "Porcentaje del precio del combo asignado a este producto."
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__template_id
+msgid "Template"
+msgstr "Plantilla"
 
 #. module: pao_sale_combo
 #: code:addons/pao_sale_combo/models/product_pricelist.py:0

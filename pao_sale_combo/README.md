@@ -44,10 +44,21 @@ o se usa **Actualizar precios** (p. ej. al cambiar la lista de precios), la lín
 en lugar del precio normal de la lista. Las líneas de combo no reciben descuentos automáticos de la lista de precios.
 Igual que en Odoo nativo, una línea que ya tiene cantidad facturada no se recalcula.
 
+## 4. Combos en plantillas de cotización
+
+En las líneas de la **plantilla de cotización** (Ventas › Configuración › Plantillas de cotización), junto a
+"Agregar un producto", también está **Agregar combo** (solo Chile). Agrega la sección con el nombre del combo y sus
+productos, y cada línea guarda su combo (columna opcional **Combo**).
+
+Al elegir esa plantilla en una cotización, las líneas llegan con su combo y toman el precio del combo de la lista de
+precios de la cotización (0 si no lo tiene), igual que si se hubiera usado "Agregar combo" en la cotización.
+
 ## Detalle técnico
 
+- Depende de `sale_management` (plantillas de cotización).
 - Modelos: `pao.sale.combo` / `pao.sale.combo.line` (catálogo), `pao.pricelist.combo` / `pao.pricelist.combo.line`
-  (precios por lista), `pao.sale.combo.add` (asistente). Campo `pao_combo_id` en `sale.order.line`.
+  (precios por lista), `pao.sale.combo.add` (asistente). Campo `pao_combo_id` en `sale.order.line` y `sale.order.template.line`
+  (pasado a la cotización en `_prepare_order_line_values`).
 - `sale.order.line._compute_price_unit` / `_compute_discount` se extienden solo para las líneas con combo.
 - `static/src/views/list_renderer_patch.*`: en Odoo 17 los botones dentro de `<control>` de una lista x2many
   ignoran `invisible`; el parche lo evalúa (con acceso a `parent`) para mostrar "Agregar combo" solo en Chile.
