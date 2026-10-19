@@ -1,0 +1,164 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pao_sign_sa_chile
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pao_sign_sa_chile
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa_chile.product_template_sa_chile_view_form
+msgid "A product is only one of: SA fee, SA add-on or travel expense. Products without any of them are printed as the audit service (point 6)."
+msgstr "Un producto solo puede ser uno de: cuota del SA, add-on del SA o gasto de viaje. Los productos sin ninguno se imprimen como servicio de auditoría (punto 6)."
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_addon__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_cert008_line__addon_id
+#: model:ir.model.fields.selection,name:pao_sign_sa_chile.selection__pao_sa_cert008_line__line_type__addon
+msgid "Add-On"
+msgstr "Add-On"
+
+#. module: pao_sign_sa_chile
+#: model_terms:ir.actions.act_window,help:pao_sign_sa_chile.pao_sa_addon_action
+msgid "Add-ons printed as checkboxes in point 7 of the Chile GLOBALG.A.P. service agreement (CERT-008)."
+msgstr "Add-ons impresos como casillas en el punto 7 del acuerdo de servicios GLOBALG.A.P. de Chile (CERT-008)."
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_cert008_line__amount
+msgid "Amount"
+msgstr "Importe"
+
+#. module: pao_sign_sa_chile
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa_chile.pao_sa_addon_view_search
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields.selection,name:pao_sign_sa_chile.selection__pao_sa_cert008_line__line_type__audit
+msgid "Audit Service"
+msgstr "Servicio de auditoría"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_registration_number_to_sign__pao_cert008_line_ids
+msgid "CERT-008 Lines"
+msgstr "Líneas CERT-008"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model,name:pao_sign_sa_chile.model_pao_sa_cert008_line
+msgid "CERT-008 SA Line"
+msgstr "Línea del SA CERT-008"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,help:pao_sign_sa_chile.field_product_template__pao_sa_is_fee
+msgid "Chile GLOBALG.A.P. SA (CERT-008): the product is a fee and gets its own line from point 9 on."
+msgstr "SA GLOBALG.A.P. Chile (CERT-008): el producto es una cuota y tiene su propio renglón a partir del punto 9."
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,help:pao_sign_sa_chile.field_product_template__pao_sa_addon_id
+msgid "Chile GLOBALG.A.P. SA (CERT-008): the product is this add-on and checks its box in point 7."
+msgstr "SA GLOBALG.A.P. Chile (CERT-008): el producto es este add-on y marca su casilla en el punto 7."
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_addon__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: pao_sign_sa_chile
+#: model_terms:ir.actions.act_window,help:pao_sign_sa_chile.pao_sa_addon_action
+msgid "Create an SA add-on"
+msgstr "Cree un add-on del SA"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_cert008_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_cert008_line__name
+msgid "Description"
+msgstr "Descripción"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields.selection,name:pao_sign_sa_chile.selection__pao_sa_cert008_line__line_type__fee
+msgid "Fee"
+msgstr "Cuota"
+
+#. module: pao_sign_sa_chile
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa_chile.product_template_sa_chile_view_form
+msgid "GLOBALG.A.P. SA (CERT-008)"
+msgstr "SA GLOBALG.A.P. (CERT-008)"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_product_template__pao_sa_is_fee
+msgid "Is an SA Fee"
+msgstr "Es cuota del SA"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_cert008_line__line_type
+msgid "Line Type"
+msgstr "Tipo de línea"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_addon__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,help:pao_sign_sa_chile.field_pao_sa_addon__name
+msgid "Name printed next to the checkbox of point 7, e.g. 'NURTURE'."
+msgstr "Nombre impreso junto a la casilla del punto 7, p. ej. 'NURTURE'."
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_addon__product_tmpl_ids
+msgid "Products"
+msgstr "Productos"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_cert008_line__registration_number_to_sign_id
+msgid "Registration Number To Sign"
+msgstr "Número de registro a firmar"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model,name:pao_sign_sa_chile.model_pao_sa_addon
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_product_template__pao_sa_addon_id
+msgid "SA Add-On"
+msgstr "Add-On del SA"
+
+#. module: pao_sign_sa_chile
+#: model:ir.actions.act_window,name:pao_sign_sa_chile.pao_sa_addon_action
+#: model:ir.ui.menu,name:pao_sign_sa_chile.menu_pao_sa_addon
+msgid "SA Add-Ons"
+msgstr "Add-Ons del SA"
+
+#. module: pao_sign_sa_chile
+#: model_terms:ir.ui.view,arch_db:pao_sign_sa_chile.product_template_sa_chile_view_form
+msgid "SA Chile"
+msgstr "SA Chile"
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_addon__sequence
+#: model:ir.model.fields,field_description:pao_sign_sa_chile.field_pao_sa_cert008_line__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: pao_sign_sa_chile
+#: code:addons/pao_sign_sa_chile/models/product_template.py:0
+#, python-format
+msgid "The product '%(product)s' can only be one of: SA add-on, SA fee or travel expense."
+msgstr "El producto '%(product)s' solo puede ser uno de: add-on del SA, cuota del SA o gasto de viaje."
+
+#. module: pao_sign_sa_chile
+#: model:ir.model.fields.selection,name:pao_sign_sa_chile.selection__pao_sa_cert008_line__line_type__travel
+msgid "Travel Expense"
+msgstr "Gasto de viaje"

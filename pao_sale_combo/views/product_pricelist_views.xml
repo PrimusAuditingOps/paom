@@ -16,7 +16,8 @@
                             <field name="combo_id" options="{'no_create': True}"/>
                         </group>
                         <group>
-                            <field name="total_price"/>
+                            <field name="price"/>
+                            <field name="distribution_mode" widget="radio" options="{'horizontal': true}"/>
                         </group>
                     </group>
                     <button name="action_pao_sync_products"
@@ -30,9 +31,16 @@
                             <field name="sequence" widget="handle"/>
                             <field name="currency_id" column_invisible="True"/>
                             <field name="product_id" readonly="1" force_save="1"/>
-                            <field name="price"/>
+                            <field name="percentage" readonly="parent.distribution_mode == 'amount'" force_save="1"/>
+                            <field name="price" readonly="parent.distribution_mode == 'percentage'" force_save="1"/>
                         </tree>
                     </field>
+                    <group class="oe_subtotal_footer">
+                        <field name="lines_percentage"
+                               decoration-danger="distribution_mode == 'percentage' and lines_percentage != 100"/>
+                        <field name="lines_price"
+                               decoration-danger="lines_price != price"/>
+                    </group>
                 </sheet>
             </form>
         </field>
@@ -51,7 +59,8 @@
                             <field name="sequence" widget="handle"/>
                             <field name="currency_id" column_invisible="True"/>
                             <field name="combo_id"/>
-                            <field name="total_price"/>
+                            <field name="distribution_mode" optional="show"/>
+                            <field name="price"/>
                         </tree>
                     </field>
                 </page>

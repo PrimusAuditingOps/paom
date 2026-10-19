@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_sa_chile_view_form" model="ir.ui.view">
+        <field name="name">product.template.sa.chile.view.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="SA Chile" name="pao_sa_chile">
+                    <group>
+                        <group string="GLOBALG.A.P. SA (CERT-008)">
+                            <field name="pao_sa_is_fee"/>
+                            <field name="pao_sa_addon_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

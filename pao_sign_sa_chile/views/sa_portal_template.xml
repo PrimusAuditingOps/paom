@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Signature page of the portal: Chile uses the new CERT-008 form, Costa Rica keeps the previous one. -->
+    <template id="sa_portal_template_chile" inherit_id="pao_sign_sa.sa_portal_template">
+        <xpath expr="//t[@t-if=&quot;rn.scheme == 'GLOBALG.A.P.'&quot;]/t[@t-if=&quot;serviceagreement.country_format in ['CL','CR']&quot;]" position="attributes">
+            <attribute name="t-if">serviceagreement.country_format == 'CR'</attribute>
+        </xpath>
+        <xpath expr="//t[@t-if=&quot;rn.scheme == 'GLOBALG.A.P.'&quot;]/t[@t-if=&quot;serviceagreement.country_format == 'CR'&quot;]" position="before">
+            <t t-if="serviceagreement.country_format == 'CL'">
+                <t t-call="pao_sign_sa_chile.sa_globalgap_cert008_chile">
+                    <t t-set="serviceagreement" t-value="rn"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -259,8 +259,14 @@ class SASendRequest(models.TransientModel):
                 if not rn.audit_scope: 
                     msg=_("Please enter an audit scope for the registration number ")
                     raise ValidationError(msg + rn.name)
-            if rn.scheme_id.name == "GLOBALG.A.P." and self.country_format != "MX":
-                raise ValidationError(_("The service agreement format for the GLOBALG.A.P. scheme is not yet available, please perform this SA manually."))    
+            if rn.scheme_id.name == "GLOBALG.A.P." and not self._is_globalgap_format_available():
+                raise ValidationError(_("The service agreement format for the GLOBALG.A.P. scheme is not yet available, please perform this SA manually."))
+
+    def _is_globalgap_format_available(self):
+        """Country formats with an approved GLOBALG.A.P. service agreement.
+        Extended by country modules (e.g. pao_sign_sa_chile)."""
+        self.ensure_one()
+        return self.country_format == "MX"
 
     def send_request(self):
         self.ensure_one()

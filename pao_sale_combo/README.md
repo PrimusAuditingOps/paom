@@ -17,10 +17,17 @@ Solo disponible para compañías con país **Chile**.
 **Lista de precios › pestaña Combos** (junto a "Reglas de precio"; visible si la lista es de una compañía de Chile,
 o sin compañía y la compañía activa es Chile).
 
-- Agregar un combo abre una ventana con sus productos; a cada uno se le pone su precio unitario.
+- Al agregar un combo se captura el **Precio del combo** (p. ej. 1.000) y se elige cómo repartirlo entre sus productos:
+  - **Porcentaje**: se captura el % de cada producto y su precio se calcula (77,5 % → 775; 22,5 % → 225).
+    Si cambia el precio del combo, los precios se recalculan con los mismos porcentajes. Si no cuadra al centavo,
+    el último producto absorbe la diferencia.
+  - **Monto**: se captura el precio de cada producto y su % se calcula. Si cambia el precio del combo, los montos se
+    quedan y se recalculan los porcentajes.
+- Al guardar se valida: en modo porcentaje, que los % sumen **100 %**; en ambos modos, que los precios de los productos
+  sumen **el precio del combo**. Si no cuadra, se indica la diferencia.
 - El mismo producto puede tener precios distintos en combos distintos.
 - Si después se agregan o quitan productos del combo en el catálogo, el botón **Actualizar productos desde el combo**
-  alinea la lista (los nuevos empiezan en 0, los existentes conservan su precio).
+  alinea la lista (los nuevos empiezan en 0); luego hay que ajustar % o montos para que vuelva a cuadrar.
 
 ## 3. Agregar combo en la cotización
 

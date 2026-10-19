@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- One labelled line of the CERT-008 form: "label : value" with the value underlined. -->
+    <template id="sa_cert008_chile_field">
+        <tr>
+            <td style="width: 45%; padding: 6px 4px 0px 0px; vertical-align: top; border: 0px;">
+                <t t-out="label"/>
+                <div t-if="sublabel" style="font-size: 10px;" t-out="sublabel"/>
+            </td>
+            <td style="width: 3%; padding: 6px 0px 0px 0px; vertical-align: top; border: 0px;">:</td>
+            <td style="padding: 6px 4px 0px 4px; vertical-align: bottom; border: 0px; border-bottom: 1px solid #000000;">
+                <t t-out="0"/>
+            </td>
+        </tr>
+    </template>
+
+    <!-- CERT-008 R7 "Acuerdo de Servicios de Programa de Certificación" (Chile, GLOBALG.A.P.).
+         Expects `serviceagreement` (pao.registration.number.to.sign) and `print` (PDF) like the other SA templates. -->
+    <template id="sa_globalgap_cert008_chile">
+        <t t-set="cert008" t-value="serviceagreement._pao_cert008_data()"/>
+        <t t-set="agreement" t-value="serviceagreement.sign_sa_agreements_id"/>
+        <div id="portal_sa_globalgap_cert008_chile_content" t-attf-class="#{'card pb-5' if not print else ''}"
+             style="font-family: Arial, Helvetica, sans-serif; color: #000000;">
+
+            <div class="pb-2 pt-3 card-header bg-white" style="text-align: center;" t-if="print == False">
+                <h3><b>ACUERDO DE SERVICIOS DE PROGRAMA DE CERTIFICACION</b></h3>
+            </div>
+
+            <div t-attf-class="#{'card-body' if not print else ''}" style="font-size: 14px;">
+                <p style="font-weight: bold; text-align: justify;">
+                    Por favor firmar y devolver el acuerdo dentro de las 24 horas de recepción. Primus
+                    Auditing Ops no es responsable de los cambios en los costos estimados o costos
+                    adicionales incurridos cuando el acuerdo de servicios es devuelto fuera de plazo.
+                </p>
+
+                <table style="width: 100%; border-collapse: collapse; border: 0px;">
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">1. Cliente</t>
+                        <t t-set="sublabel">(Persona u Organización que recibe el servicio)</t>
+                        <span t-field="serviceagreement.organization_name"/>
+                    </t>
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">2. Dirección de Facturación</t>
+                        <t t-set="sublabel" t-value="False"/>
+                        <t t-out="', '.join(part for part in [serviceagreement.organization_address, serviceagreement.organization_city, serviceagreement.organization_state, serviceagreement.organization_country] if part)"/>
+                    </t>
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">3. Teléfono - Fax</t>
+                        <t t-set="sublabel" t-value="False"/>
+                        <span t-field="serviceagreement.phone"/>
+                    </t>
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">4. Email</t>
+                        <t t-set="sublabel" t-value="False"/>
+                        <span t-field="serviceagreement.contract_email"/>
+                    </t>
+                    <!-- Point 5: pending definition (possibly captured when sending the SA). -->
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">5. N.º Orden de compra <span style="font-size: 10px;">(Si es necesario)</span></t>
+                        <t t-set="sublabel" t-value="False"/>
+                        <span>&#160;</span>
+                    </t>
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">6. Auditoría realizada a los requisitos de</t>
+                        <t t-set="sublabel">(IFA GLOBALG.A.P./Cadena de Custodia)</t>
+                        <t t-out="', '.join(cert008['audit_services'])"/>
+                    </t>
+                </table>
+
+                <p style="margin: 14px 0px 6px 0px;">7. Marcar con una <b>X</b> si realizará algunos de los Add On:</p>
+                <table style="width: 100%; border-collapse: collapse; border: 0px;">
+                    <tr>
+                        <t t-foreach="cert008['addons']" t-as="addon">
+                            <td style="border: 0px; padding: 4px 4px 4px 8px; text-align: right; vertical-align: middle;">
+                                <t t-out="addon[0]"/>:
+                            </td>
+                            <td style="border: 0px; padding: 4px; width: 50px; vertical-align: middle;">
+                                <div style="border: 1px solid #000000; width: 40px; height: 32px; line-height: 32px; text-align: center; font-weight: bold;">
+                                    <t t-if="addon[1]">X</t><t t-else="">&#160;</t>
+                                </div>
+                            </td>
+                        </t>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; border-collapse: collapse; border: 0px; margin-top: 8px;">
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">8. Fecha acordada del servicio<sup>1</sup></t>
+                        <t t-set="sublabel" t-value="False"/>
+                        <t t-if="serviceagreement.start_date">
+                            <span t-field="serviceagreement.start_date"/>
+                            <t t-if="serviceagreement.end_date and serviceagreement.end_date != serviceagreement.start_date"> - <span t-field="serviceagreement.end_date"/></t>
+                        </t>
+                    </t>
+
+                    <!-- Fees: one numbered line per fee of the quotation, in the order of the lines. -->
+                    <t t-foreach="cert008['fees']" t-as="fee">
+                        <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                            <t t-set="label" t-value="'%s. %s' % (9 + fee_index, (fee['name'] or '').split('\n')[0])"/>
+                            <t t-set="sublabel" t-value="'\n'.join((fee['name'] or '').split('\n')[1:]) or False"/>
+                            <t t-out="serviceagreement._pao_cert008_amount(fee['amount'], fee['currency'])"/>
+                        </t>
+                    </t>
+
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label" t-value="'%s. Costo Total Auditoría' % (9 + len(cert008['fees']))"/>
+                        <t t-set="sublabel" t-value="False"/>
+                        <t t-foreach="cert008['audit_totals']" t-as="total">
+                            <div><t t-out="serviceagreement._pao_cert008_amount(total[1], total[0])"/></div>
+                        </t>
+                        <t t-foreach="cert008['fee_totals']" t-as="total">
+                            <div>+ <t t-out="serviceagreement._pao_cert008_amount(total[1], total[0])"/> Fee</div>
+                        </t>
+                    </t>
+                </table>
+
+                <div style="margin-top: 18px; border-top: 1px solid #000000; width: 40%;"/>
+                <p style="font-size: 10px; text-align: justify; margin: 2px 0px 0px 0px;">
+                    <sup>1</sup> Un cargo por cancelación se aplicará por la cancelación de auditoria dentro de los 15 días siguientes a la fecha de la auditoria programada.
+                    Los cargos incluirían todos los gastos relacionados con los viajes y el trabajo.
+                </p>
+                <p style="font-size: 10px; text-align: justify; margin: 0px;">
+                    <sup>2</sup>Los cargos de viaje incluyen alojamiento, comidas y costos de transporte. Siempre que sea posible, los viajes se combinarán con otros
+                    asuntos (auditorías) que dividirán el costo de nuestros clientes.
+                </p>
+
+                <table style="width: 100%; border-collapse: collapse; border: 0px; margin-top: 24px;">
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">a. Cargos del viaje<sup>2</sup></t>
+                        <t t-set="sublabel">NOTA: Estas son solo estimaciones y podrían cambiar en función de los cargos reales.</t>
+                        <t t-foreach="cert008['travel_totals']" t-as="total">
+                            <div><t t-out="serviceagreement._pao_cert008_amount(total[1], total[0])"/></div>
+                        </t>
+                    </t>
+                </table>
+
+                <p style="font-weight: bold; margin-top: 24px; text-align: justify;">
+                    El cliente se compromete a pagar a Primus Auditing Ops los valores indicados y facturados, en un
+                    plazo de 30 días a partir de la facturación.
+                </p>
+
+                <table style="width: 100%; border-collapse: collapse; border: 0px;">
+                    <t t-call="pao_sign_sa_chile.sa_cert008_chile_field">
+                        <t t-set="label">Preparado por</t>
+                        <t t-set="sublabel" t-value="False"/>
+                        <span t-field="serviceagreement.coordinator_id"/>
+                    </t>
+                </table>
+
+                <p style="font-weight: bold; margin-top: 18px;">( ) Por favor marque aquí si necesita una copia del acuerdo.</p>
+
+                <div style="page-break-after: always;"/>
+
+                <!-- Clauses (pages 3 to 5 of CERT-008 R7) -->
+                <p style="text-align: justify; line-height: 1.8;">
+                    Los abajo firmantes Katherine Legua, en calidad de representante legal del organismo de certificación
+                    Primus Auditing Ops y <b><u><span t-field="agreement.signer_id.name"/></u></b>, en calidad de Representante
+                    Legal de <b><u><span t-field="serviceagreement.organization_name"/></u></b>, acuerdan firmar el presente contrato que se regirá
+                    por las siguientes clausulas:
+                </p>
+                <ol style="text-align: justify;">
+                    <li>El solicitante ha solicitado voluntariamente a Primus Chile S.p.A. la certificación</li>
+                    <li>El Hecho de solicitar una certificación no garantiza obtener una decisión positiva por parte de Primus Chile S.p.A.</li>
+                    <li>El solicitante declara que ha leído, entendido y aplicado las normas de certificación en la entidad legal.</li>
+                    <li>Primus Chile S.p.A. acepta la evaluación de las solicitudes bajo este programa de certificación en la medida de todas sus capacidades administrativas, sin distinción de razas, nacionalidad, tamaño de la unidad.</li>
+                    <li>Si Primus Chile S.p.A. tiene evidencia para creer que un solicitante ha violado voluntariamente las normas de certificación o ha hecho falsas declaraciones. Primus Chile S.p.A., puede negar o retirar la certificación sin emitir previamente una notificación de no conformidad.</li>
+                </ol>
+
+                <p>I. Obligaciones de la Parte Contratante (PC).</p>
+                <ol style="text-align: justify;">
+                    <li>Cumplir con los procedimientos establecidos por Primus Chile S.p.A. para el proceso de inscripción de auditorías.</li>
+                    <li>Mantener en todo momento el cumplimiento de los requisitos del esquema de certificación durante todo el periodo de vigencia del certificado</li>
+                    <li>Permitir el libre acceso de los inspectores/auditores durante la jornada normal de trabajo a sus centros de producción, oficinas, empleados y a todos los libros y registros relacionados con el esquema auditado, necesarios para acreditar el cumplimiento o la aplicación del esquema auditado ya sea en auditorias anunciadas como para auditorias no anunciadas.</li>
+                    <li>Si interviene en la producción un contratista, Primus Chile S.p.A está facultado para realizar una auditoría física completa de las instalaciones de un contratista. La PC deberá asegurarse que el subcontratista permite, previa solicitud, el libre acceso que se estipula en la clausula anterior.</li>
+                    <li>Mantener un sistema de registros que permita demostrar el cumplimiento con el esquema de certificación aplicable y conservar dichos registros según los requisitos de la norma correspondiente.</li>
+                    <li>Notificar al organismo de certificación sin demora respecto a cambios que puedan afectar su capacidad para cumplir con los requisitos de la certificación: Ejemplo cambios en la condición legal, de organización o propiedad, direcciones de contacto o de sitios de producción, modificación de los productos</li>
+                    <li>No ocultar información que pudiera afectar el resultado del proceso de certificación.</li>
+                    <li>Proporcionar al OC acceso a la información del manejo de quejas de clientes o del dueño del esquema de certificación, relacionadas al cumplimiento del esquema auditado.</li>
+                    <li>Conservar registros de las quejas con respecto al cumplimiento de los requisitos de la certificación y poner tales registros a disposición del organismo de certificación cuando se le solicita, deberá mantener también los registros de las acciones adoptadas para la resolución de las quejas.</li>
+                    <li>La participación de observadores durante el proceso de auditoría, debe ser solicitada al PC por el OC y solo se permite la participación de observadores si estos han sido autorizados por la entidad auditada.</li>
+                </ol>
+
+                <p>II. Obligaciones de Primus Chile S.p.A.</p>
+                <ol style="text-align: justify;">
+                    <li>Brindar toda la información y documentación necesaria al solicitante para llevar a cabo el proceso de inscripción, previo al inicio del proceso formal de certificación.</li>
+                    <li>Informar al solicitante acerca de los cambios que surjan en las normas y los procedimientos aplicables.</li>
+                    <li>Mantener una comunicación abierta y efectiva con la PC.</li>
+                    <li>Mantener confidencialidad respecto a la información brindada por la PC. Únicamente tendrán acceso a esta información los dueños del esquema y/o el organismo de acreditación de Primus Chile S.p.A.</li>
+                    <li>Brindar un servicio profesional, imparcial y no discriminatorio.</li>
+                    <li>Negarse a dar servicio cuando existe conflicto de interés.</li>
+                    <li>Notificar al dueño del esquema. En caso de falta de cumplimiento, sanciones y suspensiones de la parte contratante.</li>
+                    <li>Solicitar autorización a la parte contratante para la participación de observadores durante el proceso de auditoría, solo se permitirá la participación de observadores si estos han sido autorizados por la entidad auditada. Constituye una única excepción los observadores del Organismos de acreditación, en esos casos la Parte contratante será informada, pero no podrá negarse a la participación en la auditoria de un observador del organismo de acreditación del OC.</li>
+                </ol>
+
+                <p>III. Respecto a este contrato de certificación</p>
+                <p style="text-align: justify; margin-left: 40px;">
+                    Este contrato es válido por un año a partir de la firma del mismo y será revalidado automáticamente excepto que se presente
+                    se presente un retiro voluntario por parte de la parte contratante. En este caso el solicitante lo comunicará por escrito con
+                    al menos 3 meses de anticipación.
+                </p>
+                <p style="text-align: justify; margin-left: 40px;">
+                    Primus Chile S.p.A se reserva el derecho de negar o retirar la certificación si el solicitante no cumple con las normas
+                    aplicables o si no puede probar que las está cumpliendo, si no cumple con los establecido en los contratos de sublicencia si
+                    estos son requeridos por el dueño del esquema. Asimismo, en caso que el solicitante no cumpla con las obligaciones
+                    establecidas en este contrato incluyendo el pago oportuno por el servicio brindado.
+                </p>
+
+                <p>IV. Otros Puntos</p>
+                <p style="margin-left: 20px;">Uso de Logos, sellos y certificados.</p>
+                <ol style="text-align: justify;">
+                    <li>La Parte Contratante debe hacer un uso correcto del certificado, logos y números de identificación generados como resultado del proceso de certificación.</li>
+                    <li>La Parte Contratante debe entregar información veraz y coherente del alcance de su certificación.</li>
+                    <li>La Parte Contratante suministra copias de los documentos de certificación estas deben ser completas.</li>
+                    <li>La Parte Contratante deberá hacer uso de los logos y marcas del dueño del esquema de acuerdo a lo establecido en el acuerdo de sub licencia.</li>
+                    <li>Durante el periodo de suspensión o una vez finalizada la certificación la Parte Contratante no puede hacer uso de logotipo/marca registrada de GLOBALG.A.P, de la licencia/Certificado o cualquier otro documento que tenga alguna relación con el Esquema Auditado en relación al producto suspendido.</li>
+                    <li>El uso inadecuado de referencias al esquema de certificación, o el uso engañoso de las licencias, los certificados, las marcas de conformidad o cualquier otro mecanismo para indicar que un producto está certificado, que se encuentren en la documentación o en otra publicidad, pueden ser sancionados por el organismo de certificación.</li>
+                </ol>
+
+                <p>V. Del Pago de los servicios</p>
+                <p style="text-align: justify; text-indent: 80px;">
+                    La parte solicitante se compromete a pagar la tarifa establecida en la cotización previamente enviada y revisada por el
+                    solicitante. Dicha cotización no incluirá los gastos estimados por pasajes, trasporte, hospedaje y alimentación de los
+                    inspectores/auditores.
+                </p>
+                <p style="text-align: justify;">
+                    En caso de que la certificación no fuera concedida o que el solicitante decida retirarse de la misma deberá cancelar la
+                    totalidad de gastos cotizados, y gastos de viaje y administrativos que se hayan realizado.
+                </p>
+
+                <p>VI. Apelaciones y Conflictos</p>
+                <p style="text-align: justify;">
+                    Las apelaciones, reclamos y conflictos presentados por el solicitante u otras partes deben realizarse y está sujetas al
+                    procedimiento de de apelaciones de Primus Chile S.p.A.
+                </p>
+
+                <!-- Signatures: pending definition (customer signer name and Katherine Legua's signature file). -->
+                <table style="width: 100%; border-collapse: collapse; border: 0px; margin-top: 60px; page-break-inside: avoid;">
+                    <tr>
+                        <td style="width: 38%; border: 0px; text-align: center; vertical-align: bottom; height: 110px;">
+                            <img t-if="agreement.signature" t-att-src="image_data_uri(agreement.signature)" style="max-width: 100%; max-height: 100px;"/>
+                        </td>
+                        <td style="width: 4%; border: 0px;"/>
+                        <td style="width: 38%; border: 0px; text-align: center; vertical-align: bottom;"/>
+                        <td style="width: 4%; border: 0px;"/>
+                        <td style="width: 16%; border: 0px; text-align: center; vertical-align: bottom;">
+                            <span t-if="agreement.signature_date" t-field="agreement.signature_date"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 0px; border-top: 1px solid #000000; text-align: center; padding-top: 4px;">
+                            <b>Representante Legal<br/>Cliente</b>
+                            <div t-if="agreement.signer_name" t-out="agreement.signer_name"/>
+                        </td>
+                        <td style="border: 0px;"/>
+                        <td style="border: 0px; border-top: 1px solid #000000; text-align: center; padding-top: 4px;">
+                            <b>Representante Legal<br/><span style="font-size: 12px;">Primus Chile S.p.A.</span></b>
+                        </td>
+                        <td style="border: 0px;"/>
+                        <td style="border: 0px; border-top: 1px solid #000000; text-align: center; padding-top: 4px;">
+                            <b>Fecha</b>
+                        </td>
+                    </tr>
+                </table>
+
+                <p style="text-align: justify; margin-top: 60px;">
+                    En el caso de personas jurídicas, deberá adjuntar evidencia que la persona que firma como
+                    representante legal dispone de poder legal de firma otorgado por la organización que representa.
+                    Ejemplo Constitución de sociedad en Chile; Contrato social en Brasil u otro documento que en su
+                    país verifique el nombre del representante legal.
+                </p>
+
+                <div t-if="print == False">
+                    <hr class="mt-0 mb-1" style="border-top: 1px solid"/>
+                    <ul class="list-inline" style="text-align: center;">
+                        <li class="list-inline-item">CERT-008</li>
+                        <li class="list-inline-item">Revisado por Jefe Aseguramiento Calidad</li>
+                        <li class="list-inline-item">Fecha 22 de noviembre 2021</li>
+                        <li class="list-inline-item">Aprobado por Gerente General</li>
+                        <li class="list-inline-item">Fecha 23 de noviembre 2021</li>
+                        <li class="list-inline-item">Revisión 7</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- PDF of the SA: Chile uses the new CERT-008 form, Costa Rica keeps the previous one. -->
+    <template id="report_service_agreements_view_chile" inherit_id="pao_sign_sa.report_service_agreements_view">
+        <xpath expr="//t[@t-if=&quot;values.scheme == 'GLOBALG.A.P.'&quot;]/t[@t-if=&quot;values.sign_sa_agreements_id.country_format in ['CL','CR']&quot;]" position="attributes">
+            <attribute name="t-if">values.sign_sa_agreements_id.country_format == 'CR'</attribute>
+        </xpath>
+        <xpath expr="//t[@t-if=&quot;values.scheme == 'GLOBALG.A.P.'&quot;]/t[@t-if=&quot;values.sign_sa_agreements_id.country_format == 'CR'&quot;]" position="before">
+            <t t-if="values.sign_sa_agreements_id.country_format == 'CL'">
+                <t t-call="pao_sign_sa.sa_header_footer_globalgap_cert008_es"/>
+                <div class="page">
+                    <t t-call="pao_sign_sa_chile.sa_globalgap_cert008_chile">
+                        <t t-set="serviceagreement" t-value="values"/>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

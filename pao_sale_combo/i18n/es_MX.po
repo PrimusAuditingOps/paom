@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-05 00:00+0000\n"
-"PO-Revision-Date: 2026-10-05 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +17,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__product_count
 msgid "# Products"
 msgstr "# Productos"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo_line__percentage
+msgid "%"
+msgstr "%"
 
 #. module: pao_sale_combo
 #: model:ir.model.constraint,message:pao_sale_combo.constraint_pao_pricelist_combo_pricelist_combo_uniq
@@ -57,6 +60,11 @@ msgid "Add a Combo to a Quotation"
 msgstr "Agregar un combo a una cotización"
 
 #. module: pao_sale_combo
+#: model:ir.model.fields.selection,name:pao_sale_combo.selection__pao_pricelist_combo__distribution_mode__amount
+msgid "Amount"
+msgstr "Monto"
+
+#. module: pao_sale_combo
 #: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_view_form
 #: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_view_search
 msgid "Archived"
@@ -76,6 +84,11 @@ msgid "Combo"
 msgstr "Combo"
 
 #. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__price
+msgid "Combo Price"
+msgstr "Precio del combo"
+
+#. module: pao_sale_combo
 #: model:ir.model.fields,help:pao_sale_combo.field_sale_order_line__pao_combo_id
 msgid "Combo that added this line. Its unit price comes from the combo prices of the order pricelist."
 msgstr "Combo que agregó esta línea. Su precio unitario viene de los precios del combo en la lista de precios de la cotización."
@@ -89,10 +102,7 @@ msgid "Combos"
 msgstr "Combos"
 
 #. module: pao_sale_combo
-#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__company_id
 #: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo__company_id
-#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__company_id
-#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_line__company_id
 msgid "Company"
 msgstr "Compañía"
 
@@ -102,10 +112,9 @@ msgid "Create a combo"
 msgstr "Cree un combo"
 
 #. module: pao_sale_combo
-#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__currency_id
-#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo_line__currency_id
-msgid "Currency"
-msgstr "Moneda"
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__distribution_mode
+msgid "Distribute By"
+msgstr "Asignar por"
 
 #. module: pao_sale_combo
 #: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_view_form
@@ -139,8 +148,17 @@ msgid "Pao Combo Enabled"
 msgstr "Combos habilitados"
 
 #. module: pao_sale_combo
+#: model:ir.model.fields.selection,name:pao_sale_combo.selection__pao_pricelist_combo__distribution_mode__percentage
+msgid "Percentage"
+msgstr "Porcentaje"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,help:pao_sale_combo.field_pao_pricelist_combo__distribution_mode
+msgid "Percentage: type the share of each product, its price is computed from the combo price. Amount: type the price of each product, its share is computed from the combo price."
+msgstr "Porcentaje: capture el porcentaje de cada producto y su precio se calcula desde el precio del combo. Monto: capture el precio de cada producto y su porcentaje se calcula desde el precio del combo."
+
+#. module: pao_sale_combo
 #: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__pricelist_id
-#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_sale_combo_add__pricelist_id
 msgid "Pricelist"
 msgstr "Lista de precios"
 
@@ -194,14 +212,36 @@ msgid "Sequence"
 msgstr "Secuencia"
 
 #. module: pao_sale_combo
+#: model:ir.model.fields,help:pao_sale_combo.field_pao_pricelist_combo_line__percentage
+msgid "Share of the combo price for this product."
+msgstr "Porcentaje del precio del combo asignado a este producto."
+
+#. module: pao_sale_combo
+#: code:addons/pao_sale_combo/models/product_pricelist.py:0
+#, python-format
+msgid "The percentages of the products of the combo '%(combo)s' add up to %(total)s%% instead of 100%% (difference: %(difference)s%%)."
+msgstr "Los porcentajes de los productos del combo '%(combo)s' suman %(total)s%% en lugar de 100%% (diferencia: %(difference)s%%)."
+
+#. module: pao_sale_combo
+#: code:addons/pao_sale_combo/models/product_pricelist.py:0
+#, python-format
+msgid "The prices of the products of the combo '%(combo)s' add up to %(total)s instead of the combo price %(price)s (difference: %(difference)s)."
+msgstr "Los precios de los productos del combo '%(combo)s' suman %(total)s en lugar del precio del combo %(price)s (diferencia: %(difference)s)."
+
+#. module: pao_sale_combo
 #: model_terms:ir.ui.view,arch_db:pao_sale_combo.pao_sale_combo_add_view_form
 msgid "This combo has no prices in the pricelist of the quotation: its products will be added with a unit price of 0."
 msgstr "Este combo no tiene precios en la lista de precios de la cotización: sus productos se agregarán con precio unitario 0."
 
 #. module: pao_sale_combo
-#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__total_price
-msgid "Total"
-msgstr "Total"
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__lines_percentage
+msgid "Total %"
+msgstr "Total %"
+
+#. module: pao_sale_combo
+#: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo__lines_price
+msgid "Total Products"
+msgstr "Total productos"
 
 #. module: pao_sale_combo
 #: model:ir.model.fields,field_description:pao_sale_combo.field_pao_pricelist_combo_line__price
