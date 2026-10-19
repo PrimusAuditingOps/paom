@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- "Add a combo" next to "Add a product" in the order lines, only for the Chilean company. -->
+    <record id="view_order_form_pao_sale_combo" model="ir.ui.view">
+        <field name="name">sale.order.form.pao.sale.combo</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']" position="before">
+                <field name="pao_combo_enabled" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/control/create[@name='add_product_control']" position="after">
+                <button name="action_pao_add_combo"
+                        string="Add a combo"
+                        type="object"
+                        class="px-4 btn-link"
+                        context="{'order_id': parent.id}"
+                        invisible="not parent.pao_combo_enabled"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
+                <field name="pao_combo_id" optional="hide" column_invisible="not parent.pao_combo_enabled"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

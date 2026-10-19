@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Popup opened from the "Combos" tab of the pricelist -->
+    <record id="pao_pricelist_combo_view_form" model="ir.ui.view">
+        <field name="name">pao.pricelist.combo.form</field>
+        <field name="model">pao.pricelist.combo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="pricelist_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="combo_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="total_price"/>
+                        </group>
+                    </group>
+                    <button name="action_pao_sync_products"
+                            type="object"
+                            string="Update Products From Combo"
+                            class="btn-link ps-0"
+                            icon="fa-refresh"
+                            invisible="not id"/>
+                    <field name="line_ids">
+                        <tree editable="bottom" create="0">
+                            <field name="sequence" widget="handle"/>
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="product_id" readonly="1" force_save="1"/>
+                            <field name="price"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_pricelist_view_pao_sale_combo" model="ir.ui.view">
+        <field name="name">product.pricelist.form.pao.sale.combo</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='pricelist_rules']" position="after">
+                <page name="pao_combos" string="Combos" invisible="not pao_combo_enabled">
+                    <field name="pao_combo_enabled" invisible="1"/>
+                    <field name="pao_combo_ids" nolabel="1">
+                        <tree>
+                            <field name="sequence" widget="handle"/>
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="combo_id"/>
+                            <field name="total_price"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
