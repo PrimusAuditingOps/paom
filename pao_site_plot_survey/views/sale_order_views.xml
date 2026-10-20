@@ -46,7 +46,7 @@
                         </tree>
                     </field>
                 </page>
-                <page string="Servicios estimados" groups="pao_site_plot_survey.group_salesperson_sites,pao_site_plot_survey.group_calidad" name="pao_site_plot_services">
+                <page string="Servicios estimados" invisible="not service_ids" groups="pao_site_plot_survey.group_salesperson_sites,pao_site_plot_survey.group_calidad" name="pao_site_plot_services">
                     <field name="service_ids">
                         <tree editable="bottom">
                             <field name="sale_order_id" column_invisible="1"/>
