@@ -98,7 +98,7 @@ class MailComposeMessage(models.TransientModel):
                 'body_html': body,
                 'email_to': ', '.join(email_to),
                 'reply_to': ', '.join(reply_to) if reply_to else False,
-                'auto_delete': True,
+                'auto_delete': False,
             })
             mail.send(raise_exception=False)
 
