@@ -6,13 +6,14 @@
         <field name="arch" type="xml">
             <form>
                 <field name="order_id" invisible="1"/>
+                <field name="template_id" invisible="1"/>
                 <field name="company_id" invisible="1"/>
                 <field name="in_pricelist" invisible="1"/>
                 <group>
                     <field name="combo_id" options="{'no_create': True, 'no_open': True}"/>
-                    <field name="pricelist_id" readonly="1"/>
+                    <field name="pricelist_id" readonly="1" invisible="not order_id"/>
                 </group>
-                <div class="alert alert-warning" role="alert" invisible="not combo_id or in_pricelist">This combo has no prices in the pricelist of the quotation: its products will be added with a unit price of 0.</div>
+                <div class="alert alert-warning" role="alert" invisible="not order_id or not combo_id or in_pricelist">This combo has no prices in the pricelist of the quotation: its products will be added with a unit price of 0.</div>
                 <field name="combo_product_ids" invisible="not combo_id" readonly="1">
                     <tree>
                         <field name="display_name" string="Product"/>

@@ -12,9 +12,10 @@
         Catalog of product combos (e.g. GLOBALG.A.P. + Nurture). Each pricelist can include combos with a price
         per product. The "Add a combo" button of the quotation lines adds a section named after the combo with
         its products, priced with the combo prices of the quotation pricelist (0 when the combo or the product
-        has no price in that pricelist). Only available for companies located in Chile.
+        has no price in that pricelist). Combos can also be added to quotation templates; the quotations created
+        from the template keep the combo of each line. Only available for companies located in Chile.
     """,
-    'depends': ['sale'],
+    'depends': ['sale_management'],
     'data': [
         # security
         'security/pao_sale_combo_security.xml',
@@ -24,6 +25,7 @@
         'views/product_pricelist_views.xml',
         'wizard/pao_sale_combo_add_views.xml',
         'views/sale_order_views.xml',
+        'views/sale_order_template_views.xml',
         'views/pao_menu_views.xml',
     ],
     'assets': {

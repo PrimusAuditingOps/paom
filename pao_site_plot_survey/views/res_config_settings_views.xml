@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_pao_site_plot_survey" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.pao_site_plot_survey</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='sale_management']" position="inside">
+                <block title="Site Plot Survey" name="pao_site_plot_survey_setting_container">
+                    <setting id="pao_google_maps_api_key_setting"
+                             string="Google Maps API Key"
+                             help="API de Google Maps (JavaScript API, con las librerías Drawing y Geometry habilitadas) usada por el editor de polígonos de sitios.">
+                        <field name="pao_google_maps_api_key"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

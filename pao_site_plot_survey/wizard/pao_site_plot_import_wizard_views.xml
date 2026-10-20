@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pao_site_plot_import_wizard_form" model="ir.ui.view">
+        <field name="name">pao.site.plot.import.wizard.form</field>
+        <field name="model">pao.site.plot.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Importar sitios">
+                <field name="sale_order_id" invisible="1"/>
+                <field name="state" invisible="1"/>
+                <group invisible="state != 'draft'">
+                    <field name="import_file" filename="file_name"/>
+                    <field name="file_name" invisible="1"/>
+                </group>
+                <group string="Vista previa" invisible="state == 'draft'">
+                    <field name="total_rows"/>
+                    <field name="valid_rows"/>
+                    <field name="error_rows"/>
+                    <field name="preview_html" nolabel="1"/>
+                </group>
+                <footer>
+                    <button name="action_preview" type="object" string="Vista previa"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_import" type="object" string="Importar"
+                            class="btn-primary" invisible="state != 'preview'"/>
+                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pao_site_plot_import_wizard" model="ir.actions.act_window">
+        <field name="name">Importar sitios (KML/Excel)</field>
+        <field name="res_model">pao.site.plot.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
