@@ -22,6 +22,7 @@ const SERVICE_FIELDS = [
 ];
 
 const PRODUCT_SEARCH_DEBOUNCE_MS = 250;
+const PRODUCT_SEARCH_LIMIT = 50;
 
 // Google's Directions API caps a single request at 25 locations
 // (origin + destination + up to 23 intermediate waypoints).
@@ -115,7 +116,13 @@ export class PaoSitePlotOverviewMap extends Component {
      * scrolled, since a position:fixed dropdown doesn't follow its anchor. */
     _watchScrollToClose(closeFn) {
         this._clearDropdownScrollClose();
-        this.dropdownScrollCloseHandler = () => {
+        this.dropdownScrollCloseHandler = (ev) => {
+            // Capture phase also catches scrolling inside the dropdown's own
+            // list - that must not close it, or its content is unreachable.
+            const target = ev.target;
+            if (target && target.nodeType === 1 && target.closest(".pao_dropdown_fixed")) {
+                return;
+            }
             closeFn();
             this._clearDropdownScrollClose();
         };
@@ -582,7 +589,7 @@ export class PaoSitePlotOverviewMap extends Component {
             "product.product",
             ["&", ["type", "=", "service"], "|", ["name", "ilike", text], ["default_code", "ilike", text]],
             ["id", "name", "default_code"],
-            { limit: 8 }
+            { limit: PRODUCT_SEARCH_LIMIT, order: "default_code asc, name asc" }
         );
         this.state.productSearch.results = results;
         if (results.length && this.productSearchInputRef.el) {
@@ -608,6 +615,13 @@ export class PaoSitePlotOverviewMap extends Component {
             this.state.productSearch.open = true;
             this._watchScrollToClose(() => (this.state.productSearch.open = false));
         }
+    }
+
+    /** Pressing the mouse on the dropdown (its scrollbar, a row) would blur
+     * the search input and trigger closeProductDropdown before the click or
+     * scroll drag lands; cancelling the default mousedown keeps the focus. */
+    keepProductInputFocus(ev) {
+        ev.preventDefault();
     }
 
     closeProductDropdown() {
