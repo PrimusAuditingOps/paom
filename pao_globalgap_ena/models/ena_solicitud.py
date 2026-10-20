@@ -425,6 +425,7 @@ class EnaSolicitud(models.Model):
                 'default_composition_mode': 'comment',
                 'default_template_id': template.id if template else False,
                 'force_email': True,
+                'ena_single_email': True,
             }
         }
    
