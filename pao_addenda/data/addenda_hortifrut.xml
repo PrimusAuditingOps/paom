@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Addenda Hortifrut. l10n_mx_edi la renderiza con {'record': factura, 'cfdi': xml}
+        y la envuelve en cfdi:Addenda. Si el resultado sale vacío, no agrega addenda:
+        por eso las notas de crédito y las facturas sin folio no generan nada.
+    -->
+    <template id="addenda_hortifrut" name="Addenda Hortifrut">
+        <t t-if="record.move_type == 'out_invoice' and (record.pao_po_number or '').strip()">
+            <ClienteAdicional>
+                <OrdenCompra t-out="record.pao_po_number.strip()"/>
+            </ClienteAdicional>
+        </t>
+    </template>
+    <record id="addenda_hortifrut" model="ir.ui.view">
+        <field name="l10n_mx_edi_addenda_flag">True</field>
+    </record>
+</odoo>
