@@ -106,7 +106,8 @@
                                                t-on-focus="onProductFocus"
                                                t-on-blur="closeProductDropdown"/>
                                         <div t-if="state.productSearch.open and state.productSearch.results.length"
-                                             class="list-group" t-att-style="state.productSearch.style">
+                                             class="list-group pao_dropdown_fixed" t-att-style="state.productSearch.style"
+                                             t-on-mousedown="keepProductInputFocus">
                                             <button t-foreach="state.productSearch.results" t-as="product" t-key="product.id"
                                                     type="button" class="list-group-item list-group-item-action py-1"
                                                     t-on-click="() => this.selectProduct(product)">
@@ -130,7 +131,7 @@
                                                 Seleccionar sitios…
                                             </span>
                                         </div>
-                                        <div t-if="state.siteTagPicker.open" class="list-group"
+                                        <div t-if="state.siteTagPicker.open" class="list-group pao_dropdown_fixed"
                                              t-att-style="state.siteTagPicker.style">
                                             <input type="text" class="form-control form-control-sm"
                                                    placeholder="Buscar sitio…"

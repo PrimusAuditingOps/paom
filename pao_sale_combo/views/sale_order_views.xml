@@ -18,7 +18,7 @@
                         invisible="not parent.pao_combo_enabled"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
-                <field name="pao_combo_id" optional="hide" column_invisible="not parent.pao_combo_enabled"/>
+                <field name="pao_combo_id" optional="hide" column_invisible="not parent.pao_combo_enabled" force_save="1"/>
             </xpath>
         </field>
     </record>
