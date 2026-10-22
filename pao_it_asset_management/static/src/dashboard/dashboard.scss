@@ -1,0 +1,65 @@
+// Tablero de inicio de IT Asset Management.
+.o_pao_it_dashboard {
+    background-color: $o-view-background-color;
+
+    .o_pao_it_card {
+        border: 1px solid $border-color;
+        border-radius: 0.5rem;
+        padding: 0.85rem 1rem;
+        background-color: $o-view-background-color;
+    }
+    .o_pao_it_card_label {
+        font-weight: 600;
+        color: $text-muted;
+    }
+    .o_pao_it_card_value {
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+    .o_pao_it_card_note {
+        font-size: 0.8rem;
+        color: $text-muted;
+    }
+    .o_pao_it_count {
+        cursor: pointer;
+        &:hover {
+            border-color: $primary;
+        }
+    }
+    .o_pao_it_count_alert .o_pao_it_card_value {
+        color: $danger;
+    }
+    .o_pao_it_swatch {
+        display: inline-block;
+        width: 0.8rem;
+        height: 0.8rem;
+        border-radius: 0.2rem;
+    }
+    .o_pao_it_badge {
+        color: #fff;
+        border-radius: 0.25rem;
+        padding: 0.1rem 0.4rem;
+    }
+    .o_pao_it_calendar {
+        table-layout: fixed;
+        td {
+            height: 5.5rem;
+            vertical-align: top;
+            padding: 0.2rem;
+        }
+    }
+    .o_pao_it_today {
+        background-color: rgba($primary, 0.08);
+    }
+    .o_pao_it_event {
+        color: #fff;
+        font-size: 0.72rem;
+        border-radius: 0.2rem;
+        padding: 0 0.25rem;
+        margin-bottom: 0.15rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: pointer;
+    }
+}

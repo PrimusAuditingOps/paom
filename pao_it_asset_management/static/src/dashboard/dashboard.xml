@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pao_it_asset_management.ItAssetDashboard">
+        <div class="o_action o_pao_it_dashboard h-100 overflow-auto p-3">
+            <t t-if="state.data">
+                <t t-set="d" t-value="state.data"/>
+                <t t-set="l" t-value="d.labels"/>
+
+                <!-- FILTROS -->
+                <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+                    <h2 class="mb-0 me-3" t-esc="l.title"/>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <span class="text-muted" t-esc="l.companies"/>
+                        <t t-foreach="d.companies" t-as="company" t-key="company.id">
+                            <button type="button" t-att-title="company.name"
+                                    t-attf-class="btn btn-sm {{ state.companyIds.includes(company.id) ? 'btn-primary' : 'btn-outline-secondary' }}"
+                                    t-on-click="() => this.toggleCompany(company.id)">
+                                <t t-esc="company.label"/>
+                            </button>
+                        </t>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-muted" t-esc="l.date_from"/>
+                        <input type="date" class="form-control form-control-sm" t-att-value="state.dateFrom"
+                               t-on-change="(ev) => this.onDateChange('dateFrom', ev)"/>
+                        <span class="text-muted" t-esc="l.date_to"/>
+                        <input type="date" class="form-control form-control-sm" t-att-value="state.dateTo"
+                               t-on-change="(ev) => this.onDateChange('dateTo', ev)"/>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <button type="button"
+                                t-attf-class="btn {{ state.kind === 'hardware' ? 'btn-primary' : 'btn-outline-secondary' }}"
+                                t-on-click="() => this.setKind('hardware')" t-esc="l.hardware"/>
+                        <button type="button"
+                                t-attf-class="btn {{ state.kind === 'software' ? 'btn-primary' : 'btn-outline-secondary' }}"
+                                t-on-click="() => this.setKind('software')" t-esc="l.software"/>
+                    </div>
+                </div>
+
+                <!-- TARJETAS PRINCIPALES -->
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-md-6 col-xl">
+                        <div class="o_pao_it_card h-100">
+                            <div class="o_pao_it_card_label" t-esc="l.active_assets"/>
+                            <div class="o_pao_it_card_value" t-esc="d.cards.active_assets"/>
+                            <div class="o_pao_it_card_note"><t t-esc="l.total_assets"/>: <t t-esc="d.cards.total_assets"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl">
+                        <div class="o_pao_it_card h-100">
+                            <div class="o_pao_it_card_label" t-esc="l.asset_value"/>
+                            <div class="o_pao_it_card_value" t-esc="money(d.cards.asset_value)"/>
+                            <div class="o_pao_it_card_note" t-esc="l.asset_value_note"/>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl">
+                        <div class="o_pao_it_card h-100">
+                            <div class="o_pao_it_card_label" t-esc="l.purchases"/>
+                            <div class="o_pao_it_card_value" t-esc="money(d.cards.purchases_amount)"/>
+                            <div class="o_pao_it_card_note"><t t-esc="d.cards.purchases_count"/> <t t-esc="l.purchases_count"/></div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl">
+                        <div class="o_pao_it_card h-100">
+                            <div class="o_pao_it_card_label" t-esc="l.software_spend"/>
+                            <div class="o_pao_it_card_value" t-esc="money(d.cards.software_spend)"/>
+                            <div class="o_pao_it_card_note" t-esc="l.software_spend_note"/>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl">
+                        <div class="o_pao_it_card h-100">
+                            <div class="o_pao_it_card_label" t-esc="l.license_usage"/>
+                            <div class="o_pao_it_card_value">
+                                <t t-esc="d.cards.assigned_users"/> / <t t-esc="d.cards.allowed_users"/>
+                            </div>
+                            <div class="o_pao_it_card_note">
+                                <t t-esc="percent(d.cards.assigned_users, d.cards.allowed_users)"/> · <t t-esc="l.license_usage_note"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTEOS -->
+                <div class="row g-3 mb-3">
+                    <t t-foreach="['to_review', 'overdue', 'delayed']" t-as="key" t-key="key">
+                        <div class="col-12 col-md-4">
+                            <div t-attf-class="o_pao_it_card o_pao_it_count h-100 {{ d.counts[key].value ? 'o_pao_it_count_alert' : '' }}"
+                                 role="button" t-on-click="() => this.openCount(d.counts[key])">
+                                <div class="o_pao_it_card_label" t-esc="l[key]"/>
+                                <div class="o_pao_it_card_value" t-esc="d.counts[key].value"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- GASTO DEL PERIODO POR CONCEPTO -->
+                <div class="o_pao_it_card mb-3">
+                    <div class="o_pao_it_card_label mb-2" t-esc="l.spend_title"/>
+                    <div class="row g-2">
+                        <t t-foreach="d.spend" t-as="item" t-key="item.key">
+                            <div class="col-6 col-md">
+                                <div class="text-muted small" t-esc="item.label"/>
+                                <div class="fs-5 fw-bold" t-esc="money(item.value)"/>
+                                <div class="text-muted small" t-esc="percent(item.value, d.spend_total)"/>
+                            </div>
+                        </t>
+                        <div class="col-6 col-md border-start">
+                            <div class="text-muted small" t-esc="l.total"/>
+                            <div class="fs-4 fw-bold" t-esc="money(d.spend_total)"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <!-- GRÁFICA -->
+                    <div class="col-12 col-xl-5">
+                        <div class="o_pao_it_card h-100">
+                            <div class="o_pao_it_card_label mb-2" t-esc="d.chart_title"/>
+                            <t t-set="slices" t-value="chartSlices"/>
+                            <div t-if="!slices.length" class="text-muted" t-esc="l.no_data"/>
+                            <div t-else="" class="d-flex flex-wrap align-items-center gap-3">
+                                <svg viewBox="0 0 200 200" width="220" height="220">
+                                    <t t-foreach="slices" t-as="slice" t-key="slice_index">
+                                        <path t-att-d="slice.path" t-att-fill="slice.color" stroke="#fff" stroke-width="1">
+                                            <title><t t-esc="slice.label"/>: <t t-esc="money(slice.value)"/></title>
+                                        </path>
+                                    </t>
+                                </svg>
+                                <ul class="list-unstyled mb-0 small">
+                                    <t t-foreach="slices" t-as="slice" t-key="slice_index">
+                                        <li class="d-flex align-items-center gap-2 mb-1">
+                                            <span class="o_pao_it_swatch" t-attf-style="background: {{ slice.color }};"/>
+                                            <span t-esc="slice.label"/>
+                                            <span class="text-muted">— <t t-esc="money(slice.value)"/> (<t t-esc="slice.pct"/>%)</span>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CALENDARIO DE ALERTAS -->
+                    <div class="col-12 col-xl-7">
+                        <div class="o_pao_it_card h-100" t-if="state.calendar">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between mb-2 gap-2">
+                                <div class="o_pao_it_card_label" t-esc="l.calendar_title"/>
+                                <div class="d-flex flex-wrap gap-2 small">
+                                    <t t-foreach="eventTypes" t-as="etype" t-key="etype">
+                                        <span class="o_pao_it_badge" t-attf-style="background: {{ eventColors[etype] }};"
+                                              t-esc="l.event_types[etype]"/>
+                                    </t>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            t-on-click="() => this.moveMonth(-1)">‹</button>
+                                    <strong t-esc="state.calendar.month_label"/>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            t-on-click="() => this.moveMonth(1)">›</button>
+                                </div>
+                            </div>
+                            <table class="table table-bordered o_pao_it_calendar mb-0">
+                                <thead>
+                                    <tr>
+                                        <t t-foreach="l.weekdays" t-as="wd" t-key="wd_index">
+                                            <th class="text-center small" t-esc="wd"/>
+                                        </t>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="calendarWeeks" t-as="week" t-key="week.key">
+                                        <tr>
+                                            <t t-foreach="week.cells" t-as="cell" t-key="cell.key">
+                                                <td t-attf-class="{{ cell.isToday ? 'o_pao_it_today' : '' }}">
+                                                    <div t-if="cell.day" class="small text-muted text-end" t-esc="cell.day"/>
+                                                    <t t-foreach="cell.events" t-as="event" t-key="event_index">
+                                                        <div class="o_pao_it_event" role="button" t-att-title="event.title"
+                                                             t-attf-style="background: {{ eventColors[event.type] }};"
+                                                             t-on-click="() => this.openEvent(event)"
+                                                             t-esc="event.title"/>
+                                                    </t>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

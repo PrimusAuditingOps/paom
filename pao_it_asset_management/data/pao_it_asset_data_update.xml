@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Se ejecuta en CADA actualización del módulo (noupdate="0"). Es
+         idempotente: solo crea el movimiento Register de los activos que
+         todavía no tienen historial (p. ej. los capturados antes de que
+         existiera el historial, en el entregable 1). -->
+    <data noupdate="0">
+        <function model="pao.it.asset" name="_ensure_register_movements"/>
+        <!-- Periodos capturados cuando "usuarios permitidos" era un total a
+             mano: deduce los usuarios por licencia y recalcula. -->
+        <function model="pao.it.subscription.period" name="_migrate_users_per_license"/>
+        <!-- Un control de documento (FTI-01 / FTI-02) por compañía. -->
+        <function model="pao.it.letter.control" name="_ensure_letter_controls"/>
+    </data>
+</odoo>

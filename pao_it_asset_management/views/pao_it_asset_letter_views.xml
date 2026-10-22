@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================== -->
+    <!-- CARTAS GENERADAS                           -->
+    <!-- ========================================== -->
+
+    <record id="view_pao_it_asset_letter_tree" model="ir.ui.view">
+        <field name="name">pao.it.asset.letter.tree</field>
+        <field name="model">pao.it.asset.letter</field>
+        <field name="arch" type="xml">
+            <tree string="Letters" create="0" delete="0" decoration-warning="state == 'pending'">
+                <field name="date"/>
+                <field name="letter_type" widget="badge"/>
+                <field name="employee_id"/>
+                <field name="company_id" optional="show" groups="base.group_multi_company"/>
+                <field name="lang" optional="show"/>
+                <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'pending'"
+                       decoration-success="state == 'signed'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_it_asset_letter_form" model="ir.ui.view">
+        <field name="name">pao.it.asset.letter.form</field>
+        <field name="model">pao.it.asset.letter</field>
+        <field name="arch" type="xml">
+            <form string="Letter" create="0" delete="0">
+                <header>
+                    <button name="action_download_es" type="object" string="Download (Spanish)"
+                            class="btn-primary" icon="fa-download"/>
+                    <button name="action_download_en" type="object" string="Download (English)"
+                            icon="fa-download"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="letter_type"/></h1>
+                        <h3><field name="employee_id"/></h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="lang"/>
+                            <field name="place"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                        </group>
+                    </group>
+                    <group string="Signed Letter">
+                        <field name="signed_attachment_ids" widget="many2many_binary"
+                               string="Signed PDF (upload it once signed)"/>
+                        <field name="notes"/>
+                    </group>
+                    <notebook>
+                        <page string="Assets" name="assets">
+                            <field name="line_ids">
+                                <tree>
+                                    <field name="asset_tag"/>
+                                    <field name="category"/>
+                                    <field name="brand"/>
+                                    <field name="model"/>
+                                    <field name="serial_number"/>
+                                    <field name="condition"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Movements" name="movements">
+                            <field name="movement_ids">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="asset_id"/>
+                                    <field name="movement_type" widget="badge"/>
+                                    <field name="responsible_from"/>
+                                    <field name="responsible_to"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pao_it_asset_letter_search" model="ir.ui.view">
+        <field name="name">pao.it.asset.letter.search</field>
+        <field name="model">pao.it.asset.letter</field>
+        <field name="arch" type="xml">
+            <search string="Letters">
+                <field name="employee_id"/>
+                <field name="asset_ids" string="Asset"/>
+                <filter string="Pending Signature" name="pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Signed" name="signed" domain="[('state', '=', 'signed')]"/>
+                <separator/>
+                <filter string="Delivery Letters" name="delivery" domain="[('letter_type', '=', 'delivery')]"/>
+                <filter string="Return Letters" name="return" domain="[('letter_type', '=', 'return')]"/>
+                <separator/>
+                <filter string="Date" name="filter_date" date="date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Employee" name="group_employee" context="{'group_by': 'employee_id'}"/>
+                    <filter string="Letter Type" name="group_type" context="{'group_by': 'letter_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}"
+                            groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pao_it_asset_letter" model="ir.actions.act_window">
+        <field name="name">Letters</field>
+        <field name="res_model">pao.it.asset.letter</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'pao_it_show_company': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">No letters yet</p>
+            <p>Delivery and return letters are generated from the Assign, Reassign and Return actions of each asset.</p>
+        </field>
+    </record>
+
+    <!-- ========================================== -->
+    <!-- CONFIGURACIÓN DE DOCUMENTOS                -->
+    <!-- ========================================== -->
+
+    <record id="view_pao_it_letter_template_tree" model="ir.ui.view">
+        <field name="name">pao.it.letter.template.tree</field>
+        <field name="model">pao.it.letter.template</field>
+        <field name="arch" type="xml">
+            <tree string="Letter Templates" create="0" delete="0">
+                <field name="letter_type"/>
+                <field name="title_en"/>
+                <field name="title_es"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_it_letter_template_form" model="ir.ui.view">
+        <field name="name">pao.it.letter.template.form</field>
+        <field name="model">pao.it.letter.template</field>
+        <field name="arch" type="xml">
+            <form string="Letter Template" create="0" delete="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="letter_type" readonly="1"/></h1>
+                    </div>
+                    <p class="text-muted">Same text for all countries. Separate the clauses with a blank line.</p>
+                    <notebook>
+                        <page string="English" name="en">
+                            <group>
+                                <field name="title_en"/>
+                                <field name="clauses_en"/>
+                            </group>
+                        </page>
+                        <page string="Spanish" name="es">
+                            <group>
+                                <field name="title_es"/>
+                                <field name="clauses_es"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pao_it_letter_template" model="ir.actions.act_window">
+        <field name="name">Letter Templates</field>
+        <field name="res_model">pao.it.letter.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_pao_it_letter_control_tree" model="ir.ui.view">
+        <field name="name">pao.it.letter.control.tree</field>
+        <field name="model">pao.it.letter.control</field>
+        <field name="arch" type="xml">
+            <tree string="Document Control" editable="bottom" create="0" delete="0">
+                <field name="company_id" readonly="1"/>
+                <field name="letter_type" readonly="1"/>
+                <field name="code"/>
+                <field name="revision"/>
+                <field name="prepared_by"/>
+                <field name="reviewed_by"/>
+                <field name="approved_by"/>
+                <field name="original_edition_date"/>
+                <field name="issue_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pao_it_letter_control" model="ir.actions.act_window">
+        <field name="name">Document Control</field>
+        <field name="res_model">pao.it.letter.control</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p>One record per company and letter type (FTI-01 / FTI-02). They are created automatically when the module is updated.</p>
+        </field>
+    </record>
+
+    <!-- ========================================== -->
+    <!-- VENTANA: RESPONSIVA DE ACTIVOS YA ASIGNADOS -->
+    <!-- ========================================== -->
+
+    <record id="view_pao_it_asset_letter_wizard_form" model="ir.ui.view">
+        <field name="name">pao.it.asset.letter.wizard.form</field>
+        <field name="model">pao.it.asset.letter.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Delivery Letter">
+                <group>
+                    <field name="asset_ids" widget="many2many_tags" readonly="1"/>
+                    <field name="employee_id" context="{'pao_it_show_company': True}"/>
+                    <field name="date"/>
+                    <field name="lang" widget="radio" options="{'horizontal': true}"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Generate" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_server_pao_it_asset_delivery_letter" model="ir.actions.server">
+        <field name="name">Generate Delivery Letter</field>
+        <field name="model_id" ref="model_pao_it_asset"/>
+        <field name="binding_model_id" ref="model_pao_it_asset"/>
+        <field name="binding_view_types">list,kanban</field>
+        <field name="groups_id" eval="[(4, ref('pao_it_asset_management.group_it_asset_admin'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_generate_delivery_letter()</field>
+    </record>
+</odoo>
