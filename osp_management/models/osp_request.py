@@ -39,14 +39,41 @@ class OSPRequest(models.Model):
         for record in self:
             record.customer_company_id = record.partner_id.commercial_partner_id
 
+    def _company_from_customer(self, partner_id):
+        """Compañía de la empresa cliente del contacto (id) o False. sudo(): quien
+        crea/guarda puede ser un usuario de portal sin permiso sobre ese partner."""
+        if not partner_id:
+            return False
+        return self.env['res.partner'].sudo().browse(partner_id).commercial_partner_id.company_id.id or False
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id_company(self):
+        company_id = self._company_from_customer(self.partner_id.id)
+        if company_id:
+            self.company_id = company_id
+
+    def write(self, vals):
+        # Si el admin cambia el Contacto del cliente (típico: vincular un formulario
+        # público), la compañía pasa a la de su empresa, salvo que el mismo write
+        # ya indique una compañía explícita.
+        if vals.get('partner_id') and 'company_id' not in vals:
+            company_id = self._company_from_customer(vals['partner_id'])
+            if company_id:
+                vals = dict(vals, company_id=company_id)
+        return super().write(vals)
+
     organization_name = fields.Char(string='Organization', tracking=True)
     dba_name = fields.Char(string='DBA name', tracking=True)
 
     # --- COMPAÑÍA (multi-compañía) ---
-    # Se asigna automáticamente al crearse el registro, tomada del sitio web
-    # (Website > Company) por el que el cliente entró a llenar el formulario
-    # — ver controllers/portal.py (portal_save_osp_new y public_osp_submit).
-    # No depende de qué compañía tenga seleccionada el administrador. Los
+    # Prioridad: (1) la compañía de la EMPRESA del contacto ("Cliente",
+    # commercial_partner_id.company_id) — al crear y cada vez que el admin
+    # cambia el Contacto del cliente; (2) si esa empresa no tiene compañía (o
+    # el registro aún no tiene contacto, ej. formulario público), la del sitio
+    # web por el que entró — ver controllers/portal.py (portal_save_osp_new y
+    # public_osp_submit). El sitio web solo no basta: con un dominio único (o
+    # sin dominio por sitio) todos los formularios caían en la misma
+    # compañía. No depende de qué compañía tenga seleccionada el administrador. Los
     # registros creados antes de que este campo existiera quedan con
     # company_id vacío: por convención de Odoo, un company_id vacío es
     # visible para cualquier compañía (ver osp_request_company_rule en
@@ -112,6 +139,11 @@ class OSPRequest(models.Model):
                 parts = [p for p in [service and service.name, template and template.name] if p]
                 if parts:
                     vals['name'] = ' - '.join(parts)
+            # La compañía de la empresa cliente manda sobre la del sitio web que
+            # pasa el controlador (ver comentario del campo company_id).
+            customer_company = self._company_from_customer(vals.get('partner_id'))
+            if customer_company:
+                vals['company_id'] = customer_company
         return super().create(vals_list)
 
     # --- ACCIONES PARA LA BARRA DE ESTADO ---
