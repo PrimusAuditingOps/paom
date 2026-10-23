@@ -29,3 +29,5 @@ class PaoServicereFerralAgreementScheme(models.Model):
         index=True,
         domain = [('share','=',False)]
     )
+    
+    active = fields.Boolean(default=True, string='Active')
