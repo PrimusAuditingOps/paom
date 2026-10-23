@@ -24,6 +24,9 @@ const SERVICE_FIELDS = [
 const PRODUCT_SEARCH_DEBOUNCE_MS = 250;
 const PRODUCT_SEARCH_LIMIT = 50;
 
+const POINT_PIN_SCALE = 8;
+const POINT_LABEL_GAP_PX = 10;
+
 // Google's Directions API caps a single request at 25 locations
 // (origin + destination + up to 23 intermediate waypoints).
 const MAX_DIRECTIONS_WAYPOINTS = 25;
@@ -34,13 +37,17 @@ export class PaoSitePlotOverviewMap extends Component {
     setup() {
         this.orm = useService("orm");
         this.notification = useService("notification");
+        this.actionService = useService("action");
         this.mapContainerRef = useRef("mapContainer");
         this.productSearchInputRef = useRef("productSearchInput");
         this.siteTagBoxRef = useRef("siteTagBox");
+        this.serviceFormRowRef = useRef("serviceFormRow");
         this.state = useState({
             error: null,
+            saleOrderName: "",
             sites: [],
             services: [],
+            editingServiceId: null,
             newService: { product_id: false, site_ids: [], calidad_qty: 0 },
             productSearch: { text: "", results: [], open: false, style: "" },
             siteTagPicker: { open: false, text: "", style: "" },
@@ -68,6 +75,8 @@ export class PaoSitePlotOverviewMap extends Component {
                 this.state.error = "No se encontró la cotización.";
                 return;
             }
+            const [order] = await this.orm.read("sale.order", [this.saleOrderId], ["name"]);
+            this.state.saleOrderName = order ? order.name : "";
             const apiKey = await this.orm.call("ir.config_parameter", "get_pao_google_maps_api_key", []);
             if (!apiKey) {
                 this.state.error = "Configure la API key de Google Maps en Ajustes.";
@@ -139,6 +148,16 @@ export class PaoSitePlotOverviewMap extends Component {
     _siteName(siteId) {
         const site = this.state.sites.find((s) => s.id === siteId);
         return site ? site.name : siteId;
+    }
+
+    openSaleOrder() {
+        this.actionService.doAction({
+            type: "ir.actions.act_window",
+            res_model: "sale.order",
+            res_id: this.saleOrderId,
+            views: [[false, "form"]],
+            target: "current",
+        });
     }
 
     _siteColor(siteId) {
@@ -231,16 +250,20 @@ export class PaoSitePlotOverviewMap extends Component {
             // visible dot). A site with only a point has nothing else on
             // the map, so give it an actual visible pin - otherwise it
             // would never show up at all until someone draws it.
+            // labelOrigin is expressed in the symbol's own (unscaled) path
+            // units and gets multiplied by `scale`, so the offset has to be
+            // divided by the scale to land a fixed number of pixels above
+            // the dot - using -16 with scale 8 pushed the name 128px away.
             const icon = entry.hasPolygon
                 ? { path: google.maps.SymbolPath.CIRCLE, scale: 0, labelOrigin: new google.maps.Point(0, 0) }
                 : {
                       path: google.maps.SymbolPath.CIRCLE,
-                      scale: 8,
+                      scale: POINT_PIN_SCALE,
                       fillColor: entry.color,
                       fillOpacity: 1,
                       strokeColor: "#ffffff",
                       strokeWeight: 2,
-                      labelOrigin: new google.maps.Point(0, -16),
+                      labelOrigin: new google.maps.Point(0, -(POINT_PIN_SCALE + POINT_LABEL_GAP_PX) / POINT_PIN_SCALE),
                   };
             new google.maps.Marker({
                 position: entry.point,
@@ -546,10 +569,15 @@ export class PaoSitePlotOverviewMap extends Component {
     }
 
     /** Sites already assigned to some existing service line - these can't be
-     * picked again on a new line, so a site only ever belongs to one service. */
+     * picked again on a new line, so a site only ever belongs to one service.
+     * The line currently being edited doesn't count against itself, so its
+     * own sites stay available to keep or swap. */
     _usedSiteIds() {
         const used = new Set();
         for (const service of this.state.services) {
+            if (service.id === this.state.editingServiceId) {
+                continue;
+            }
             for (const siteId of service.site_ids) {
                 used.add(siteId);
             }
@@ -661,7 +689,11 @@ export class PaoSitePlotOverviewMap extends Component {
         }
     }
 
-    async addService() {
+    /** Creates a new service line, or - when "Editar" was pressed on an
+     * existing one - saves the changes to that line. Both use the same form
+     * row at the bottom of the table, so the product search and the site
+     * tag picker only exist once. */
+    async saveService() {
         if (!this.state.newService.product_id) {
             this.notification.add("Selecciona un servicio.", { type: "warning" });
             return;
@@ -670,26 +702,82 @@ export class PaoSitePlotOverviewMap extends Component {
             this.notification.add("Selecciona al menos un sitio.", { type: "warning" });
             return;
         }
-        await this.orm.create("pao.site.plot.service", [{
-            sale_order_id: this.saleOrderId,
-            product_id: this.state.newService.product_id,
-            site_ids: [[6, 0, this.state.newService.site_ids]],
-            calidad_qty: this.state.newService.calidad_qty,
-        }]);
-        this.state.newService = { product_id: false, site_ids: [], calidad_qty: 0 };
-        this.state.productSearch = { text: "", results: [], open: false };
-        this.state.siteTagPicker = { open: false, text: "" };
+        const draft = this.state.newService;
+        if (this.state.editingServiceId) {
+            const original = this.state.services.find((s) => s.id === this.state.editingServiceId);
+            const vals = {
+                product_id: draft.product_id,
+                site_ids: [[6, 0, draft.site_ids]],
+            };
+            // Only touch calidad_qty when it actually changed: the model
+            // mirrors it into final_qty on every write, which would wipe a
+            // final quantity the salesperson adjusted by hand.
+            if (!original || original.calidad_qty !== draft.calidad_qty) {
+                vals.calidad_qty = draft.calidad_qty;
+            }
+            await this.orm.write("pao.site.plot.service", [this.state.editingServiceId], vals);
+        } else {
+            await this.orm.create("pao.site.plot.service", [{
+                sale_order_id: this.saleOrderId,
+                product_id: draft.product_id,
+                site_ids: [[6, 0, draft.site_ids]],
+                calidad_qty: draft.calidad_qty,
+            }]);
+        }
+        this._resetServiceForm();
         await this._loadServices();
+    }
+
+    startEditService(service) {
+        this.state.editingServiceId = service.id;
+        const productLabel = service.product_id ? service.product_id[1] : "";
+        this.state.newService = {
+            product_id: service.product_id ? service.product_id[0] : false,
+            productLabel,
+            site_ids: [...service.site_ids],
+            calidad_qty: service.calidad_qty,
+        };
+        this.state.productSearch = { text: productLabel, results: [], open: false, style: "" };
+        this.state.siteTagPicker = { open: false, text: "", style: "" };
+        this._clearDropdownScrollClose();
+        // The form row sits at the bottom of a scrollable panel; make sure
+        // the person actually sees it once it switches to edit mode.
+        setTimeout(() => {
+            const row = this.serviceFormRowRef.el;
+            if (row) {
+                row.scrollIntoView({ block: "nearest", behavior: "smooth" });
+            }
+        }, 0);
+    }
+
+    cancelEditService() {
+        this._resetServiceForm();
+    }
+
+    _resetServiceForm() {
+        this.state.editingServiceId = null;
+        this.state.newService = { product_id: false, site_ids: [], calidad_qty: 0 };
+        this.state.productSearch = { text: "", results: [], open: false, style: "" };
+        this.state.siteTagPicker = { open: false, text: "", style: "" };
+        this._clearDropdownScrollClose();
     }
 
     async onServiceQtyChange(service, ev) {
         const value = parseFloat(ev.target.value) || 0;
         service.calidad_qty = value;
+        if (this.state.editingServiceId === service.id) {
+            // Keep the open edit form in sync, or saving it would write the
+            // stale quantity back over this one.
+            this.state.newService.calidad_qty = value;
+        }
         await this.orm.write("pao.site.plot.service", [service.id], { calidad_qty: value });
     }
 
     async removeService(service) {
         await this.orm.unlink("pao.site.plot.service", [service.id]);
+        if (this.state.editingServiceId === service.id) {
+            this._resetServiceForm();
+        }
         await this._loadServices();
     }
 }

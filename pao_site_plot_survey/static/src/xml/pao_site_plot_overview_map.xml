@@ -2,6 +2,11 @@
 <templates xml:space="preserve">
     <t t-name="pao_site_plot_survey.SitePlotOverviewMap">
         <div class="pao_site_plot_overview_map d-flex flex-column h-100">
+            <div t-if="state.saleOrderName" class="px-2 pt-2">
+                <a href="#" t-on-click.prevent="openSaleOrder">
+                    <i class="fa fa-arrow-left me-1"/>Volver a la cotización <b t-esc="state.saleOrderName"/>
+                </a>
+            </div>
             <div t-if="state.error" class="alert alert-warning m-2" role="alert">
                 <t t-esc="state.error"/>
             </div>
@@ -52,8 +57,9 @@
                                 <div><b t-esc="site.name"/></div>
                                 <div t-if="site.variety" class="text-muted" t-esc="site.variety"/>
                                 <div t-if="site.location" class="text-muted" t-esc="site.location"/>
+                                <div>Declarada: <t t-esc="site.declared_surface_ha.toFixed(2)"/> ha</div>
                                 <div>
-                                    <t t-esc="site.computed_surface_ha.toFixed(2)"/> ha
+                                    Calculada: <t t-esc="site.computed_surface_ha.toFixed(2)"/> ha
                                     <span t-if="!site.geojson_polygon" class="text-warning">
                                         (sin polígono)
                                     </span>
@@ -75,7 +81,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="state.services" t-as="service" t-key="service.id">
+                                <tr t-foreach="state.services" t-as="service" t-key="service.id"
+                                    t-att-class="state.editingServiceId === service.id ? 'table-warning' : ''">
                                     <td t-esc="service.product_id ? service.product_id[1] : ''"/>
                                     <td>
                                         <t t-foreach="service.site_ids" t-as="siteId" t-key="siteId">
@@ -91,13 +98,18 @@
                                                t-on-change="(ev) => this.onServiceQtyChange(service, ev)"/>
                                     </td>
                                     <td class="text-nowrap">
+                                        <button type="button" class="btn btn-link btn-sm p-0 me-2"
+                                                t-on-click="() => this.startEditService(service)">
+                                            Editar
+                                        </button>
                                         <button type="button" class="btn btn-link btn-sm p-0 text-danger"
                                                 t-on-click="() => this.removeService(service)">
                                             Eliminar
                                         </button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr t-ref="serviceFormRow"
+                                    t-att-class="state.editingServiceId ? 'table-warning' : ''">
                                     <td style="min-width:220px;">
                                         <input type="text" class="form-control form-control-sm" t-ref="productSearchInput"
                                                placeholder="Buscar por nombre o referencia…"
@@ -152,9 +164,14 @@
                                                style="width:90px;"
                                                t-model.number="state.newService.calidad_qty"/>
                                     </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-sm" t-on-click="addService">
-                                            Agregar
+                                    <td class="text-nowrap">
+                                        <button type="button" class="btn btn-primary btn-sm" t-on-click="saveService">
+                                            <t t-if="state.editingServiceId">Guardar cambios</t>
+                                            <t t-else="">Agregar</t>
+                                        </button>
+                                        <button t-if="state.editingServiceId" type="button"
+                                                class="btn btn-secondary btn-sm ms-1" t-on-click="cancelEditService">
+                                            Cancelar
                                         </button>
                                     </td>
                                 </tr>
