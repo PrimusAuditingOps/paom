@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_pao_commission_detail" model="ir.actions.report">
+        <field name="name">Detalle de comisión</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_sales_commission_management.report_pao_commission_detail</field>
+        <field name="report_file">pao_sales_commission_management.report_pao_commission_detail</field>
+        <field name="print_report_name">'Detalle de comisión - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_pao_commission_detail">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="pao_sales_commission_management.report_pao_commission_detail_document"
+                   t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_pao_commission_detail_document">
+        <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+        <t t-set="commissions" t-value="o.pao_sales_commission_ids.sorted('name')"/>
+
+        <!-- Sin comisiones ligadas: página en blanco (sin encabezado ni pie). -->
+        <div t-if="not commissions" class="article">
+            <div class="page"/>
+        </div>
+
+        <!-- Mismo encabezado/pie (web.external_layout) y datos de empresa y
+             proveedor que la impresión estándar de la orden de compra. -->
+        <t t-if="commissions">
+            <t t-call="web.external_layout">
+                <t t-set="address">
+                    <div t-field="o.partner_id"
+                         t-options='{"widget": "contact", "fields": ["address", "name", "phone", "vat"], "no_marker": True, "phone_icons": True}'/>
+                </t>
+                <div class="page">
+                    <div class="oe_structure"/>
+
+                    <div class="mt-4">
+                        <h2>Detalle de comisiones</h2>
+                    </div>
+
+                    <table class="table table-sm o_main_table table-borderless mt-4">
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th name="th_commission"><strong>Folio de comisión</strong></th>
+                                <th name="th_customer"><strong>Cliente</strong></th>
+                                <th name="th_quotation"><strong>Cotización</strong></th>
+                                <th name="th_amount_mxn" class="text-end">
+                                    <strong>Importe de comisión (MXN)</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="commissions" t-as="commission">
+                                <tr>
+                                    <td><span t-field="commission.name"/></td>
+                                    <td><span t-field="commission.partner_id"/></td>
+                                    <td><span t-field="commission.sale_order_id"/></td>
+                                    <td class="text-end">
+                                        <span t-out="commission.commission_amount_mxn"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div id="total" class="row justify-content-end">
+                        <div class="col-6">
+                            <table class="table table-sm table-borderless">
+                                <tr class="border-black o_total">
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-end">
+                                        <strong>
+                                            <span t-out="sum(commissions.mapped('commission_amount_mxn'))"
+                                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
