@@ -36,6 +36,9 @@ class PaaAuditorQualification(models.Model):
         readonly = True,
     )
 
+    audit_total_per_auditor = fields.Float(default=0.00, required=True,
+                                           string= "total audits assigned")
+
     total_to_pay = fields.Float(string='Payment', digits='Product Price')
     total_audits = fields.Float(string='Total Audits', digits='Product Price')
 
