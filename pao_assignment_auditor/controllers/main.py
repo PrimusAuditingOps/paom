@@ -100,7 +100,7 @@ class webAuditorAssignment(http.Controller):
                     #total_to_pay = 0.00
                     in_house_auditor = False
                     audit_total_per_auditor = 0.00
-                    audit_total_per_auditor = self._get_audit_quantity_auditor(orderid, auditor, orderCompany[0], first_date_list):
+                    audit_total_per_auditor = self._get_audit_quantity_auditor(orderid, auditor, orderCompany[0], first_date_list)
                     recauditor = request.env['res.partner'].browse(auditor)
                     for recPartner in recauditor:
                         #total_to_pay = 0.00
