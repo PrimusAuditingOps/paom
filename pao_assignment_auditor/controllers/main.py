@@ -938,7 +938,7 @@ class webAuditorAssignment(http.Controller):
                     season_start_date = datetime.date(d.year, season_start_month, 1)
                 else:
                     season_start_date = datetime.date(d.year - 1, season_start_month, 1)
-                season_end_date = season_date + relativedelta(years=1)
+                season_end_date = season_start_date + relativedelta(years=1)
 
                 if products_ids:                    
                     domain = [('order_id', '<>', order_id),('partner_id','=',auditor), 
