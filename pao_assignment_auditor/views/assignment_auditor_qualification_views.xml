@@ -13,6 +13,7 @@
                 <field name="auditor_id" decoration-info="day_color == 'blue'" decoration-warning="day_color == 'yellow'" decoration-danger="day_color == 'red'"/>
                 <field name="scheme_qualification" optional="show"/>
                 <field name="localization_qualification" optional="show"/>
+                <field name="audit_total_per_auditor" optional="hide"/>
                 <field name="audit_qty_qualification" optional="hide"/>
                 <field name="audit_honorarium_qualification" optional="hide"/>
                 <field name="total_audits" invisible="1" nolabel="1" column_invisible="True"/>

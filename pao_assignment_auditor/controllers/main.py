@@ -99,11 +99,13 @@ class webAuditorAssignment(http.Controller):
 
                     #total_to_pay = 0.00
                     in_house_auditor = False
+                    audit_total_per_auditor = 0.00
+                    audit_total_per_auditor = self._get_audit_quantity_auditor(orderid, auditor, orderCompany[0], first_date_list)
                     recauditor = request.env['res.partner'].browse(auditor)
                     for recPartner in recauditor:
                         #total_to_pay = 0.00
                         in_house_auditor = recPartner.is_an_in_house_auditor
-
+                       
                         #recFee = request.env["servicereferralagreement.auditfees"].search([("default","=",True)])
                         #for fee in recFee:
                         #    for percentage in recPartner.audit_fee_percentages_ids.filtered_domain([('audit_fees_id', '=', fee.id)]):
@@ -117,6 +119,7 @@ class webAuditorAssignment(http.Controller):
                             'audit_qty_qualification': quantity,
                             'audit_honorarium_qualification': honorarium,
                             'qualification': qualification,
+                            'audit_total_per_auditor': audit_total_per_auditor,
                             'ref_user_id': user_id,
                             'day_without_audits': days,
                             'total_audits': 1 if auditquantity > 9 else 0,
@@ -920,3 +923,29 @@ class webAuditorAssignment(http.Controller):
             qualification = qualification / count if count > 0 else weighting 
             auditor_audit_honorarium_target_list.append({'id': auditor,'qualification': qualification})
         return auditor_audit_honorarium_target_list
+    
+    def _get_audit_quantity_auditor(self, order_id, auditor, orderCompany, date_list):
+        audit_quantity_total = 0
+        domain = []
+        products_ids = self._get_audit_products()
+        recconfiguration = self._get_configuration_audit_quantity(orderCompany)
+        
+        for rec in recconfiguration:
+            season_start_month = int(rec.season_start_month)
+            for d in date_list:
+                season_start_date = None
+                if season_start_month <= d.month:
+                    season_start_date = datetime.date(d.year, season_start_month, 1)
+                else:
+                    season_start_date = datetime.date(d.year - 1, season_start_month, 1)
+                season_end_date = season_start_date + relativedelta(years=1)
+
+                if products_ids:                    
+                    domain = [('order_id', '<>', order_id),('partner_id','=',auditor), 
+                    ('state', '<>', 'cancel'),('product_id', 'in', products_ids),
+                    ('service_start_date', '>=', season_start_date),('service_start_date', '<', season_end_date)]
+                
+                    rec_audit_quantity =  request.env['purchase.order.line'].read_group(domain,['partner_id', 'product_qty'], ['partner_id'])
+                    for audit_quantity in rec_audit_quantity:
+                        audit_quantity_total = audit_quantity['product_qty']
+        return audit_quantity_total
