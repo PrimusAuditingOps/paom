@@ -11,6 +11,7 @@ tener que migrarlo entonces.
 | Tema | Decisión |
 |---|---|
 | Dónde se guarda el folio | En cada factura (`account.move.pao_po_number`, `Char`), nunca en el contacto |
+| Formato del folio | **Exactamente 10 dígitos numéricos** (requisito de Hortifrut, 27-oct-2026: con más o menos no lo pueden procesar). Se valida al guardar (`@api.constrains`), al confirmar y antes de timbrar. Se ignoran espacios al inicio/final. `Char` y no numérico para conservar ceros iniciales |
 | Quién es "Hortifrut" | Contacto cuya addenda (Ventas y compras) es **esta** addenda (`pao_addenda.addenda_hortifrut`). Se revisa `partner_id` y luego `commercial_partner_id`, igual que `l10n_mx_edi`. Sin IDs ni RFC en el código |
 | Fecha límite | No se valida fecha: si el contacto tiene la addenda, el folio siempre es obligatorio |
 | Cuándo se bloquea | Al confirmar (`_post`) y antes de timbrar (`_l10n_mx_edi_cfdi_check_invoice_config`) |
@@ -72,14 +73,18 @@ tener que migrarlo entonces.
 3. Factura a un hijo de HORTIFRUT (ej. "Hortifrut SA de CV, Ana Miranda"):
    aparece la pestaña y se exige folio.
 4. Factura a otro cliente: no aparece la pestaña, no se exige folio, XML sin addenda.
-5. Folio `OC-AB123-004` y `000045013`: se conservan exactos en el XML.
+5. Formato del folio en una factura Hortifrut:
+   - `450131230` (9 dígitos), `45013123021` (11) y `OC-4501312` → error al guardar.
+   - `0000450130` (10 con ceros iniciales) → se guarda y sale exacto en el XML.
+   - ` 4501312302 ` (con espacios) → se acepta; el XML lleva `4501312302`.
 6. Guardar, cerrar, reabrir: el folio persiste.
 7. Factura timbrada: el folio queda de solo lectura.
 8. Nota de crédito de una factura Hortifrut: no lleva addenda, no pide folio,
    no copia el folio.
 9. Duplicar una factura Hortifrut: el duplicado sale sin folio.
-10. Factura Hortifrut confirmada **antes** de instalar el módulo, sin folio →
-    timbrar: falla con el mensaje en el documento, sin llamar al PAC.
+10. Factura Hortifrut confirmada **antes** de instalar el módulo (o antes de la
+    regla de 10 dígitos), sin folio o con folio inválido → timbrar: falla con
+    el mensaje en el documento, sin llamar al PAC.
 11. Revisar en el XML que impuestos, sello, UUID y `tfd:TimbreFiscalDigital`
     estén normales.
 12. Actualizar el módulo (`-u pao_addenda`) y confirmar que nada cambia.
@@ -95,8 +100,8 @@ tener que migrarlo entonces.
 
 ## Notas y pendientes
 
-- **Estructura XML sin confirmar:** Finanzas debe mandar a Hortifrut un XML de
-  staging para validar nombres, mayúsculas y que no lleve namespace.
+- **Estructura XML:** el XML de ejemplo de staging funcionó (confirmado por el
+  usuario el 27-oct-2026).
 - **Contactos de correo sueltos** (`aprado@hortifrut.com`, `jvaldez@hortifrut.com`,
   …) no tienen padre: una factura a ellos no lleva addenda ni pide folio. Si se
   usan para facturar, ligarlos a HORTIFRUT.
