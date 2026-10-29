@@ -73,6 +73,18 @@ class OSPPortal(CustomerPortal):
         user = request.env.user
         return user.has_group('osp_management.group_osp_administrator') or user.has_group('osp_management.group_osp_user')
 
+    # En las rutas del sitio web (frontend) Odoo evalúa las reglas multicompañía
+    # con UNA sola compañía (la del sitio), no con las que el usuario tiene
+    # marcadas en el selector del backend. El personal de OSP abre el formulario
+    # de un cliente en un iframe del sitio web (osp_admin_form_view), así que un
+    # formulario de otra compañía (ej. cliente de Costa Rica) salía como
+    # "403 Forbidden" aunque el administrador tuviera esa compañía permitida.
+    # Para el personal de OSP se usan TODAS sus compañías permitidas (la
+    # restricción real sigue siendo la suya: user.company_ids).
+    def _use_staff_companies(self):
+        if self._is_osp_staff():
+            request.update_context(allowed_company_ids=request.env.user.company_ids.ids)
+
     # Partners de todo el personal OSP (ambos grupos), para notificarles de
     # nuevos envíos. sudo(): quien llama esto puede ser un cliente de
     # portal sin permiso de lectura sobre res.users.
@@ -278,6 +290,7 @@ class OSPPortal(CustomerPortal):
     # 5. RUTA PANTALLA DEL FORMULARIO (cliente dueño, o Administrador de OSP)
     @http.route(['/my/osp/form/<int:osp_id>'], type='http', auth="user", website=True)
     def portal_osp_form(self, osp_id, **kw):
+        self._use_staff_companies()
         record = request.env['osp.request'].browse(osp_id)
         if not record.exists():
             return request.redirect('/my/osp')
@@ -346,6 +359,7 @@ class OSPPortal(CustomerPortal):
     # 6. RUTA AJAX PARA GUARDAR EL JSON EN SEGUNDO PLANO
     @http.route(['/my/osp/save/<int:osp_id>'], type='json', auth="user", methods=['POST'], website=True)
     def portal_save_osp(self, osp_id, form_data, is_submit=False, **kw):
+        self._use_staff_companies()
         record = request.env['osp.request'].browse(osp_id)
         if not record.exists():
             return {'success': False}
