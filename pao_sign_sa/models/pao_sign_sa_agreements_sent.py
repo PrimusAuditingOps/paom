@@ -255,7 +255,7 @@ class PaoSignSaAgreementsSent(models.Model):
         mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.env.user.id}">@{self.env.user.name}</a>'
 
         message = _(
-            'The Service Agreement has been resent to %(signer)s by %(user)s.'
+            'The SA has been resent to %(signer)s by %(user)s.'
         ) % {
             'signer': self.signer_id.name,
             'user': mention_html,
