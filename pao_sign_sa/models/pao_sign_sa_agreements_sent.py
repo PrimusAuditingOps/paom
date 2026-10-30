@@ -264,6 +264,7 @@ class PaoSignSaAgreementsSent(models.Model):
         self.sale_order_id.message_post(
             body=message,
             body_is_html=True,
+            author_id=self.env.ref('base.partner_root').id
         )
 
 
