@@ -240,8 +240,6 @@ class PaoSignSaAgreementsSent(models.Model):
             }
         )
 
-
-
         self._message_send_mail(
             body, 'mail.mail_notification_light',
             {'record_name': self.title},
@@ -252,6 +250,21 @@ class PaoSignSaAgreementsSent(models.Model):
                 'subject': self.subject},
             force_send=True,
             lang=signer_lang,
+        )
+        
+        mention_html = f'<a href="#" data-oe-model="res.users" data-oe-id="{self.env.user.id}">@{self.env.user.name}</a>'
+
+        message = _(
+            'The SA has been resent to %(signer)s by %(user)s.'
+        ) % {
+            'signer': self.signer_id.name,
+            'user': mention_html,
+        }
+
+        self.sale_order_id.message_post(
+            body=message,
+            body_is_html=True,
+            author_id=self.env.ref('base.partner_root').id
         )
 
 
