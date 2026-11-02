@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- noupdate="1": ver comentario en data/osp_service_data.xml -->
+    <data noupdate="1">
+
+        <record id="osp_form_template_crop" model="osp.form.template">
+            <field name="service_id" ref="osp_service_nop_usda"/>
+            <field name="name">Crop</field>
+            <field name="version">Org-007 R7 1/9/2024</field>
+            <field name="technical_code">form_crop</field>
+        </record>
+
+        <record id="osp_form_template_handler" model="osp.form.template">
+            <field name="service_id" ref="osp_service_nop_usda"/>
+            <field name="name">Handler</field>
+            <field name="version">Org-010 Rev.8 1/9/2024</field>
+            <field name="technical_code">form_handler</field>
+        </record>
+
+        <record id="osp_form_template_handler_trader" model="osp.form.template">
+            <field name="service_id" ref="osp_service_nop_usda"/>
+            <field name="name">Handler (Trader)</field>
+            <field name="version">Org-061 Rev. 0 3/4/24</field>
+            <field name="technical_code">form_handler_trader</field>
+        </record>
+
+        <record id="osp_form_template_cultivo" model="osp.form.template">
+            <field name="service_id" ref="osp_service_nop_usda"/>
+            <field name="name">Cultivo</field>
+            <field name="version">Org-007s R7 1/9/2024</field>
+            <field name="technical_code">form_cultivo</field>
+        </record>
+
+        <record id="osp_form_template_manejo_proceso" model="osp.form.template">
+            <field name="service_id" ref="osp_service_nop_usda"/>
+            <field name="name">Manejo o Proceso</field>
+            <field name="version">Org-010 Rev.6 1/9/2024</field>
+            <field name="technical_code">form_manejo_proceso</field>
+        </record>
+
+        <record id="osp_form_template_comercializador" model="osp.form.template">
+            <field name="service_id" ref="osp_service_nop_usda"/>
+            <field name="name">Comercializador</field>
+            <field name="version">Org-061s Rev. 0 3/4/24</field>
+            <field name="technical_code">form_comercializador</field>
+        </record>
+
+    </data>
+</odoo>

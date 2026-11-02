@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        noupdate="1": estos registros se crean SOLO la primera vez que se
+        instala el módulo (botón "Activar"/"Instalar" en Aplicaciones).
+        En cada actualización posterior (-u osp_management) Odoo los ignora
+        por completo — no los vuelve a crear ni los pisa si el usuario ya
+        los editó a mano. Es el comportamiento estándar de Odoo para datos
+        de catálogo/configuración iniciales.
+    -->
+    <data noupdate="1">
+
+        <record id="osp_service_nop_usda" model="osp.service">
+            <field name="name">NOP/USDA</field>
+        </record>
+
+        <record id="osp_service_lpo" model="osp.service">
+            <field name="name">LPO</field>
+        </record>
+
+        <record id="osp_service_rn_29782" model="osp.service">
+            <field name="name">RN 29782</field>
+        </record>
+
+    </data>
+</odoo>

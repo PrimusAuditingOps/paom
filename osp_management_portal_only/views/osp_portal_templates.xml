@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Solo el ocultamiento condicional para usuarios de portal marcados
+         como "solo OSP" (res.users.osp_portal_only, definido en este mismo
+         módulo). La tarjeta base "Organic System Plans" (id
+         "portal_osp_category") vive en osp_management —
+         views/osp_portal_templates.xml, template portal_my_home_osp_raw —
+         funcionalidad núcleo que no depende de este módulo opcional. Este
+         módulo solo agrega el "extra": si se desinstala, osp_management
+         sigue funcionando normal para todos los clientes de portal, solo
+         sin esta restricción específica. -->
+    <template id="portal_my_home_osp_portal_only_hide" name="Hide other portal apps for OSP-only users" inherit_id="portal.portal_my_home" priority="100">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+
+            <!-- Usuario de portal marcado como "solo OSP"
+                 (res.users.osp_portal_only): se ocultan TODAS las demás
+                 tarjetas que ya se hayan inyectado en este mismo
+                 contenedor o_portal_docs (nativas de Odoo — Ventas,
+                 Facturación, etc. — o de cualquier módulo personalizado),
+                 dejando visible únicamente la de osp_management
+                 (#portal_osp_category). Un solo punto de intervención a
+                 nivel del contenedor compartido: no requiere conocer ni
+                 tocar el código de cada app individual (ver CONTEXT.md).
+                 Esto es solo ocultamiento de navegación, no una
+                 restricción de acceso real — decisión confirmada con el
+                 usuario. -->
+            <t t-if="request.env.user.osp_portal_only">
+                <style>
+                    .o_portal_docs > *:not(#portal_osp_category) { display: none !important; }
+                </style>
+            </t>
+
+        </xpath>
+    </template>
+</odoo>

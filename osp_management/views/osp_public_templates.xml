@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Pantalla de confirmación tras el submit de un navegante público
+        (sin login). No hay /my/osp a donde mandarlo (no tiene portal),
+        así que se queda aquí. Mientras el registro NO tenga partner_id
+        asignado (el Administrador de OSP todavía no lo vinculó a un
+        cliente), esta misma pantalla permite subir archivos adjuntos —
+        en cuanto se vincula a un cliente, esta ruta deja de aceptar
+        subidas para ese id (ver controllers/portal.py, OSPPublicController).
+    -->
+    <template id="public_osp_thankyou" name="OSP Public Thank You">
+        <t t-call="website.layout">
+            <div class="container py-5" style="max-width: 700px;">
+                <div class="text-center mb-4">
+                    <img src="/osp_management/static/src/img/primus_logo.png" alt="Primus Auditing Ops" style="max-height: 60px;"/>
+                </div>
+
+                <div class="text-center mb-4">
+                    <i class="fa fa-check-circle fa-4x text-success mb-3"></i>
+                    <h2 class="fw-bold">Thank you!</h2>
+                    <p class="text-muted">
+                        Your Organic System Plan has been submitted successfully. Our team will review it shortly.
+                    </p>
+                </div>
+
+                <div t-if="can_upload" class="border rounded-3 p-4 mt-4">
+                    <h5 class="fw-bold"><i class="fa fa-paperclip"></i> Attachments</h5>
+                    <p class="text-muted small">
+                        You can still attach any supporting documents referenced in your submission (certificates, maps, lab results, etc.).
+                    </p>
+
+                    <!-- Descargar el PDF recién generado (retro de usuario piloto)
+                         — ver controllers/portal.py, public_osp_pdf(). Misma regla
+                         de apagado que el resto de esta pantalla: solo mientras el
+                         registro no tenga cliente asignado. -->
+                    <a t-attf-href="/osp/public/pdf/#{osp.id}" target="_blank" class="btn btn-outline-success mb-3">
+                        <i class="fa fa-file-pdf-o"></i> Download my PDF
+                    </a>
+
+                    <!-- Checklist de recordatorio (retro de usuario piloto): qué
+                         casillas "Attach .../Adjunte ..." se marcaron a lo largo
+                         del formulario que se acaba de enviar — para que el
+                         cliente no tenga que recordar de memoria qué dijo que
+                         iba a subir. Solo lectura (ya no hay formulario que
+                         navegar, a diferencia del checklist del formulario vivo
+                         — ver static/src/js/osp_form.js, initAttachmentChecklist()). -->
+                    <div t-if="attachment_checklist" class="alert alert-info">
+                        <div class="fw-bold mb-2"><i class="fa fa-list-check"></i> You indicated you would attach the following documents:</div>
+                        <ul class="mb-0">
+                            <li t-foreach="attachment_checklist" t-as="item"><t t-esc="item"/></li>
+                        </ul>
+                    </div>
+
+                    <form t-attf-action="/osp/public/upload/#{osp.id}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap mb-3">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="file" name="osp_files" multiple="multiple" class="form-control" style="max-width: 400px;"/>
+                        <button type="submit" class="btn btn-outline-success">
+                            <i class="fa fa-upload"></i> Upload
+                        </button>
+                    </form>
+
+                    <div t-if="not attachments" class="text-muted small mb-0">
+                        No files uploaded yet.
+                    </div>
+
+                    <div t-if="attachments" class="list-group">
+                        <div t-foreach="attachments" t-as="att" class="list-group-item">
+                            <i class="fa fa-file-o me-1"></i><t t-esc="att.name"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
