@@ -219,7 +219,7 @@ class PaoGlobalgapFansRequest(models.Model):
                                     ),
                                     user_id=usr.id,
                                 )
-                            users = self.env['res.users'].browse([27, 332, 187,144])
+                            users = self.env['res.users'].browse([27, 332, 187, 144, 357])
                             record.message_post(
                                 body="Se ha actualizado el estatus de QA para la Revisión de Aplicación GlobalG.A.P.",
                                 message_type='comment',
