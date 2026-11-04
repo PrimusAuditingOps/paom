@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-06 06:47+0000\n"
-"PO-Revision-Date: 2026-10-06 06:47+0000\n"
+"POT-Creation-Date: 2026-11-04 05:19+0000\n"
+"PO-Revision-Date: 2026-11-04 05:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,9 +22,44 @@ msgid "# Commissions"
 msgstr "# Comisiones"
 
 #. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__commission_percentage
+msgid "% Commission"
+msgstr "% Comisión"
+
+#. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__commission_percentage
 msgid "% commission"
 msgstr "% Comisión"
+
+#. module: pao_sales_commission_management
+#: model:ir.actions.report,print_report_name:pao_sales_commission_management.action_report_pao_commission_detail
+msgid "'Detalle de comisión - %s' % (object.name)"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.report_pao_commission_detail_document
+msgid "<strong>Cliente</strong>"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.report_pao_commission_detail_document
+msgid "<strong>Cotización</strong>"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.report_pao_commission_detail_document
+msgid "<strong>Folio de comisión</strong>"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.report_pao_commission_detail_document
+msgid "<strong>Importe de comisión (MXN)</strong>"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.report_pao_commission_detail_document
+msgid "<strong>Total</strong>"
+msgstr ""
 
 #. module: pao_sales_commission_management
 #: model:ir.model.constraint,message:pao_sales_commission_management.constraint_pao_sales_commission_sale_order_uniq
@@ -83,6 +118,7 @@ msgstr "Importes"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__applied_exchange_rate
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__applied_exchange_rate
 msgid "Applied Exchange Rate"
 msgstr "Tipo de cambio aplicado"
 
@@ -111,6 +147,14 @@ msgid "Base"
 msgstr ""
 
 #. module: pao_sales_commission_management
+#: model:res.groups,comment:pao_sales_commission_management.view_promoter_commission_percentage
+msgid ""
+"Can see the commission percentage (commission_rate) of internal commission "
+"agents (Sales and Coordination). The percentage of External agents is "
+"visible to everyone."
+msgstr ""
+
+#. module: pao_sales_commission_management
 #: model:res.groups,comment:pao_sales_commission_management.group_pao_sales_commission_manager
 msgid ""
 "Can send commissions that are ready (\"Submit for Approval\") to Finance for"
@@ -121,7 +165,9 @@ msgstr ""
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__commission_id
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__commission_id
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_order_form_pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 msgid "Commission"
 msgstr "Comisión"
 
@@ -131,32 +177,69 @@ msgid "Commission % (decimal)"
 msgstr "% Comisión (decimal)"
 
 #. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__promotor_id
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_sale_order__pao_commission_agent_id
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_sale_order_line__pao_promotor_id
 #: model:ir.ui.menu,name:pao_sales_commission_management.menu_pao_sales_commission_agent
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_search
 msgid "Commission Agent"
 msgstr "Comisionista"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__commission_amount
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__commission_amount
 msgid "Commission Amount"
 msgstr "Importe de comisión"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__commission_amount_mxn
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__commission_amount_mxn
 msgid "Commission Amount (MXN)"
 msgstr "Importe de comisión (MXN)"
 
 #. module: pao_sales_commission_management
+#: model:ir.actions.act_window,name:pao_sales_commission_management.action_pao_sales_commission_report
+#: model:ir.ui.menu,name:pao_sales_commission_management.menu_pao_sales_commission_report_lines
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_graph
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_pivot
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_tree
+msgid "Commission Lines Analysis"
+msgstr "Analisis lineas de comisión"
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_tree
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_tree
 msgid "Commission MXN"
 msgstr "Comisión MXN"
 
 #. module: pao_sales_commission_management
+#: model:ir.model,name:pao_sales_commission_management.model_pao_sales_commission_report
+msgid "Commission Product Lines Analysis"
+msgstr "Analisis lineas de producto de comisión"
+
+#. module: pao_sales_commission_management
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_tree
 msgid "Commission USD"
 msgstr "Comisión USD"
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,help:pao_sales_commission_management.field_pao_sales_commission_report__commission_amount_mxn
+msgid ""
+"Commission on this line converted to MXN with the exchange rate of the "
+"reference payment (0 until the quotation is invoiced and paid)."
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,help:pao_sales_commission_management.field_pao_sales_commission_report__commission_amount
+msgid "Commission on this line, in the quotation currency."
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__commissionable_base
+msgid "Commissionable Base"
+msgstr "Base comisionable"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__commissionable_base
@@ -175,7 +258,9 @@ msgid "Commissionable Product Lines"
 msgstr "Lineas de productos comisionables"
 
 #. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__commissionable_qty
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_form
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_tree
 msgid "Commissionable Qty"
 msgstr "Cant. Comisionable"
 
@@ -211,6 +296,11 @@ msgid "Commissions / Read (Salesperson and Coordinators)"
 msgstr "Comisiones / Lectura (vendedores y coordinadores)"
 
 #. module: pao_sales_commission_management
+#: model:res.groups,name:pao_sales_commission_management.view_promoter_commission_percentage
+msgid "Commissions / View Promoter Commission Percentage"
+msgstr "Comisión / Ver porcentaje de comisión del promotor"
+
+#. module: pao_sales_commission_management
 #: model:ir.actions.act_window,name:pao_sales_commission_management.action_pao_sales_commission
 msgid "Commissions Payable"
 msgstr "Comisiones"
@@ -222,6 +312,7 @@ msgstr "Comisiones: Generar y Actualizar"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__company_id
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__company_id
 msgid "Company"
 msgstr "Compañia"
 
@@ -233,6 +324,7 @@ msgstr "Configuración"
 #. module: pao_sales_commission_management
 #: model:ir.model.fields.selection,name:pao_sales_commission_management.selection__comisionpromotores_promotor__promotor_type__coordination
 #: model:ir.model.fields.selection,name:pao_sales_commission_management.selection__pao_sales_commission__promotor_type__coordination
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_search
 msgid "Coordination"
 msgstr "Coordinación"
@@ -257,11 +349,15 @@ msgstr "Moneda de la cotización"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__partner_id
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__partner_id
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 msgid "Customer"
 msgstr "Cliente"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__sales_customer_type
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__sales_customer_type
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 msgid "Customer Type"
 msgstr "Tipo de cliente"
 
@@ -273,6 +369,21 @@ msgid ""
 msgstr ""
 "El pago del cliente se utilizó para determinar el tipo de cambio (fue el que"
 " presentaba el importe más elevado en su equivalente en MXN)."
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,help:pao_sales_commission_management.field_pao_sales_commission_report__payment_date
+msgid "Date of the payment whose exchange rate was used for the commission."
+msgstr "Fecha de el pago usado para el tipo de cambio para el pago de comisión."
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.report_pao_commission_detail_document
+msgid "Detalle de comisiones"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model:ir.actions.report,name:pao_sales_commission_management.action_report_pao_commission_detail
+msgid "Detalle de comisión"
+msgstr ""
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,help:pao_sales_commission_management.field_comisionpromotores_promotor__promotor_type
@@ -288,12 +399,34 @@ msgstr ""
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__display_name
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__display_name
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__payment_date
+msgid "Exchange Rate Payment Date"
+msgstr ""
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
+msgid "Exchange Rate Payment Date: Day"
+msgstr "Fecha del pago: Día"
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
+msgid "Exchange Rate Payment Date: Month"
+msgstr "Fecha del pago: Mes"
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
+msgid "Exchange Rate Payment Date: Year"
+msgstr "Fecha del pago: Año"
+
+#. module: pao_sales_commission_management
 #: model:ir.model.fields.selection,name:pao_sales_commission_management.selection__comisionpromotores_promotor__promotor_type__external
 #: model:ir.model.fields.selection,name:pao_sales_commission_management.selection__pao_sales_commission__promotor_type__external
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_search
 msgid "External"
 msgstr "Externo"
@@ -325,10 +458,12 @@ msgstr "Generar Órden de compra"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__generation_date
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__generation_date
 msgid "Generation Date"
 msgstr "Fecha de generaciónß"
 
 #. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_search
 msgid "Group by"
 msgstr ""
@@ -341,6 +476,7 @@ msgstr ""
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__id
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__id
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__id
 msgid "ID"
 msgstr ""
 
@@ -400,6 +536,11 @@ msgid ""
 msgstr ""
 "Aquí se enumeran las comisiones generadas por\n"
 "                cotizaciones con un agente comisionista asignado."
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__currency_mxn_id
+msgid "MXN Currency"
+msgstr "Moneda MXN"
 
 #. module: pao_sales_commission_management
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_tree
@@ -472,6 +613,11 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: pao_sales_commission_management
+#: model_terms:ir.actions.act_window,help:pao_sales_commission_management.action_pao_sales_commission_report
+msgid "No commission product lines yet."
+msgstr "Sin lineas de productos en la comisión aún."
+
+#. module: pao_sales_commission_management
 #: model:ir.actions.act_window,name:pao_sales_commission_management.action_pao_sales_commission_not_approved
 #: model:ir.model.fields.selection,name:pao_sales_commission_management.selection__pao_sales_commission__state__not_approved
 #: model:ir.ui.menu,name:pao_sales_commission_management.menu_pao_sales_commission_not_approved
@@ -514,6 +660,14 @@ msgstr ""
 "agentes comisionistas Externos (que no tienen usuario de Odoo)."
 
 #. module: pao_sales_commission_management
+#: model_terms:ir.actions.act_window,help:pao_sales_commission_management.action_pao_sales_commission_report
+msgid ""
+"One row per commissionable product line, with the agent it\n"
+"                is paid to, the commission on that line and the date of the\n"
+"                payment used for the exchange rate."
+msgstr ""
+
+#. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__organization_id
 msgid "Organization"
 msgstr "Organización"
@@ -554,9 +708,8 @@ msgid ""
 "on commissions of Salesperson and Coordination agents. External agents do "
 "not generate it."
 msgstr ""
-"Porcentaje de la base comisionable que el administrador recibe "
-"sobre comisiones internas. Las comisiones externas no "
-"generan esta comisión."
+"Porcentaje de la base comisionable que el administrador recibe sobre "
+"comisiones internas. Las comisiones externas no generan esta comisión."
 
 #. module: pao_sales_commission_management
 #: model:ir.actions.act_window,name:pao_sales_commission_management.action_pao_sales_commission_processed
@@ -569,6 +722,8 @@ msgstr "Procesado"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__product_id
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__product_id
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 msgid "Product"
 msgstr "Producto"
 
@@ -591,13 +746,15 @@ msgstr ""
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__promotor_id
 msgid "Promoter"
-msgstr "Comisionista"
+msgstr "Promotor"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__promotor_type
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__promotor_type
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_search
 msgid "Promoter Type"
-msgstr "Tipo de comisionista"
+msgstr "Tipo de promotor"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,help:pao_sales_commission_management.field_sale_order_line__pao_promotor_id
@@ -607,7 +764,7 @@ msgid ""
 "clear it manually to exclude this specific line from the commission "
 "calculation."
 msgstr ""
-"Comisionista que percibe una comisión por esta línea. Se rellena automáticamente"
+"Promotor que percibe una comisión por esta línea. Se rellena automáticamente"
 " a partir de la cotización Agente de comisiones (pao_commission_agent_id) "
 "para productos sujetos a comisión; elimine el valor manualmente para excluir"
 " esta línea específica del cálculo de la comisión."
@@ -615,7 +772,7 @@ msgstr ""
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_comisionpromotores_promotor__promotor_type
 msgid "Promotor Type"
-msgstr "Tipo de Comisionista"
+msgstr "Tipo de promotor"
 
 #. module: pao_sales_commission_management
 #: model:ir.model,name:pao_sales_commission_management.model_purchase_order
@@ -632,6 +789,7 @@ msgstr ""
 "agente, agrupado con otras comisiones aprobadas del mismo agente."
 
 #. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__sold_qty
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_form
 msgid "Qty Sold"
 msgstr "Cant. Vendida"
@@ -644,7 +802,7 @@ msgid ""
 " quantity sold. Editing this never changes the quotation."
 msgstr ""
 "La cantidad sobre la que finanzas realmente paga la comisión. Por defecto, "
-"utiliza la cantidad vendido, pero puede ser rebajado si el comisionista no gana "
+"utiliza la cantidad vendido, pero puede ser rebajado si el promotor no gana "
 "comisión sobre el total cantidad vendida. Modificar esto nunca altera el "
 "presupuesto."
 
@@ -665,8 +823,14 @@ msgstr ""
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__sale_order_id
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__sale_order_id
 msgid "Quotation"
 msgstr "cotización"
+
+#. module: pao_sales_commission_management
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__currency_id
+msgid "Quotation Currency"
+msgstr "Moneda de la cotización"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__sale_order_line_id
@@ -719,6 +883,11 @@ msgid "Related User"
 msgstr "Usuario relacionado"
 
 #. module: pao_sales_commission_management
+#: model:ir.ui.menu,name:pao_sales_commission_management.menu_pao_sales_commission_reporting
+msgid "Reporting"
+msgstr "Reporte"
+
+#. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__requires_service_validation
 msgid "Requires service validation."
 msgstr "Servicio requiere validación"
@@ -744,6 +913,7 @@ msgstr ""
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields.selection,name:pao_sales_commission_management.selection__comisionpromotores_promotor__promotor_type__sales
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_search
 msgid "Sales"
 msgstr "Ventas"
@@ -817,10 +987,12 @@ msgstr "Fecha inicio de servicio"
 #. module: pao_sales_commission_management
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_form
 msgid "Service Validation (Coordinator only)"
-msgstr "Validación de servicio (solo coordinación)"
+msgstr "Validación de servicio (solo coordinacióßn)"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission__state
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__state
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
 #: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_search
 msgid "State"
 msgstr "Estado"
@@ -865,6 +1037,7 @@ msgstr "En revisión"
 
 #. module: pao_sales_commission_management
 #: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_line__price_unit
+#: model:ir.model.fields,field_description:pao_sales_commission_management.field_pao_sales_commission_report__price_unit
 msgid "Unit Price"
 msgstr "Precio unitario"
 
@@ -893,6 +1066,16 @@ msgstr ""
 #: model:ir.model.fields,help:pao_sales_commission_management.field_pao_sales_commission__website_message_ids
 msgid "Website communication history"
 msgstr ""
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
+msgid "With Exchange Rate Payment"
+msgstr "Pago con tasa de cambio"
+
+#. module: pao_sales_commission_management
+#: model_terms:ir.ui.view,arch_db:pao_sales_commission_management.view_pao_sales_commission_report_search
+msgid "Without Exchange Rate Payment"
+msgstr "Pago sin tasa de cambio"
 
 #. module: pao_sales_commission_management
 #: model:res.groups,comment:pao_sales_commission_management.group_pao_sales_commission_read
