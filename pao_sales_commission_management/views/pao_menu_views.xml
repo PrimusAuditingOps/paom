@@ -38,6 +38,15 @@
               parent="menu_pao_sales_commission_commissions"
               action="action_pao_sales_commission_under_review" sequence="60"/>
 
+    <menuitem id="menu_pao_sales_commission_reporting" name="Reporting"
+              parent="menu_pao_sales_commission_root"
+              groups="group_pao_sales_commission_manager" sequence="70"/>
+
+    <menuitem id="menu_pao_sales_commission_report_lines" name="Commission Lines Analysis"
+              parent="menu_pao_sales_commission_reporting"
+              action="action_pao_sales_commission_report"
+              groups="group_pao_sales_commission_manager" sequence="10"/>
+
     <menuitem id="menu_pao_sales_commission_configuration" name="Configuration"
               parent="menu_pao_sales_commission_root" sequence="80"/>
 

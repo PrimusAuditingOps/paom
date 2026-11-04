@@ -30,6 +30,7 @@
         'views/pao_sale_order_views.xml',
         'views/pao_purchase_order_views.xml',
         'views/pao_sales_commission_views.xml',
+        'views/pao_sales_commission_report_views.xml',
         'views/pao_menu_views.xml',
         'reports/pao_commission_detail_report.xml',
     ],
