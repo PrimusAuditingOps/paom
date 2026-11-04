@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models, tools
+from odoo import api, fields, models, tools
 
 
 class PaoSalesCommissionReport(models.Model):
@@ -48,9 +48,17 @@ class PaoSalesCommissionReport(models.Model):
         'res.currency', string='MXN Currency', readonly=True)
     price_unit = fields.Monetary(
         string='Unit Price', readonly=True, currency_field='currency_id')
+    currency_usd_id = fields.Many2one(
+        'res.currency', string='USD Currency', readonly=True)
     commissionable_base = fields.Monetary(
-        string='Commissionable Base', readonly=True,
-        currency_field='currency_id')
+        string='Commissionable Base (USD)', readonly=True,
+        currency_field='currency_usd_id',
+        help='Commissionable base of the line always expressed in USD. '
+             'Quotations in USD are taken as they are; quotations in any '
+             'other currency (e.g. MXN) are converted to USD with the '
+             'exchange rate of the day of the payment assigned to the '
+             'commission (or the rate of today when the commission has no '
+             'payment yet).')
     commission_percentage = fields.Float(
         string='% Commission', readonly=True, digits=(5, 2))
     commission_amount = fields.Monetary(
@@ -70,10 +78,29 @@ class PaoSalesCommissionReport(models.Model):
         help='Date of the payment whose exchange rate was used for the '
              'commission.')
 
+    @api.model
+    def _rate_sql(self, currency_expr, date_expr):
+        """Subconsulta con la misma lógica que res.currency._get_rates:
+        tasa vigente a la fecha (primero la de la compañía, luego la global),
+        si no hay, la más antigua, y 1.0 si no existe ninguna."""
+        return """COALESCE(
+            (SELECT r.rate FROM res_currency_rate r
+              WHERE r.currency_id = %(cur)s AND r.name <= %(date)s
+                AND (r.company_id IS NULL OR r.company_id = c.company_id)
+              ORDER BY r.company_id, r.name DESC LIMIT 1),
+            (SELECT r.rate FROM res_currency_rate r
+              WHERE r.currency_id = %(cur)s
+                AND (r.company_id IS NULL OR r.company_id = c.company_id)
+              ORDER BY r.company_id, r.name ASC LIMIT 1),
+            1.0)""" % {'cur': currency_expr, 'date': date_expr}
+
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
+        rate_date = 'COALESCE(pm.date, CURRENT_DATE)'
+        rate_quote = self._rate_sql('c.currency_cotizacion_id', rate_date)
+        rate_usd = self._rate_sql('usd.id', rate_date)
         self.env.cr.execute("""
-            CREATE OR REPLACE VIEW %s AS (
+            CREATE OR REPLACE VIEW %(table)s AS (
                 SELECT
                     l.id AS id,
                     c.id AS commission_id,
@@ -91,7 +118,13 @@ class PaoSalesCommissionReport(models.Model):
                     c.currency_cotizacion_id AS currency_id,
                     c.currency_mxn_id AS currency_mxn_id,
                     l.price_unit AS price_unit,
-                    l.subtotal AS commissionable_base,
+                    usd.id AS currency_usd_id,
+                    CASE
+                        WHEN usd.id IS NULL THEN NULL
+                        WHEN c.currency_cotizacion_id = usd.id THEN l.subtotal
+                        ELSE ROUND((COALESCE(l.subtotal, 0)
+                                    / %(rate_quote)s * %(rate_usd)s)::numeric, 2)
+                    END AS commissionable_base,
                     c.commission_percentage AS commission_percentage,
                     ROUND((COALESCE(l.subtotal, 0)
                            * COALESCE(c.commission_percentage, 0) / 100.0)::numeric, 2)
@@ -106,6 +139,13 @@ class PaoSalesCommissionReport(models.Model):
                 JOIN pao_sales_commission c ON c.id = l.commission_id
                 LEFT JOIN account_payment p ON p.id = c.reference_payment_id
                 LEFT JOIN account_move pm ON pm.id = p.move_id
+                LEFT JOIN LATERAL (
+                    SELECT id FROM res_currency WHERE name = 'USD' LIMIT 1
+                ) usd ON TRUE
                 WHERE c.active IS NOT FALSE
             )
-        """ % self._table)
+        """ % {
+            'table': self._table,
+            'rate_quote': rate_quote,
+            'rate_usd': rate_usd,
+        })
