@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pao_sales_commission_report_search" model="ir.ui.view">
+        <field name="name">pao.sales.commission.report.search</field>
+        <field name="model">pao.sales.commission.report</field>
+        <field name="arch" type="xml">
+            <search string="Commission Lines Analysis">
+                <field name="commission_id"/>
+                <field name="product_id"/>
+                <field name="promotor_id"/>
+                <field name="partner_id"/>
+                <field name="sale_order_id"/>
+                <filter string="External" name="filter_external"
+                        domain="[('promotor_type', '=', 'external')]"/>
+                <filter string="Sales" name="filter_sales"
+                        domain="[('promotor_type', '=', 'sales')]"/>
+                <filter string="Coordination" name="filter_coordination"
+                        domain="[('promotor_type', '=', 'coordination')]"/>
+                <separator/>
+                <filter string="With Exchange Rate Payment" name="filter_with_payment"
+                        domain="[('payment_date', '!=', False)]"/>
+                <filter string="Without Exchange Rate Payment" name="filter_without_payment"
+                        domain="[('payment_date', '=', False)]"/>
+                <group expand="0" string="Group by">
+                    <filter string="Exchange Rate Payment Date: Day" name="group_payment_day"
+                            context="{'group_by': 'payment_date:day'}"/>
+                    <filter string="Exchange Rate Payment Date: Month" name="group_payment_month"
+                            context="{'group_by': 'payment_date:month'}"/>
+                    <filter string="Exchange Rate Payment Date: Year" name="group_payment_year"
+                            context="{'group_by': 'payment_date:year'}"/>
+                    <separator/>
+                    <filter string="Product" name="group_product"
+                            context="{'group_by': 'product_id'}"/>
+                    <filter string="Commission Agent" name="group_promotor"
+                            context="{'group_by': 'promotor_id'}"/>
+                    <filter string="Promoter Type" name="group_promotor_type"
+                            context="{'group_by': 'promotor_type'}"/>
+                    <filter string="Customer" name="group_partner"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter string="Customer Type" name="group_customer_type"
+                            context="{'group_by': 'sales_customer_type'}"/>
+                    <filter string="Commission" name="group_commission"
+                            context="{'group_by': 'commission_id'}"/>
+                    <filter string="State" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_pao_sales_commission_report_tree" model="ir.ui.view">
+        <field name="name">pao.sales.commission.report.tree</field>
+        <field name="model">pao.sales.commission.report</field>
+        <field name="arch" type="xml">
+            <tree string="Commission Lines Analysis" create="0" edit="0" delete="0">
+                <field name="payment_date"/>
+                <field name="commission_id"/>
+                <field name="promotor_id"/>
+                <field name="promotor_type" optional="hide"/>
+                <field name="partner_id"/>
+                <field name="sale_order_id"/>
+                <field name="product_id"/>
+                <field name="sold_qty" optional="hide"/>
+                <field name="commissionable_qty" sum="Commissionable Qty"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="currency_mxn_id" column_invisible="1"/>
+                <field name="price_unit" optional="hide"/>
+                <field name="commissionable_base" optional="hide"/>
+                <field name="commission_percentage"/>
+                <field name="commission_amount" optional="hide"/>
+                <field name="applied_exchange_rate" optional="hide"/>
+                <field name="commission_amount_mxn" sum="Commission MXN"/>
+                <field name="state" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pao_sales_commission_report_pivot" model="ir.ui.view">
+        <field name="name">pao.sales.commission.report.pivot</field>
+        <field name="model">pao.sales.commission.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Commission Lines Analysis" sample="1">
+                <field name="product_id" type="row"/>
+                <field name="commissionable_qty" type="measure"/>
+                <field name="commission_amount_mxn" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_pao_sales_commission_report_graph" model="ir.ui.view">
+        <field name="name">pao.sales.commission.report.graph</field>
+        <field name="model">pao.sales.commission.report</field>
+        <field name="arch" type="xml">
+            <graph string="Commission Lines Analysis" type="bar" sample="1">
+                <field name="product_id"/>
+                <field name="commission_amount_mxn" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_pao_sales_commission_report" model="ir.actions.act_window">
+        <field name="name">Commission Lines Analysis</field>
+        <field name="res_model">pao.sales.commission.report</field>
+        <field name="view_mode">pivot,tree,graph</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No commission product lines yet.
+            </p>
+            <p>
+                One row per commissionable product line, with the agent it
+                is paid to, the commission on that line and the date of the
+                payment used for the exchange rate.
+            </p>
+        </field>
+    </record>
+</odoo>
