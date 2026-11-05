@@ -3,7 +3,8 @@
     <field name="name">pao.sales.budget.scheme.view.tree</field>
     <field name="model">pao.sales.budget.scheme</field>
     <field name="arch" type="xml">
-      <tree string="Sales Budget Scheme">
+      <tree string="Sales Budget Scheme" default_order="sequence, name">
+        <field name="sequence" widget="handle"/>
         <field name="name"/>
       </tree>
     </field>

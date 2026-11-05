@@ -94,6 +94,7 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
             b = budget.get(key)
             a = actual.get(key)
             rows.append({
+                'key': key,
                 'name': (b or a)['name'],
                 'qty_budget': (b or {}).get('qty', zero_months),
                 'qty_actual': (a or {}).get('qty', zero_months),
@@ -101,6 +102,11 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
                 'amount_actual': (a or {}).get('amount', zero_months),
             })
         rows.sort(key=lambda r: r['name'])
+        if groupby_fields == ['pao_sales_budget_scheme_id']:
+            # Los esquemas van en el orden (sequence) del catálogo; "Sin asignar" al final.
+            seq = {s.id: s.sequence for s in self.env['pao.sales.budget.scheme'].sudo().browse(
+                [r['key'][0] for r in rows if r['key'][0]])}
+            rows.sort(key=lambda r: (not r['key'][0], seq.get(r['key'][0], 0)))
         return rows
 
     @api.model
@@ -217,7 +223,7 @@ class PAOSalesBudgetDashboardWizard(models.TransientModel):
 
         schemes = Scheme.search([
             '|', ('company_id', '=', False), ('company_id', '=', budget.company_id.id),
-        ], order='name')
+        ])  # sin order: usa el del catálogo (sequence, name)
 
         month_fields = ['m%s' % m for m in self.MONTHS_ORDER]
         amount_fields = ['m%s_amount' % m for m in self.MONTHS_ORDER]

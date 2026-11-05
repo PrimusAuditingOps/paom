@@ -2,7 +2,7 @@
 
 Parte de registros "base" al grano más fino, uno por (coordinador, esquema,
 cliente), con la cantidad ordenada por mes en cada temporada:
-    coord_id, coord_name, scheme_id, scheme_name, partner_id, partner_name,
+    coord_id, coord_name, scheme_id, scheme_name, scheme_seq, partner_id, partner_name,
     group_name, promotor_name, months {'09': [cant_A, cant_B], ...}
 
 De ahí arma tres vistas: por coordinador, por coordinador y esquema, y por
@@ -104,11 +104,12 @@ def build(base):
         base, lambda r: (r['coord_id'] or False, r['scheme_id'] or False),
         lambda r: [r['coord_name'], r['scheme_name']],
         lambda r: (none_last(not r['coord_id']), r['coord_name'].lower(),
-                   none_last(not r['scheme_id']), r['scheme_name'].lower()))
+                   none_last(not r['scheme_id']), r.get('scheme_seq', 0), r['scheme_name'].lower()))
     clients = aggregate(
         base, lambda r: (r['scheme_id'] or False, r['partner_id']),
         lambda r: [r['partner_name'], r['group_name'], r['promotor_name']],
-        lambda r: (none_last(not r['scheme_id']), r['scheme_name'].lower(), r['partner_name'].lower()))
+        lambda r: (none_last(not r['scheme_id']), r.get('scheme_seq', 0), r['scheme_name'].lower(),
+                   r['partner_name'].lower()))
 
     # Clientes distintos en general (un cliente con dos coordinadores cuenta una vez).
     overall = {}
@@ -164,9 +165,9 @@ def _qty(value):
     return '{:,.0f}'.format(value) if abs(value - round(value)) < 1e-9 else '{:,.2f}'.format(value)
 
 
-def _render_table(title, label_headers, rows, year_a, year_b, extra_headers=(), with_months=True):
+def _render_table(title, label_headers, rows, year_a, year_b, extra_headers=(), with_months=True, show_clients=True):
     label_a, label_b = br.season_label(year_a), br.season_label(year_b)
-    has_clients = any(r.get('clients') for r in rows)
+    has_clients = show_clients and any(r.get('clients') for r in rows)
     head1 = ''.join('<th rowspan="2">%s</th>' % br._esc(h) for h in label_headers)
     head1 += ''.join('<th rowspan="2">%s</th>' % br._esc(h) for h in extra_headers)
     head2 = ''
@@ -225,7 +226,8 @@ def render_html(base, year_a, year_b):
     out += _render_table('Resumen por esquema', ['Esquema'], data['scheme_summary'], year_a, year_b,
                          extra_headers=_scheme_summary_headers(year_a, year_b), with_months=False)
     for b in data['blocks']:
-        out += _render_table(b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'], year_a, year_b)
+        out += _render_table(b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'], year_a, year_b,
+                             show_clients=False)
     return out
 
 
@@ -271,8 +273,8 @@ def render_xlsx(base, year_a, year_b):
             cls = 'neg' if pct < -0.00005 else ('pos' if pct > 0.00005 else 'zero')
             ws.write_number(r, c, pct, f[cls + suffix])
 
-    def write_table(ws, r, title, label_headers, rows, extra_headers=(), with_months=True):
-        has_clients = any(x.get('clients') for x in rows)
+    def write_table(ws, r, title, label_headers, rows, extra_headers=(), with_months=True, show_clients=True):
+        has_clients = show_clients and any(x.get('clients') for x in rows)
         n_lab, n_extra = len(label_headers), len(extra_headers)
         ws.write(r, 0, title, f['title'])
         r += 1
@@ -340,6 +342,6 @@ def render_xlsx(base, year_a, year_b):
     ws = sheet('Clientes', 40)
     r = 0
     for b in data['blocks']:
-        r = write_table(ws, r, b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'])
+        r = write_table(ws, r, b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'], show_clients=False)
     wb.close()
     return output.getvalue()

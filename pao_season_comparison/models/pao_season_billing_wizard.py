@@ -120,6 +120,7 @@ class PAOSeasonBillingWizard(models.TransientModel):
         partner_by_id = {p.id: p for p in partners}
         schemes = self.env['pao.sales.budget.scheme'].sudo().browse({key[0] for key in data if key[0]})
         scheme_name = {s.id: s.name for s in schemes}
+        scheme_seq = {s.id: s.sequence for s in schemes}
 
         rows = []
         for (scheme_id, partner_id), months in data.items():
@@ -134,6 +135,7 @@ class PAOSeasonBillingWizard(models.TransientModel):
             rows.append({
                 'scheme_id': scheme_id,
                 'scheme_name': scheme_name.get(scheme_id) or _('Sin esquema'),
+                'scheme_seq': scheme_seq.get(scheme_id, 0),
                 'partner_id': partner_id,
                 'partner_name': partner.name or '',
                 'group_id': partner.cgg_group_id.id,
@@ -146,8 +148,9 @@ class PAOSeasonBillingWizard(models.TransientModel):
                 'qty_a': qty_a, 'amt_a': amt_a, 'qty_b': qty_b, 'amt_b': amt_b,
                 'status': status,
             })
-        # "Sin esquema" al final; dentro de cada esquema, clientes por nombre.
-        rows.sort(key=lambda r: (not r['scheme_id'], r['scheme_name'].lower(), r['partner_name'].lower()))
+        # Esquemas en el orden (sequence) del catálogo, "Sin esquema" al final;
+        # dentro de cada esquema, clientes por nombre.
+        rows.sort(key=lambda r: (not r['scheme_id'], r['scheme_seq'], r['scheme_name'].lower(), r['partner_name'].lower()))
         return rows
 
     # ------------------------------------------------------------------

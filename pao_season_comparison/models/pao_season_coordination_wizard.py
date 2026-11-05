@@ -132,6 +132,7 @@ class PAOSeasonCoordinationWizard(models.TransientModel):
         coord_name = {u.id: u.name for u in users}
         schemes = self.env['pao.sales.budget.scheme'].sudo().browse({key[1] for key in data if key[1]})
         scheme_name = {s.id: s.name for s in schemes}
+        scheme_seq = {s.id: s.sequence for s in schemes}
 
         base = []
         for (coord_id, scheme_id, partner_id), months in data.items():
@@ -141,6 +142,7 @@ class PAOSeasonCoordinationWizard(models.TransientModel):
                 'coord_name': coord_name.get(coord_id) or _('Sin coordinador'),
                 'scheme_id': scheme_id,
                 'scheme_name': scheme_name.get(scheme_id) or _('Sin esquema'),
+                'scheme_seq': scheme_seq.get(scheme_id, 0),
                 'partner_id': partner_id,
                 'partner_name': partner.name or '',
                 'group_id': partner.cgg_group_id.id,

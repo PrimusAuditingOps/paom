@@ -4,7 +4,7 @@ los bloques por esquema, calcula variaciones y renderiza HTML / Excel.
 Se mantiene separada del wizard para poder probarla sin una base de Odoo.
 
 Cada "fila" es un dict con una combinación (esquema, cliente):
-    scheme_id, scheme_name, partner_id, partner_name, group_name,
+    scheme_id, scheme_name, scheme_seq, partner_id, partner_name, group_name,
     promotor_name, months {'09': [cant_A, usd_A, cant_B, usd_B], ...},
     qty_a, amt_a, qty_b, amt_b, status ('kept' | 'lost' | 'new')
 """
