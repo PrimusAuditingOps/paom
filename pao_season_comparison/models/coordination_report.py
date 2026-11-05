@@ -227,7 +227,7 @@ def render_html(base, year_a, year_b):
         out += _render_table(b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'], year_a, year_b,
                              show_clients=False)
     out += _render_table('Coordinador y esquema', ['Coordinador', 'Esquema'], data['coord_schemes'], year_a, year_b)
-    out += _render_table('Carga de trabajo por coordinador', ['Coordinador'], data['coords'], year_a, year_b)
+    out += _render_table('Servicios por coordinador', ['Coordinador'], data['coords'], year_a, year_b)
     return out
 
 
@@ -342,6 +342,6 @@ def render_xlsx(base, year_a, year_b):
     for b in data['blocks']:
         r = write_table(ws, r, b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'], show_clients=False)
     write_table(sheet('Coordinador-Esquema', 34), 0, 'Coordinador y esquema', ['Coordinador', 'Esquema'], data['coord_schemes'])
-    write_table(sheet('Coordinadores', 34), 0, 'Carga de trabajo por coordinador', ['Coordinador'], data['coords'])
+    write_table(sheet('Coordinadores', 34), 0, 'Servicios por coordinador', ['Coordinador'], data['coords'])
     wb.close()
     return output.getvalue()
