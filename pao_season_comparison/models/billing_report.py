@@ -179,7 +179,7 @@ def _render_summary(blocks, grand, grand_counts, label_a, label_b):
             <th colspan="2">%s</th><th colspan="2">%s</th><th colspan="2">Variación</th>
           </tr>
           <tr>
-            <th>%s</th><th>%s</th><th>Dejaron de comprar</th><th>Nuevos / Recuperados</th>
+            <th>%s</th><th>%s</th><th>Dejaron de facturar</th><th>Nuevos facturados</th>
             <th>#</th><th>USD</th><th>#</th><th>USD</th><th>Var #</th><th>Var $</th>
           </tr>
         </thead>
@@ -306,7 +306,7 @@ def render_xlsx(rows, year_a, year_b):
     ws.merge_range(0, 5, 0, 6, label_a, f['head'])
     ws.merge_range(0, 7, 0, 8, label_b, f['head'])
     ws.merge_range(0, 9, 0, 10, 'Variación', f['head'])
-    for i, t in enumerate((label_a, label_b, 'Dejaron de comprar', 'Nuevos / Recuperados', '#', 'USD', '#', 'USD', 'Var #', 'Var $')):
+    for i, t in enumerate((label_a, label_b, 'Dejaron de facturar', 'Nuevos facturados', '#', 'USD', '#', 'USD', 'Var #', 'Var $')):
         ws.write(1, 1 + i, t, f['sub'])
     ws.set_column(0, 0, 30)
     ws.set_column(1, 10, 14)

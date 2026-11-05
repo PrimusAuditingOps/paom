@@ -86,9 +86,9 @@
         <field name="group_id"/>
         <field name="promotor_id"/>
         <field name="region_id"/>
-        <filter name="lost" string="Dejaron de comprar" domain="[('status', '=', 'lost')]"/>
-        <filter name="new" string="Nuevos / Recuperados" domain="[('status', '=', 'new')]"/>
-        <filter name="kept" string="Siguen comprando" domain="[('status', '=', 'kept')]"/>
+        <filter name="lost" string="Dejaron de facturar" domain="[('status', '=', 'lost')]"/>
+        <filter name="new" string="Nuevos facturados" domain="[('status', '=', 'new')]"/>
+        <filter name="kept" string="Siguen facturando" domain="[('status', '=', 'kept')]"/>
         <separator/>
         <filter name="decreased" string="Bajaron en USD" domain="[('diff_amt', '&lt;', 0)]"/>
         <filter name="increased" string="Subieron en USD" domain="[('diff_amt', '&gt;', 0)]"/>

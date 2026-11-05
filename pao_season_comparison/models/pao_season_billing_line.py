@@ -18,9 +18,9 @@ class PAOSeasonBillingLine(models.TransientModel):
     promotor_id = fields.Many2one('comisionpromotores.promotor', string='Promotor')
     region_id = fields.Many2one('crm.team', string='Región')
     status = fields.Selection([
-        ('kept', 'Sigue comprando'),
-        ('lost', 'Dejó de comprar'),
-        ('new', 'Nuevo / Recuperado'),
+        ('kept', 'Sigue facturando'),
+        ('lost', 'Dejó de facturar'),
+        ('new', 'Nuevo facturado'),
     ], string='Estatus')
 
     qty_a = fields.Float(string='Cant. Temp. A')
