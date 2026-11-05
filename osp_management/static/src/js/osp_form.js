@@ -1878,7 +1878,10 @@ function initOspForm() {
             hint.textContent = multiclient.T.hint;
             banner.appendChild(hint);
         }
-        formContent.insertAdjacentElement('beforebegin', banner);
+        // Arriba de la FILA completa (menú lateral + contenido): insertarlo dentro de la fila
+        // lo convertía en una tercera columna y descuadraba el formulario.
+        const layoutRow = formContent.closest('.row') || formContent.parentElement;
+        layoutRow.insertAdjacentElement('beforebegin', banner);
     }
 
     initMulticlientBanner();
