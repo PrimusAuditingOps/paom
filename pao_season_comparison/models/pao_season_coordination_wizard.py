@@ -155,60 +155,13 @@ class PAOSeasonCoordinationWizard(models.TransientModel):
         return base
 
     # ------------------------------------------------------------------
-    # Interfaz 1: reporte en pantalla
+    # Reporte en pantalla
     # ------------------------------------------------------------------
 
     def action_generate_report(self):
         self.ensure_one()
         self.report_html = cr.render_html(self._get_base(), self.year_a, self.year_b)
         return True
-
-    # ------------------------------------------------------------------
-    # Interfaz 2: lista dinámica
-    # ------------------------------------------------------------------
-
-    def action_open_list(self):
-        self.ensure_one()
-        base = self._get_base()
-        Line = self.env['pao.season.coordination.line']
-        Line.search([('wizard_id', '=', self.id)]).unlink()
-
-        vals_list = []
-        for rec in base:
-            qty_a = sum(c[0] for c in rec['months'].values())
-            qty_b = sum(c[1] for c in rec['months'].values())
-            status = cr.status_of(qty_a, qty_b)
-            if not status:
-                continue
-            var_qty, _kind = br.variation(qty_a, qty_b)
-            vals = {
-                'wizard_id': self.id,
-                'coordinator_id': rec['coord_id'],
-                'scheme_id': rec['scheme_id'],
-                'partner_id': rec['partner_id'],
-                'group_id': rec['group_id'],
-                'promotor_id': rec['promotor_id'],
-                'region_id': rec['region_id'],
-                'status': status,
-                'qty_a': qty_a, 'qty_b': qty_b,
-                'diff_qty': qty_b - qty_a, 'var_qty': var_qty,
-            }
-            for mm in br.MONTHS_ORDER:
-                vals['m%s_a' % mm], vals['m%s_b' % mm] = rec['months'][mm]
-            vals_list.append(vals)
-        BATCH = 500
-        for i in range(0, len(vals_list), BATCH):
-            Line.create(vals_list[i:i + BATCH])
-
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Coordinación %s (A) vs %s (B)') % (br.season_label(self.year_a), br.season_label(self.year_b)),
-            'res_model': 'pao.season.coordination.line',
-            'view_mode': 'tree,pivot',
-            'domain': [('wizard_id', '=', self.id)],
-            'context': {'search_default_group_coordinator': 1},
-            'target': 'current',
-        }
 
     # ------------------------------------------------------------------
     # Excel

@@ -154,62 +154,13 @@ class PAOSeasonBillingWizard(models.TransientModel):
         return rows
 
     # ------------------------------------------------------------------
-    # Interfaz 1: reporte en pantalla
+    # Reporte en pantalla
     # ------------------------------------------------------------------
 
     def action_generate_report(self):
         self.ensure_one()
         self.report_html = br.render_html(self._get_rows(), self.year_a, self.year_b)
         return True
-
-    # ------------------------------------------------------------------
-    # Interfaz 2: lista dinámica (filtros, favoritos, agrupar, pivot)
-    # ------------------------------------------------------------------
-
-    def action_open_list(self):
-        self.ensure_one()
-        rows = self._get_rows()
-        Line = self.env['pao.season.billing.line']
-        Line.search([('wizard_id', '=', self.id)]).unlink()
-
-        vals_list = []
-        for r in rows:
-            var_qty, _kind = br.variation(r['qty_a'], r['qty_b'])
-            var_amt, _kind = br.variation(r['amt_a'], r['amt_b'])
-            vals = {
-                'wizard_id': self.id,
-                'scheme_id': r['scheme_id'],
-                'partner_id': r['partner_id'],
-                'group_id': r['group_id'],
-                'promotor_id': r['promotor_id'],
-                'region_id': r['region_id'],
-                'status': r['status'],
-                'qty_a': r['qty_a'], 'amt_a': r['amt_a'],
-                'qty_b': r['qty_b'], 'amt_b': r['amt_b'],
-                'diff_qty': r['qty_b'] - r['qty_a'],
-                'diff_amt': r['amt_b'] - r['amt_a'],
-                'var_qty': var_qty, 'var_amt': var_amt,
-            }
-            for mm in br.MONTHS_ORDER:
-                qa, aa, qb, ab = r['months'][mm]
-                vals.update({
-                    'm%s_qty_a' % mm: qa, 'm%s_amt_a' % mm: aa,
-                    'm%s_qty_b' % mm: qb, 'm%s_amt_b' % mm: ab,
-                })
-            vals_list.append(vals)
-        BATCH = 500
-        for i in range(0, len(vals_list), BATCH):
-            Line.create(vals_list[i:i + BATCH])
-
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Comparativo %s (A) vs %s (B)') % (br.season_label(self.year_a), br.season_label(self.year_b)),
-            'res_model': 'pao.season.billing.line',
-            'view_mode': 'tree,pivot',
-            'domain': [('wizard_id', '=', self.id)],
-            'context': {'search_default_group_scheme': 1},
-            'target': 'current',
-        }
 
     # ------------------------------------------------------------------
     # Excel

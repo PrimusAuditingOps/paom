@@ -221,13 +221,13 @@ def render_html(base, year_a, year_b):
     data = build(base)
     la, lb = br.season_label(year_a), br.season_label(year_b)
     out = br.CSS
-    out += _render_table('Carga de trabajo por coordinador — %s vs %s' % (la, lb), ['Coordinador'], data['coords'], year_a, year_b)
-    out += _render_table('Coordinador y esquema', ['Coordinador', 'Esquema'], data['coord_schemes'], year_a, year_b)
-    out += _render_table('Resumen por esquema', ['Esquema'], data['scheme_summary'], year_a, year_b,
+    out += _render_table('Resumen por esquema — %s vs %s' % (la, lb), ['Esquema'], data['scheme_summary'], year_a, year_b,
                          extra_headers=_scheme_summary_headers(year_a, year_b), with_months=False)
     for b in data['blocks']:
         out += _render_table(b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'], year_a, year_b,
                              show_clients=False)
+    out += _render_table('Coordinador y esquema', ['Coordinador', 'Esquema'], data['coord_schemes'], year_a, year_b)
+    out += _render_table('Carga de trabajo por coordinador', ['Coordinador'], data['coords'], year_a, year_b)
     return out
 
 
@@ -236,8 +236,8 @@ def render_html(base, year_a, year_b):
 # ----------------------------------------------------------------------
 
 def render_xlsx(base, year_a, year_b):
-    """Cuatro hojas: Coordinadores, Coordinador-Esquema, Resumen Esquema y
-    Clientes (un bloque por esquema)."""
+    """Cuatro hojas: Resumen Esquema, Clientes (un bloque por esquema),
+    Coordinador-Esquema y Coordinadores."""
     import xlsxwriter
 
     data = build(base) if base else {'coords': [], 'coord_schemes': [], 'scheme_summary': [], 'blocks': []}
@@ -335,13 +335,13 @@ def render_xlsx(base, year_a, year_b):
         ws.freeze_panes(0, 1)
         return ws
 
-    write_table(sheet('Coordinadores', 34), 0, 'Carga de trabajo por coordinador', ['Coordinador'], data['coords'])
-    write_table(sheet('Coordinador-Esquema', 34), 0, 'Coordinador y esquema', ['Coordinador', 'Esquema'], data['coord_schemes'])
     write_table(sheet('Resumen Esquema', 30), 0, 'Resumen por esquema', ['Esquema'], data['scheme_summary'],
                 extra_headers=_scheme_summary_headers(year_a, year_b), with_months=False)
     ws = sheet('Clientes', 40)
     r = 0
     for b in data['blocks']:
         r = write_table(ws, r, b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'], show_clients=False)
+    write_table(sheet('Coordinador-Esquema', 34), 0, 'Coordinador y esquema', ['Coordinador', 'Esquema'], data['coord_schemes'])
+    write_table(sheet('Coordinadores', 34), 0, 'Carga de trabajo por coordinador', ['Coordinador'], data['coords'])
     wb.close()
     return output.getvalue()

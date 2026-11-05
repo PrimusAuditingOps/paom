@@ -23,8 +23,7 @@
             </group>
           </group>
           <div class="d-flex flex-wrap gap-2 mb-3">
-            <button string="Ver reporte en pantalla" type="object" name="action_generate_report" class="btn-primary"/>
-            <button string="Ver en lista dinámica" type="object" name="action_open_list" class="btn-primary"/>
+            <button string="Ver reporte" type="object" name="action_generate_report" class="btn-primary"/>
             <button string="Descargar Excel" type="object" name="action_export_excel" class="btn-secondary"/>
           </div>
           <field name="report_html" widget="html" options="{'sanitize': false}" invisible="not report_html"/>
@@ -38,83 +37,6 @@
     <field name="res_model">pao.season.billing.wizard</field>
     <field name="view_mode">form</field>
     <field name="target">current</field>
-  </record>
-
-  <!-- Interfaz 2: lista dinámica -->
-  <record id="pao_season_billing_line_view_tree" model="ir.ui.view">
-    <field name="name">pao.season.billing.line.view.tree</field>
-    <field name="model">pao.season.billing.line</field>
-    <field name="arch" type="xml">
-      <tree string="Comparativo por Temporada" create="false" edit="false" delete="false">
-        <field name="scheme_id"/>
-        <field name="partner_id"/>
-        <field name="group_id" optional="show"/>
-        <field name="promotor_id" optional="show"/>
-        <field name="region_id" optional="hide"/>
-        <field name="status" widget="badge" decoration-danger="status == 'lost'" decoration-success="status == 'new'" decoration-info="status == 'kept'"/>
-        <field name="qty_a" sum="Total"/>
-        <field name="amt_a" sum="Total"/>
-        <field name="qty_b" sum="Total"/>
-        <field name="amt_b" sum="Total"/>
-        <field name="var_qty" widget="percentage" decoration-danger="var_qty &lt; 0" decoration-success="var_qty &gt; 0"/>
-        <field name="var_amt" widget="percentage" decoration-danger="var_amt &lt; 0" decoration-success="var_amt &gt; 0"/>
-        <field name="diff_qty" optional="hide" sum="Total"/>
-        <field name="diff_amt" optional="show" sum="Total"/>
-        <field name="m09_qty_a" optional="hide"/><field name="m09_amt_a" optional="hide"/><field name="m09_qty_b" optional="hide"/><field name="m09_amt_b" optional="hide"/>
-        <field name="m10_qty_a" optional="hide"/><field name="m10_amt_a" optional="hide"/><field name="m10_qty_b" optional="hide"/><field name="m10_amt_b" optional="hide"/>
-        <field name="m11_qty_a" optional="hide"/><field name="m11_amt_a" optional="hide"/><field name="m11_qty_b" optional="hide"/><field name="m11_amt_b" optional="hide"/>
-        <field name="m12_qty_a" optional="hide"/><field name="m12_amt_a" optional="hide"/><field name="m12_qty_b" optional="hide"/><field name="m12_amt_b" optional="hide"/>
-        <field name="m01_qty_a" optional="hide"/><field name="m01_amt_a" optional="hide"/><field name="m01_qty_b" optional="hide"/><field name="m01_amt_b" optional="hide"/>
-        <field name="m02_qty_a" optional="hide"/><field name="m02_amt_a" optional="hide"/><field name="m02_qty_b" optional="hide"/><field name="m02_amt_b" optional="hide"/>
-        <field name="m03_qty_a" optional="hide"/><field name="m03_amt_a" optional="hide"/><field name="m03_qty_b" optional="hide"/><field name="m03_amt_b" optional="hide"/>
-        <field name="m04_qty_a" optional="hide"/><field name="m04_amt_a" optional="hide"/><field name="m04_qty_b" optional="hide"/><field name="m04_amt_b" optional="hide"/>
-        <field name="m05_qty_a" optional="hide"/><field name="m05_amt_a" optional="hide"/><field name="m05_qty_b" optional="hide"/><field name="m05_amt_b" optional="hide"/>
-        <field name="m06_qty_a" optional="hide"/><field name="m06_amt_a" optional="hide"/><field name="m06_qty_b" optional="hide"/><field name="m06_amt_b" optional="hide"/>
-        <field name="m07_qty_a" optional="hide"/><field name="m07_amt_a" optional="hide"/><field name="m07_qty_b" optional="hide"/><field name="m07_amt_b" optional="hide"/>
-        <field name="m08_qty_a" optional="hide"/><field name="m08_amt_a" optional="hide"/><field name="m08_qty_b" optional="hide"/><field name="m08_amt_b" optional="hide"/>
-      </tree>
-    </field>
-  </record>
-
-  <record id="pao_season_billing_line_view_search" model="ir.ui.view">
-    <field name="name">pao.season.billing.line.view.search</field>
-    <field name="model">pao.season.billing.line</field>
-    <field name="arch" type="xml">
-      <search string="Comparativo por Temporada">
-        <field name="partner_id"/>
-        <field name="scheme_id"/>
-        <field name="group_id"/>
-        <field name="promotor_id"/>
-        <field name="region_id"/>
-        <filter name="lost" string="Dejaron de facturar" domain="[('status', '=', 'lost')]"/>
-        <filter name="new" string="Nuevos facturados" domain="[('status', '=', 'new')]"/>
-        <filter name="kept" string="Siguen facturando" domain="[('status', '=', 'kept')]"/>
-        <separator/>
-        <filter name="decreased" string="Bajaron en USD" domain="[('diff_amt', '&lt;', 0)]"/>
-        <filter name="increased" string="Subieron en USD" domain="[('diff_amt', '&gt;', 0)]"/>
-        <group expand="0" string="Agrupar por">
-          <filter name="group_scheme" string="Esquema" context="{'group_by': 'scheme_id'}"/>
-          <filter name="group_group" string="Grupo" context="{'group_by': 'group_id'}"/>
-          <filter name="group_promotor" string="Promotor" context="{'group_by': 'promotor_id'}"/>
-          <filter name="group_region" string="Región" context="{'group_by': 'region_id'}"/>
-          <filter name="group_status" string="Estatus" context="{'group_by': 'status'}"/>
-        </group>
-      </search>
-    </field>
-  </record>
-
-  <record id="pao_season_billing_line_view_pivot" model="ir.ui.view">
-    <field name="name">pao.season.billing.line.view.pivot</field>
-    <field name="model">pao.season.billing.line</field>
-    <field name="arch" type="xml">
-      <pivot string="Comparativo por Temporada">
-        <field name="scheme_id" type="row"/>
-        <field name="status" type="col"/>
-        <field name="amt_a" type="measure"/>
-        <field name="amt_b" type="measure"/>
-        <field name="diff_amt" type="measure"/>
-      </pivot>
-    </field>
   </record>
 
   <menuitem id="pao_season_billing_menu"

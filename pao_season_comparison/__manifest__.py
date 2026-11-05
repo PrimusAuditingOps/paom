@@ -6,9 +6,8 @@
     'website': 'https://paomx.com',
     'summary': 'Comparativo de facturación y de coordinación, temporada vs temporada',
     'description': """
-Comparativo de facturación por cliente y esquema entre dos temporadas
-(1 sep - 31 ago), con dos interfaces: reporte en pantalla y lista dinámica
-(filtros, favoritos, pivot), más exportación a Excel.
+Comparativos de facturación y de coordinación entre dos temporadas
+(1 sep - 31 ago), con reporte en pantalla y exportación a Excel.
     """,
     'category': 'Sales',
     'depends': [
