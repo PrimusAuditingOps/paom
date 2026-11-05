@@ -89,6 +89,13 @@
                              t-att-data-enabled="'1' if question_uploads else '0'"
                              t-att-data-can="'1' if (can_upload or osp.id == 0) else '0'"
                              t-att-data-files="question_files_json"/>
+                         <!-- Usuario multicliente: selector de cliente arriba del formulario (initMulticlientBanner en osp_form.js). -->
+                         <div id="osp_multiclient_cfg" class="d-none"
+                              t-att-data-enabled="'1' if multiclient else '0'"
+                              t-att-data-options="customer_options_json"
+                              t-att-data-selected="customer_selected"
+                              t-att-data-selected-name="customer_selected_name"
+                              t-att-data-locked="'1' if customer_locked else '0'"/>
                         <script>
                             window.OSP_READONLY = <t t-esc="'true' if readonly else 'false'"/>;
                             window.OSP_IS_ADMIN = <t t-esc="'true' if is_admin else 'false'"/>;

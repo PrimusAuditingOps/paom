@@ -62,6 +62,13 @@ class OSPRequest(models.Model):
                 vals = dict(vals, company_id=company_id)
         return super().write(vals)
 
+    # Quién llenó realmente el OSP (el "Contacto del cliente" es el contacto de la empresa,
+    # no necesariamente la persona). Se fija al crear; vacío en formularios públicos.
+    filled_by_id = fields.Many2one('res.users', string='Filled by', readonly=True, copy=False, index=True)
+    # True si quien lo llenó pertenece al grupo "Multi-client Portal User": da acceso a los
+    # usuarios de portal propios del cliente (ver osp_request_portal_customer_rule).
+    filled_by_multiclient = fields.Boolean(string='Filled by multi-client user', readonly=True, copy=False, index=True)
+
     organization_name = fields.Char(string='Organization', tracking=True)
     dba_name = fields.Char(string='DBA name', tracking=True)
 
@@ -144,7 +151,23 @@ class OSPRequest(models.Model):
             customer_company = self._company_from_customer(vals.get('partner_id'))
             if customer_company:
                 vals['company_id'] = customer_company
+            # Quién lo llenó (no aplica a formularios públicos: usuario público).
+            user = self.env.user
+            if not user._is_public():
+                vals.setdefault('filled_by_id', user.id)
+                if user.has_group('osp_management.group_osp_multiclient'):
+                    vals.setdefault('filled_by_multiclient', True)
         return super().create(vals_list)
+
+    @api.model
+    def _backfill_filled_by(self):
+        """Rellena filled_by_id en registros anteriores a este campo: el usuario activo cuyo
+        partner es el Contacto del cliente. Idempotente (solo toca los vacíos); se ejecuta en
+        cada actualización del módulo (data/osp_backfill.xml)."""
+        for record in self.sudo().with_context(active_test=False).search([('filled_by_id', '=', False), ('partner_id', '!=', False)]):
+            user = self.env['res.users'].sudo().search([('partner_id', '=', record.partner_id.id)], limit=1)
+            if user:
+                record.with_context(tracking_disable=True).write({'filled_by_id': user.id})
 
     # --- ACCIONES PARA LA BARRA DE ESTADO ---
     def action_set_done(self):

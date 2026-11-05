@@ -13,6 +13,7 @@
                 <field name="form_template_id" optional="show"/>
                 <field name="partner_id" optional="show"/>
                 <field name="customer_company_id" optional="show"/>
+                <field name="filled_by_id" optional="show"/>
                 <field name="company_id" optional="show" groups="base.group_multi_company"/>
                 <field name="organization_name" optional="show"/>
                 <field name="dba_name" optional="show"/>
@@ -40,6 +41,7 @@
                 <field name="dba_name"/>
                 <field name="partner_id"/>
                 <field name="customer_company_id"/>
+                <field name="filled_by_id"/>
                 <field name="app_azas"/>
                 <field name="audit_azas"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -116,6 +118,7 @@
                         <group string="Customer &amp; Form Information">
                             <field name="partner_id" placeholder="Select or create a customer contact..."/>
                             <field name="customer_company_id"/>
+                            <field name="filled_by_id"/>
                             <field name="service_id"/>
                             <field name="form_template_id"/>
                             <field name="form_version"/>

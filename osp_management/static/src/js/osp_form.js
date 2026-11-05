@@ -49,6 +49,9 @@ function initOspForm() {
     let questionMount = null;          // la asigna initQuestionUploads()
     let questionFilesApi = null;       // { count(codes), discard(codes) }
     let fieldHistoryRemount = null;    // la asigna initFieldHistoryBlock()
+    // Usuario multicliente (grupo del servidor): elige el cliente del OSP. 'locked' = ya se
+    // envió por primera vez y el cliente no se puede cambiar (lo corrige un administrador).
+    const multiclient = { enabled: false, locked: false, customerId: 0, customerName: '' };
 
     // Widget de Cloudflare Turnstile: se inyecta ya, al cargar la página
     // (no hasta que el visitante haga clic en Submit), para que Turnstile
@@ -1426,6 +1429,19 @@ function initOspForm() {
             statusText.innerText = 'Saving...';
         }
 
+        if (multiclient.enabled && !multiclient.locked) {
+            if (!multiclient.customerId) {
+                if (statusText) statusText.style.display = 'none';
+                window.alert(multiclient.T.selectFirst);
+                return;
+            }
+            // Primer Submit: confirmar el cliente (después de enviar ya no se puede cambiar).
+            if (isSubmit && !window.confirm(multiclient.T.confirmSubmit(multiclient.customerName))) {
+                if (statusText) statusText.style.display = 'none';
+                return;
+            }
+        }
+
         const finalData = gatherFormData();
 
         // Mientras ospId siga en 0 (formulario nuevo, sin registro creado
@@ -1438,6 +1454,7 @@ function initOspForm() {
         const params = isNewRecord
             ? { service_id: newServiceId, template_id: newTemplateId, form_data: finalData, is_submit: isSubmit }
             : { form_data: finalData, is_submit: isSubmit };
+        if (multiclient.enabled && !multiclient.locked) params.customer_id = multiclient.customerId;
 
         fetch(url, {
             method: 'POST',
@@ -1474,6 +1491,9 @@ function initOspForm() {
                   // Ahora se imprime completo (incluye el traceback en
                   // data.error.data.debug cuando el server está en modo dev).
                   console.error('🔴 [OSP] Error al guardar el formulario:', data.error || data);
+                  if (data.result && (data.result.error === 'customer_required' || data.result.error === 'customer_invalid')) {
+                      window.alert(multiclient.T.invalid);
+                  }
                   if (statusText) {
                       statusText.innerText = 'Error al guardar';
                       statusText.classList.replace('text-muted', 'text-danger');
@@ -1777,6 +1797,91 @@ function initOspForm() {
     }
 
     initQuestionUploads();
+
+    // ============================================================
+    // USUARIO MULTICLIENTE — banner con el cliente seleccionado arriba del formulario
+    // (config en #osp_multiclient_cfg, ver controllers/portal.py _multiclient_ctx). Antes del
+    // primer Submit es un selector; después, solo texto. El servidor valida que el cliente sea
+    // uno de los suyos (_eligible_customers): aquí solo se guarda la elección.
+    // ============================================================
+    function initMulticlientBanner() {
+        const cfg = document.getElementById('osp_multiclient_cfg');
+        if (!cfg || cfg.dataset.enabled !== '1' || PUBLIC_MODE) return;
+        const ES = ['form_manejo_proceso', 'form_comercializador', 'form_cultivo'].indexOf(TECHNICAL_CODE) !== -1;
+        multiclient.T = ES ? {
+            label: 'Cliente', placeholder: '-- Seleccione el cliente --',
+            hint: 'Puede cambiarlo hasta enviar el formulario por primera vez.',
+            lockedHint: 'El cliente ya no se puede cambiar; si hay un error, contacte al administrador.',
+            selectFirst: 'Seleccione el cliente de este formulario antes de guardar.',
+            invalid: 'El cliente seleccionado no es válido. Elija uno de la lista.',
+            confirmSubmit: name => 'Va a enviar este formulario para el cliente:\n\n' + name + '\n\n¿Es correcto?\nAceptar = enviar. Cancelar = volver y cambiar el cliente.',
+        } : {
+            label: 'Customer', placeholder: '-- Select the customer --',
+            hint: 'You can change it until you submit the form for the first time.',
+            lockedHint: 'The customer can no longer be changed; if it is wrong, contact the administrator.',
+            selectFirst: 'Select the customer for this form before saving.',
+            invalid: 'The selected customer is not valid. Choose one from the list.',
+            confirmSubmit: name => 'You are about to submit this form for the customer:\n\n' + name + '\n\nIs it correct?\nOK = submit. Cancel = go back and change the customer.',
+        };
+        let options = [];
+        try { options = JSON.parse(cfg.dataset.options || '[]'); } catch (e) { options = []; }
+        multiclient.enabled = true;
+        multiclient.locked = cfg.dataset.locked === '1';
+        multiclient.customerId = parseInt(cfg.dataset.selected || '0', 10) || 0;
+        multiclient.customerName = cfg.dataset.selectedName || '';
+        // Si el cliente guardado ya no está en su lista, se conserva como opción visible.
+        if (multiclient.customerId && !options.some(o => o.id === multiclient.customerId)) {
+            options.unshift({ id: multiclient.customerId, name: multiclient.customerName });
+        }
+
+        const banner = document.createElement('div');
+        banner.id = 'osp_customer_banner';
+        banner.className = 'alert alert-info d-flex align-items-center flex-wrap gap-3 mb-3';
+        const title = document.createElement('div');
+        title.className = 'fw-bold';
+        title.innerHTML = '<i class="fa fa-building me-1"></i>';
+        title.appendChild(document.createTextNode(multiclient.T.label + ':'));
+        banner.appendChild(title);
+
+        if (multiclient.locked) {
+            const name = document.createElement('span');
+            name.className = 'fw-bold';
+            name.textContent = multiclient.customerName;
+            banner.appendChild(name);
+            const hint = document.createElement('span');
+            hint.className = 'small text-muted';
+            hint.textContent = multiclient.T.lockedHint;
+            banner.appendChild(hint);
+        } else {
+            const select = document.createElement('select');
+            select.className = 'form-select';
+            select.style.maxWidth = '420px';
+            const empty = document.createElement('option');
+            empty.value = '';
+            empty.textContent = multiclient.T.placeholder;
+            select.appendChild(empty);
+            options.forEach(function (o) {
+                const opt = document.createElement('option');
+                opt.value = String(o.id);
+                opt.textContent = o.name;
+                if (o.id === multiclient.customerId) opt.selected = true;
+                select.appendChild(opt);
+            });
+            select.addEventListener('change', function () {
+                multiclient.customerId = parseInt(select.value || '0', 10) || 0;
+                const chosen = options.find(o => o.id === multiclient.customerId);
+                multiclient.customerName = chosen ? chosen.name : '';
+            });
+            banner.appendChild(select);
+            const hint = document.createElement('span');
+            hint.className = 'small text-muted';
+            hint.textContent = multiclient.T.hint;
+            banner.appendChild(hint);
+        }
+        formContent.insertAdjacentElement('beforebegin', banner);
+    }
+
+    initMulticlientBanner();
 
     initAttachmentChecklist(TECHNICAL_CODE);
 

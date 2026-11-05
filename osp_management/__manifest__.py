@@ -32,6 +32,7 @@
         'views/osp_form_comercializador.xml',
         'views/osp_form_cultivo.xml',
         'views/osp_public_templates.xml',
+        'data/osp_backfill.xml',
     ],
     # --- ASÍ SE REGISTRA EL JAVASCRIPT EN ODOO 17 ---
     'assets': {

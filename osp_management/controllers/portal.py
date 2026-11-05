@@ -10,6 +10,7 @@ import requests
 from odoo import fields, http, _
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 from odoo.http import request
+from odoo.osv import expression
 
 _logger = logging.getLogger(__name__)
 
@@ -85,6 +86,103 @@ class OSPPortal(CustomerPortal):
         if self._is_osp_staff():
             request.update_context(allowed_company_ids=request.env.user.company_ids.ids)
 
+    # ------------------------------------------------------------------
+    # USUARIO DE PORTAL "MULTICLIENTE" (grupo osp_management.group_osp_multiclient)
+    # Una persona (ej. quien llena OSP de varias empresas con el mismo correo) con UN
+    # solo usuario de portal. Al crear un OSP elige el cliente; el registro apunta al
+    # contacto de ese cliente que tiene su correo y queda marcado con filled_by_id. El
+    # acceso de ella va por filled_by_id y el de los usuarios propios del cliente por
+    # customer_company_id (ver security/osp_security.xml); aquí se repite en Python.
+    # ------------------------------------------------------------------
+    def _is_multiclient(self):
+        return request.env.user.has_group('osp_management.group_osp_multiclient')
+
+    @staticmethod
+    def _email_tokens(value):
+        """Correos de un campo email (puede traer varios separados por coma o punto y
+        coma), recortados y en minúsculas."""
+        return {t.strip().lower() for t in (value or '').replace(';', ',').split(',') if t.strip()}
+
+    def _eligible_customers(self):
+        """Clientes que un usuario multicliente puede elegir: empresas marcadas como
+        cliente (customer_rank > 0) donde su correo aparece en un contacto hijo o en el
+        correo de la propia empresa (sin distinguir mayúsculas; el campo puede traer
+        varios correos). Devuelve [{id (empresa), name, partner_id (a quién apunta el
+        OSP)}]: el contacto coincidente (el primero) o, si el correo solo está en la
+        empresa, la empresa misma. sudo(): el portal no puede leer esos partners."""
+        user = request.env.user.sudo()
+        emails = self._email_tokens(user.login) | self._email_tokens(user.partner_id.email)
+        if not emails:
+            return []
+        candidates = request.env['res.partner'].sudo().search(
+            expression.OR([[('email', 'ilike', e)] for e in emails]))
+        found = {}
+        for partner in candidates:
+            if not (self._email_tokens(partner.email) & emails):
+                continue   # el ilike también atrapa subcadenas (miris@...): se descarta
+            company = partner.commercial_partner_id
+            if not company.active:
+                continue
+            if 'customer_rank' in company._fields and company.customer_rank <= 0:
+                continue
+            current = found.get(company.id)
+            if current is None or (current['partner_id'] == company.id and partner.id != company.id):
+                found[company.id] = {'id': company.id, 'name': company.name, 'partner_id': partner.id}
+        return sorted(found.values(), key=lambda r: (r['name'] or '').lower())
+
+    def _resolve_customer(self, customer_id):
+        try:
+            customer_id = int(customer_id)
+        except (TypeError, ValueError):
+            return None
+        for entry in self._eligible_customers():
+            if entry['id'] == customer_id:
+                return entry
+        return None
+
+    def _multiclient_ctx_off(self):
+        return {'multiclient': False, 'customer_options_json': '[]', 'customer_selected': 0,
+                'customer_selected_name': '', 'customer_locked': False}
+
+    def _multiclient_ctx(self, record=None):
+        """Variables de plantilla del selector de cliente (cfg #osp_multiclient_cfg)."""
+        if not self._is_multiclient():
+            return {'multiclient': False, 'customer_options_json': '[]', 'customer_selected': 0,
+                    'customer_selected_name': '', 'customer_locked': False}
+        rec = record.sudo() if record else None
+        return {
+            'multiclient': True,
+            'customer_options_json': json.dumps([{'id': o['id'], 'name': o['name']} for o in self._eligible_customers()]),
+            'customer_selected': rec.customer_company_id.id if rec else 0,
+            'customer_selected_name': rec.customer_company_id.name if rec else '',
+            # Después del primer Submit el cliente queda fijo (lo corrige un administrador).
+            'customer_locked': bool(rec and rec.state != 'draft'),
+        }
+
+    def _can_use_record(self, record):
+        """True si el usuario de portal puede ver/editar el OSP: (1) su partner es el
+        Contacto del cliente; (2) es multicliente y lo llenó él; (3) el OSP lo llenó un
+        usuario multicliente para la empresa del usuario. sudo() para leer sin que las
+        reglas de otras compañías estorben (el acceso real se decide aquí)."""
+        user = request.env.user
+        rec = record.sudo()
+        if rec.partner_id.id == user.partner_id.id:
+            return True
+        if self._is_multiclient() and rec.filled_by_id.id == user.id:
+            return True
+        if rec.filled_by_multiclient and rec.customer_company_id:
+            return rec.customer_company_id.id == user.sudo().partner_id.commercial_partner_id.id
+        return False
+
+    def _my_osp_domain(self):
+        user = request.env.user
+        leaves = [[('partner_id', '=', user.partner_id.id)]]
+        if self._is_multiclient():
+            leaves.append([('filled_by_id', '=', user.id)])
+        company = user.sudo().partner_id.commercial_partner_id
+        leaves.append([('filled_by_multiclient', '=', True), ('customer_company_id', '=', company.id)])
+        return expression.OR(leaves)
+
     # Partners de todo el personal OSP (ambos grupos), para notificarles de
     # nuevos envíos. sudo(): quien llama esto puede ser un cliente de
     # portal sin permiso de lectura sobre res.users.
@@ -139,10 +237,13 @@ class OSPPortal(CustomerPortal):
         # (customer_company_id, res.partner) — solo se usa para armar el nombre
         # del aviso al administrador; leerlo con sus permisos daba AccessError.
         record_sudo = record.sudo()
+        partner_label = ('%s (%s)' % (record_sudo.partner_id.name, record_sudo.customer_company_id.name)
+                         if record_sudo.customer_company_id and record_sudo.customer_company_id != record_sudo.partner_id
+                         else record_sudo.partner_id.name) or request.env.user.name
+        if record_sudo.filled_by_multiclient and record_sudo.filled_by_id:
+            partner_label = '%s — %s' % (partner_label, record_sudo.filled_by_id.name)
         log_body = _("Portal customer %(partner)s %(verb)s the '%(template)s' form.") % {
-            'partner': ('%s (%s)' % (record_sudo.partner_id.name, record_sudo.customer_company_id.name)
-                        if record_sudo.customer_company_id and record_sudo.customer_company_id != record_sudo.partner_id
-                        else record_sudo.partner_id.name) or request.env.user.name,
+            'partner': partner_label,
             'verb': verb,
             'template': record.form_template_id.name or record.form_template_id.technical_code or '',
         }
@@ -162,9 +263,7 @@ class OSPPortal(CustomerPortal):
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
         if 'osp_count' in counters:
-            values['osp_count'] = request.env['osp.request'].search_count([
-                ('partner_id', '=', request.env.user.partner_id.id)
-            ])
+            values['osp_count'] = request.env['osp.request'].search_count(self._my_osp_domain())
         return values
 
     # 1. RUTA PRINCIPAL: LISTA DE FORMULARIOS
@@ -173,7 +272,7 @@ class OSPPortal(CustomerPortal):
         partner = request.env.user.partner_id
         OSPRequest = request.env['osp.request']
 
-        domain = [('partner_id', '=', partner.id)]
+        domain = self._my_osp_domain()
         osp_count = OSPRequest.search_count(domain)
 
         pager = portal_pager(
@@ -196,6 +295,7 @@ class OSPPortal(CustomerPortal):
             'default_url': '/my/osp',
             'services': services,
             'templates': templates,
+            'multiclient': self._is_multiclient(),
         }
         return request.render("osp_management.portal_my_osps", values)
 
@@ -212,8 +312,8 @@ class OSPPortal(CustomerPortal):
     @http.route(['/my/osp/duplicate/<int:osp_id>'], type='http', auth="user", website=True)
     def portal_duplicate_osp(self, osp_id, **kw):
         original = request.env['osp.request'].browse(osp_id)
-        if original.exists() and original.partner_id.id == request.env.user.partner_id.id:
-            nuevo = original.copy({
+        if original.exists() and self._can_use_record(original):
+            nuevo = original.sudo().copy({
                 'state': 'draft',
                 'review_status': 'pending',
                 'app_azas': False,
@@ -227,9 +327,9 @@ class OSPPortal(CustomerPortal):
     @http.route(['/my/osp/delete/<int:osp_id>'], type='http', auth="user", website=True)
     def portal_delete_osp(self, osp_id, **kw):
         record = request.env['osp.request'].browse(osp_id)
-        if record.exists() and record.partner_id.id == request.env.user.partner_id.id:
+        if record.exists() and self._can_use_record(record):
             if record.state == 'draft':
-                record.unlink()
+                record.sudo().unlink()
         return request.redirect('/my/osp')
 
     # 4b. RUTA: PANTALLA DE FORMULARIO NUEVO (sin registro creado todavía)
@@ -267,6 +367,7 @@ class OSPPortal(CustomerPortal):
                 'attachments': [],
                 'question_uploads': template.technical_code in QUESTION_UPLOAD_FORMS,
                 'question_files_json': '[]',
+                **self._multiclient_ctx(),
                 # No hay registro real todavía: no se puede subir adjuntos
                 # hasta el primer guardado (necesita un osp_id real).
                 'can_upload': False,
@@ -295,7 +396,7 @@ class OSPPortal(CustomerPortal):
         if not record.exists():
             return request.redirect('/my/osp')
 
-        is_owner = record.partner_id.id == request.env.user.partner_id.id
+        is_owner = self._can_use_record(record)
         is_admin = self._is_osp_staff()
 
         # Solo el dueño (cliente de portal) o personal de OSP (Administrator/User) pueden entrar
@@ -341,6 +442,7 @@ class OSPPortal(CustomerPortal):
                 'attachments': attachments,
                 'question_uploads': record.form_template_id.technical_code in QUESTION_UPLOAD_FORMS,
                 'question_files_json': _question_files_payload(attachments),
+                **(self._multiclient_ctx(record) if is_owner and not admin_editing else self._multiclient_ctx_off()),
                 # El cliente dueño siempre puede subir/borrar adjuntos, sin
                 # importar el estado (mismo criterio que la edición del
                 # formulario en general — ver CONTEXT.md punto 6).
@@ -358,13 +460,13 @@ class OSPPortal(CustomerPortal):
 
     # 6. RUTA AJAX PARA GUARDAR EL JSON EN SEGUNDO PLANO
     @http.route(['/my/osp/save/<int:osp_id>'], type='json', auth="user", methods=['POST'], website=True)
-    def portal_save_osp(self, osp_id, form_data, is_submit=False, **kw):
+    def portal_save_osp(self, osp_id, form_data, is_submit=False, customer_id=None, **kw):
         self._use_staff_companies()
         record = request.env['osp.request'].browse(osp_id)
         if not record.exists():
             return {'success': False}
 
-        is_owner = record.partner_id.id == request.env.user.partner_id.id
+        is_owner = self._can_use_record(record)
         is_admin = self._is_osp_staff()
         admin_editing = is_admin and not is_owner
 
@@ -376,6 +478,17 @@ class OSPPortal(CustomerPortal):
         # "Save progress" sobre un formulario ya submitted queda guardado
         # únicamente en form_data (privado, no toca los campos resumen ni
         # notifica al admin) hasta que el cliente vuelva a hacer Submit.
+        # Usuario multicliente: puede cambiar el cliente mientras el OSP sea borrador
+        # (el JS pide confirmarlo en el primer Submit). Después queda fijo.
+        if is_owner and customer_id and self._is_multiclient() and record.sudo().state == 'draft':
+            entry = self._resolve_customer(customer_id)
+            if not entry:
+                return {'success': False, 'error': 'customer_invalid'}
+            if record.sudo().customer_company_id.id != entry['id']:
+                # sudo(): el seguimiento (tracking) de partner_id lee el contacto, que el
+                # usuario de portal no puede leer (ver §82).
+                record.sudo().write({'partner_id': entry['partner_id']})
+
         record.write({'form_data': form_data})
 
         if admin_editing:
@@ -404,13 +517,24 @@ class OSPPortal(CustomerPortal):
     # /my/osp/save/<id> una vez que el JS tiene el id real (ver
     # osp_form.js, saveForm()).
     @http.route(['/my/osp/save_new'], type='json', auth="user", methods=['POST'], website=True)
-    def portal_save_osp_new(self, service_id, template_id, form_data, is_submit=False, **kw):
+    def portal_save_osp_new(self, service_id, template_id, form_data, is_submit=False, customer_id=None, **kw):
         template = request.env['osp.form.template'].browse(int(template_id))
         if not template.exists():
             return {'success': False}
 
-        record = request.env['osp.request'].create({
-            'partner_id': request.env.user.partner_id.id,
+        partner_id = request.env.user.partner_id.id
+        OSPRequest = request.env['osp.request']
+        if self._is_multiclient():
+            entry = self._resolve_customer(customer_id)
+            if not entry:
+                return {'success': False, 'error': 'customer_required'}
+            partner_id = entry['partner_id']
+            # sudo(): el usuario de portal no puede leer el contacto de otra empresa
+            # (lo lee el seguimiento al crear). filled_by_id sigue siendo él (mismo uid).
+            OSPRequest = OSPRequest.sudo()
+
+        record = OSPRequest.create({
+            'partner_id': partner_id,
             'service_id': int(service_id),
             'form_template_id': int(template_id),
             'state': 'draft',
@@ -437,7 +561,7 @@ class OSPPortal(CustomerPortal):
         if not record.exists():
             return request.redirect('/my/osp')
 
-        is_owner = record.partner_id.id == request.env.user.partner_id.id
+        is_owner = self._can_use_record(record)
         if is_owner:
             files = request.httprequest.files.getlist('osp_files')
             for uploaded_file in files:
@@ -459,7 +583,7 @@ class OSPPortal(CustomerPortal):
         attachment = request.env['ir.attachment'].sudo().browse(attachment_id)
         if attachment.exists() and attachment.res_model == 'osp.request':
             record = request.env['osp.request'].browse(attachment.res_id)
-            is_owner = record.exists() and record.partner_id.id == request.env.user.partner_id.id
+            is_owner = record.exists() and self._can_use_record(record)
             if is_owner:
                 osp_id = record.id
                 attachment.unlink()
@@ -514,8 +638,8 @@ class OSPPortal(CustomerPortal):
     def portal_question_upload(self, osp_id, question='', **kw):
         record = request.env['osp.request'].browse(osp_id)
         question = (question or '').strip()
-        if (not record.exists() or record.partner_id.id != request.env.user.partner_id.id
-                or record.form_template_id.technical_code not in QUESTION_UPLOAD_FORMS
+        if (not record.exists() or not self._can_use_record(record)
+                or record.sudo().form_template_id.technical_code not in QUESTION_UPLOAD_FORMS
                 or not re.match(r'^[0-9]{1,2}[a-z]{0,2}(-[a-z0-9]+)*$', question)):
             return request.make_json_response({'success': False, 'files': [], 'errors': [_("Upload not allowed.")]})
 
@@ -530,7 +654,7 @@ class OSPPortal(CustomerPortal):
         attachment = request.env['ir.attachment'].sudo().browse(attachment_id)
         if attachment.exists() and attachment.res_model == 'osp.request' and _question_of(attachment):
             record = request.env['osp.request'].browse(attachment.res_id)
-            if record.exists() and record.partner_id.id == request.env.user.partner_id.id:
+            if record.exists() and self._can_use_record(record):
                 attachment.unlink()
                 return {'success': True}
         return {'success': False}
@@ -598,6 +722,8 @@ class OSPPublicController(OSPPortal):
             # Selector por pregunta en memoria hasta el Submit (osp_form.js).
             'question_uploads': technical_code in QUESTION_UPLOAD_FORMS,
             'question_files_json': '[]',
+            'multiclient': False, 'customer_options_json': '[]', 'customer_selected': 0,
+            'customer_selected_name': '', 'customer_locked': False,
             'can_upload': False,
             'new_service_id': 0,
             'new_template_id': 0,
