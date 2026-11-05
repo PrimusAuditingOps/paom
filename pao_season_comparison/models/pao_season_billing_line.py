@@ -34,9 +34,9 @@ class PAOSeasonBillingLine(models.TransientModel):
     var_amt = fields.Float(string='Var $', group_operator=False)
 
     # Detalle mensual: m09_qty_a, m09_amt_a, m09_qty_b, m09_amt_b, ... (48 campos)
-    for _mm, _name in MONTHS:
+    for _mm, _month_label in MONTHS:
         vars()['m%s_qty_a' % _mm] = fields.Float(string='%s Cant. A' % MONTH_SHORT[_mm])
         vars()['m%s_amt_a' % _mm] = fields.Float(string='%s USD A' % MONTH_SHORT[_mm])
         vars()['m%s_qty_b' % _mm] = fields.Float(string='%s Cant. B' % MONTH_SHORT[_mm])
         vars()['m%s_amt_b' % _mm] = fields.Float(string='%s USD B' % MONTH_SHORT[_mm])
-    del _mm, _name
+    del _mm, _month_label
