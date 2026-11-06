@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Rellena osp.request.filled_by_id en registros viejos (idempotente, ver el método). -->
+    <data noupdate="0">
+        <function model="osp.request" name="_backfill_filled_by"/>
+    </data>
+</odoo>

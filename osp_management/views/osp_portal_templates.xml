@@ -61,6 +61,7 @@
                             <tr>
                                 <th>Service Required</th>
                                 <th>Type</th>
+                                <th t-if="multiclient">Customer</th>
                                 <th>Organization Name</th>
                                 <th>DBA Name</th>
                                 <th>City</th>
@@ -77,6 +78,7 @@
                                 <tr>
                                     <td><span class="text-success fw-bold"><t t-esc="osp.service_id.name"/></span></td>
                                     <td><span class="badge bg-light text-primary border"><t t-esc="osp.form_template_id.name"/></span></td>
+                                    <td t-if="multiclient"><t t-esc="osp.sudo().customer_company_id.name or ''"/></td>
                                     <td class="fw-bold text-dark"><t t-esc="osp.organization_name or 'N/A'"/></td>
                                     <td><t t-esc="osp.dba_name or ''"/></td>
                                     <td><t t-esc="osp.city or ''"/></td>
