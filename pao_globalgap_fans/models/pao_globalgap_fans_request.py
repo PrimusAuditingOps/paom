@@ -161,7 +161,7 @@ class PaoGlobalgapFansRequest(models.Model):
         compute='_compute_assignment_date_warning',
     )
 
-   @api.depends(
+    @api.depends(
         'organization_id.name',
         'sale_order_id.purchase_order_id.state',
         'sale_order_id.purchase_order_id.order_line.organization_id.name',
