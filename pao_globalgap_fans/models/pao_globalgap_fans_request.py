@@ -161,19 +161,57 @@ class PaoGlobalgapFansRequest(models.Model):
         compute='_compute_assignment_date_warning',
     )
 
-    @api.depends('sale_order_id.purchase_order_id.order_line')
+   @api.depends(
+        'organization_id.name',
+        'sale_order_id.purchase_order_id.state',
+        'sale_order_id.purchase_order_id.order_line.organization_id.name',
+        'sale_order_id.purchase_order_id.order_line.service_start_date',
+        'sale_order_id.purchase_order_id.order_line.service_end_date',
+        'sale_order_id.order_line.organization_id.name',
+        'sale_order_id.order_line.service_start_date',
+        'sale_order_id.order_line.service_end_date',
+    )
     def _compute_audit_date(self):
         for rec in self:
             rec.audit_start_date = None
             rec.audit_end_date = None
-            
-            for po in rec.sale_order_id.purchase_order_id.filtered(lambda l: l.state != "cancel"):
+
+            purchase_orders = rec.sale_order_id.purchase_order_id.filtered(lambda l: l.state != "cancel")
+
+            # Buscar por organización: primero en la compra, luego en la cotización
+            fans_org_name = (rec.organization_id.name or '').strip().lower()
+            if fans_org_name:
+                matching_line = (
+                    rec._get_first_line_by_organization(purchase_orders.order_line, fans_org_name)
+                    or rec._get_first_line_by_organization(rec.sale_order_id.order_line, fans_org_name)
+                )
+                if matching_line:
+                    rec.audit_start_date = matching_line.service_start_date
+                    rec.audit_end_date = matching_line.service_end_date
+                    continue
+
+            # Sin coincidencia: se toma la fecha como antes
+            for po in purchase_orders:
                 for line in po.order_line.filtered(lambda l: l.service_start_date).sorted(lambda l: l.service_start_date):
                     rec.audit_start_date = line.service_start_date
                     rec.audit_end_date = line.service_end_date
                     break
                 if rec.audit_start_date:
                     break
+
+    @api.model
+    def _get_first_line_by_organization(self, lines, fans_org_name):
+        """Devuelve la línea con fecha de inicio más temprana cuya organización coincide.
+
+        Los catálogos de organización son distintos, así que se compara por nombre
+        (equivale a: fans_org_name ilike line.organization_id.name).
+        """
+        matching_lines = lines.filtered(
+            lambda l: l.service_start_date
+            and l.organization_id.name
+            and l.organization_id.name.strip().lower() in fans_org_name
+        ).sorted(lambda l: l.service_start_date)
+        return matching_lines[:1]
 
 
     def _compute_assignment_date_warning(self):
@@ -201,7 +239,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 elif vals.get("request_status") == "signature_request":
                     record.qa_status = 'to_approve'
                     record.qa_assignment_date = date.today()
-                    user_notification = self.env['res.users'].browse([144,332]) #
+                    user_notification = self.env['res.users'].browse([144,332,357]) #
                     if user_notification:
                         existing_activity = self.env["mail.activity"].search([
                         ("res_model", "=", "pao.globalgap.fans.request"),
@@ -219,7 +257,7 @@ class PaoGlobalgapFansRequest(models.Model):
                                     ),
                                     user_id=usr.id,
                                 )
-                            users = self.env['res.users'].browse([27, 332, 187,144])
+                            users = self.env['res.users'].browse([27, 332, 187, 144, 357])
                             record.message_post(
                                 body="Se ha actualizado el estatus de QA para la Revisión de Aplicación GlobalG.A.P.",
                                 message_type='comment',
