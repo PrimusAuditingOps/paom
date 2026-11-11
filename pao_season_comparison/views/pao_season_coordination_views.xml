@@ -18,6 +18,9 @@
             </group>
             <group string="Filtros (opcional)">
               <field name="scheme_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="group_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="promotor_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="omit_no_scheme"/>
               <field name="coordinator_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('share', '=', False)]"/>
             </group>
           </group>

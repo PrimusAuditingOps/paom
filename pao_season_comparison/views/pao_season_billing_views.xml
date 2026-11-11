@@ -20,6 +20,9 @@
             <group string="Filtros (opcional)">
               <field name="scheme_ids" widget="many2many_tags" options="{'no_create': True}"/>
               <field name="region_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="group_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="promotor_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="omit_no_scheme"/>
             </group>
           </group>
           <div class="d-flex flex-wrap gap-2 mb-3">

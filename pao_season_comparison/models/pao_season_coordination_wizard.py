@@ -21,6 +21,14 @@ class PAOSeasonCoordinationWizard(models.TransientModel):
                                   help='Vacío = todos los esquemas.')
     coordinator_ids = fields.Many2many('res.users', string='Coordinadores',
                                        help='Vacío = todos los coordinadores.')
+    group_ids = fields.Many2many('customergroups.group', 'pao_season_coord_group_rel', string='Grupos',
+                                 help='Grupo del cliente. Vacío = todos.')
+    promotor_ids = fields.Many2many('comisionpromotores.promotor', 'pao_season_coord_promotor_rel', string='Promotores',
+                                    help='Promotor del cliente. Vacío = todos.')
+    omit_no_scheme = fields.Boolean(
+        string='Omitir productos sin esquema',
+        help='Si está marcado, no se consideran los productos que no tienen esquema '
+             'y no aparece el esquema "Sin esquema".')
     report_html = fields.Html(string='Reporte', readonly=True, sanitize=False)
 
     # ------------------------------------------------------------------
@@ -92,6 +100,14 @@ class PAOSeasonCoordinationWizard(models.TransientModel):
         if self.coordinator_ids:
             extra += ' AND r.coordinator_id IN %(coordinator_ids)s'
             params['coordinator_ids'] = tuple(self.coordinator_ids.ids)
+        if self.group_ids:
+            extra += ' AND rp.cgg_group_id IN %(group_ids)s'
+            params['group_ids'] = tuple(self.group_ids.ids)
+        if self.promotor_ids:
+            extra += ' AND rp.promotor_id IN %(promotor_ids)s'
+            params['promotor_ids'] = tuple(self.promotor_ids.ids)
+        if self.omit_no_scheme:
+            extra += ' AND pt.pao_sales_budget_scheme_id IS NOT NULL'
 
         # El texto del subquery no lleva parámetros; se escapa cualquier '%'
         # literal para que execute() no lo confunda con un placeholder.
@@ -105,6 +121,7 @@ class PAOSeasonCoordinationWizard(models.TransientModel):
                    COALESCE(SUM(r.qty_ordered), 0)
               FROM ({report_query}) r
               JOIN product_template pt ON pt.id = r.product_tmpl_id
+              JOIN res_partner rp ON rp.id = r.pao_customer_id
               JOIN auditconfirmation_auditstate st ON st.id = r.ac_audit_status
              WHERE r.state != 'cancel'
                AND r.pao_customer_id IS NOT NULL
