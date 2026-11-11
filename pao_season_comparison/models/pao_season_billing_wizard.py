@@ -14,6 +14,10 @@ class PAOSeasonBillingWizard(models.TransientModel):
                             default=lambda self: self._current_season_year() - 1)
     year_b = fields.Integer(string='Temporada a comparar (año de inicio)', required=True,
                             default=lambda self: self._current_season_year())
+    cutoff_month = fields.Selection(
+        br.MONTHS, string='Mes de corte',
+        help='Opcional. Si eliges un mes, las dos temporadas se comparan de septiembre hasta ese mes '
+             '(útil cuando la temporada actual sigue en curso). Vacío = toda la temporada.')
     season_a_range = fields.Char(string='Periodo base', compute='_compute_ranges')
     season_b_range = fields.Char(string='Periodo a comparar', compute='_compute_ranges')
     scheme_ids = fields.Many2many('pao.sales.budget.scheme', string='Esquemas',
@@ -40,17 +44,17 @@ class PAOSeasonBillingWizard(models.TransientModel):
         return today.year if today.month >= 9 else today.year - 1
 
     @api.model
-    def _range_text(self, year):
+    def _range_text(self, year, cutoff=None):
         if not year or not (1990 <= year <= 2100):
             return False
-        d1, d2 = br.season_dates(year)
+        d1, d2 = br.season_dates(year, cutoff)
         return '%s: del %s al %s' % (br.season_label(year), d1.strftime('%d/%m/%Y'), d2.strftime('%d/%m/%Y'))
 
-    @api.depends('year_a', 'year_b')
+    @api.depends('year_a', 'year_b', 'cutoff_month')
     def _compute_ranges(self):
         for wiz in self:
-            wiz.season_a_range = wiz._range_text(wiz.year_a)
-            wiz.season_b_range = wiz._range_text(wiz.year_b)
+            wiz.season_a_range = wiz._range_text(wiz.year_a, wiz.cutoff_month)
+            wiz.season_b_range = wiz._range_text(wiz.year_b, wiz.cutoff_month)
 
     @api.onchange('year_a')
     def _onchange_year_a(self):
@@ -80,8 +84,8 @@ class PAOSeasonBillingWizard(models.TransientModel):
         """
         self.ensure_one()
         self._check_years()
-        a_from, a_to = br.season_dates(self.year_a)
-        b_from, b_to = br.season_dates(self.year_b)
+        a_from, a_to = br.season_dates(self.year_a, self.cutoff_month)
+        b_from, b_to = br.season_dates(self.year_b, self.cutoff_month)
         params = {
             'a_from': a_from, 'a_to': a_to, 'b_from': b_from, 'b_to': b_to,
             'company_ids': tuple(self.env.companies.ids),
@@ -175,7 +179,7 @@ class PAOSeasonBillingWizard(models.TransientModel):
 
     def action_generate_report(self):
         self.ensure_one()
-        self.report_html = br.render_html(self._get_rows(), self.year_a, self.year_b)
+        self.report_html = br.render_html(self._get_rows(), self.year_a, self.year_b, self.cutoff_month)
         return True
 
     # ------------------------------------------------------------------
@@ -184,7 +188,7 @@ class PAOSeasonBillingWizard(models.TransientModel):
 
     def action_export_excel(self):
         self.ensure_one()
-        xlsx_data = br.render_xlsx(self._get_rows(), self.year_a, self.year_b)
+        xlsx_data = br.render_xlsx(self._get_rows(), self.year_a, self.year_b, self.cutoff_month)
         attachment = self.env['ir.attachment'].sudo().create({
             'name': 'Comparativo_Facturacion_%s_vs_%s.xlsx' % (
                 br.season_label(self.year_a), br.season_label(self.year_b)),

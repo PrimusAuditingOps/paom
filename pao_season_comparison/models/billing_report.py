@@ -8,6 +8,7 @@ Cada "fila" es un dict con una combinación (esquema, cliente):
     promotor_name, months {'09': [cant_A, usd_A, cant_B, usd_B], ...},
     qty_a, amt_a, qty_b, amt_b, status ('kept' | 'lost' | 'new')
 """
+import calendar
 import html
 import io
 from datetime import date
@@ -29,18 +30,34 @@ EPS = 0.005
 # Temporadas
 # ----------------------------------------------------------------------
 
-def season_dates(year):
-    """Una temporada va del 1 de septiembre de `year` al 31 de agosto de year+1."""
-    return date(year, 9, 1), date(year + 1, 8, 31)
+def month_year(season_year, mm):
+    """Año calendario de un mes dentro de la temporada (sep-dic = year, ene-ago = year+1)."""
+    return season_year if int(mm) >= 9 else season_year + 1
+
+
+def season_dates(year, cutoff=None):
+    """Una temporada va del 1 de septiembre de `year` al 31 de agosto de year+1.
+    Con `cutoff` (un mes '09'..'08'), termina el último día de ese mes."""
+    if not cutoff:
+        return date(year, 9, 1), date(year + 1, 8, 31)
+    y = month_year(year, cutoff)
+    return date(year, 9, 1), date(y, int(cutoff), calendar.monthrange(y, int(cutoff))[1])
+
+
+def months_upto(cutoff=None):
+    """Meses (código, nombre) de la temporada, de septiembre hasta `cutoff`
+    (todos si no hay corte)."""
+    if not cutoff:
+        return list(MONTHS)
+    return MONTHS[:MONTHS_ORDER.index(cutoff) + 1]
+
+
+def cutoff_name(cutoff):
+    return dict(MONTHS).get(cutoff, '')
 
 
 def season_label(year):
     return 'Temp.%02d-%02d' % (year % 100, (year + 1) % 100)
-
-
-def month_year(season_year, mm):
-    """Año calendario de un mes dentro de la temporada (sep-dic = year, ene-ago = year+1)."""
-    return season_year if int(mm) >= 9 else season_year + 1
 
 
 # ----------------------------------------------------------------------
@@ -163,14 +180,14 @@ def _summary_cells(data, counts=None):
     return cells
 
 
-def _render_summary(blocks, grand, grand_counts, label_a, label_b):
+def _render_summary(blocks, grand, grand_counts, label_a, label_b, suffix=''):
     body = ''
     for b in blocks:
         body += '<tr><td>%s</td>%s</tr>' % (_esc(b['name']), _summary_cells(b['totals'], b['counts']))
     body += '<tr class="sc-total"><td>Total general</td>%s</tr>' % _summary_cells(grand, grand_counts)
     return '''
     <div class="sc-block">
-      <div class="sc-title">Resumen por esquema — %s vs %s</div>
+      <div class="sc-title">Resumen por esquema — %s vs %s%s</div>
       <div class="sc-wrap"><table class="sc-table">
         <thead>
           <tr>
@@ -185,15 +202,21 @@ def _render_summary(blocks, grand, grand_counts, label_a, label_b):
         </thead>
         <tbody>%s</tbody>
       </table></div>
-    </div>''' % (label_a, label_b, label_a, label_b, label_a, label_b, body)
+    </div>''' % (label_a, label_b, suffix, label_a, label_b, label_a, label_b, body)
 
 
-def _row_cells(row, label_cells):
+def _labels_of(row):
+    """Textos de las columnas de etiqueta: los que traiga la fila o, si es un
+    cliente, su nombre, grupo y promotor."""
+    return row.get('labels') or [row['partner_name'], row['group_name'], row['promotor_name']]
+
+
+def _row_cells(row, label_cells, months):
     cells = label_cells
     cells += '<td class="sc-sep">%s</td><td>%s</td><td class="sc-sep">%s</td><td>%s</td><td class="sc-sep">%s</td><td>%s</td>' % (
         _num(row['qty_a']), _num(row['amt_a']), _num(row['qty_b']), _num(row['amt_b']),
         _var_html(row['qty_a'], row['qty_b']), _var_html(row['amt_a'], row['amt_b']))
-    for m in MONTHS_ORDER:
+    for m, _name in months:
         qa, aa, qb, ab = row['months'][m]
         cells += (
             '<td class="sc-sep">%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>'
@@ -201,10 +224,10 @@ def _row_cells(row, label_cells):
     return cells
 
 
-def _render_block(block, year_a, year_b):
+def _render_detail(title, label_headers, rows, year_a, year_b, months):
     label_a, label_b = season_label(year_a), season_label(year_b)
     month_headers, month_sub = '', ''
-    for mm, name in MONTHS:
+    for mm, name in months:
         ya, yb = month_year(year_a, mm), month_year(year_b, mm)
         month_headers += '<th class="sc-sep" colspan="6">%s</th>' % name
         month_sub += (
@@ -212,20 +235,21 @@ def _render_block(block, year_a, year_b):
             '<th>Var Cant.</th><th>Var $</th>'
         ) % (ya, ya, yb, yb)
 
-    body = '<tr class="sc-total">%s</tr>' % _row_cells(
-        block['totals'], '<td>Totales (%d clientes)</td><td></td><td></td>' % len(block['rows']))
-    for r in block['rows']:
-        label_cells = '<td>%s</td><td class="sc-l">%s</td><td class="sc-l">%s</td>' % (
-            _esc(r['partner_name']), _esc(r['group_name']), _esc(r['promotor_name']))
-        body += '<tr>%s</tr>' % _row_cells(r, label_cells)
+    body = ''
+    for r in rows:
+        labels = _labels_of(r)
+        label_cells = '<td>%s</td>' % _esc(labels[0]) + ''.join(
+            '<td class="sc-l">%s</td>' % _esc(x) for x in labels[1:])
+        body += '<tr%s>%s</tr>' % (' class="sc-total"' if r.get('is_total') else '', _row_cells(r, label_cells, months))
 
+    head = ''.join('<th rowspan="2">%s</th>' % _esc(h) for h in label_headers)
     return '''
     <div class="sc-block">
       <div class="sc-title">%s</div>
       <div class="sc-wrap"><table class="sc-table">
         <thead>
           <tr>
-            <th rowspan="2">Cliente</th><th rowspan="2">Grupo</th><th rowspan="2">Promotor</th>
+            %s
             <th class="sc-sep" colspan="2">%s</th><th class="sc-sep" colspan="2">%s</th><th class="sc-sep" colspan="2">Variación</th>
             %s
           </tr>
@@ -237,18 +261,34 @@ def _render_block(block, year_a, year_b):
         </thead>
         <tbody>%s</tbody>
       </table></div>
-    </div>''' % (_esc(block['name']), label_a, label_b, month_headers, month_sub, body)
+    </div>''' % (_esc(title), head, label_a, label_b, month_headers, month_sub, body)
 
 
-def render_html(rows, year_a, year_b):
+def _scheme_month_rows(blocks, grand):
+    """Un renglón por esquema (con sus meses) más el Total general."""
+    rows = [dict(b['totals'], labels=[b['name']]) for b in blocks]
+    rows.append(dict(grand, labels=['Total general'], is_total=True))
+    return rows
+
+
+def _client_rows(block):
+    total = dict(block['totals'], labels=['Totales (%d clientes)' % len(block['rows']), '', ''], is_total=True)
+    return [total] + block['rows']
+
+
+def render_html(rows, year_a, year_b, cutoff=None):
     if not rows:
         return '<p>No hay facturación de productos comisionables en las temporadas elegidas.</p>'
     blocks = build_blocks(rows)
     grand = sum_rows(rows)
     grand_counts = count_status(rows)
-    out = CSS + _render_summary(blocks, grand, grand_counts, season_label(year_a), season_label(year_b))
+    months = months_upto(cutoff)
+    suffix = ' (hasta %s)' % cutoff_name(cutoff) if cutoff else ''
+    out = CSS + _render_summary(blocks, grand, grand_counts, season_label(year_a), season_label(year_b), suffix)
+    out += _render_detail('Resumen por mes y esquema%s' % suffix, ['Esquema'], _scheme_month_rows(blocks, grand),
+                          year_a, year_b, months)
     for b in blocks:
-        out += _render_block(b, year_a, year_b)
+        out += _render_detail(b['name'], ['Cliente', 'Grupo', 'Promotor'], _client_rows(b), year_a, year_b, months)
     return out
 
 
@@ -256,15 +296,17 @@ def render_html(rows, year_a, year_b):
 # Excel
 # ----------------------------------------------------------------------
 
-def render_xlsx(rows, year_a, year_b):
-    """Regresa los bytes de un .xlsx con dos hojas: 'Resumen' (un renglón por
-    esquema) y 'Comparativo' (un bloque por esquema, con sus clientes)."""
+def render_xlsx(rows, year_a, year_b, cutoff=None):
+    """Regresa los bytes de un .xlsx con tres hojas: 'Resumen' (un renglón por
+    esquema), 'Resumen Mes-Esquema' (esquemas con detalle por mes) y
+    'Comparativo' (un bloque por esquema, con sus clientes)."""
     import xlsxwriter
 
     label_a, label_b = season_label(year_a), season_label(year_b)
     blocks = build_blocks(rows)
     grand = sum_rows(rows)
     grand_counts = count_status(rows) if rows else {'a': 0, 'b': 0, 'lost': 0, 'new': 0, 'kept': 0}
+    months = months_upto(cutoff)
 
     output = io.BytesIO()
     wb = xlsxwriter.Workbook(output, {'in_memory': True})
@@ -325,64 +367,65 @@ def render_xlsx(rows, year_a, year_b):
         write_var(ws, r, 10, t['amt_a'], t['amt_b'], bold)
         r += 1
 
-    # --- Hoja Comparativo (un bloque por esquema) ---
-    ws = wb.add_worksheet('Comparativo')
-    ws.set_column(0, 0, 40)
-    ws.set_column(1, 2, 22)
-    ws.set_column(3, 9 + 6 * 12, 12)
-    ws.freeze_panes(0, 1)
-
-    def write_values(r, row, bold):
-        nf = f['num_b' if bold else 'num']
-        ws.write_number(r, 3, row['qty_a'], nf)
-        ws.write_number(r, 4, row['amt_a'], nf)
-        ws.write_number(r, 5, row['qty_b'], nf)
-        ws.write_number(r, 6, row['amt_b'], nf)
-        write_var(ws, r, 7, row['qty_a'], row['qty_b'], bold)
-        write_var(ws, r, 8, row['amt_a'], row['amt_b'], bold)
-        col = 9
-        for m in MONTHS_ORDER:
-            qa, aa, qb, ab = row['months'][m]
-            ws.write_number(r, col, qa, nf)
-            ws.write_number(r, col + 1, aa, nf)
-            ws.write_number(r, col + 2, qb, nf)
-            ws.write_number(r, col + 3, ab, nf)
-            write_var(ws, r, col + 4, qa, qb, bold)
-            write_var(ws, r, col + 5, aa, ab, bold)
-            col += 6
-
-    r = 0
-    for b in blocks:
-        ws.write(r, 0, b['name'], f['title'])
+    # --- Tablas con detalle por mes (resumen por mes y esquema / clientes de un esquema) ---
+    def write_detail(ws, r, title, label_headers, detail_rows):
+        n = len(label_headers)
+        ws.write(r, 0, title, f['title'])
         r += 1
-        ws.merge_range(r, 0, r + 1, 0, 'Cliente', f['head'])
-        ws.merge_range(r, 1, r + 1, 1, 'Grupo', f['head'])
-        ws.merge_range(r, 2, r + 1, 2, 'Promotor', f['head'])
-        ws.merge_range(r, 3, r, 4, label_a, f['head'])
-        ws.merge_range(r, 5, r, 6, label_b, f['head'])
-        ws.merge_range(r, 7, r, 8, 'Variación', f['head'])
+        for i, h in enumerate(label_headers):
+            ws.merge_range(r, i, r + 1, i, h, f['head'])
+        ws.merge_range(r, n, r, n + 1, label_a, f['head'])
+        ws.merge_range(r, n + 2, r, n + 3, label_b, f['head'])
+        ws.merge_range(r, n + 4, r, n + 5, 'Variación', f['head'])
         for i, t in enumerate(('#', 'USD', '#', 'USD', 'Var #', 'Var $')):
-            ws.write(r + 1, 3 + i, t, f['sub'])
-        col = 9
-        for mm, name in MONTHS:
+            ws.write(r + 1, n + i, t, f['sub'])
+        col = n + 6
+        for mm, name in months:
             ya, yb = month_year(year_a, mm), month_year(year_b, mm)
             ws.merge_range(r, col, r, col + 5, name, f['head'])
             for i, t in enumerate(('Cant. %d' % ya, 'USD %d' % ya, 'Cant. %d' % yb, 'USD %d' % yb, 'Var Cant.', 'Var $')):
                 ws.write(r + 1, col + i, t, f['sub'])
             col += 6
         r += 2
-        ws.write(r, 0, 'Totales (%d clientes)' % len(b['rows']), f['txt_b'])
-        ws.write(r, 1, '', f['txt_b'])
-        ws.write(r, 2, '', f['txt_b'])
-        write_values(r, b['totals'], True)
-        r += 1
-        for row in b['rows']:
-            ws.write(r, 0, row['partner_name'] or '', f['txt'])
-            ws.write(r, 1, row['group_name'] or '', f['txt'])
-            ws.write(r, 2, row['promotor_name'] or '', f['txt'])
-            write_values(r, row, False)
+        for row in detail_rows:
+            bold = bool(row.get('is_total'))
+            nf = f['num_b' if bold else 'num']
+            for i, label in enumerate(_labels_of(row)):
+                ws.write(r, i, label or '', f['txt_b' if bold else 'txt'])
+            ws.write_number(r, n, row['qty_a'], nf)
+            ws.write_number(r, n + 1, row['amt_a'], nf)
+            ws.write_number(r, n + 2, row['qty_b'], nf)
+            ws.write_number(r, n + 3, row['amt_b'], nf)
+            write_var(ws, r, n + 4, row['qty_a'], row['qty_b'], bold)
+            write_var(ws, r, n + 5, row['amt_a'], row['amt_b'], bold)
+            col = n + 6
+            for m, _name in months:
+                qa, aa, qb, ab = row['months'][m]
+                ws.write_number(r, col, qa, nf)
+                ws.write_number(r, col + 1, aa, nf)
+                ws.write_number(r, col + 2, qb, nf)
+                ws.write_number(r, col + 3, ab, nf)
+                write_var(ws, r, col + 4, qa, qb, bold)
+                write_var(ws, r, col + 5, aa, ab, bold)
+                col += 6
             r += 1
-        r += 1
+        return r + 1
+
+    suffix = ' (hasta %s)' % cutoff_name(cutoff) if cutoff else ''
+    ws = wb.add_worksheet('Resumen Mes-Esquema')
+    ws.set_column(0, 0, 30)
+    ws.set_column(1, 6 + 6 * 12, 12)
+    ws.freeze_panes(0, 1)
+    write_detail(ws, 0, 'Resumen por mes y esquema%s' % suffix, ['Esquema'], _scheme_month_rows(blocks, grand))
+
+    ws = wb.add_worksheet('Comparativo')
+    ws.set_column(0, 0, 40)
+    ws.set_column(1, 2, 22)
+    ws.set_column(3, 9 + 6 * 12, 12)
+    ws.freeze_panes(0, 1)
+    r = 0
+    for b in blocks:
+        r = write_detail(ws, r, b['name'], ['Cliente', 'Grupo', 'Promotor'], _client_rows(b))
 
     wb.close()
     return output.getvalue()

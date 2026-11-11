@@ -165,8 +165,10 @@ def _qty(value):
     return '{:,.0f}'.format(value) if abs(value - round(value)) < 1e-9 else '{:,.2f}'.format(value)
 
 
-def _render_table(title, label_headers, rows, year_a, year_b, extra_headers=(), with_months=True, show_clients=True):
+def _render_table(title, label_headers, rows, year_a, year_b, extra_headers=(), with_months=True, show_clients=True,
+                  months=None):
     label_a, label_b = br.season_label(year_a), br.season_label(year_b)
+    months = months or MONTHS
     has_clients = show_clients and any(r.get('clients') for r in rows)
     head1 = ''.join('<th rowspan="2">%s</th>' % br._esc(h) for h in label_headers)
     head1 += ''.join('<th rowspan="2">%s</th>' % br._esc(h) for h in extra_headers)
@@ -177,7 +179,7 @@ def _render_table(title, label_headers, rows, year_a, year_b, extra_headers=(), 
     head1 += '<th class="sc-sep" colspan="3">Servicios coordinados</th>'
     head2 += '<th class="sc-sep">%s</th><th>%s</th><th>Var #</th>' % (label_a, label_b)
     if with_months:
-        for mm, name in MONTHS:
+        for mm, name in months:
             head1 += '<th class="sc-sep" colspan="3">%s</th>' % name
             head2 += '<th class="sc-sep">%d</th><th>%d</th><th>Var #</th>' % (
                 br.month_year(year_a, mm), br.month_year(year_b, mm))
@@ -194,7 +196,7 @@ def _render_table(title, label_headers, rows, year_a, year_b, extra_headers=(), 
         cells += '<td class="sc-sep">%s</td><td>%s</td><td>%s</td>' % (
             _qty(r['qty_a']), _qty(r['qty_b']), br._var_html(r['qty_a'], r['qty_b']))
         if with_months:
-            for m in MONTHS_ORDER:
+            for m, _name in months:
                 qa, qb = r['months'][m]
                 cells += '<td class="sc-sep">%s</td><td>%s</td><td>%s</td>' % (_qty(qa), _qty(qb), br._var_html(qa, qb))
         body += '<tr%s>%s</tr>' % (' class="sc-total"' if r.get('is_total') else '', cells)
@@ -214,20 +216,25 @@ def _scheme_summary_headers(year_a, year_b):
     return ['Clientes %s' % la, 'Clientes %s' % lb, 'Dejaron de coordinar', 'Nuevos coordinados']
 
 
-def render_html(base, year_a, year_b):
+def render_html(base, year_a, year_b, cutoff=None):
     if not base:
         return ('<p>No hay servicios coordinados (compras confirmadas con pedido de venta, producto '
                 'comisionable y fecha de servicio) en las temporadas elegidas.</p>')
     data = build(base)
     la, lb = br.season_label(year_a), br.season_label(year_b)
+    months = br.months_upto(cutoff)
+    suffix = ' (hasta %s)' % br.cutoff_name(cutoff) if cutoff else ''
     out = br.CSS
-    out += _render_table('Resumen por esquema — %s vs %s' % (la, lb), ['Esquema'], data['scheme_summary'], year_a, year_b,
-                         extra_headers=_scheme_summary_headers(year_a, year_b), with_months=False)
+    out += _render_table('Resumen por esquema — %s vs %s%s' % (la, lb, suffix), ['Esquema'], data['scheme_summary'],
+                         year_a, year_b, extra_headers=_scheme_summary_headers(year_a, year_b), with_months=False)
+    out += _render_table('Resumen por mes y esquema%s' % suffix, ['Esquema'], data['scheme_summary'], year_a, year_b,
+                         show_clients=False, months=months)
     for b in data['blocks']:
         out += _render_table(b['name'], ['Cliente', 'Grupo', 'Promotor'], [b['total']] + b['rows'], year_a, year_b,
-                             show_clients=False)
-    out += _render_table('Coordinador y esquema', ['Coordinador', 'Esquema'], data['coord_schemes'], year_a, year_b)
-    out += _render_table('Servicios por coordinador', ['Coordinador'], data['coords'], year_a, year_b)
+                             show_clients=False, months=months)
+    out += _render_table('Coordinador y esquema', ['Coordinador', 'Esquema'], data['coord_schemes'], year_a, year_b,
+                         months=months)
+    out += _render_table('Servicios por coordinador', ['Coordinador'], data['coords'], year_a, year_b, months=months)
     return out
 
 
@@ -235,13 +242,15 @@ def render_html(base, year_a, year_b):
 # Excel
 # ----------------------------------------------------------------------
 
-def render_xlsx(base, year_a, year_b):
-    """Cuatro hojas: Resumen Esquema, Clientes (un bloque por esquema),
-    Coordinador-Esquema y Coordinadores."""
+def render_xlsx(base, year_a, year_b, cutoff=None):
+    """Cinco hojas: Resumen Esquema, Resumen Mes-Esquema, Clientes (un bloque por
+    esquema), Coordinador-Esquema y Coordinadores."""
     import xlsxwriter
 
     data = build(base) if base else {'coords': [], 'coord_schemes': [], 'scheme_summary': [], 'blocks': []}
     label_a, label_b = br.season_label(year_a), br.season_label(year_b)
+    months = br.months_upto(cutoff)
+    suffix = ' (hasta %s)' % br.cutoff_name(cutoff) if cutoff else ''
     output = io.BytesIO()
     wb = xlsxwriter.Workbook(output, {'in_memory': True})
     teal = '#1B7F8C'
@@ -292,7 +301,7 @@ def render_xlsx(base, year_a, year_b):
             ws.write(r + 1, c + i, t, f['sub'])
         c += 3
         if with_months:
-            for mm, name in MONTHS:
+            for mm, name in months:
                 ws.merge_range(r, c, r, c + 2, name, f['head'])
                 for i, t in enumerate((str(br.month_year(year_a, mm)), str(br.month_year(year_b, mm)), 'Var #')):
                     ws.write(r + 1, c + i, t, f['sub'])
@@ -318,7 +327,7 @@ def render_xlsx(base, year_a, year_b):
             write_var(ws, r, c + 2, row['qty_a'], row['qty_b'], bold)
             c += 3
             if with_months:
-                for m in MONTHS_ORDER:
+                for m, _name in months:
                     qa, qb = row['months'][m]
                     ws.write_number(r, c, qa, nf)
                     ws.write_number(r, c + 1, qb, nf)
@@ -335,8 +344,10 @@ def render_xlsx(base, year_a, year_b):
         ws.freeze_panes(0, 1)
         return ws
 
-    write_table(sheet('Resumen Esquema', 30), 0, 'Resumen por esquema', ['Esquema'], data['scheme_summary'],
+    write_table(sheet('Resumen Esquema', 30), 0, 'Resumen por esquema%s' % suffix, ['Esquema'], data['scheme_summary'],
                 extra_headers=_scheme_summary_headers(year_a, year_b), with_months=False)
+    write_table(sheet('Resumen Mes-Esquema', 30), 0, 'Resumen por mes y esquema%s' % suffix, ['Esquema'],
+                data['scheme_summary'], show_clients=False)
     ws = sheet('Clientes', 40)
     r = 0
     for b in data['blocks']:

@@ -16,6 +16,7 @@
               <field name="season_a_range" string="Periodo"/>
               <field name="year_b" widget="char"/>
               <field name="season_b_range" string="Periodo"/>
+              <field name="cutoff_month"/>
             </group>
             <group string="Filtros (opcional)">
               <field name="scheme_ids" widget="many2many_tags" options="{'no_create': True}"/>
