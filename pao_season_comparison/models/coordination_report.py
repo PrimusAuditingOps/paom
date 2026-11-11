@@ -170,7 +170,8 @@ def _render_table(title, label_headers, rows, year_a, year_b, extra_headers=(), 
     label_a, label_b = br.season_label(year_a), br.season_label(year_b)
     months = months or MONTHS
     has_clients = show_clients and any(r.get('clients') for r in rows)
-    head1 = ''.join('<th rowspan="2">%s</th>' % br._esc(h) for h in label_headers)
+    head1 = ''.join('<th rowspan="2"%s>%s</th>' % (' class="sc-first"' if i == 0 else '', br._esc(h))
+                    for i, h in enumerate(label_headers))
     head1 += ''.join('<th rowspan="2">%s</th>' % br._esc(h) for h in extra_headers)
     head2 = ''
     if has_clients:
@@ -186,7 +187,7 @@ def _render_table(title, label_headers, rows, year_a, year_b, extra_headers=(), 
 
     body = ''
     for r in rows:
-        cells = '<td>%s</td>' % br._esc(r['labels'][0])
+        cells = '<td class="sc-first">%s</td>' % br._esc(r['labels'][0])
         cells += ''.join('<td class="sc-l">%s</td>' % br._esc(x) for x in r['labels'][1:])
         if extra_headers:
             cells += ''.join('<td>%s</td>' % v for v in (r.get('extra') or [''] * len(extra_headers)))

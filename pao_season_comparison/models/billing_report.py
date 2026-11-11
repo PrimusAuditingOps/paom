@@ -142,9 +142,11 @@ CSS = '''<style>
     .sc-wrap{overflow-x:auto;max-height:75vh;}
     .sc-table{border-collapse:separate;border-spacing:0;font-size:12px;}
     .sc-table th, .sc-table td{border-bottom:1px solid #e3e3e3;border-right:1px solid #f0f0f0;padding:3px 8px;text-align:right;white-space:nowrap;background:#fff;}
-    .sc-table th{background:#f5f5f5;text-align:center;color:#1B7F8C;position:sticky;top:0;z-index:2;}
-    .sc-table td:first-child, .sc-table th:first-child{text-align:left;position:sticky;left:0;z-index:3;border-right:2px solid #ccc;}
-    .sc-table th:first-child{z-index:4;}
+    .sc-table th{background:#f5f5f5;text-align:center;color:#1B7F8C;position:sticky;top:0;z-index:2;
+                 height:26px;box-sizing:border-box;line-height:18px;}
+    .sc-table thead tr + tr th{top:26px;}
+    .sc-table td.sc-first, .sc-table th.sc-first{text-align:left;position:sticky;left:0;z-index:3;border-right:2px solid #ccc;}
+    .sc-table th.sc-first{z-index:4;top:0;}
     .sc-table td.sc-l{text-align:left;}
     .sc-total td{font-weight:bold;background:#eef6f7;border-bottom:2px solid #1B7F8C;}
     .sc-sep{border-left:2px solid #bbb !important;}
@@ -183,15 +185,15 @@ def _summary_cells(data, counts=None):
 def _render_summary(blocks, grand, grand_counts, label_a, label_b, suffix=''):
     body = ''
     for b in blocks:
-        body += '<tr><td>%s</td>%s</tr>' % (_esc(b['name']), _summary_cells(b['totals'], b['counts']))
-    body += '<tr class="sc-total"><td>Total general</td>%s</tr>' % _summary_cells(grand, grand_counts)
+        body += '<tr><td class="sc-first">%s</td>%s</tr>' % (_esc(b['name']), _summary_cells(b['totals'], b['counts']))
+    body += '<tr class="sc-total"><td class="sc-first">Total general</td>%s</tr>' % _summary_cells(grand, grand_counts)
     return '''
     <div class="sc-block">
       <div class="sc-title">Resumen por esquema — %s vs %s%s</div>
       <div class="sc-wrap"><table class="sc-table">
         <thead>
           <tr>
-            <th rowspan="2">Esquema</th>
+            <th rowspan="2" class="sc-first">Esquema</th>
             <th colspan="4">Clientes que facturaron</th>
             <th colspan="2">%s</th><th colspan="2">%s</th><th colspan="2">Variación</th>
           </tr>
@@ -238,11 +240,12 @@ def _render_detail(title, label_headers, rows, year_a, year_b, months):
     body = ''
     for r in rows:
         labels = _labels_of(r)
-        label_cells = '<td>%s</td>' % _esc(labels[0]) + ''.join(
+        label_cells = '<td class="sc-first">%s</td>' % _esc(labels[0]) + ''.join(
             '<td class="sc-l">%s</td>' % _esc(x) for x in labels[1:])
         body += '<tr%s>%s</tr>' % (' class="sc-total"' if r.get('is_total') else '', _row_cells(r, label_cells, months))
 
-    head = ''.join('<th rowspan="2">%s</th>' % _esc(h) for h in label_headers)
+    head = ''.join('<th rowspan="2"%s>%s</th>' % (' class="sc-first"' if i == 0 else '', _esc(h))
+                   for i, h in enumerate(label_headers))
     return '''
     <div class="sc-block">
       <div class="sc-title">%s</div>
