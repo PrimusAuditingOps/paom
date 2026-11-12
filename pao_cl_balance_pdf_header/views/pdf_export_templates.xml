@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Same layout as account_reports.pdf_export_main; only the title changes. -->
+    <template id="pdf_export_main">
+        <t t-set="report_title">Balance General</t>
+        <t t-call="account_reports.pdf_export_main"/>
+    </template>
+
+    <!-- Replaces account_reports.company_information (grey header, left side). -->
+    <template id="company_information">
+        <div>Primus Chile S.p.A.</div>
+        <div>Rut: 76.037.995-6</div>
+        <div class="o_text_muted">
+            <div>Auditorías de inocuidad alimentaria</div>
+            <div>y actividades de apoyo a la agricultura</div>
+            <div>Avenida Libertad No. 798 Oficina 902</div>
+            <div>Viña del Mar, Chile</div>
+        </div>
+        <div>13.229.025-3 KATHERINE A. LEGUA SEPULVEDA</div>
+    </template>
+</odoo>
