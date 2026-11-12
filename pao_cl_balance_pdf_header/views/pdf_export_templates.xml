@@ -18,4 +18,12 @@
         </div>
         <div>13.229.025-3 KATHERINE A. LEGUA SEPULVEDA</div>
     </template>
+
+    <!-- Right side of the grey header: optional folio on top, then Odoo's usual filters. -->
+    <template id="pdf_export_filters">
+        <div t-if="options.get('pao_folio')" style="text-align: right; font-weight: bold;">
+            FOLIO: <t t-out="options['pao_folio']"/>
+        </div>
+        <t t-call="account_reports.pdf_export_filters"/>
+    </template>
 </odoo>
