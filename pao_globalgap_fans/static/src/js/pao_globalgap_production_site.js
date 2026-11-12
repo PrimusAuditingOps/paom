@@ -795,11 +795,23 @@ publicWidget.registry.globalgapproductionsite = publicWidget.Widget.extend({
         },
     
         _validateGRASPQuestion: function () {
-            const selectedValue = document.getElementById("not_direct_line_memebers_grasp").value;
-            const visibleTable = document.querySelector(`.grasp-question-${selectedValue}`);
+            const graspSection = document.getElementById("grasp_production_site");
 
-            if (selectedValue === "2") { // If "No" is selected, skip validation
+            // No validar GRASP si el addendum no está seleccionado.
+            if (!graspSection || graspSection.getClientRects().length === 0) {
                 return true;
+            }
+
+            const selectedValue = document.getElementById("not_direct_line_memebers_grasp").value;
+
+            if (selectedValue === "2") {
+                return true;
+            }
+
+            const visibleTable = graspSection.querySelector(`.grasp-question-${selectedValue}`);
+
+            if (!visibleTable) {
+                return false;
             }
 
             const numberInputs = visibleTable.querySelectorAll('input[type="number"]');
