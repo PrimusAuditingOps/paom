@@ -1,0 +1,52 @@
+<odoo>
+
+  <record id="pao_season_coordination_wizard_view_form" model="ir.ui.view">
+    <field name="name">pao.season.coordination.wizard.view.form</field>
+    <field name="model">pao.season.coordination.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Comparativo de Coordinación por Temporada">
+        <sheet>
+          <div class="oe_title">
+            <h1>Comparativo de Coordinación por Temporada</h1>
+          </div>
+          <group>
+            <group string="Temporadas a comparar">
+              <field name="year_a" widget="char"/>
+              <field name="season_a_range" string="Periodo"/>
+              <field name="year_b" widget="char"/>
+              <field name="season_b_range" string="Periodo"/>
+              <field name="cutoff_month"/>
+            </group>
+            <group string="Filtros (opcional)">
+              <field name="scheme_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="group_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="promotor_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="omit_no_scheme"/>
+              <field name="coordinator_ids" widget="many2many_tags" options="{'no_create': True}" domain="[('share', '=', False)]"/>
+            </group>
+          </group>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <button string="Ver reporte" type="object" name="action_generate_report" class="btn-primary"/>
+            <button string="Descargar Excel" type="object" name="action_export_excel" class="btn-secondary"/>
+          </div>
+          <field name="report_html" widget="html" options="{'sanitize': false}" invisible="not report_html"/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_pao_season_coordination_wizard" model="ir.actions.act_window">
+    <field name="name">Comparativo de Coordinación por Temporada</field>
+    <field name="res_model">pao.season.coordination.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">current</field>
+  </record>
+
+  <menuitem id="pao_season_coordination_menu"
+            name="Comparativo de Coordinación por Temporada"
+            parent="purchase.purchase_report_main"
+            action="action_pao_season_coordination_wizard"
+            groups="purchase.group_purchase_manager"
+            sequence="95"/>
+
+</odoo>

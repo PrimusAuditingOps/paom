@@ -1,0 +1,53 @@
+<odoo>
+
+  <!-- Wizard: elegir temporadas y filtros; de aquí salen las dos interfaces -->
+  <record id="pao_season_billing_wizard_view_form" model="ir.ui.view">
+    <field name="name">pao.season.billing.wizard.view.form</field>
+    <field name="model">pao.season.billing.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Comparativo de Facturación por Temporada">
+        <sheet>
+          <div class="oe_title">
+            <h1>Comparativo de Facturación por Temporada</h1>
+          </div>
+          <group>
+            <group string="Temporadas a comparar">
+              <field name="year_a" widget="char"/>
+              <field name="season_a_range" string="Periodo"/>
+              <field name="year_b" widget="char"/>
+              <field name="season_b_range" string="Periodo"/>
+              <field name="cutoff_month"/>
+            </group>
+            <group string="Filtros (opcional)">
+              <field name="scheme_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="region_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="group_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="promotor_ids" widget="many2many_tags" options="{'no_create': True}"/>
+              <field name="omit_no_scheme"/>
+            </group>
+          </group>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <button string="Ver reporte" type="object" name="action_generate_report" class="btn-primary"/>
+            <button string="Descargar Excel" type="object" name="action_export_excel" class="btn-secondary"/>
+          </div>
+          <field name="report_html" widget="html" options="{'sanitize': false}" invisible="not report_html"/>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_pao_season_billing_wizard" model="ir.actions.act_window">
+    <field name="name">Comparativo de Facturación por Temporada</field>
+    <field name="res_model">pao.season.billing.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">current</field>
+  </record>
+
+  <menuitem id="pao_season_billing_menu"
+            name="Comparativo de Facturación por Temporada"
+            parent="sale.menu_sale_report"
+            action="action_pao_season_billing_wizard"
+            groups="sales_team.group_sale_manager,pao_sales_budget.group_pao_sales_budget_vendor"
+            sequence="90"/>
+
+</odoo>
