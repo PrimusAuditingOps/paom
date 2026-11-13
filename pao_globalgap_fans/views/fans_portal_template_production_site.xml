@@ -347,7 +347,7 @@
                                                     <div id="gridProducts"></div>
                                                     <table id="gridtest"></table>
                                                 </fieldset>
-                                                <fieldset class="border p-2" t-att-style="'border-color:#ffa500 !important;margin: 30px; ' + ('' if any(addon.is_grasp_module for addon in data.addons_ids) else 'display: none;')">
+                                                <fieldset id="grasp_production_site" class="border p-2" t-att-style="'border-color:#ffa500 !important;margin: 30px; ' + ('' if any(addon.is_grasp_module for addon in data.addons_ids) else 'display: none;')">
                                                     <legend  class="w-auto" style="font-weight:bold;text-align:center" >INFORMACIÓN PARA EL MÓDULO GRASP</legend>
                                                     <div class="s_website_form_rows row s_col_no_bgcolor" style="text-align:center">
                                                         <div class="form-group col-md-6">
