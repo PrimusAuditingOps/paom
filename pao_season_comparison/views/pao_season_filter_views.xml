@@ -50,14 +50,14 @@
 
   <menuitem id="pao_season_filter_billing_menu"
             name="Filtros del Comparativo de Facturación"
-            parent="sale.menu_sale_report"
+            parent="sale.menu_sales_config"
             action="action_pao_season_filter_billing"
-            groups="sales_team.group_sale_manager,pao_sales_budget.group_pao_sales_budget_vendor"
+            groups="sales_team.group_sale_manager"
             sequence="91"/>
 
   <menuitem id="pao_season_filter_coordination_menu"
             name="Filtros del Comparativo de Coordinación"
-            parent="purchase.purchase_report_main"
+            parent="purchase.menu_purchase_config"
             action="action_pao_season_filter_coordination"
             groups="purchase.group_purchase_manager"
             sequence="96"/>
