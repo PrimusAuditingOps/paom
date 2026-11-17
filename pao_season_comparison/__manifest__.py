@@ -24,6 +24,8 @@ Comparativos de facturación y de coordinación entre dos temporadas
     ],
     'data': [
         'security/ir.model.access.csv',
+        'security/rules.xml',
+        'views/pao_season_filter_views.xml',
         'views/pao_season_billing_views.xml',
         'views/pao_season_coordination_views.xml',
     ],

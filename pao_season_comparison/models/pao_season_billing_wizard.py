@@ -9,6 +9,9 @@ from . import billing_report as br
 class PAOSeasonBillingWizard(models.TransientModel):
     _name = 'pao.season.billing.wizard'
     _description = 'PAO Comparativo de Facturación por Temporada'
+    _inherit = 'pao.season.filter.mixin'
+    _season_filter_model = 'sales.invoicing.report'
+    _season_filter_type = 'billing'
 
     year_a = fields.Integer(string='Temporada base (año de inicio)', required=True,
                             default=lambda self: self._current_season_year() - 1)
@@ -105,6 +108,9 @@ class PAOSeasonBillingWizard(models.TransientModel):
             params['promotor_ids'] = tuple(self.promotor_ids.ids)
         if self.omit_no_scheme:
             extra += ' AND pt.pao_sales_budget_scheme_id IS NOT NULL'
+        filter_sql = self._filter_ids_sql()
+        if filter_sql:
+            extra += ' AND sir.id IN (%s)' % filter_sql
 
         query = """
             SELECT sir.partner_id,

@@ -10,6 +10,9 @@ from . import coordination_report as cr
 class PAOSeasonCoordinationWizard(models.TransientModel):
     _name = 'pao.season.coordination.wizard'
     _description = 'PAO Comparativo de Coordinación por Temporada'
+    _inherit = 'pao.season.filter.mixin'
+    _season_filter_model = 'purchase.report'
+    _season_filter_type = 'coordination'
 
     year_a = fields.Integer(string='Temporada base (año de inicio)', required=True,
                             default=lambda self: self._current_season_year() - 1)
@@ -112,6 +115,9 @@ class PAOSeasonCoordinationWizard(models.TransientModel):
             params['promotor_ids'] = tuple(self.promotor_ids.ids)
         if self.omit_no_scheme:
             extra += ' AND pt.pao_sales_budget_scheme_id IS NOT NULL'
+        filter_sql = self._filter_ids_sql()
+        if filter_sql:
+            extra += ' AND r.id IN (%s)' % filter_sql
 
         # El texto del subquery no lleva parámetros; se escapa cualquier '%'
         # literal para que execute() no lo confunda con un placeholder.
