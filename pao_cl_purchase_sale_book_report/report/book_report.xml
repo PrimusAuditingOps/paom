@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_purchase_book" model="report.paperformat">
+        <field name="name">Libro de compras / ventas (Carta horizontal)</field>
+        <field name="format">Letter</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">42</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">36</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <!-- Gear (Print) menu of the invoice list views (both actions show in both lists:
+         each one only accepts its own kind of invoice). -->
+    <record id="action_report_purchase_book" model="ir.actions.report">
+        <field name="name">Reporte: Libro de compras (Sin Boleta de Honorarios)</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_cl_purchase_sale_book_report.report_purchase_book</field>
+        <field name="report_file">pao_cl_purchase_sale_book_report.report_purchase_book</field>
+        <field name="print_report_name">'Libro de compras'</field>
+        <field name="paperformat_id" ref="paperformat_purchase_book"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <record id="action_report_sale_book" model="ir.actions.report">
+        <field name="name">Reporte: Libro de ventas</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_cl_purchase_sale_book_report.report_sale_book</field>
+        <field name="report_file">pao_cl_purchase_sale_book_report.report_sale_book</field>
+        <field name="print_report_name">'Libro de ventas'</field>
+        <field name="paperformat_id" ref="paperformat_purchase_book"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>

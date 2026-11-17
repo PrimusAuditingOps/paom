@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Same 9 columns for the main table, the totals lines and the summaries, so everything lines up. -->
+    <template id="purchase_book_colgroup">
+        <colgroup>
+            <col style="width: 4%;"/>
+            <col style="width: 8%;"/>
+            <col style="width: 13%;"/>
+            <col style="width: 24%;"/>
+            <col style="width: 9%;"/>
+            <col style="width: 10%;"/>
+            <col style="width: 10%;"/>
+            <col style="width: 10%;"/>
+            <col style="width: 12%;"/>
+        </colgroup>
+    </template>
+
+    <template id="purchase_book_amount_cells">
+        <td class="o_num" t-out="fmt_amount(amounts['exempt'])"/>
+        <td class="o_num" t-out="fmt_amount(amounts['taxed'])"/>
+        <td class="o_num" t-out="fmt_amount(amounts['tax'])"/>
+        <td class="o_num" t-out="fmt_amount(amounts['total'])"/>
+    </template>
+
+    <!-- Shared body of both books (title and partner column come from Python). -->
+    <template id="report_tax_book">
+        <t t-call="web.html_container">
+            <!-- Repeated on every page (legal entity data, title and page number). -->
+            <div class="header" style="font-family: 'Courier New', Courier, monospace; font-size: 9pt;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 35%; vertical-align: top; line-height: 1.2;">
+                            <div>PRIMUS CHILE S.P.A.</div>
+                            <div>RUT: 76.037.995-6</div>
+                            <div>AUDITORÍAS DE INOCUIDAD ALIMENTARIA</div>
+                            <div>Y ACTIVIDADES DE APOYO A LA AGRICULTURA</div>
+                            <div>AVENIDA LIBERTAD No. 798 OFICINA 902</div>
+                            <div>VIÑA DEL MAR, CHILE</div>
+                            <div>13.229.025-3 KATHERINE A. LEGUA SEPULVEDA</div>
+                        </td>
+                        <td style="width: 45%; vertical-align: middle; text-align: center; font-weight: bold; font-size: 12pt;">
+                            <t t-out="title"/>
+                        </td>
+                        <td style="width: 20%; vertical-align: top; text-align: right;">
+                            PAGINA: <span class="page"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="article">
+                <style>
+                    .o_cl_pb { width: 100%; table-layout: fixed; border-collapse: collapse; font-family: 'Courier New', Courier, monospace; font-size: 8pt; }
+                    .o_cl_pb th { border: 1px solid #000; padding: 3px 4px; text-align: center; font-weight: normal; }
+                    .o_cl_pb td { padding: 1px 4px; height: 13px; white-space: nowrap; overflow: hidden; vertical-align: top; }
+                    .o_cl_pb.o_main td { border-left: 1px solid #000; border-right: 1px solid #000; }
+                    .o_cl_pb.o_main { border-bottom: 1.5px solid #000; }
+                    .o_cl_pb .o_num { text-align: right; }
+                    .o_cl_pb .o_gap td { height: 8px; }
+                    .o_cl_pb .o_spaced { letter-spacing: 4px; }
+                    .o_cl_pb .o_section td.o_section_title { text-align: center; letter-spacing: 6px; padding-top: 18px; border-bottom: 1.5px solid #000; }
+                    .o_page_break { page-break-after: always; }
+                </style>
+
+                <t t-foreach="pages" t-as="page">
+                    <!-- Main table of this page -->
+                    <table class="o_cl_pb o_main">
+                        <t t-call="pao_cl_purchase_sale_book_report.purchase_book_colgroup"/>
+                        <thead>
+                            <tr>
+                                <th>Nº</th>
+                                <th>FECHA</th>
+                                <th>DOCUMENTO</th>
+                                <th t-out="partner_label"/>
+                                <th>RUT</th>
+                                <th>M. EXENTO</th>
+                                <th>M. AFECTO</th>
+                                <th>I.V.A.</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="o_gap"><td/><td/><td/><td/><td/><td/><td/><td/><td/></tr>
+                            <tr t-if="page['previous_totals']">
+                                <td/><td/><td/>
+                                <td>TOTAL ANTERIOR:</td>
+                                <td/>
+                                <t t-call="pao_cl_purchase_sale_book_report.purchase_book_amount_cells">
+                                    <t t-set="amounts" t-value="page['previous_totals']"/>
+                                </t>
+                            </tr>
+                            <tr t-foreach="page['rows']" t-as="row">
+                                <td class="o_num" t-out="row['number']"/>
+                                <td t-out="row['date']"/>
+                                <td>
+                                    <span style="float: right;" t-out="row['doc_number']"/>
+                                    <span t-out="row['doc_code']"/>
+                                </td>
+                                <td t-out="row['partner']"/>
+                                <td class="o_num" t-out="row['vat']"/>
+                                <t t-call="pao_cl_purchase_sale_book_report.purchase_book_amount_cells">
+                                    <t t-set="amounts" t-value="row"/>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Totals line under the table -->
+                    <table class="o_cl_pb">
+                        <t t-call="pao_cl_purchase_sale_book_report.purchase_book_colgroup"/>
+                        <tr t-if="not page['is_last']">
+                            <td/><td/><td/>
+                            <td>TOTAL PAGINA:</td>
+                            <td/>
+                            <t t-call="pao_cl_purchase_sale_book_report.purchase_book_amount_cells">
+                                <t t-set="amounts" t-value="page['page_totals']"/>
+                            </t>
+                        </tr>
+                        <t t-else="">
+                            <tr>
+                                <td/><td/><td/>
+                                <td class="o_spaced">TOTALES:</td>
+                                <td/>
+                                <t t-call="pao_cl_purchase_sale_book_report.purchase_book_amount_cells">
+                                    <t t-set="amounts" t-value="grand_totals"/>
+                                </t>
+                            </tr>
+
+                            <!-- Summary by document type -->
+                            <tr class="o_section">
+                                <td/><td/><td/>
+                                <td colspan="6" class="o_section_title">RESUMEN</td>
+                            </tr>
+                            <tr t-foreach="document_summary" t-as="summary">
+                                <td/><td/><td/>
+                                <td colspan="2">
+                                    <span style="float: right;">(<t t-out="summary['code']"/>):</span>
+                                    <t t-out="summary['count']"/> <t t-out="summary['label']"/>
+                                </td>
+                                <t t-call="pao_cl_purchase_sale_book_report.purchase_book_amount_cells">
+                                    <t t-set="amounts" t-value="summary['totals']"/>
+                                </t>
+                            </tr>
+
+                            <!-- Summary by tax -->
+                            <tr class="o_section">
+                                <td/><td/><td/>
+                                <td colspan="6" class="o_section_title">RESUMEN IMPUESTOS</td>
+                            </tr>
+                            <tr t-foreach="tax_summary" t-as="tax">
+                                <td/><td/><td/>
+                                <td colspan="5" style="padding-left: 30px;">
+                                    <t t-out="tax['group']"/>&#160;&#160;<t t-out="tax['name']"/>
+                                </td>
+                                <td class="o_num" t-out="fmt_amount(tax['amount'])"/>
+                            </tr>
+                        </t>
+                    </table>
+
+                    <div t-if="not page['is_last']" class="o_page_break"/>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_purchase_book">
+        <t t-call="pao_cl_purchase_sale_book_report.report_tax_book"/>
+    </template>
+
+    <template id="report_sale_book">
+        <t t-call="pao_cl_purchase_sale_book_report.report_tax_book"/>
+    </template>
+</odoo>
