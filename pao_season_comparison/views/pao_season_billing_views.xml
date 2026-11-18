@@ -26,6 +26,16 @@
               <field name="omit_no_scheme"/>
             </group>
           </group>
+          <separator string="Filtro avanzado (opcional)"/>
+          <group>
+            <field name="saved_filter_id" options="{'no_create': True}" domain="[('report_type', '=', 'billing')]"/>
+            <field name="filter_domain" widget="domain" options="{'model': 'sales.invoicing.report'}"/>
+            <label for="new_filter_name"/>
+            <div class="o_row">
+              <field name="new_filter_name" placeholder="Nombre del favorito..." class="oe_inline"/>
+              <button string="Guardar filtro" type="object" name="action_save_filter" class="btn-secondary" invisible="not new_filter_name"/>
+            </div>
+          </group>
           <div class="d-flex flex-wrap gap-2 mb-3">
             <button string="Ver reporte" type="object" name="action_generate_report" class="btn-primary"/>
             <button string="Descargar Excel" type="object" name="action_export_excel" class="btn-secondary"/>
