@@ -222,7 +222,7 @@ class PaoGlobalgapFansRequest(models.Model):
                 dias = (rec.audit_start_date - today).days
                 if dias < 0:
                     rec.assignment_date_warning = 'expired'
-                elif dias <= 15:
+                elif dias <= 5:
                     rec.assignment_date_warning = 'next_to_due'
                 else:
                     rec.assignment_date_warning = 'on_time'
