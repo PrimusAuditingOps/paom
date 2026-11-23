@@ -1,0 +1,20 @@
+{
+    'name': 'QA Assesments',
+    'version': '17.0.1.0.0',
+    'author': 'Manuel Uzueta Gil',
+    'summary': 'PGFS auditor QA assessment scheduling and history',
+    'category': 'Services',
+    'license': 'LGPL-3',
+    'depends': ['base', 'contacts', 'mail', 'purchase'],
+    'data': [
+        'security/qa_security.xml',
+        'security/ir.model.access.csv',
+        'views/qa_assessment_views.xml',
+        'views/res_partner_views.xml',
+        'wizard/import_wizard_views.xml',
+        'views/menus.xml',
+        'data/cron.xml',
+    ],
+    'application': True,
+    'installable': True,
+}

@@ -1,0 +1,4 @@
+<odoo>
+ <record id="view_qa_import_form" model="ir.ui.view"><field name="name">pao.qa.import.wizard.form</field><field name="model">pao.qa.import.wizard</field><field name="arch" type="xml"><form string="Import Historical QA Assessments"><group><field name="file" filename="filename"/><field name="filename" invisible="1"/><field name="dry_run"/><field name="report" readonly="1" nolabel="1" placeholder="Run validation first..."/></group><footer><button name="action_import" type="object" string="Validate / Import" class="btn-primary"/><button string="Close" special="cancel"/></footer></form></field></record>
+ <record id="action_qa_import" model="ir.actions.act_window"><field name="name">Import Historical QA Assessments</field><field name="res_model">pao.qa.import.wizard</field><field name="view_mode">form</field><field name="target">new</field></record>
+</odoo>

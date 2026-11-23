@@ -1,0 +1,5 @@
+<odoo>
+    <menuitem id="menu_qa_root" name="QA Assesments" sequence="65" groups="pao_qa_assesments_tracker.group_qa_user" web_icon="pao_qa_assesments_tracker,static/description/icon.png"/>
+    <menuitem id="menu_qa_assessments" name="QA Assessments" parent="menu_qa_root" action="action_qa_assessments" sequence="10"/>
+    <menuitem id="menu_qa_import" name="Import Historical Assessments" parent="menu_qa_root" action="action_qa_import" sequence="30" groups="pao_qa_assesments_tracker.group_qa_manager"/>
+</odoo>

@@ -1,0 +1,46 @@
+<odoo>
+    <record id="view_partner_form_qa" model="ir.ui.view">
+        <field name="name">res.partner.form.qa.assessments</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <field name="ado_is_auditor" invisible="1"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_qa_assessments" type="object" class="oe_stat_button" icon="fa-check-square-o" invisible="not ado_is_auditor" groups="pao_qa_assesments_tracker.group_qa_user">
+                    <field name="qa_assessment_count" widget="statinfo" string="QA Assessments"/>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="qa_assessments" string="QA Assessments" invisible="not ado_is_auditor" groups="pao_qa_assesments_tracker.group_qa_user">
+                    <group>
+                        <group>
+                            <field name="qa_auditor_type"/>
+                            <field name="qa_interval_years_override"/>
+                            <field name="qa_interval_years" readonly="1"/>
+                            <field name="qa_responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="qa_last_assessment_date" readonly="1"/>
+                            <field name="qa_next_assessment_calculated_date" readonly="1"/>
+                            <field name="qa_next_assessment_manual_date"/>
+                            <field name="qa_next_assessment_date" readonly="1"/>
+                            <field name="qa_follower_user_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <field name="qa_assessment_ids" readonly="1">
+                        <tree>
+                            <field name="assessment_date"/>
+                            <field name="target_date"/>
+                            <field name="assessment_type"/>
+                            <field name="assessment_scope"/>
+                            <field name="state"/>
+                            <field name="result"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,140 @@
+<odoo>
+    <record id="view_qa_assessment_tree" model="ir.ui.view">
+        <field name="name">pao.qa.assessments.tree</field>
+        <field name="model">pao.qa.assessments</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'completed'" decoration-warning="state == 'not_scheduled'">
+                <field name="partner_id"/>
+                <field name="first_name" optional="hide"/>
+                <field name="last_name" optional="hide"/>
+                <field name="email" optional="hide"/>
+                <field name="country_id" optional="show"/>
+                <field name="assessment_type"/>
+                <field name="assessment_scope"/>
+                <field name="priority"/>
+                <field name="state"/>
+                <field name="target_date"/>
+                <field name="assessment_date"/>
+                <field name="assessor_id"/>
+                <field name="responsible_id"/>
+                <field name="notes" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_qa_assessment_form" model="ir.ui.view">
+        <field name="name">pao.qa.assessments.form</field>
+        <field name="model">pao.qa.assessments</field>
+        <field name="arch" type="xml">
+            <form string="QA Assessment">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="not_scheduled,scheduled,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="first_name" readonly="1"/>
+                            <field name="last_name" readonly="1"/>
+                            <field name="email" readonly="1"/>
+                            <field name="country_id" readonly="1"/>
+                            <field name="assessment_type"/>
+                            <field name="assessment_scope"/>
+                            <field name="priority"/>
+                        </group>
+                        <group>
+                            <field name="target_date"/>
+                            <field name="assessment_date"/>
+                            <field name="assessor_id"/>
+                            <field name="responsible_id"/>
+                            <field name="result"/>
+                            <field name="purchase_order_id"/>
+                            <field name="source" readonly="1"/>
+                            <field name="tracker_year" readonly="1"/>
+                            <field name="cycle_date" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Assessment notes..."/>
+                            <field name="ops_notes" placeholder="Operational notes..."/>
+                        </page>
+                        <page string="Assessment History">
+                            <field name="partner_id" invisible="1"/>
+                            <field name="qa_history_ids" readonly="1">
+                                <tree>
+                                    <field name="assessment_date"/>
+                                    <field name="target_date"/>
+                                    <field name="assessment_type"/>
+                                    <field name="assessment_scope"/>
+                                    <field name="state"/>
+                                    <field name="result"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_qa_assessment_kanban" model="ir.ui.view">
+        <field name="name">pao.qa.assessments.kanban</field>
+        <field name="model">pao.qa.assessments</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="target_date"/>
+                <field name="responsible_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong>
+                                <field name="partner_id"/>
+                            </strong>
+                            <div>
+                                <field name="target_date"/>
+                            </div>
+                            <div>
+                                <field name="responsible_id"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_qa_assessment_search" model="ir.ui.view">
+        <field name="name">pao.qa.assessments.search</field>
+        <field name="model">pao.qa.assessments</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="responsible_id"/>
+                <field name="assessment_scope"/>
+                <filter name="pending" string="Pending" domain="[('state','in',['not_scheduled','scheduled','in_progress'])]"/>
+                <filter name="completed" string="Completed" domain="[('state','=','completed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="Status" context="{'group_by':'state'}"/>
+                    <filter name="group_responsible" string="Responsible" context="{'group_by':'responsible_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_qa_assessments" model="ir.actions.act_window">
+        <field name="name">QA Assessments</field>
+        <field name="res_model">pao.qa.assessments</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="search_view_id" ref="view_qa_assessment_search"/>
+    </record>
+</odoo>

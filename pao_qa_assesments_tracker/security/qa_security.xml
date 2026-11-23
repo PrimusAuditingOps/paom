@@ -1,0 +1,14 @@
+<odoo>
+    <record id="module_category_qa" model="ir.module.category">
+        <field name="name">QA Assessments</field>
+    </record>
+    <record id="group_qa_user" model="res.groups">
+        <field name="name">QA Assessment User</field>
+        <field name="category_id" ref="module_category_qa"/>
+    </record>
+    <record id="group_qa_manager" model="res.groups">
+        <field name="name">QA Assessment Manager</field>
+        <field name="category_id" ref="module_category_qa"/>
+        <field name="implied_ids" eval="[(4, ref('group_qa_user'))]"/>
+    </record>
+</odoo>
