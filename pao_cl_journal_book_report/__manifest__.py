@@ -6,7 +6,7 @@
     'website': 'https://paomx.com',
     'summary': """
         "Reporte: Libro diario" PDF for selected journal items (Chile only,
-        one month at a time), with previous fiscal-year accumulations.
+        one month at a time), with the month total.
     """,
     'depends': [
         'account',

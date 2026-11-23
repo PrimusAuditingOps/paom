@@ -29,23 +29,6 @@ class JournalBookReport(models.AbstractModel):
         year, month = months.pop()
 
         lines = lines.sorted(lambda l: (l.date, l.move_id.name or '', l.move_id.id, l.id))
-        month_start = lines[0].date.replace(day=1)
-
-        # Accumulations: posted entries from the start of the fiscal year up to the month before the report.
-        fiscal_year_start = company.compute_fiscalyear_dates(month_start)['date_from']
-        previous_debit = previous_credit = 0.0
-        if fiscal_year_start < month_start:
-            [(previous_debit, previous_credit)] = self.env['account.move.line']._read_group(
-                [
-                    ('company_id', '=', company.id),
-                    ('parent_state', '=', 'posted'),
-                    ('date', '>=', fiscal_year_start),
-                    ('date', '<', month_start),
-                ],
-                aggregates=['debit:sum', 'credit:sum'],
-            )
-            previous_debit = previous_debit or 0.0
-            previous_credit = previous_credit or 0.0
 
         month_debit = sum(lines.mapped('debit'))
         month_credit = sum(lines.mapped('credit'))
@@ -56,8 +39,6 @@ class JournalBookReport(models.AbstractModel):
             'docs': lines,
             'company': company,
             'title': f"DIARIO GENERAL {MONTHS[month - 1]} DE {year}",
-            'previous_debit': previous_debit,
-            'previous_credit': previous_credit,
             'month_debit': month_debit,
             'month_credit': month_credit,
             'fmt_amount': self._format_amount,
