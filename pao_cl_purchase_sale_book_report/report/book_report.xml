@@ -28,6 +28,20 @@
         <field name="binding_view_types">list</field>
     </record>
 
+    <!-- Same as the purchase book, only the title changes. -->
+    <record id="action_report_fee_book" model="ir.actions.report">
+        <field name="name">Reporte: Libro de honorarios</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pao_cl_purchase_sale_book_report.report_fee_book</field>
+        <field name="report_file">pao_cl_purchase_sale_book_report.report_fee_book</field>
+        <field name="print_report_name">'Libro de honorarios'</field>
+        <field name="paperformat_id" ref="paperformat_purchase_book"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list</field>
+    </record>
+
     <record id="action_report_sale_book" model="ir.actions.report">
         <field name="name">Reporte: Libro de ventas</field>
         <field name="model">account.move</field>

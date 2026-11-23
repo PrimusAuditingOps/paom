@@ -5,8 +5,8 @@
     'category': 'Accounting/Accounting',
     'website': 'https://paomx.com',
     'summary': """
-        "Reporte: Libro de compras" and
-        "Reporte: Libro de ventas" PDFs for selected vendor bills / customer
+        "Reporte: Libro de compras", "Reporte: Libro de honorarios" (same
+        content, other title) and "Reporte: Libro de ventas" PDFs for selected vendor bills / customer
         invoices (Chile only, one month at a time), with page totals and
         summaries by document type and tax.
     """,

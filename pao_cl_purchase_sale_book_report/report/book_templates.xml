@@ -167,6 +167,10 @@
         <t t-call="pao_cl_purchase_sale_book_report.report_tax_book"/>
     </template>
 
+    <template id="report_fee_book">
+        <t t-call="pao_cl_purchase_sale_book_report.report_tax_book"/>
+    </template>
+
     <template id="report_sale_book">
         <t t-call="pao_cl_purchase_sale_book_report.report_tax_book"/>
     </template>

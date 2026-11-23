@@ -248,6 +248,15 @@ class PurchaseBookReport(models.AbstractModel):
         return f"{round(value):,}".replace(',', '.')
 
 
+class FeeBookReport(models.AbstractModel):
+    """ Exactly the purchase book (same invoices and columns); only the title changes. """
+    _name = 'report.pao_cl_purchase_sale_book_report.report_fee_book'
+    _inherit = 'report.pao_cl_purchase_sale_book_report.report_purchase_book'
+    _description = 'Reporte: Libro de honorarios (Chile)'
+
+    _book_name = 'LIBRO DE HONORARIOS'
+
+
 class SaleBookReport(models.AbstractModel):
     """ Same book for customer invoices: only the title, the partner column and
     the folio change.
