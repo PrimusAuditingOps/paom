@@ -28,6 +28,12 @@ DOCUMENT_TYPE_KINDS = {'34': 'FACEE', '33': 'FACEL', '71': 'BHE'}
 INCLUDE_FEE_SLIPS = True
 FEE_SLIP_CODES = {'70', '71'}
 
+# Sales book: M. EXENTO / M. AFECTO by Chilean (SII) document type code.
+#   Credit notes: exempt 112, taxed 61.
+#   Invoices:     exempt 34, 41, 110, 111; taxed 33, 56, 39, 71, 46.
+SALE_EXEMPT_CODES = {'112', '34', '41', '110', '111'}
+SALE_TAXED_CODES = {'61', '33', '56', '39', '71', '46'}
+
 # Rows that fit on a page: the first page has no "TOTAL ANTERIOR" row.
 ROWS_FIRST_PAGE = 34
 ROWS_OTHER_PAGES = 33
@@ -40,7 +46,7 @@ class PurchaseBookReport(models.AbstractModel):
     _description = 'Reporte: Libro de compras (Chile)'
 
     # What changes between the purchase and the sales book.
-    _book_move_type = 'in_invoice'
+    _book_move_types = ('in_invoice',)
     # Signed amounts are negative on vendor bills, positive on customer invoices.
     _book_sign = -1
     _book_name = 'LIBRO DE COMPRAS'
@@ -54,7 +60,7 @@ class PurchaseBookReport(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         moves = self.env['account.move'].browse(docids).exists()
         bills = moves.filtered(
-            lambda m: m.move_type == self._book_move_type
+            lambda m: m.move_type in self._book_move_types
             and (INCLUDE_FEE_SLIPS or not self._is_fee_slip(m))
         )
         if not bills:
@@ -133,11 +139,14 @@ class PurchaseBookReport(models.AbstractModel):
         untaxed = self._book_sign * bill.amount_untaxed_signed
         tax = self._book_sign * bill.amount_tax_signed
         total = self._book_sign * bill.amount_total_signed
-        kind = self._kind(bill)
-        exempt = KINDS[kind]['exempt'] if kind else bill.company_id.currency_id.is_zero(tax)
-        if exempt:
+        if self._is_exempt(bill, tax):
             return total, 0.0, 0.0, total
         return 0.0, untaxed, tax, untaxed + tax
+
+    @api.model
+    def _is_exempt(self, bill, tax):
+        kind = self._kind(bill)
+        return KINDS[kind]['exempt'] if kind else bill.company_id.currency_id.is_zero(tax)
 
     @api.model
     def _document_code(self, bill):
@@ -258,18 +267,35 @@ class FeeBookReport(models.AbstractModel):
 
 
 class SaleBookReport(models.AbstractModel):
-    """ Same book for customer invoices: only the title, the partner column and
-    the folio change.
+    """ Same book for customer invoices and credit notes: title, partner column,
+    folio and the exempt/taxed rule (by document type) change.
     """
     _name = 'report.pao_cl_purchase_sale_book_report.report_sale_book'
     _inherit = 'report.pao_cl_purchase_sale_book_report.report_purchase_book'
     _description = 'Reporte: Libro de ventas (Chile)'
 
-    _book_move_type = 'out_invoice'
+    # Credit notes come out negative (signed amounts), so they subtract in the totals.
+    _book_move_types = ('out_invoice', 'out_refund')
     _book_sign = 1
     _book_name = 'LIBRO DE VENTAS'
     _book_partner_label = 'CLIENTE'
-    _book_empty_error = "Selecciona al menos una factura de cliente (no se incluyen notas de crédito)."
+    _book_empty_error = "Selecciona al menos una factura o nota de crédito de cliente."
+
+    @api.model
+    def _kind(self, bill):
+        """ Sales: only from the document type (33 FAC-EL, 34 FAC-EE, 71 BHE). Any
+        other type prints its own Odoo prefix (N/C, NCXE, BEL, ...) and name.
+        """
+        return DOCUMENT_TYPE_KINDS.get(bill.l10n_latam_document_type_id.code)
+
+    @api.model
+    def _is_exempt(self, bill, tax):
+        code = bill.l10n_latam_document_type_id.code
+        if code in SALE_EXEMPT_CODES:
+            return True
+        if code in SALE_TAXED_CODES:
+            return False
+        return bill.company_id.currency_id.is_zero(tax)
 
     @api.model
     def _document_number(self, bill):
