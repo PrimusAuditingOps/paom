@@ -1,3 +1,4 @@
+import re
 from collections import defaultdict
 
 from odoo import api, models
@@ -8,12 +9,23 @@ MONTHS = [
     'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE',
 ]
 
-# Chilean (SII) document type code -> (code shown in DOCUMENTO, label used in RESUMEN)
-DOCUMENT_TYPES = {
-    '33': ('FAC-EL', 'FACTURAS ELECT.'),
-    '34': ('FAC-EE', 'FACTURAS ELECT. EXENTAS'),
+# Kind of document, taken from the start of the invoice number (FACEE/2026/10/0001,
+# FACEL/2026/10/0060, BHE 0001...):
+#   code   -> shown in DOCUMENTO and in RESUMEN
+#   label  -> RESUMEN line
+#   exempt -> True: the whole total goes to M. EXENTO (and TOTAL);
+#             False: subtotal to M. AFECTO, taxes to I.V.A., subtotal + taxes to TOTAL.
+KINDS = {
+    'FACEE': {'code': 'FAC-EE', 'label': 'FACTURAS ELECT. EXENTAS', 'exempt': True},
+    'FACEL': {'code': 'FAC-EL', 'label': 'FACTURAS ELECT.', 'exempt': False},
+    'BHE': {'code': 'BHE', 'label': 'BOLETAS DE HONORARIOS ELECT.', 'exempt': False},
 }
-# Boletas de honorarios (electronic and paper) are left out of this book.
+# Fallback when the number has none of those prefixes: Chilean (SII) document type code.
+DOCUMENT_TYPE_KINDS = {'34': 'FACEE', '33': 'FACEL', '71': 'BHE'}
+
+# Boletas de honorarios (electronic and paper): included in the book as M. AFECTO
+# (decided with the user). Set to False to leave them out.
+INCLUDE_FEE_SLIPS = True
 FEE_SLIP_CODES = {'70', '71'}
 
 # Rows that fit on a page: the first page has no "TOTAL ANTERIOR" row.
@@ -29,11 +41,13 @@ class PurchaseBookReport(models.AbstractModel):
 
     # What changes between the purchase and the sales book.
     _book_move_type = 'in_invoice'
+    # Signed amounts are negative on vendor bills, positive on customer invoices.
+    _book_sign = -1
     _book_name = 'LIBRO DE COMPRAS'
     _book_partner_label = 'PROVEEDOR'
     _book_empty_error = (
         "Selecciona al menos una factura de proveedor "
-        "(no se incluyen notas de crédito ni boletas de honorarios)."
+        "(no se incluyen notas de crédito)."
     )
 
     @api.model
@@ -41,7 +55,7 @@ class PurchaseBookReport(models.AbstractModel):
         moves = self.env['account.move'].browse(docids).exists()
         bills = moves.filtered(
             lambda m: m.move_type == self._book_move_type
-            and m.l10n_latam_document_type_id.code not in FEE_SLIP_CODES
+            and (INCLUDE_FEE_SLIPS or not self._is_fee_slip(m))
         )
         if not bills:
             raise UserError(self._book_empty_error)
@@ -62,7 +76,7 @@ class PurchaseBookReport(models.AbstractModel):
 
         rows = []
         for number, bill in enumerate(bills, start=1):
-            exempt, taxed = self._get_exempt_and_taxed(bill)
+            exempt, taxed, tax, total = self._get_amounts(bill)
             rows.append({
                 'number': number,
                 'date': (bill.invoice_date or bill.date).strftime('%d/%m/%Y'),
@@ -72,8 +86,9 @@ class PurchaseBookReport(models.AbstractModel):
                 'vat': bill.commercial_partner_id.vat or bill.partner_id.vat or '',
                 'exempt': exempt,
                 'taxed': taxed,
-                'tax': abs(bill.amount_tax_signed),
-                'total': abs(bill.amount_total_signed),
+                'tax': tax,
+                'total': total,
+                'kind': self._kind(bill),
                 'doc_type': bill.l10n_latam_document_type_id,
             })
 
@@ -96,23 +111,50 @@ class PurchaseBookReport(models.AbstractModel):
     # ------------------------------------------------------------------
 
     @api.model
-    def _get_exempt_and_taxed(self, bill):
-        """ M. EXENTO / M. AFECTO: pending definition, printed blank for now.
-        Return the two amounts here once the rule is decided.
+    def _kind(self, bill):
+        """ FACEE / FACEL / BHE from the start of the invoice number, else from the document type. """
+        match = re.match(r'[A-Za-z]+', (bill.name or '').replace('-', ''))
+        prefix = match.group(0).upper() if match else ''
+        if prefix in KINDS:
+            return prefix
+        return DOCUMENT_TYPE_KINDS.get(bill.l10n_latam_document_type_id.code)
+
+    @api.model
+    def _is_fee_slip(self, bill):
+        return self._kind(bill) == 'BHE' or bill.l10n_latam_document_type_id.code in FEE_SLIP_CODES
+
+    @api.model
+    def _get_amounts(self, bill):
+        """ (M. EXENTO, M. AFECTO, I.V.A., TOTAL) in company currency.
+        - Exempt (FACEE): the total goes to M. EXENTO and TOTAL.
+        - FACEL / BHE: subtotal to M. AFECTO, taxes to I.V.A., subtotal + taxes to TOTAL.
+        A document of unknown kind is treated as exempt only when it has no taxes.
         """
-        return None, None
+        untaxed = self._book_sign * bill.amount_untaxed_signed
+        tax = self._book_sign * bill.amount_tax_signed
+        total = self._book_sign * bill.amount_total_signed
+        kind = self._kind(bill)
+        exempt = KINDS[kind]['exempt'] if kind else bill.company_id.currency_id.is_zero(tax)
+        if exempt:
+            return total, 0.0, 0.0, total
+        return 0.0, untaxed, tax, untaxed + tax
 
     @api.model
     def _document_code(self, bill):
+        kind = self._kind(bill)
+        if kind:
+            return KINDS[kind]['code']
         doc_type = bill.l10n_latam_document_type_id
-        if doc_type.code in DOCUMENT_TYPES:
-            return DOCUMENT_TYPES[doc_type.code][0]
         return doc_type.doc_code_prefix or doc_type.code or ''
 
     @api.model
     def _document_number(self, bill):
-        """ Vendor bills: the supplier's folio (Referencia). """
-        return bill.ref or bill.l10n_latam_document_number or ''
+        """ Vendor bills: the supplier's folio (Referencia), only its number: "Fac 1312" -> "1312". """
+        reference = (bill.ref or '').strip()
+        match = re.fullmatch(r'\D*?(\d+)', reference)
+        if match:
+            return match.group(1)
+        return reference or bill.l10n_latam_document_number or ''
 
     @api.model
     def _sort_key(self, number):
@@ -166,21 +208,22 @@ class PurchaseBookReport(models.AbstractModel):
     def _document_summary(self, rows):
         groups = {}
         for row in rows:
-            doc_type = row['doc_type']
-            group = groups.setdefault(doc_type.id, {'doc_type': doc_type, 'rows': []})
-            group['rows'].append(row)
+            groups.setdefault(row['doc_code'], []).append(row)
 
         summary = []
-        for group in groups.values():
-            doc_type = group['doc_type']
-            label = DOCUMENT_TYPES.get(doc_type.code, (None, (doc_type.name or 'SIN TIPO DE DOCUMENTO').upper()))[1]
+        for code, group_rows in groups.items():
+            kind = group_rows[0]['kind']
+            if kind:
+                label = KINDS[kind]['label']
+            else:
+                label = (group_rows[0]['doc_type'].name or 'OTROS DOCUMENTOS').upper()
             summary.append({
-                'count': len(group['rows']),
+                'count': len(group_rows),
                 'label': label,
-                'code': group['rows'][0]['doc_code'],
-                'totals': self._sum_rows(group['rows']),
+                'code': code,
+                'totals': self._sum_rows(group_rows),
             })
-        return sorted(summary, key=lambda s: s['code'])
+        return sorted(summary, key=lambda s: s['code'], reverse=True)
 
     @api.model
     def _tax_summary(self, bills):
@@ -214,6 +257,7 @@ class SaleBookReport(models.AbstractModel):
     _description = 'Reporte: Libro de ventas (Chile)'
 
     _book_move_type = 'out_invoice'
+    _book_sign = 1
     _book_name = 'LIBRO DE VENTAS'
     _book_partner_label = 'CLIENTE'
     _book_empty_error = "Selecciona al menos una factura de cliente (no se incluyen notas de crédito)."

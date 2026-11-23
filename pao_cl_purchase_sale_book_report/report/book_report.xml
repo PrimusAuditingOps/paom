@@ -16,7 +16,7 @@
     <!-- Gear (Print) menu of the invoice list views (both actions show in both lists:
          each one only accepts its own kind of invoice). -->
     <record id="action_report_purchase_book" model="ir.actions.report">
-        <field name="name">Reporte: Libro de compras (Sin Boleta de Honorarios)</field>
+        <field name="name">Reporte: Libro de compras</field>
         <field name="model">account.move</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">pao_cl_purchase_sale_book_report.report_purchase_book</field>
