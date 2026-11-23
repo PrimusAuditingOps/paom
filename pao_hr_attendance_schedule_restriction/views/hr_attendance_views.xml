@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_attendance_tree_inherit_registered_by_other" model="ir.ui.view">
+        <field name="name">hr.attendance.tree.inherit.registered.by.other</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='write_date']" position="after">
+                <field name="registered_by_other" optional="hide"/>
+                <field name="registered_by_other_user_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_attendance_view_filter_inherit_registered_by_other" model="ir.ui.view">
+        <field name="name">hr.attendance.search.inherit.registered.by.other</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='errors']" position="after">
+                <separator/>
+                <filter string="Registered by Another User" name="registered_by_other"
+                        domain="[('registered_by_other', '=', True)]"/>
+            </xpath>
+            <xpath expr="//filter[@name='groupby_check_out']" position="after">
+                <filter string="Registered/Modified by" name="groupby_registered_by_other_user"
+                        context="{'group_by': 'registered_by_other_user_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
