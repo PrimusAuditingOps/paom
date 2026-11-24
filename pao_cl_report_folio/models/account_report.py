@@ -32,7 +32,7 @@ class AccountReport(models.Model):
 
     def _init_options_buttons(self, options, previous_options=None):
         super()._init_options_buttons(options, previous_options=previous_options)
-        if not self.pao_ask_folio:
+        if not self._pao_asks_folio():
             return
         # The PDF button opens the folio dialog instead of downloading directly.
         for button in options['buttons']:
@@ -43,8 +43,12 @@ class AccountReport(models.Model):
     def _init_options_pao_folio(self, options, previous_options=None):
         # Odoo rebuilds the options while printing: keep the folio typed in the dialog.
         folio = (previous_options or {}).get(FOLIO_OPTION)
-        if folio and self.pao_ask_folio:
+        if folio and self._pao_asks_folio():
             options[FOLIO_OPTION] = folio
+
+    def _pao_asks_folio(self):
+        # A variant (e.g. a copy of the Libro mayor) follows its root report's checkbox too.
+        return self.pao_ask_folio or self.root_report_id.pao_ask_folio
 
     def action_open_pao_folio_wizard(self, options):
         wizard = self.env['pao.cl.account.report.folio.wizard'].create({

@@ -1,6 +1,6 @@
 {
     'name': 'PAO: Chile Report Folio',
-    'version': '17.0.1.1.0',
+    'version': '17.0.1.2.0',
     'author': 'Samuel Castro',
     'category': 'Accounting/Accounting',
     'website': 'https://paomx.com',
@@ -17,6 +17,7 @@
         'views/folio_templates.xml',
         'views/report_folio_wizard_views.xml',
         'views/account_report_folio_views.xml',
+        'views/report_data.xml',
     ],
     'installable': True,
     'application': False,
