@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Folio that goes up by one on every page: "123" on page 1, "124" on page 2...
+        Use it inside a report header (it runs once per page).
+        Expects: folio (text typed in the dialog). If the folio ends in digits, only
+        that part goes up and its zero padding is kept (A-0099 -> A-0100); if it has
+        no digits at the end, every page shows it as typed.
+    -->
+    <template id="folio_page_value">
+        <span class="o_pao_folio" t-att-data-folio="folio" t-out="folio"/>
+        <script>
+            (function () {
+                function paoFolioPerPage() {
+                    var vars = {};
+                    var params = document.location.search.substring(1).split('&amp;');
+                    for (var i = 0; i != params.length; i++) {
+                        var pair = params[i].split('=', 2);
+                        vars[pair[0]] = decodeURIComponent(pair[1] || '');
+                    }
+                    var page = parseInt(vars['page'] || '1', 10) || 1;
+                    var nodes = document.getElementsByClassName('o_pao_folio');
+                    for (var j = 0; j != nodes.length; j++) {
+                        var base = nodes[j].getAttribute('data-folio') || '';
+                        var match = base.match(/^(.*?)(\d+)$/);
+                        if (!match) {
+                            continue;
+                        }
+                        var number = String(parseInt(match[2], 10) + page - 1);
+                        while (match[2].length > number.length) {
+                            number = '0' + number;
+                        }
+                        nodes[j].textContent = match[1] + number;
+                    }
+                }
+                if (document.readyState == 'loading') {
+                    document.addEventListener('DOMContentLoaded', paoFolioPerPage);
+                } else {
+                    paoFolioPerPage();
+                }
+            })();
+        </script>
+    </template>
+
+    <!-- Page header of the accounting reports (Balance General, Libro mayor...) when a folio was typed. -->
+    <template id="account_report_folio_header">
+        <div style="text-align: right; font-weight: bold; font-size: 10pt; padding-right: 4px;">
+            FOLIO: <t t-call="pao_cl_report_folio.folio_page_value"/>
+        </div>
+    </template>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Checkbox in Contabilidad > Configuración > Reportes contables. -->
+    <record id="account_report_form_pao_folio" model="ir.ui.view">
+        <field name="name">account.report.form.pao.folio</field>
+        <field name="model">account.report</field>
+        <field name="inherit_id" ref="account_reports.account_report_form"/>
+        <field name="arch" type="xml">
+            <field name="active" position="after">
+                <field name="pao_ask_folio"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="pao_cl_account_report_folio_wizard_form" model="ir.ui.view">
+        <field name="name">pao.cl.account.report.folio.wizard.form</field>
+        <field name="model">pao.cl.account.report.folio.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="folio" placeholder="Opcional: si lo dejas vacío no aparece en el PDF"/>
+                </group>
+                <footer>
+                    <button name="action_print_pdf" type="object" string="Imprimir PDF" class="btn-primary"/>
+                    <button special="cancel" string="Cancelar" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

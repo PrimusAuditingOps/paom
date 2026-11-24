@@ -1,19 +1,22 @@
 {
     'name': 'PAO: Chile Report Folio',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.1.0',
     'author': 'Samuel Castro',
     'category': 'Accounting/Accounting',
     'website': 'https://paomx.com',
     'summary': """
-        Shared dialog that asks for an optional folio before printing the
-        Chilean PDF reports (Libro diario, compras, honorarios, ventas).
+        Optional folio asked before printing the Chilean PDF reports (Libro
+        diario, compras, honorarios, ventas, Balance General, Libro mayor).
+        The folio goes up by one on every page (123, 124...).
     """,
     'depends': [
-        'base',
+        'account_reports',
     ],
     'data': [
         'security/ir.model.access.csv',
+        'views/folio_templates.xml',
         'views/report_folio_wizard_views.xml',
+        'views/account_report_folio_views.xml',
     ],
     'installable': True,
     'application': False,

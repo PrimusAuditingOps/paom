@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Ask for the folio when printing the Balance General. -->
+    <record id="l10n_cl_reports.cl_eightcolumns_report" model="account.report">
+        <field name="pao_ask_folio" eval="True"/>
+    </record>
+</odoo>

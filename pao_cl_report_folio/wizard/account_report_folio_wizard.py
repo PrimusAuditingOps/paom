@@ -1,15 +1,14 @@
 from odoo import fields, models
 
-from ..models.l10n_cl_report_handler import FOLIO_OPTION
+from ..models.account_report import FOLIO_OPTION
 
 
-class ChileanBalanceFolioWizard(models.TransientModel):
-    """ Asks for an optional folio before printing the PDF. The folio is only
-    used for that print; it is not kept anywhere (transient record, cleaned up
-    automatically by Odoo).
+class AccountReportFolioWizard(models.TransientModel):
+    """ Optional folio asked before printing the PDF of an accounting report
+    (Balance General, Libro mayor...). Only used for that print; nothing is kept.
     """
-    _name = 'pao.cl.balance.folio.wizard'
-    _description = 'Folio para PDF del Balance General (Chile)'
+    _name = 'pao.cl.account.report.folio.wizard'
+    _description = 'Folio para PDF de reportes contables (Chile)'
 
     report_id = fields.Many2one('account.report', required=True, ondelete='cascade')
     options_data = fields.Json()
