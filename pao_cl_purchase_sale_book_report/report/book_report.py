@@ -58,7 +58,9 @@ class PurchaseBookReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        moves = self.env['account.move'].browse(docids).exists()
+        data = data or {}
+        # From the folio dialog the records come in data (Odoo does not send docids then).
+        moves = self.env['account.move'].browse(docids or data.get('res_ids') or []).exists()
         bills = moves.filtered(
             lambda m: m.move_type in self._book_move_types
             and (INCLUDE_FEE_SLIPS or not self._is_fee_slip(m))
@@ -103,6 +105,7 @@ class PurchaseBookReport(models.AbstractModel):
             'doc_model': 'account.move',
             'docs': bills,
             'company': company,
+            'folio': data.get('folio'),
             'title': f"{self._book_name} {MONTHS[month - 1]} DE {year}",
             'partner_label': self._book_partner_label,
             'pages': self._split_pages(rows),

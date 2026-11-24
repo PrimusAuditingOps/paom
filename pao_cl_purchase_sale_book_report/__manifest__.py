@@ -12,6 +12,7 @@
     """,
     'depends': [
         'l10n_cl',
+        'pao_cl_report_folio',
     ],
     'data': [
         'report/book_report.xml',

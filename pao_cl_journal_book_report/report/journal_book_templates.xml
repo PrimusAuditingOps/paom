@@ -19,7 +19,8 @@
                             <t t-out="title"/>
                         </td>
                         <td style="width: 20%; padding: 8px 12px; vertical-align: top; text-align: right;">
-                            PAGINA: <span class="page"/>
+                            <div t-if="folio" style="font-weight: bold;">FOLIO: <t t-out="folio"/></div>
+                            <div>PAGINA: <span class="page"/></div>
                         </td>
                     </tr>
                 </table>

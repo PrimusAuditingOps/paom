@@ -10,6 +10,7 @@
     """,
     'depends': [
         'account',
+        'pao_cl_report_folio',
     ],
     'data': [
         'report/journal_book_report.xml',

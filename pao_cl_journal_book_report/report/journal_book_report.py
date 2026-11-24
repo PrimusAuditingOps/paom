@@ -13,7 +13,9 @@ class JournalBookReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        lines = self.env['account.move.line'].browse(docids).exists()
+        data = data or {}
+        # From the folio dialog the records come in data (Odoo does not send docids then).
+        lines = self.env['account.move.line'].browse(docids or data.get('res_ids') or []).exists()
         if not lines:
             raise UserError("Selecciona al menos un apunte contable.")
 
@@ -38,6 +40,7 @@ class JournalBookReport(models.AbstractModel):
             'doc_model': 'account.move.line',
             'docs': lines,
             'company': company,
+            'folio': data.get('folio'),
             'title': f"DIARIO GENERAL {MONTHS[month - 1]} DE {year}",
             'month_debit': month_debit,
             'month_credit': month_credit,
