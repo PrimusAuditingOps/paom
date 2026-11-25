@@ -41,11 +41,4 @@
             })();
         </script>
     </template>
-
-    <!-- Page header of the accounting reports (Balance General, Libro mayor...) when a folio was typed. -->
-    <template id="account_report_folio_header">
-        <div style="text-align: right; font-weight: bold; font-size: 10pt; padding-right: 4px;">
-            FOLIO: <t t-call="pao_cl_report_folio.folio_page_value"/>
-        </div>
-    </template>
 </odoo>

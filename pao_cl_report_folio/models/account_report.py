@@ -1,10 +1,11 @@
 import io
 import re
 
-import markupsafe
+from reportlab.lib.units import mm
+from reportlab.pdfgen import canvas
 
 from odoo import fields, models
-from odoo.tools.pdf import PdfFileReader
+from odoo.tools.pdf import PdfFileReader, PdfFileWriter
 
 FOLIO_OPTION = 'pao_folio'
 
@@ -65,56 +66,38 @@ class AccountReport(models.Model):
         }
 
     def export_to_pdf(self, options):
-        """ Same as Odoo's, plus a page header with the folio, which goes up by one per page. """
+        """ Same PDF as Odoo's; when a folio was typed, each page gets "FOLIO: n" at the
+        top right, going up by one per page (123, 124...). """
+        result = super().export_to_pdf(options)
         folio = options.get(FOLIO_OPTION)
-        if not folio:
-            return super().export_to_pdf(options)
-        self.ensure_one()
+        if folio and result.get('file_type') == 'pdf':
+            result['file_content'] = self._pao_stamp_folio(result['file_content'], folio)
+        return result
 
-        action_report = self.env['ir.actions.report']
-        files_stream = []
-        for (bodies, footer, is_landscape) in self._get_html_data_for_pdf_export(options):
-            stream = io.BytesIO(action_report._run_wkhtmltopdf(
-                bodies,
-                header=self._pao_folio_header_html(folio),
-                footer=footer.decode(),
-                landscape=is_landscape or self._context.get('force_landscape_printing'),
-                specific_paperformat_args={
-                    # Odoo uses 10 / 10 / 15; a bit more on top to fit the folio line.
-                    'data-report-margin-top': 16,
-                    'data-report-header-spacing': 6,
-                    'data-report-margin-bottom': 15,
-                },
-            ))
-            files_stream.append(stream)
-            # Wide and narrow sections are printed apart and then merged:
-            # the next part starts its folio where this one ended.
-            folio = advance_folio(folio, PdfFileReader(stream).getNumPages())
-            stream.seek(0)
+    def _pao_stamp_folio(self, pdf_content, folio):
+        reader = PdfFileReader(io.BytesIO(pdf_content), strict=False)
+        paperformat = self.env.company.paperformat_id
+        margin_right = (paperformat.margin_right or 7) * mm
 
-        if len(files_stream) > 1:
-            result_stream = action_report._merge_pdfs(files_stream)
-            result = result_stream.getvalue()
-            result_stream.close()
-            for file_stream in files_stream:
-                file_stream.close()
-        else:
-            result = files_stream[0].read()
+        # One overlay page per PDF page with only the folio text.
+        overlay_stream = io.BytesIO()
+        overlay = canvas.Canvas(overlay_stream)
+        for index in range(reader.getNumPages()):
+            box = reader.getPage(index).mediaBox
+            width, height = float(abs(box.getWidth())), float(abs(box.getHeight()))
+            overlay.setPageSize((width, height))
+            overlay.setFont('Helvetica-Bold', 9)
+            # Inside the top margin (10 mm in Odoo's accounting reports), above the grey block.
+            overlay.drawRightString(width - margin_right, height - 7 * mm, f"FOLIO: {advance_folio(folio, index)}")
+            overlay.showPage()
+        overlay.save()
 
-        return {
-            'file_name': self.get_default_report_filename(options, 'pdf'),
-            'file_content': result,
-            'file_type': 'pdf',
-        }
-
-    def _pao_folio_header_html(self, folio):
-        action_report = self.env['ir.actions.report']
-        config = self.env['ir.config_parameter'].sudo()
-        header = action_report._render_template(
-            'pao_cl_report_folio.account_report_folio_header', values={'folio': folio})
-        header = action_report._render_template('web.minimal_layout', values={
-            'base_url': config.get_param('report.url') or config.get_param('web.base.url'),
-            'subst': True,
-            'body': markupsafe.Markup(header.decode()),
-        })
-        return header.decode()
+        overlay_reader = PdfFileReader(overlay_stream, strict=False)
+        writer = PdfFileWriter()
+        for index in range(reader.getNumPages()):
+            page = reader.getPage(index)
+            page.mergePage(overlay_reader.getPage(index))
+            writer.addPage(page)
+        output = io.BytesIO()
+        writer.write(output)
+        return output.getvalue()
