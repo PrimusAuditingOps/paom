@@ -21,7 +21,6 @@ def advance_folio(folio, pages):
     prefix, digits = match.groups()
     return prefix + str(int(digits) + pages).zfill(len(digits))
 
-
 class AccountReport(models.Model):
     _inherit = 'account.report'
 
