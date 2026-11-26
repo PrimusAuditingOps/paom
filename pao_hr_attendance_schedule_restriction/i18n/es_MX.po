@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 00:00+0000\n"
-"PO-Revision-Date: 2026-11-23 00:00+0000\n"
+"POT-Creation-Date: 2026-11-25 00:00+0000\n"
+"PO-Revision-Date: 2026-11-25 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/pao_hr_attendance_schedule_restriction/models/hr_employee.py:0
 #, python-format
-msgid ""
-"%(name)s has no working schedule assigned, so the attendance cannot be "
-"registered. Please contact your attendance manager."
-msgstr ""
-"%(name)s no tiene un horario laboral asignado, por lo que no se puede "
-"registrar la asistencia. Comunícate con tu responsable de asistencias."
+msgid "Ask %(manager)s to register it for you."
+msgstr "Pídele a %(manager)s que lo registre por ti."
 
 #. module: pao_hr_attendance_schedule_restriction
 #. odoo-python
@@ -38,45 +34,102 @@ msgstr "tu responsable de asistencias"
 #: code:addons/pao_hr_attendance_schedule_restriction/models/hr_employee.py:0
 #, python-format
 msgid ""
-"Today is not a working day in your schedule \"%(calendar)s\", so you cannot "
-"check in. If you need to register an attendance, ask %(manager)s."
+"%(name)s has no working schedule assigned, so the attendance cannot be "
+"registered."
 msgstr ""
-"Hoy no es un día laboral en tu horario \"%(calendar)s\", por lo que no puedes "
-"registrar tu entrada. Si necesitas registrar una asistencia, pídeselo a "
-"%(manager)s."
+"%(name)s no tiene un horario laboral asignado, por lo que no se puede "
+"registrar la asistencia."
 
 #. module: pao_hr_attendance_schedule_restriction
 #. odoo-python
 #: code:addons/pao_hr_attendance_schedule_restriction/models/hr_employee.py:0
 #, python-format
 msgid ""
-"You cannot check in at this time (%(now)s). Allowed check-in times today: "
+"%(date)s is not a working day in the schedule \"%(calendar)s\" of %(name)s, "
+"so no check-in can be registered."
+msgstr ""
+"El %(date)s no es día laboral en el horario \"%(calendar)s\" de %(name)s, "
+"por lo que no se puede registrar una entrada."
+
+#. module: pao_hr_attendance_schedule_restriction
+#. odoo-python
+#: code:addons/pao_hr_attendance_schedule_restriction/models/hr_employee.py:0
+#, python-format
+msgid ""
+"A check-in at %(time)s is not allowed. Allowed check-in times on %(date)s: "
 "%(windows)s."
 msgstr ""
-"No puedes registrar tu entrada a esta hora (%(now)s). Horarios permitidos "
-"para registrar entrada hoy: %(windows)s."
+"No se permite registrar una entrada a las %(time)s. Horarios permitidos para "
+"la entrada el %(date)s: %(windows)s."
 
 #. module: pao_hr_attendance_schedule_restriction
 #. odoo-python
 #: code:addons/pao_hr_attendance_schedule_restriction/models/hr_employee.py:0
 #, python-format
 msgid ""
-"You can no longer check out: the limit for this period was %(limit)s. Ask "
-"%(manager)s to register your check-out."
+"At least %(minutes)s minutes must pass between the last check-out "
+"(%(last)s) and the next check-in. Check-in is allowed from %(allowed)s."
 msgstr ""
-"Ya no puedes registrar tu salida: el límite para este periodo era "
-"%(limit)s. Pídele a %(manager)s que registre tu salida."
+"Deben pasar al menos %(minutes)s minutos entre la última salida (%(last)s) "
+"y la siguiente entrada. La entrada se permite a partir de las %(allowed)s."
 
 #. module: pao_hr_attendance_schedule_restriction
 #. odoo-python
 #: code:addons/pao_hr_attendance_schedule_restriction/models/hr_employee.py:0
 #, python-format
 msgid ""
-"You cannot check out at this time (%(now)s) because it is outside your "
-"working schedule. Ask %(manager)s to register your check-out."
+"A check-out at %(time)s is not allowed: the limit for this period is "
+"%(limit)s."
 msgstr ""
-"No puedes registrar tu salida a esta hora (%(now)s) porque está fuera de tu "
-"horario laboral. Pídele a %(manager)s que registre tu salida."
+"No se permite registrar una salida el %(time)s: el límite para este periodo "
+"es %(limit)s."
+
+#. module: pao_hr_attendance_schedule_restriction
+#. odoo-python
+#: code:addons/pao_hr_attendance_schedule_restriction/models/hr_employee.py:0
+#, python-format
+msgid ""
+"A check-out at %(time)s is not allowed because it is outside the working "
+"schedule."
+msgstr ""
+"No se permite registrar una salida el %(time)s porque está fuera del horario "
+"laboral."
+
+#. module: pao_hr_attendance_schedule_restriction
+#. odoo-python
+#: code:addons/pao_hr_attendance_schedule_restriction/models/hr_attendance.py:0
+#, python-format
+msgid "You cannot register a check-in or check-out in the future."
+msgstr "No puedes registrar una entrada o salida con hora futura."
+
+#. module: pao_hr_attendance_schedule_restriction
+#. odoo-python
+#: code:addons/pao_hr_attendance_schedule_restriction/models/hr_attendance.py:0
+#, python-format
+msgid ""
+"You cannot modify the employee or the check-in time of an existing "
+"attendance. Only an attendance administrator can correct it."
+msgstr ""
+"No puedes modificar el empleado ni la hora de entrada de una asistencia ya "
+"registrada. Solo un administrador de asistencias puede corregirla."
+
+#. module: pao_hr_attendance_schedule_restriction
+#. odoo-python
+#: code:addons/pao_hr_attendance_schedule_restriction/models/hr_attendance.py:0
+#, python-format
+msgid ""
+"The attendance of %(name)s already has a check-out. Only an attendance "
+"administrator can modify it."
+msgstr ""
+"La asistencia de %(name)s ya tiene registrada la salida. Solo un "
+"administrador de asistencias puede modificarla."
+
+#. module: pao_hr_attendance_schedule_restriction
+#. odoo-python
+#: code:addons/pao_hr_attendance_schedule_restriction/models/hr_attendance.py:0
+#, python-format
+msgid "Only attendance administrators can delete attendance records."
+msgstr "Solo los administradores de asistencias pueden eliminar registros de asistencia."
 
 #. module: pao_hr_attendance_schedule_restriction
 #. odoo-python
@@ -98,13 +151,17 @@ msgstr "Restringir entradas/salidas al horario"
 #. module: pao_hr_attendance_schedule_restriction
 #: model:ir.model.fields,help:pao_hr_attendance_schedule_restriction.field_resource_calendar__attendance_restrict_schedule
 msgid ""
-"If enabled, employees using this working schedule can only check in and "
-"check out from the attendance button (systray, mobile app or kiosk) within "
-"the periods of the schedule and the tolerances below."
+"If enabled, check-ins and check-outs of employees using this working "
+"schedule must fall within the periods of the schedule and the tolerances "
+"below. This applies to the attendance button (systray, mobile app or kiosk) "
+"and to records captured by the attendance manager. Attendance administrators "
+"are not restricted when editing records."
 msgstr ""
-"Si está activo, los empleados con este horario laboral solo pueden registrar "
-"entrada y salida desde el botón de asistencia (barra superior, app móvil o "
-"kiosko) dentro de los periodos del horario y las tolerancias indicadas."
+"Si está activo, las entradas y salidas de los empleados con este horario "
+"deben quedar dentro de los periodos del horario y las tolerancias indicadas. "
+"Aplica al botón de asistencia (barra superior, app móvil o kiosko) y a los "
+"registros que capture el responsable de asistencias. Los administradores de "
+"asistencias no tienen esta restricción al editar registros."
 
 #. module: pao_hr_attendance_schedule_restriction
 #: model:ir.model.fields,field_description:pao_hr_attendance_schedule_restriction.field_resource_calendar__attendance_checkin_tolerance
@@ -115,11 +172,25 @@ msgstr "Minutos permitidos antes de la entrada"
 #: model:ir.model.fields,help:pao_hr_attendance_schedule_restriction.field_resource_calendar__attendance_checkin_tolerance
 msgid ""
 "How many minutes before the start of each period (Morning/Afternoon) the "
-"employee may check in. Late check-ins are allowed until the period ends."
+"employee may check in."
 msgstr ""
 "Cuántos minutos antes del inicio de cada periodo (Mañana/Tarde) puede el "
-"empleado registrar su entrada. Las entradas con retardo se permiten hasta "
-"que termina el periodo."
+"empleado registrar su entrada."
+
+#. module: pao_hr_attendance_schedule_restriction
+#: model:ir.model.fields,field_description:pao_hr_attendance_schedule_restriction.field_resource_calendar__attendance_late_tolerance
+msgid "Late Check-in Tolerance (minutes)"
+msgstr "Tolerancia de retardo en la entrada (minutos)"
+
+#. module: pao_hr_attendance_schedule_restriction
+#: model:ir.model.fields,help:pao_hr_attendance_schedule_restriction.field_resource_calendar__attendance_late_tolerance
+msgid ""
+"How many minutes after the start of each period (Morning/Afternoon) the "
+"employee may still check in. After that, the check-in is blocked."
+msgstr ""
+"Cuántos minutos después del inicio de cada periodo (Mañana/Tarde) puede el "
+"empleado todavía registrar su entrada. Después de ese tiempo, la entrada se "
+"bloquea."
 
 #. module: pao_hr_attendance_schedule_restriction
 #: model:ir.model.fields,field_description:pao_hr_attendance_schedule_restriction.field_resource_calendar__attendance_checkout_tolerance
@@ -134,6 +205,20 @@ msgid ""
 msgstr ""
 "Cuántos minutos después del fin del periodo puede el empleado todavía "
 "registrar su salida. Las salidas anticipadas siempre se permiten."
+
+#. module: pao_hr_attendance_schedule_restriction
+#: model:ir.model.fields,field_description:pao_hr_attendance_schedule_restriction.field_resource_calendar__attendance_min_break
+msgid "Minimum Break Between Check-out and Check-in (minutes)"
+msgstr "Tiempo mínimo entre salida y entrada (minutos)"
+
+#. module: pao_hr_attendance_schedule_restriction
+#: model:ir.model.fields,help:pao_hr_attendance_schedule_restriction.field_resource_calendar__attendance_min_break
+msgid ""
+"Minimum time that must pass between a check-out and the next check-in (e.g. "
+"the lunch break between the morning and the afternoon)."
+msgstr ""
+"Tiempo mínimo que debe pasar entre una salida y la siguiente entrada (p. ej. "
+"la comida entre la mañana y la tarde)."
 
 #. module: pao_hr_attendance_schedule_restriction
 #: model:ir.model.fields,field_description:pao_hr_attendance_schedule_restriction.field_hr_attendance__registered_by_other

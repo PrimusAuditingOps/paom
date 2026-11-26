@@ -1,33 +1,40 @@
 # PAO Attendance Schedule Restriction (Odoo 17)
 
-Restringe el registro de entrada y salida de **Asistencias** al horario laboral del empleado.
+Restringe el registro de entrada y salida de **Asistencias** al horario laboral del empleado, tanto cuando checa el empleado como cuando captura su Responsable de asistencias.
 
 ## Configuración
 
 **Empleados → Configuración → Horarios laborales → (jornada) → pestaña "Restricción de asistencias"**
 
-| Campo | Default | Uso |
+| Campo | Default | Ejemplo con periodo 08:00–13:00 |
 |---|---|---|
 | Restringir entradas/salidas al horario | Activo | Apaga la restricción solo para esa jornada |
-| Minutos permitidos antes de la entrada | 10 | Ej. periodo 08:00 → entrada desde 07:50 |
-| Minutos permitidos después de la salida | 5 | Ej. periodo hasta 13:00 → salida hasta 13:05 |
+| Minutos permitidos antes de la entrada | 10 | Entrada desde 07:50 |
+| Tolerancia de retardo en la entrada (minutos) | 10 | Entrada hasta 08:10 |
+| Minutos permitidos después de la salida | 5 | Salida hasta 13:05 |
+| Tiempo mínimo entre salida y entrada (minutos) | 60 | Si salió 13:05, entra a partir de 14:05 |
 
 Las tolerancias aplican igual a los periodos Mañana y Tarde. Las líneas de Descanso se ignoran.
 
-## Reglas (botón de la barra superior, app móvil y kiosko)
+## Reglas de horario
 
-- **Entrada**: desde el inicio del periodo menos la tolerancia y hasta el fin del periodo. Llegar tarde está permitido; checar antes no.
-- **Salida**: en cualquier momento antes del fin del periodo de la entrada más la tolerancia. La salida anticipada está permitida.
-- Si se pasa el límite de salida, el empleado ya no puede checar y debe pedirle a su **Responsable de asistencias** que lo registre.
-- Se bloquea el registro en días sin periodos en la jornada (ej. sábado) y para empleados sin jornada asignada.
-- Respeta jornadas de 2 semanas, líneas con fecha de inicio/fin y líneas específicas por recurso.
-- La hora se evalúa en la zona horaria del empleado (o la de la jornada).
+- **Entrada**: solo dentro de la ventana *inicio − minutos antes* a *inicio + tolerancia de retardo* (07:50–08:10). A las 08:11 ya no se permite.
+- **Salida**: en cualquier momento hasta el *fin del periodo de la entrada + minutos después* (13:05). La salida anticipada está permitida.
+- **Comida**: una entrada debe ser al menos *tiempo mínimo* después de la última salida del empleado.
+- Se bloquea en días sin periodos en la jornada (ej. sábado) y para empleados sin jornada.
+- Respeta jornadas de 2 semanas, líneas con fecha de inicio/fin y líneas por recurso. La hora se evalúa en la zona horaria del empleado (o la de la jornada).
 
-## Permisos (nativo de Odoo 17, sin cambios)
+## Quién aplica qué
 
-Al asignar a un usuario como **Responsable de asistencias** (`attendance_manager_id`) de un empleado, Odoo le da automáticamente el grupo *Officer: Manage attendances*. Con él puede ver, crear, editar y borrar las asistencias **solo de esos empleados**, y no puede editar las suyas salvo que él mismo sea su propio responsable. El grupo **Administrador** sigue viendo todo.
+| Quién | Qué puede hacer |
+|---|---|
+| **Empleado** (botón de la barra superior, app móvil, kiosko) | Checar entrada/salida solo dentro de las reglas de horario. Si no puede, el mensaje le indica pedírselo a su Responsable de asistencias. |
+| **Responsable de asistencias** (no administrador) | Solo para sus empleados: **crear** la entrada (registro nuevo) y **agregar la salida** a un registro que aún no la tiene. Las horas deben cumplir las reglas de horario y no pueden ser futuras. **No puede** cambiar una entrada o salida ya registrada, cambiar el empleado del registro ni eliminar registros. |
+| **Administrador de Asistencias** | Crea, edita y corrige libremente, sin reglas de horario. Es el único que puede eliminar registros. |
 
-Los registros creados o editados desde la app de Asistencias (formulario o lista) **no** pasan por la restricción de horario.
+Al asignar a alguien como **Responsable de asistencias** (`attendance_manager_id`) de un empleado, Odoo le da automáticamente el grupo *Officer: Manage attendances*, que solo le deja ver y capturar asistencias de esos empleados, no las suyas (comportamiento nativo).
+
+Arrastrar un registro en las vistas de calendario/Gantt también es una modificación de horas, así que para el responsable queda bloqueado igual.
 
 ## Registros hechos por otro usuario
 

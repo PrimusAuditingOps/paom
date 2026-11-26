@@ -11,7 +11,9 @@
                         <group>
                             <field name="attendance_restrict_schedule"/>
                             <field name="attendance_checkin_tolerance" invisible="not attendance_restrict_schedule"/>
+                            <field name="attendance_late_tolerance" invisible="not attendance_restrict_schedule"/>
                             <field name="attendance_checkout_tolerance" invisible="not attendance_restrict_schedule"/>
+                            <field name="attendance_min_break" invisible="not attendance_restrict_schedule"/>
                         </group>
                     </group>
                 </page>
